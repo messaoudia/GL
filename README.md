@@ -20,9 +20,15 @@ run the goal "clean test" in maven
 #Contributors
 
 Gishan AKBARALY
+
 Guillaume BLANCHARD
+
 Daro HENG
+
 Amin MESSAOUDI
+
 Julien PREISNER
+
 Yasser RABI
+
 Zhang ZHENG
