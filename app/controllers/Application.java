@@ -9,6 +9,7 @@ public class Application extends Controller {
 
 	// Allez l'OM con
     public Result index() {
+        // test - yasser
         return ok(index.render("Projet GL - ET5"));
     }
 
