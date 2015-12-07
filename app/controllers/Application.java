@@ -1,16 +1,17 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-
-import views.html.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.index;
 
 public class Application extends Controller {
 
+    public Result indexGishan(String param) {
+        return ok(index.render(param));
+    }
+
     public Result index() {
-        // test - yasser
-        //testZheng
-        return ok(index.render("Projet GL - ET5"));
+        return ok(index.render("Pear project manager"));
     }
 
 }
