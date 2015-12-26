@@ -6,12 +6,15 @@ import views.html.index;
 
 public class Application extends Controller {
 
-    public Result indexGishan(String param) {
-        return ok(index.render(param));
+    public Result logout() {
+        session().clear();
+        flash("success", "You've been logged out");
+        return ok();
     }
 
     public Result index() {
         return ok(index.render("Pear project manager"));
     }
+
 
 }

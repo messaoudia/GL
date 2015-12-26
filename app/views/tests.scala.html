@@ -1,0 +1,121 @@
+@(taches: List[Tache])
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta nom="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>MyProjects | Tests</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+        <link href="css/animate.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+    </head>
+
+    <body class="gray-bg">
+        <div class="middle-box text-center animated fadeInDown">
+            <div>
+                <div>
+
+                    <h4 class="logo-nom">Tests</h4>
+
+                </div>
+                <form class="m-t" role="form" method="POST" action="@routes.Tests.index()">
+                    <div class='row'>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="nom">Nom</label>
+                                <input class="form-control" id="nom" name="nom" required="true" size="30" type="text" />
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="description">Description</label>
+                                <input class="form-control" id="description" name="description" required="true" type="text" />
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="charge">Charge</label>
+                                <input class="form-control" id="charge" name="charge" required="true" size="30" type="number" />
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="user_lastname">Submit</label>
+                                <button type="submit" class="form-control btn btn-primary block full-width m-b">
+                                    Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Custom responsive table </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th>#</th>
+                                            <th>Nom </th>
+                                            <th>Description </th>
+                                            <th>Charge </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @taches.map { tache =>
+                                        <tr>
+                                            <td>@tache.id</td>
+                                            <td>@tache.nom</td>
+                                            <td>@tache.description</td>
+                                            <td>@tache.charge</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <p class="m-t"> <small>MyProjects &copy; 2016</small> </p>
+            </div>
+        </div>
+
+
+            <!-- Mainly scripts -->
+        <script src="js/jquery-2.1.1.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>

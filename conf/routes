@@ -3,15 +3,23 @@
 # ~~~~
 
 # Home page
-GET        /                    controllers.Application.index()
+GET         /                          controllers.Application.index()
+
+# Login page
+GET         /login                     controllers.Login.index()
+POST        /login                     controllers.Login.authenticate()
+GET         /logout                    controllers.Application.logout()
+
+# Tests pages
+GET         /tests                     controllers.Tests.index()
+POST        /tests                     controllers.Tests.add()
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
-GET        /css/*file           controllers.Assets.versioned(path="/public/css", file: Asset)
-GET        /font-awesome/*file           controllers.Assets.versioned(path="/public/font-awesome", file: Asset)
-GET        /fonts/*file           controllers.Assets.versioned(path="/public/fonts", file: Asset)
-GET        /img/*file           controllers.Assets.versioned(path="/public/img", file: Asset)
-GET        /js/*file           controllers.Assets.versioned(path="/public/js", file: Asset)
-GET        /LESS/*file           controllers.Assets.versioned(path="/public/LESS", file: Asset)
-
-GET        /favicon.ico         controllers.Assets.at(path="/public", file="favicon.ico")
+GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
+GET         /css/*file                 controllers.Assets.versioned(path="/public/css", file: Asset)
+GET         /font-awesome/*file        controllers.Assets.versioned(path="/public/font-awesome", file: Asset)
+GET         /fonts/*file               controllers.Assets.versioned(path="/public/fonts", file: Asset)
+GET         /img/*file                 controllers.Assets.versioned(path="/public/img", file: Asset)
+GET         /js/*file                  controllers.Assets.versioned(path="/public/js", file: Asset)
+GET         /LESS/*file                controllers.Assets.versioned(path="/public/LESS", file: Asset)
+GET         /favicon.ico               controllers.Assets.at(path="/public", file="favicon.ico")

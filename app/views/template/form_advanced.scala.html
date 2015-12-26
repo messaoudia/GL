@@ -1939,7 +1939,7 @@
                 $image.cropper("setDragMode", "crop");
             });
 
-            $('#data_1 .input-group.date').datepicker({
+            $('#data_1 .input-group.dateDebut').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
                 forceParse: false,
@@ -1947,7 +1947,7 @@
                 autoclose: true
             });
 
-            $('#data_2 .input-group.date').datepicker({
+            $('#data_2 .input-group.dateDebut').datepicker({
                 startView: 1,
                 todayBtn: "linked",
                 keyboardNavigation: false,
@@ -1956,7 +1956,7 @@
                 format: "dd/mm/yyyy"
             });
 
-            $('#data_3 .input-group.date').datepicker({
+            $('#data_3 .input-group.dateDebut').datepicker({
                 startView: 2,
                 todayBtn: "linked",
                 keyboardNavigation: false,
@@ -1964,7 +1964,7 @@
                 autoclose: true
             });
 
-            $('#data_4 .input-group.date').datepicker({
+            $('#data_4 .input-group.dateDebut').datepicker({
                 minViewMode: 1,
                 keyboardNavigation: false,
                 forceParse: false,
@@ -2003,7 +2003,7 @@
 
             $('.clockpicker').clockpicker();
 
-            $('input[name="daterange"]').daterangepicker();
+            $('input[nom="daterange"]').daterangepicker();
 
             $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
 
