@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Taches")
@@ -22,6 +23,7 @@ public class Tache extends Model {
     public String nom;
 
     @Constraints.Required
+    @Constraints.MinLength(4)
     public String description;
 
     @Constraints.Min(0)
@@ -48,4 +50,12 @@ public class Tache extends Model {
         task.save();
         return task;
     }
+
+    /**
+     * Create a task
+     */
+    public static List<Tache> getAll() {
+        return find.all();
+    }
+
 }

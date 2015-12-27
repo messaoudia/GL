@@ -15,6 +15,8 @@ GET         /tests                     controllers.Tests.index()
 POST        /tests                     controllers.Tests.add()
 
 # Map static resources from the /public folder to the /assets URL path
+GET         /assets/js/routes/         controllers.Application.javascriptRoutes()
+
 GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 GET         /css/*file                 controllers.Assets.versioned(path="/public/css", file: Asset)
 GET         /font-awesome/*file        controllers.Assets.versioned(path="/public/font-awesome", file: Asset)
@@ -23,3 +25,7 @@ GET         /img/*file                 controllers.Assets.versioned(path="/publi
 GET         /js/*file                  controllers.Assets.versioned(path="/public/js", file: Asset)
 GET         /LESS/*file                controllers.Assets.versioned(path="/public/LESS", file: Asset)
 GET         /favicon.ico               controllers.Assets.at(path="/public", file="favicon.ico")
+
+# CRUD JSRoutes
+GET         /taches                    controllers.Tests.getAll()
+POST        /addTask                   controllers.Tests.addTask()

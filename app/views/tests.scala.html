@@ -24,8 +24,12 @@
 
                     <h4 class="logo-nom">Tests</h4>
 
+                        <!-- Form errors goes here -->
+                    <div id="errorOutputPlace" style="color:red">
+
+                    </div>
                 </div>
-                <form class="m-t" role="form" method="POST" action="@routes.Tests.index()">
+                <form id="addTaskhForm" class="m-t" role="form" method="POST">
                     <div class='row'>
                         <div class='col-sm-3'>
                             <div class='form-group'>
@@ -48,7 +52,7 @@
                         <div class='col-sm-3'>
                             <div class='form-group'>
                                 <label for="user_lastname">Submit</label>
-                                <button type="submit" class="form-control btn btn-primary block full-width m-b">
+                                <button id="addTask" type="submit" class="form-control btn btn-primary block full-width m-b">
                                     Ajouter</button>
                             </div>
                         </div>
@@ -89,15 +93,7 @@
                                             <th>Charge </th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                    @taches.map { tache =>
-                                        <tr>
-                                            <td>@tache.id</td>
-                                            <td>@tache.nom</td>
-                                            <td>@tache.description</td>
-                                            <td>@tache.charge</td>
-                                        </tr>
-                                    }
+                                    <tbody id="taskList">
                                     </tbody>
                                 </table>
                             </div>
@@ -115,6 +111,108 @@
             <!-- Mainly scripts -->
         <script src="js/jquery-2.1.1.js"></script>
         <script src="js/bootstrap.min.js"></script>
+            <!-- Play Framework Javascript Routes -->
+        <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
+
+        <script type="application/javascript">
+
+                // For simplification purpose
+                var doc = $ (document);
+
+                // Waiting until the web page load all the scripts and the contents
+                doc.ready (function() {
+                    //########################################
+                    //  Ajax call for initializing the view
+                    //########################################
+                    jsRoutes.controllers.Tests.getAll().ajax({
+                        success : function(data) {
+                            var tacheList = $('#taskList');
+                            $(data).each(function(index, tache) {
+                                var list ="";
+                                list+=('<tr>');
+                                list+=('<td>'+tache.id+'</td>');
+                                list+=('<td>'+tache.nom+'</td>');
+                                list+=('<td>'+tache.description+'</td>');
+                                list+=('<td>'+tache.charge+'</td>');
+                                list+=('</tr>');
+
+                                tacheList.append(list);
+                            });
+
+                        }
+                    });
+                    //########################################
+
+                    //########################################
+                    //  Ajax call for adding a task
+                    //########################################
+
+                    $( "#addTaskhForm" ).submit(function( event ) {
+
+                        // Stop form from submitting normally
+                        event.preventDefault();
+
+                        // Get the form itself:
+                        var $form = $( this );
+
+                        // We call the controller created in the controllers package responsible for adding a task
+                        // The controller is available throw the routes file:
+                        // POST        /addTask                   controllers.Tests.addTask()
+
+                        jsRoutes.controllers.Tests.addTask().ajax({
+                            // Serialising the form to send it
+                            data :$form.serialize(),
+                            // Case the operation end successfully
+                            success : function(task) { // task is the response coming from the server
+
+                                // Logging for debug purpose
+                                console.log(task)
+
+                                // Creating the HTML element
+                                var list ="";
+                                list+=('<tr>');
+                                list+=('<td>'+task.id+'</td>');
+                                list+=('<td>'+task.nom+'</td>');
+                                list+=('<td>'+task.description+'</td>');
+                                list+=('<td>'+task.charge+'</td>');
+                                list+=('</tr>');
+
+                                // Adding the newly created task to the html element having the id="tacheList"
+                                $('#taskList').append(list);
+
+                                // Emptying the form after a successful add
+                                $("#addTaskhForm")[0].reset();
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                // This is an exemple of handling a problem related to a wrong form inputs
+                                // The errorMessage came from the controller and can be personalised
+
+                                // Deleting old error messages
+                                $('#errorOutputPlace').empty();
+
+                                $.each($.parseJSON(errorMessage.responseText), function(inputKey, inputError) {
+                                    console.error(inputKey + ' => ' + inputError);
+
+                                    // Pushing the error to the view in the appropriate HTML elements
+                                    $('#errorOutputPlace').append(inputKey + ' => ' + inputError+"<br>");
+                                });
+                            }
+                        });
+
+                    });
+                    //########################################
+
+
+                    //########################################
+                    //  All the Ajax calls goes here
+                    //########################################
+
+
+                    //########################################
+                });
+
+        </script>
 
     </body>
 

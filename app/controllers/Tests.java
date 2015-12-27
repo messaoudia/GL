@@ -2,6 +2,7 @@ package controllers;
 
 import models.Tache;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.tests;
@@ -32,4 +33,27 @@ public class Tests extends Controller {
         }
 
     }
+
+    /**
+     * Get all taches
+     */
+    public Result getAll() {
+        return ok(Json.toJson(Tache.getAll()));
+    }
+
+    /**
+     * Ajout de tache
+     */
+    // @BodyParser.Of(BodyParser.Json.class)
+    public Result addTask() {
+        Form<Tache> taskForm = form(Tache.class).bindFromRequest();
+        System.out.println(taskForm.data());
+
+        if (taskForm.hasErrors()) {
+            return badRequest(taskForm.errorsAsJson());
+        } else {
+            return ok(Json.toJson(Tache.create(taskForm.get())));
+        }
+    }
+
 }
