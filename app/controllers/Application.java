@@ -16,17 +16,26 @@ import static org.reflections.ReflectionUtils.withReturnType;
 
 public class Application extends Controller {
 
-
-    public Result logout() {
-        session().clear();
-        flash("success", "You've been logged out");
-        return ok();
-    }
-
+    /**
+     * This method render the index.scala.html template
+     *
+     * @return A rendered HTML view
+     */
     public Result index() {
         return ok(index.render("Pear project manager"));
     }
 
+
+    /**
+     * This method use java retrospecting to list all the controllers in the projects
+     * and expose them all as Javascript methods in order to facilitate the ajax calls
+     * <p>
+     * PLEASE DO NOT TOUCHE THIS METHOD !!!
+     *
+     * @return A wierd javascript function, not readable humanly
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     public Result javascriptRoutes() throws IllegalAccessException, InvocationTargetException {
         // use reflection to get the fields of controllers.routes.javascript and other controller packages
         Set<Object> reverseRoutes = new HashSet<Object>();

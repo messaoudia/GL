@@ -5,6 +5,9 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+/**
+ * This class is for tests purpose only !!!
+ */
 public class Login extends Controller {
 
     private final static Form<User> loginForm = new Form<User>(User.class);

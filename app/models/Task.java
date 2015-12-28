@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Taches")
-public class Tache extends Model {
+public class Task extends Model {
 
     @Id
     @GeneratedValue
@@ -41,12 +41,12 @@ public class Tache extends Model {
     @Constraints.Min(0)
     public Integer charge;
 
-    public static Finder<Long, Tache> find = new Finder<Long, Tache>(Tache.class);
+    public static Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
 
     /**
      * Create a task
      */
-    public static Tache create(Tache task) {
+    public static Task create(Task task) {
         task.save();
         return task;
     }
@@ -54,7 +54,7 @@ public class Tache extends Model {
     /**
      * Create a task
      */
-    public static List<Tache> getAll() {
+    public static List<Task> getAll() {
         return find.all();
     }
 
