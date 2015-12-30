@@ -16,6 +16,10 @@ import static org.reflections.ReflectionUtils.withReturnType;
 
 public class Application extends Controller {
 
+    public Result logout() {
+        return redirect(routes.Login.index());
+    }
+
     /**
      * This method render the index.scala.html template
      *
