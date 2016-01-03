@@ -17,6 +17,7 @@ import static org.reflections.ReflectionUtils.withReturnType;
 public class Application extends Controller {
 
     public Result logout() {
+        session().clear();
         return redirect(routes.Login.index());
     }
 
@@ -26,7 +27,12 @@ public class Application extends Controller {
      * @return A rendered HTML view
      */
     public Result index() {
-        return ok(index.render("Pear project manager"));
+        String user = session("connected");
+        if (user != null) {
+            return ok(index.render("Pear project manager"));
+        } else {
+            return redirect(routes.Login.index());
+        }
     }
 
 
