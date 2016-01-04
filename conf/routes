@@ -12,7 +12,7 @@ GET         /logout                    controllers.Application.logout()
 GET         /projet                    controllers.Projet.index()
 
 
-GET        /client                    controllers.Client.controllerResult()
+GET        /client                    controllers.ClientController.afficherPage
 
 
 # Tests pages

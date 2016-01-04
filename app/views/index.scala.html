@@ -99,7 +99,7 @@
                     var self = $(this),
                     page = self.data('page') || self.attr('data-page');
                     alert(page);
-                    jsRoutes.controllers.Client.controllerResult().ajax({
+                    jsRoutes.controllers.ClientController.afficherPage().ajax({
                         success: function(html) {
 
                             console.log("je suis la jsRoutes")

@@ -13,11 +13,9 @@ import static play.mvc.Results.ok;
  */
 public class ClientController extends Controller {
 
-
-
-
-
-    public Result controllerResult() {
+    public Result afficherPage() {
         return ok(client.render());
     }
+
+
 }
