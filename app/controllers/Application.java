@@ -27,12 +27,13 @@ public class Application extends Controller {
      * @return A rendered HTML view
      */
     public Result index() {
-        String user = session("connected");
+        return ok(index.render("Pear project manager"));
+        /*String user = session("connected");
         if (user != null) {
             return ok(index.render("Pear project manager"));
         } else {
             return redirect(routes.Login.index());
-        }
+        }*/
     }
 
 
