@@ -76,13 +76,15 @@
 
 
 
-                $('#sidebar').on('click', 'a', function (e) {
+                $('#sidebar').on('click', 'li', function (e) {
                     e.preventDefault();
                     var self = $(this),
                     controler = self.data('infos') || self.attr('data-infos');
+                    $('#sidebar ul li').removeClass('active');
+                    $(this).addClass('active');
                     eval("jsRoutes.controllers."+controler).ajax({
                         success: function(html) {
-                            $("#page-wrapper").empty().html(html);
+                            $("#refresh").empty().html(html);
                         },
                         //Case we have a problem
                         error: function(errorMessage){
@@ -149,34 +151,38 @@
                             <span class="block m-t-xs" style="color:white;"> <strong class="font-bold">David Williams</strong> </span>
                         </div>
                     </li>
-                    <li>
-                        <a data-infos="DashboardController.afficherDashboard()"><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Dashboard</span></a>
+
+                    <li data-infos="DashboardController.afficherDashboard()">
+                        <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Dashboard</span></a>
                     </li>
-                    <li>
-                        <a data-infos="ProjetController.afficherProjets()"><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Projets</span></a>
+
+                    <li  data-infos="ProjetController.afficherProjets()">
+                        <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Projets</span></a>
                     </li>
-                    <li>
-                        <a data-infos="ClientController.afficherClients()"><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Clients</span></a>
+                    <li data-infos="ClientController.afficherClients()">
+                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Clients</span></a>
 
                     </li>
-                    <li>
-                        <a data-infos="ProjetController.afficherCreerProjet()"><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un projet</span></a>
+                    <li data-infos="ProjetController.afficherCreerProjet()">
+                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un projet</span></a>
                     </li>
-                    <li>
-                        <a data-infos="ClientController.afficherCreerClient()"><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un client</span></a>
+                    <li data-infos="ClientController.afficherCreerClient()">
+                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un client</span></a>
+
                     </li>
 
                     <li style="background-color:red;">
                         <a> <span class="nav-label" style="color:white; padding-right:10px;" >Administrateur </span><img src="img/MyIcons/png/locked59.png" alt="image" class="icone"></a>
                     </li>
-                    <li>
-                        <a data-infos="AdminController.afficherAdminProjets()"><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;"class="nav-label">Projets </span></a>
+                    <li data-infos="AdminController.afficherAdminProjets()">
+                        <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;"class="nav-label">Projets </span></a>
                     </li>
-                    <li>
-                        <a data-infos="AdminController.afficherAdminClients()"><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Clients </span></a>
+                    <li data-infos="AdminController.afficherAdminClients()">
+                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Clients </span></a>
                     </li>
-                    <li>
-                        <a data-infos="AdminController.afficherAdminUtilisateur()"><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Utilisateur </span></a>
+                    <li data-infos="AdminController.afficherAdminUtilisateur()">
+                        <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Utilisateur </span></a>
+
                     </li>
 
                 </ul>
@@ -185,8 +191,13 @@
         </nav>
         </div>
 
+
+
+
+
+
+
         <div id="page-wrapper" class="gray-bg dashbard-1">
-            <!-- Partie a modifier -->
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
@@ -202,60 +213,59 @@
                                 <i class="fa fa-bell"></i>  <span class="label label-warning">8</span>
                             </a>
 
-                                    <ul class="dropdown-menu dropdown-messages">
-                                        <li>
-                                            <div class="dropdown-messages-box">
-                                                <a href="profile.html" class="pull-left">
-                                                    <img alt="image" class="img-circle" src="img/a7.jpg">
-                                                </a>
-                                                <div class="media-body">
-                                                    <small class="pull-right">46h ago</small>
-                                                    <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                                                    <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li>
-                                            <div class="dropdown-messages-box">
-                                                <a href="profile.html" class="pull-left">
-                                                    <img alt="image" class="img-circle" src="img/a4.jpg">
-                                                </a>
-                                                <div class="media-body ">
-                                                    <small class="pull-right text-navy">5h ago</small>
-                                                    <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-                                                    <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li>
-                                            <div class="dropdown-messages-box">
-                                                <a href="profile.html" class="pull-left">
-                                                    <img alt="image" class="img-circle" 1>
-                                                </a>
-                                                <div class="media-body ">
-                                                    <small class="pull-right">23h ago</small>
-                                                    <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-                                                    <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li>
-                                            <div class="text-center link-block">
-                                                <a href="mailbox.html">
-                                                    <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                                                </a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                        <li>
-
-                            <a href="login.html">
-                                <i class="fa fa-sign-out"></i> Déconnexion
-                            </a>
-                        </li>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" src="img/a7.jpg">
+                                        </a>
+                                        <div class="media-body">
+                                            <small class="pull-right">46h ago</small>
+                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" src="img/a4.jpg">
+                                        </a>
+                                        <div class="media-body ">
+                                            <small class="pull-right text-navy">5h ago</small>
+                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="dropdown-messages-box">
+                                        <a href="profile.html" class="pull-left">
+                                            <img alt="image" class="img-circle" 1>
+                                        </a>
+                                        <div class="media-body ">
+                                            <small class="pull-right">23h ago</small>
+                                            <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
+                                            <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <div class="text-center link-block">
+                                        <a href="mailbox.html">
+                                            <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                    <li>
+                        <a href="login.html">
+                            <i class="fa fa-sign-out"></i> Déconnexion
+                        </a>
+                    </li>
                         <li>
                             <a class="right-sidebar-toggle">
                                 <i class="fa fa-tasks"></i>
@@ -264,22 +274,17 @@
                     </ul>
                 </nav>
             </div>
+            <div id="refresh" >
+                <div class="row border-bottom white-bg dashboard-header">
+                </div>
 
-            <div class="row border-bottom white-bg dashboard-header">
-            </div>
-
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Pear Corporation &copy; 2015-2016
+                <div class="footer">
+                    <div>
+                        <strong>Copyright</strong> Pear Corporation &copy; 2015-2016
+                    </div>
                 </div>
             </div>
-
         </div>
-
-
-
-
-
 
         <!-- Partie droite, les settings -->
         <div id="right-sidebar">
