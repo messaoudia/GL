@@ -144,42 +144,39 @@
             <div id="sidebar" class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
-                        <div class="dropdown profile-element"> <span>
-                            <img alt="image" class="img-circle" src="img/profile_small.jpg" />
-                        </span>
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                                </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                        <div class="dropdown profile-element">
+                            <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
+                            <span class="block m-t-xs" style="color:white;"> <strong class="font-bold">David Williams</strong> </span>
                         </div>
                     </li>
                     <li>
-                        <a data-infos="DashboardController.afficherDashboard()"><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label">Dashboard</span></a>
+                        <a data-infos="DashboardController.afficherDashboard()"><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Dashboard</span></a>
                     </li>
                     <li>
-                        <a data-infos="ProjetController.afficherProjets()"><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label">Projets</span></a>
+                        <a data-infos="ProjetController.afficherProjets()"><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Projets</span></a>
                     </li>
                     <li>
-                        <a data-infos="ClientController.afficherClients()"><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label">Clients</span></a>
+                        <a data-infos="ClientController.afficherClients()"><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Clients</span></a>
 
                     </li>
                     <li>
-                        <a data-infos="ProjetController.afficherCreerProjet()"><img src="img/MyIcons/png/add182.png" alt="image" class="icone"><span class="nav-label">Créer un projet</span></a>
+                        <a data-infos="ProjetController.afficherCreerProjet()"><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un projet</span></a>
                     </li>
                     <li>
-                        <a data-infos="ClientController.afficherCreerClient()"><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label">Créer un client</span></a>
+                        <a data-infos="ClientController.afficherCreerClient()"><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un client</span></a>
                     </li>
 
                     <li style="background-color:red;">
-                        <a> <span class="nav-label" style="color:white;" >Administrateur </span><img src="img/MyIcons/png/locked59.png" alt="image" class="icone"></a>
+                        <a> <span class="nav-label" style="color:white; padding-right:10px;" >Administrateur </span><img src="img/MyIcons/png/locked59.png" alt="image" class="icone"></a>
                     </li>
                     <li>
-                        <a data-infos="AdminController.afficherAdminProjets()"> <span style="margin-left: 50px;"class="nav-label">Projets </span><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"></a>
+                        <a data-infos="AdminController.afficherAdminProjets()"><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;"class="nav-label">Projets </span></a>
                     </li>
                     <li>
-                        <a data-infos="AdminController.afficherAdminClients()"><span style="margin-left: 50px;" class="nav-label">Clients </span><img src="img/MyIcons/png/team2.png" alt="image" class="icone"></a>
+                        <a data-infos="AdminController.afficherAdminClients()"><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Clients </span></a>
                     </li>
                     <li>
-                        <a data-infos="AdminController.afficherAdminUtilisateur()"><span style="margin-left: 50px;" class="nav-label">Utilisateur </span><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone"></a>
+                        <a data-infos="AdminController.afficherAdminUtilisateur()"><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Utilisateur </span></a>
                     </li>
 
                 </ul>
@@ -194,11 +191,6 @@
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                        <form role="search" class="navbar-form-custom" action="search_results.html">
-                            <div class="form-group">
-                                <input type="text" placeholder="Search for something..." class="form-control" nom="top-search" id="top-search">
-                            </div>
-                        </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
