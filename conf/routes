@@ -2,6 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# i18n route
+POST        /changeLanguage            controllers.Application.changeLanguage()
+
 # Home page
 GET         /                          controllers.Application.index()
 
@@ -36,11 +39,11 @@ GET         /taches                    controllers.Tests.getAll()
 POST        /addTask                   controllers.Tests.addTask()
 
 #View controller
-GET        /client                    controllers.ClientController.afficherClients
-GET        /projet                    controllers.ProjetController.afficherProjets
-GET        /creerClient               controllers.ClientController.afficherCreerClient
-GET        /creerProjet               controllers.ProjetController.afficherCreerProjet
-GET        /adminClients              controllers.AdminController.afficherAdminClients
-GET        /adminProjets              controllers.AdminController.afficherAdminProjets
-GET        /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
-GET        /dashboard                 controllers.DashboardController.afficherDashboard
+GET         /client                    controllers.ClientController.afficherClients
+GET         /projet                    controllers.ProjetController.afficherProjets
+GET         /creerClient               controllers.ClientController.afficherCreerClient
+GET         /creerProjet               controllers.ProjetController.afficherCreerProjet
+GET         /adminClients              controllers.AdminController.afficherAdminClients
+GET         /adminProjets              controllers.AdminController.afficherAdminProjets
+GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
+GET         /dashboard                 controllers.DashboardController.afficherDashboard
