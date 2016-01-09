@@ -11,6 +11,10 @@
   height: 20px;
 }
 
+.liclickable{
+
+}
+
 h1,
 h2,
 h3,
@@ -7806,6 +7810,18 @@ body.md-skin {
 .md-skin .navbar-static-side .nav > li > a:hover {
   background-color: inherit;
 }
+
+.md-skin .navbar-static-side .nav > li:hover{
+  border-left: 4px solid #19AA8D;
+  background: #F8F8F9 none repeat scroll 0% 0%;
+}
+
+.md-skin .navbar-static-side .nav > li:hover >a{
+  color: #5B5D5F;
+  font-weight: 700;
+}
+
+
 .md-skin .navbar-top-links .dropdown-menu li a {
   padding: 3px 20px;
   min-height: inherit;

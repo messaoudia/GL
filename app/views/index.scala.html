@@ -76,12 +76,13 @@
 
 
 
-                $('#sidebar').on('click', 'li', function (e) {
+                $('.liclickable').click(function (e) {
                     e.preventDefault();
                     var self = $(this),
                     controler = self.data('infos') || self.attr('data-infos');
                     $('#sidebar ul li').removeClass('active');
                     $(this).addClass('active');
+
                     eval("jsRoutes.controllers."+controler).ajax({
                         success: function(html) {
                             $("#refresh").empty().html(html);
@@ -152,35 +153,36 @@
                         </div>
                     </li>
 
-                    <li data-infos="DashboardController.afficherDashboard()">
+                    <li class="liclickable" data-infos="DashboardController.afficherDashboard()">
                         <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Dashboard</span></a>
                     </li>
 
-                    <li  data-infos="ProjetController.afficherProjets()">
+                    <li class="liclickable" data-infos="ProjetController.afficherProjets()">
                         <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Projets</span></a>
                     </li>
-                    <li data-infos="ClientController.afficherClients()">
+                    <li class="liclickable" data-infos="ClientController.afficherClients()">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Clients</span></a>
 
                     </li>
-                    <li data-infos="ProjetController.afficherCreerProjet()">
+                    <li class="liclickable" data-infos="ProjetController.afficherCreerProjet()">
                         <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un projet</span></a>
                     </li>
-                    <li data-infos="ClientController.afficherCreerClient()">
+                    <li class="liclickable" data-infos="ClientController.afficherCreerClient()">
                         <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un client</span></a>
 
                     </li>
 
-                    <li style="background-color:red;">
+                    <li style="pointer-events: none; cursor: default; background-color:red;"">
                         <a> <span class="nav-label" style="color:white; padding-right:10px;" >Administrateur </span><img src="img/MyIcons/png/locked59.png" alt="image" class="icone"></a>
                     </li>
-                    <li data-infos="AdminController.afficherAdminProjets()">
+
+                    <li class="liclickable" data-infos="AdminController.afficherAdminProjets()">
                         <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;"class="nav-label">Projets </span></a>
                     </li>
-                    <li data-infos="AdminController.afficherAdminClients()">
+                    <li class="liclickable" data-infos="AdminController.afficherAdminClients()">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Clients </span></a>
                     </li>
-                    <li data-infos="AdminController.afficherAdminUtilisateur()">
+                    <li class="liclickable" data-infos="AdminController.afficherAdminUtilisateur()">
                         <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Utilisateur </span></a>
 
                     </li>
