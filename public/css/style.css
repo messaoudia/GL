@@ -7809,9 +7809,13 @@ body.md-skin {
 .md-skin .navbar-static-side .nav > li > a:focus,
 .md-skin .navbar-static-side .nav > li > a:hover {
   background-color: inherit;
+  border-left: 4px solid #19AA8D;
+  background: #F8F8F9 none repeat scroll 0% 0%;
+  color: #5B5D5F;
+  font-weight: 700;
 }
 
-.md-skin .navbar-static-side .nav > li:hover{
+/*.md-skin .navbar-static-side .nav > li:hover{
   border-left: 4px solid #19AA8D;
   background: #F8F8F9 none repeat scroll 0% 0%;
 }
@@ -7820,7 +7824,7 @@ body.md-skin {
   color: #5B5D5F;
   font-weight: 700;
 }
-
+*/
 
 .md-skin .navbar-top-links .dropdown-menu li a {
   padding: 3px 20px;
