@@ -23,7 +23,11 @@
                 <div>
 
                     <h4 class="logo-nom">Tests</h4>
-
+                    <form method="POST" action="/changeLanguage">
+                        <input name="language" type="submit" value="en" title="English">
+                        <input name="language" type="submit" value="fr" title="French">
+                        <input name="return_url" type="hidden" value="@request().path()">
+                    </form>
                         <!-- Form errors goes here -->
                     <div id="errorOutputPlace" style="color:red">
 
@@ -33,27 +37,27 @@
                     <div class='row'>
                         <div class='col-sm-3'>
                             <div class='form-group'>
-                                <label for="nom">Nom</label>
+                                <label for="nom">@Messages("name")</label>
                                 <input class="form-control" id="nom" name="nom" required="true" size="30" type="text" />
                             </div>
                         </div>
                         <div class='col-sm-3'>
                             <div class='form-group'>
-                                <label for="description">Description</label>
+                                <label for="description">@Messages("description")</label>
                                 <input class="form-control" id="description" name="description" required="true" type="text" />
                             </div>
                         </div>
                         <div class='col-sm-3'>
                             <div class='form-group'>
-                                <label for="charge">Charge</label>
+                                <label for="charge">@Messages("load")</label>
                                 <input class="form-control" id="charge" name="charge" required="true" size="30" type="number" />
                             </div>
                         </div>
                         <div class='col-sm-3'>
                             <div class='form-group'>
-                                <label for="user_lastname">Submit</label>
+                                <label for="user_lastname">@Messages("submit")</label>
                                 <button id="addTask" type="submit" class="form-control btn btn-primary block full-width m-b">
-                                    Ajouter</button>
+                                @Messages("add")</button>
                             </div>
                         </div>
                     </div>

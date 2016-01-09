@@ -1,6 +1,7 @@
 package controllers;
 
 import play.Routes;
+import play.api.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
@@ -64,6 +65,16 @@ public class Application extends Controller {
         response().setContentType("text/javascript");
         return ok(Routes.javascriptRouter("jsRoutes",
                 reverseRoutes.toArray(new play.api.routing.JavaScriptReverseRoute[reverseRoutes.size()])));
+    }
+
+    public Result changeLanguage() {
+        final String language = request().body().asFormUrlEncoded().get("language")[0];
+        if (language != null && !language.isEmpty()) {
+            ctx().changeLang(language);
+        } else {
+            ctx().changeLang(Lang.apply$default$2());
+        }
+        return redirect(request().body().asFormUrlEncoded().get("return_url")[0]);
     }
 
 }
