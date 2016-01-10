@@ -18,14 +18,14 @@
     </head>
 
     <body class="gray-bg">
-
+        <!--<div class="middle-box text-center loginscreen animated fadeInDown">-->
         <div class="middle-box text-center loginscreen animated fadeInDown">
+            <div style="padding-bottom:23px;">
+                <h2>Bienvenue sur myProjects</h2>
+            </div>
             <div>
-                <div>
-                    <h1>Bienvenue sur myProjects</h1>
-                </div>
                 <p>
-                    myProjects, solution de gestion et de suivi de projet
+                    myProjects, solution de gestion et de suivi de projets
                 </p>
                 <form class="m-t" role="form" method="POST" action="@routes.Login.authenticate()">
                     @if(form.hasGlobalErrors) {
@@ -45,10 +45,8 @@
                 <div class="form-group">
                     <input name="password" type="password" class="form-control" placeholder="Password" required="">
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+                <button type="submit" class="btn btn-primary block full-width m-b">Connexion</button>
                 <a href="#"><small>Mot de passe oublié?</small></a>
-                <a class="btn btn-sm btn-white btn-block" href="register.html">Crée un compte</a>
-
                 </form>
 
                 <p class="m-t"> <small>Pear Corporation &copy; 2016</small> </p>
