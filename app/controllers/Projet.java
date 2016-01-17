@@ -8,7 +8,5 @@ import views.html.projet;
  */
 public class Projet extends play.mvc.Controller {
 
-    public Result index() {
-        return ok(projet.render());
-    }
+
 }

@@ -9,6 +9,6 @@ import views.html.dashboard;
  */
 public class DashboardController extends Controller{
     public Result afficherDashboard() {
-        return ok(dashboard.render());
+        return ok(dashboard.render("Dashboard"));
     }
 }

@@ -15,11 +15,11 @@ import static play.mvc.Results.ok;
 public class ClientController extends Controller {
 
     public Result afficherClients() {
-        return ok(client.render());
+        return ok(client.render("Clients"));
     }
 
     public Result afficherCreerClient() {
-        return ok(creerClient.render());
+        return ok(creerClient.render("Créer Client"));
     }
 
 

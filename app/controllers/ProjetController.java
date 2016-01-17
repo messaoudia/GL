@@ -12,10 +12,10 @@ import views.html.projet;
 public class ProjetController extends Controller{
 
     public Result afficherProjets() {
-        return ok(projet.render());
+        return ok(projet.render("Projets"));
     }
 
     public Result afficherCreerProjet(){
-        return ok(creerProjet.render());
+        return ok(creerProjet.render("Créer Projet"));
     }
 }

@@ -12,7 +12,6 @@ GET         /                          controllers.Application.index()
 GET         /login                     controllers.Login.index()
 POST        /login                     controllers.Login.authenticate()
 GET         /logout                    controllers.Application.logout()
-GET         /projet                    controllers.Projet.index()
 
 
 

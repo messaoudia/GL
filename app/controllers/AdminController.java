@@ -14,14 +14,14 @@ import views.html.adminUtilisateur;
 public class AdminController extends Controller{
 
     public Result afficherAdminClients() {
-        return ok(adminClients.render());
+        return ok(adminClients.render("Admin Clients"));
     }
 
     public Result afficherAdminProjets() {
-        return ok(adminProjets.render());
+        return ok(adminProjets.render("Admin Projets"));
     }
 
     public Result afficherAdminUtilisateur() {
-        return ok(adminUtilisateur.render());
+        return ok(adminUtilisateur.render("Admin Utilisateur"));
     }
 }
