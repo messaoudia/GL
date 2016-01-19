@@ -28,6 +28,11 @@
 .panel-tdb > .panel-body{
   background-color:#F3F3F4;
   color:black;
+  width:100%;
+  padding:8px;
+}
+.panel-tdb > .panel-body > p{
+  margin-bottom:5px;
 }
 
 .btn-tdb {
@@ -35,9 +40,10 @@
   word-wrap: break-word;
 }
 
-.row-tdb > .col-lg-6 {
+.row-tdb > .col-sm-6 {
   padding-right:2px;
   padding-left:2px;
+  height:100%;
 }
 
 
