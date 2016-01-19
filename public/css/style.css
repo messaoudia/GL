@@ -667,6 +667,24 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   border-color: #18a689;
   color: #FFFFFF;
 }
+.btn-admin {
+  background-color: #f35454;
+  border-color: #f35454;
+  color: #FFFFFF;
+}
+.btn-admin:hover,
+.btn-admin:focus,
+.btn-admin:active,
+.btn-admin.active,
+.open .dropdown-toggle.btn-admin,
+.btn-admin:active:focus,
+.btn-admin:active:hover,
+.btn-admin.active:hover,
+.btn-admin.active:focus {
+  background-color: #f34341;
+  border-color: #18a689;
+  color: #FFFFFF;
+}
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
@@ -3823,6 +3841,9 @@ table.table-mail tr td {
 }
 .white-bg {
   background-color: #ffffff;
+}
+.admin-bg{
+  background-color: #c1392b;
 }
 .navy-bg {
   background-color: #1ab394;
@@ -7910,6 +7931,10 @@ body.md-skin {
 .md-skin .navbar-fixed-top,
 .md-skin .navbar-static-top {
   background-color: #1ab394 !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+.md-skin .navbar-static-top-admin {
+  background-color: #c1392b !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 .md-skin .navbar-static-side {
