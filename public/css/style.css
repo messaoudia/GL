@@ -6,6 +6,41 @@
  *   version 2.3
  *
 */
+
+/* TDB */
+.panel-tdb > .panel-heading {
+  text-align:center;
+  font-weight : bold;
+}
+
+.panel-heading-normal {
+  background-color:#169689;
+}
+
+.panel-heading-danger {
+  background-color:#ED5565;
+}
+
+.panel-heading-warning {
+  background-color:#F8AC59;
+}
+
+.panel-tdb > .panel-body{
+  background-color:#F3F3F4;
+  color:black;
+}
+
+.btn-tdb {
+  white-space : normal;
+  word-wrap: break-word;
+}
+
+.row-tdb > .col-lg-6 {
+  padding-right:2px;
+  padding-left:2px;
+}
+
+
 .icone{
   width: 20px;
   height: 20px;

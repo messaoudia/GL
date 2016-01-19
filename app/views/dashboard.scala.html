@@ -158,27 +158,124 @@
             </div>
             <div id="refresh" >
 
-                <div class="row wrapper border-bottom white-bg page-heading">
-                    <div class="col-sm-4">
-                        <h2>This is DASHBOARD</h2>
-                        <ol class="breadcrumb">
-                            <li>
-                                <a href="http://webapplayers.com/inspinia_admin-v2.4/index.html">This is</a>
-                            </li>
-                            <li class="active">
-                                <strong>Breadcrumb</strong>
-                            </li>
-                        </ol>
-                    </div>
+                <div class="row wrapper border-bottom white-bg page-heading" style="margin-top:10px; margin-left:1px; margin-right:1px; background-color:#1AB394; color:white;" >
+                    <div class="col-lg-4" style="padding:0px 20px 0px 20px;">
+                        <div class="row">
+                            <h3>Bonjour Julien Preisner</h3>
+                        </div>
+                        <div class="row row-tdb">
+                            <div class="col-lg-6">
+                                <div class="panel panel-tdb">
+                                    <div class="panel-heading panel-heading-normal">
+                                        Projets
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>Projets en cours : 4</p>
+                                        <p>Projets presque finis : 1</p>
+                                        <p>Projets retardés : 0</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="panel panel-tdb">
+                                    <div class="panel-heading panel-heading-normal">
+                                        Tâches
+                                    </div>
+                                    <div class="panel-body" style="overflow:auto; height:130px;">
+                                        <p>Tâches en cours : 4</p>
+                                        <p>Tâches non commencées: 1</p>
+                                        <p>Tâches commencées : 4</p>
+                                        <p>Tâches presques finies : 1</p>
+                                        <p>Tâches retardées : 4</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                    <div class="col-lg-4" style="padding:0px 20px 0px 20px;">
+                        <div class="row">
+                            <h3>Événements importants</h3>
+                        </div>
+                        <div class="row row-tdb">
+                            <div class="col-lg-6">
+                                <div class="panel panel-tdb">
+                                    <div class="panel-heading panel-heading-danger">
+                                        Tâches retardées
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>Vérification des disques</p>
+                                        <p>Commencer le front-end</p>
+                                        <p>Créer la base de données</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="panel panel-tdb">
+                                    <div class="panel-heading panel-heading-warning">
+                                        Tâches à finir bientôt
+                                    </div>
+                                    <div class="panel-body">
+                                        <p>Vérification des disques</p>
+                                        <p>Commencer le front-end</p>
+                                        <p>Créer la base de données</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4" style="padding:0px 20px 0px 20px;">
+                        <div class="row row-tdb" style="margin-top:32px;">
+                            <div class="col-lg-6">
+                                <div class="panel panel-tdb">
+                                    <div class="panel-heading panel-heading-normal">
+                                        Propositions de tâches
+                                    </div>
+                                    <div class="panel-body" style="overflow:auto; height:130px;">
+                                        <p>
+                                            <a class="btn btn-danger btn-tdb">
+                                                Vérification des disques
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <a class="btn btn-danger btn-tdb">
+                                                Commencer le front-end
+                                            </a>
+                                        </p>
+                                        <p>
+                                            <a class="btn btn-warning btn-tdb">
+                                                Créer la base de données
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <textarea placeholder="Notes..." style="color: black; min-height:155px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="wrapper wrapper-content">
-                    <div class="middle-box text-center animated fadeInRightBig">
-                        <h3 class="font-bold">This is page content</h3>
-                        <div class="error-desc">
-                            You can create here any grid layout you want. And any variation layout you imagine:) Check out
-                            main dashboard and other site. It use many different layout.
+                    <div class="animated fadeInRightBig" style="margin:auto;">
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-projets">Mes projets</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-taches">Mes tâches</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-projets" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <p>http://webapplayers.com/inspinia_admin-v2.3/table_data_tables.html</p>
+                                    </div>
+                                </div>
+                                <div id="tab-taches" class="tab-pane">
+                                    <div class="panel-body">
+                                        <p>Mes tâches</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
