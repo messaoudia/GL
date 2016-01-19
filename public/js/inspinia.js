@@ -69,13 +69,6 @@ $(document).ready(function () {
         wheelStep: 10
     });
 
-    // Initialize slimscroll for right sidebar
-
-    $('#tache-tdb').slimScroll({
-        height: '20%',
-        railOpacity: 0.4,
-        wheelStep: 10
-    });
 
     // Open close small chat
     $('.open-small-chat').click(function () {
