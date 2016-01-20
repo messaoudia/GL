@@ -6,7 +6,7 @@
     <head>
 
         <meta charset="utf-8">
-        <meta nom="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>@pageTitle</title>
 
@@ -21,7 +21,10 @@
 
         <link href="/css/animate.css" rel="stylesheet">
         <link href="/css/style.css" rel="stylesheet">
-        <link href="/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+
+        <link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
+        <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 
     </head>
 
@@ -71,9 +74,13 @@
             <!-- Toastr -->
         <script src="/assets/js/plugins/toastr/toastr.min.js"></script>
 
-            <!-- Tables -->
-        <script src="/assets/js/plugins/jeditable/jquery.jeditable.js"></script>
-        <script src="/assets/js/plugins/dataTables/datatables.min.js"></script>
+            <!-- Data Tables -->
+        <script src=" /js/plugins/jeditable/jquery.jeditable.js"></script>
+        <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+        <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
+        <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+
 
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
@@ -83,6 +90,11 @@
 
         @scripts
 
+        <script>
+                $(document).ready(function() {
+                    $('.dataTables-example').DataTable();
+                });
+        </script>
             <!--########### End - Custom Script Call  ########### -->
     </body>
 </html>

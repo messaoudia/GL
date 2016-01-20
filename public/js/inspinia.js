@@ -69,6 +69,7 @@ $(document).ready(function () {
         wheelStep: 10
     });
 
+
     // Open close small chat
     $('.open-small-chat').click(function () {
         $(this).children().toggleClass('fa-comments').toggleClass('fa-remove');
