@@ -89,11 +89,15 @@
             <!--########### Start - Custom Script Call  ########### -->
 
         @scripts
-
         <script>
-                $(document).ready(function() {
+                $(document).ready(function () {
                     $('.dataTables-example').DataTable();
                 });
+
+                $( document ).ajaxComplete(function() {
+                    $('.dataTables-example').DataTable();
+                });
+
         </script>
             <!--########### End - Custom Script Call  ########### -->
     </body>
