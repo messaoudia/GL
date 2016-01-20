@@ -198,7 +198,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr data-toggle="modal" data-target="#myModal">
                                     <td>Auchan</td>
                                     <td>92 rue Réaumur 75002 Paris</td>
                                     <td>23</td>
@@ -207,7 +207,7 @@
                                     <td>1</td>
                                     <td><i class="fa fa-times-circle"/></td>
                                 </tr>
-                                <tr>
+                                <tr data-toggle="modal" data-target="#myModal">
                                     <td>LCL</td>
                                     <td>18 rue de la République \n 69002 Lyon</td>
                                     <td>11</td>
@@ -216,7 +216,7 @@
                                     <td>2</td>
                                     <td><i class="fa fa-times-circle"/></td>
                                 </tr>
-                                <tr>
+                                <tr data-toggle="modal" data-target="#myModal">
                                     <td>PoPS5 Inc.</td>
                                     <td>9 Rue Joliot Curie 91120 Gif-sur-Yvette</td>
                                     <td>2</td>
@@ -227,6 +227,26 @@
                                 </tr>
                             </tbody>
                         </table>
+                            <!-- Modal -->
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Modal Header</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Some text in the modal.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
