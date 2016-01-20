@@ -8,6 +8,12 @@
 */
 
 /* TDB */
+
+.table-responsive-tdb > .dataTables_wrapper > .row{
+  margin-left:0px;
+  margin-right:0px;
+}
+
 .panel-tdb > .panel-heading {
   text-align:center;
   font-weight : bold;
