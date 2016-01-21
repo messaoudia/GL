@@ -693,8 +693,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-admin:active:hover,
 .btn-admin.active:hover,
 .btn-admin.active:focus {
-  background-color: #f34341;
-  border-color: #18a689;
+  background-color: #f32d2a;
+  border-color: #f32d2a;
   color: #FFFFFF;
 }
 .btn-primary:active,
@@ -8202,4 +8202,16 @@ body.md-skin {
 
 .background_admin{
   background-color: #f35454;
+}
+
+.radiobuttongroup {
+  display: inline-block;
+  text-align: center;
+}
+.radiobuttongroup label {
+  display: block;
+}
+.radiobuttongroup label input[type="radio"] {
+  display: block;
+  margin: 0.5em auto;
 }
