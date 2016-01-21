@@ -233,6 +233,7 @@
                                             Propositions de tâches
                                         </div>
                                         <div class="panel-body">
+                                            <div class="test">
                                             <p>
                                                 <a class="btn btn-danger btn-tdb">
                                                     Vérification des disques
@@ -248,6 +249,7 @@
                                                     Créer la base de données
                                                 </a>
                                             </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -260,6 +262,11 @@
 
                     <div class="wrapper wrapper-content">
                         <div class="animated fadeInRightBig" style="margin:auto;">
+                            <div class="row"><div class="col-xs-offset-11 col-xs-1">
+                            <button class="btn btn-success btn-circle popover-info" type="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><div class="cercle cercle-indisponible"></div> Indisponible</p><p><div class="cercle cercle-termine"></div> Terminé</p><p><div class="cercle cercle-retard"></div> En retard</p>'>
+                                <i class="fa fa-info"></i>
+                            </button>
+                            </div> </div>
                             <div class="tabs-container">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#tab-projets">Mes projets</a></li>
@@ -268,149 +275,268 @@
                                 <div class="tab-content">
                                     <div id="tab-projets" class="tab-pane active">
                                         <div class="panel-body">
-                                            <!-- debut filtre -->
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Filtres <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-filtre">
-                                                    <li>
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-tdb-projets-bientot-finis" checked="" type="checkbox">
-                                                            <label for="checkbox-tdb-projets-bientot-finis">
-                                                                Projets à finir bientôt
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-tdb-projets-retardes" checked="" type="checkbox">
-                                                            <label for="checkbox-tdb-projets-retardes">
-                                                                Projets retardés
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-tdb-projets-bientot-finis" checked="" type="checkbox">
-                                                            <label for="checkbox-tdb-projets-termines">
-                                                                Projets terminés
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                            <div class="row">
+                                                <div class="col-sm-offset-3 col-sm-3">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-tdb-projets-termines" type="checkbox">
+                                                        <label for="checkbox-tdb-projets-termines">
+                                                            Projets terminés
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <!-- debut filtre -->
+                                                <div class="col-sm-3">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Filtres <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                    <input id="checkbox-tdb-projets-bientot-finis" type="checkbox">
+                                                                    <label for="checkbox-tdb-projets-bientot-finis">
+                                                                        Projets à finir bientôt
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                    <input id="checkbox-tdb-projets-retardes" type="checkbox">
+                                                                    <label for="checkbox-tdb-projets-retardes">
+                                                                        Projets retardés
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <!-- fin filtre -->
                                             <div class="table-responsive table-responsive-tdb">
                                                 <table id="testData" class="table table-striped table-bordered table-hover dataTables-example">
                                                      <thead>
-                                                        <tr>
-                                                            <th class="center">Projet</th>
-                                                            <th class="center">Client</th>
-                                                            <th class="center">Date début</th>
-                                                            <th class="center">Date fin</th>
-                                                            <th class="center">Charge</th>
+                                                        <tr class="table-center">
+                                                            <th style="vertical-align:middle;">Projet</th>
+                                                            <th style="vertical-align:middle;">Client</th>
+                                                            <th style="vertical-align:middle;">Date début</th>
+                                                            <th style="vertical-align:middle;">Date fin</th>
+                                                            <th style="vertical-align:middle;">Charge</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td class="center">myProjects</td>
-                                                            <td class="center">PoPS5I Inc.</td>
-                                                            <td class="center">10/10/2015</td>
-                                                            <td class="center">03/03/2016</td>
-                                                            <td class="center">
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">myProjects</td>
+                                                            <td style="vertical-align:middle;">PoPS5I Inc.</td>
+                                                            <td style="vertical-align:middle;">10/10/2015</td>
+                                                            <td style="vertical-align:middle;">03/03/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 50J</p>
+                                                                <p class="row-restante">Restante : 30J</p>
                                                                 <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                                                                         60%
                                                                     </div>
                                                                 </div>
+                                                                <p class="row-consommee">Consommée : 30J</p>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">EISD</td>
-                                                            <td class="center">Lavergne Company</td>
-                                                            <td class="center">10/12/2015</td>
-                                                            <td class="center">23/03/2016</td>
-                                                            <td class="center">10%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">EISD</td>
+                                                            <td style="vertical-align:middle;">Lavergne Inc.</td>
+                                                            <td style="vertical-align:middle;">20/12/2015</td>
+                                                            <td style="vertical-align:middle;">21/05/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 100J</p>
+                                                                <p class="row-restante">Restante : 50J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                                                                        50%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 50J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">Gagner un match</td>
-                                                            <td class="center">Olympique de Marseille</td>
-                                                            <td class="center">02/08/2015</td>
-                                                            <td class="center">21/06/2016</td>
-                                                            <td class="center">25%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">Développer une application mobile</td>
+                                                            <td style="vertical-align:middle;">LePhocéen</td>
+                                                            <td style="vertical-align:middle;">01/10/2013</td>
+                                                            <td style="vertical-align:middle;">01/10/2017</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 3501J</p>
+                                                                <p class="row-restante">Restante : 300J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                                        100%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 310J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">Un offert un offert</td>
-                                                            <td class="center">Daro Inc.</td>
-                                                            <td class="center">10/10/2015</td>
-                                                            <td class="center">03/03/2016</td>
-                                                            <td class="center">100%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">Gagner un match</td>
+                                                            <td style="vertical-align:middle;">Olympique de Marseille</td>
+                                                            <td style="vertical-align:middle;">09/03/2016</td>
+                                                            <td style="vertical-align:middle;">03/04/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 10J</p>
+                                                                <p class="row-restante">Restante : 10J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
+                                                                        0%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 0J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">myProjects</td>
-                                                            <td class="center">PoPS5I Inc.</td>
-                                                            <td class="center">10/10/2015</td>
-                                                            <td class="center">03/03/2016</td>
-                                                            <td class="center">50%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">myProjects</td>
+                                                            <td style="vertical-align:middle;">PoPS5I Inc.</td>
+                                                            <td style="vertical-align:middle;">10/10/2015</td>
+                                                            <td style="vertical-align:middle;">03/03/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 50J</p>
+                                                                <p class="row-restante">Restante : 30J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                                        60%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 30J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">EISD</td>
-                                                            <td class="center">Lavergne Company</td>
-                                                            <td class="center">10/12/2015</td>
-                                                            <td class="center">23/03/2016</td>
-                                                            <td class="center">10%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">EISD</td>
+                                                            <td style="vertical-align:middle;">Lavergne Inc.</td>
+                                                            <td style="vertical-align:middle;">20/12/2015</td>
+                                                            <td style="vertical-align:middle;">21/05/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 100J</p>
+                                                                <p class="row-restante">Restante : 50J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                                                                        50%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 50J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">Gagner un match</td>
-                                                            <td class="center">Olympique de Marseille</td>
-                                                            <td class="center">02/08/2015</td>
-                                                            <td class="center">21/06/2016</td>
-                                                            <td class="center">25%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">Développer une application mobile</td>
+                                                            <td style="vertical-align:middle;">LePhocéen</td>
+                                                            <td style="vertical-align:middle;">01/10/2013</td>
+                                                            <td style="vertical-align:middle;">01/10/2017</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 3501J</p>
+                                                                <p class="row-restante">Restante : 300J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                                        100%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 310J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">Un offert un offert</td>
-                                                            <td class="center">Daro Inc.</td>
-                                                            <td class="center">10/10/2015</td>
-                                                            <td class="center">03/03/2016</td>
-                                                            <td class="center">100%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">Gagner un match</td>
+                                                            <td style="vertical-align:middle;">Olympique de Marseille</td>
+                                                            <td style="vertical-align:middle;">09/03/2016</td>
+                                                            <td style="vertical-align:middle;">03/04/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 10J</p>
+                                                                <p class="row-restante">Restante : 10J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
+                                                                        0%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 0J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">myProjects</td>
-                                                            <td class="center">PoPS5I Inc.</td>
-                                                            <td class="center">10/10/2015</td>
-                                                            <td class="center">03/03/2016</td>
-                                                            <td class="center">50%</td>
+
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">myProjects</td>
+                                                            <td style="vertical-align:middle;">PoPS5I Inc.</td>
+                                                            <td style="vertical-align:middle;">10/10/2015</td>
+                                                            <td style="vertical-align:middle;">03/03/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 50J</p>
+                                                                <p class="row-restante">Restante : 30J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                    <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                                        60%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 30J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">EISD</td>
-                                                            <td class="center">Lavergne Company</td>
-                                                            <td class="center">10/12/2015</td>
-                                                            <td class="center">23/03/2016</td>
-                                                            <td class="center">10%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">EISD</td>
+                                                            <td style="vertical-align:middle;">Lavergne Inc.</td>
+                                                            <td style="vertical-align:middle;">20/12/2015</td>
+                                                            <td style="vertical-align:middle;">21/05/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 100J</p>
+                                                                <p class="row-restante">Restante : 50J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
+                                                                        50%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 50J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">Gagner un match</td>
-                                                            <td class="center">Olympique de Marseille</td>
-                                                            <td class="center">02/08/2015</td>
-                                                            <td class="center">21/06/2016</td>
-                                                            <td class="center">25%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">Développer une application mobile</td>
+                                                            <td style="vertical-align:middle;">LePhocéen</td>
+                                                            <td style="vertical-align:middle;">01/10/2013</td>
+                                                            <td style="vertical-align:middle;">01/10/2017</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 3501J</p>
+                                                                <p class="row-restante">Restante : 300J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                                        100%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 310J</p>
+                                                            </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td class="center">Un offert un offert</td>
-                                                            <td class="center">Daro Inc.</td>
-                                                            <td class="center">10/10/2015</td>
-                                                            <td class="center">03/03/2016</td>
-                                                            <td class="center">100%</td>
+                                                        <tr class="table-center">
+                                                            <td style="vertical-align:middle;">Gagner un match</td>
+                                                            <td style="vertical-align:middle;">Olympique de Marseille</td>
+                                                            <td style="vertical-align:middle;">09/03/2016</td>
+                                                            <td style="vertical-align:middle;">03/04/2016</td>
+                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                                <p class="row-initiale">Initiale : 10J</p>
+                                                                <p class="row-restante">Restante : 10J</p>
+                                                                <div class="progress progress-bar-default">
+                                                                        <!-- si 0% : color:black; -->
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
+                                                                        0%
+                                                                    </div>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 0J</p>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>
-                                                        <tr>
-                                                            <th class="center">Projet</th>
-                                                            <th class="center">Client</th>
-                                                            <th class="center">Date début</th>
-                                                            <th class="center">Date fin</th>
-                                                            <th class="center">Charge</th>
+                                                        <tr class="table-center">
+                                                            <th style="vertical-align:middle;">Projet</th>
+                                                            <th style="vertical-align:middle;">Client</th>
+                                                            <th style="vertical-align:middle;">Date début</th>
+                                                            <th style="vertical-align:middle;">Date fin</th>
+                                                            <th style="vertical-align:middle;">Charge</th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
