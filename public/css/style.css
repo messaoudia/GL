@@ -9,6 +9,10 @@
 
 /* TDB */
 
+.dropdown-filtre > li > .checkbox{
+  margin-left:10px;
+}
+
 .table-responsive-tdb > .dataTables_wrapper > .row{
   margin-left:0px;
   margin-right:0px;
