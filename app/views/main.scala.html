@@ -105,6 +105,11 @@
                     $('.popover-info').popover('hidden');
                 });
 
+                $( document ).ajaxComplete(function() {
+                    $('#modal-tdb-tache').modal();
+                });
+
+
                 /*
                 $( document ).ajaxComplete(function() {
                     $('.panel-body').slimScroll({

@@ -28,6 +28,36 @@
 }
 
 /* TDB */
+.tdb-td-tache{
+   padding:0px;
+}
+
+.tdb-nom-tache{
+  margin-top:16px;
+}
+
+.tdb-id-tache{
+  border-bottom: 1px solid #E7EAEC;
+  width:100%;
+  vertical-align: top;
+  margin:0px;
+}
+
+.dropdown-pert{
+  padding:0px 4px 0px 4px;
+  font-size:12px;
+}
+
+.dropdown-menu-pert{
+  min-width: 0px;
+}
+
+
+.dropdown-menu-pert > li{
+  padding:5px 15px 5px 15px;
+}
+
+
 .table-center > th,
 .table-center > td {
   vertical-align:middle;
@@ -57,6 +87,8 @@
 
 .checkbox-dropdown{
   margin-left: 9px;
+  margin-right: 9px;
+
 }
 .dropdown-filtre {
  background-color:#1AB394;
