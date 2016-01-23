@@ -1,7 +1,7 @@
 @(pageTitle: String)
 
 @scripts = {
-    <script>
+    <script xmlns="http://www.w3.org/1999/html">
             $(document).ready(function() {
                 $('.liclickable').click(function (e) {
                     e.preventDefault();
@@ -159,8 +159,83 @@
 
             <div id="refresh" >
 
+                <div class="row">
+                    <div class="col-md-2" style="background-color: #f2dede; height: 100%;">
+                        Sidebar Content
+                    </div>
+                    <div class="col-md-10">
 
-             </div>
+                        <div class="row wrapper border-bottom white-bg page-heading">
+
+
+                            <div class="col-sm-4">
+                                <h3 class="header-text">Projet : myProjects <div class="priorite">1</div> </h3>
+                                <h3 class="header-text">Client : PoPS5I Inc. <div class="priorite">2</div> </h3>
+                                <textarea readonly class="description" style="width: 100%;">Le but étant de développer un site web permettant le suivi de projet
+                                </textarea>
+                            </div>
+
+                            <div class="col-sm-6" id="header-milieu">
+                                <h3 class="header-text">Responsable projet : Julien Preisner</h3>
+                                <h3 class="header-text">Avancement : 25%</h3>
+
+                                <h3 class="header-text">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                Du <div class="date-projet">14/10/2015</div>
+                                            </td>
+                                            <td>au</td>
+                                            <td>
+                                                <div class="date-projet">01/02/2016</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <div class="date-projet">05/02/2016</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </h3>
+                            </div>
+
+                            <div class="col-sm-2">
+
+                                <div class="row">
+
+                                    <div class="col-xs-9">
+                                        <div class="row-initiale">Initiale : 50J</div>
+                                        <div class="row-restante">Restante : 30J</div>
+                                        <div class="progress progress-bar-default">
+                                                <!-- si 0% : color:black; -->
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                60%
+                                            </div>
+                                        </div>
+                                        <p class="row-consommee">Consommée : 30J</p>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <button class="btn btn-circle popover-info" style="color: #ffffff ;" type="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><div class="cercle cercle-indisponible"></div> Indisponible</p><p><div class="cercle cercle-termine"></div> Terminé</p><p><div class="cercle cercle-retard"></div> En retard</p>'>
+                                            <i class="fa fa-info"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
 
 
 
