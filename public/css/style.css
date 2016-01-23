@@ -7,6 +7,7 @@
  *
 */
 
+
 /* Informations */
 .cercle{
   border-radius:50%;
@@ -27,6 +28,20 @@
   background-color: #EB6E5E;
 }
 
+.tdb-td-tache{
+  border-bottom: 1px solid #E7EAEC;
+}
+
+.idTache{
+  border-bottom: 2px solid #E7EAEC;
+  width:100%;
+  vertical-align: top;
+  margin:0px;
+}
+
+.idNom{
+  margin-top:16px;
+}
 /* TDB */
 .tdb-td-tache{
    padding:0px;
