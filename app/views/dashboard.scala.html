@@ -276,9 +276,9 @@
                                 <div class="tab-content">
                                     <!-- Tab "Mes taches" -->
                                     <div id="tab-projets" class="tab-pane active">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-sm-offset-3 col-sm-3">
+                                        <div class="panel-body" style="padding-top:10px;">
+                                            <div class="row row-options-tdb">
+                                                <div class="col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-tdb-rp-projets-termines" type="checkbox">
                                                         <label for="checkbox-tdb-rp-projets-termines">
@@ -287,7 +287,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- debut filtre -->
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-offset-7 col-sm-2">
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             Filtres <span class="caret"></span>
@@ -586,8 +586,8 @@
 
                                     <!-- Tab "Mes taches" -->
                                     <div id="tab-taches" class="tab-pane">
-                                        <div class="panel-body">
-                                            <div class="row">
+                                        <div class="panel-body" style="padding-top:10px;">
+                                            <div class="row row-options-tdb">
                                                 <div class="col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-tdb-collab-taches-termines" type="checkbox">
@@ -605,7 +605,7 @@
                                                     </div>
                                                 </div>
                                                     <!-- debut filtre -->
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-offset-4 col-sm-2">
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             Filtres <span class="caret"></span>
@@ -671,19 +671,19 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr class="table-center" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                            <td class="tdb-td-tache" style="padding:0px;">
+                                                        <tr class="table-center">
+                                                            <td class="tdb-td-tache" style="padding:0px;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p class="tdb-id-tache">4.1</p>
                                                                 <p class="tdb-nom-tache">Créer la base de données</p>
                                                             </td>
-                                                            <td style="vertical-align:middle;">PoPS5I Inc.</td>
-                                                            <td style="vertical-align:middle;">myProjects</td>
-                                                            <td style="vertical-align:middle;">10/10/2015</td>
-                                                            <td style="vertical-align:middle;">
+                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">PoPS5I Inc.</td>
+                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">myProjects</td>
+                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">10/10/2015</td>
+                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p>03/03/2016</p>
                                                                 <p>13/03/2016</p>
                                                             </td>
-                                                            <td class="td-avancement" style="vertical-align:middle;">
+                                                            <td class="td-avancement" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p class="row-initiale">Initiale : 50J</p>
                                                                 <p class="row-restante">Restante : 30J</p>
                                                                 <div class="progress progress-bar-default">
@@ -710,7 +710,7 @@
                                                                         </div>
                                                                 </div>
                                                             </td>
-                                                            <td style="vertical-align:middle;"><i class="fa fa-bell-slash-o"></i></td>
+                                                            <td style="vertical-align:middle;"><a href="#"><i class="fa fa-bell-slash-o"></i></a></td>
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>
@@ -731,12 +731,83 @@
                                                     <div class="modal-dialog">
                                                             <!-- Modal content-->
                                                         <div class="modal-content">
+                                                            <!--
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 <h4 class="modal-title">Modal Header</h4>
                                                             </div>
+                                                            -->
                                                             <div class="modal-body">
-                                                                <p>Some text in the modal.</p>
+                                                                <div class="row">
+                                                                    <!-- 1ere colonne -->
+                                                                    <div class="col-sm-6">
+                                                                        <div class="id-tache-modal">
+                                                                            <div class="cercle cercle-icon-critique icon-modal-tache">C</div>
+                                                                            Tâche 14
+                                                                            <a href="#"><i class="fa fa-bell-slash-o icon-modal-tache"></i></a>
+                                                                            <a href="#"><i class="fa fa-trash icon-modal-tache"></i></a>
+                                                                            <a href="#"><i class="fa fa-pencil icon-modal-tache"></i></a>
+                                                                        </div>
+                                                                        <p class="titre-tache-modal">Faire la maquette</p>
+                                                                        <div class="description-modal-tache">
+                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                        </div>
+                                                                        <p>Tâche précédente : </p>
+                                                                        <div>TODO</div>
+                                                                        <p>Tâches suivantes : </p>
+                                                                        <div>TODO</div>
+                                                                    </div>
+
+                                                                    <!-- 2eme colonne -->
+                                                                    <div class="col-sm-6">
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        <p class="bold">Projet : myProjects</p>
+                                                                        <p class="bold">Client : PoPS5I Inc.</p>
+                                                                        <p>Responsable tâche : Daro Heng</p>
+                                                                        <p><a href="#"><i class="fa fa-envelope icon-modal-tache"></i></a> Interlocuteurs externes :</p>
+                                                                        <div>TODO</div>
+                                                                        <p>Durée restante : 10j</p>
+                                                                        <div class="row row-date-tache-modal">
+                                                                            <div class="col-sm-8">
+                                                                                Date de début
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                20/11/2016
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row row-date-tache-modal">
+                                                                            <div class="col-sm-8">
+                                                                                Date de fin au + tôt
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                20/11/2016
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row row-date-tache-modal">
+                                                                            <div class="col-sm-8">
+                                                                                Date de fin au + tard
+                                                                            </div>
+                                                                            <div class="col-sm-4">
+                                                                                20/11/2016
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="td-avancement"">
+                                                                            <p class="row-initiale">Initiale : 50J</p>
+                                                                            <p class="row-restante">Restante : 30J</p>
+                                                                            <div class="progress progress-bar-default">
+                                                                                    <!-- si 0% : color:black; -->
+                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                                                    60%
+                                                                                </div>
+                                                                            </div>
+                                                                            <p class="row-consommee">Consommée : 30J</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

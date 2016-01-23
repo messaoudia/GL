@@ -27,7 +27,54 @@
   background-color: #EB6E5E;
 }
 
+.cercle-icon-critique{
+  background-color: red;
+  font-size:9px;
+  color:white;
+  text-align:center;
+
+}
+
+/* MODAL VIEW TACHE */
+.icon-modal-tache{
+  margin-right : 3px;
+
+}
+.description-modal-tache{
+  max-height:100px;
+  overflow:auto;
+}
+
+.id-tache-modal{
+  font-size:15px;
+  font-weight : bold;
+  margin-right:6px;
+}
+
+.id-tache-modal > i{
+  margin-right:6px;
+}
+
+.titre-tache-modal{
+  font-size:15px;
+}
+
+.bold{
+  font-weight : bold;
+}
+
+.row-date-tache-modal{
+  margin-bottom : 5px;
+}
+
 /* TDB */
+
+.row-options-tdb{
+  margin : 0px -20px 12px -20px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #E7EAEC;
+}
+
 .tdb-td-tache{
    padding:0px;
 }
