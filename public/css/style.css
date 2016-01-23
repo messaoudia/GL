@@ -7,6 +7,52 @@
  *
 */
 
+/*
+  PAGE PROJET CSS DEBUT
+*/
+.header-text {
+  font-size:20px;
+}
+
+.priorite{
+  width:20px;
+  height:20px;
+  line-height: 20px;
+  background: #8c8c8c;
+  text-align: center;
+  color: #FFFFFF;
+  display: inline-block;
+}
+
+.date-projet{
+  width:95px;
+  height:25px;
+  line-height: 25px;
+  background: #16a07c;
+  text-align: center;
+  color: #FFFFFF;
+  display: inline-block;
+  margin-bottom: 3px;
+  font-size:16px;
+}
+
+
+#header-milieu {
+  left:50px;
+}
+
+.description {
+  background-color: #dce1e2;
+  color: #7f8183;
+  border-radius: 3px;
+  border: 1px solid #dce1e2;
+  resize: none;
+}
+
+/*
+  PAGE PROJET CSS FIN
+*/
+
 
 /* Informations */
 .cercle{
@@ -733,6 +779,10 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   }
   .menu-visible-lg {
     display: block !important;
+  }
+
+  #header-milieu {
+    left:0;
   }
 }
 .btn {
