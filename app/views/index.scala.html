@@ -12,8 +12,8 @@
 
                     eval("jsRoutes.controllers."+controler).ajax({
                         success: function(html) {
-                            var result = $('#refresh',html);
-                            $('#refresh').empty().html(result);
+                            var result = $('#refresh',html).html();
+                            $('#refresh').empty().html(result)
                         },
                         //Case we have a problem
                         error: function(errorMessage){
