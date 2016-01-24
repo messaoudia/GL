@@ -8356,4 +8356,10 @@ body.md-skin {
 .vertical-scroll{
   height: 90px; /* %-height of the viewport */
   overflow-y: scroll;
+  float: right;
+}
+
+.div-center{
+  width: 100%;
+  text-align: center;
 }
