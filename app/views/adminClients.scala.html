@@ -23,6 +23,17 @@
                 });
 
             });
+
+            /* Afficher les clients archivés */
+            $("#yourSelector").live("click", function(){
+                var id = parseInt($(this).val(), 10);
+                if($(this).is(":checked")) {
+                    // checkbox is checked -> do something
+                } else {
+                    // checkbox is not checked -> do something different
+                }
+            });
+
     </script>
 }
 
@@ -169,8 +180,8 @@
                     <div class="row">
                         <div class="col-sm-3" style="float:left;">
                             <div class="checkbox checkbox-danger checkbox-circle">
-                                <input id="checkbox8" class="styled" type="checkbox" >
-                                <label for="checkbox8"> @Messages("showArchivedClients") </label>
+                                <input id="checkBoxClientsArchived" class="styled" type="checkbox" onclick="clientsArchived()">
+                                <label for="checkBoxClientsArchived"> @Messages("showArchivedClients") </label>
                             </div>
                         </div>
 
@@ -185,7 +196,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example" >
+                        <table id="clientsTable" class="table table-striped table-bordered table-hover dataTables-example" >
                             <thead>
                                 <tr>
                                     <th>@Messages("client")</th>

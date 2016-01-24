@@ -20,9 +20,52 @@
                             alert(errorMessage);
                         }
                     });
-
                 });
-              });
+            });
+
+            var getElementsByAttribute = function (attr, value) {
+                var match = [];
+                var elements = document.getElementsByTagName("*");
+
+                for (var ii = 0, ln = elements.length; ii < ln; ii++) {
+                    if (elements[ii].hasAttribute(attr)) {
+                        if (value) {
+                            if (elements[ii].getAttribute(attr) === value) {
+                                match.push(elements[ii]);
+                            }
+                        } else {
+                            /* Else, simply push it */
+                            match.push(elements[ii]);
+                        }
+                    }
+                }
+                return match;
+            };
+
+            /* Afficher les clients archivés */
+            function clientsArchived(){
+                // console.log("TEST checkbox");
+                if($("#checkBoxClientsArchived").is(":checked")) {
+                    // checkbox is checked
+                    var table = document.getElementById("clientsTable");
+                    $(table).find('tbody')
+                            .append($('<tr>').attr('data-toggle','modal').attr('data-target','#myModal').attr('class','archived')
+                                    .append($('<td>').text('ArchivedName'))
+                                    .append($('<td>').text('ArchivedAdress'))
+                                    .append($('<td>').text('ArchivedNbContacts'))
+                                    .append($('<td>').text('ArchivedNbProjects'))
+                                    .append($('<td>').text('ArchivedNbTasks'))
+                                    .append($('<td>').text('ArchivedPriority'))
+                                    .append($('<td>').append($('<i>').attr('class','fa fa-times-circle'))));
+
+                    //console.log("CHECKED");
+                } else {
+                    // checkbox is not checked
+                    //console.log("NOT CHECKED");
+                    $('.archived').hide();
+                }
+            };
+
     </script>
 }
 
