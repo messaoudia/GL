@@ -7,7 +7,7 @@
                     e.preventDefault();
                     var self = $(this),
                             controler = self.data('infos') || self.attr('data-infos');
-                    $('#sidebar ul li').removeClass('active');
+                    $("#sidebar ul li").removeClass('active');
                     $(this).addClass('active');
 
                     eval("jsRoutes.controllers."+controler).ajax({
@@ -23,17 +23,6 @@
                 });
 
             });
-
-            /* Afficher les clients archivés */
-            $("#yourSelector").live("click", function(){
-                var id = parseInt($(this).val(), 10);
-                if($(this).is(":checked")) {
-                    // checkbox is checked -> do something
-                } else {
-                    // checkbox is not checked -> do something different
-                }
-            });
-
     </script>
 }
 
@@ -205,7 +194,7 @@
                                     <th>@Messages("nbProjects")</th>
                                     <th>@Messages("nbTasks")</th>
                                     <th>@Messages("priority")</th>
-                                    <th><i class="fa fa-trash"/></th>
+                                    <th><i class="fa fa-trash"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -216,7 +205,7 @@
                                     <td>5</td>
                                     <td>112</td>
                                     <td>1</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>LCL</td>
@@ -225,7 +214,7 @@
                                     <td>1</td>
                                     <td>28</td>
                                     <td>2</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>PoPS5 Inc.</td>
@@ -234,7 +223,7 @@
                                     <td>1</td>
                                     <td>37</td>
                                     <td>2</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>Société Générale</td>
@@ -243,7 +232,7 @@
                                     <td>1</td>
                                     <td>91</td>
                                     <td>2</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>La banque Postale</td>
@@ -252,7 +241,7 @@
                                     <td>2</td>
                                     <td>31</td>
                                     <td>1</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>Atos</td>
@@ -261,7 +250,7 @@
                                     <td>1</td>
                                     <td>12</td>
                                     <td>3</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>EDF</td>
@@ -270,7 +259,7 @@
                                     <td>1</td>
                                     <td>12</td>
                                     <td>2</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>CEA</td>
@@ -279,7 +268,7 @@
                                     <td>2</td>
                                     <td>21</td>
                                     <td>2</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>MAAF</td>
@@ -288,7 +277,7 @@
                                     <td>1</td>
                                     <td>60</td>
                                     <td>2</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>Matmut</td>
@@ -297,7 +286,7 @@
                                     <td>1</td>
                                     <td>12</td>
                                     <td>1</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>MAIF</td>
@@ -306,7 +295,7 @@
                                     <td>1</td>
                                     <td>49</td>
                                     <td>1</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>La Chocolatine</td>
@@ -315,7 +304,7 @@
                                     <td>3</td>
                                     <td>11</td>
                                     <td>1</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                                 <tr data-toggle="modal" data-target="#myModal">
                                     <td>Le Moulin de Gasny</td>
@@ -324,7 +313,7 @@
                                     <td>5</td>
                                     <td>15</td>
                                     <td>1</td>
-                                    <td><i class="fa fa-times-circle"/></td>
+                                    <td><i class="fa fa-times-circle"></i></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -343,27 +332,27 @@
                                 <div class="ibox-content">
                                     <div class="row">
                                         <div class="col-lg-6 b-r">
-                                            <form role="form-horizontal" id="clientForm">
+                                            <form class="form-horizontal" id="clientForm">
                                                 <div class="form-group">
-                                                    <label class="col-lg-5 control-label">@Messages("formClientName")</label>
-                                                    <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                    <label class="col-lg-5 control-label" for="formClientName">@Messages("formClientName")</label>
+                                                    <div class="col-lg-7"><input type="text" id="formClientName" class="form-control"></div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-lg-5 control-label">@Messages("adress")</label>
-                                                    <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                    <label class="col-lg-5 control-label" for="formClientAdress">@Messages("adress")</label>
+                                                    <div class="col-lg-7"><input type="text" id="formClientAdress" class="form-control"></div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-lg-5 control-label">@Messages("formZipCode")</label>
-                                                    <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                    <label class="col-lg-5 control-label" for="formZipCode">@Messages("formZipCode")</label>
+                                                    <div class="col-lg-7"><input type="text" id="formZipCode" class="form-control"></div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-lg-5 control-label">@Messages("formCity")</label>
-                                                    <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                    <label class="col-lg-5 control-label" for="formCity">@Messages("formCity")</label>
+                                                    <div class="col-lg-7"><input type="text" id="formCity" class="form-control"></div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-lg-5 control-label">@Messages("formCountry")</label>
-                                                    <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                    <label class="col-lg-5 control-label" for="formCountry">@Messages("formCountry")</label>
+                                                    <div class="col-lg-7"><input type="text" id="formCountry" class="form-control"></div>
                                                 </div>
 
                                                 <div class="form-group">
@@ -395,15 +384,15 @@
                                                     <ul class="col-lg-12 list-group">
                                                         <li class="list-group-item col-sm-12 col-xs-12">
                                                             <div class="col-lg-9 col-md-10 col-sm-10 col-xs-9">Projet 1</div>
-                                                            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"/></div>
+                                                            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"></i></div>
                                                          </li>
                                                         <li class="list-group-item col-sm-12 col-xs-12">
                                                             <div class="col-lg-9 col-md-10 col-sm-10 col-xs-9">Projet 2</div>
-                                                            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"/></div>
+                                                            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"></i></div>
                                                         </li>
                                                         <li class="list-group-item col-sm-12 col-xs-12">
                                                             <div class="col-lg-9 col-md-10 col-sm-10 col-xs-9">Projet 3</div>
-                                                            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"/></div>
+                                                            <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"></i></div>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -412,26 +401,26 @@
 
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-center">
                                                 <h4 class="inline">@Messages("addContact")</h4>
-                                                <form role="form-horizontal" id="contactForm">
+                                                <form class="form-horizontal" id="contactForm">
                                                     <div class="form-group">
-                                                        <label class="col-lg-5 control-label">@Messages("formLastName")</label>
-                                                        <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                        <label class="col-lg-5 control-label" for="formLastName">@Messages("formLastName")</label>
+                                                        <div class="col-lg-7"><input type="text" id="formLastName" class="form-control"></div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-lg-5 control-label">@Messages("formFirstName")</label>
-                                                        <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                        <label class="col-lg-5 control-label" for="formFirstName">@Messages("formFirstName")</label>
+                                                        <div class="col-lg-7"><input type="text" id="formFirstName" class="form-control"></div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-lg-5 control-label">@Messages("formEmail")</label>
-                                                        <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                        <label class="col-lg-5 control-label" for="formEmail">@Messages("formEmail")</label>
+                                                        <div class="col-lg-7"><input type="text" id="formEmail" class="form-control"></div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-lg-5 control-label">@Messages("formTel")</label>
-                                                        <div class="col-lg-7"><input type="text" class="form-control"></div>
+                                                        <label class="col-lg-5 control-label" for="formTel" >@Messages("formTel")</label>
+                                                        <div class="col-lg-7"><input type="text" id="formTel" class="form-control"></div>
                                                     </div>
                                                 </form>
                                                 <button class="btn btn-admin inline" type="submit" form="contactForm">
-                                                    <i class="fa fa-plus-square"/>  @Messages("add")
+                                                    <i class="fa fa-plus-square"></i>  @Messages("add")
                                                 </button>
                                             </div>
 
@@ -441,15 +430,15 @@
                                             <ul class="list-group col-lg-12">
                                                 <li class="list-group-item col-sm-12 col-xs-12">
                                                     <div class="col-lg-9 col-md-10 col-sm-10 col-xs-9">Contact client 1</div>
-                                                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"/></div>
+                                                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"></i></div>
                                                 </li>
                                                 <li class="list-group-item col-sm-12 col-xs-12">
                                                     <div class="col-lg-9 col-md-10 col-sm-10 col-xs-9">Contact client 2</div>
-                                                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"/></div>
+                                                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"></i></div>
                                                 </li>
                                                 <li class="list-group-item col-sm-12 col-xs-12">
                                                     <div class="col-lg-9 col-md-10 col-sm-10 col-xs-9">Contact client 3</div>
-                                                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"/></div>
+                                                    <div class="col-lg-3 col-md-2 col-sm-2 col-xs-1"><i class="fa fa-times-circle"></i></div>
                                                 </li>
                                             </ul>
                                         </div>

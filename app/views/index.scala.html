@@ -7,7 +7,7 @@
                     e.preventDefault();
                     var self = $(this),
                             controler = self.data('infos') || self.attr('data-infos');
-                    $('#sidebar ul li').removeClass('active');
+                    $("#sidebar ul li").removeClass('active');
                     $(this).addClass('active');
 
                     eval("jsRoutes.controllers."+controler).ajax({
@@ -64,7 +64,7 @@
                     //console.log("NOT CHECKED");
                     $('.archived').hide();
                 }
-            };
+            }
 
     </script>
 }
