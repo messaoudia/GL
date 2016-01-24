@@ -1044,6 +1044,49 @@ fieldset[disabled] .btn-danger.active {
   background-color: #ef6776;
   border-color: #ef6776;
 }
+
+.btn-user {
+  background-color: #5cb75c;
+  border-color: #5cb75c;
+  color: #FFFFFF;
+}
+.btn-user:hover,
+.btn-user:focus,
+.btn-user:active,
+.btn-user.active,
+.open .dropdown-toggle.btn-user,
+.btn-user:active:focus,
+.btn-user:active:hover,
+.btn-user.active:hover,
+.btn-user.active:focus {
+  background-color: #38b733;
+  border-color: #38b733;
+  color: #FFFFFF;
+}
+.btn-user:active,
+.btn-user.active,
+.open .dropdown-toggle.btn-danger {
+  background-image: none;
+}
+.btn-user.disabled,
+.btn-user.disabled:hover,
+.btn-user.disabled:focus,
+.btn-user.disabled:active,
+.btn-user.disabled.active,
+.btn-user[disabled],
+.btn-user[disabled]:hover,
+.btn-user[disabled]:focus,
+.btn-user[disabled]:active,
+.btn-user.active[disabled],
+fieldset[disabled] .btn-user,
+fieldset[disabled] .btn-user:hover,
+fieldset[disabled] .btn-user:focus,
+fieldset[disabled] .btn-user:active,
+fieldset[disabled] .btn-user.active {
+  background-color: #79b778;
+  border-color: #79b778;
+}
+
 .btn-link {
   color: inherit;
 }
@@ -8310,4 +8353,8 @@ body.md-skin {
   .welcome-message {
     display: none;
   }
+}
+
+.margin-top-10{
+  margin-top: 10px;
 }
