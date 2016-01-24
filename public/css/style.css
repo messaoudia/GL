@@ -8219,3 +8219,8 @@ body.md-skin {
   display: block;
   margin: 0.5em auto;
 }
+
+.vertical-scroll{
+  height: 90px; /* %-height of the viewport */
+  overflow-y: scroll;
+}
