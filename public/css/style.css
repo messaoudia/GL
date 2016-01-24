@@ -8358,3 +8358,9 @@ body.md-skin {
 .margin-top-10{
   margin-top: 10px;
 }
+
+.vertical-scroll-user{
+  height: 100px; /* %-height of the viewport */
+  overflow-y: scroll;
+  float: right;
+}
