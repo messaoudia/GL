@@ -101,6 +101,28 @@
                     $('.dataTables-example').DataTable();
                 });
 
+                $( document ).ajaxComplete(function() {
+                    $('.popover-info').popover('hidden');
+                });
+
+                $( document ).ajaxComplete(function() {
+                    $('#modal-tdb-tache').modal();
+                });
+
+
+                /*
+                $( document ).ajaxComplete(function() {
+                    $('.panel-body').slimScroll({
+                        height: '50px',
+                        railOpacity: 0.4,
+                        wheelStep: 10,
+                        alwaysVisible: true
+                    });
+                });
+                */
+
+
+
         </script>
             <!--########### End - Custom Script Call  ########### -->
     </body>

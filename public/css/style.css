@@ -7,7 +7,140 @@
  *
 */
 
+/* Informations */
+.cercle{
+  border-radius:50%;
+  width:13px;
+  height:13px;
+  display:inline-block;
+}
+
+.cercle-indisponible{
+  background-color: #DCDCDC;
+}
+
+.cercle-termine{
+  background-color: #5FAEE3;
+}
+
+.cercle-retard{
+  background-color: #EB6E5E;
+}
+
+.cercle-icon-critique{
+  background-color: red;
+  font-size:9px;
+  color:white;
+  text-align:center;
+
+}
+
+/* MODAL VIEW TACHE */
+.icon-modal-tache{
+  margin-right : 3px;
+
+}
+.description-modal-tache{
+  max-height:100px;
+  overflow:auto;
+}
+
+.id-tache-modal{
+  font-size:15px;
+  font-weight : bold;
+  margin-right:6px;
+}
+
+.id-tache-modal > i{
+  margin-right:6px;
+}
+
+.titre-tache-modal{
+  font-size:15px;
+}
+
+.bold{
+  font-weight : bold;
+}
+
+.row-date-tache-modal{
+  margin-bottom : 5px;
+}
+
 /* TDB */
+
+.row-options-tdb{
+  margin : 0px -20px 12px -20px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #E7EAEC;
+}
+
+.tdb-td-tache{
+   padding:0px;
+}
+
+.tdb-nom-tache{
+  margin-top:16px;
+}
+
+.tdb-id-tache{
+  border-bottom: 1px solid #E7EAEC;
+  width:100%;
+  vertical-align: top;
+  margin:0px;
+}
+
+.dropdown-pert{
+  padding:0px 4px 0px 4px;
+  font-size:12px;
+}
+
+.dropdown-menu-pert{
+  min-width: 0px;
+}
+
+
+.dropdown-menu-pert > li{
+  padding:5px 15px 5px 15px;
+}
+
+
+.table-center > th,
+.table-center > td {
+  vertical-align:middle;
+  text-align : center;
+}
+.td-avancement > p {
+  margin-bottom:0px;
+}
+.row-initiale,
+.row-restante {
+  color:#AAAAAC;
+  text-align: right;
+}
+
+.row-consommee {
+  color:#27AE62;
+  text-align: left;
+}
+.progress-bar-default{
+  border:1px solid #27AE62;
+  margin-bottom:0px;
+}
+
+.progress-bar-default > .progress-bar {
+  background-color: #27AE62;
+}
+
+.checkbox-dropdown{
+  margin-left: 9px;
+  margin-right: 9px;
+
+}
+.dropdown-filtre {
+ background-color:#1AB394;
+}
+
 
 .dropdown-filtre > li > .checkbox{
   margin-left:10px;
@@ -38,7 +171,7 @@
 .panel-tdb > .panel-body{
   background-color:#F3F3F4;
   color:black;
-  width:100%;
+ /* width:100%; */
   padding:8px;
 }
 .panel-tdb > .panel-body > p{
@@ -53,7 +186,7 @@
 .row-tdb > .col-sm-6 {
   padding-right:2px;
   padding-left:2px;
-  height:100%;
+  /*height:100%;*/
 }
 
 
