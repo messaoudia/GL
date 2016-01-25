@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "Taches")
-public class Task extends Model {
+@Table(name = "Tache")
+public class Tache extends Model {
 
     @Id
     @GeneratedValue
@@ -27,6 +27,7 @@ public class Task extends Model {
     public String description;
 
     @Constraints.Min(0)
+    @Constraints.Max(3)
     public Integer niveau;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
@@ -41,20 +42,20 @@ public class Task extends Model {
     @Constraints.Min(0)
     public Integer charge;
 
-    public static Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
+    public static Finder<Long, Tache> find = new Finder<Long, Tache>(Tache.class);
 
     /**
      * Create a task
      */
-    public static Task create(Task task) {
-        task.save();
-        return task;
+    public static Tache create(Tache tache) {
+        tache.save();
+        return tache;
     }
 
     /**
      * Create a task
      */
-    public static List<Task> getAll() {
+    public static List<Tache> getAll() {
         return find.all();
     }
 

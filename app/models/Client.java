@@ -13,33 +13,26 @@ import javax.persistence.Table;
  * Created by Gishan on 04/01/2016.
  */
 @Entity
-@Table(name = "Clients")
+@Table(name = "Client")
 public class Client extends Model{
 
     @Id
     @GeneratedValue
     public Long id;
-
     public String nom;
 
     @Constraints.Min(1)
     @Constraints.Max(3)
-    public int importance;
-
+    public int priorite;
     public boolean archiver;
-
+    public Adresse adresseClient;
     public List<Personne> listeContacts;
 
     public static Model.Finder<Long, Client> find = new Model.Finder<Long, Client>(Client.class);
 
-
-
     public void creeClient(Client client){
         client.save();
     }
-
-
-
 
 
 }

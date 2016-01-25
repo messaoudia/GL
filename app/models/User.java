@@ -5,7 +5,10 @@ import play.data.validation.Constraints;
 public class User {
 
     @Constraints.Required
+    @Constraints.Email
     protected String email;
+
+    @Constraints.Required
     protected String password;
 
 
