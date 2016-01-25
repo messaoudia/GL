@@ -8385,3 +8385,15 @@ body.md-skin {
 .md-skin .nav-header-admin {
   background: url("patterns/theme-admin.jpg") no-repeat;
 }
+
+.btn-user {
+  background-color: #5cb75c;
+  border-color: #5cb75c;
+  color: #FFFFFF;
+}
+
+.btn-user:hover, .btn-user:focus, .btn-user:active, .btn-user.active, .open .dropdown-toggle.btn-warning, .btn-user:active:focus, .btn-user:active:hover, .btn-user.active:hover, .btn-user.active:focus {
+  background-color: #38b733;
+  border-color: #38b733;
+  color: #FFFFFF;
+}
