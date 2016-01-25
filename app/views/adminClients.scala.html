@@ -7,7 +7,7 @@
                     e.preventDefault();
                     var self = $(this),
                             controler = self.data('infos') || self.attr('data-infos');
-                    $('#sidebar ul li').removeClass('active');
+                    $("#sidebar ul li").removeClass('active');
                     $(this).addClass('active');
 
                     eval("jsRoutes.controllers."+controler).ajax({
@@ -158,31 +158,330 @@
             </div>
             <div id="refresh" >
 
-                <div class="row wrapper border-bottom white-bg page-heading">
-                    <div class="col-sm-4">
-                        <h2>This is ADMIN CLIENT</h2>
-                        <ol class="breadcrumb">
-                            <li>
-                                <a href="http://webapplayers.com/inspinia_admin-v2.4/index.html">This is</a>
-                            </li>
-                            <li class="active">
-                                <strong>Breadcrumb</strong>
-                            </li>
-                        </ol>
+                <div class="row wrapper border-bottom admin-bg page-heading">
+                    <div class="col-sm-4" style="height:50px">
+                        <!-- Bandeau rouge -->
                     </div>
 
                 </div>
 
-                <div class="wrapper wrapper-content">
-                    <div class="middle-box text-center animated fadeInRightBig">
-                        <h3 class="font-bold">This is page content</h3>
-                        <div class="error-desc">
-                            You can create here any grid layout you want. And any variation layout you imagine:) Check out
-                            main dashboard and other site. It use many different layout.
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-sm-3" style="float:left;">
+                            <div class="checkbox checkbox-danger checkbox-circle">
+                                <input id="checkBoxClientsArchived" class="styled" type="checkbox" onclick="clientsArchived()">
+                                <label for="checkBoxClientsArchived"> @Messages("showArchivedClients") </label>
+                            </div>
+                        </div>
+
+                      <!--  <div class="col-sm-3" style="float:right;">
+                            <div class="input-group">
+                                <input type="text" class="input-sm form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-sm btn-admin"> <i class="fa fa-search"/></button>
+                                </span>
+                            </div>
+                        </div>-->
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="clientsTable" class="table table-striped table-bordered table-hover dataTables-example" >
+                            <thead>
+                                <tr>
+                                    <th>@Messages("client")</th>
+                                    <th>@Messages("adress")</th>
+                                    <th>@Messages("nbContacts")</th>
+                                    <th>@Messages("nbProjects")</th>
+                                    <th>@Messages("nbTasks")</th>
+                                    <th>@Messages("priority")</th>
+                                    <th><i class="fa fa-trash"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">Auchan</td>
+                                    <td data-toggle="modal" data-target="#myModal">92 rue Réaumur 75002 Paris</td>
+                                    <td data-toggle="modal" data-target="#myModal">23</td>
+                                    <td data-toggle="modal" data-target="#myModal">5</td>
+                                    <td data-toggle="modal" data-target="#myModal">112</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal2" data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">LCL</td>
+                                    <td data-toggle="modal" data-target="#myModal">18 rue de la République \n 69002 Lyon</td>
+                                    <td data-toggle="modal" data-target="#myModal">11</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">28</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">PoPS5 Inc.</td>
+                                    <td data-toggle="modal" data-target="#myModal">9 Rue Joliot Curie 91120 Gif-sur-Yvette</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">37</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">Société Générale</td>
+                                    <td data-toggle="modal" data-target="#myModal">4 Ter Rue de Paris 91400 Orsay</td>
+                                    <td data-toggle="modal" data-target="#myModal">16</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">91</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">La banque Postale</td>
+                                    <td data-toggle="modal" data-target="#myModal">11 Rue Bourseul, 75015 Paris</td>
+                                    <td data-toggle="modal" data-target="#myModal">31</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal">31</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">Atos</td>
+                                    <td data-toggle="modal" data-target="#myModal">80 Quai Voltaire, 95870 Bezons</td>
+                                    <td data-toggle="modal" data-target="#myModal">7</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">12</td>
+                                    <td data-toggle="modal" data-target="#myModal">3</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">EDF</td>
+                                    <td data-toggle="modal" data-target="#myModal">résid Foulon, 91140 Villebon-sur-Yvette</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">12</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">CEA</td>
+                                    <td data-toggle="modal" data-target="#myModal">Centre d'Etudes, 91190 Gif-sur-Yvette</td>
+                                    <td data-toggle="modal" data-target="#myModal">12</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal">21</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">MAAF</td>
+                                    <td data-toggle="modal" data-target="#myModal">1 rue de Chartres, 91400 Orsay</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">60</td>
+                                    <td data-toggle="modal" data-target="#myModal">2</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">Matmut</td>
+                                    <td data-toggle="modal" data-target="#myModal">41 boulevard Dubreuil, 91400 Orsay</td>
+                                    <td data-toggle="modal" data-target="#myModal">3</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">12</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">MAIF</td>
+                                    <td data-toggle="modal" data-target="#myModal">37 boulevard Dubreuil, 91400 Orsay</td>
+                                    <td data-toggle="modal" data-target="#myModal">5</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal">49</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">La Chocolatine</td>
+                                    <td data-toggle="modal" data-target="#myModal">55 rue de Paris, 91400 Orsay</td>
+                                    <td data-toggle="modal" data-target="#myModal">7</td>
+                                    <td data-toggle="modal" data-target="#myModal">3</td>
+                                    <td data-toggle="modal" data-target="#myModal">11</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></td>
+                                </tr>
+                                <tr>
+                                    <td data-toggle="modal" data-target="#myModal">Le Moulin de Gasny</td>
+                                    <td data-toggle="modal" data-target="#myModal">12 rue Boursier, 91400 Orsay</td>
+                                    <td data-toggle="modal" data-target="#myModal">15</td>
+                                    <td data-toggle="modal" data-target="#myModal">5</td>
+                                    <td data-toggle="modal" data-target="#myModal">15</td>
+                                    <td data-toggle="modal" data-target="#myModal">1</td>
+                                    <td data-toggle="modal" data-target="#myModal2"><i class="fa fa-times-circle"></i></>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                            <!-- Modal -->
+                        <div class="modal fade" id="myModal2" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="ibox-title background_admin div-center">
+                                    ModalVIew Supprimer TItle
+                                </div>
+                                <div class="ibox-content">
+                                    ModalVIew Supprimer Content
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="ibox-title background_admin div-center">
+                                    <h5 class="text-white inline">@Messages("setClient")</h5>
+                                    <div class="ibox-tools">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <i class="fa fa-times"/>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 b-r">
+                                            <form class="form-horizontal" id="clientForm">
+                                                <div class="form-group">
+                                                    <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formClientName">@Messages("formClientName")</label>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formClientName" class="form-control"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formClientAdress">@Messages("adress")</label>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formClientAdress" class="form-control"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formZipCode">@Messages("formZipCode")</label>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formZipCode" class="form-control"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formCity">@Messages("formCity")</label>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formCity" class="form-control"></div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formCountry">@Messages("formCountry")</label>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formCountry" class="form-control"></div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-5 col-md-5 col-sm-5 control-label">@Messages("priority")</label>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7">
+                                                        <div class="radio radio-inline radio-danger">
+                                                            <input type="radio" id="inlineRadio1" value="option1" name="radioInline" checked="">
+                                                            <label for="inlineRadio1">1</label>
+                                                        </div>
+                                                        <div class="radio radio-inline radio-danger">
+                                                            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
+                                                            <label for="inlineRadio2">2</label>
+                                                        </div>
+                                                        <div class="radio radio-inline radio-danger">
+                                                            <input type="radio" id="inlineRadio3" value="option3" name="radioInline">
+                                                            <label for="inlineRadio3">3</label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-center">
+                                                <h3 class="inline">@Messages("projects")</h3>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 vertical-scroll">
+                                                    <ul class="col-lg-12 col-md-12 col-sm-12 list-group">
+                                                        <li class="list-group-item col-sm-12 col-xs-12">
+                                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">Projet 1</div>
+
+                                                                <!--TODO modalview archiverProjet-->
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
+                                                        </li>
+                                                        <li class="list-group-item col-sm-12 col-xs-12">
+                                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">Projet 2</div>
+
+                                                                <!--TODO modalview archiverProjet-->
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
+                                                        </li>
+                                                        <li class="list-group-item col-sm-12 col-xs-12">
+                                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">Projet 3</div>
+
+                                                                <!--TODO modalview archiverProjet-->
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div-center">
+                                                <h4 class="inline">@Messages("addContact")</h4>
+                                                <form class="form-horizontal" id="contactForm">
+                                                    <div class="form-group">
+                                                        <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formLastName">@Messages("formLastName")</label>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formLastName" class="form-control"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formFirstName">@Messages("formFirstName")</label>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formFirstName" class="form-control"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formEmail">@Messages("formEmail")</label>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formEmail" class="form-control"></div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-lg-5 col-md-5 col-sm-5 control-label" for="formTel" >@Messages("formTel")</label>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7"><input type="text" id="formTel" class="form-control"></div>
+                                                    </div>
+                                                </form>
+                                                <button class="btn btn-admin inline" type="submit" form="contactForm">
+                                                    <i class="fa fa-plus-square"></i>  @Messages("add")
+                                                </button>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 vertical-scroll margin-top-10">
+                                                <ul class="list-group col-lg-12 col-md-12 col-sm-12">
+                                                    <li class="list-group-item col-sm-12 col-xs-12">
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">Contact client 1</div>
+
+                                                            <!--TODO modalview archiverContact-->
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
+                                                    </li>
+                                                    <li class="list-group-item col-sm-12 col-xs-12">
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">Contact client 2</div>
+
+                                                            <!--TODO modalview archiverContact-->
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
+                                                    </li>
+                                                    <li class="list-group-item col-sm-12 col-xs-12">
+                                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">Contact client 3</div>
+
+                                                            <!--TODO modalview archiverContact-->
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 div-center margin-top-10">
+
+                                                <!--TODO modalview Valider (check contacts & projet & champs -->
+                                            <button class="btn btn-admin inline" type="submit" form="clientForm">
+                                                <i class="fa fa-check-square">  @Messages("validate")</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                </div>
 
+
+                </div>
             </div>
 
             <div class="footer">

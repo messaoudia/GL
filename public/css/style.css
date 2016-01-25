@@ -35,11 +35,20 @@
 
 }
 
-/* MODAL VIEW TACHE */
-.icon-modal-tache{
-  margin-right : 3px;
+/** MODAL VIEW TACHE **/
 
+.btn-interlocuteurs-externes{
+  margin-right:5px;
 }
+
+.btn-interlocuteurs-externes > .fa-envelope {
+  color:#676A6C;
+}
+
+.btn-interlocuteurs-externes > .fa-envelope:hover {
+  color:black;
+}
+
 .description-modal-tache{
   max-height:100px;
   overflow:auto;
@@ -49,6 +58,11 @@
   font-size:15px;
   font-weight : bold;
   margin-right:6px;
+}
+
+.id-tache-modal > a {
+  margin-left : 5px;
+  margin-right : 5px;
 }
 
 .id-tache-modal > i{
@@ -68,6 +82,44 @@
 }
 
 /* TDB */
+
+.icon-notif-tdb > a > i{
+  font-size: 15px;
+}
+
+.id-tache-modal > a > .fa-trash{
+  color:red;
+}
+
+.id-tache-modal > a > .fa-trash:hover {
+  color: #e80000;
+}
+
+.id-tache-modal > a > .fa-pencil{
+  color:#05B496;
+}
+
+.id-tache-modal > a > .fa-pencil:hover{
+  color: #05997f;
+}
+
+
+.id-tache-modal > a > .fa-bell,
+.icon-notif-tdb > a > .fa-bell {
+  color:#676A6C;
+}
+
+.id-tache-modal > a > .fa-bell-slash,
+.icon-notif-tdb > a > .fa-bell-slash {
+  color : #bdc3c7;
+}
+
+.id-tache-modal > a > .fa-bell:hover,
+.id-tache-modal > a > .fa-bell-slash:hover,
+.icon-notif-tdb > a > .fa-bell:hover,
+.icon-notif-tdb > a > .fa-bell-slash:hover {
+  color : #95a5a6;
+}
 
 .row-options-tdb{
   margin : 0px -20px 12px -20px;
@@ -814,6 +866,24 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-primary.active:focus {
   background-color: #18a689;
   border-color: #18a689;
+  color: #FFFFFF;
+}
+.btn-admin {
+  background-color: #f35454;
+  border-color: #f35454;
+  color: #FFFFFF;
+}
+.btn-admin:hover,
+.btn-admin:focus,
+.btn-admin:active,
+.btn-admin.active,
+.open .dropdown-toggle.btn-admin,
+.btn-admin:active:focus,
+.btn-admin:active:hover,
+.btn-admin.active:hover,
+.btn-admin.active:focus {
+  background-color: #f32d2a;
+  border-color: #f32d2a;
   color: #FFFFFF;
 }
 .btn-primary:active,
@@ -3972,6 +4042,9 @@ table.table-mail tr td {
 }
 .white-bg {
   background-color: #ffffff;
+}
+.admin-bg{
+  background-color: #c1392b;
 }
 .navy-bg {
   background-color: #1ab394;
@@ -7807,7 +7880,8 @@ body.boxed-layout.skin-3 #wrapper {
 .skin-3 .nav > li.active {
   background: #38283c;
 }
-.fixed-nav.skin-3 .navbar-fixed-top {
+.fixed-nav.skin-3 .navbar-fixed-top,
+.fixed-nav.skin-3 .navbar-fixed-top-admin{
   background: #fff;
 }
 .skin-3 .nav > li > a {
@@ -8050,15 +8124,22 @@ body.md-skin {
   -o-transition: all 0.4s;
   transition: all 0.4s;
 }
-.md-skin .navbar-fixed-top {
+.md-skin .navbar-fixed-top,
+.md-skin .navbar-fixed-top-admin {
   background: #fff;
   transition-duration: 0.4s;
   z-index: 2030;
   border-bottom: none !important;
 }
+
 .md-skin .navbar-fixed-top,
 .md-skin .navbar-static-top {
   background-color: #1ab394 !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+.md-skin .navbar-fixed-top-admin,
+.md-skin .navbar-static-top-admin {
+  background-color: #c1392b !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 .md-skin .navbar-static-side {
@@ -8070,7 +8151,8 @@ body.md-skin {
   z-index: 900;
 }
 .md-skin .white-bg .navbar-fixed-top,
-.md-skin .white-bg .navbar-static-top {
+.md-skin .white-bg .navbar-static-top,
+.md-skin .white-bg .navbar-fixed-top-admin{
   background: #fff !important;
 }
 .md-skin .contact-box {
@@ -8310,4 +8392,60 @@ body.md-skin {
   .welcome-message {
     display: none;
   }
+}
+
+.background_admin{
+  background-color: #f35454;
+}
+
+.radiobuttongroup {
+  display: inline-block;
+  text-align: center;
+}
+.radiobuttongroup label {
+  display: block;
+}
+.radiobuttongroup label input[type="radio"] {
+  display: block;
+  margin: 0.5em auto;
+}
+
+.vertical-scroll{
+  height: 90px; /* %-height of the viewport */
+  overflow-y: scroll;
+  float: right;
+}
+
+.vertical-scroll-user{
+  height: 100px; /* %-height of the viewport */
+  overflow-y: scroll;
+  float: right;
+}
+.z-index-3{
+  z-index: 3;
+}
+
+.div-center{
+  width: 100%;
+  text-align: center;
+}
+
+.margin-top-10{
+  margin-top: 10px;
+}
+
+.md-skin .nav-header-admin {
+  background: url("patterns/theme-admin.jpg") no-repeat;
+}
+
+.btn-user {
+  background-color: #5cb75c;
+  border-color: #5cb75c;
+  color: #FFFFFF;
+}
+
+.btn-user:hover, .btn-user:focus, .btn-user:active, .btn-user.active, .open .dropdown-toggle.btn-warning, .btn-user:active:focus, .btn-user:active:hover, .btn-user.active:hover, .btn-user.active:focus {
+  background-color: #38b733;
+  border-color: #38b733;
+  color: #FFFFFF;
 }
