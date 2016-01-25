@@ -7828,7 +7828,8 @@ body.boxed-layout.skin-3 #wrapper {
 .skin-3 .nav > li.active {
   background: #38283c;
 }
-.fixed-nav.skin-3 .navbar-fixed-top {
+.fixed-nav.skin-3 .navbar-fixed-top,
+.fixed-nav.skin-3 .navbar-fixed-top-admin{
   background: #fff;
 }
 .skin-3 .nav > li > a {
@@ -8071,17 +8072,20 @@ body.md-skin {
   -o-transition: all 0.4s;
   transition: all 0.4s;
 }
-.md-skin .navbar-fixed-top {
+.md-skin .navbar-fixed-top,
+.md-skin .navbar-fixed-top-admin {
   background: #fff;
   transition-duration: 0.4s;
   z-index: 2030;
   border-bottom: none !important;
 }
+
 .md-skin .navbar-fixed-top,
 .md-skin .navbar-static-top {
   background-color: #1ab394 !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
+.md-skin .navbar-fixed-top-admin,
 .md-skin .navbar-static-top-admin {
   background-color: #c1392b !important;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -8095,7 +8099,8 @@ body.md-skin {
   z-index: 900;
 }
 .md-skin .white-bg .navbar-fixed-top,
-.md-skin .white-bg .navbar-static-top {
+.md-skin .white-bg .navbar-static-top,
+.md-skin .white-bg .navbar-fixed-top-admin{
   background: #fff !important;
 }
 .md-skin .contact-box {
@@ -8366,4 +8371,8 @@ body.md-skin {
 
 .margin-top-10{
   margin-top: 10;
+}
+
+.md-skin .nav-header-admin {
+  background: url("patterns/theme-admin.jpg") no-repeat;
 }

@@ -12,6 +12,22 @@
 
                     eval("jsRoutes.controllers."+controler).ajax({
                         success: function(html) {
+                            if(controler.substring(0,15) === 'AdminController'){
+                                var navBarTop = document.getElementById('navBarTop');
+                                $(navBarTop).addClass('navbar-fixed-top-admin');
+                                var menuButton = document.getElementById('menuButton');
+                                $(menuButton).addClass('btn-danger');
+                                var navHeader = document.getElementById('nav-header');
+                                $(navHeader).addClass('nav-header-admin');
+
+                            }else{
+                                var navBarTop = document.getElementById('navBarTop');
+                                $(navBarTop).removeClass('navbar-fixed-top-admin');
+                                var menuButton = document.getElementById('menuButton');
+                                $(menuButton).removeClass('btn-danger');
+                                var navHeader = document.getElementById('nav-header');
+                                $(navHeader).removeClass('nav-header-admin');
+                            }
                             var result = $('#refresh',html);
                             $('#refresh').empty().html(result);
                         },
@@ -75,7 +91,7 @@
             <nav class="navbar-default navbar-static-side ng-scope" role="navigation">
                 <div id="sidebar" class="sidebar-collapse">
                     <ul class="nav metismenu" id="side-menu">
-                        <li class="nav-header">
+                        <li id="nav-header" class="nav-header">
                             <div>
                                 <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
                                 <span class="block m-t-xs" style="color:white ;"> <strong class="font-bold">
@@ -134,9 +150,9 @@
 
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
-                <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+                <nav id="navBarTop" class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                        <a id="menuButton" class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i> </a>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
