@@ -12,12 +12,12 @@ create table Adresse (
   constraint pk_Adresse primary key (id))
 ;
 
-create table Clients (
+create table Client (
   id                        bigint not null,
   nom                       varchar(255),
-  importance                integer,
+  priorite                  integer,
   archiver                  boolean,
-  constraint pk_Clients primary key (id))
+  constraint pk_Client primary key (id))
 ;
 
 create table Notification (
@@ -29,6 +29,15 @@ create table Notification (
   etat_lecture              boolean,
   archiver                  boolean,
   constraint pk_Notification primary key (id))
+;
+
+create table Personne (
+  id                        bigint not null,
+  nom                       varchar(255),
+  prenom                    varchar(255),
+  mail                      varchar(255),
+  telephone                 varchar(255),
+  constraint pk_Personne primary key (id))
 ;
 
 create table Projet (
@@ -45,27 +54,33 @@ create table Projet (
   constraint pk_Projet primary key (id))
 ;
 
-create table Taches (
+create table Tache (
   id                        bigint not null,
   nom                       varchar(255),
   description               varchar(255),
   niveau                    integer,
+  critique                  boolean,
   date_debut                timestamp,
   date_fin_tot              timestamp,
   date_fin_tard             timestamp,
-  charge                    integer,
-  constraint pk_Taches primary key (id))
+  charge_initiale           integer,
+  charge_consommee          integer,
+  charge_totale             integer,
+  disponible                boolean,
+  constraint pk_Tache primary key (id))
 ;
 
 create sequence Adresse_seq;
 
-create sequence Clients_seq;
+create sequence Client_seq;
 
 create sequence Notification_seq;
 
+create sequence Personne_seq;
+
 create sequence Projet_seq;
 
-create sequence Taches_seq;
+create sequence Tache_seq;
 
 
 
@@ -76,23 +91,27 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists Adresse;
 
-drop table if exists Clients;
+drop table if exists Client;
 
 drop table if exists Notification;
 
+drop table if exists Personne;
+
 drop table if exists Projet;
 
-drop table if exists Taches;
+drop table if exists Tache;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists Adresse_seq;
 
-drop sequence if exists Clients_seq;
+drop sequence if exists Client_seq;
 
 drop sequence if exists Notification_seq;
 
+drop sequence if exists Personne_seq;
+
 drop sequence if exists Projet_seq;
 
-drop sequence if exists Taches_seq;
+drop sequence if exists Tache_seq;
 
