@@ -204,8 +204,21 @@
 }
 
 .panel-tdb > .panel-heading {
-  text-align:center;
-  font-weight : bold;
+   text-align:center;
+   font-weight : bold;
+ }
+
+.panel-tdb > .panel-body {
+  height:130px;
+  overflow:auto;
+}
+
+#bloc-notes-tdb{
+  color:black;
+  height:172px;
+  width:100%;
+  resize: none;
+
 }
 
 .panel-heading-normal {
