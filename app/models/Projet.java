@@ -24,29 +24,32 @@ public class Projet extends Model {
     public String nom;
     public String description;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateDebut;
+    public Date dateDebutTheorique;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateFin;
+    public Date dateFinTheorique;
+    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
+    public Date dateDebutReel;
+    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
+    public Date dateFinReel;
     public Integer chargeInitiale;
     public Byte avancementGlobal;
     public Boolean enCours;
     public Boolean archive;
-
     public Client client;
-
     @Constraints.Min(1)
     @Constraints.Max(3)
     public Integer priorite;
-
     public List<Task> listTasks;
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<Long, Projet>(Projet.class);
 
-    public Projet(String nom, String description, Date dateDebut, Date dateFin, Integer chargeInitiale, Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Task> listTasks) {
+    public Projet(String nom, String description, Date dateDebutTheorique, Date dateFinTheorique, Date dateDebutReel, Date dateFinReel, Integer chargeInitiale, Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Task> listTasks) {
         this.nom = nom;
         this.description = description;
-        this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
+        this.dateDebutTheorique = dateDebutTheorique;
+        this.dateFinTheorique = dateFinTheorique;
+        this.dateDebutReel = dateDebutReel;
+        this.dateFinReel = dateFinReel;
         this.chargeInitiale = chargeInitiale;
         this.avancementGlobal = avancementGlobal;
         this.enCours = enCours;
@@ -57,7 +60,6 @@ public class Projet extends Model {
     }
 
     public Long getId() {
-
         return id;
     }
 
@@ -81,20 +83,36 @@ public class Projet extends Model {
         this.description = description;
     }
 
-    public Date getDateDebut() {
-        return dateDebut;
+    public Date getDateDebutTheorique() {
+        return dateDebutTheorique;
     }
 
-    public void setDateDebut(Date dateDebut) {
-        this.dateDebut = dateDebut;
+    public void setDateDebutTheorique(Date dateDebutTheorique) {
+        this.dateDebutTheorique = dateDebutTheorique;
     }
 
-    public Date getDateFin() {
-        return dateFin;
+    public Date getDateFinTheorique() {
+        return dateFinTheorique;
     }
 
-    public void setDateFin(Date dateFin) {
-        this.dateFin = dateFin;
+    public void setDateFinTheorique(Date dateFinTheorique) {
+        this.dateFinTheorique = dateFinTheorique;
+    }
+
+    public Date getDateDebutReel() {
+        return dateDebutReel;
+    }
+
+    public void setDateDebutReel(Date dateDebutReel) {
+        this.dateDebutReel = dateDebutReel;
+    }
+
+    public Date getDateFinReel() {
+        return dateFinReel;
+    }
+
+    public void setDateFinReel(Date dateFinReel) {
+        this.dateFinReel = dateFinReel;
     }
 
     public Integer getChargeInitiale() {
