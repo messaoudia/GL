@@ -40,10 +40,13 @@ public class Task extends Model {
     @Constraints.Min(0)
     public Integer chargeTotale;
     public Boolean disponible;
+	
+	
+    public List<Personne> interlocuteurs;
 
     public static Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
 
-    public Task(String nom, String description, Integer niveau, Boolean critique, Date dateDebut, Date dateFinTot, Date dateFinTard, Integer chargeInitiale, Integer chargeConsommee, Integer chargeTotale, Boolean disponible) {
+    public Task(String nom, String description, Integer niveau, Boolean critique, Date dateDebut, Date dateFinTot, Date dateFinTard, Integer chargeInitiale, Integer chargeConsommee, Integer chargeTotale, Boolean disponible,List<Personne> interlocuteurs) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -55,6 +58,7 @@ public class Task extends Model {
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
         this.disponible = disponible;
+		this.interlocuteurs = interlocuteurs;
     }
 
     public Long getId() {
@@ -153,6 +157,16 @@ public class Task extends Model {
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
     }
+	
+	public List<Personne> getInterlocuteurs() {
+        return interlocuteurs;
+    }
+
+    public void setInterlocuteurs(List<Personne> interlocuteurs) {
+        this.interlocuteurs = interlocuteurs;
+    }
+	
+	
 
     /**
      * Create a task
