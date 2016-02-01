@@ -31,44 +31,8 @@ public class Adresse extends Model {
         this.pays = pays;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "[Adresse : "+id+"] : "+adresse+", "+zipCode+", "+ville+", "+pays;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getVille() {
-        return ville;
-    }
-
-    public void setVille(String ville) {
-        this.ville = ville;
-    }
-
-    public String getPays() {
-        return pays;
-    }
-
-    public void setPays(String pays) {
-        this.pays = pays;
-    }
-
 }

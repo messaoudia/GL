@@ -2,7 +2,6 @@ package models;
 
 import com.avaje.ebean.Model;
 import play.data.format.Formats;
-import play.data.validation.Constraints;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,61 +35,5 @@ public class Notification extends Model{
         this.link = link;
         this.etatLecture = etatLecture;
         this.archiver = archiver;
-    }
-
-    public Boolean getArchiver() {
-        return archiver;
-    }
-
-    public void setArchiver(Boolean archiver) {
-        this.archiver = archiver;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContentNotification() {
-        return contentNotification;
-    }
-
-    public void setContentNotification(String contentNotification) {
-        this.contentNotification = contentNotification;
-    }
-
-    public Date getDateEnvoi() {
-        return dateEnvoi;
-    }
-
-    public void setDateEnvoi(Date dateEnvoi) {
-        this.dateEnvoi = dateEnvoi;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public Boolean getEtatLecture() {
-        return etatLecture;
-    }
-
-    public void setEtatLecture(Boolean etatLecture) {
-        this.etatLecture = etatLecture;
     }
 }

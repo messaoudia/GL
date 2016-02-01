@@ -40,8 +40,6 @@ public class Task extends Model {
     @Constraints.Min(0)
     public Integer chargeTotale;
     public Boolean disponible;
-	
-	
     public List<Personne> interlocuteurs;
 
     public static Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
@@ -60,113 +58,6 @@ public class Task extends Model {
         this.disponible = disponible;
 		this.interlocuteurs = interlocuteurs;
     }
-
-    public Long getId() {
-
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getNiveau() {
-        return niveau;
-    }
-
-    public void setNiveau(Integer niveau) {
-        this.niveau = niveau;
-    }
-
-    public Boolean getCritique() {
-        return critique;
-    }
-
-    public void setCritique(Boolean critique) {
-        this.critique = critique;
-    }
-
-    public Date getDateDebut() {
-        return dateDebut;
-    }
-
-    public void setDateDebut(Date dateDebut) {
-        this.dateDebut = dateDebut;
-    }
-
-    public Date getDateFinTot() {
-        return dateFinTot;
-    }
-
-    public void setDateFinTot(Date dateFinTot) {
-        this.dateFinTot = dateFinTot;
-    }
-
-    public Date getDateFinTard() {
-        return dateFinTard;
-    }
-
-    public void setDateFinTard(Date dateFinTard) {
-        this.dateFinTard = dateFinTard;
-    }
-
-    public Integer getChargeInitiale() {
-        return chargeInitiale;
-    }
-
-    public void setChargeInitiale(Integer chargeInitiale) {
-        this.chargeInitiale = chargeInitiale;
-    }
-
-    public Integer getChargeConsommee() {
-        return chargeConsommee;
-    }
-
-    public void setChargeConsommee(Integer chargeConsommee) {
-        this.chargeConsommee = chargeConsommee;
-    }
-
-    public Integer getChargeTotale() {
-        return chargeTotale;
-    }
-
-    public void setChargeTotale(Integer chargeTotale) {
-        this.chargeTotale = chargeTotale;
-    }
-
-    public Boolean getDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
-    }
-	
-	public List<Personne> getInterlocuteurs() {
-        return interlocuteurs;
-    }
-
-    public void setInterlocuteurs(List<Personne> interlocuteurs) {
-        this.interlocuteurs = interlocuteurs;
-    }
-	
-	
 
     /**
      * Create a task

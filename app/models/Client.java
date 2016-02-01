@@ -2,12 +2,12 @@ package models;
 
 import com.avaje.ebean.Model;
 import play.data.validation.Constraints;
-import scala.collection.immutable.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 /**
  * Created by Gishan on 04/01/2016.
@@ -31,7 +31,7 @@ public class Client extends Model{
 
     public static Model.Finder<Long, Client> find = new Model.Finder<Long, Client>(Client.class);
 
-    public void creeClient(Client client){
+    public static void creeClient(Client client){
         client.save();
     }
 
@@ -44,59 +44,4 @@ public class Client extends Model{
         this.listeProjets = listeProjets;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Integer getPriorite() {
-        return priorite;
-    }
-
-    public void setPriorite(Integer priorite) {
-        this.priorite = priorite;
-    }
-
-    public Boolean getArchiver() {
-        return archiver;
-    }
-
-    public void setArchiver(Boolean archiver) {
-        this.archiver = archiver;
-    }
-
-    public Adresse getAdresseClient() {
-        return adresseClient;
-    }
-
-    public void setAdresseClient(Adresse adresseClient) {
-        this.adresseClient = adresseClient;
-    }
-
-    public List<Personne> getListeContacts() {
-        return listeContacts;
-    }
-
-    public void setListeContacts(List<Personne> listeContacts) {
-        this.listeContacts = listeContacts;
-    }
-
-    public List<Projet> getListeProjets() {
-        return listeProjets;
-    }
-
-    public void setListeProjets(List<Projet> listeProjets) {
-        this.listeProjets = listeProjets;
-    }
 }
