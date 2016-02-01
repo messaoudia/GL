@@ -29,6 +29,22 @@
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
 
+
+        <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+        <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
+        <link href="/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link href="/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+        <link href="/css/plugins/switchery/switchery.css" rel="stylesheet">
+        <link href="/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+        <link href="/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
+        <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+        <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+        <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+        <link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+        <link href="/css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+        <link href="/css/plugins/select2/select2.min.css" rel="stylesheet">
+
+
     </head>
 
     <body class="md-skin fixed-sidebar fixed-nav pace-done">
@@ -84,17 +100,72 @@
         <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
         <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
 
-
+        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
 
 
             <!--########### Start - Custom Script Call  ########### -->
+            <!-- Chosen -->
+        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
+            <!-- JSKnob -->
+        <script src="/js/plugins/jsKnob/jquery.knob.js"></script>
+
+            <!-- Input Mask-->
+        <script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+            <!-- Data picker -->
+        <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+            <!-- NouSlider -->
+        <script src="/js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+            <!-- Switchery -->
+        <script src="/js/plugins/switchery/switchery.js"></script>
+
+            <!-- IonRangeSlider -->
+        <script src="/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+            <!-- iCheck -->
+        <script src="/js/plugins/iCheck/icheck.min.js"></script>
+
+            <!-- MENU -->
+        <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+            <!-- Color picker -->
+        <script src="/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+            <!-- Clock picker -->
+        <script src="/js/plugins/clockpicker/clockpicker.js"></script>
+
+            <!-- Image cropper -->
+        <script src="/js/plugins/cropper/cropper.min.js"></script>
+
+            <!-- Date range use moment.js same as full calendar plugin -->
+        <script src="/js/plugins/fullcalendar/moment.min.js"></script>
+
+            <!-- Date range picker -->
+        <script src="/js/plugins/daterangepicker/daterangepicker.js"></script>
+
+            <!-- Select2 -->
+        <script src="/js/plugins/select2/select2.full.min.js"></script>
         @scripts
         <script>
                 $(document).ready(function () {
                     $('.dataTables-example').DataTable();
+
+                    var config = {
+                        '.chosen-select'           : {},
+                        '.chosen-select-deselect'  : {allow_single_deselect:true},
+                        '.chosen-select-no-single' : {disable_search_threshold:10},
+                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                        '.chosen-select-width'     : {width:"95%"}
+                    }
+                    for (var selector in config) {
+                        $(selector).chosen(config[selector]);
+                    }
+
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -108,6 +179,10 @@
                 $( document ).ajaxComplete(function() {
                     $('#modal-tdb-tache').modal();
                 });
+
+
+
+
 
 
                 /*
