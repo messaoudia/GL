@@ -37,6 +37,28 @@
 
 /** MODAL VIEW TACHE **/
 
+.list-task {
+  max-height:81px;
+  overflow:auto;
+}
+.list-task > table{
+  width:100%;
+}
+
+.list-task > table > tbody > tr {
+  height:40px;
+}
+
+.id-task{
+  background-color:#F1F1F1; 
+  width:40px;
+  text-align: center;
+}
+
+.name-task{
+  padding-left:10px;
+}
+
 .btn-interlocuteurs-externes{
   margin-right:5px;
 }
@@ -52,6 +74,7 @@
 .description-modal-tache{
   max-height:100px;
   overflow:auto;
+  background-color:#F1F1F1;
 }
 
 .id-tache-modal{
