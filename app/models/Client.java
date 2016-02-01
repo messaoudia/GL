@@ -44,4 +44,29 @@ public class Client extends Model{
         this.listeProjets = listeProjets;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Client : ");
+        sb.append(id);
+        sb.append("] : Priority");
+        sb.append(priorite);
+        sb.append(", archived");
+        sb.append(archiver);
+        sb.append(", adress \n");
+        sb.append(adresseClient);
+        sb.append("\n, ListClients :");
+        for (Personne personne : listeContacts) {
+            sb.append("\n");
+            sb.append(personne);
+            sb.append("\n");
+        }
+        sb.append("\n, ListProjets :");
+        for (Projet projet : listeProjets) {
+            sb.append("\n");
+            sb.append(projet);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }

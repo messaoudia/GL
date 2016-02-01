@@ -36,4 +36,25 @@ public class Notification extends Model{
         this.etatLecture = etatLecture;
         this.archiver = archiver;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Notification : ");
+        sb.append(id);
+        sb.append("] : ");
+        sb.append(title);
+        sb.append(", ");
+        sb.append(dateEnvoi);
+        sb.append(", ");
+        sb.append(link);
+        sb.append(", etatLecture ");
+        sb.append(etatLecture);
+        sb.append(", archiver ");
+        sb.append(archiver);
+        sb.append(", contentNotification \n");
+        sb.append(contentNotification);
+        sb.append("\n");
+        return sb.toString();
+    }
 }

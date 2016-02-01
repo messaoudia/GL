@@ -32,4 +32,20 @@ public class Personne extends Model{
         this.mail = mail;
         this.telephone = telephone;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Personne : ");
+        sb.append(id);
+        sb.append("] : ");
+        sb.append(nom);
+        sb.append(", ");
+        sb.append(prenom);
+        sb.append(", ");
+        sb.append(mail);
+        sb.append(", ");
+        sb.append(telephone);
+        return sb.toString();
+    }
 }

@@ -58,4 +58,43 @@ public class Projet extends Model {
         this.priorite = priorite;
         this.listTasks = listTasks;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Projet : ");
+        sb.append(id);
+        sb.append("] : ");
+        sb.append(nom);
+        sb.append(", ");
+        sb.append(description);
+        sb.append("\nDebutTH :");
+        sb.append(dateDebutTheorique);
+        sb.append("\nFinTH :");
+        sb.append(dateFinTheorique);
+        sb.append("\nFinTH :");
+        sb.append(dateDebutReel);
+        sb.append("\nFinRE :");
+        sb.append(dateFinReel);
+        sb.append("\nChargeInitiale :");
+        sb.append(chargeInitiale);
+        sb.append("\nAvancement (%) :");
+        sb.append(avancementGlobal);
+        sb.append("\nEn cours :");
+        sb.append(enCours);
+        sb.append("\narchive :");
+        sb.append(archive);
+        sb.append("\nPriorite :");
+        sb.append(enCours);
+        sb.append("\n");
+        sb.append(client);
+        if(listTasks != null) {
+            for (Task task : listTasks) {
+                sb.append("\n");
+                sb.append(task);
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }
