@@ -9,6 +9,31 @@
 */
 
 /*
+INDEX DEBUT
+*/
+.country-flag {
+    width: 23px;height: 17px;
+}
+
+.popover.fade.bottom.in {
+    z-index: 3000;
+}
+
+.logo-eu {
+    border-radius: 50%;
+    color : #FFFFFF;
+    width: 20px;
+    height: 20px;
+    background-color: #1AB394;
+    text-align: center;
+    line-height: 20px;
+}
+
+/*
+INDEX FIN
+*/
+
+/*
   PAGE PROJET CSS DEBUT
 */
 .header-text {
@@ -25,11 +50,17 @@
     display: inline-block;
 }
 
+.sous-tache-1 {
+  width: 6px;
+  height: 100%;
+  background-color: #E7EAEC;
+}
+
 .date-projet {
     width: 95px;
     height: 25px;
     line-height: 25px;
-    background: #16a07c;
+    background: #1AB394;
     text-align: center;
     color: #FFFFFF;
     display: inline-block;
@@ -38,7 +69,7 @@
 }
 
 #header-milieu {
-    left: 50px;
+    left: 2%;
 }
 
 .description {
@@ -47,6 +78,45 @@
     border-radius: 3px;
     border: 1px solid #dce1e2;
     resize: none;
+}
+
+.sidebar-projet {
+    margin: 5px;
+    background-color: #ecf0f1;
+    width: 100%;
+    float: left;
+    text-align: center;
+    border-left: 6px solid #ecf0f1;
+}
+
+.sidebar-projet.select {
+    border-left: 6px solid #1AB394;
+}
+
+.sidebar-projet-nom {
+    padding-top: 15px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.sidebar-client-priorite {
+    float:right;
+    padding-right: 8px;
+    width: 20px; height: 20px;
+    background-color: #9f9f9f;
+    color: #ffffff;
+    text-align: center;
+}
+
+.sidebar-client-priorite > .valeur {
+    padding-left: 50%;
+    line-height: 20px;
+}
+
+.sidebar-footer {
+    bottom: 0;
+    border-top: 3px solid #19aa8d;
+    text-align: center;
 }
 
 /*
