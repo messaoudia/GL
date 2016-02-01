@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -24,13 +25,13 @@ public class Projet extends Model {
     public String nom;
     public String description;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateDebutTheorique;
+    public LocalDate dateDebutTheorique;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateFinTheorique;
+    public LocalDate dateFinTheorique;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateDebutReel;
+    public LocalDate dateDebutReel;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateFinReel;
+    public LocalDate dateFinReel;
     public Integer chargeInitiale;
     public Byte avancementGlobal;
     public Boolean enCours;
@@ -41,9 +42,9 @@ public class Projet extends Model {
     public Integer priorite;
     public List<Task> listTasks;
 
-    public static Model.Finder<Long, Projet> find = new Model.Finder<Long, Projet>(Projet.class);
+    public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
-    public Projet(String nom, String description, Date dateDebutTheorique, Date dateFinTheorique, Date dateDebutReel, Date dateFinReel, Integer chargeInitiale, Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Task> listTasks) {
+    public Projet(String nom, String description, LocalDate dateDebutTheorique, LocalDate dateFinTheorique, LocalDate dateDebutReel, LocalDate dateFinReel, Integer chargeInitiale, Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Task> listTasks) {
         this.nom = nom;
         this.description = description;
         this.dateDebutTheorique = dateDebutTheorique;

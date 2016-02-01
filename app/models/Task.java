@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -28,11 +29,11 @@ public class Task extends Model {
     public Integer niveau;
     public Boolean critique;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateDebut = new Date();
+    public LocalDate dateDebut;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateFinTot = new Date();
+    public LocalDate dateFinTot;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public Date dateFinTard = new Date();
+    public LocalDate dateFinTard;
     @Constraints.Min(0)
     public Integer chargeInitiale;
     @Constraints.Min(0)
@@ -42,9 +43,9 @@ public class Task extends Model {
     public Boolean disponible;
     public List<Personne> interlocuteurs;
 
-    public static Finder<Long, Task> find = new Finder<Long, Task>(Task.class);
+    public static Finder<Long, Task> find = new Finder<>(Task.class);
 
-    public Task(String nom, String description, Integer niveau, Boolean critique, Date dateDebut, Date dateFinTot, Date dateFinTard, Integer chargeInitiale, Integer chargeConsommee, Integer chargeTotale, Boolean disponible,List<Personne> interlocuteurs) {
+    public Task(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut, LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee, Integer chargeTotale, Boolean disponible,List<Personne> interlocuteurs) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
