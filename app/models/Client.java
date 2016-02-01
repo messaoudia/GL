@@ -29,7 +29,7 @@ public class Client extends Model{
     public List<Personne> listeContacts;
     public List<Projet> listeProjets;
 
-    public static Model.Finder<Long, Client> find = new Model.Finder<Long, Client>(Client.class);
+    public static Model.Finder<Long, Client> find = new Model.Finder<>(Client.class);
 
     public static void creeClient(Client client){
         client.save();

@@ -23,7 +23,7 @@ public class Adresse extends Model {
     public String ville;
     public String pays;
 
-    public static Model.Finder<Long, Adresse> find = new Model.Finder<Long, Adresse>(Adresse.class);
+    public static Model.Finder<Long, Adresse> find = new Model.Finder<>(Adresse.class);
 
     public Adresse(){}
 

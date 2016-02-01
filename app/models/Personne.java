@@ -24,7 +24,7 @@ public class Personne extends Model{
     public String mail;
     public String telephone;
 
-    public static Model.Finder<Long, Personne> find = new Model.Finder<Long, Personne>(Personne.class);
+    public static Model.Finder<Long, Personne> find = new Model.Finder<>(Personne.class);
 
     public Personne(String nom, String prenom, String mail, String telephone) {
         this.nom = nom;

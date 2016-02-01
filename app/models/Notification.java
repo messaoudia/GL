@@ -26,7 +26,7 @@ public class Notification extends Model{
     public String link;
     public Boolean etatLecture;
     public Boolean archiver;
-    public static Model.Finder<Long, Notification> find = new Model.Finder<Long, Notification>(Notification.class);
+    public static Model.Finder<Long, Notification> find = new Model.Finder<>(Notification.class);
 
     public Notification(String title, String contentNotification, Date dateEnvoi, String link, Boolean etatLecture, Boolean archiver) {
         this.title = title;
