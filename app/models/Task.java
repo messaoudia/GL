@@ -45,7 +45,9 @@ public class Task extends Model {
 
     public static Finder<Long, Task> find = new Finder<>(Task.class);
 
-    public Task(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut, LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee, Integer chargeTotale, Boolean disponible,List<Personne> interlocuteurs) {
+    public Task(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut,
+                LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
+                Integer chargeTotale, Boolean disponible,List<Personne> interlocuteurs) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;

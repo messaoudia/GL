@@ -33,6 +33,9 @@ public class Personne extends Model{
         this.telephone = telephone;
     }
 
+    public Personne() {
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

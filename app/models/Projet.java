@@ -41,10 +41,13 @@ public class Projet extends Model {
     @Constraints.Max(3)
     public Integer priorite;
     public List<Task> listTasks;
+    public UniteProjetEnum unite;
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
-    public Projet(String nom, String description, LocalDate dateDebutTheorique, LocalDate dateFinTheorique, LocalDate dateDebutReel, LocalDate dateFinReel, Integer chargeInitiale, Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Task> listTasks) {
+    public Projet(String nom, String description, LocalDate dateDebutTheorique, LocalDate dateFinTheorique,
+                  LocalDate dateDebutReel, LocalDate dateFinReel, Integer chargeInitiale, UniteProjetEnum unite,
+                  Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Task> listTasks) {
         this.nom = nom;
         this.description = description;
         this.dateDebutTheorique = dateDebutTheorique;
@@ -52,12 +55,16 @@ public class Projet extends Model {
         this.dateDebutReel = dateDebutReel;
         this.dateFinReel = dateFinReel;
         this.chargeInitiale = chargeInitiale;
+        this.unite = unite;
         this.avancementGlobal = avancementGlobal;
         this.enCours = enCours;
         this.archive = archive;
         this.client = client;
         this.priorite = priorite;
         this.listTasks = listTasks;
+    }
+
+    public Projet() {
     }
 
     @Override
@@ -69,26 +76,28 @@ public class Projet extends Model {
         sb.append(nom);
         sb.append(", ");
         sb.append(description);
-        sb.append("\nDebutTH :");
+        sb.append("\nDebutTH : ");
         sb.append(dateDebutTheorique);
-        sb.append("\nFinTH :");
+        sb.append(", FinTH : ");
         sb.append(dateFinTheorique);
-        sb.append("\nFinTH :");
+        sb.append(", FinTH : ");
         sb.append(dateDebutReel);
-        sb.append("\nFinRE :");
+        sb.append(", FinRE : ");
         sb.append(dateFinReel);
-        sb.append("\nChargeInitiale :");
+        sb.append("\nChargeInitiale : ");
         sb.append(chargeInitiale);
-        sb.append("\nAvancement (%) :");
+        sb.append(", Avancement (%) : ");
         sb.append(avancementGlobal);
-        sb.append("\nEn cours :");
+        sb.append(", En cours : ");
         sb.append(enCours);
-        sb.append("\narchive :");
+        sb.append(", archive : ");
         sb.append(archive);
-        sb.append("\nPriorite :");
-        sb.append(enCours);
+        sb.append(", Priorite :");
+        sb.append(priorite);
         sb.append("\n");
-        sb.append(client);
+        if(client != null){
+            sb.append(client);
+        }
         if(listTasks != null) {
             for (Task task : listTasks) {
                 sb.append("\n");
