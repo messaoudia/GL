@@ -104,6 +104,13 @@
   margin-bottom : 5px;
 }
 
+.date{
+
+    background-color: #1AB394;
+    text-align: center;
+    color: #FFFFFF;
+}
+
 /* TDB */
 
 .icon-notif-tdb > a > i{
