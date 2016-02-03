@@ -36,26 +36,17 @@ public class Adresse extends Model {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[Adresse : ");
-        sb.append(id);
-        sb.append("] : ");
-        sb.append(adresse);
-        sb.append(", ");
-        sb.append(zipCode);
-        sb.append(", ");
-        sb.append(ville);
-        sb.append(", ");
-        sb.append(pays);
-        return sb.toString();
+        return "[Adresse : " + id + "] : " +
+                adresse + ", " + zipCode + ", " +
+                ville + ", " + pays;
     }
 
-    public static List all() {
+    public static List<Adresse> all() {
         return find.all();
     }
 
-    public static void create(Task task) {
-        task.save();
+    public static void create(Adresse addr) {
+        addr.save();
     }
 
     public static void delete(Long id) {

@@ -4,10 +4,7 @@ import com.avaje.ebean.Model;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +15,8 @@ public class Task extends Model {
 
     @Id
     @GeneratedValue
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id")
     public Long id;
     @Constraints.Required
     public String nom;
@@ -41,13 +40,19 @@ public class Task extends Model {
     @Constraints.Min(0)
     public Integer chargeTotale;
     public Boolean disponible;
-    public List<Personne> interlocuteurs;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
+    public List<Contact> interlocuteurs;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="projet_id")
+    public Projet projet;
 
     public static Finder<Long, Task> find = new Finder<>(Task.class);
 
     public Task(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut,
                 LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
-                Integer chargeTotale, Boolean disponible,List<Personne> interlocuteurs) {
+                Integer chargeTotale, Boolean disponible,List<Contact> interlocuteurs, Projet projet) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -60,6 +65,7 @@ public class Task extends Model {
         this.chargeTotale = chargeTotale;
         this.disponible = disponible;
 		this.interlocuteurs = interlocuteurs;
+        this.projet = projet;
     }
 
     /**
@@ -77,4 +83,15 @@ public class Task extends Model {
         return find.all();
     }
 
+    @Override
+    public String toString() {
+        return  "[Tâche : " + id + "] : " + nom + ", " +
+                description + "\n" +
+                "\nniveau : " + niveau + "\ncritique : " + critique +
+                "\ndateDebut : " + dateDebut + "\ndateFinTot : " + dateFinTot +
+                "\ndateFinTard : " + dateFinTard + "\nchargeInitiale : " + chargeInitiale +
+                "\nchargeConsommee : " + chargeConsommee + "\nchargeTotale : " + chargeTotale +
+                "\ndisponible : " + disponible + "\ninterlocuteurs : " + interlocuteurs +
+                "\nprojet : " + projet.nom + "\n";
+    }
 }

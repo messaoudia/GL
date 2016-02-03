@@ -3,33 +3,35 @@ package models;
 import com.avaje.ebean.Model;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.Constraint;
 
 /**
  * Created by Gishan on 04/01/2016.
  */
-@Entity
-@Table(name="Personne")
-public class Personne extends Model{
+@MappedSuperclass
+public abstract class Personne extends Model{
     @Id
     @GeneratedValue
     public Long id;
+    @Column(name = "nom")
     public String nom;
+    @Column(name = "prenom")
     public String prenom;
 
     @Constraints.Email
-    public String mail;
+    @Constraints.Required
+    @Column(name = "email")
+    public String email;
+    @Column(name = "telephone")
     public String telephone;
 
     public static Model.Finder<Long, Personne> find = new Model.Finder<>(Personne.class);
 
-    public Personne(String nom, String prenom, String mail, String telephone) {
+    public Personne(String nom, String prenom, String email, String telephone) {
         this.nom = nom;
         this.prenom = prenom;
-        this.mail = mail;
+        this.email = email;
         this.telephone = telephone;
     }
 
@@ -38,17 +40,8 @@ public class Personne extends Model{
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[Personne : ");
-        sb.append(id);
-        sb.append("] : ");
-        sb.append(nom);
-        sb.append(", ");
-        sb.append(prenom);
-        sb.append(", ");
-        sb.append(mail);
-        sb.append(", ");
-        sb.append(telephone);
-        return sb.toString();
+        return "[Personne : " + id + "] : " +
+                nom + ", " + prenom + ", " +
+                email + ", " + telephone;
     }
 }

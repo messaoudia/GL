@@ -3,10 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -25,8 +22,16 @@ public class Client extends Model{
     @Constraints.Max(3)
     public Integer priorite;
     public Boolean archiver;
+
+    @OneToOne
     public Adresse adresseClient;
-    public List<Personne> listeContacts;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="Contact", joinColumns={@JoinColumn(name="id")})
+    public List<Contact> listeContacts;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="Projet", joinColumns={@JoinColumn(name="id")})
     public List<Projet> listeProjets;
 
     public static Model.Finder<Long, Client> find = new Model.Finder<>(Client.class);
@@ -35,7 +40,7 @@ public class Client extends Model{
         client.save();
     }
 
-    public Client(String nom, Integer priorite, Boolean archiver, Adresse adresseClient, List<Personne> listeContacts, List<Projet> listeProjets) {
+    public Client(String nom, Integer priorite, Boolean archiver, Adresse adresseClient, List<Contact> listeContacts, List<Projet> listeProjets) {
         this.nom = nom;
         this.priorite = priorite;
         this.archiver = archiver;
@@ -47,25 +52,15 @@ public class Client extends Model{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[Client : ");
-        sb.append(id);
-        sb.append("] : Priority");
-        sb.append(priorite);
-        sb.append(", archived");
-        sb.append(archiver);
-        sb.append(", adress \n");
-        sb.append(adresseClient);
+        sb.append("[Client : ").append(id).append("] : Priority").append(priorite);
+        sb.append(", archived").append(archiver).append(", adress \n").append(adresseClient);
         sb.append("\n, ListClients :");
         for (Personne personne : listeContacts) {
-            sb.append("\n");
-            sb.append(personne);
-            sb.append("\n");
+            sb.append("\n").append(personne).append("\n");
         }
         sb.append("\n, ListProjets :");
         for (Projet projet : listeProjets) {
-            sb.append("\n");
-            sb.append(projet);
-            sb.append("\n");
+            sb.append("\n").append(projet).append("\n");
         }
         return sb.toString();
     }

@@ -4,10 +4,7 @@ import com.avaje.ebean.Model;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +18,8 @@ public class Projet extends Model {
 
     @Id
     @GeneratedValue
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id")
     public Long id;
     public String nom;
     public String description;
@@ -36,11 +35,19 @@ public class Projet extends Model {
     public Byte avancementGlobal;
     public Boolean enCours;
     public Boolean archive;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="client_id")
     public Client client;
+
     @Constraints.Min(1)
     @Constraints.Max(3)
     public Integer priorite;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="Tache", joinColumns={@JoinColumn(name="id")})
     public List<Task> listTasks;
+
     public UniteProjetEnum unite;
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
@@ -70,41 +77,21 @@ public class Projet extends Model {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[Projet : ");
-        sb.append(id);
-        sb.append("] : ");
-        sb.append(nom);
-        sb.append(", ");
-        sb.append(description);
-        sb.append("\nDebutTH : ");
-        sb.append(dateDebutTheorique);
-        sb.append(", FinTH : ");
-        sb.append(dateFinTheorique);
-        sb.append(", FinTH : ");
-        sb.append(dateDebutReel);
-        sb.append(", FinRE : ");
-        sb.append(dateFinReel);
-        sb.append("\nChargeInitiale : ");
-        sb.append(chargeInitiale);
-        sb.append(", Avancement (%) : ");
-        sb.append(avancementGlobal);
-        sb.append(", En cours : ");
-        sb.append(enCours);
-        sb.append(", archive : ");
-        sb.append(archive);
-        sb.append(", Priorite :");
-        sb.append(priorite);
-        sb.append("\n");
+        sb.append("[Projet : ").append(id).append("] : ").append(nom).append(", ").append(description);
+        sb.append("\nDebutTH : ").append(dateDebutTheorique).append(", FinTH : ").append(dateFinTheorique);
+        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRE : ").append(dateFinReel);
+        sb.append("\nChargeInitiale : ").append(chargeInitiale).append(", Avancement (%) : ").append(avancementGlobal);
+        sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
+        sb.append(", Priorite :").append(priorite).append("\n");
         if(client != null){
             sb.append(client);
         }
         if(listTasks != null) {
             for (Task task : listTasks) {
-                sb.append("\n");
-                sb.append(task);
-                sb.append("\n");
+                sb.append("\n").append(task).append("\n");
             }
         }
         return sb.toString();
     }
+
 }

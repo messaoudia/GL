@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -34,18 +35,18 @@ public class ModelBeanTest {
         running(fakeApplication(), ()-> {
             Adresse a1 = new Adresse("3 Street Cloud","64500","Cupertino","USA");
             a1.save();
-            List<Personne> listContacts = new ArrayList<>();
-            Personne p1 = new Personne("Jobs","Steve","s.j@apple.com","0215465978");
-            p1.save();
-            Personne p2 = new Personne("James","Frank","f.j@apple.com","0215465979");
-            p2.save();
-            listContacts.add(p1);
-            listContacts.add(p2);
+            List<Contact> listContacts = new ArrayList<>();
+            Contact c1 = new Contact("Jobs","Steve","s.j@apple.com","0215465978");
+            c1.save();
+            Contact c2 = new Contact("James","Frank","f.j@apple.com","0215465979");
+            c2.save();
+            listContacts.add(c1);
+            listContacts.add(c2);
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple",
                     LocalDate.of(2016,2,2),LocalDate.of(2016,10,2),LocalDate.of(2016,3,2),
                     LocalDate.of(2016,9,2),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
             pr.save();
-            List<Projet> listProjet = Arrays.asList(pr);
+            List<Projet> listProjet = Collections.singletonList(pr);
             Client cl = new Client("Apple",3,false, a1,listContacts, listProjet);
             cl.save();
             assertNotNull(cl.id);
@@ -70,12 +71,12 @@ public class ModelBeanTest {
     }
 
     @Test
-    public void testPersistPersonne() {
+    public void testPersistContact() {
         running(fakeApplication(), ()-> {
-            Personne p1 = new Personne();
+            Contact p1 = new Contact();
             p1.nom = "Jobs";
             p1.prenom = "Steve";
-            p1.mail = "s.j@apple.com";
+            p1.email = "s.j@apple.com";
             p1.telephone = "0215465978";
             System.out.println(p1);
             p1.save();
@@ -104,10 +105,10 @@ public class ModelBeanTest {
             pr.priorite = 1;
 
             Task p1 = new Task("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
-                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null);
+                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
             p1.save();
             Task p2 = new Task("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, LocalDate.of(2016,2,1),
-                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null);
+                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
             p2.save();
             pr.listTasks = Arrays.asList(p1,p2);
 
@@ -121,8 +122,10 @@ public class ModelBeanTest {
     @Test
     public void testPersistTask() {
         running(fakeApplication(), ()-> {
+            Projet pr = new Projet();
+            pr.nom = "New project";
             Task task = new Task("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
-                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null);
+                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
             System.out.println(task);
             task.save();
             System.out.println(task);
