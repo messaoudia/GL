@@ -42,7 +42,7 @@ public class ModelBeanTest {
             c2.save();
             listContacts.add(c1);
             listContacts.add(c2);
-            Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple",
+            Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
                     LocalDate.of(2016,2,2),LocalDate.of(2016,10,2),LocalDate.of(2016,3,2),
                     LocalDate.of(2016,9,2),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
             pr.save();

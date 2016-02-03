@@ -64,4 +64,41 @@ public class Client extends Model{
         }
         return sb.toString();
     }
+
+    /**
+     * Affecter le projet en parametre au Client courant
+     * @param projet
+     */
+    public void affecterProjet(Projet projet) throws IllegalArgumentException{
+        if(listeProjets.contains(projet)){
+            throw new IllegalArgumentException("Le client "+nom+"possede deja le projet "+projet.nom);
+        }
+        listeProjets.add(projet);
+        this.save();
+    }
+
+    /**
+     * Importer une liste de contacts, et les associer tous au client courant
+     * @param listContact
+     */
+    public void importerListContacts(List<Contact> listContact){
+        listContact.forEach(this::ajouterContact);
+        save();
+    }
+
+    /**
+     * @return les contacts du client courant
+     */
+    public List<Contact> exporterContacts(){
+        return this.listeContacts;
+    }
+
+    /**
+     * Ajouter le contact en parametre au champ listContact
+     * @param contact
+     */
+    public void ajouterContact(Contact contact){
+        this.listeContacts.add(contact);
+    }
+
 }

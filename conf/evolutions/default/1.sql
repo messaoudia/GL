@@ -76,6 +76,8 @@ create table Tache (
   charge_totale             integer,
   disponible                boolean,
   projet_id                 bigint,
+  predecesseur_id           bigint,
+  parent_id                 bigint,
   constraint pk_Tache primary key (id))
 ;
 
@@ -117,6 +119,10 @@ alter table Projet add constraint fk_Projet_client_3 foreign key (client_id) ref
 create index ix_Projet_client_3 on Projet (client_id);
 alter table Tache add constraint fk_Tache_projet_4 foreign key (projet_id) references Projet (id) on delete restrict on update restrict;
 create index ix_Tache_projet_4 on Tache (projet_id);
+alter table Tache add constraint fk_Tache_predecesseur_5 foreign key (predecesseur_id) references Tache (id) on delete restrict on update restrict;
+create index ix_Tache_predecesseur_5 on Tache (predecesseur_id);
+alter table Tache add constraint fk_Tache_parent_6 foreign key (parent_id) references Tache (id) on delete restrict on update restrict;
+create index ix_Tache_parent_6 on Tache (parent_id);
 
 
 
