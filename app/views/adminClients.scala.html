@@ -390,7 +390,7 @@
 
                                         <div class="col-sm-6">
                                             <div class="div-center">
-                                                <h4 class="inline">@Messages("addContact")</h4>
+                                                <h3 class="inline">@Messages("addContact")</h3>
                                                 <form class="form-horizontal" id="contactForm">
                                                     <div class="row form-group">
                                                         <label class="col-sm-5 control-label" for="formLastName">@Messages("formLastName")</label>
@@ -418,46 +418,56 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <h3 style="text-align:center;">@Messages("projects")</h3>
-                                            <ul class="list-group">
-                                                <li class="list-group-item row">
-                                                    <div class="col-xs-9">Projet 1</div>
-                                                        <!--TODO modalview archiverProjet-->
-                                                    <div class="col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
-                                                </li>
-                                                <li class="list-group-item row">
-                                                    <div class="col-xs-9">Projet 2</div>
-                                                        <!--TODO modalview archiverProjet-->
-                                                    <div class="col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
-                                                </li>
-                                                <li class="list-group-item row">
-                                                    <div class="col-xs-9">Projet 3</div>
-                                                        <!--TODO modalview archiverProjet-->
-                                                    <div class="col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
-                                                </li>
-                                            </ul>
+                                            <div class="list-modif-client">
+                                                <table class="table-bordered">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="first-td">Projet 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="first-td">Projet 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="first-td">Projet 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="first-td">Projet 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <h3 style="text-align:center;">@Messages("contacts")</h3>
-                                            <ul class="list-group row">
-                                                <li class="list-group-item row">
-                                                    <div class="col-xs-9">Contact client 1</div>
-                                                        <!--TODO modalview archiverContact-->
-                                                    <div class="col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
-                                                </li>
-                                                <li class="list-group-item row">
-                                                    <div class="col-xs-9">Contact client 2</div>
-                                                        <!--TODO modalview archiverContact-->
-                                                    <div class="col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
-                                                </li>
-                                                <li class="list-group-item row">
-                                                    <div class="col-xs-9">Contact client 3</div>
-                                                        <!--TODO modalview archiverContact-->
-                                                    <div class="col-sm-3 col-xs-1"><i class="fa fa-times-circle"></i></div>
-                                                </li>
-                                            </ul>
+                                            <div class="list-modif-client">
+                                                <table class="table-bordered">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="first-td">Contact 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="first-td">Contact 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="first-td">Contact 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="first-td">Contact 1</td>
+                                                            <td class="last-td"><i class="fa fa-times-circle"></i></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" style="margin-top:15px;">
                                         <div class="div-center">
                                                 <!--TODO modalview Valider (check contacts & projet & champs -->
                                             <button class="btn btn-admin" type="submit" form="clientForm">
