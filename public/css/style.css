@@ -7,6 +7,22 @@
  *
 */
 
+#clientsTable > thead > tr > th,
+#clientsTable > tbody > tr > td {
+  text-align:center
+}
+
+.icon-remove > i{
+  color:red;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.icon-remove > i:hover{
+  color:#C1392B;
+}
+
+
 /* Informations */
 .cercle{
   border-radius:50%;
