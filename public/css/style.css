@@ -51,20 +51,57 @@
 
 }
 
-/* MODAL VIEW TACHE */
-.icon-modal-tache{
-  margin-right : 3px;
+/** MODAL VIEW TACHE **/
 
+.list-task {
+  max-height:81px;
+  overflow:auto;
 }
+.list-task > table{
+  width:100%;
+}
+
+.list-task > table > tbody > tr {
+  height:40px;
+}
+
+.id-task{
+  background-color:#F1F1F1; 
+  width:40px;
+  text-align: center;
+}
+
+.name-task{
+  padding-left:10px;
+}
+
+.btn-interlocuteurs-externes{
+  margin-right:5px;
+}
+
+.btn-interlocuteurs-externes > .fa-envelope {
+  color:#676A6C;
+}
+
+.btn-interlocuteurs-externes > .fa-envelope:hover {
+  color:black;
+}
+
 .description-modal-tache{
   max-height:100px;
   overflow:auto;
+  background-color:#F1F1F1;
 }
 
 .id-tache-modal{
   font-size:15px;
   font-weight : bold;
   margin-right:6px;
+}
+
+.id-tache-modal > a {
+  margin-left : 5px;
+  margin-right : 5px;
 }
 
 .id-tache-modal > i{
@@ -83,7 +120,52 @@
   margin-bottom : 5px;
 }
 
+.date{
+
+    background-color: #1AB394;
+    text-align: center;
+    color: #FFFFFF;
+}
+
 /* TDB */
+
+.icon-notif-tdb > a > i{
+  font-size: 15px;
+}
+
+.id-tache-modal > a > .fa-trash{
+  color:red;
+}
+
+.id-tache-modal > a > .fa-trash:hover {
+  color: #e80000;
+}
+
+.id-tache-modal > a > .fa-pencil{
+  color:#05B496;
+}
+
+.id-tache-modal > a > .fa-pencil:hover{
+  color: #05997f;
+}
+
+
+.id-tache-modal > a > .fa-bell,
+.icon-notif-tdb > a > .fa-bell {
+  color:#676A6C;
+}
+
+.id-tache-modal > a > .fa-bell-slash,
+.icon-notif-tdb > a > .fa-bell-slash {
+  color : #bdc3c7;
+}
+
+.id-tache-modal > a > .fa-bell:hover,
+.id-tache-modal > a > .fa-bell-slash:hover,
+.icon-notif-tdb > a > .fa-bell:hover,
+.icon-notif-tdb > a > .fa-bell-slash:hover {
+  color : #95a5a6;
+}
 
 .row-options-tdb{
   margin : 0px -20px 12px -20px;
@@ -168,8 +250,21 @@
 }
 
 .panel-tdb > .panel-heading {
-  text-align:center;
-  font-weight : bold;
+   text-align:center;
+   font-weight : bold;
+ }
+
+.panel-tdb > .panel-body {
+  height:130px;
+  overflow:auto;
+}
+
+#bloc-notes-tdb{
+  color:black;
+  height:172px;
+  width:100%;
+  resize: none;
+
 }
 
 .panel-heading-normal {

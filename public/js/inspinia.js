@@ -1,3 +1,23 @@
+function clickOnNotification(ID){
+    var classname_notif_desactive = 'fa-bell-slash';
+    var classname_notif_active = 'fa-bell';
+
+    var classlistOfId = document.getElementById(ID).classList;
+
+    if(classlistOfId.contains(classname_notif_desactive)){
+        classlistOfId.remove(classname_notif_desactive);
+        classlistOfId.add(classname_notif_active);
+    }
+    else if(classlistOfId.contains(classname_notif_active)){
+        classlistOfId.remove(classname_notif_active);
+        classlistOfId.add(classname_notif_desactive);
+    }
+}
+
+
+
+
+
 /*
  *
  *   INSPINIA - Responsive Admin Theme

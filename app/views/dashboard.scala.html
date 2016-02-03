@@ -254,7 +254,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea placeholder="Notes..." style="color: black; height:134px; width:100%;"></textarea>
+                                    <textarea id="bloc-notes-tdb" placeholder="Notes..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -710,7 +710,7 @@
                                                                         </div>
                                                                 </div>
                                                             </td>
-                                                            <td style="vertical-align:middle;"><a href="#"><i class="fa fa-bell-slash-o"></i></a></td>
+                                                            <td class="icon-notif-tdb" style="vertical-align:middle;"><a onclick="clickOnNotification('notif-tache-1')"><i id="notif-tache-1" class="fa fa-bell-slash"></i></a></td>
                                                         </tr>
                                                     </tbody>
                                                     <tfoot>
@@ -731,22 +731,16 @@
                                                     <div class="modal-dialog">
                                                             <!-- Modal content-->
                                                         <div class="modal-content">
-                                                            <!--
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                <h4 class="modal-title">Modal Header</h4>
-                                                            </div>
-                                                            -->
                                                             <div class="modal-body">
                                                                 <div class="row">
                                                                     <!-- 1ere colonne -->
                                                                     <div class="col-sm-6">
                                                                         <div class="id-tache-modal">
-                                                                            <div class="cercle cercle-icon-critique icon-modal-tache">C</div>
+                                                                            <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                                                             Tâche 14
-                                                                            <a href="#"><i class="fa fa-bell-slash-o icon-modal-tache"></i></a>
-                                                                            <a href="#"><i class="fa fa-trash icon-modal-tache"></i></a>
-                                                                            <a href="#"><i class="fa fa-pencil icon-modal-tache"></i></a>
+                                                                            <a><i class="fa fa-bell-slash"></i></a>
+                                                                            <a><i class="fa fa-trash"></i></a>
+                                                                            <a><i class="fa fa-pencil"></i></a>
                                                                         </div>
                                                                         <p class="titre-tache-modal">Faire la maquette</p>
                                                                         <div class="description-modal-tache">
@@ -756,10 +750,41 @@
                                                                             Création de la maquette. Création de la maquette. Création de la maquette.
                                                                             Création de la maquette. Création de la maquette. Création de la maquette.
                                                                         </div>
-                                                                        <p>Tâche précédente : </p>
-                                                                        <div>TODO</div>
-                                                                        <p>Tâches suivantes : </p>
-                                                                        <div>TODO</div>
+                                                                        <p style="margin-top:7px;">Tâche précédente : </p>
+                                                                        <div class="list-task">
+                                                                            <table class="table-bordered">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="id-task">8</td>
+                                                                                        <td class="name-task">Créer la base de données</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+
+                                                                        <p style="margin-top:7px;">Tâches suivantes : </p>
+                                                                        <div class="list-task">
+                                                                            <table class="table-bordered">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="id-task">18</td>
+                                                                                        <td class="name-task">Créer la base de données</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="id-task">8</td>
+                                                                                        <td class="name-task">Créer la base de données</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="id-task">8</td>
+                                                                                        <td class="name-task">Créer la base de données</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td class="id-task">8</td>
+                                                                                        <td class="name-task">Créer la base de données</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
 
                                                                     <!-- 2eme colonne -->
@@ -768,34 +793,40 @@
                                                                         <p class="bold">Projet : myProjects</p>
                                                                         <p class="bold">Client : PoPS5I Inc.</p>
                                                                         <p>Responsable tâche : Daro Heng</p>
-                                                                        <p><a href="#"><i class="fa fa-envelope icon-modal-tache"></i></a> Interlocuteurs externes :</p>
-                                                                        <div>TODO</div>
-                                                                        <p>Durée restante : 10j</p>
+                                                                        <p><a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a> Interlocuteurs externes :</p>
+                                                                        <select>
+                                                                            <option disabled selected>Valérie Guimard</option>
+                                                                            <option disabled>Frédéric Voisin</option>
+                                                                            <option disabled>Daro Heng</option>
+                                                                            <option disabled>Steve Mandanda</option>
+                                                                            <option disabled>Lassana Diarra</option>
+                                                                        </select>
+                                                                        <p style="margin-top:24px;">Durée restante : 10j</p>
                                                                         <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-8">
+                                                                            <div class="col-sm-7">
                                                                                 Date de début
                                                                             </div>
-                                                                            <div class="col-sm-4">
+                                                                            <div class="col-sm-4 date">
                                                                                 20/11/2016
                                                                             </div>
                                                                         </div>
                                                                         <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-8">
+                                                                            <div class="col-sm-7">
                                                                                 Date de fin au + tôt
                                                                             </div>
-                                                                            <div class="col-sm-4">
+                                                                            <div class="col-sm-4 date">
                                                                                 20/11/2016
                                                                             </div>
                                                                         </div>
                                                                         <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-8">
+                                                                            <div class="col-sm-7">
                                                                                 Date de fin au + tard
                                                                             </div>
-                                                                            <div class="col-sm-4">
+                                                                            <div class="col-sm-4 date">
                                                                                 20/11/2016
                                                                             </div>
                                                                         </div>
-                                                                        <div class="td-avancement"">
+                                                                        <div class="td-avancement" style="margin-top:12px;">
                                                                             <p class="row-initiale">Initiale : 50J</p>
                                                                             <p class="row-restante">Restante : 30J</p>
                                                                             <div class="progress progress-bar-default">
@@ -808,9 +839,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>
                                                     </div>
