@@ -7,6 +7,14 @@
  *
 */
 
+#right-sidebar{
+  padding:10px;
+}
+
+.notificationFrom{
+  margin-top : 10px;
+}
+
 /* Informations */
 .cercle{
   border-radius:50%;
@@ -35,17 +43,73 @@
 
 }
 
+/** MODIFIER CLIENT **/
+
+#clientsTable > thead > tr > th,
+#clientsTable > tbody > tr > td {
+  text-align:center
+}
+
+.icon-remove > i{
+  color:red;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.icon-remove > i:hover{
+  color:#e80000;
+}
+
+
+.list-personnes-notifiees{
+  max-height : 81px;
+  margin-bottom:10px;
+  margin-top:10px;
+  overflow:auto;
+}
+
+.list-modif-client{
+  max-height:121px;
+  overflow: auto;
+}
+.list-modif-client > table > tbody > tr > td,
+.list-personnes-notifiees > table > tbody > tr > td{
+  border:none;
+}
+.list-modif-client > table > tbody > tr,
+.list-personnes-notifiees > table > tbody > tr{
+  border:1px solid #E7E7E7;
+}
+
+.first-td{
+  padding-left:10px;
+}
+.last-td{
+  text-align:center;
+  min-width:30px;
+}
+.last-td > i {
+  color:red;
+  cursor:pointer;
+}
+
+.last-td > i:hover{
+  color:#e80000;
+}
+
 /** MODAL VIEW TACHE **/
 
 .list-task {
   max-height:81px;
   overflow:auto;
 }
-.list-task > table{
+.list-task > table,
+.list-modif-client > table{
   width:100%;
 }
 
-.list-task > table > tbody > tr {
+.list-task > table > tbody > tr,
+.list-modif-client > table > tbody > tr {
   height:40px;
 }
 
@@ -159,6 +223,10 @@
 
 .tdb-td-tache{
    padding:0px;
+}
+
+.td-modal{
+  cursor : pointer;
 }
 
 .tdb-nom-tache{
