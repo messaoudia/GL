@@ -7,6 +7,15 @@
  *
 */
 
+#right-sidebar{
+  overflow:auto;
+  padding:10px;
+}
+
+.notificationFrom{
+  margin-top : 10px;
+}
+
 /* Informations */
 .cercle{
   border-radius:50%;
