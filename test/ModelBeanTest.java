@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
@@ -28,8 +29,11 @@ public class ModelBeanTest {
             a1.save();
             System.out.println(a1);
             assertNotNull(a1.id);
+            Adresse a2 = Adresse.find.byId(a1.id);
+            assertEquals(a1,a2);
         });
     }
+
     @Test
     public void testPersistClient(){
         running(fakeApplication(), ()-> {
@@ -37,9 +41,9 @@ public class ModelBeanTest {
             a1.save();
             List<Contact> listContacts = new ArrayList<>();
             Contact c1 = new Contact("Jobs","Steve","s.j@apple.com","0215465978");
-            c1.save();
+           // c1.save();
             Contact c2 = new Contact("James","Frank","f.j@apple.com","0215465979");
-            c2.save();
+            //c2.save();
             listContacts.add(c1);
             listContacts.add(c2);
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
@@ -49,7 +53,11 @@ public class ModelBeanTest {
             List<Projet> listProjet = Collections.singletonList(pr);
             Client cl = new Client("Apple",3,false, a1,listContacts, listProjet);
             cl.save();
+            System.out.println(cl);
             assertNotNull(cl.id);
+            Client cl2 = Client.find.byId(c1.id);
+            System.out.println(cl2);
+            assertEquals(cl,cl2);
         });
     }
 
@@ -63,25 +71,53 @@ public class ModelBeanTest {
             n1.link = "http://localhost:9000/notif";
             n1.etatLecture = false;
             n1.archiver = false;
+            n1.user = new User("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
             System.out.println(n1);
             n1.save();
             System.out.println(n1);
             assertNotNull(n1.id);
+            Notification n2 = Notification.find.byId(n1.id);
+            assertEquals(n1,n2);
         });
     }
 
     @Test
     public void testPersistContact() {
         running(fakeApplication(), ()-> {
-            Contact p1 = new Contact();
-            p1.nom = "Jobs";
-            p1.prenom = "Steve";
-            p1.email = "s.j@apple.com";
-            p1.telephone = "0215465978";
-            System.out.println(p1);
-            p1.save();
-            System.out.println(p1);
-            assertNotNull(p1.id);
+            Contact c1 = new Contact();
+            c1.nom = "Jobs";
+            c1.prenom = "Steve";
+            c1.email = "s.j@apple.com";
+            c1.telephone = "0215465978";
+            Client cl = new Client();
+            cl.nom = "Apple";
+            cl.save();
+            c1.client = cl;
+            System.out.println(c1);
+            c1.save();
+            System.out.println(c1);
+            assertNotNull(c1.id);
+            Contact c2 = Contact.find.byId(c1.id);
+            System.out.println(c2);
+            assertEquals(c1,c2);
+        });
+    }
+
+    @Test
+    public void testPersistUser() {
+        running(fakeApplication(), ()-> {
+            User u1 = new User();
+            u1.nom = "Jobss";
+            u1.prenom = "Steeve";
+            u1.email = "s.ja@apple.com";
+            u1.telephone = "0215465948";
+            u1.setPassword("azerty");
+            System.out.println(u1);
+            u1.save();
+            System.out.println(u1);
+            assertNotNull(u1.id);
+            User u2 = User.find.byId(u1.id);
+            assertEquals(u1,u2);
         });
     }
 
@@ -101,7 +137,10 @@ public class ModelBeanTest {
 
             pr.enCours = true;
             pr.archive = false;
-            pr.client = null;
+            Client cl = new Client();
+            cl.nom = "Apple";
+            cl.save();
+            pr.client = cl;
             pr.priorite = 1;
 
             Task p1 = new Task("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
@@ -112,10 +151,13 @@ public class ModelBeanTest {
             p2.save();
             pr.listTasks = Arrays.asList(p1,p2);
 
-            System.out.println(pr);
             pr.save();
             System.out.println(pr);
             assertNotNull(pr.id);
+            Projet pr2 = Projet.find.byId(pr.id);
+            System.out.println(pr2);
+
+            assertEquals(pr,pr2);
         });
     }
 
@@ -124,12 +166,15 @@ public class ModelBeanTest {
         running(fakeApplication(), ()-> {
             Projet pr = new Projet();
             pr.nom = "New project";
+            pr.save();
             Task task = new Task("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
                     LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
-            System.out.println(task);
             task.save();
             System.out.println(task);
             assertNotNull(task.id);
+            Task t2 = Task.find.byId(task.id);
+            System.out.println(t2);
+            assertEquals(task,t2);
         });
     }
 }

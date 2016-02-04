@@ -77,6 +77,33 @@ public class Projet extends Model {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        try {
+            Projet projet = (Projet) obj;
+            return (projet.id.equals(this.id) && projet.nom.equals(this.nom) &&
+                    projet.description.equals(this.description) &&
+                    projet.dateDebutTheorique.equals(this.dateDebutTheorique) &&
+                    projet.dateFinTheorique.equals(this.dateFinTheorique) &&
+                    projet.dateDebutReel.equals(this.dateDebutReel) &&
+                    projet.dateFinTheorique.equals(this.dateFinTheorique) &&
+                    projet.chargeInitiale.equals(this.chargeInitiale) &&
+                    projet.avancementGlobal.equals(this.avancementGlobal) &&
+                    projet.enCours.equals(this.enCours) &&
+                    projet.archive.equals(this.archive) &&
+                    projet.priorite.equals(this.priorite) &&
+                    projet.client.id.equals(this.client.id) );
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[Projet : ").append(id).append("] : ").append(nom).append(", ").append(description);
@@ -86,11 +113,11 @@ public class Projet extends Model {
         sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
         sb.append(", Priorite :").append(priorite).append("\n");
         if(client != null){
-            sb.append(client);
+            sb.append("Client : ").append(client.nom);
         }
         if(listTasks != null) {
             for (Task task : listTasks) {
-                sb.append("\n").append(task).append("\n");
+                sb.append("\n").append(task.nom).append("\n");
             }
         }
         return sb.toString();
@@ -100,7 +127,7 @@ public class Projet extends Model {
      * Ajouter la tache en parametre a la liste des taches du projet
      * @param tache
      */
-    public void ajouterTache(Task tache){
+    public void ajouterTache(Task tache)throws IllegalArgumentException{
         if(listTasks.contains(tache)){
             throw new IllegalArgumentException("Le projet "+this.nom+", contient deja la tache "+tache.nom+
                     ", creation impossible");
@@ -109,7 +136,12 @@ public class Projet extends Model {
     }
 
 
-    public void modifierTache(Task tache){
+    /**
+     * Modifie la tache en parametre
+     * @param tache
+     * @throws IllegalArgumentException
+     */
+    public void modifierTache(Task tache)throws IllegalArgumentException{
         if(!listTasks.contains(tache)){
             throw new IllegalArgumentException("Le projet "+this.nom+", ne contient pas la tache "+tache.nom+
                     ", modification impossible");

@@ -41,6 +41,24 @@ public class Adresse extends Model {
                 ville + ", " + pays;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        try {
+            Adresse addr = (Adresse) obj;
+            return (addr.id.equals(this.id) && addr.adresse.equals(this.adresse) && addr.zipCode.equals(this.zipCode)
+            && addr.ville.equals(this.ville) && addr.pays.equals(this.pays));
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
+
     public static List<Adresse> all() {
         return find.all();
     }

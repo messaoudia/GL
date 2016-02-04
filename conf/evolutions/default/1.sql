@@ -40,6 +40,7 @@ create table Notification (
   link                      varchar(255),
   etat_lecture              boolean,
   archiver                  boolean,
+  utilisateur_id            bigint,
   constraint pk_Notification primary key (id))
 ;
 
@@ -78,6 +79,7 @@ create table Tache (
   projet_id                 bigint,
   predecesseur_id           bigint,
   parent_id                 bigint,
+  responsable_id            bigint,
   constraint pk_Tache primary key (id))
 ;
 
@@ -115,14 +117,18 @@ alter table Client add constraint fk_Client_adresseClient_1 foreign key (adresse
 create index ix_Client_adresseClient_1 on Client (adresse_client_id);
 alter table Contact add constraint fk_Contact_client_2 foreign key (client_id) references Client (id) on delete restrict on update restrict;
 create index ix_Contact_client_2 on Contact (client_id);
-alter table Projet add constraint fk_Projet_client_3 foreign key (client_id) references Client (id) on delete restrict on update restrict;
-create index ix_Projet_client_3 on Projet (client_id);
-alter table Tache add constraint fk_Tache_projet_4 foreign key (projet_id) references Projet (id) on delete restrict on update restrict;
-create index ix_Tache_projet_4 on Tache (projet_id);
-alter table Tache add constraint fk_Tache_predecesseur_5 foreign key (predecesseur_id) references Tache (id) on delete restrict on update restrict;
-create index ix_Tache_predecesseur_5 on Tache (predecesseur_id);
-alter table Tache add constraint fk_Tache_parent_6 foreign key (parent_id) references Tache (id) on delete restrict on update restrict;
-create index ix_Tache_parent_6 on Tache (parent_id);
+alter table Notification add constraint fk_Notification_user_3 foreign key (utilisateur_id) references User (id) on delete restrict on update restrict;
+create index ix_Notification_user_3 on Notification (utilisateur_id);
+alter table Projet add constraint fk_Projet_client_4 foreign key (client_id) references Client (id) on delete restrict on update restrict;
+create index ix_Projet_client_4 on Projet (client_id);
+alter table Tache add constraint fk_Tache_projet_5 foreign key (projet_id) references Projet (id) on delete restrict on update restrict;
+create index ix_Tache_projet_5 on Tache (projet_id);
+alter table Tache add constraint fk_Tache_predecesseur_6 foreign key (predecesseur_id) references Tache (id) on delete restrict on update restrict;
+create index ix_Tache_predecesseur_6 on Tache (predecesseur_id);
+alter table Tache add constraint fk_Tache_parent_7 foreign key (parent_id) references Tache (id) on delete restrict on update restrict;
+create index ix_Tache_parent_7 on Tache (parent_id);
+alter table Tache add constraint fk_Tache_responsable_8 foreign key (responsable_id) references User (id) on delete restrict on update restrict;
+create index ix_Tache_responsable_8 on Tache (responsable_id);
 
 
 

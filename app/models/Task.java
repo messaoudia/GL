@@ -8,9 +8,7 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "Tache")
@@ -64,6 +62,9 @@ public class Task extends Model {
 
     public static Finder<Long, Task> find = new Finder<>(Task.class);
 
+    @ManyToOne
+    public User responsable;
+
     public Task(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut,
                 LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
                 Integer chargeTotale, Boolean disponible,List<Contact> interlocuteurs, Projet projet) {
@@ -98,6 +99,33 @@ public class Task extends Model {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        try {
+            Task task = (Task) obj;
+            return (task.id.equals(this.id) && task.nom.equals(this.nom) &&
+                    task.description.equals(this.description) &&
+                    task.niveau.equals(this.niveau) &&
+                    task.critique.equals(this.critique) &&
+                    task.dateDebut.equals(this.dateDebut) &&
+                    task.dateFinTot.equals(this.dateFinTot) &&
+                    task.chargeInitiale.equals(this.chargeInitiale) &&
+                    task.dateFinTard.equals(this.dateFinTard) &&
+                    task.chargeConsommee.equals(this.chargeConsommee) &&
+                    task.chargeTotale.equals(this.chargeTotale) &&
+                    task.disponible.equals(this.disponible) &&
+                    task.projet.id.equals(this.projet.id) );
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
+    @Override
     public String toString() {
         return  "[Tâche : " + id + "] : " + nom + ", " + description +
                 "\nniveau : " + niveau + "\ncritique : " + critique +
@@ -117,7 +145,10 @@ public class Task extends Model {
      */
     public void modifierCharge(Integer chargeConsommee, Integer chargeTotale)throws NotAvailableTask {
         if (!disponible){
-            throw new NotAvailableTask("Tache "+this+", pas encore disponible, modification de charge impossible");
+            throw new NotAvailableTask("Tache "+nom+", pas encore disponible, modification de charge impossible");
+        }
+        if(enfants.size()!= 0){
+            throw new NotAvailableTask("Tache "+nom+" non terminale, modification de ses filles uniquement");
         }
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
@@ -133,14 +164,93 @@ public class Task extends Model {
 
     /**
      * Cree une sous-tâche a cette tâche
-     * @param tache
+     * @param fille
      * @throws IllegalTaskCreation
      */
-    public void creerTacheFille(Task tache) throws IllegalTaskCreation {
+    public void associerSousTache(Task fille) throws IllegalTaskCreation {
         if(niveau == 3){
-            throw new IllegalTaskCreation("Creation de tache de niveau superieur a 3 impossible");
+            throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
-        enfants.add(tache);
+        enfants.add(fille);
     }
 
+    /**
+     * Cree une tache mere a cette tâche
+     * @param mere
+     * @throws IllegalTaskCreation
+     */
+    public void associerTacheMere(Task mere) throws IllegalTaskCreation {
+        if(niveau == 3){
+            throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
+        }
+        this.parent = mere;
+    }
+
+    /**
+     * Affecte l'utilisateur en parametre en tant que responsable de la tache
+     * @param responsable
+     * @throws IllegalStateException
+     */
+    public void associerResponsable(User responsable) throws IllegalStateException{
+        if(this.responsable != null){
+            throw new IllegalStateException("Il y a deja un responsable pour cette tache");
+        }
+        this.responsable = responsable;
+    }
+
+    /**
+     * Modifie le responsable de tache par l'utilisateur en parametre
+     * @param responsable
+     * @throws IllegalArgumentException
+     */
+    public void modifierResponsable(User responsable) throws IllegalArgumentException{
+        if(this.responsable == responsable){
+            throw new IllegalArgumentException("Remplacement du responsable de tache par le même responsable");
+        }
+        this.responsable = responsable;
+    }
+
+    /**
+     * Affecte la tache en parametre en tant que predecesseur de la tache courante
+     * @param predecesseur
+     * @throws IllegalStateException
+     */
+    public void associerPredecesseur(Task predecesseur) throws IllegalStateException{
+        if(this.predecesseur != null){
+            throw new IllegalStateException("Il y a deja un predecesseur pour cette tache");
+        }
+        this.predecesseur = predecesseur;
+    }
+
+    /**
+     * Modifie le predecesseur de la tache par la tache en parametre
+     * @param predecesseur
+     * @throws IllegalArgumentException
+     */
+    public void modifierPredecesseur(Task predecesseur) throws IllegalArgumentException{
+        if(this.predecesseur == predecesseur){
+            throw new IllegalArgumentException("Remplacement du predecesseur de la tache courante par le même predecesseur");
+        }
+        this.predecesseur = predecesseur;
+    }
+
+    /**
+     * Ajoute la tache en parametre en tant que sucesseur de la tache courante
+     * @param successeur
+     * @throws IllegalStateException
+     */
+    public void associerSuccesseur(Task successeur) throws IllegalStateException{
+        if(this.successeurs.contains(successeur)){
+            throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
+        }
+        this.successeurs.add(successeur);
+    }
+
+    /**
+     *
+     * @return la charge restante pour ce projet (en l'unité définie pour le projet)
+     */
+    public Integer getChargeRestante(){
+        return chargeTotale-chargeConsommee;
+    }
 }

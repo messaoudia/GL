@@ -4,7 +4,6 @@ import com.avaje.ebean.Model;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import javax.validation.Constraint;
 
 /**
  * Created by Gishan on 04/01/2016.
@@ -26,8 +25,6 @@ public abstract class Personne extends Model{
     @Column(name = "telephone")
     public String telephone;
 
-    public static Model.Finder<Long, Personne> find = new Model.Finder<>(Personne.class);
-
     public Personne(String nom, String prenom, String email, String telephone) {
         this.nom = nom;
         this.prenom = prenom;
@@ -43,5 +40,22 @@ public abstract class Personne extends Model{
         return "[Personne : " + id + "] : " +
                 nom + ", " + prenom + ", " +
                 email + ", " + telephone;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        try {
+            Personne personne = (Personne) obj;
+            return (personne.id.equals(this.id) && personne.nom.equals(this.nom) && personne.prenom.equals(this.prenom)
+                    && personne.email.equals(this.email) && personne.telephone.equals(this.telephone));
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 }

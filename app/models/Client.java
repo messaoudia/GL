@@ -36,6 +36,9 @@ public class Client extends Model{
 
     public static Model.Finder<Long, Client> find = new Model.Finder<>(Client.class);
 
+    public Client() {
+    }
+
     public static void creeClient(Client client){
         client.save();
     }
@@ -50,17 +53,34 @@ public class Client extends Model{
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        try {
+            Client client = (Client) obj;
+            return (client.id.equals(this.id) && client.nom.equals(this.nom) && client.priorite.equals(this.priorite)
+                    && client.archiver.equals(this.archiver) && client.adresseClient.equals(this.adresseClient));
+        } catch (ClassCastException e) {
+            return false;
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[Client : ").append(id).append("] : Priority").append(priorite);
         sb.append(", archived").append(archiver).append(", adress \n").append(adresseClient);
-        sb.append("\n, ListClients :");
-        for (Personne personne : listeContacts) {
-            sb.append("\n").append(personne).append("\n");
+        sb.append("\n, ListContacts :");
+        for (Contact personne : listeContacts) {
+            sb.append("\n").append(personne.nom);
         }
         sb.append("\n, ListProjets :");
         for (Projet projet : listeProjets) {
-            sb.append("\n").append(projet).append("\n");
+            sb.append("\n").append(projet.nom);
         }
         return sb.toString();
     }

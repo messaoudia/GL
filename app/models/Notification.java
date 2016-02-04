@@ -3,12 +3,8 @@ package models;
 import com.avaje.ebean.Model;
 import play.data.format.Formats;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by Guillaume on 25/01/2016.
@@ -27,15 +23,21 @@ public class Notification extends Model{
     public String link;
     public Boolean etatLecture;
     public Boolean archiver;
+
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="utilisateur_id")
+    public User user;
+
     public static Model.Finder<Long, Notification> find = new Model.Finder<>(Notification.class);
 
-    public Notification(String title, String contentNotification, LocalDate dateEnvoi, String link, Boolean etatLecture, Boolean archiver) {
+    public Notification(String title, String contentNotification, LocalDate dateEnvoi, String link, Boolean etatLecture, Boolean archiver,User user) {
         this.title = title;
         this.contentNotification = contentNotification;
         this.dateEnvoi = dateEnvoi;
         this.link = link;
         this.etatLecture = etatLecture;
         this.archiver = archiver;
+        this.user = user;
     }
 
     public Notification() {
@@ -48,5 +50,25 @@ public class Notification extends Model{
                 link + ", etatLecture " + etatLecture +
                 ", archiver " + archiver +
                 ", contentNotification \n" + contentNotification + "\n";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        try {
+            Notification notification = (Notification) obj;
+            return (notification.id.equals(this.id) && notification.title.equals(this.title) &&
+                    notification.dateEnvoi.equals(this.dateEnvoi) &&
+                    notification.link.equals(this.link) && notification.etatLecture.equals(this.etatLecture) &&
+                    notification.archiver.equals(this.archiver) &&
+                    notification.contentNotification.equals(this.contentNotification) );
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
 }
