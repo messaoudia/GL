@@ -75,3 +75,5 @@ latestEndDate = Latest end date
 unavailable = Unavailable
 completed = Completed
 delayed = Delayed
+archivedProjects = Archived projects
+archived = Archived

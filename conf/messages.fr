@@ -74,3 +74,5 @@ latestEndDate = Date de fin au + tard
 unavailable = Indisponible
 completed = Terminé
 delayed = Retardé
+archivedProjects = Projets archivés
+archived = Archivé
