@@ -62,26 +62,6 @@ public class ModelBeanTest {
     }
 
     @Test
-    public void testPersistNotification() {
-        running(fakeApplication(), ()-> {
-            Notification n1 = new Notification();
-            n1.title = "3 Street Cloud";
-            n1.contentNotification = "64500";
-            n1.dateEnvoi = LocalDate.now();
-            n1.link = "http://localhost:9000/notif";
-            n1.etatLecture = false;
-            n1.archiver = false;
-            n1.user = new User("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
-            System.out.println(n1);
-            n1.save();
-            System.out.println(n1);
-            assertNotNull(n1.id);
-            Notification n2 = Notification.find.byId(n1.id);
-            assertEquals(n1,n2);
-        });
-    }
-
-    @Test
     public void testPersistContact() {
         running(fakeApplication(), ()-> {
             Contact c1 = new Contact();
@@ -104,20 +84,22 @@ public class ModelBeanTest {
     }
 
     @Test
-    public void testPersistUser() {
+    public void testPersistNotification() {
         running(fakeApplication(), ()-> {
-            User u1 = new User();
-            u1.nom = "Jobss";
-            u1.prenom = "Steeve";
-            u1.email = "s.ja@apple.com";
-            u1.telephone = "0215465948";
-            u1.setPassword("azerty");
-            System.out.println(u1);
-            u1.save();
-            System.out.println(u1);
-            assertNotNull(u1.id);
-            User u2 = User.find.byId(u1.id);
-            assertEquals(u1,u2);
+            Notification n1 = new Notification();
+            n1.title = "3 Street Cloud";
+            n1.contentNotification = "64500";
+            n1.dateEnvoi = LocalDate.now();
+            n1.link = "http://localhost:9000/notif";
+            n1.etatLecture = false;
+            n1.archiver = false;
+            n1.user = new User("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
+            System.out.println(n1);
+            n1.save();
+            System.out.println(n1);
+            assertNotNull(n1.id);
+            Notification n2 = Notification.find.byId(n1.id);
+            assertEquals(n1,n2);
         });
     }
 
@@ -175,6 +157,25 @@ public class ModelBeanTest {
             Task t2 = Task.find.byId(task.id);
             System.out.println(t2);
             assertEquals(task,t2);
+        });
+    }
+
+
+    @Test
+    public void testPersistUser() {
+        running(fakeApplication(), ()-> {
+            User u1 = new User();
+            u1.nom = "Jobss";
+            u1.prenom = "Steeve";
+            u1.email = "s.ja@apple.com";
+            u1.telephone = "0215465948";
+            u1.setPassword("azerty");
+            System.out.println(u1);
+            u1.save();
+            System.out.println(u1);
+            assertNotNull(u1.id);
+            User u2 = User.find.byId(u1.id);
+            assertEquals(u1,u2);
         });
     }
 }
