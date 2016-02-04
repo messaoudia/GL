@@ -208,6 +208,10 @@
    padding:0px;
 }
 
+.td-modal{
+  cursor : pointer;
+}
+
 .tdb-nom-tache{
   margin-top:16px;
 }

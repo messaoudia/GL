@@ -64,3 +64,6 @@ externalInterlocutors = External interlocutors
 remainingTime = Remaining time
 earliestEndDate = Earliest end date
 latestEndDate = Latest end date
+unavailable = Unavailable
+completed = Completed
+delayed = Delayed

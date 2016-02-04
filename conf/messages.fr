@@ -63,3 +63,6 @@ externalInterlocutors = Interlocuteurs externes
 remainingTime = Durée restante
 earliestEndDate = Date de fin au + tôt
 latestEndDate = Date de fin au + tard
+unavailable = Indisponible
+completed = Terminé
+delayed = Retardé

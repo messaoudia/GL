@@ -263,7 +263,7 @@
                     <div class="wrapper wrapper-content">
                         <div class="animated fadeInRightBig" style="margin:auto;">
                             <div class="row"><div class="col-xs-offset-11 col-xs-1">
-                            <button class="btn btn-success btn-circle popover-info" type="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><div class="cercle cercle-indisponible"></div> Indisponible</p><p><div class="cercle cercle-termine"></div> Terminé</p><p><div class="cercle cercle-retard"></div> En retard</p>'>
+                            <button class="btn btn-success btn-circle popover-info" type="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
                                 <i class="fa fa-info"></i>
                             </button>
                             </div> </div>
@@ -581,17 +581,17 @@
                                             <div class="row row-options-tdb">
                                                 <div class="col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-tdb-collab-taches-termines" type="checkbox">
-                                                        <label for="checkbox-tdb-collab-taches-termines">
-                                                        @Messages("completedTasks")
+                                                        <input id="checkbox-tdb-collab-projets-termines" type="checkbox">
+                                                        <label for="checkbox-tdb-collab-projets-termines">
+                                                        @Messages("completedProjects")
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-tdb-collab-projets-termines" type="checkbox">
-                                                        <label for="checkbox-tdb-collab-projets-termines">
-                                                        @Messages("completedProjects")
+                                                        <input id="checkbox-tdb-collab-taches-termines" type="checkbox">
+                                                        <label for="checkbox-tdb-collab-taches-termines">
+                                                        @Messages("completedTasks")
                                                         </label>
                                                     </div>
                                                 </div>
@@ -663,18 +663,18 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr class="table-center">
-                                                            <td class="tdb-td-tache" style="padding:0px;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                            <td class="tdb-td-tache td-modal" style="padding:0px;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p class="tdb-id-tache">4.1</p>
                                                                 <p class="tdb-nom-tache">Créer la base de données</p>
                                                             </td>
-                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">PoPS5I Inc.</td>
-                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">myProjects</td>
-                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">10/10/2015</td>
-                                                            <td style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                            <td class="td-modal" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">PoPS5I Inc.</td>
+                                                            <td class="td-modal" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">myProjects</td>
+                                                            <td class="td-modal" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">10/10/2015</td>
+                                                            <td class="td-modal" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p>03/03/2016</p>
                                                                 <p>13/03/2016</p>
                                                             </td>
-                                                            <td class="td-avancement" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                            <td class="td-modal" class="td-avancement" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p class="row-initiale">@Messages("initial") : 50J</p>
                                                                 <p class="row-restante">@Messages("remaining") : 30J</p>
                                                                 <div class="progress progress-bar-default">
@@ -799,7 +799,7 @@
                                                                         </div>
                                                                         <div class="row row-date-tache-modal">
                                                                             <div class="col-sm-7">
-                                                                                @Messages("lastestEndDate")
+                                                                                @Messages("latestEndDate")
                                                                             </div>
                                                                             <div class="col-sm-4 date">
                                                                                 20/11/2016
