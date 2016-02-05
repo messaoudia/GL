@@ -138,6 +138,7 @@ public class Task extends Model {
 
 
     /**
+     * TODO testme
      * Modifie la charge de la tâche actuelle avec les charges en parametre
      * @param chargeConsommee
      * @param chargeTotale
@@ -156,6 +157,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Mets a jour l'avancement de la tâche éventuellement composée de sous-tâches
      */
     private void updateAvancementTache() {
@@ -163,6 +165,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Cree une sous-tâche a cette tâche
      * @param fille
      * @throws IllegalTaskCreation
@@ -175,6 +178,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Cree une tache mere a cette tâche
      * @param mere
      * @throws IllegalTaskCreation
@@ -187,6 +191,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Affecte l'utilisateur en parametre en tant que responsable de la tache
      * @param responsable
      * @throws IllegalStateException
@@ -199,6 +204,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Modifie le responsable de tache par l'utilisateur en parametre
      * @param responsable
      * @throws IllegalArgumentException
@@ -211,6 +217,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Affecte la tache en parametre en tant que predecesseur de la tache courante
      * @param predecesseur
      * @throws IllegalStateException
@@ -223,6 +230,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Modifie le predecesseur de la tache par la tache en parametre
      * @param predecesseur
      * @throws IllegalArgumentException
@@ -235,6 +243,7 @@ public class Task extends Model {
     }
 
     /**
+     * TODO testme
      * Ajoute la tache en parametre en tant que sucesseur de la tache courante
      * @param successeur
      * @throws IllegalStateException
@@ -247,7 +256,7 @@ public class Task extends Model {
     }
 
     /**
-     *
+     * TODO testme
      * @return la charge restante pour ce projet (en l'unité définie pour le projet)
      */
     public Integer getChargeRestante(){

@@ -86,6 +86,7 @@ public class Client extends Model{
     }
 
     /**
+     * TODO testme
      * Affecter le projet en parametre au Client courant
      * @param projet
      */
@@ -98,6 +99,7 @@ public class Client extends Model{
     }
 
     /**
+     * TODO testme
      * Importer une liste de contacts, et les associer tous au client courant
      * @param listContact
      */
@@ -107,6 +109,7 @@ public class Client extends Model{
     }
 
     /**
+     * TODO testme
      * @return les contacts du client courant
      */
     public List<Contact> exporterContacts(){
@@ -114,6 +117,7 @@ public class Client extends Model{
     }
 
     /**
+     * TODO testme
      * Ajouter le contact en parametre au champ listContact
      * @param contact
      */

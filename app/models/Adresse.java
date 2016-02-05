@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import play.data.validation.Constraints;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,10 +19,20 @@ public class Adresse extends Model {
     @Id
     @GeneratedValue
     public Long id;
+
+    @Constraints.MaxLength(60)
     public String adresse;
+
+    @Constraints.MaxLength(20)
     public String zipCode;
+
+    @Constraints.MaxLength(58)
     public String ville;
+    //OK for Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch
+
+    @Constraints.MaxLength(58)
     public String pays;
+    //United Kingdom of Great Britain and Northern Ireland
 
     public static Model.Finder<Long, Adresse> find = new Model.Finder<>(Adresse.class);
 

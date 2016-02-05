@@ -122,6 +122,7 @@ public class Projet extends Model {
     }
 
     /**
+     * TODO testme
      * Ajouter la tache en parametre a la liste des taches du projet
      * @param tache
      */
@@ -135,6 +136,7 @@ public class Projet extends Model {
 
 
     /**
+     * TODO testme
      * Modifie la tache en parametre
      * @param tache
      * @throws IllegalArgumentException
@@ -149,6 +151,7 @@ public class Projet extends Model {
     }
 
     /**
+     * TODO testme
      * Supprimer la tâche du systeme
      * @param tache
      * @throws IllegalArgumentException
@@ -162,6 +165,7 @@ public class Projet extends Model {
     }
 
     /**
+     * TODO testme
      * Affecte l'utilisateur en parametre en tant que responsable du projet
      * @param responsable
      * @throws IllegalStateException
@@ -174,6 +178,7 @@ public class Projet extends Model {
     }
 
     /**
+     * TODO testme
      * Modifie le responsable de projet par l'utilisateur en parametre
      * @param responsable
      * @throws IllegalArgumentException
@@ -186,6 +191,7 @@ public class Projet extends Model {
     }
 
     /**
+     * TODO testme
      * Associe le projet courant au client passé en parametre
      * @param client
      * @throws IllegalStateException

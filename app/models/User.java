@@ -88,6 +88,7 @@ public class User extends Personne{
     }
 
     /**
+     * TODO testme
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur
      * @param passwordAttempt
      * @return
@@ -97,6 +98,7 @@ public class User extends Personne{
     }
 
     /**
+     * TODO testme
      *  Méthode de hachage du mot de passe avec l'objet digest
      * @param numClient
      * @param password
@@ -119,6 +121,11 @@ public class User extends Personne{
         return sha1;
     }
 
+    /**
+     * TODO testme
+     * @param hash
+     * @return
+     */
     private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
         for (byte b : hash) {
