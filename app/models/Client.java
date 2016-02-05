@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Gishan on 04/01/2016.
  */
 @Entity
-@Table(name = "Client")
+@Table
 public class Client extends Model{
 
     @Id
@@ -27,11 +27,11 @@ public class Client extends Model{
     public Adresse adresseClient;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="Contact", joinColumns={@JoinColumn(name="id")})
+    @JoinTable
     public List<Contact> listeContacts;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="Projet", joinColumns={@JoinColumn(name="id")})
+    @JoinTable
     public List<Projet> listeProjets;
 
     public static Model.Finder<Long, Client> find = new Model.Finder<>(Client.class);

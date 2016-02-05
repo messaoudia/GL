@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Guillaume on 25/01/2016.
  */
 @Entity
-@Table(name = "Adresse")
+@Table
 public class Adresse extends Model {
 
     @Id

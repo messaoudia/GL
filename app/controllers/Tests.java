@@ -1,6 +1,6 @@
 package controllers;
 
-import models.Task;
+import models.Tache;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,20 +16,20 @@ import static play.data.Form.form;
 public class Tests extends Controller {
 
     public Result index() {
-        return ok(tests.render(Task.find.all()));
+        return ok(tests.render(Tache.find.all()));
     }
 
     /**
      * Create a task in this project.
      */
     public Result add() {
-        final Form<Task> taskForm = form(Task.class).bindFromRequest();
+        final Form<Tache> taskForm = form(Tache.class).bindFromRequest();
         System.out.println(taskForm.get());
         if (taskForm.hasErrors()) {
             return badRequest();
         } else {
-            Task.create(taskForm.get());
-            return ok(tests.render(Task.find.all()));
+            Tache.create(taskForm.get());
+            return ok(tests.render(Tache.find.all()));
         }
 
     }
@@ -38,7 +38,7 @@ public class Tests extends Controller {
      * Get all tasks formatted to JSON
      */
     public Result getAll() {
-        return ok(Json.toJson(Task.getAll()));
+        return ok(Json.toJson(Tache.getAll()));
     }
 
 
@@ -49,13 +49,13 @@ public class Tests extends Controller {
      * and return the error message case problem happens
      */
     public Result addTask() {
-        Form<Task> taskForm = form(Task.class).bindFromRequest();
+        Form<Tache> taskForm = form(Tache.class).bindFromRequest();
         System.out.println(taskForm.data());
 
         if (taskForm.hasErrors()) {
             return badRequest(taskForm.errorsAsJson());
         } else {
-            return ok(Json.toJson(Task.create(taskForm.get())));
+            return ok(Json.toJson(Tache.create(taskForm.get())));
         }
     }
 

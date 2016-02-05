@@ -1,6 +1,6 @@
 package controllers;
 
-import models.User;
+import models.Utilisateur;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -11,7 +11,7 @@ import views.html.login;
  */
 public class Login extends Controller {
 
-    private final static Form<User> loginForm = new Form<User>(User.class);
+    private final static Form<Utilisateur> loginForm = new Form<Utilisateur>(Utilisateur.class);
 
     /**
      * This method receive an implicit POST requests, treat them by validating
@@ -23,7 +23,7 @@ public class Login extends Controller {
      * @return
      */
     public Result authenticate() {
-        Form<User> form = loginForm.bindFromRequest();
+        Form<Utilisateur> form = loginForm.bindFromRequest();
         if (form.hasErrors()) {
             return badRequest(login.render(form));
         } else {

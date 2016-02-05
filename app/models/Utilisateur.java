@@ -10,19 +10,19 @@ import java.util.Formatter;
 import java.util.List;
 
 @Entity
-@Table(name = "User")
-public class User extends Personne{
+@Table
+public class Utilisateur extends Personne{
 
     @Constraints.Required
     protected String password;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="Notification", joinColumns={@JoinColumn(name="id")})
+    @JoinTable
     public List<Notification> listNotifications;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="Task", joinColumns={@JoinColumn(name="id")})
-    public List<Task> listTasks;
+    @JoinTable
+    public List<Tache> listTaches;
 
     //TODO Make connection to the database to check the authentication
     public String validate() {
@@ -32,15 +32,15 @@ public class User extends Personne{
         return null;
     }
 
-    public static Finder<Long, User> find = new Finder<>(User.class);
+    public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public User(String nom, String prenom, String email, String telephone, String password) {
+    public Utilisateur(String nom, String prenom, String email, String telephone, String password) {
         super(nom, prenom, email, telephone);
         this.save();
         this.password = hachage(this.id,password);
     }
 
-    public User() {
+    public Utilisateur() {
     }
 
     public void setEmail(String email) {
@@ -68,8 +68,8 @@ public class User extends Personne{
             return true;
         }
         try {
-            User user = (User) obj;
-            return user.password.equals(this.password) && super.equals(user);
+            Utilisateur utilisateur = (Utilisateur) obj;
+            return utilisateur.password.equals(this.password) && super.equals(utilisateur);
         } catch (ClassCastException e) {
             return false;
         }
@@ -80,11 +80,11 @@ public class User extends Personne{
         return super.toString() +", Password :" + password + ")";
     }
 
-    public void affectTask(Task task){
-        if(listTasks.contains(task)){
-            throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+task.nom);
+    public void affectTask(Tache tache){
+        if(listTaches.contains(tache)){
+            throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+ tache.nom);
         }
-        listTasks.add(task);
+        listTaches.add(tache);
     }
 
     /**

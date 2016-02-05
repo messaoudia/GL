@@ -6,14 +6,13 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Guillaume on 25/01/2016.
  */
 @Entity
-@Table(name = "Projet")
+@Table
 public class Projet extends Model {
 
     @Id
@@ -21,7 +20,7 @@ public class Projet extends Model {
     public Long id;
     public String nom;
     public String description;
-    public User responsable;
+    public Utilisateur responsable;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
     public LocalDate dateDebutTheorique;
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
@@ -36,7 +35,7 @@ public class Projet extends Model {
     public Boolean archive;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="client_id")
+    @JoinColumn
     public Client client;
 
     @Constraints.Min(1)
@@ -44,16 +43,16 @@ public class Projet extends Model {
     public Integer priorite;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="Tache", joinColumns={@JoinColumn(name="id")})
-    public List<Task> listTasks;
+    @JoinTable(name="Tache")
+    public List<Tache> listTaches;
 
     public UniteProjetEnum unite;
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
-    public Projet(String nom, String description, User responsable, LocalDate dateDebutTheorique, LocalDate dateFinTheorique,
+    public Projet(String nom, String description, Utilisateur responsable, LocalDate dateDebutTheorique, LocalDate dateFinTheorique,
                   LocalDate dateDebutReel, LocalDate dateFinReel, Integer chargeInitiale, UniteProjetEnum unite,
-                  Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Task> listTasks) {
+                  Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches) {
         this.nom = nom;
         this.description = description;
         this.responsable = responsable;
@@ -68,7 +67,7 @@ public class Projet extends Model {
         this.archive = archive;
         this.client = client;
         this.priorite = priorite;
-        this.listTasks = listTasks;
+        this.listTaches = listTaches;
     }
 
     public Projet() {
@@ -113,9 +112,9 @@ public class Projet extends Model {
         if(client != null){
             sb.append("Client : ").append(client.nom);
         }
-        if(listTasks != null) {
-            for (Task task : listTasks) {
-                sb.append("\n").append(task.nom).append("\n");
+        if(listTaches != null) {
+            for (Tache tache : listTaches) {
+                sb.append("\n").append(tache.nom).append("\n");
             }
         }
         return sb.toString();
@@ -126,12 +125,12 @@ public class Projet extends Model {
      * Ajouter la tache en parametre a la liste des taches du projet
      * @param tache
      */
-    public void ajouterTache(Task tache)throws IllegalArgumentException{
-        if(listTasks.contains(tache)){
+    public void ajouterTache(Tache tache)throws IllegalArgumentException{
+        if(listTaches.contains(tache)){
             throw new IllegalArgumentException("Le projet "+this.nom+", contient deja la tache "+tache.nom+
                     ", creation impossible");
         }
-        listTasks.add(tache);
+        listTaches.add(tache);
     }
 
 
@@ -141,8 +140,8 @@ public class Projet extends Model {
      * @param tache
      * @throws IllegalArgumentException
      */
-    public void modifierTache(Task tache)throws IllegalArgumentException{
-        if(!listTasks.contains(tache)){
+    public void modifierTache(Tache tache)throws IllegalArgumentException{
+        if(!listTaches.contains(tache)){
             throw new IllegalArgumentException("Le projet "+this.nom+", ne contient pas la tache "+tache.nom+
                     ", modification impossible");
         }
@@ -156,12 +155,12 @@ public class Projet extends Model {
      * @param tache
      * @throws IllegalArgumentException
      */
-    public void supprimerTache(Task tache) throws IllegalArgumentException{
-        if(!listTasks.contains(tache)){
+    public void supprimerTache(Tache tache) throws IllegalArgumentException{
+        if(!listTaches.contains(tache)){
             throw new IllegalArgumentException("Le projet "+this.nom+", ne contient pas la tache "+tache.nom+
                     ", suppression impossible");
         }
-        listTasks.remove(tache);
+        listTaches.remove(tache);
     }
 
     /**
@@ -170,7 +169,7 @@ public class Projet extends Model {
      * @param responsable
      * @throws IllegalStateException
      */
-    public void associerResponsable(User responsable) throws IllegalStateException{
+    public void associerResponsable(Utilisateur responsable) throws IllegalStateException{
         if(this.responsable != null){
             throw new IllegalStateException("Il y a deja un responsable pour ce projet");
         }
@@ -183,7 +182,7 @@ public class Projet extends Model {
      * @param responsable
      * @throws IllegalArgumentException
      */
-    public void modifierResponsable(User responsable) throws IllegalArgumentException{
+    public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException{
         if(this.responsable == responsable){
             throw new IllegalArgumentException("Remplacement du responsable de projet par le même responsable");
         }

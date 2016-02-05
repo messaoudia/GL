@@ -1,11 +1,9 @@
 package controllers;
 
-import models.Task;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.client;
 import views.html.creerClient;
-import views.html.tests;
 
 import static play.mvc.Results.ok;
 

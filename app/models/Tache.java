@@ -11,13 +11,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Tache")
-public class Task extends Model {
+@Table
+public class Tache extends Model {
 
     @Id
     @GeneratedValue
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id")
     public Long id;
     @Constraints.Required
     public String nom;
@@ -46,28 +44,27 @@ public class Task extends Model {
     public List<Contact> interlocuteurs;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="projet_id")
+    @JoinColumn
     public Projet projet;
 
-    @ManyToOne
-    public Task predecesseur;
-    @OneToMany(mappedBy="predecesseur")
-    public List<Task> successeurs;
+    @ManyToOne(cascade=CascadeType.ALL)
+    public Tache predecesseur;
+    @OneToMany(mappedBy="predecesseur",cascade=CascadeType.ALL)
+    public List<Tache> successeurs;
+
+    @ManyToOne(cascade=CascadeType.ALL)
+    public Tache parent;
+    @OneToMany(mappedBy="parent",cascade=CascadeType.ALL)
+    public List<Tache> enfants;
+
+    public static Finder<Long, Tache> find = new Finder<>(Tache.class);
 
     @ManyToOne
-    public Task parent;
+    public Utilisateur responsable;
 
-    @OneToMany(mappedBy="parent")
-    public List<Task> enfants;
-
-    public static Finder<Long, Task> find = new Finder<>(Task.class);
-
-    @ManyToOne
-    public User responsable;
-
-    public Task(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut,
-                LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
-                Integer chargeTotale, Boolean disponible,List<Contact> interlocuteurs, Projet projet) {
+    public Tache(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut,
+                 LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
+                 Integer chargeTotale, Boolean disponible, List<Contact> interlocuteurs, Projet projet) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -84,17 +81,17 @@ public class Task extends Model {
     }
 
     /**
-     * Create a task
+     * Create a tache
      */
-    public static Task create(Task task) {
-        task.save();
-        return task;
+    public static Tache create(Tache tache) {
+        tache.save();
+        return tache;
     }
 
     /**
      * Create a task
      */
-    public static List<Task> getAll() {
+    public static List<Tache> getAll() {
         return find.all();
     }
 
@@ -107,19 +104,19 @@ public class Task extends Model {
             return true;
         }
         try {
-            Task task = (Task) obj;
-            return (task.id.equals(this.id) && task.nom.equals(this.nom) &&
-                    task.description.equals(this.description) &&
-                    task.niveau.equals(this.niveau) &&
-                    task.critique.equals(this.critique) &&
-                    task.dateDebut.equals(this.dateDebut) &&
-                    task.dateFinTot.equals(this.dateFinTot) &&
-                    task.chargeInitiale.equals(this.chargeInitiale) &&
-                    task.dateFinTard.equals(this.dateFinTard) &&
-                    task.chargeConsommee.equals(this.chargeConsommee) &&
-                    task.chargeTotale.equals(this.chargeTotale) &&
-                    task.disponible.equals(this.disponible) &&
-                    task.projet.id.equals(this.projet.id) );
+            Tache tache = (Tache) obj;
+            return (tache.id.equals(this.id) && tache.nom.equals(this.nom) &&
+                    tache.description.equals(this.description) &&
+                    tache.niveau.equals(this.niveau) &&
+                    tache.critique.equals(this.critique) &&
+                    tache.dateDebut.equals(this.dateDebut) &&
+                    tache.dateFinTot.equals(this.dateFinTot) &&
+                    tache.chargeInitiale.equals(this.chargeInitiale) &&
+                    tache.dateFinTard.equals(this.dateFinTard) &&
+                    tache.chargeConsommee.equals(this.chargeConsommee) &&
+                    tache.chargeTotale.equals(this.chargeTotale) &&
+                    tache.disponible.equals(this.disponible) &&
+                    tache.projet.id.equals(this.projet.id) );
         } catch (ClassCastException e) {
             return false;
         }
@@ -170,7 +167,7 @@ public class Task extends Model {
      * @param fille
      * @throws IllegalTaskCreation
      */
-    public void associerSousTache(Task fille) throws IllegalTaskCreation {
+    public void associerSousTache(Tache fille) throws IllegalTaskCreation {
         if(niveau == 3){
             throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
@@ -183,7 +180,7 @@ public class Task extends Model {
      * @param mere
      * @throws IllegalTaskCreation
      */
-    public void associerTacheMere(Task mere) throws IllegalTaskCreation {
+    public void associerTacheMere(Tache mere) throws IllegalTaskCreation {
         if(niveau == 3){
             throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
@@ -196,7 +193,7 @@ public class Task extends Model {
      * @param responsable
      * @throws IllegalStateException
      */
-    public void associerResponsable(User responsable) throws IllegalStateException{
+    public void associerResponsable(Utilisateur responsable) throws IllegalStateException{
         if(this.responsable != null){
             throw new IllegalStateException("Il y a deja un responsable pour cette tache");
         }
@@ -209,7 +206,7 @@ public class Task extends Model {
      * @param responsable
      * @throws IllegalArgumentException
      */
-    public void modifierResponsable(User responsable) throws IllegalArgumentException{
+    public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException{
         if(this.responsable == responsable){
             throw new IllegalArgumentException("Remplacement du responsable de tache par le même responsable");
         }
@@ -222,7 +219,7 @@ public class Task extends Model {
      * @param predecesseur
      * @throws IllegalStateException
      */
-    public void associerPredecesseur(Task predecesseur) throws IllegalStateException{
+    public void associerPredecesseur(Tache predecesseur) throws IllegalStateException{
         if(this.predecesseur != null){
             throw new IllegalStateException("Il y a deja un predecesseur pour cette tache");
         }
@@ -235,7 +232,7 @@ public class Task extends Model {
      * @param predecesseur
      * @throws IllegalArgumentException
      */
-    public void modifierPredecesseur(Task predecesseur) throws IllegalArgumentException{
+    public void modifierPredecesseur(Tache predecesseur) throws IllegalArgumentException{
         if(this.predecesseur == predecesseur){
             throw new IllegalArgumentException("Remplacement du predecesseur de la tache courante par le même predecesseur");
         }
@@ -248,7 +245,7 @@ public class Task extends Model {
      * @param successeur
      * @throws IllegalStateException
      */
-    public void associerSuccesseur(Task successeur) throws IllegalStateException{
+    public void associerSuccesseur(Tache successeur) throws IllegalStateException{
         if(this.successeurs.contains(successeur)){
             throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
         }

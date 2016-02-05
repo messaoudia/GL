@@ -93,7 +93,7 @@ public class ModelBeanTest {
             n1.link = "http://localhost:9000/notif";
             n1.etatLecture = false;
             n1.archiver = false;
-            n1.user = new User("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
+            n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
             System.out.println(n1);
             n1.save();
             System.out.println(n1);
@@ -125,13 +125,13 @@ public class ModelBeanTest {
             pr.client = cl;
             pr.priorite = 1;
 
-            Task p1 = new Task("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
+            Tache p1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
                     LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
             p1.save();
-            Task p2 = new Task("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, LocalDate.of(2016,2,1),
+            Tache p2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, LocalDate.of(2016,2,1),
                     LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
             p2.save();
-            pr.listTasks = Arrays.asList(p1,p2);
+            pr.listTaches = Arrays.asList(p1,p2);
 
             pr.save();
             System.out.println(pr);
@@ -149,14 +149,14 @@ public class ModelBeanTest {
             Projet pr = new Projet();
             pr.nom = "New project";
             pr.save();
-            Task task = new Task("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
+            Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
                     LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
-            task.save();
-            System.out.println(task);
-            assertNotNull(task.id);
-            Task t2 = Task.find.byId(task.id);
+            tache.save();
+            System.out.println(tache);
+            assertNotNull(tache.id);
+            Tache t2 = Tache.find.byId(tache.id);
             System.out.println(t2);
-            assertEquals(task,t2);
+            assertEquals(tache,t2);
         });
     }
 
@@ -164,7 +164,7 @@ public class ModelBeanTest {
     @Test
     public void testPersistUser() {
         running(fakeApplication(), ()-> {
-            User u1 = new User();
+            Utilisateur u1 = new Utilisateur();
             u1.nom = "Jobss";
             u1.prenom = "Steeve";
             u1.email = "s.ja@apple.com";
@@ -174,7 +174,7 @@ public class ModelBeanTest {
             u1.save();
             System.out.println(u1);
             assertNotNull(u1.id);
-            User u2 = User.find.byId(u1.id);
+            Utilisateur u2 = Utilisateur.find.byId(u1.id);
             assertEquals(u1,u2);
         });
     }
