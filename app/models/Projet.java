@@ -18,8 +18,6 @@ public class Projet extends Model {
 
     @Id
     @GeneratedValue
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id")
     public Long id;
     public String nom;
     public String description;
