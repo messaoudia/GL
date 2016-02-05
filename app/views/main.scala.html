@@ -27,7 +27,7 @@
         <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-        <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+        <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
 
 
     </head>
@@ -101,7 +101,6 @@
                 $(document).ready(function () {
                     $('.dataTables-example').DataTable();
                     $('.footable').footable();
-                    $('.footable2').footable();
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -118,8 +117,6 @@
 
                 $(document).ajaxComplete(function() {
                     $('.footable').footable();
-                    $('.footable2').footable();
-
                 });
 
 
