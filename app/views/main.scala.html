@@ -27,7 +27,8 @@
         <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-        <link href="css/plugins/footable/footable.core.css" rel="stylesheet">
+        <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
+        <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 
 
     </head>
@@ -84,7 +85,8 @@
         <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
         <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
         <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
-        <script src="js/plugins/footable/footable.all.min.js"></script>
+        <script src="/js/plugins/footable/footable.all.min.js"></script>
+        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
 
             <!-- Exposing play framework routes -->
@@ -111,11 +113,44 @@
                     $('#modal-tdb-tache').modal();
                 });
 
+                $(document).ready(function() {
+                    $('.footable').footable();
+                    $('.footable2').footable();
+
+                });
                 $(document).ajaxComplete(function() {
                     $('.footable').footable();
                     $('.footable2').footable();
 
                 });
+
+                $(document).ready(function() {
+                    var config = {
+                        '.chosen-select'           : {},
+                        '.chosen-select-deselect'  : {allow_single_deselect:true},
+                        '.chosen-select-no-single' : {disable_search_threshold:10},
+                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                        '.chosen-select-width'     : {width:"95%"}
+                    }
+                    for (var selector in config) {
+                        $(selector).chosen(config[selector]);
+                    }
+                });
+
+                $(document).ajaxComplete(function() {
+                    var config = {
+                        '.chosen-select'           : {},
+                        '.chosen-select-deselect'  : {allow_single_deselect:true},
+                        '.chosen-select-no-single' : {disable_search_threshold:10},
+                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                        '.chosen-select-width'     : {width:"95%"}
+                    }
+                    for (var selector in config) {
+                        $(selector).chosen(config[selector]);
+                    }
+                });
+
+
 
 
 
