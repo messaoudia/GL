@@ -190,7 +190,7 @@
                                     <td data-toggle="modal" data-target="#modal-modif-user">25</td>
                                     <td data-toggle="modal" data-target="#modal-modif-user">7</td>
                                     <td data-toggle="modal" data-target="#modal-modif-user">Oui</td>
-                                    <td class="icon-remove"><i class="fa fa-times-circle"></i></td>
+                                    <td class="icon-remove"><i class="fa fa-times-circle" data-toggle="modal" data-target="#modal-suppr-user"></i></td>
                                 </tr>
                                 <tr>
                                     <td data-toggle="modal" data-target="#modal-modif-user">Heng</td>
@@ -200,7 +200,7 @@
                                     <td data-toggle="modal" data-target="#modal-modif-user">7</td>
                                     <td data-toggle="modal" data-target="#modal-modif-user">3</td>
                                     <td data-toggle="modal" data-target="#modal-modif-user">Non</td>
-                                    <td class="icon-remove"><i class="fa fa-times-circle"></i></td>
+                                    <td class="icon-remove"><i class="fa fa-times-circle" data-toggle="modal" data-target="#modal-suppr-user"></i></td>
                                 </tr>
                                 <tr>
                                     <td data-toggle="modal" data-target="#modal-modif-user">Zheng</td>
@@ -210,7 +210,7 @@
                                     <td data-toggle="modal" data-target="#modal-modif-user">12</td>
                                     <td data-toggle="modal" data-target="#modal-modif-user">12</td>
                                     <td data-toggle="modal" data-target="#modal-modif-user">Oui</td>
-                                    <td class="icon-remove"><i class="fa fa-times-circle"></i></td>
+                                    <td class="icon-remove"><i class="fa fa-times-circle" data-toggle="modal" data-target="#modal-suppr-user"></i></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -269,6 +269,82 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal fade" id="modal-suppr-user" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="ibox-title background_admin div-center">
+                                    <h5 class="text-white inline">@Messages("removeUser")</h5>
+                                    <div class="ibox-tools">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <i class="fa fa-times"/>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <form class="form-horizontal" id="removeUserForm">
+                                        <div class="row div-center">
+                                            <p>@Messages("deletingOf") : Yasser Rabi (yasser.rabi&commat;u-psud.fr)</p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>@Messages("projectManagerChange") :</p>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-suppr-user">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>@Messages("project")</th>
+                                                                <th>@Messages("newPersonResponsible")</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Projet 1</td>
+                                                                <td>
+                                                                    Auto-completion
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!-- TODO : clé traduction -->
+                                                <p>Changement du responsable d'une tâche :</p>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-suppr-user">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>@Messages("task")</th>
+                                                                <th>@Messages("project")</th>
+                                                                <th>@Messages("newPersonResponsible")</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Créer la base de données</td>
+                                                                <td>Projet 1</td>
+                                                                <td>
+                                                                    Auto-completion
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:15px;">
+                                            <div class="div-center">
+                                                    <!--TODO modalview Valider (check contacts & projet & champs -->
+                                                <button class="btn btn-admin" type="submit" form="removeUserForm">
+                                                    <i class="fa fa-check-square"></i> @Messages("validate")
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

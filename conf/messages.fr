@@ -79,3 +79,7 @@ archivedProjects = Projets archivés
 archived = Archivé
 showArchivedUsers = Afficher les utilisateurs archivés
 administrator = Administrateur
+removeUser = Supprimer Utilisateur
+deletingOf = Suppression de
+projectManagerChange = Changement de responsable de projets
+newPersonResponsible = Nouveau responsable

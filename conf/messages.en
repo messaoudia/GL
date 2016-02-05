@@ -80,3 +80,7 @@ archivedProjects = Archived projects
 archived = Archived
 showArchivedUsers = Show archived users
 administrator = Administrator
+removeUser = Remove User
+deletingOf = Deleting of
+projectManagerChange = Project manager's change
+newPersonResponsible = New person responsible
