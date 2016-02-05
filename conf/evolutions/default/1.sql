@@ -3,36 +3,36 @@
 
 # --- !Ups
 
-create table Adresse (
+create table adresse (
   id                        bigint not null,
   adresse                   varchar(255),
   zip_code                  varchar(255),
   ville                     varchar(255),
   pays                      varchar(255),
-  constraint pk_Adresse primary key (id))
+  constraint pk_adresse primary key (id))
 ;
 
-create table Client (
+create table client (
   id                        bigint not null,
   nom                       varchar(255),
   priorite                  integer,
   archiver                  boolean,
   adresse_client_id         bigint,
-  constraint uq_Client_adresse_client_id unique (adresse_client_id),
-  constraint pk_Client primary key (id))
+  constraint uq_client_adresse_client_id unique (adresse_client_id),
+  constraint pk_client primary key (id))
 ;
 
-create table Contact (
+create table contact (
   id                        bigint not null,
   nom                       varchar(255),
   prenom                    varchar(255),
   email                     varchar(255),
   telephone                 varchar(255),
   client_id                 bigint,
-  constraint pk_Contact primary key (id))
+  constraint pk_contact primary key (id))
 ;
 
-create table Notification (
+create table notification (
   id                        bigint not null,
   title                     varchar(255),
   content_notification      varchar(255),
@@ -41,10 +41,10 @@ create table Notification (
   etat_lecture              boolean,
   archiver                  boolean,
   utilisateur_id            bigint,
-  constraint pk_Notification primary key (id))
+  constraint pk_notification primary key (id))
 ;
 
-create table Projet (
+create table projet (
   id                        bigint not null,
   nom                       varchar(255),
   description               varchar(255),
@@ -59,11 +59,11 @@ create table Projet (
   client_id                 bigint,
   priorite                  integer,
   unite                     integer,
-  constraint ck_Projet_unite check (unite in (0,1)),
-  constraint pk_Projet primary key (id))
+  constraint ck_projet_unite check (unite in (0,1)),
+  constraint pk_projet primary key (id))
 ;
 
-create table Tache (
+create table tache (
   id                        bigint not null,
   nom                       varchar(255),
   description               varchar(255),
@@ -80,95 +80,95 @@ create table Tache (
   predecesseur_id           bigint,
   parent_id                 bigint,
   responsable_id            bigint,
-  constraint pk_Tache primary key (id))
+  constraint pk_tache primary key (id))
 ;
 
-create table User (
+create table utilisateur (
   id                        bigint not null,
   nom                       varchar(255),
   prenom                    varchar(255),
   email                     varchar(255),
   telephone                 varchar(255),
   password                  varchar(255),
-  constraint pk_User primary key (id))
+  constraint pk_utilisateur primary key (id))
 ;
 
 
-create table Contact_Tache (
-  Contact_id                     bigint not null,
-  Tache_id                       bigint not null,
-  constraint pk_Contact_Tache primary key (Contact_id, Tache_id))
+create table contact_tache (
+  contact_id                     bigint not null,
+  tache_id                       bigint not null,
+  constraint pk_contact_tache primary key (contact_id, tache_id))
 ;
-create sequence Adresse_seq;
+create sequence adresse_seq;
 
-create sequence Client_seq;
+create sequence client_seq;
 
-create sequence Contact_seq;
+create sequence contact_seq;
 
-create sequence Notification_seq;
+create sequence notification_seq;
 
-create sequence Projet_seq;
+create sequence projet_seq;
 
-create sequence Tache_seq;
+create sequence tache_seq;
 
-create sequence User_seq;
+create sequence utilisateur_seq;
 
-alter table Client add constraint fk_Client_adresseClient_1 foreign key (adresse_client_id) references Adresse (id) on delete restrict on update restrict;
-create index ix_Client_adresseClient_1 on Client (adresse_client_id);
-alter table Contact add constraint fk_Contact_client_2 foreign key (client_id) references Client (id) on delete restrict on update restrict;
-create index ix_Contact_client_2 on Contact (client_id);
-alter table Notification add constraint fk_Notification_user_3 foreign key (utilisateur_id) references User (id) on delete restrict on update restrict;
-create index ix_Notification_user_3 on Notification (utilisateur_id);
-alter table Projet add constraint fk_Projet_client_4 foreign key (client_id) references Client (id) on delete restrict on update restrict;
-create index ix_Projet_client_4 on Projet (client_id);
-alter table Tache add constraint fk_Tache_projet_5 foreign key (projet_id) references Projet (id) on delete restrict on update restrict;
-create index ix_Tache_projet_5 on Tache (projet_id);
-alter table Tache add constraint fk_Tache_predecesseur_6 foreign key (predecesseur_id) references Tache (id) on delete restrict on update restrict;
-create index ix_Tache_predecesseur_6 on Tache (predecesseur_id);
-alter table Tache add constraint fk_Tache_parent_7 foreign key (parent_id) references Tache (id) on delete restrict on update restrict;
-create index ix_Tache_parent_7 on Tache (parent_id);
-alter table Tache add constraint fk_Tache_responsable_8 foreign key (responsable_id) references User (id) on delete restrict on update restrict;
-create index ix_Tache_responsable_8 on Tache (responsable_id);
+alter table client add constraint fk_client_adresseClient_1 foreign key (adresse_client_id) references adresse (id) on delete restrict on update restrict;
+create index ix_client_adresseClient_1 on client (adresse_client_id);
+alter table contact add constraint fk_contact_client_2 foreign key (client_id) references client (id) on delete restrict on update restrict;
+create index ix_contact_client_2 on contact (client_id);
+alter table notification add constraint fk_notification_utilisateur_3 foreign key (utilisateur_id) references utilisateur (id) on delete restrict on update restrict;
+create index ix_notification_utilisateur_3 on notification (utilisateur_id);
+alter table projet add constraint fk_projet_client_4 foreign key (client_id) references client (id) on delete restrict on update restrict;
+create index ix_projet_client_4 on projet (client_id);
+alter table tache add constraint fk_tache_projet_5 foreign key (projet_id) references projet (id) on delete restrict on update restrict;
+create index ix_tache_projet_5 on tache (projet_id);
+alter table tache add constraint fk_tache_predecesseur_6 foreign key (predecesseur_id) references tache (id) on delete restrict on update restrict;
+create index ix_tache_predecesseur_6 on tache (predecesseur_id);
+alter table tache add constraint fk_tache_parent_7 foreign key (parent_id) references tache (id) on delete restrict on update restrict;
+create index ix_tache_parent_7 on tache (parent_id);
+alter table tache add constraint fk_tache_responsable_8 foreign key (responsable_id) references utilisateur (id) on delete restrict on update restrict;
+create index ix_tache_responsable_8 on tache (responsable_id);
 
 
 
-alter table Contact_Tache add constraint fk_Contact_Tache_Contact_01 foreign key (Contact_id) references Contact (id) on delete restrict on update restrict;
+alter table contact_tache add constraint fk_contact_tache_contact_01 foreign key (contact_id) references contact (id) on delete restrict on update restrict;
 
-alter table Contact_Tache add constraint fk_Contact_Tache_Tache_02 foreign key (Tache_id) references Tache (id) on delete restrict on update restrict;
+alter table contact_tache add constraint fk_contact_tache_tache_02 foreign key (tache_id) references tache (id) on delete restrict on update restrict;
 
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table if exists Adresse;
+drop table if exists adresse;
 
-drop table if exists Client;
+drop table if exists client;
 
-drop table if exists Contact;
+drop table if exists contact;
 
-drop table if exists Contact_Tache;
+drop table if exists contact_tache;
 
-drop table if exists Notification;
+drop table if exists notification;
 
-drop table if exists Projet;
+drop table if exists projet;
 
-drop table if exists Tache;
+drop table if exists tache;
 
-drop table if exists User;
+drop table if exists utilisateur;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
-drop sequence if exists Adresse_seq;
+drop sequence if exists adresse_seq;
 
-drop sequence if exists Client_seq;
+drop sequence if exists client_seq;
 
-drop sequence if exists Contact_seq;
+drop sequence if exists contact_seq;
 
-drop sequence if exists Notification_seq;
+drop sequence if exists notification_seq;
 
-drop sequence if exists Projet_seq;
+drop sequence if exists projet_seq;
 
-drop sequence if exists Tache_seq;
+drop sequence if exists tache_seq;
 
-drop sequence if exists User_seq;
+drop sequence if exists utilisateur_seq;
 
