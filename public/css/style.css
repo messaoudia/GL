@@ -7,6 +7,11 @@
  *
 */
 
+.form-group-user{
+  padding-right : 30px;
+  padding-left : 30px;
+}
+
 #right-sidebar{
   padding:10px;
 }
