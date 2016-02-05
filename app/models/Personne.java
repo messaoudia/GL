@@ -10,6 +10,7 @@ import javax.persistence.*;
  */
 @MappedSuperclass
 public abstract class Personne extends Model{
+
     @Id
     @GeneratedValue
     public Long id;

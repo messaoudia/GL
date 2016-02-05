@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table
-public class Utilisateur extends Personne{
+public class Utilisateur extends Personne {
 
     @Constraints.Required
     protected String password;

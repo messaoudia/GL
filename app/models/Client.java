@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import models.Securite.EntiteSecurise;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -11,11 +12,8 @@ import java.util.List;
  */
 @Entity
 @Table
-public class Client extends Model{
+public class Client extends EntiteSecurise {
 
-    @Id
-    @GeneratedValue
-    public Long id;
     public String nom;
 
     @Constraints.Min(1)
