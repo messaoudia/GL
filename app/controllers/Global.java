@@ -23,15 +23,6 @@ public class Global extends GlobalSettings {
             for (Map.Entry<String, List<Object>> entry : all.entrySet()){
                 Ebean.save(entry.getValue());
             }
-
-
-            /*Ebean.save(all.get("adresses"));
-            Ebean.save(all.get("clients"));
-            Ebean.save(all.get("contacts"));
-            Ebean.save(all.get("utilisateurs"));
-            Ebean.save(all.get("projets"));
-            Ebean.save(all.get("taches"));
-            Ebean.save(all.get("notifications"));*/
         }
         System.out.println(Utilisateur.find.all());
     }
