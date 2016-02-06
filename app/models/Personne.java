@@ -39,7 +39,7 @@ public abstract class Personne extends Model{
 
     @Override
     public String toString() {
-        return "[Personne : " + id + "] : " +
+        return  id + "] : " +
                 nom + ", " + prenom + ", " +
                 email + ", " + telephone;
     }

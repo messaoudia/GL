@@ -77,7 +77,7 @@ public class Utilisateur extends Personne {
 
     @Override
     public String toString() {
-        return super.toString() +", Password :" + password + ")";
+        return "[Utilisateur : "+super.toString() +", Password :" + password + ")";
     }
 
     public void affectTask(Tache tache){
