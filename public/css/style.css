@@ -6,6 +6,9 @@
  *   version 2.3
  *
 */
+.non-lu{
+  font-weight: bold;
+}
 
 #right-sidebar{
   padding:10px;
