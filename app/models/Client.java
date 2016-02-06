@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Entity
 @Table
+@DiscriminatorValue("CLIENT")
 public class Client extends EntiteSecurise {
 
     public String nom;

@@ -12,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table
+@DiscriminatorValue("TACHE")
 public class Tache extends EntiteSecurise {
 
     @Constraints.Required

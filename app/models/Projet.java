@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Projet")
+@DiscriminatorValue("PROJET")
 public class Projet extends EntiteSecurise {
 
     public String nom;
