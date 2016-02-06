@@ -36,7 +36,7 @@ public class Contact extends Personne {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[Contact : ");
+        sb.append("[Personne : ");
         sb.append(super.toString());
         if(client != null) {
             sb.append(", Client(");

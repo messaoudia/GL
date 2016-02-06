@@ -18,13 +18,12 @@ public class Global extends GlobalSettings {
         // Check if the database is empty
         if (Utilisateur.find.findRowCount() == 0) {
             //Ebean.save((List) Yaml.load("initial-data.yml"));
-            Map<String,List<Object>> all = (Map<String,List<Object>>)Yaml.load("initial-data.yml");
+            List<Object> all = (List<Object>)Yaml.load("initial-data.yml");
+            System.out.println("all = " + all);
+               // Ebean.save(entry.getValue());
 
-            for (Map.Entry<String, List<Object>> entry : all.entrySet()){
-                Ebean.save(entry.getValue());
-            }
         }
-        System.out.println(Utilisateur.find.all());
+        //System.out.println(Utilisateur.find.all());
     }
 
 }

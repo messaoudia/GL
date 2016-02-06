@@ -1,4 +1,4 @@
-adresses:
+#adresses:
 
     - &adresse1 !!models.Adresse
         id:         1
@@ -17,12 +17,28 @@ adresses:
 
     - &adresse3 !!models.Adresse
         id:         11
-        adresse:    "1 place de l'étoire"
+        adresse:    "1 place de l'étoile"
         zipCode:    "75000"
         ville:      "Paris"
         pays:       "FRANCE"
 
-clients:
+#contacts:
+
+    - &contact1 !!models.Contact
+        id:         5
+        nom:        "POGBA"
+        prenom:     "Paul"
+        email:      "p.b@google.net"
+        telephone:  "0236541235"
+
+    - &contact2 !!models.Contact
+        id:         6
+        nom:        "ZIDANE"
+        prenom:     "Zinédine"
+        email:      "z.z@google.net"
+        telephone:  "0456371829"
+
+#clients:
 
     - &client1 !!models.Client
         id:         3
@@ -44,26 +60,11 @@ clients:
         priorite:   1
         archiver:   false
         adresseClient: *adresse3
+        listeContacts:
+            - *contact1
+            - *contact2
 
-contacts:
-
-    - !!models.Contact
-        id:         5
-        nom:        "POGBA"
-        prenom:     "Paul"
-        email:      "p.b@google.net"
-        telephone:  "0236541235"
-        client:  *client3
-
-    - !!models.Contact
-        id:         6
-        nom:        "ZIDANE"
-        prenom:     "Zinédine"
-        email:      "z.z@google.net"
-        telephone:  "0456371829"
-        client:  *client3
-
-utilisateurs:
+#utilisateurs:
 
     - !!models.Utilisateur
         id:         7
