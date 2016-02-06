@@ -1,0 +1,98 @@
+adresses:
+
+    - &adresse1 !!models.Adresse
+        id:         1
+        adresse:    "92 rue de Réaumur"
+        zipCode:   "75009"
+        ville:      "Paris"
+        pays:       "FRANCE"
+
+
+    - &adresse2 !!models.Adresse
+        id:         2
+        adresse:    "9 rue de paris"
+        zipCode:    "91400"
+        ville:      "Orsay"
+        pays:       "FRANCE"
+
+    - &adresse3 !!models.Adresse
+        id:         11
+        adresse:    "1 place de l'étoire"
+        zipCode:    "75000"
+        ville:      "Paris"
+        pays:       "FRANCE"
+
+clients:
+
+    - &client1 !!models.Client
+        id:         3
+        nom:        "Apple Inc."
+        priorite:   2
+        archiver:   false
+        adresseClient: *adresse1
+
+    - &client2 !!models.Client
+        id:         4
+        nom:        "Microsoft"
+        priorite:   2
+        archiver:   false
+        adresseClient: *adresse2
+
+    - &client3 !!models.Client
+        id:         12
+        nom:        "Google"
+        priorite:   1
+        archiver:   false
+        adresseClient: *adresse3
+
+contacts:
+
+    - !!models.Contact
+        id:         5
+        nom:        "POGBA"
+        prenom:     "Paul"
+        email:      "p.b@google.net"
+        telephone:  "0236541235"
+        client:  *client3
+
+    - !!models.Contact
+        id:         6
+        nom:        "ZIDANE"
+        prenom:     "Zinédine"
+        email:      "z.z@google.net"
+        telephone:  "0456371829"
+        client:  *client3
+
+utilisateurs:
+
+    - !!models.Utilisateur
+        id:         7
+        nom:        "RABI"
+        prenom:     "Yasser"
+        email:      "yasser.rabi@u-psud.fr"
+        telephone:  "0564781529"
+        password:   "Azerty1"
+
+    - !!models.Utilisateur
+        id:         8
+        nom:        "PREISNER"
+        prenom:     "Julien"
+        email:      "julien.preisner@u-psud.fr"
+        telephone:  "0561234529"
+        password:   "Azerty2"
+
+    - !!models.Utilisateur
+        id:         9
+        nom:        "AKBARALY"
+        prenom:     "Gishan"
+        email:      "gishan.akbaraly@u-psud.fr"
+        telephone:  "0566543219"
+        password:   "Azerty3"
+
+    - !!models.Utilisateur
+        id:         10
+        nom:        "IBRAHIMOVIC"
+        prenom:     "Zlatan"
+        email:      "z.i@psg.fr"
+        telephone:  "0123456789"
+        password:   "psg"
