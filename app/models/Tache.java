@@ -1,8 +1,8 @@
 package models;
 
-import com.avaje.ebean.Model;
 import models.Exceptions.IllegalTaskCreation;
 import models.Exceptions.NotAvailableTask;
+import models.Securite.EntiteSecurise;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -12,11 +12,8 @@ import java.util.List;
 
 @Entity
 @Table
-public class Tache extends Model {
+public class Tache extends EntiteSecurise {
 
-    @Id
-    @GeneratedValue
-    public Long id;
     @Constraints.Required
     public String nom;
     @Constraints.Required
@@ -43,18 +40,18 @@ public class Tache extends Model {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
     public List<Contact> interlocuteurs;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     public Projet projet;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Tache predecesseur;
-    @OneToMany(mappedBy="predecesseur",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "predecesseur", cascade = CascadeType.ALL)
     public List<Tache> successeurs;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     public Tache parent;
-    @OneToMany(mappedBy="parent",cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     public List<Tache> enfants;
 
     public static Finder<Long, Tache> find = new Finder<>(Tache.class);
@@ -76,7 +73,7 @@ public class Tache extends Model {
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
         this.disponible = disponible;
-		this.interlocuteurs = interlocuteurs;
+        this.interlocuteurs = interlocuteurs;
         this.projet = projet;
     }
 
@@ -116,7 +113,7 @@ public class Tache extends Model {
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
                     tache.chargeTotale.equals(this.chargeTotale) &&
                     tache.disponible.equals(this.disponible) &&
-                    tache.projet.id.equals(this.projet.id) );
+                    tache.projet.id.equals(this.projet.id));
         } catch (ClassCastException e) {
             return false;
         }
@@ -124,7 +121,7 @@ public class Tache extends Model {
 
     @Override
     public String toString() {
-        return  "[Tâche : " + id + "] : " + nom + ", " + description +
+        return "[Tâche : " + id + "] : " + nom + ", " + description +
                 "\nniveau : " + niveau + "\ncritique : " + critique +
                 "\ndateDebut : " + dateDebut + "\ndateFinTot : " + dateFinTot +
                 "\ndateFinTard : " + dateFinTard + "\nchargeInitiale : " + chargeInitiale +
@@ -137,16 +134,17 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Modifie la charge de la tâche actuelle avec les charges en parametre
+     *
      * @param chargeConsommee
      * @param chargeTotale
      * @throws NotAvailableTask
      */
-    public void modifierCharge(Integer chargeConsommee, Integer chargeTotale)throws NotAvailableTask {
-        if (!disponible){
-            throw new NotAvailableTask("Tache "+nom+", pas encore disponible, modification de charge impossible");
+    public void modifierCharge(Integer chargeConsommee, Integer chargeTotale) throws NotAvailableTask {
+        if (!disponible) {
+            throw new NotAvailableTask("Tache " + nom + ", pas encore disponible, modification de charge impossible");
         }
-        if(enfants.size()!= 0){
-            throw new NotAvailableTask("Tache "+nom+" non terminale, modification de ses filles uniquement");
+        if (enfants.size() != 0) {
+            throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
         }
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
@@ -164,11 +162,12 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Cree une sous-tâche a cette tâche
+     *
      * @param fille
      * @throws IllegalTaskCreation
      */
     public void associerSousTache(Tache fille) throws IllegalTaskCreation {
-        if(niveau == 3){
+        if (niveau == 3) {
             throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
         enfants.add(fille);
@@ -177,11 +176,12 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Cree une tache mere a cette tâche
+     *
      * @param mere
      * @throws IllegalTaskCreation
      */
     public void associerTacheMere(Tache mere) throws IllegalTaskCreation {
-        if(niveau == 3){
+        if (niveau == 3) {
             throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
         this.parent = mere;
@@ -190,11 +190,12 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Affecte l'utilisateur en parametre en tant que responsable de la tache
+     *
      * @param responsable
      * @throws IllegalStateException
      */
-    public void associerResponsable(Utilisateur responsable) throws IllegalStateException{
-        if(this.responsable != null){
+    public void associerResponsable(Utilisateur responsable) throws IllegalStateException {
+        if (this.responsable != null) {
             throw new IllegalStateException("Il y a deja un responsable pour cette tache");
         }
         this.responsable = responsable;
@@ -203,11 +204,12 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Modifie le responsable de tache par l'utilisateur en parametre
+     *
      * @param responsable
      * @throws IllegalArgumentException
      */
-    public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException{
-        if(this.responsable == responsable){
+    public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException {
+        if (this.responsable == responsable) {
             throw new IllegalArgumentException("Remplacement du responsable de tache par le même responsable");
         }
         this.responsable = responsable;
@@ -216,11 +218,12 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Affecte la tache en parametre en tant que predecesseur de la tache courante
+     *
      * @param predecesseur
      * @throws IllegalStateException
      */
-    public void associerPredecesseur(Tache predecesseur) throws IllegalStateException{
-        if(this.predecesseur != null){
+    public void associerPredecesseur(Tache predecesseur) throws IllegalStateException {
+        if (this.predecesseur != null) {
             throw new IllegalStateException("Il y a deja un predecesseur pour cette tache");
         }
         this.predecesseur = predecesseur;
@@ -229,11 +232,12 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Modifie le predecesseur de la tache par la tache en parametre
+     *
      * @param predecesseur
      * @throws IllegalArgumentException
      */
-    public void modifierPredecesseur(Tache predecesseur) throws IllegalArgumentException{
-        if(this.predecesseur == predecesseur){
+    public void modifierPredecesseur(Tache predecesseur) throws IllegalArgumentException {
+        if (this.predecesseur == predecesseur) {
             throw new IllegalArgumentException("Remplacement du predecesseur de la tache courante par le même predecesseur");
         }
         this.predecesseur = predecesseur;
@@ -242,11 +246,12 @@ public class Tache extends Model {
     /**
      * TODO testme
      * Ajoute la tache en parametre en tant que sucesseur de la tache courante
+     *
      * @param successeur
      * @throws IllegalStateException
      */
-    public void associerSuccesseur(Tache successeur) throws IllegalStateException{
-        if(this.successeurs.contains(successeur)){
+    public void associerSuccesseur(Tache successeur) throws IllegalStateException {
+        if (this.successeurs.contains(successeur)) {
             throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
         }
         this.successeurs.add(successeur);
@@ -254,9 +259,10 @@ public class Tache extends Model {
 
     /**
      * TODO testme
+     *
      * @return la charge restante pour ce projet (en l'unité définie pour le projet)
      */
-    public Integer getChargeRestante(){
-        return chargeTotale-chargeConsommee;
+    public Integer getChargeRestante() {
+        return chargeTotale - chargeConsommee;
     }
 }
