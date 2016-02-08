@@ -120,10 +120,10 @@
     id:                 15
     nom:                Projet Test 3
     responsable:        *utilisateur1
-#    dateDebutTheorique: '12/02/2016'
-#    dateFinTheorique:   '12/02/2017'
-#    dateDebutReel:      '25/02/2016'
-#    dateFinReel:        '26/02/2016'
+    dateDebutTheorique: 2016-02-12
+    dateFinTheorique:   2017-02-12
+    dateDebutReel:      2016-02-25
+    dateFinReel:        2016-02-26
     chargeInitiale:     1
     avancementGlobal:   0
     enCours:            true
@@ -135,19 +135,19 @@
 #Taches:
 
 - &tache1 !!models.Tache
-    id:                 15
+    id:                 16
     nom:                Réunion Client du Projet
     description:        Cette tâche correspond à la réunion client
     niveau:             0
     critique:           true
-    #dateDebut:         '25/02/2016'
-    #dateFinTôt:        '26/02/2016'
-    #dateFinTard:       '26/02/2016'
+    dateDebut:          2016-02-25
+    dateFinTot:         2016-02-26
+    dateFinTard:        2016-02-26
     chargeInitiale:     1
     chargeConsommee:    0
     chargeTotale:       1
     disponible:         true
     interlocuteurs:
-         - *client1
+         - *contact4
     projet:             *projet1
     responsable:        *utilisateur2
