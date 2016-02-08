@@ -151,3 +151,21 @@ taches:
          - *contact4
     projet:             *projet1
     responsable:        *utilisateur2
+
+- &tache2 !!models.Tache
+    id:                 17
+    nom:                Réunion Client du Projet 2
+    description:        Cette tâche correspond à la réunion client 2
+    niveau:             0
+    critique:           true
+    dateDebut:          2016-02-26
+    dateFinTot:         2016-02-27
+    dateFinTard:        2016-02-27
+    chargeInitiale:     1
+    chargeConsommee:    0
+    chargeTotale:       1
+    disponible:         false
+    interlocuteurs:
+         - *contact4
+    projet:             *projet1
+    responsable:        *utilisateur2
