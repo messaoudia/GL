@@ -4,10 +4,7 @@ import com.avaje.ebean.Model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.validation.Constraints;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -18,7 +15,7 @@ import java.util.List;
 public class Adresse extends Model {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     @Constraints.MaxLength(60)

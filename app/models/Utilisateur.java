@@ -21,10 +21,6 @@ public class Utilisateur extends Personne {
     @JoinTable
     public List<Notification> listNotifications;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable
-    public List<Tache> listTaches;
-
     //TODO Make connection to the database to check the authentication
     public String validate() {
         if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
@@ -81,12 +77,16 @@ public class Utilisateur extends Personne {
         return ToStringBuilder.reflectionToString(this);
     }
 
-    public void affectTask(Tache tache){
+    public List<Tache> listTachesResponsable(){
+        return Tache.find.where().eq("responsable",Utilisateur.find.byId(id)).findList();
+    }
+
+   /* public void affectTask(Tache tache){
         if(listTaches.contains(tache)){
             throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+ tache.nom);
         }
         listTaches.add(tache);
-    }
+    }*/
 
     /**
      * TODO testme

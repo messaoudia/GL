@@ -15,7 +15,7 @@ import java.util.Date;
 @Table
 public class Notification extends Model{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     public String title;
     public String contentNotification;

@@ -13,7 +13,7 @@ import javax.persistence.*;
 public abstract class Personne extends Model{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
     public String nom;
     public String prenom;
