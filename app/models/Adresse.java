@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.validation.Constraints;
 
 import javax.persistence.Entity;
@@ -47,9 +48,7 @@ public class Adresse extends Model {
 
     @Override
     public String toString() {
-        return "[Adresse : " + id + "] : " +
-                adresse + ", " + zipCode + ", " +
-                ville + ", " + pays;
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

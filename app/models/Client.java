@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import models.Securite.EntiteSecurise;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -70,18 +71,7 @@ public class Client extends EntiteSecurise {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[Client : ").append(id).append("] : Priority").append(priorite);
-        sb.append(", archived").append(archiver).append(", adress \n").append(adresseClient);
-        sb.append("\n, ListContacts :");
-        for (Contact personne : listeContacts) {
-            sb.append("\n").append(personne.nom);
-        }
-        sb.append("\n, ListProjets :");
-        for (Projet projet : listeProjets) {
-            sb.append("\n").append(projet.nom);
-        }
-        return sb.toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     /**

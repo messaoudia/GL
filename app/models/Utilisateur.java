@@ -1,5 +1,6 @@
 package models;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -77,7 +78,7 @@ public class Utilisateur extends Personne {
 
     @Override
     public String toString() {
-        return "[Utilisateur : "+super.toString() +", Password :" + password + ")";
+        return ToStringBuilder.reflectionToString(this);
     }
 
     public void affectTask(Tache tache){

@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -35,14 +36,7 @@ public class Contact extends Personne {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[Personne : ");
-        sb.append(super.toString());
-        if(client != null) {
-            sb.append(", Client(");
-            sb.append(client.nom).append(")");
-        }
-        return sb.toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

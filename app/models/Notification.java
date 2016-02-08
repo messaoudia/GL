@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
 
 import javax.persistence.*;
@@ -45,11 +46,7 @@ public class Notification extends Model{
 
     @Override
     public String toString() {
-        return "[Notification : " + id + "] : " +
-                title + ", " + dateEnvoi + ", " +
-                link + ", etatLecture " + etatLecture +
-                ", archiver " + archiver +
-                ", contentNotification \n" + contentNotification + "\n";
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -39,9 +40,7 @@ public abstract class Personne extends Model{
 
     @Override
     public String toString() {
-        return  id + "] : " +
-                nom + ", " + prenom + ", " +
-                email + ", " + telephone;
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

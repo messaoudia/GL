@@ -2,11 +2,12 @@ package models;
 
 import com.avaje.ebean.Model;
 import models.Securite.EntiteSecurise;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,14 +21,14 @@ public class Projet extends EntiteSecurise {
     public String nom;
     public String description;
     public Utilisateur responsable;
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateDebutTheorique;
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateFinTheorique;
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateDebutReel;
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateFinReel;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateDebutTheorique;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateFinTheorique;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateDebutReel;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateFinReel;
     public Integer chargeInitiale;
     public Byte avancementGlobal;
     public Boolean enCours;
@@ -49,8 +50,8 @@ public class Projet extends EntiteSecurise {
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
-    public Projet(String nom, String description, Utilisateur responsable, LocalDate dateDebutTheorique, LocalDate dateFinTheorique,
-                  LocalDate dateDebutReel, LocalDate dateFinReel, Integer chargeInitiale, UniteProjetEnum unite,
+    public Projet(String nom, String description, Utilisateur responsable, Date dateDebutTheorique, Date dateFinTheorique,
+                  Date dateDebutReel, Date dateFinReel, Integer chargeInitiale, UniteProjetEnum unite,
                   Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches) {
         this.nom = nom;
         this.description = description;
@@ -101,22 +102,7 @@ public class Projet extends EntiteSecurise {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[Projet : ").append(id).append("] : ").append(nom).append(", ").append(description);
-        sb.append("\nDebutTH : ").append(dateDebutTheorique).append(", FinTH : ").append(dateFinTheorique);
-        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRE : ").append(dateFinReel);
-        sb.append("\nChargeInitiale : ").append(chargeInitiale).append(", Avancement (%) : ").append(avancementGlobal);
-        sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
-        sb.append(", Priorite :").append(priorite).append("\n");
-        if (client != null) {
-            sb.append("Client : ").append(client.nom);
-        }
-        if (listTaches != null) {
-            for (Tache tache : listTaches) {
-                sb.append("\n").append(tache.nom).append("\n");
-            }
-        }
-        return sb.toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     /**

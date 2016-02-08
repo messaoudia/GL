@@ -3,11 +3,12 @@ package models;
 import models.Exceptions.IllegalTaskCreation;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,12 +25,12 @@ public class Tache extends EntiteSecurise {
     @Constraints.Max(3)
     public Integer niveau;
     public Boolean critique;
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateDebut;
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateFinTot;
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateFinTard;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateDebut;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateFinTot;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateFinTard;
     @Constraints.Min(0)
     public Integer chargeInitiale;
     @Constraints.Min(0)
@@ -60,8 +61,8 @@ public class Tache extends EntiteSecurise {
     @ManyToOne
     public Utilisateur responsable;
 
-    public Tache(String nom, String description, Integer niveau, Boolean critique, LocalDate dateDebut,
-                 LocalDate dateFinTot, LocalDate dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
+    public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
+                 Date dateFinTot, Date dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
                  Integer chargeTotale, Boolean disponible, List<Contact> interlocuteurs, Projet projet) {
         this.nom = nom;
         this.description = description;
@@ -122,15 +123,8 @@ public class Tache extends EntiteSecurise {
 
     @Override
     public String toString() {
-        return "[Tâche : " + id + "] : " + nom + ", " + description +
-                "\nniveau : " + niveau + "\ncritique : " + critique +
-                "\ndateDebut : " + dateDebut + "\ndateFinTot : " + dateFinTot +
-                "\ndateFinTard : " + dateFinTard + "\nchargeInitiale : " + chargeInitiale +
-                "\nchargeConsommee : " + chargeConsommee + "\nchargeTotale : " + chargeTotale +
-                "\ndisponible : " + disponible + "\ninterlocuteurs : " + interlocuteurs +
-                "\nprojet : " + projet.nom + "\n";
+        return ToStringBuilder.reflectionToString(this);
     }
-
 
     /**
      * TODO testme
@@ -263,7 +257,7 @@ public class Tache extends EntiteSecurise {
      *
      * @return la charge restante pour ce projet (en l'unité définie pour le projet)
      */
-    public Integer getChargeRestante() {
+    public Integer chargeRestante() {
         return chargeTotale - chargeConsommee;
     }
 }
