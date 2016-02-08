@@ -195,42 +195,72 @@
 
                 </div>
 
-                <div class="wrapper wrapper-content">
-                    <div class="ibox animated fadeInRightBig" style="background-color: #FFF; max-width: 100%;">
-                        <div class="ibox-content">
-                            <div class="row">
-                                <div class="col-sm-offset-2 col-sm-8">
 
-                                        <h2>Projet:</h2>
+                <form id="addProjectForm" class="m-t" role="form" method="POST">
 
+                    <div class="wrapper wrapper-content">
+                        <div class="ibox animated fadeInRightBig" style="background-color: #FFF; max-width: 100%;">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div class="col-sm-offset-2 col-sm-8">
+                                        <label class="label_h2" for="projectResponsible">@Messages("project")</label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-sm-offset-2 col-sm-8">
-                                    <div class="row">
-                                        <h2 class="col-sm-6"><input type="email" placeholder="" class="form-control"></h2>
-                                        <div class="col-sm-6"><h2>Priorité <div class="btn-group" style="display: inline-block ;">
-                                            <button class="btn btn-white" type="button">1</button>
-                                            <button class="btn btn-primary" type="button">2</button>
-                                            <button class="btn btn-white" type="button">3</button>
-                                        </div></h2>
+                                <div class="row">
+                                    <div class="col-sm-offset-2 col-sm-8">
+                                        <div class="row">
+                                            <div class="col-sm-6"><input placeholder="" class="form-control"></div>
+                                            <div class="col-sm-6"><h2>@Messages("priority")
 
+                                                <div class="btn-group" style="display: inline-block ;">
+                                                <button class="btn btn-white" type="button">1</button>
+                                                <button class="btn btn-danger" type="button">2</button>
+                                                <button class="btn btn-white" type="button">3</button>
+
+                                            </div></h2>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class='form-group'>
+                                                    <label class="label_h2" for="projectResponsible">@Messages("projectPersonResponsible")</label>
+                                                    <input class="form-control" id="projectResponsible" name="projectResponsible" required="true"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <div class='form-group'>
+                                                    <label class="label_h2" for="client">@Messages("client")</label>
+                                                    <input class="form-control" id="client" name="client" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label class="label_h2">@Messages("description")</label>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <textarea style="height: 260px; width:100%;"></textarea>
+                                                </div>
                                         </div>
 
                                     </div>
                                 </div>
+
                             </div>
+                            <div class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;">
 
-
-                        </div>
-                        <div class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;">
-
-                                <h3>Enregistrer le projet</h3>
+                                <h3>@Messages("saveProject")</h3>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+
+                </form>
             </div>
 
 

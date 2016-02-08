@@ -7,6 +7,18 @@
  *   version 2.3
  *
 */
+.btn-active {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    color: #FFFFFF;
+}
+
+.label_h2{
+    font-size: 24px;
+    font-weight: 100;
+    line-height: 1.1;
+    color: inherit;
+}
 
 .row-checked{
   background-color: #3CE9AB;
@@ -337,7 +349,7 @@ INDEX FIN
 /* TDB */
 .tdb-td-tache {
     padding: 0px;
-
+}
 .icon-notif-tdb > a > i{
   font-size: 15px;
 }
@@ -389,6 +401,7 @@ INDEX FIN
 
 .tdb-nom-tache {
     margin-top: 16px;
+}
 .td-modal{
   cursor : pointer;
 }
@@ -475,9 +488,6 @@ INDEX FIN
     text-align: center;
     font-weight: bold;
 }
-   text-align:center;
-   font-weight : bold;
- }
 
 .panel-tdb > .panel-body {
   height:130px;
@@ -2918,7 +2928,7 @@ label.error {
   width: 500px;
   height: 300px;
 }
-.ngH eaderCell {
+.ngHeaderCell {
   border-right: none;
   border-bottom: 1px solid #e7eaec;
 }

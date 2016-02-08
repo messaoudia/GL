@@ -86,3 +86,5 @@ message = Message
 link = Link
 read = Read
 unread = Unread
+projectPersonResponsible = Project manager
+saveProject = Save project
