@@ -7,6 +7,7 @@
  *   version 2.3
  *
 */
+.btn-active:hover,
 .btn-active {
     background-color: #e74c3c;
     border-color: #e74c3c;
@@ -1153,6 +1154,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-danger.btn-outline {
   color: #ed5565;
 }
+
+
 .btn-primary.btn-outline:hover,
 .btn-success.btn-outline:hover,
 .btn-info.btn-outline:hover,
