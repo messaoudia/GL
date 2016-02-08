@@ -6,6 +6,7 @@ import play.data.format.Formats;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created by Guillaume on 25/01/2016.
@@ -20,7 +21,7 @@ public class Notification extends Model{
     public String contentNotification;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
-    public LocalDate dateEnvoi;
+    public Date dateEnvoi;
     public String link;
     public Boolean etatLecture;
     public Boolean archiver;
@@ -31,7 +32,7 @@ public class Notification extends Model{
 
     public static Model.Finder<Long, Notification> find = new Model.Finder<>(Notification.class);
 
-    public Notification(String title, String contentNotification, LocalDate dateEnvoi, String link, Boolean etatLecture, Boolean archiver, Utilisateur utilisateur) {
+    public Notification(String title, String contentNotification, Date dateEnvoi, String link, Boolean etatLecture, Boolean archiver, Utilisateur utilisateur) {
         this.title = title;
         this.contentNotification = contentNotification;
         this.dateEnvoi = dateEnvoi;

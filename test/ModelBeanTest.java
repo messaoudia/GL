@@ -1,11 +1,7 @@
 import models.*;
 import org.junit.Test;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -47,8 +43,8 @@ public class ModelBeanTest {
             listContacts.add(c1);
             listContacts.add(c2);
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
-                    LocalDate.of(2016,2,2),LocalDate.of(2016,10,2),LocalDate.of(2016,3,2),
-                    LocalDate.of(2016,9,2),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
+                    new Date(2016,2,2),new Date(2016,2,10),new Date(2016,2,3),
+                    new Date(2016,2,9),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
             pr.save();
             List<Projet> listProjet = Collections.singletonList(pr);
             Client cl = new Client("Apple",3,false, a1,listContacts, listProjet);
@@ -89,7 +85,7 @@ public class ModelBeanTest {
             Notification n1 = new Notification();
             n1.title = "3 Street Cloud";
             n1.contentNotification = "64500";
-            n1.dateEnvoi = LocalDate.now();
+            n1.dateEnvoi = new Date();
             n1.link = "http://localhost:9000/notif";
             n1.etatLecture = false;
             n1.archiver = false;
@@ -109,10 +105,10 @@ public class ModelBeanTest {
             Projet pr = new Projet();
             pr.nom = "Site Apple";
             pr.description = "Développement du nouveau site d'Apple";
-            pr.dateDebutTheorique = LocalDate.of(2016,2,2);
-            pr.dateFinTheorique = LocalDate.of(2016,10,2);
-            pr.dateDebutReel = LocalDate.of(2016,3,2);
-            pr.dateFinReel = LocalDate.of(2016,9,2);
+            pr.dateDebutTheorique = new Date(2016,2,2);
+            pr.dateFinTheorique = new Date(2016,2,10);
+            pr.dateDebutReel = new Date(2016,2,3);
+            pr.dateFinReel = new Date(2016,2,9);
             pr.chargeInitiale = 24;
             pr.unite = UniteProjetEnum.SEMAINE;
             pr.avancementGlobal = new Byte("0");
@@ -125,11 +121,11 @@ public class ModelBeanTest {
             pr.client = cl;
             pr.priorite = 1;
 
-            Tache p1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
-                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
+            Tache p1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, new Date(2016,2,1),
+                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,pr);
             p1.save();
-            Tache p2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, LocalDate.of(2016,2,1),
-                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
+            Tache p2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, new Date(2016,2,1),
+                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,pr);
             p2.save();
             pr.listTaches = Arrays.asList(p1,p2);
 
@@ -149,8 +145,8 @@ public class ModelBeanTest {
             Projet pr = new Projet();
             pr.nom = "New project";
             pr.save();
-            Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, LocalDate.of(2016,2,1),
-                    LocalDate.of(2016,2,20),LocalDate.of(2016,2,25),20,0,20,true,null,pr);
+            Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, new Date(2016,2,1),
+                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,pr);
             tache.save();
             System.out.println(tache);
             assertNotNull(tache.id);
