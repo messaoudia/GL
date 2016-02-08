@@ -1,8 +1,7 @@
 package controllers.Global;
 
 import com.avaje.ebean.Ebean;
-import models.Client;
-import models.Utilisateur;
+import models.*;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.Yaml;
@@ -23,22 +22,32 @@ public class Global extends GlobalSettings {
         if (Utilisateur.find.findRowCount() == 0) {
             //Ebean.save((List) Yaml.load("initial-data.yml"));
             Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("initial-data.yml");
-            System.out.println(all);
 
-            Ebean.save(all.get("adresses"));
-            Ebean.save(all.get("contacts"));
-            Ebean.save(all.get("clients"));
-            Ebean.save(all.get("utilisateurs"));
-            Ebean.save(all.get("projets"));
-            Ebean.save(all.get("taches"));
+            /* display file content */
+            Logger.debug(all.get("adresses").toString());
+            Logger.debug(all.get("contacts").toString());
+            Logger.debug(all.get("clients").toString());
+            Logger.debug(all.get("utilisateurs").toString());
+            Logger.debug(all.get("projets").toString());
+            Logger.debug(all.get("taches").toString());
 
-
-            /*all.forEach((key, value) -> {
+            /* add elements to DB */
+            all.forEach((key, value) -> {
                 Ebean.save(value);
-            });*/
+            });
 
+            /* display DB content */
+            Logger.debug(String.valueOf(Adresse.find.all()));
+            Logger.debug(String.valueOf(Contact.find.all()));
             Logger.debug(String.valueOf(Client.find.all()));
-            Logger.debug(String.valueOf(Utilisateur.find.all()));
+            Logger.debug(String.valueOf(Projet.find.all()));
+            Logger.debug(String.valueOf(Tache.find.byId(16L)));
+            Logger.debug(String.valueOf(Utilisateur.find.byId(11L)));
+            Logger.debug(String.valueOf(Utilisateur.find.byId(12L)));
+            Logger.debug(String.valueOf(Utilisateur.find.byId(13L)));
+            Logger.debug(String.valueOf(Utilisateur.find.byId(14L)));
+            Tache t = Utilisateur.find.byId(12L).listTachesResponsable().get(0);
+
         }
     }
 
