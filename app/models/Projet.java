@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Guillaume on 25/01/2016.
  */
 @Entity
-@Table(name = "Projet")
+@Table
 @DiscriminatorValue("PROJET")
 public class Projet extends EntiteSecurise {
 

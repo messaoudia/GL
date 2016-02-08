@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Projet;
 import play.*;
 import play.libs.*;
 import com.avaje.ebean.Ebean;
@@ -19,10 +20,12 @@ public class Global extends GlobalSettings {
         if (Utilisateur.find.findRowCount() == 0) {
             //Ebean.save((List) Yaml.load("initial-data.yml"));
             List<Object> all = (List<Object>)Yaml.load("initial-data.yml");
+            System.out.println(all);
             Ebean.save(all);
 
+            Logger.debug(String.valueOf(Client.find.all()));
+            Logger.debug(String.valueOf(Utilisateur.find.all()));
         }
-        Logger.debug(String.valueOf(Utilisateur.find.all()));
     }
 
 }

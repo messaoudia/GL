@@ -2,77 +2,77 @@
 
 - &adresse1 !!models.Adresse
     id:          1
-    adresse:     "92 rue de Réaumur"
-    zipCode:     "75009"
-    ville:       "Paris"
-    pays:        "FRANCE"
+    adresse:     92 rue de Réaumur
+    zipCode:     75009
+    ville:       Paris
+    pays:        FRANCE
 
 
 - &adresse2 !!models.Adresse
     id:          2
-    adresse:     "9 rue de paris"
-    zipCode:     "91400"
-    ville:       "Orsay"
-    pays:        "FRANCE"
+    adresse:     9 rue de paris
+    zipCode:     91400
+    ville:       Orsay
+    pays:        FRANCE
 
 - &adresse3 !!models.Adresse
-    id:          11
-    adresse:     "1 place de l'étoile"
-    zipCode:     "75000"
-    ville:       "Paris"
-    pays:        "FRANCE"
+    id:          3
+    adresse:     1 place de l'étoile
+    zipCode:     75000
+    ville:       Paris
+    pays:        FRANCE
 
 #contacts:
 
 - &contact1 !!models.Contact
+    id:          4
+    nom:         POGBA
+    prenom:      Paul
+    email:       p.b@google.net
+    telephone:   0236541235
+
+- &contact2 !!models.Contact
     id:          5
-    nom:         "POGBA"
-    prenom:      "Paul"
-    email:       "p.b@google.net"
-    telephone:   "0236541235"
-
-- &contact2 !!models.Contact
-    id:          6
-    nom:         "ZIDANE"
-    prenom:      "Zinédine"
-    email:       "z.z@google.net"
-    telephone:   "0456371829"
-
-- &contact2 !!models.Contact
-    id:          13
-    nom:         "LAVOINE"
-    prenom:      "Pierre"
-    email:       "P.lavoine@gmail.com"
-    telephone:    "0689453234"
+    nom:         ZIDANE
+    prenom:      Zinédine
+    email:       z.z@google.net
+    telephone:   0456371829
 
 - &contact3 !!models.Contact
-    id:          16
-    nom:         "COOK"
-    prenom:      "Tim"
-    email:       "t.c@apple.com"
-    telephone:    "0234456978"
+    id:          6
+    nom:         LAVOINE
+    prenom:      Pierre
+    email:       P.lavoine@gmail.com
+    telephone:   0689453234
+
+- &contact4 !!models.Contact
+    id:          7
+    nom:         COOK
+    prenom:      Tim
+    email:       t.c@apple.com
+    telephone:   0234456978
 
 #clients:
 
 - &client1 !!models.Client
-    id:            3
-    nom:          "Apple Inc."
+    id:            8
+    nom:           Apple Inc.
     priorite:      2
     archiver:      false
     adresseClient: *adresse1
     listeContacts:
-        - *contact3
+        - *contact4
 
 - &client2 !!models.Client
-    id:            4
-    nom:           "Microsoft"
+    id:            9
+    nom:           Microsoft
     priorite:      2
     archiver:      false
     adresseClient: *adresse2
 
 - &client3 !!models.Client
-    id:           12
-    nom:          "Google"
+    id:            10
+    nom:           Google
     priorite:      1
     archiver:      false
     adresseClient: *adresse3
@@ -83,61 +83,61 @@
 #utilisateurs:
 
 - &utilisateur1 !!models.Utilisateur
-    id:           7
-    nom:          "RABI"
-    prenom:       "Yasser"
-    email:        "yasser.rabi@u-psud.fr"
-    telephone:    "0564781529"
-    password:     "Azerty1"
+    id:           11
+    nom:          RABI
+    prenom:       Yasser
+    email:        yasser.rabi@u-psud.fr
+    telephone:    0564781529
+    password:     Azerty1
 
 - &utilisateur2 !!models.Utilisateur
-    id:           8
-    nom:          "PREISNER"
-    prenom:       "Julien"
-    email:        "julien.preisner@u-psud.fr"
-    telephone:    "0561234529"
-    password:     "Azerty2"
+    id:           12
+    nom:          PREISNER
+    prenom:       Julien
+    email:        julien.preisner@u-psud.fr
+    telephone:    0561234529
+    password:     Azerty2
 
 - &utilisateur3 !!models.Utilisateur
-    id:           9
-    nom:          "AKBARALY"
-    prenom:       "Gishan"
-    email:        "gishan.akbaraly@u-psud.fr"
-    telephone:    "0566543219"
-    password:     "Azerty3"
+    id:           13
+    nom:          AKBARALY
+    prenom:       Gishan
+    email:        gishan.akbaraly@u-psud.fr
+    telephone:    0566543219
+    password:     Azerty3
 
 - &utilisateur4 !!models.Utilisateur
-    id:           10
-    nom:          "IBRAHIMOVIC"
-    prenom:       "Zlatan"
-    email:        "z.i@psg.fr"
-    telephone:    "0123456789"
-    password:     "psg"
+    id:           14
+    nom:          IBRAHIMOVIC
+    prenom:       Zlatan
+    email:        z.i@psg.fr
+    telephone:    0123456789
+    password:     psg
 
 #Projets:
 
-#- &projet1 !!models.Projet
-#    id:                 14
-#    nom:                "Projet Test 3"
-#    responsable:        *utilisateur1
+- &projet1 !!models.Projet
+    id:                 15
+    nom:                Projet Test 3
+    responsable:        *utilisateur1
 #    dateDebutTheorique: '12/02/2016'
 #    dateFinTheorique:   '12/02/2017'
 #    dateDebutReel:      '25/02/2016'
 #    dateFinReel:        '26/02/2016'
-#    chargeInitiale:     1
-#    avancementGlobal:   0
-#    enCours:            true
-#    archive:            false
-#    client:             *client1
-#    priorite:           2
-#    unite:              JOUR
+    chargeInitiale:     1
+    avancementGlobal:   0
+    enCours:            true
+    archive:            false
+    client:             *client1
+    priorite:           2
+    unite:              JOUR
 
 #Taches:
 
 - &tache1 !!models.Tache
     id:                 15
-    nom:                "Réunion Client du Projet"
-    description:        "Cette tâche correspond à la réunion client"
+    nom:                Réunion Client du Projet
+    description:        Cette tâche correspond à la réunion client
     niveau:             0
     critique:           true
     #dateDebut:         '25/02/2016'
