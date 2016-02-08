@@ -1,4 +1,4 @@
-#adresses:
+adresses:
 
 - &adresse1 !!models.Adresse
     id:          1
@@ -22,7 +22,7 @@
     ville:       Paris
     pays:        FRANCE
 
-#contacts:
+contacts:
 
 - &contact1 !!models.Contact
     id:          4
@@ -52,7 +52,7 @@
     email:       t.c@apple.com
     telephone:   0234456978
 
-#clients:
+clients:
 
 - &client1 !!models.Client
     id:            8
@@ -80,7 +80,7 @@
         - *contact1
         - *contact2
 
-#utilisateurs:
+utilisateurs:
 
 - &utilisateur1 !!models.Utilisateur
     id:           11
@@ -114,7 +114,7 @@
     telephone:    0123456789
     password:     psg
 
-#Projets:
+projets:
 
 - &projet1 !!models.Projet
     id:                 15
@@ -132,10 +132,10 @@
     priorite:           2
     unite:              JOUR
 
-#Taches:
+taches:
 
 - &tache1 !!models.Tache
-    id:                 15
+    id:                 16
     nom:                Réunion Client du Projet
     description:        Cette tâche correspond à la réunion client
     niveau:             0
@@ -148,6 +148,6 @@
     chargeTotale:       1
     disponible:         true
     interlocuteurs:
-         - *client1
+         - *contact4
     projet:             *projet1
     responsable:        *utilisateur2
