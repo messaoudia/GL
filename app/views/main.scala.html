@@ -27,31 +27,21 @@
         <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-        <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
 
+
+
+        <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
         <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
-
         <link href="/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
-
         <link href="/css/plugins/cropper/cropper.min.css" rel="stylesheet">
-
         <link href="/css/plugins/switchery/switchery.css" rel="stylesheet">
-
         <link href="/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
-
         <link href="/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
-
         <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
         <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
         <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
-
-        <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-
         <link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
-
         <link href="/css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
-
         <link href="/css/plugins/select2/select2.min.css" rel="stylesheet">
 
 
@@ -110,10 +100,12 @@
         <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
         <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
 
+        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
+            <!-- Exposing play framework routes -->
+        <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
 
 
-
-
+            <!--########### Start - Custom Script Call  ########### -->
             <!-- Chosen -->
         <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
@@ -158,52 +150,39 @@
 
             <!-- Select2 -->
         <script src="/js/plugins/select2/select2.full.min.js"></script>
-
-
-            <!-- Exposing play framework routes -->
-        <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
-
-
-            <!--########### Start - Custom Script Call  ########### -->
-
         @scripts
         <script>
                 $(document).ready(function () {
                     $('.dataTables-example').DataTable();
-                    $('#projet_Tache').dataTable({
-                        "bSort" : false
-                    } );
-                    $('#projet_Projet').dataTable({
-                        "bSort" : false
-                    } );
-                });
 
-                $(function () {
-                    "use strict";
-                    var configChosen = {
+                    var config = {
                         '.chosen-select'           : {},
                         '.chosen-select-deselect'  : {allow_single_deselect:true},
                         '.chosen-select-no-single' : {disable_search_threshold:10},
-                        '.chosen-select-no-results': {no_results_text:'Nothing Found'},
-                        '.chosen-select-width'     : {width:"100%"}
+                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                        '.chosen-select-width'     : {width:"95%"}
                     }
-                    for (var selector in configChosen) {
-                        $(selector).chosen(configChosen[selector]);
+                    for (var selector in config) {
+                        $(selector).chosen(config[selector]);
                     }
+
                 });
 
                 $( document ).ajaxComplete(function() {
                     $('.dataTables-example').DataTable();
-                    $('#modal-tdb-tache').modal();
-                    $('.popover-info').popover('hidden');
-
-                    $('#projet_Tache').dataTable({
-                        "bSort" : false
-                    } );
-                    $('#projet_Projet').dataTable({
-                        "bSort" : false
-                    } );
                 });
+
+                $( document ).ajaxComplete(function() {
+                    $('.popover-info').popover('hidden');
+                });
+
+                $( document ).ajaxComplete(function() {
+                    $('#modal-tdb-tache').modal();
+                });
+
+
+
+
 
 
                 /*

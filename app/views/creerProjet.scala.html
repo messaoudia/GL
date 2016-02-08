@@ -35,41 +35,51 @@
                         <li class="nav-header">
                             <div>
                                 <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
-                                <span class="block m-t-xs" style="color:white;"> <strong class="font-bold">David Williams</strong> </span>
+                                <span class="block m-t-xs" style="color:white ;"> <strong class="font-bold">
+                                    David Williams</strong> </span>
                             </div>
                         </li>
 
                         <li class="liclickable" data-infos="DashboardController.afficherDashboard()">
-                            <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Dashboard</span></a>
+                            <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                                Dashboard</span></a>
                         </li>
 
-                        <li class="liclickable" data-infos="ProjetController.afficherProjets()">
-                            <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Projets</span></a>
+                        <li class="liclickable active" data-infos="ProjetController.afficherProjets()">
+                            <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                                Projets</span></a>
                         </li>
                         <li class="liclickable" data-infos="ClientController.afficherClients()">
-                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Clients</span></a>
+                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                                Clients</span></a>
 
                         </li>
-                        <li class="liclickable active" data-infos="ProjetController.afficherCreerProjet()">
-                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un projet</span></a>
+                        <li class="liclickable" data-infos="ProjetController.afficherCreerProjet()">
+                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                                Créer un projet</span></a>
                         </li>
                         <li class="liclickable" data-infos="ClientController.afficherCreerClient()">
-                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un client</span></a>
+                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                                Créer un client</span></a>
 
                         </li>
 
-                        <li style="pointer-events: none; cursor: default; background-color:red;">
-                        <a> <span class="nav-label" style="color:white; padding-right:10px;" >Administrateur </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
+                        <li style="pointer-events: none ; cursor: default ; background-color:#e74c3c ;">
+                            <a> <span class="nav-label" style="color:white ; padding-right:10px ;" >
+                                Administrateur </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
                         </li>
 
                         <li class="liclickable" data-infos="AdminController.afficherAdminProjets()">
-                            <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;"class="nav-label">Projets </span></a>
+                            <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                                Projets </span></a>
                         </li>
                         <li class="liclickable" data-infos="AdminController.afficherAdminClients()">
-                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Clients </span></a>
+                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                                Clients </span></a>
                         </li>
                         <li class="liclickable" data-infos="AdminController.afficherAdminUtilisateur()">
-                            <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Utilisateur </span></a>
+                            <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                                Utilisateur </span></a>
 
                         </li>
 
@@ -86,8 +96,16 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a class="welcome-message">Langage</a>
+                        <li class="dropdown" dropdown="">
+
+                            <div style="z-index: 3000;" class="popover-info" type="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><a><img class="country-flag" src="img/MyIcons/png/fr.png"/> Français</a></p><a><a><img class="country-flag" src="img/MyIcons/png/en.png"/> English</a></p>'>
+                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="true">
+                                    <img class="country-flag" src="img/MyIcons/png/fr.png"/>
+                                </a>
+                            </div>
+
+
+
                         </li>
 
                         <li class="dropdown" dropdown="">
@@ -103,7 +121,8 @@
                                         </a>
                                         <div class="media-body">
                                             <small class="pull-right">46h ago</small>
-                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>
+                                            . <br>
                                             <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
                                         </div>
                                     </div>
@@ -116,7 +135,8 @@
                                         </a>
                                         <div class="media-body ">
                                             <small class="pull-right text-navy">5h ago</small>
-                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
+                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>
+                                            Monica Smith</strong>. <br>
                                             <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
                                         </div>
                                     </div>
@@ -143,14 +163,16 @@
                                     </div>
                                 </li>
                             </ul>
+
                     <li>
-                        <a href="login.html">
-                            <i class="fa fa-sign-out"></i> Déconnexion
+                        <a class="right-sidebar-toggle">
+                            <i class="logo-eu fa fa-user"></i>
                         </a>
                     </li>
+
                         <li>
-                            <a class="right-sidebar-toggle">
-                                <i class="fa fa-tasks"></i>
+                            <a href="login.html">
+                                <i class="logo-eu fa fa-power-off"></i>
                             </a>
                         </li>
                     </ul>
@@ -174,22 +196,43 @@
                 </div>
 
                 <div class="wrapper wrapper-content">
-                    <div class="middle-box text-center animated fadeInRightBig">
-                        <h3 class="font-bold">This is page content</h3>
-                        <div class="error-desc">
-                            You can create here any grid layout you want. And any variation layout you imagine:) Check out
-                            main dashboard and other site. It use many different layout.
+                    <div class="ibox animated fadeInRightBig" style="background-color: #FFF; max-width: 100%;">
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-offset-2 col-sm-8">
+
+                                        <h2>Projet:</h2>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-offset-2 col-sm-8">
+                                    <div class="row">
+                                        <h2 class="col-sm-6"><input type="email" placeholder="" class="form-control"></h2>
+                                        <div class="col-sm-6"><h2>Priorité <div class="btn-group" style="display: inline-block ;">
+                                            <button class="btn btn-white" type="button">1</button>
+                                            <button class="btn btn-primary" type="button">2</button>
+                                            <button class="btn btn-white" type="button">3</button>
+                                        </div></h2>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;">
+
+                                <h3>Enregistrer le projet</h3>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Pear Corporation &copy; 2015-2016
-                </div>
-            </div>
 
         </div>
 
