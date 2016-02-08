@@ -1,3 +1,34 @@
+function clickOnNotification(ID){
+    var classname_notif_desactive = 'fa-bell-slash';
+    var classname_notif_active = 'fa-bell';
+
+    var classlistOfId = document.getElementById(ID).classList;
+
+    if(classlistOfId.contains(classname_notif_desactive)){
+        classlistOfId.remove(classname_notif_desactive);
+        classlistOfId.add(classname_notif_active);
+    }
+    else if(classlistOfId.contains(classname_notif_active)){
+        classlistOfId.remove(classname_notif_active);
+        classlistOfId.add(classname_notif_desactive);
+    }
+}
+
+function clickOnCheckboxNotification(ID_checkbox, ID_row){
+    var checkbox = document.getElementById(ID_checkbox);
+    var row = document.getElementById(ID_row);
+    if(checkbox.checked == true){
+        row.classList.add('row-checked');
+    }
+    else{
+        row.classList.remove('row-checked');
+    }
+}
+
+
+
+
+
 /*
  *
  *   INSPINIA - Responsive Admin Theme
