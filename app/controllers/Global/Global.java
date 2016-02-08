@@ -1,4 +1,4 @@
-package controllers;
+package controllers.Global;
 
 import com.avaje.ebean.Ebean;
 import models.Client;
