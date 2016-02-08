@@ -14,6 +14,17 @@ function clickOnNotification(ID){
     }
 }
 
+function clickOnCheckboxNotification(ID_checkbox, ID_row){
+    var checkbox = document.getElementById(ID_checkbox);
+    var row = document.getElementById(ID_row);
+    if(checkbox.checked == true){
+        row.classList.add('row-checked');
+    }
+    else{
+        row.classList.remove('row-checked');
+    }
+}
+
 
 
 

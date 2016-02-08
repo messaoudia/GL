@@ -7,6 +7,15 @@
  *
 */
 
+.row-checked{
+  background-color: #3CE9AB;
+  color:white;
+}
+
+.non-lu{
+  font-weight: bold;
+}
+
 #right-sidebar{
   padding:10px;
 }
@@ -215,7 +224,8 @@
   color : #95a5a6;
 }
 
-.row-options-tdb{
+.row-options-tdb,
+.row-options-admin-projet{
   margin : 0px -20px 12px -20px;
   padding-bottom: 3px;
   border-bottom: 1px solid #E7EAEC;
@@ -296,7 +306,8 @@
   margin-left:10px;
 }
 
-.table-responsive-tdb > .dataTables_wrapper > .row{
+.table-responsive-tdb > .dataTables_wrapper > .row,
+.table-responsive-admin-projet > .dataTables_wrapper > .row{
   margin-left:0px;
   margin-right:0px;
 }

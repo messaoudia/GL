@@ -27,6 +27,7 @@
         <link href="/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet">
 
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+        <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
 
 
     </head>
@@ -84,6 +85,10 @@
         <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
         <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
 
+        <!-- Footable -->
+        <script src="/js/plugins/footable/footable.all.min.js"></script>
+
+
 
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
@@ -95,6 +100,7 @@
         <script>
                 $(document).ready(function () {
                     $('.dataTables-example').DataTable();
+                    $('.footable').footable();
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -108,6 +114,11 @@
                 $( document ).ajaxComplete(function() {
                     $('#modal-tdb-tache').modal();
                 });
+
+                $(document).ajaxComplete(function() {
+                    $('.footable').footable();
+                });
+
 
 
                 /*
