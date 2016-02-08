@@ -119,6 +119,24 @@ projets:
 - &projet1 !!models.Projet
     id:                 15
     nom:                Projet Test 3
+    description:        Ceci est un projet de test 3
+    responsable:        *utilisateur2
+    dateDebutTheorique: 2016-02-12
+    dateFinTheorique:   2017-02-12
+    dateDebutReel:      2016-05-12
+    dateFinReel:        2016-05-26
+    chargeInitiale:     15
+    avancementGlobal:   0
+    enCours:            true
+    archive:            false
+    client:             *client1
+    priorite:           2
+    unite:              JOUR
+
+- &projet2 !!models.Projet
+    id:                 16
+    nom:                Projet de test
+    description:        Ceci est un projet de test
     responsable:        *utilisateur1
     dateDebutTheorique: 2016-02-12
     dateFinTheorique:   2017-02-12
@@ -132,10 +150,44 @@ projets:
     priorite:           2
     unite:              JOUR
 
+- &projet3 !!models.Projet
+    id:                 17
+    nom:                Projet Test 2
+    description:        Ceci est un projet de test 2
+    responsable:        *utilisateur4
+    dateDebutTheorique: 2016-02-12
+    dateFinTheorique:   2016-02-12
+    dateDebutReel:      2016-05-12
+    dateFinReel:        2016-05-24
+    chargeInitiale:     12
+    avancementGlobal:   0
+    enCours:            true
+    archive:            false
+    client:             *client2
+    priorite:           2
+    unite:              JOUR
+
+- &projet4 !!models.Projet
+    id:                 18
+    nom:                Projet Retardé
+    responsable:        *utilisateur2
+    description:        Ceci est un projet de test 3
+    dateDebutTheorique: 2014-02-12
+    dateFinTheorique:   2016-02-12
+    dateDebutReel:      2016-01-12
+    dateFinReel:        2016-01-25
+    chargeInitiale:     13
+    avancementGlobal:   0
+    enCours:            true
+    archive:            false
+    client:             *client2
+    priorite:           2
+    unite:              JOUR
+
 taches:
 
 - &tache1 !!models.Tache
-    id:                 16
+    id:                 19
     nom:                Réunion Client du Projet
     description:        Cette tâche correspond à la réunion client
     niveau:             0
@@ -153,7 +205,7 @@ taches:
     responsable:        *utilisateur2
 
 - &tache2 !!models.Tache
-    id:                 17
+    id:                 20
     nom:                Réunion Client du Projet 2
     description:        Cette tâche correspond à la réunion client 2
     niveau:             0
@@ -169,3 +221,262 @@ taches:
          - *contact4
     projet:             *projet1
     responsable:        *utilisateur2
+
+- &tache3 !!models.Tache
+    id:                 21
+    nom:                Réunion client r0
+    description:        première réunion avec le client a propos du projet
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-05-12
+    dateFinTot:         2016-05-12
+    dateFinTard:        2016-05-13
+    chargeInitiale:     1
+    chargeConsommee:    0
+    chargeTotale:       1
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur3
+
+- &tache4 !!models.Tache
+    id:                 22
+    nom:                Réunion client r1
+    description:        seconde réunion avec le client a propos du projet
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-05-14
+    dateFinTot:         2016-05-14
+    dateFinTard:        2016-05-15
+    chargeInitiale:     1
+    chargeConsommee:    0
+    chargeTotale:       1
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur3
+
+- &tache5 !!models.Tache
+    id:                 23
+    nom:                Réunion client t1
+    description:        Planification du projet
+    niveau:             0
+    critique:           true
+    dateDebut:          2016-05-16
+    dateFinTot:         2016-05-19
+    dateFinTard:        2016-05-20
+    chargeInitiale:     4
+    chargeConsommee:    0
+    chargeTotale:       4
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur3
+
+- &tache6 !!models.Tache
+    id:                 24
+    nom:                Début du projet
+    description:        ceci est la tâche numéros 2 du projet
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-05-19
+    dateFinTot:         2016-05-21
+    dateFinTard:        2016-05-22
+    chargeInitiale:     3
+    chargeConsommee:    0
+    chargeTotale:       3
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur4
+
+- &tache7 !!models.Tache
+    id:                 25
+    nom:                Diagramme UML u1
+    description:        Diagramme de classe v0
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-05-22
+    dateFinTot:         2016-05-25
+    dateFinTard:        2016-05-26
+    chargeInitiale:     6
+    chargeConsommee:    0
+    chargeTotale:       6
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur3
+
+- &tache8 !!models.Tache
+    id:                 26
+    nom:                Diagramme UML u2
+    description:        Diagramme de classe v1
+    niveau:             1
+    critique:           false
+    dateDebut:          2016-05-22
+    dateFinTot:         2016-05-23
+    dateFinTard:        2016-05-24
+    chargeInitiale:     2
+    chargeConsommee:    0
+    chargeTotale:       2
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur3
+    parent :            *tache7
+
+- &tache8 !!models.Tache
+    id:                 27
+    nom:                Diagramme UML u3
+    description:        Diagramme de classe v2
+    niveau:             2
+    critique:           false
+    dateDebut:          2016-05-23
+    dateFinTot:         2016-05-24
+    dateFinTard:        2016-05-24
+    chargeInitiale:     2
+    chargeConsommee:    0
+    chargeTotale:       2
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur3
+    parent :            *tache7
+
+- &tache8 !!models.Tache
+    id:                 28
+    nom:                Diagramme UML u4
+    description:        Diagramme de classe v3
+    niveau:             3
+    critique:           false
+    dateDebut:          2016-05-24
+    dateFinTot:         2016-05-25
+    dateFinTard:        2016-05-26
+    chargeInitiale:     2
+    chargeConsommee:    0
+    chargeTotale:       2
+    disponible:         true
+    projet:             *projet2
+    responsable:        *utilisateur3
+    parent :            *tache7
+
+- &tache9 !!models.Tache
+    id:                 29
+    nom:                Diagramme
+    description:        Diagramme de séquence
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-05-12
+    dateFinTot:         2016-05-12
+    dateFinTard:        2016-05-13
+    chargeInitiale:     1
+    chargeConsommee:    0
+    chargeTotale:       1
+    disponible:         true
+    projet:             *projet3
+    responsable:        *utilisateur3
+
+- &tache10 !!models.Tache
+    id:                 30
+    nom:                Maquette
+    description:        La maquette connexion
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-05-22
+    dateFinTot:         2016-05-23
+    dateFinTard:        2016-05-24
+    chargeInitiale:     2
+    chargeConsommee:    0
+    chargeTotale:       2
+    disponible:         true
+    projet:             *projet3
+    responsable:        *utilisateur2
+
+- &tache11 !!models.Tache
+    id:                 31
+    nom:                Diagramme UML u0
+    description:        Diagramme de cas d’utilisation
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-01-12
+    dateFinTot:         2016-01-15
+    dateFinTard:        2016-01-16
+    chargeInitiale:     4
+    chargeConsommee:    0
+    chargeTotale:       4
+    disponible:         true
+    projet:             *projet4
+    responsable:        *utilisateur1
+
+- &tache12 !!models.Tache
+    id:                 32
+    nom:                Diagramme UML u1
+    description:        Diagramme de Séquence
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-01-16
+    dateFinTot:         2016-01-17
+    dateFinTard:        2016-01-18
+    chargeInitiale:     2
+    chargeConsommee:    0
+    chargeTotale:       2
+    disponible:         true
+    projet:             *projet4
+    responsable:        *utilisateur1
+
+- &tache13 !!models.Tache
+    id:                 33
+    nom:                Diagramme UML u3
+    description:        Diagramme de Classe
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-01-18
+    dateFinTot:         2016-01-20
+    dateFinTard:        2016-01-21
+    chargeInitiale:     3
+    chargeConsommee:    0
+    chargeTotale:       3
+    disponible:         true
+    projet:             *projet4
+    responsable:        *utilisateur1
+
+- &tache14 !!models.Tache
+    id:                 34
+    nom:                Diagramme UML u4
+    description:        Diagramme d’Objet
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-01-22
+    dateFinTot:         2016-01-23
+    dateFinTard:        2016-01-24
+    chargeInitiale:     2
+    chargeConsommee:    0
+    chargeTotale:       2
+    disponible:         true
+    projet:             *projet4
+    responsable:        *utilisateur1
+
+- &tache15 !!models.Tache
+    id:                 35
+    nom:                Diagramme UML u5
+    description:        Diagramme d’Objet 2
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-01-22
+    dateFinTot:         2016-01-23
+    dateFinTard:        2016-01-24
+    chargeInitiale:     1
+    chargeConsommee:    0
+    chargeTotale:       1
+    disponible:         true
+    projet:             *projet4
+    responsable:        *utilisateur1
+
+- &tache16 !!models.Tache
+    id:                 36
+    nom:                Diagramme UML u6
+    description:        Diagramme d’Objet 3
+    niveau:             0
+    critique:           false
+    dateDebut:          2016-01-25
+    dateFinTot:         2016-01-25
+    dateFinTard:        2016-01-26
+    chargeInitiale:     4
+    chargeConsommee:    0
+    chargeTotale:       4
+    disponible:         true
+    projet:             *projet4
+    responsable:        *utilisateur1
