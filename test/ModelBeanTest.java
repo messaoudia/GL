@@ -1,5 +1,6 @@
 import models.*;
 import org.junit.Test;
+import play.Logger;
 
 import java.util.*;
 
@@ -16,14 +17,10 @@ public class ModelBeanTest {
     @Test
     public void testPersistAdresse() {
         running(fakeApplication(), ()-> {
-            Adresse a1 = new Adresse();
-            a1.adresse = "3 Street Cloud";
-            a1.zipCode = "64500";
-            a1.ville = "Cupertino";
-            a1.pays = "USA";
-            System.out.println(a1);
+            Adresse a1 = new Adresse("3 Street Cloude","645123","Cupertinoss","America");
+            Logger.debug(a1.toString());
             a1.save();
-            System.out.println(a1);
+            Logger.debug(a1.toString());
             assertNotNull(a1.id);
             Adresse a2 = Adresse.find.byId(a1.id);
             assertEquals(a1,a2);
@@ -33,13 +30,13 @@ public class ModelBeanTest {
     @Test
     public void testPersistClient(){
         running(fakeApplication(), ()-> {
-            Adresse a1 = new Adresse("3 Street Cloud","64500","Cupertino","USA");
+            Adresse a1 = new Adresse("30 Street Cloudz","645019","Cupertinoooo","USAAA");
             a1.save();
             List<Contact> listContacts = new ArrayList<>();
             Contact c1 = new Contact("Jobs","Steve","s.j@apple.com","0215465978");
-           // c1.save();
+            c1.save();
             Contact c2 = new Contact("James","Frank","f.j@apple.com","0215465979");
-            //c2.save();
+            c2.save();
             listContacts.add(c1);
             listContacts.add(c2);
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
@@ -47,12 +44,13 @@ public class ModelBeanTest {
                     new Date(2016,2,9),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
             pr.save();
             List<Projet> listProjet = Collections.singletonList(pr);
-            Client cl = new Client("Apple",3,false, a1,listContacts, listProjet);
+            Client cl = new Client("Applee",2,true, a1,listContacts, listProjet);
+            Logger.debug("c1 id="+c1.id);
             cl.save();
-            System.out.println(cl);
+            Logger.debug(cl.toString());
             assertNotNull(cl.id);
-            Client cl2 = Client.find.byId(c1.id);
-            System.out.println(cl2);
+            Client cl2 = Client.find.byId(cl.id);
+            Logger.debug(cl2.toString());
             assertEquals(cl,cl2);
         });
     }
@@ -69,12 +67,12 @@ public class ModelBeanTest {
             cl.nom = "Apple";
             cl.save();
             c1.client = cl;
-            System.out.println(c1);
+            Logger.debug(c1.toString());
             c1.save();
-            System.out.println(c1);
+            Logger.debug(c1.toString());
             assertNotNull(c1.id);
             Contact c2 = Contact.find.byId(c1.id);
-            System.out.println(c2);
+            Logger.debug(c2.toString());
             assertEquals(c1,c2);
         });
     }
@@ -90,9 +88,9 @@ public class ModelBeanTest {
             n1.etatLecture = false;
             n1.archiver = false;
             n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
-            System.out.println(n1);
+            Logger.debug(n1.toString());
             n1.save();
-            System.out.println(n1);
+            Logger.debug(n1.toString());
             assertNotNull(n1.id);
             Notification n2 = Notification.find.byId(n1.id);
             assertEquals(n1,n2);
@@ -130,10 +128,10 @@ public class ModelBeanTest {
             pr.listTaches = Arrays.asList(p1,p2);
 
             pr.save();
-            System.out.println(pr);
+            Logger.debug(pr.toString());
             assertNotNull(pr.id);
             Projet pr2 = Projet.find.byId(pr.id);
-            System.out.println(pr2);
+            Logger.debug(pr2.toString());
 
             assertEquals(pr,pr2);
         });
@@ -148,10 +146,10 @@ public class ModelBeanTest {
             Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, new Date(2016,2,1),
                     new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,pr);
             tache.save();
-            System.out.println(tache);
+            Logger.debug(tache.toString());
             assertNotNull(tache.id);
             Tache t2 = Tache.find.byId(tache.id);
-            System.out.println(t2);
+            Logger.debug(t2.toString());
             assertEquals(tache,t2);
         });
     }
@@ -166,9 +164,9 @@ public class ModelBeanTest {
             u1.email = "s.ja@apple.com";
             u1.telephone = "0215465948";
             u1.setPassword("azerty");
-            System.out.println(u1);
+            Logger.debug(u1.toString());
             u1.save();
-            System.out.println(u1);
+            Logger.debug(u1.toString());
             assertNotNull(u1.id);
             Utilisateur u2 = Utilisateur.find.byId(u1.id);
             assertEquals(u1,u2);
