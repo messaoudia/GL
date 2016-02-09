@@ -33,4 +33,9 @@ $(function(){
         jQuery.fx.off = false;
 
     });
+
+    $("#creerSousTache").click(function() {
+
+        $(this).attr('style', '');
+    });
 });
