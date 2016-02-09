@@ -7,6 +7,11 @@
  *   version 2.3
  *
 */
+
+label {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
 .btn-active:hover,
 .btn-active {
     background-color: #e74c3c;
@@ -14,11 +19,8 @@
     color: #FFFFFF;
 }
 
-.label_h2{
-    font-size: 24px;
-    font-weight: 100;
-    line-height: 1.1;
-    color: inherit;
+.label_form{
+    margin-top: 0px; margin-bottom: 0px;
 }
 
 .row-checked{

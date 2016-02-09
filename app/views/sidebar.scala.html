@@ -1,0 +1,123 @@
+@(menu:String)
+
+<div class="ng-scope">
+    <nav class="navbar-default navbar-static-side ng-scope" role="navigation">
+        <div id="sidebar" class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li id="nav-header" class="nav-header">
+                    <div>
+                        <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
+                        <span class="block m-t-xs" style="color:white ;"> <strong class="font-bold">
+                                    David Williams</strong> </span>
+                    </div>
+                </li>
+                @if(menu.equals("Dashboard")) {
+                    <li class="liclickable active" data-infos="DashboardController.afficherDashboard()">
+                        <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Dashboard</span></a>
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="DashboardController.afficherDashboard()">
+                        <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Dashboard</span></a>
+                    </li>
+                }
+
+                @if(menu.equals("Projet")) {
+                    <li class="liclickable active" data-infos="ProjetController.afficherProjets()">
+                        <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Projets</span></a>
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="ProjetController.afficherProjets()">
+                        <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Projets</span></a>
+                    </li>
+                }
+
+                @if(menu.equals("Client")) {
+                    <li class="liclickable active" data-infos="ClientController.afficherClients()">
+                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Clients</span></a>
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="ClientController.afficherClients()">
+                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Clients</span></a>
+                    </li>
+                }
+
+                @if(menu.equals("CreerProjet")) {
+                    <li class="liclickable active" data-infos="ProjetController.afficherCreerProjet()">
+                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Créer un projet</span></a>
+
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="ProjetController.afficherCreerProjet()">
+                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Créer un projet</span></a>
+
+                    </li>
+                }
+
+                @if(menu.equals("CreerClient")) {
+                    <li class="liclickable active" data-infos="ClientController.afficherCreerClient()">
+                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Créer un client</span></a>
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="ClientController.afficherCreerClient()">
+                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            Créer un client</span></a>
+                    </li>
+                }
+
+
+                <li style="pointer-events: none ; cursor: default ; background-color:#e74c3c ;">
+                    <a> <span class="nav-label" style="color:white ; padding-right:10px ;" >
+                                Administrateur </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
+                </li>
+
+                @if(menu.equals("ProjetAdmin")) {
+                    <li class="liclickable active" data-infos="AdminController.afficherAdminProjets()">
+                        <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            Projets </span></a>
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="AdminController.afficherAdminProjets()">
+                        <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            Projets </span></a>
+                    </li>
+                }
+
+                @if(menu.equals("ClientAdmin")) {
+                    <li class="liclickable active" data-infos="AdminController.afficherAdminClients()">
+                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            Clients </span></a>
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="AdminController.afficherAdminClients()">
+                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            Clients </span></a>
+                    </li>
+                }
+
+
+                @if(menu.equals("UtilisateurAdmin")) {
+                    <li class="liclickable active" data-infos="AdminController.afficherAdminUtilisateur()">
+                        <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            Utilisateur </span></a>
+                    </li>
+                } else {
+                    <li class="liclickable" data-infos="AdminController.afficherAdminUtilisateur()">
+                        <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            Utilisateur </span></a>
+                    </li>
+                }
+
+            </ul>
+
+        </div>
+    </nav>
+</div>

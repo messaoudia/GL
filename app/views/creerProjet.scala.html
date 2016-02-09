@@ -28,156 +28,11 @@
 
 @content = {
     <div id="wrapper" class="ng-scope">
-        <div class="ng-scope">
-            <nav class="navbar-default navbar-static-side ng-scope" role="navigation">
-                <div id="sidebar" class="sidebar-collapse">
-                    <ul class="nav metismenu" id="side-menu">
-                        <li class="nav-header">
-                            <div>
-                                <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
-                                <span class="block m-t-xs" style="color:white ;"> <strong class="font-bold">
-                                    David Williams</strong> </span>
-                            </div>
-                        </li>
 
-                        <li class="liclickable" data-infos="DashboardController.afficherDashboard()">
-                            <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                                Dashboard</span></a>
-                        </li>
-
-                        <li class="liclickable active" data-infos="ProjetController.afficherProjets()">
-                            <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                                Projets</span></a>
-                        </li>
-                        <li class="liclickable" data-infos="ClientController.afficherClients()">
-                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                                Clients</span></a>
-
-                        </li>
-                        <li class="liclickable" data-infos="ProjetController.afficherCreerProjet()">
-                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                                Créer un projet</span></a>
-                        </li>
-                        <li class="liclickable" data-infos="ClientController.afficherCreerClient()">
-                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                                Créer un client</span></a>
-
-                        </li>
-
-                        <li style="pointer-events: none ; cursor: default ; background-color:#e74c3c ;">
-                            <a> <span class="nav-label" style="color:white ; padding-right:10px ;" >
-                                Administrateur </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
-                        </li>
-
-                        <li class="liclickable" data-infos="AdminController.afficherAdminProjets()">
-                            <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                                Projets </span></a>
-                        </li>
-                        <li class="liclickable" data-infos="AdminController.afficherAdminClients()">
-                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                                Clients </span></a>
-                        </li>
-                        <li class="liclickable" data-infos="AdminController.afficherAdminUtilisateur()">
-                            <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                                Utilisateur </span></a>
-
-                        </li>
-
-                    </ul>
-
-                </div>
-            </nav>
-        </div>
+        @sidebar("CreerProjet")
 
         <div id="page-wrapper" class="gray-bg dashbard-1">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li class="dropdown" dropdown="">
-
-                            <div style="z-index: 3000;" class="popover-info" type="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><a><img class="country-flag" src="img/MyIcons/png/fr.png"/> Français</a></p><a><a><img class="country-flag" src="img/MyIcons/png/en.png"/> English</a></p>'>
-                                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="true">
-                                    <img class="country-flag" src="img/MyIcons/png/fr.png"/>
-                                </a>
-                            </div>
-
-
-
-                        </li>
-
-                        <li class="dropdown" dropdown="">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="true">
-                                <i class="fa fa-bell"></i>  <span class="label label-warning">8</span>
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-messages">
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="img/a7.jpg">
-                                        </a>
-                                        <div class="media-body">
-                                            <small class="pull-right">46h ago</small>
-                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>
-                                            . <br>
-                                            <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="img/a4.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right text-navy">5h ago</small>
-                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>
-                                            Monica Smith</strong>. <br>
-                                            <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" 1>
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right">23h ago</small>
-                                            <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-                                            <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="text-center link-block">
-                                        <a href="mailbox.html">
-                                            <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-
-                    <li>
-                        <a class="right-sidebar-toggle">
-                            <i class="logo-eu fa fa-user"></i>
-                        </a>
-                    </li>
-
-                        <li>
-                            <a href="login.html">
-                                <i class="logo-eu fa fa-power-off"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            @topbar()
             <div id="refresh" >
 
                 <div class="row wrapper border-bottom white-bg page-heading">
@@ -203,7 +58,7 @@
                             <div class="ibox-content">
                                 <div class="row">
                                     <div class="col-sm-offset-2 col-sm-8">
-                                        <label class="label_h2" for="projectResponsible">@Messages("project")</label>
+                                        <label class="label_form" for="projectResponsible">@Messages("project")</label>
                                     </div>
                                 </div>
 
@@ -211,28 +66,28 @@
                                     <div class="col-sm-offset-2 col-sm-8">
                                         <div class="row">
                                             <div class="col-sm-6"><input placeholder="" class="form-control"></div>
-                                            <div class="col-sm-6"><h2>@Messages("priority")
+                                            <div class="col-sm-6">@Messages("priority")
 
                                                 <div class="btn-group" style="display: inline-block ;">
                                                 <button class="btn" type="button">1</button>
                                                 <button class="btn btn-active" type="button">2</button>
                                                 <button class="btn" type="button">3</button>
 
-                                            </div></h2>
+                                            </div>
                                             </div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class='form-group'>
-                                                    <label class="label_h2" for="projectResponsible">@Messages("projectPersonResponsible")</label>
+                                                    <label class="label_form" for="projectResponsible">@Messages("projectPersonResponsible")</label>
                                                     <input class="form-control" id="projectResponsible" name="projectResponsible" required="true"/>
                                                 </div>
                                             </div>
 
                                             <div class="col-sm-6">
                                                 <div class='form-group'>
-                                                    <label class="label_h2" for="client">@Messages("client")</label>
+                                                    <label class="label_form" for="client">@Messages("client")</label>
                                                     <input class="form-control" id="client" name="client" required="true"/>
                                                 </div>
                                             </div>
@@ -240,7 +95,7 @@
 
                                         <div class="row">
                                                 <div class="col-sm-6">
-                                                    <label class="label_h2">@Messages("description")</label>
+                                                    <label class="label_form">@Messages("description")</label>
                                                 </div>
 
                                                 <div class="col-sm-12">
