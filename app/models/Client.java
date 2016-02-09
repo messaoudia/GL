@@ -1,12 +1,16 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.common.BeanList;
 import models.Securite.EntiteSecurise;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import play.Logger;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Gishan on 04/01/2016.
@@ -26,7 +30,7 @@ public class Client extends EntiteSecurise {
     @OneToOne
     public Adresse adresseClient;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
     @JoinTable
     public List<Contact> listeContacts;
 
@@ -48,7 +52,7 @@ public class Client extends EntiteSecurise {
         this.priorite = priorite;
         this.archiver = archiver;
         this.adresseClient = adresseClient;
-        this.listeContacts = listeContacts;
+        this.listeContacts = (listeContacts==null)?new BeanList<>():listeContacts;
         this.listeProjets = listeProjets;
     }
 
@@ -84,34 +88,48 @@ public class Client extends EntiteSecurise {
             throw new IllegalArgumentException("Le client "+nom+"possede deja le projet "+projet.nom);
         }
         listeProjets.add(projet);
-        this.save();
-    }
-
-    /**
-     * TODO testme
-     * Importer une liste de contacts, et les associer tous au client courant
-     * @param listContact
-     */
-    public void importerListContacts(List<Contact> listContact){
-        listContact.forEach(this::ajouterContact);
         save();
     }
 
     /**
-     * TODO testme
-     * @return les contacts du client courant
+     * Importer une liste de contacts, et les associer tous au client courant
+     * @param listContact
      */
-    public List<Contact> exporterContacts(){
+    public void importerListContacts(List<Contact> listContact){
+        for(Contact c : listContact){
+            try {
+                ajouterContact(c);
+            }catch(IllegalArgumentException e){
+                Logger.error(e.getMessage());
+            }
+        }
+        this.save();
+    }
+
+    /**
+     *
+     * @return les contacts du client courant
+     * @throws NoSuchElementException
+     */
+    public List<Contact> exporterContacts() throws NoSuchElementException{
+        if(this.listeContacts.size() == 0){
+            throw new NoSuchElementException("Pas de contacts client");
+        }
         return this.listeContacts;
     }
 
     /**
-     * TODO testme
      * Ajouter le contact en parametre au champ listContact
      * @param contact
+     * @throws IllegalArgumentException
      */
-    public void ajouterContact(Contact contact){
-        this.listeContacts.add(contact);
+    public void ajouterContact(Contact contact) throws IllegalArgumentException{
+        if(listeContacts.contains(contact)) {
+            throw new IllegalArgumentException("Le contact "+contact+"appartient deja au client "+nom);
+        }
+        contact.save();
+        listeContacts.add(contact);
+        save();
     }
 
 }

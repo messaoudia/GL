@@ -53,7 +53,7 @@ public abstract class Personne extends Model{
         }
         try {
             Personne personne = (Personne) obj;
-            return (personne.id.equals(this.id) && personne.nom.equals(this.nom) && personne.prenom.equals(this.prenom)
+            return (personne.nom.equals(this.nom) && personne.prenom.equals(this.prenom)
                     && personne.email.equals(this.email) && personne.telephone.equals(this.telephone));
         } catch (ClassCastException e) {
             return false;

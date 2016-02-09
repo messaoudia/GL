@@ -1,3 +1,4 @@
+import com.avaje.ebean.common.BeanList;
 import models.*;
 import org.junit.Test;
 import play.Logger;
@@ -62,7 +63,7 @@ public class ModelBeanTest {
         running(fakeApplication(), ()-> {
             Adresse a1 = new Adresse("30 Street Cloudz","645019","Cupertinoooo","USAAA");
             a1.save();
-            List<Contact> listContacts = new ArrayList<>();
+            List<Contact> listContacts = new BeanList<>();
             Contact c1 = new Contact("Jobs","Steve","s.j@apple.com","0215465978");
             c1.save();
             Contact c2 = new Contact("James","Frank","f.j@apple.com","0215465979");
