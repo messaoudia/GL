@@ -88,3 +88,5 @@ read = Read
 unread = Unread
 projectPersonResponsible = Project manager
 saveProject = Save project
+createSubTask = Create subtask
+createTask = Create task
