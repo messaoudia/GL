@@ -101,10 +101,18 @@
                 $(document).ready(function () {
                     $('.dataTables-example').DataTable();
                     $('.footable').footable();
+
                 });
 
                 $( document ).ajaxComplete(function() {
                     $('.dataTables-example').DataTable();
+                    $('#btn-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').hide();
+                        $('#div-modifierTache').show();
+                        jQuery.fx.off = false;
+
+                    });
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -117,6 +125,10 @@
 
                 $(document).ajaxComplete(function() {
                     $('.footable').footable();
+                });
+
+                $(document).ajaxComplete(function() {
+
                 });
 
 

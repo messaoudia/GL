@@ -2,6 +2,8 @@
 
     @scripts = {
         <script>
+
+
                 $(document).ready(function() {
                     $('.liclickable').click(function (e) {
                         e.preventDefault();
@@ -711,110 +713,134 @@
                                                             <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-body">
-                                                                <div class="row">
-                                                                    <!-- 1ere colonne -->
-                                                                    <div class="col-sm-6">
-                                                                        <div class="id-tache-modal">
-                                                                            <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
-                                                                            @Messages("task") 14
-                                                                            <a><i class="fa fa-bell-slash"></i></a>
-                                                                            <a><i class="fa fa-trash"></i></a>
-                                                                            <a><i class="fa fa-pencil"></i></a>
-                                                                        </div>
-                                                                        <p class="titre-tache-modal">Faire la maquette</p>
-                                                                        <div class="description-modal-tache">
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                        </div>
-                                                                        <p style="margin-top:7px;">@Messages("predecessor") : </p>
-                                                                        <div class="list-task">
-                                                                            <table class="table-bordered">
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
+                                                                <div id="div-consulterTache">
+                                                                    <div class="row">
+                                                                            <!-- 1ere colonne -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="id-tache-modal">
+                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
+                                                                                @Messages("task") 14
+                                                                                <a><i class="fa fa-bell-slash"></i></a>
+                                                                                <a><i class="fa fa-trash"></i></a>
+                                                                                <a id="btn-modifierTache"><i class="fa fa-pencil"></i></a>
+                                                                            </div>
+                                                                            <p class="titre-tache-modal">Faire la maquette</p>
+                                                                            <div class="description-modal-tache">
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                            </div>
+                                                                            <p style="margin-top:7px;">@Messages("predecessor") : </p>
+                                                                            <div class="list-task">
+                                                                                <table class="table-bordered">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+
+                                                                            <p style="margin-top:7px;">@Messages("successors") : </p>
+                                                                            <div class="list-task">
+                                                                                <table class="table-bordered">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td class="id-task">18</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
 
-                                                                        <p style="margin-top:7px;">@Messages("successors") : </p>
-                                                                        <div class="list-task">
-                                                                            <table class="table-bordered">
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td class="id-task">18</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- 2eme colonne -->
-                                                                    <div class="col-sm-6">
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                        <p class="bold">@Messages("project") : myProjects</p>
-                                                                        <p class="bold">@Messages("client") : PoPS5I Inc.</p>
-                                                                        <p>@Messages("taskPersonResponsible") : Daro Heng</p>
-                                                                        <p><a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a> @Messages("externalInterlocutors") :</p>
-                                                                        <select>
-                                                                            <option disabled selected>Valérie Guimard</option>
-                                                                            <option disabled>Frédéric Voisin</option>
-                                                                            <option disabled>Daro Heng</option>
-                                                                            <option disabled>Steve Mandanda</option>
-                                                                            <option disabled>Lassana Diarra</option>
-                                                                        </select>
-                                                                        <p style="margin-top:24px;">@Messages("remainingTime") : 10j</p>
-                                                                        <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-7">
-                                                                            @Messages("startDate")
-                                                                            </div>
-                                                                            <div class="col-sm-4 date">
-                                                                                20/11/2016
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-7">
-                                                                            @Messages("earliestEndDate")
-                                                                            </div>
-                                                                            <div class="col-sm-4 date">
-                                                                                20/11/2016
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-7">
-                                                                                @Messages("latestEndDate")
-                                                                            </div>
-                                                                            <div class="col-sm-4 date">
-                                                                                20/11/2016
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="td-avancement" style="margin-top:12px;">
-                                                                            <p class="row-initiale">@Messages("initial") : 50J</p>
-                                                                            <p class="row-restante">@Messages("remaining") : 30J</p>
-                                                                            <div class="progress progress-bar-default">
-                                                                                    <!-- si 0% : color:black; -->
-                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                                                    60%
+                                                                            <!-- 2eme colonne -->
+                                                                        <div class="col-sm-6">
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            <p class="bold">@Messages("project") : myProjects</p>
+                                                                            <p class="bold">@Messages("client") : PoPS5I Inc.</p>
+                                                                            <p>@Messages("taskPersonResponsible") : Daro Heng</p>
+                                                                            <p><a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a> @Messages("externalInterlocutors") :</p>
+                                                                            <select>
+                                                                                <option disabled selected>Valérie Guimard</option>
+                                                                                <option disabled>Frédéric Voisin</option>
+                                                                                <option disabled>Daro Heng</option>
+                                                                                <option disabled>Steve Mandanda</option>
+                                                                                <option disabled>Lassana Diarra</option>
+                                                                            </select>
+                                                                            <p style="margin-top:24px;">@Messages("remainingTime") : 10j</p>
+                                                                            <div class="row row-date-tache-modal">
+                                                                                <div class="col-sm-7">
+                                                                                @Messages("startDate")
+                                                                                </div>
+                                                                                <div class="col-sm-4 date">
+                                                                                    20/11/2016
                                                                                 </div>
                                                                             </div>
-                                                                            <p class="row-consommee">@Messages("consumed") : 30J</p>
+                                                                            <div class="row row-date-tache-modal">
+                                                                                <div class="col-sm-7">
+                                                                                @Messages("earliestEndDate")
+                                                                                </div>
+                                                                                <div class="col-sm-4 date">
+                                                                                    20/11/2016
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row row-date-tache-modal">
+                                                                                <div class="col-sm-7">
+                                                                                @Messages("latestEndDate")
+                                                                                </div>
+                                                                                <div class="col-sm-4 date">
+                                                                                    20/11/2016
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="td-avancement" style="margin-top:12px;">
+                                                                                <p class="row-initiale">@Messages("initial") : 50J</p>
+                                                                                <p class="row-restante">@Messages("remaining") : 30J</p>
+                                                                                <div class="progress progress-bar-default">
+                                                                                        <!-- si 0% : color:black; -->
+                                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                                                        60%
+                                                                                    </div>
+                                                                                </div>
+                                                                                <p class="row-consommee">@Messages("consumed") : 30J</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="div-modifierTache" style="display: none ;">
+                                                                    <div class="row">
+                                                                            <!-- 1ere colonne -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="id-tache-modal">
+                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
+                                                                                @Messages("task") 14
+                                                                                <a><i class="fa fa-bell-slash"></i></a>
+                                                                                <a><i class="fa fa-trash"></i></a>
+                                                                                <a id="btn-modifierTache2"><i class="fa fa-pencil"></i></a>
+                                                                            </div>
+                                                                        </div>
+
+                                                                            <!-- 2eme colonne -->
+                                                                        <div class="col-sm-6">
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            <p class="bold">@Messages("project") : myProjects</p>
+                                                                            <p class="bold">@Messages("client") : PoPS5I Inc.</p>
+                                                                            <p>@Messages("taskPersonResponsible") : Daro Heng</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
