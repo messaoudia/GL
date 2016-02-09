@@ -31,6 +31,5 @@ $(function(){
         $("#div-consulterProjet").hide();
         $("#div-modifierProjet").show();
         jQuery.fx.off = false;
-
     });
 });
