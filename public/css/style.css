@@ -316,12 +316,18 @@
   overflow:auto;
 }
 
-#bloc-notes-tdb{
-  color:black;
-  height:172px;
-  width:100%;
-  resize: none;
+.textarea-perso{
+    width:100%;
+    resize: none;
+}
 
+#formModifierDescriptionTache{
+    height: 100px;
+}
+
+#bloc-notes-tdb{
+    height:172px;
+    color:black;
 }
 
 .panel-heading-normal {

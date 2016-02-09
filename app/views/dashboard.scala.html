@@ -256,7 +256,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea id="bloc-notes-tdb" placeholder='@Messages("notes")...'></textarea>
+                                    <textarea id="bloc-notes-tdb" class="textarea-perso" placeholder='@Messages("notes")...'></textarea>
                                 </div>
                             </div>
                         </div>
@@ -823,26 +823,133 @@
                                                                     </div>
                                                                 </div>
                                                                 <div id="div-modifierTache" style="display: none ;">
-                                                                    <div class="row">
-                                                                            <!-- 1ere colonne -->
-                                                                        <div class="col-sm-6">
-                                                                            <div class="id-tache-modal">
-                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
-                                                                                @Messages("task") 14
-                                                                                <a><i class="fa fa-bell-slash"></i></a>
-                                                                                <a><i class="fa fa-trash"></i></a>
-                                                                                <a id="btn-modifierTache2"><i class="fa fa-pencil"></i></a>
+                                                                    <form id="formModifierTache" class="form-horizontal">
+                                                                        <div class="row">
+                                                                                <!-- 1ere colonne -->
+                                                                            <div class="col-sm-6">
+                                                                                <div class="id-tache-modal">
+                                                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
+                                                                                    @Messages("task") 14
+                                                                                    <a><i class="fa fa-bell-slash"></i></a>
+                                                                                    <a><i class="fa fa-trash"></i></a>
+                                                                                    <a id="btn-modifierTache2"><i class="fa fa-pencil"></i></a>
+                                                                                </div>
+                                                                                <input type="text" id="formModifierNomTache" class="form-control" placeholder="Nom de la tâche...">
+                                                                                <textarea id="formModifierDescriptionTache" class="textarea-perso" placeholder='Description de la tâche...'></textarea>
+                                                                                <p style="margin-top:7px;">@Messages("predecessor") : </p>
+                                                                                <input type="text" id="formModifierPredecesseur" class="form-control" placeholder="Choisir un prédécesseur...">
+                                                                                <div class="list-task">
+                                                                                    <table class="table-bordered">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+
+                                                                                <p style="margin-top:7px;">@Messages("successors") : </p>
+                                                                                <input type="text" id="formModifierSuccesseurs" class="form-control" placeholder="Choisir un successeur...">
+                                                                                <div class="list-task">
+                                                                                    <table class="table-bordered">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="id-task">18</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+
+                                                                                <!-- 2eme colonne -->
+                                                                            <div class="col-sm-6">
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                <input type="text" id="formModifierProjet" class="form-control" placeholder="Nom du projet...">
+                                                                                <input type="text" id="formModifierClient" class="form-control" placeholder="Choisir un client...">
+                                                                                <input type="text" id="formModifierRespProjet" class="form-control" placeholder="Choisir un responsable du projet...">
+                                                                                <p><a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a> @Messages("externalInterlocutors") :</p>
+                                                                                <select>
+                                                                                    <option disabled selected>Valérie Guimard</option>
+                                                                                    <option disabled>Frédéric Voisin</option>
+                                                                                    <option disabled>Daro Heng</option>
+                                                                                    <option disabled>Steve Mandanda</option>
+                                                                                    <option disabled>Lassana Diarra</option>
+                                                                                </select>
+                                                                                <div class="row row-date-tache-modal">
+                                                                                    <div class="col-sm-7">
+                                                                                    @Messages("startDate")
+                                                                                    </div>
+                                                                                    <div class="col-sm-4 date">
+                                                                                        20/11/2016
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row row-date-tache-modal">
+                                                                                    <div class="col-sm-7">
+                                                                                    @Messages("earliestEndDate")
+                                                                                    </div>
+                                                                                    <div class="col-sm-4 date">
+                                                                                        20/11/2016
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row row-date-tache-modal">
+                                                                                    <div class="col-sm-7">
+                                                                                    @Messages("latestEndDate")
+                                                                                    </div>
+                                                                                    <div class="col-sm-4 date">
+                                                                                        20/11/2016
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row form-group" >
+                                                                                    <label class="col-sm-6 control-label" for="formModifierChargeInitiale" style="text-align: left">Charge initiale</label>
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="input-group">
+                                                                                            <input type="number" id="formModifierChargeInitiale" class="form-control" value="0" min="0" step="0.5">
+                                                                                            <span class="input-group-addon" style="background-color:#1AB394;color:white;">J</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row form-group" >
+                                                                                    <label class="col-sm-6 control-label" for="formModifierChargeConsommee" style="text-align: left">Charge consommée</label>
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="input-group">
+                                                                                            <input type="number" id="formModifierChargeConsommee" class="form-control" value="0" min="0" step="0.5">
+                                                                                            <span class="input-group-addon" style="background-color:#1AB394;color:white;">J</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="row form-group" >
+                                                                                    <label class="col-sm-6 control-label" for="formModifierChargeRestante" style="text-align: left">Charge restante</label>
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="input-group">
+                                                                                            <input type="number" id="formModifierChargeRestante" class="form-control" value="0" min="0" step="0.5">
+                                                                                            <span class="input-group-addon" style="background-color:#1AB394;color:white;">J</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-
-                                                                            <!-- 2eme colonne -->
-                                                                        <div class="col-sm-6">
-                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                            <p class="bold">@Messages("project") : myProjects</p>
-                                                                            <p class="bold">@Messages("client") : PoPS5I Inc.</p>
-                                                                            <p>@Messages("taskPersonResponsible") : Daro Heng</p>
-                                                                        </div>
-                                                                    </div>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>
