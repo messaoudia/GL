@@ -8,6 +8,25 @@
  *
 */
 
+.normal{
+    padding-right: 0px;
+    padding-left: 0px;
+    line-height: 35px;
+    background-color:#1ab394 !important;
+    border-right: 5px solid red;
+}
+
+
+#boutonPlusCreerTache {
+    left: 0px;
+    position: absolute;
+    line-height: 35px;
+    color:#fff;
+    width: 30px;
+    font-size: 20px;
+    background-color: red;
+}
+
 label {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -1105,7 +1124,21 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   padding: 10px 15px 10px 20px;
 }
 @media (max-width: 768px) {
-  .top-navigation .navbar-header {
+
+    #boutonPlusCreerTache {
+        display:none;
+        text-align: left;
+    }
+
+    .normal{
+        text-align: left;
+        border:none;
+    }
+    #barreCreerTachei {
+        text-align: left;
+    }
+
+    .top-navigation .navbar-header {
     display: block;
     float: none;
   }
@@ -8705,6 +8738,19 @@ body.md-skin {
 }
 
 @media (max-width: 350px) {
+
+    #boutonPlusCreerTache {
+        display:none;
+    }
+
+    .normal{
+        text-align: left;
+        border:none;
+    }
+    #barreCreerTachei {
+        text-align: left;
+    }
+
     .timeline-item .date {
         text-align: left;
         width: 110px;

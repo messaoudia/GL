@@ -164,9 +164,11 @@
         <script>
                 $(document).ready(function () {
                     $('.dataTables-example').DataTable();
+
                     $('#projet_Tache').dataTable( {
                         "ordering": false
                     } );
+
                     $('#projet_Projet').dataTable( {
                         "ordering": false
                     } );
@@ -189,31 +191,22 @@
 
                 $( document ).ajaxComplete(function() {
                     $('.dataTables-example').DataTable();
-                    $('#projet_Tache').dataTable( {
-                        "ordering": false
-                    } );
+
                     $('#projet_Projet').dataTable( {
                         "ordering": false
                     } );
-                });
 
-                $( document ).ajaxComplete(function() {
+                    $('#projet_Tache').dataTable( {
+                        "ordering": false
+                    } );
+
                     $('.popover-info').popover('hidden');
-                });
 
-                $( document ).ajaxComplete(function() {
                     $('#modal-tdb-tache').modal();
-                });
 
-                $(document).ajaxComplete(function() {
                     $('.footable').footable();
+
                 });
-
-
-
-
-
-
 
                 /*
                 $( document ).ajaxComplete(function() {
