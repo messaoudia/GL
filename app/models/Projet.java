@@ -124,7 +124,6 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Ajouter la tache en parametre a la liste des taches du projet
      *
      * @param tache
