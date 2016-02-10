@@ -80,6 +80,10 @@ public class Tache extends EntiteSecurise {
         this.projet = projet;
     }
 
+    public Tache() {
+        this.interlocuteurs = new BeanList<>();
+    }
+
     /**
      * Create a tache
      */
