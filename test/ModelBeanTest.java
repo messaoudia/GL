@@ -65,19 +65,18 @@ public class ModelBeanTest {
             a1.save();
             List<Contact> listContacts = new BeanList<>();
             Contact c1 = new Contact("Jobs","Steve","s.j@apple.com","0215465978");
-            c1.save();
             Contact c2 = new Contact("James","Frank","f.j@apple.com","0215465979");
-            c2.save();
             listContacts.add(c1);
             listContacts.add(c2);
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
                     new Date(2016,2,2),new Date(2016,2,10),new Date(2016,2,3),
                     new Date(2016,2,9),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
-            pr.save();
-            List<Projet> listProjet = Collections.singletonList(pr);
+            List<Projet> listProjet = new BeanList<>();
+            listProjet.add(pr);
             Client cl = new Client("Applee",2,true, a1,listContacts, listProjet);
-            Logger.debug("c1 id="+c1.id);
             cl.save();
+
+            Logger.debug("c1 id="+c1.id);
             Logger.debug(cl.toString());
             assertNotNull(cl.id);
             Client cl2 = Client.find.byId(cl.id);
@@ -89,22 +88,25 @@ public class ModelBeanTest {
     @Test
     public void testPersistContact() {
         running(fakeApplication(), ()-> {
-            Contact c1 = new Contact();
-            c1.nom = "Jobs";
-            c1.prenom = "Steve";
-            c1.email = "s.j@apple.com";
-            c1.telephone = "0215465978";
-            Client cl = new Client();
-            cl.nom = "Apple";
-            cl.save();
-            c1.client = cl;
-            Logger.debug(c1.toString());
-            c1.save();
-            Logger.debug(c1.toString());
-            assertNotNull(c1.id);
-            Contact c2 = Contact.find.byId(c1.id);
+            Client client = new Client();
+            client.nom = "Apple";
+            client.save();
+
+            Contact contact = new Contact();
+            contact.nom = "Jobs";
+            contact.prenom = "Steve";
+            contact.email = "s.j@apple.com";
+            contact.telephone = "0215465978";
+            contact.client = client;
+            contact.save();
+
+            client.ajouterContact(contact);
+
+            Logger.debug(contact.toString());
+            assertNotNull(contact.id);
+            Contact c2 = Contact.find.byId(contact.id);
             Logger.debug(c2.toString());
-            assertEquals(c1,c2);
+            assertEquals(contact,c2);
         });
     }
 
@@ -195,40 +197,32 @@ public class ModelBeanTest {
     @Test
     public void testPersistProjet() {
         running(fakeApplication(), ()-> {
-            Projet pr = new Projet();
-            pr.nom = "Site Apple";
-            pr.description = "Développement du nouveau site d'Apple";
-            pr.dateDebutTheorique = new Date(2016,2,2);
-            pr.dateFinTheorique = new Date(2016,2,10);
-            pr.dateDebutReel = new Date(2016,2,3);
-            pr.dateFinReel = new Date(2016,2,9);
-            pr.chargeInitiale = 24;
-            pr.unite = UniteProjetEnum.SEMAINE;
-            pr.avancementGlobal = new Byte("0");
-
-            pr.enCours = true;
-            pr.archive = false;
             Client cl = new Client();
             cl.nom = "Apple";
             cl.save();
-            pr.client = cl;
-            pr.priorite = 1;
 
-            Tache p1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, new Date(2016,2,1),
-                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,pr);
-            p1.save();
-            Tache p2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, new Date(2016,2,1),
-                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,pr);
-            p2.save();
-            pr.listTaches = Arrays.asList(p1,p2);
+            Projet projet = new Projet();
+            projet.nom = "Site Apple";
+            projet.description = "Développement du nouveau site d'Apple";
+            projet.dateDebutTheorique = new Date(2016,2,2);
+            projet.dateFinTheorique = new Date(2016,2,10);
+            projet.dateDebutReel = new Date(2016,2,3);
+            projet.dateFinReel = new Date(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
 
-            pr.save();
-            Logger.debug(pr.toString());
-            assertNotNull(pr.id);
-            Projet pr2 = Projet.find.byId(pr.id);
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet pr2 = Projet.find.byId(projet.id);
             Logger.debug(pr2.toString());
 
-            assertEquals(pr,pr2);
+            assertEquals(projet,pr2);
         });
     }
 
@@ -237,13 +231,30 @@ public class ModelBeanTest {
         running(fakeApplication(), ()-> {
             Projet pr = new Projet();
             pr.nom = "New project";
-            pr.save();
+            Contact c1 = new Contact("Toto","Tata","toto.tata@tt.tt","0123456789");
+            List<Contact> contactList = new BeanList<Contact>();
+            contactList.add(c1);
             Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, new Date(2016,2,1),
-                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,pr);
+                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,contactList,pr);
+            c1.save();
+            pr.save();
             tache.save();
             Logger.debug(tache.toString());
             assertNotNull(tache.id);
             Tache t2 = Tache.find.byId(tache.id);
+            Logger.debug(t2.id.toString());
+            Logger.debug(t2.nom);
+            Logger.debug(t2.description);
+            Logger.debug(t2.critique.toString());
+            Logger.debug(t2.chargeConsommee.toString());
+            Logger.debug(t2.chargeInitiale.toString());
+            Logger.debug(t2.chargeTotale.toString());
+            Logger.debug(t2.dateDebut.toString());
+            Logger.debug(t2.dateFinTard.toString());
+            Logger.debug(t2.dateFinTot.toString());
+            Logger.debug(t2.niveau.toString());
+            Logger.debug(t2.disponible.toString());
+            //Logger.debug(t2.interlocuteurs.toString());
             Logger.debug(t2.toString());
             assertEquals(tache,t2);
         });
