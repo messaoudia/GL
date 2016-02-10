@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
 import models.Securite.EntiteSecurise;
+import models.Utils.Utils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
@@ -95,7 +96,8 @@ public class Projet extends EntiteSecurise {
                     projet.avancementGlobal.equals(this.avancementGlobal) &&
                     projet.enCours.equals(this.enCours) &&
                     projet.archive.equals(this.archive) &&
-                    projet.priorite.equals(this.priorite));
+                    projet.priorite.equals(this.priorite) &&
+                    Utils.isEqualList(projet.listTaches,listTaches));
         } catch (ClassCastException e) {
             return false;
         }
