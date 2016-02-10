@@ -1,5 +1,6 @@
 import com.avaje.ebean.common.BeanList;
 import models.*;
+import models.Utils.Utils;
 import org.junit.Test;
 import play.Logger;
 
@@ -68,9 +69,10 @@ public class ModelBeanTest {
             Contact c2 = new Contact("James","Frank","f.j@apple.com","0215465979");
             listContacts.add(c1);
             listContacts.add(c2);
+
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
-                    new Date(2016,2,2),new Date(2016,2,10),new Date(2016,2,3),
-                    new Date(2016,2,9),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
+                    Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
+                    Utils.getDateFrom(2016,2,9),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
             List<Projet> listProjet = new BeanList<>();
             listProjet.add(pr);
             Client cl = new Client("Applee",2,true, a1,listContacts, listProjet);
@@ -144,11 +146,11 @@ public class ModelBeanTest {
             Notification n1 = new Notification();
             n1.title = "3 Street Cloud";
             n1.contentNotification = "64500";
-            n1.dateEnvoi = new Date();
+            n1.dateEnvoi = Utils.getDateFrom(2016,12,1);
             n1.link = "http://localhost:9000/notif";
             n1.etatLecture = false;
             n1.archiver = false;
-            n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
+            n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty",null);
             Logger.debug(n1.toString());
             n1.save();
             Logger.debug(n1.toString());
@@ -161,8 +163,8 @@ public class ModelBeanTest {
     @Test
     public void testFindNotification() {
         running(fakeApplication(), ()-> {
-            Notification n1 = new Notification("title1","content1",new Date(2016,10,10),"http://notif1.com",true,false,new Utilisateur());
-            Notification n2 = new Notification("title2","content2",new Date(2016,10,12),"http://notif2.com",false,true,new Utilisateur());
+            Notification n1 = new Notification("title1","content1",Utils.getDateFrom(2016,10,10),"http://notif1.com",true,false,new Utilisateur());
+            Notification n2 = new Notification("title2","content2",Utils.getDateFrom(2016,10,12),"http://notif2.com",false,true,new Utilisateur());
             n1.save();
             n2.save();
             assertNotNull(n1.id);
@@ -175,8 +177,8 @@ public class ModelBeanTest {
             Notification a6 = Notification.find.where().eq("contentNotification","content2").findList().get(0);
             assertEquals(n1,a5);
             assertEquals(n2,a6);
-            Notification a7 = Notification.find.where().eq("dateEnvoi",new Date(2016,10,10)).findList().get(0);
-            Notification a8 = Notification.find.where().eq("dateEnvoi",new Date(2016,10,12)).findList().get(0);
+            Notification a7 = Notification.find.where().eq("dateEnvoi",Utils.getDateFrom(2016,10,10)).findList().get(0);
+            Notification a8 = Notification.find.where().eq("dateEnvoi",Utils.getDateFrom(2016,10,12)).findList().get(0);
             assertEquals(n1,a7);
             assertEquals(n2,a8);
             Notification a9 = Notification.find.where().eq("link","http://notif1.com").findList().get(0);
@@ -204,10 +206,10 @@ public class ModelBeanTest {
             Projet projet = new Projet();
             projet.nom = "Site Apple";
             projet.description = "Développement du nouveau site d'Apple";
-            projet.dateDebutTheorique = new Date(2016,2,2);
-            projet.dateFinTheorique = new Date(2016,2,10);
-            projet.dateDebutReel = new Date(2016,2,3);
-            projet.dateFinReel = new Date(2016,2,9);
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
             projet.chargeInitiale = 24;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
@@ -234,8 +236,8 @@ public class ModelBeanTest {
             Contact c1 = new Contact("Toto","Tata","toto.tata@tt.tt","0123456789");
             List<Contact> contactList = new BeanList<Contact>();
             contactList.add(c1);
-            Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, new Date(2016,2,1),
-                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,contactList,pr);
+            Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,contactList,pr);
             c1.save();
             pr.save();
             tache.save();
@@ -282,8 +284,8 @@ public class ModelBeanTest {
     @Test
     public void testFindUtilisateur() {
         running(fakeApplication(), ()-> {
-            Utilisateur u1 = new Utilisateur("A","C","a.c@apple.com","1236549870","TOTO");
-            Utilisateur u2 = new Utilisateur("B","D","b.d@zlatanino.com","0147258369","TATA");
+            Utilisateur u1 = new Utilisateur("A","C","a.c@apple.com","1236549870","TOTO",null);
+            Utilisateur u2 = new Utilisateur("B","D","b.d@zlatanino.com","0147258369","TATA",null);
             u1.save();
             u2.save();
             assertNotNull(u1.id);

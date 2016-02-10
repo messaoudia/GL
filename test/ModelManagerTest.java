@@ -116,10 +116,10 @@ public class ModelManagerTest {
             Projet pr = new Projet();
             pr.nom = "Site Google";
             pr.description = "Développement du nouveau site de Google";
-            pr.dateDebutTheorique = new Date(2016,2,2);
-            pr.dateFinTheorique = new Date(2016,2,10);
-            pr.dateDebutReel = new Date(2016,2,3);
-            pr.dateFinReel = new Date(2016,2,9);
+            pr.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            pr.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            pr.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            pr.dateFinReel = Utils.getDateFrom(2016,2,9);
             pr.chargeInitiale = 24;
             pr.unite = UniteProjetEnum.SEMAINE;
             pr.avancementGlobal = new Byte("0");
@@ -147,10 +147,10 @@ public class ModelManagerTest {
             Projet pr = new Projet();
             pr.nom = "Site Atos";
             pr.description = "Développement du nouveau site d'Atos";
-            pr.dateDebutTheorique = new Date(2016,2,2);
-            pr.dateFinTheorique = new Date(2016,2,10);
-            pr.dateDebutReel = new Date(2016,2,3);
-            pr.dateFinReel = new Date(2016,2,9);
+            pr.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            pr.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            pr.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            pr.dateFinReel = Utils.getDateFrom(2016,2,9);
             pr.chargeInitiale = 24;
             pr.unite = UniteProjetEnum.SEMAINE;
             pr.avancementGlobal = new Byte("0");
@@ -184,10 +184,10 @@ public class ModelManagerTest {
             Projet projet = new Projet();
             projet.nom = "Site Google";
             projet.description = "Développement du nouveau site de Google";
-            projet.dateDebutTheorique = new Date(2016,2,2);
-            projet.dateFinTheorique = new Date(2016,2,10);
-            projet.dateDebutReel = new Date(2016,2,3);
-            projet.dateFinReel = new Date(2016,2,9);
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
             projet.chargeInitiale = 24;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
@@ -197,12 +197,12 @@ public class ModelManagerTest {
             projet.priorite = 1;
             projet.save();
 
-            Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, new Date(2016,2,1),
-                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,null);
-            Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, new Date(2016,2,1),
-                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,null);
-            Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, new Date(2016,2,1),
-                    new Date(2016,2,20),new Date(2016,2,25),20,0,20,true,null,null);
+            Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+            Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+            Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
 
 
             projet.ajouterTache(tache1);
@@ -215,6 +215,63 @@ public class ModelManagerTest {
             Logger.debug(pr2.toString());
 
             assertEquals(projet,pr2);
+        });
+    }
+
+    @Test
+    public void testUtilisateurCheckPassword() {
+        running(fakeApplication(), ()-> {
+            String password = "AZERTY123456";
+            String passwordF = "AZERTY123457";
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword(password);
+            utilisateur.save();
+
+            assertNotNull(utilisateur.id);
+            Logger.debug(utilisateur.toString());
+
+
+            Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
+            Logger.debug(utilisateur2.toString());
+
+            assertEquals(utilisateur,utilisateur2);
+
+            assertTrue(utilisateur2.checkPassword(password));
+            assertFalse(utilisateur2.checkPassword(passwordF));
+        });
+    }
+
+    @Test
+    public void testUtilisateurAffecterTache() {
+        running(fakeApplication(), ()-> {
+            String password = "AZERTY123456";
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword(password);
+
+            Tache tache = new Tache();
+            tache.nom = "Tache1";
+            tache.description = "description tache1";
+            /*ETC...*/
+            utilisateur.affectTache(tache);
+
+            assertNotNull(utilisateur.id);
+            Logger.debug(utilisateur.toString());
+
+            Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
+            Logger.debug(utilisateur2.toString());
+
+            assertEquals(tache,utilisateur2.listTachesResponsable().get(0));
+
         });
     }
 
