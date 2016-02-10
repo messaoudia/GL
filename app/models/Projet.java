@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.common.BeanList;
 import models.Securite.EntiteSecurise;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
@@ -34,7 +35,7 @@ public class Projet extends EntiteSecurise {
     public Boolean enCours;
     public Boolean archive;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn
     public Client client;
 
@@ -67,10 +68,11 @@ public class Projet extends EntiteSecurise {
         this.archive = archive;
         this.client = client;
         this.priorite = priorite;
-        this.listTaches = listTaches;
+        this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
     }
 
     public Projet() {
+        this.listTaches = new BeanList<>();
     }
 
     @Override
@@ -93,8 +95,7 @@ public class Projet extends EntiteSecurise {
                     projet.avancementGlobal.equals(this.avancementGlobal) &&
                     projet.enCours.equals(this.enCours) &&
                     projet.archive.equals(this.archive) &&
-                    projet.priorite.equals(this.priorite) &&
-                    projet.client.id.equals(this.client.id));
+                    projet.priorite.equals(this.priorite));
         } catch (ClassCastException e) {
             return false;
         }
@@ -102,7 +103,22 @@ public class Projet extends EntiteSecurise {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Projet : ").append(id).append("] : ").append(nom).append(", ").append(description);
+        sb.append("\nDebutTH : ").append(dateDebutTheorique).append(", FinTH : ").append(dateFinTheorique);
+        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRE : ").append(dateFinReel);
+        sb.append("\nChargeInitiale : ").append(chargeInitiale).append(", Avancement (%) : ").append(avancementGlobal);
+        sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
+        sb.append(", Priorite :").append(priorite).append("\n");
+        if (client != null) {
+            sb.append("Client : ").append(client.nom);
+        }
+        if (listTaches != null) {
+            for (Tache tache : listTaches) {
+                sb.append("\n").append(tache.nom).append("\n");
+            }
+        }
+        return sb.toString();
     }
 
     /**
@@ -111,12 +127,16 @@ public class Projet extends EntiteSecurise {
      *
      * @param tache
      */
+    @Transient
     public void ajouterTache(Tache tache) throws IllegalArgumentException {
         if (listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
                     ", creation impossible");
         }
+        tache.projet = this;
+        tache.save();
         listTaches.add(tache);
+        save();
     }
 
 
@@ -127,6 +147,7 @@ public class Projet extends EntiteSecurise {
      * @param tache
      * @throws IllegalArgumentException
      */
+    @Transient
     public void modifierTache(Tache tache) throws IllegalArgumentException {
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
@@ -143,6 +164,7 @@ public class Projet extends EntiteSecurise {
      * @param tache
      * @throws IllegalArgumentException
      */
+    @Transient
     public void supprimerTache(Tache tache) throws IllegalArgumentException {
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
@@ -158,6 +180,7 @@ public class Projet extends EntiteSecurise {
      * @param responsable
      * @throws IllegalStateException
      */
+    @Transient
     public void associerResponsable(Utilisateur responsable) throws IllegalStateException {
         if (this.responsable != null) {
             throw new IllegalStateException("Il y a deja un responsable pour ce projet");
@@ -172,6 +195,7 @@ public class Projet extends EntiteSecurise {
      * @param responsable
      * @throws IllegalArgumentException
      */
+    @Transient
     public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException {
         if (this.responsable == responsable) {
             throw new IllegalArgumentException("Remplacement du responsable de projet par le même responsable");
@@ -186,6 +210,7 @@ public class Projet extends EntiteSecurise {
      * @param client
      * @throws IllegalStateException
      */
+    @Transient
     public void associerClient(Client client) throws IllegalStateException {
         if (this.client != null) {
             throw new IllegalStateException("Il y a deja un client pour ce projet");

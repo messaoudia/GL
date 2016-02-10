@@ -74,7 +74,7 @@ public class Utilisateur extends Personne {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "[Utilisateur : "+super.toString() +", Password :" + password + ")";
     }
 
     public List<Tache> listTachesResponsable(){

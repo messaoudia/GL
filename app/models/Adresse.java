@@ -45,7 +45,9 @@ public class Adresse extends Model {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "[Adresse : " + id + "] : " +
+                adresse + ", " + zipCode + ", " +
+                ville + ", " + pays;
     }
 
     @Override

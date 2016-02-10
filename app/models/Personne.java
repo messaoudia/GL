@@ -40,7 +40,9 @@ public abstract class Personne extends Model{
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return  id + "] : " +
+                nom + ", " + prenom + ", " +
+                email + ", " + telephone;
     }
 
     @Override

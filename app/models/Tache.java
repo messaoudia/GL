@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.common.BeanList;
 import models.Exceptions.IllegalTaskCreation;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
@@ -75,7 +76,7 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
         this.disponible = disponible;
-        this.interlocuteurs = interlocuteurs;
+        this.interlocuteurs = (interlocuteurs==null)?new BeanList<>():interlocuteurs;
         this.projet = projet;
     }
 
@@ -114,8 +115,7 @@ public class Tache extends EntiteSecurise {
                     tache.dateFinTard.equals(this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
                     tache.chargeTotale.equals(this.chargeTotale) &&
-                    tache.disponible.equals(this.disponible) &&
-                    tache.projet.id.equals(this.projet.id));
+                    tache.disponible.equals(this.disponible));
         } catch (ClassCastException e) {
             return false;
         }
@@ -123,7 +123,18 @@ public class Tache extends EntiteSecurise {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Tâche : ").append(id).append("] : ").append(nom).append(", ").append(description);
+        sb.append("\nniveau : ").append(niveau).append("\ncritique : ").append(critique);
+        sb.append("\ndateDebut : ").append(dateDebut).append("\ndateFinTot : ").append(dateFinTot);
+        sb.append("\ndateFinTard : ").append(dateFinTard).append("\nchargeInitiale : ").append(chargeInitiale);
+        sb.append("\nchargeConsommee : ").append(chargeConsommee).append("\nchargeTotale : ").append(chargeTotale);
+        sb.append("\ndisponible : ").append(disponible).append("\ninterlocuteurs : ");
+        for (Contact c :interlocuteurs) {
+            sb.append("\n\t").append(c);
+        }
+        sb.append("\nprojet : ").append(projet.nom).append("\n");
+        return sb.toString();
     }
 
     /**

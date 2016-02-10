@@ -16,15 +16,14 @@ public class Contact extends Personne {
     @ManyToMany
     public List<Tache> listTachesCorrespondant;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne
     public Client client;
 
     public static Model.Finder<Long, Contact> find = new Model.Finder<>(Contact.class);
 
-    public Contact(String nom, String prenom, String email, String telephone, List<Tache> listTachesCorrespondant, Client client) {
+    public Contact(String nom, String prenom, String email, String telephone, List<Tache> listTachesCorrespondant) {
         super(nom, prenom, email, telephone);
         this.listTachesCorrespondant = listTachesCorrespondant;
-        this.client = client;
     }
 
     public Contact(String nom, String prenom, String email, String telephone) {
@@ -36,7 +35,14 @@ public class Contact extends Personne {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[Contact : ");
+        sb.append(super.toString());
+        if(client != null) {
+            sb.append(", Client(");
+            sb.append(client.nom).append(")");
+        }
+        return sb.toString();
     }
 
     @Override

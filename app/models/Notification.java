@@ -47,7 +47,11 @@ public class Notification extends Model{
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return "[Notification : " + id + "] : " +
+                title + ", " + dateEnvoi + ", " +
+                link + ", etatLecture " + etatLecture +
+                ", archiver " + archiver +
+                ", contentNotification \n" + contentNotification + "\n";
     }
 
     @Override
