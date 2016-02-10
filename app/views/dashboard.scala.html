@@ -788,7 +788,7 @@
                                                                                 <div class="col-sm-7">
                                                                                 @Messages("startDate")
                                                                                 </div>
-                                                                                <div class="col-sm-4 date">
+                                                                                <div class="col-sm-4 dateVert">
                                                                                     20/11/2016
                                                                                 </div>
                                                                             </div>
@@ -796,7 +796,7 @@
                                                                                 <div class="col-sm-7">
                                                                                 @Messages("earliestEndDate")
                                                                                 </div>
-                                                                                <div class="col-sm-4 date">
+                                                                                <div class="col-sm-4 dateVert">
                                                                                     20/11/2016
                                                                                 </div>
                                                                             </div>
@@ -804,7 +804,7 @@
                                                                                 <div class="col-sm-7">
                                                                                 @Messages("latestEndDate")
                                                                                 </div>
-                                                                                <div class="col-sm-4 date">
+                                                                                <div class="col-sm-4 dateVert">
                                                                                     20/11/2016
                                                                                 </div>
                                                                             </div>
@@ -898,15 +898,18 @@
                                                                                     <div class="col-sm-7">
                                                                                     @Messages("startDate")
                                                                                     </div>
-                                                                                    <div class="col-sm-4 date">
-                                                                                        20/11/2016
+                                                                                    <div class="form-group" id="data_1">
+                                                                                        <label class="font-noraml">Simple data input format</label>
+                                                                                        <div class="input-group date">
+                                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row row-date-tache-modal">
                                                                                     <div class="col-sm-7">
                                                                                     @Messages("earliestEndDate")
                                                                                     </div>
-                                                                                    <div class="col-sm-4 date">
+                                                                                    <div class="col-sm-4 dateVert">
                                                                                         20/11/2016
                                                                                     </div>
                                                                                 </div>
@@ -914,7 +917,7 @@
                                                                                     <div class="col-sm-7">
                                                                                     @Messages("latestEndDate")
                                                                                     </div>
-                                                                                    <div class="col-sm-4 date">
+                                                                                    <div class="col-sm-4 dateVert">
                                                                                         20/11/2016
                                                                                     </div>
                                                                                 </div>
@@ -965,7 +968,7 @@
                 </div>
             </div>
 
-                <!-- Partie droite, les settings -->
+            <!-- Partie droite, les settings -->
             <div id="right-sidebar">
                 <div class="sidebar-container">
 
@@ -1305,6 +1308,11 @@
                 </div>
             </div>
         </div>
+
+
+
+
+
     }
 
     @main(pageTitle,content, scripts)
