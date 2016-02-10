@@ -90,7 +90,6 @@ public class Client extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Affecter le projet en parametre au Client courant
      * @param projet
      */
