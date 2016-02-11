@@ -216,11 +216,13 @@
   color:#676A6C;
 }
 
+#btn-modifierTache-active > .fa-reply,
 .id-tache-modal > a > .fa-bell-slash,
 .icon-notif-tdb > a > .fa-bell-slash {
   color : #bdc3c7;
 }
 
+#btn-modifierTache-active > .fa-reply:hover,
 .id-tache-modal > a > .fa-bell:hover,
 .id-tache-modal > a > .fa-bell-slash:hover,
 .icon-notif-tdb > a > .fa-bell:hover,

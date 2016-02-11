@@ -262,6 +262,10 @@
                         </div>
                     </div>
 
+                    <div style="height:100px;width;100px;background-color:white;color:black;">
+                        <p>Coucou</p>
+                    </div>
+
                     <div class="wrapper wrapper-content">
                         <div class="animated fadeInRightBig" style="margin:auto;">
                             <div class="row"><div class="col-xs-offset-11 col-xs-1">
@@ -296,7 +300,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-projets-bientot-finis" type="checkbox">
                                                                     <label for="checkbox-tdb-projets-bientot-finis">
                                                                     @Messages("projectsToFinishShortly")
@@ -304,7 +308,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-projets-retardes" type="checkbox">
                                                                     <label for="checkbox-tdb-projets-retardes">
                                                                     @Messages("delayedProjects")
@@ -605,7 +609,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-critiques" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-critiques">
                                                                     @Messages("tasksOnCriticalPath")
@@ -613,7 +617,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-indisponibles" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-indisponibles">
                                                                     @Messages("unavailableTasks")
@@ -621,7 +625,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-semaine-pro" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-semaine-pro">
                                                                         @Messages("tasksStartingNextWeek")
@@ -629,7 +633,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-moins-10j" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-moins-10j">
                                                                     @Messages("tasksMustBeCompletedInLessThan10days")
@@ -637,7 +641,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-retardees" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-retardees">
                                                                     @Messages("delayedTasks")
@@ -840,6 +844,7 @@
                                                                                     <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                                                                     @Messages("task") 14
                                                                                     <a><i class="fa fa-trash"></i></a>
+                                                                                    <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
                                                                                 </div>
                                                                                 <!-- Form nom tache -->
                                                                                 <input type="text" id="formModifierNomTache" class="form-control margin-form" placeholder='@Messages("taskName")...'>

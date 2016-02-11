@@ -138,7 +138,13 @@
 
                     });
 
+                    $('#btn-modifierTache-active').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
 
+                    });
 
                     $('#datepicker_date_debut .input-group.date').datepicker({
                         todayBtn: "linked",
@@ -179,11 +185,6 @@
                 $(document).ajaxComplete(function() {
                     $('.footable').footable();
                 });
-
-                $(document).ajaxComplete(function() {
-
-                });
-
 
 
                 /*
