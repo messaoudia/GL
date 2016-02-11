@@ -97,15 +97,22 @@
 
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
-
-
             <!--########### Start - Custom Script Call  ########### -->
-
         @scripts
         <script>
                 $(document).ready(function () {
                     $('.dataTables-example').DataTable();
                     $('.footable').footable();
+                    var config = {
+                        '.chosen-select'           : {},
+                        '.chosen-select-deselect'  : {allow_single_deselect:true},
+                        '.chosen-select-no-single' : {disable_search_threshold:10},
+                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                        '.chosen-select-width'     : {width:"95%"}
+                    }
+                    for (var selector in config) {
+                        $(selector).chosen(config[selector]);
+                    }
 
                 });
 
@@ -207,26 +214,11 @@
                         height: '300px'
                     });
                     */
-                });
 
-                $( document ).ajaxComplete(function() {
+                    $('.footable').footable();
                     $('.popover-info').popover('hidden');
-                });
+                   // $('#modal-tdb-tache').modal();
 
-                $( document ).ajaxComplete(function() {
-                    $('#modal-tdb-tache').modal();
-                });
-
-                $(document).ready(function() {
-                    $('.footable').footable();
-                    $('.footable2').footable();
-
-                });
-                $(document).ajaxComplete(function() {
-                    $('.footable').footable();
-                });
-
-                $(document).ready(function() {
                     var config = {
                         '.chosen-select'           : {},
                         '.chosen-select-deselect'  : {allow_single_deselect:true},
@@ -238,35 +230,6 @@
                         $(selector).chosen(config[selector]);
                     }
                 });
-
-                $(document).ajaxComplete(function() {
-                    var config = {
-                        '.chosen-select'           : {},
-                        '.chosen-select-deselect'  : {allow_single_deselect:true},
-                        '.chosen-select-no-single' : {disable_search_threshold:10},
-                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-                        '.chosen-select-width'     : {width:"95%"}
-                    }
-                    for (var selector in config) {
-                        $(selector).chosen(config[selector]);
-                    }
-                });
-
-
-
-
-                /*
-                $( document ).ajaxComplete(function() {
-                    $('.panel-body').slimScroll({
-                        height: '50px',
-                        railOpacity: 0.4,
-                        wheelStep: 10,
-                        alwaysVisible: true
-                    });
-                });
-                */
-
-
 
         </script>
             <!--########### End - Custom Script Call  ########### -->
