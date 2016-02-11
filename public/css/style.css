@@ -110,10 +110,19 @@
   padding-left:10px;
 }
 
-.last-td{
+.td-btn-suppr{
   text-align:center;
-  width:20px;
+  width:30px;
   padding:0px;
+  color:white;
+  cursor:pointer;
+  vertical-align: middle;
+  background-color: #ed5565;
+  color: #FFFFFF;
+}
+
+.td-btn-suppr:hover{
+  background-color: #ec4758;
 }
 
 /** MODAL VIEW TACHE **/
@@ -364,6 +373,7 @@
 .btn-tdb {
   white-space : normal;
   word-wrap: break-word;
+  width:100%;
 }
 
 .row-tdb > .col-sm-6 {
