@@ -242,6 +242,8 @@
   color : #95a5a6;
 }
 
+.row-options-user,
+.row-options-client,
 .row-options-tdb,
 .row-options-admin-projet{
   margin : 0px -20px 12px -20px;
@@ -324,6 +326,8 @@
   margin-left:10px;
 }
 
+.table-responsive-admin-user > .dataTables_wrapper > .row,
+.table-responsive-admin-client > .dataTables_wrapper > .row,
 .table-responsive-tdb > .dataTables_wrapper > .row,
 .table-responsive-admin-projet > .dataTables_wrapper > .row{
   margin-left:0px;
