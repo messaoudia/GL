@@ -157,35 +157,18 @@
                 </nav>
             </div>
             <div id="refresh" >
-
-                <div class="row wrapper border-bottom admin-bg page-heading">
-                    <div class="col-sm-4" style="height:50px">
-                        <!-- Bandeau rouge -->
-                    </div>
-
-                </div>
-
                 <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-sm-3" style="float:left;">
+                    <div class="row row-options-admin-client">
+                        <div class="col-sm-3">
                             <div class="checkbox checkbox-danger checkbox-circle">
                                 <input id="checkBoxClientsArchived" class="styled" type="checkbox" onclick="clientsArchived()">
                                 <label for="checkBoxClientsArchived"> @Messages("showArchivedClients") </label>
                             </div>
                         </div>
-
-                      <!--  <div class="col-sm-3" style="float:right;">
-                            <div class="input-group">
-                                <input type="text" class="input-sm form-control">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-sm btn-admin"> <i class="fa fa-search"/></button>
-                                </span>
-                            </div>
-                        </div>-->
                     </div>
 
-                    <div class="table-responsive">
-                        <table id="clientsTable" class="table table-striped table-bordered table-hover dataTables-example" >
+                    <div class="table-responsive table-responsive-admin-client">
+                        <table id="dataTables-admin-client" class="table table-striped table-bordered table-hover" >
                             <thead>
                                 <tr>
                                     <th>@Messages("client")</th>
@@ -199,121 +182,121 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">Auchan</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">92 rue Réaumur 75002 Paris</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">23</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">5</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">112</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">Auchan</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">92 rue Réaumur 75002 Paris</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">23</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">5</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">112</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">LCL</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">18 rue de la République 69002 Lyon</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">11</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">28</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">LCL</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">18 rue de la République 69002 Lyon</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">11</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">28</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">PoPS5 Inc.</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">9 Rue Joliot Curie 91120 Gif-sur-Yvette</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">37</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">PoPS5 Inc.</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">9 Rue Joliot Curie 91120 Gif-sur-Yvette</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">37</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">Société Générale</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">4 Ter Rue de Paris 91400 Orsay</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">16</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">91</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">Société Générale</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">4 Ter Rue de Paris 91400 Orsay</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">16</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">91</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">La banque Postale</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">11 Rue Bourseul, 75015 Paris</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">31</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">31</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">La banque Postale</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">11 Rue Bourseul, 75015 Paris</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">31</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">31</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">Atos</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">80 Quai Voltaire, 95870 Bezons</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">7</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">12</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">3</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">Atos</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">80 Quai Voltaire, 95870 Bezons</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">7</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">12</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">3</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">EDF</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">résid Foulon, 91140 Villebon-sur-Yvette</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">12</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">EDF</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">résid Foulon, 91140 Villebon-sur-Yvette</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">12</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">CEA</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">Centre d'Etudes, 91190 Gif-sur-Yvette</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">12</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">21</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">CEA</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">Centre d'Etudes, 91190 Gif-sur-Yvette</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">12</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">21</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">MAAF</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1 rue de Chartres, 91400 Orsay</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">60</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">2</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">MAAF</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1 rue de Chartres, 91400 Orsay</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">60</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">2</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">Matmut</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">41 boulevard Dubreuil, 91400 Orsay</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">3</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">12</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">Matmut</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">41 boulevard Dubreuil, 91400 Orsay</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">3</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">12</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">MAIF</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">37 boulevard Dubreuil, 91400 Orsay</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">5</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">49</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">MAIF</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">37 boulevard Dubreuil, 91400 Orsay</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">5</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">49</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">La Chocolatine</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">55 rue de Paris, 91400 Orsay</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">7</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">3</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">11</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">La Chocolatine</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">55 rue de Paris, 91400 Orsay</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">7</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">3</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">11</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                                 <tr>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">Le Moulin de Gasny</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">12 rue Boursier, 91400 Orsay</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">15</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">5</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">15</td>
-                                    <td data-toggle="modal" data-target="#modal-modif-client">1</td>
-                                    <td class="last-td"><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-suppr-client" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></button></td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">Le Moulin de Gasny</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">12 rue Boursier, 91400 Orsay</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">15</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">5</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">15</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -423,19 +406,19 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -448,19 +431,19 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="first-td">Contact 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Contact 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Contact 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Contact 1</td>
-                                                            <td class="last-td"><button type="button" class="btn btn-danger"><i class="fa fa-times"></i></button></td>
+                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

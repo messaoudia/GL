@@ -28,7 +28,8 @@
 
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
         <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
-
+        <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
+        <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
     </head>
 
@@ -85,27 +86,88 @@
         <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
         <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
 
+        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
         <!-- Footable -->
         <script src="/js/plugins/footable/footable.all.min.js"></script>
 
-
+        <!-- DATE -->
+        <script src="/assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script src="/assets/js/plugins/datepicker/bootstrap-datepicker.js"></script>
+        <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.en.js"></script>
+        <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.fr.js"></script>
 
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
-
-
             <!--########### Start - Custom Script Call  ########### -->
-
         @scripts
         <script>
                 $(document).ready(function () {
-                    $('.dataTables-example').DataTable();
                     $('.footable').footable();
+                    var config = {
+                        '.chosen-select'           : {},
+                        '.chosen-select-deselect'  : {allow_single_deselect:true},
+                        '.chosen-select-no-single' : {disable_search_threshold:10},
+                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                        '.chosen-select-width'     : {width:"95%"}
+                    }
+                    for (var selector in config) {
+                        $(selector).chosen(config[selector]);
+                    }
 
                 });
 
                 $( document ).ajaxComplete(function() {
-                    $('.dataTables-example').DataTable();
+
+                    $('#dataTables-tdb-projet').DataTable({
+                        "columnDefs": [ {
+                            "orderable": false,
+                            "targets": 4
+                        } ]
+                    });
+
+
+                    $('#dataTables-tdb-tache').DataTable({
+                        "columnDefs": [
+                            {
+                                "orderable": false,
+                                "targets": 5
+                            },
+                            {
+                            "searchable": false,
+                            "orderable": false,
+                            "targets": [6, 7]
+                            } ]
+                    });
+
+                    $('#dataTables-admin-projet').DataTable({
+                        "columnDefs": [
+                            {
+                                "orderable": false,
+                                "targets": 5
+                            },
+                            {
+                                "searchable": false,
+                                "orderable": false,
+                                "targets":6
+                            } ]
+                    });
+
+                    $('#dataTables-admin-client').DataTable({
+                        "columnDefs": [{
+                                "searchable": false,
+                                "orderable": false,
+                                "targets":6
+                        } ]
+                    });
+
+                    $('#dataTables-admin-user').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":7
+                        } ]
+                    });
+
                     $('#btn-modifierTache').click(function() {
                         jQuery.fx.off = true;
                         $('#div-consulterTache').hide();
@@ -113,38 +175,111 @@
                         jQuery.fx.off = false;
 
                     });
-                });
 
-                $( document ).ajaxComplete(function() {
-                    $('.popover-info').popover('hidden');
-                });
+                    $('#btn-fermer-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
 
-                $( document ).ajaxComplete(function() {
-                    $('#modal-tdb-tache').modal();
-                });
-
-                $(document).ajaxComplete(function() {
-                    $('.footable').footable();
-                });
-
-                $(document).ajaxComplete(function() {
-
-                });
-
-
-
-                /*
-                $( document ).ajaxComplete(function() {
-                    $('.panel-body').slimScroll({
-                        height: '50px',
-                        railOpacity: 0.4,
-                        wheelStep: 10,
-                        alwaysVisible: true
                     });
+
+                    $('#btn-valider-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-modifierTache-active').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#datepicker_date_debut .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_tot .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#projet-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#tache-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-retardes').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proches').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proposees').slimScroll({
+                        height: '130px'
+                    });
+                    $('#bloc-notes-tdb').slimScroll({
+                        height: '172px',
+                        width: '100%'
+                    });
+                    $('.description-modal-tache').slimScroll({
+                         height: '100px'
+                    });
+
+                    $('.list-task').slimScroll({
+                        height: '90px'
+                    });
+                    $('.list-modif-client').slimScroll({
+                        height: '130px'
+                    });
+
+                    $('.list-personnes-notifiees').slimScroll({
+                        height: '85px'
+                    });
+                    /*
+                    $('.table-suppr-user').slimScroll({
+                        height: '300px'
+                    });
+                    */
+
+                    $('.footable').footable();
+                    $('.popover-info').popover('hidden');
+                   // $('#modal-tdb-tache').modal();
+
+                    var config = {
+                        '.chosen-select'           : {},
+                        '.chosen-select-deselect'  : {allow_single_deselect:true},
+                        '.chosen-select-no-single' : {disable_search_threshold:10},
+                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+                        '.chosen-select-width'     : {width:"95%"}
+                    }
+                    for (var selector in config) {
+                        $(selector).chosen(config[selector]);
+                    }
                 });
-                */
-
-
 
         </script>
             <!--########### End - Custom Script Call  ########### -->
