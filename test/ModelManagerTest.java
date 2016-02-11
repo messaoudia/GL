@@ -211,10 +211,106 @@ public class ModelManagerTest {
 
             Logger.debug(projet.toString());
             assertNotNull(projet.id);
-            Projet pr2 = Projet.find.byId(projet.id);
-            Logger.debug(pr2.toString());
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
 
-            assertEquals(projet,pr2);
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            assertEquals(projet,projetBDD);
+        });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAjoutTacheProjetException() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google";
+            projet.description = "Développement du nouveau site de Google";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+
+            projet.ajouterTache(tache1);
+            projet.ajouterTache(tache1);
+
+        });
+    }
+
+    @Test
+    public void testSupprimerTacheProjet() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "FACEBOOK";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site FACEBOOK";
+            projet.description = "Développement du nouveau site de FACEBOOK";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+            Tache tache2 = new Tache("Etude FACEBOOK 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+            Tache tache3 = new Tache("Etude FACEBOOK 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+
+            projet.ajouterTache(tache1);
+            projet.ajouterTache(tache2);
+            projet.ajouterTache(tache3);
+
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            assertTrue(projetBDD.listTaches.size() == 3);
+            projetBDD.supprimerTache(tache1);
+
+            Projet projetBDD2 = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD2.toString());
+
+            assertTrue(projetBDD2.listTaches.size() == 2);
+            assertTrue(!projetBDD.listTaches.contains(tache1));
+        });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSupprimerTacheProjetException() {
+        running(fakeApplication(), ()-> {
+
+            Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+
+            Projet.find.all().get(0).supprimerTache(tache1);
         });
     }
 

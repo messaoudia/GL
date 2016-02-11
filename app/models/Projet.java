@@ -125,7 +125,6 @@ public class Projet extends EntiteSecurise {
 
     /**
      * Ajouter la tache en parametre a la liste des taches du projet
-     *
      * @param tache
      */
     @Transient
@@ -156,12 +155,11 @@ public class Projet extends EntiteSecurise {
         }
 
         //TODO modifier tâche
+        tache.update();
     }
 
     /**
-     * TODO testme
      * Supprimer la tâche du systeme
-     *
      * @param tache
      * @throws IllegalArgumentException
      */
@@ -171,7 +169,10 @@ public class Projet extends EntiteSecurise {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
+        tache.delete();
         listTaches.remove(tache);
+        Tache.find.deleteById(tache.id);
+        this.save();
     }
 
     /**
