@@ -85,6 +85,7 @@
         <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
         <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
         <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+
         <script src="/js/plugins/chosen/chosen.jquery.js"></script>
         <!-- Footable -->
         <script src="/js/plugins/footable/footable.all.min.js"></script>
@@ -116,12 +117,14 @@
                 });
 
                 $( document ).ajaxComplete(function() {
+
                     $('#dataTables-tdb-projet').DataTable({
                         "columnDefs": [ {
                             "orderable": false,
                             "targets": 4
                         } ]
                     });
+
 
                     $('#dataTables-tdb-tache').DataTable({
                         "columnDefs": [
