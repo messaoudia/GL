@@ -81,15 +81,13 @@
 
 
 .list-personnes-notifiees{
-  max-height : 81px;
+  max-height : 85px;
   margin-bottom:10px;
   margin-top:10px;
-  overflow:auto;
 }
 
 .list-modif-client{
-  max-height:121px;
-  overflow: auto;
+  max-height:130px;
 }
 .list-modif-client > table > tbody > tr > td,
 .list-personnes-notifiees > table > tbody > tr > td{
@@ -113,8 +111,7 @@
 /** MODAL VIEW TACHE **/
 
 .list-task {
-  max-height:81px;
-  overflow:auto;
+  max-height:90px;
 }
 .list-task > table,
 .list-modif-client > table{
@@ -149,8 +146,6 @@
 }
 
 .description-modal-tache{
-  max-height:100px;
-  overflow:auto;
   background-color:#F1F1F1;
 }
 
@@ -323,11 +318,6 @@
    font-weight : bold;
  }
 
-.panel-tdb > .panel-body {
-  height:130px;
-  overflow:auto;
-}
-
 .textarea-perso{
     width:100%;
     resize: none;
@@ -338,7 +328,6 @@
 }
 
 #bloc-notes-tdb{
-    height:172px;
     color:black;
 }
 
