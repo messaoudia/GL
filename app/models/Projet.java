@@ -22,7 +22,11 @@ public class Projet extends EntiteSecurise {
 
     public String nom;
     public String description;
+
+    @ManyToOne
+    @JoinColumn
     public Utilisateur responsable;
+
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutTheorique;
     @Formats.DateTime(pattern = "dd/MM/yyyy")
@@ -187,7 +191,10 @@ public class Projet extends EntiteSecurise {
         if (this.responsable != null) {
             throw new IllegalStateException("Il y a deja un responsable pour ce projet");
         }
+//        responsable.listProjetResponsable.add(this);
+        responsable.save();
         this.responsable = responsable;
+        this.save();
     }
 
     /**

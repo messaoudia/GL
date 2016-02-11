@@ -174,6 +174,33 @@ public class ModelManagerTest {
         });
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void testAssocierResponsableProjetException(){
+        running(fakeApplication(), ()-> {
+
+
+            Projet pr = new Projet();
+            pr.nom = "Site ROCKSTAR";
+            pr.description = "Développement du nouveau site de ROCKSTAR";
+            pr.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            pr.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            pr.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            pr.dateFinReel = Utils.getDateFrom(2016,2,9);
+            pr.chargeInitiale = 24;
+            pr.unite = UniteProjetEnum.SEMAINE;
+            pr.avancementGlobal = new Byte("0");
+            pr.enCours = true;
+            pr.archive = false;
+            pr.priorite = 1;
+            pr.save();
+
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azerty");
+            pr.associerResponsable(u1);
+            pr.associerResponsable(u1);
+
+        });
+    }
+
     @Test
     public void testAjoutTacheProjet() {
         running(fakeApplication(), ()-> {

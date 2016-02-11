@@ -19,6 +19,7 @@ public class Utilisateur extends Personne {
     @Constraints.Required
     protected String password;
 
+    
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
     public List<Notification> listNotifications;
@@ -42,6 +43,10 @@ public class Utilisateur extends Personne {
         this.save();
         this.password = hachage(this.id,password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
+    }
+
+    public Utilisateur(String nom, String prenom, String email, String telephone, String password) {
+        this(nom, prenom, email, telephone,password,null);
     }
 
     public Utilisateur() {

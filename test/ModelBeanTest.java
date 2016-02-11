@@ -150,7 +150,7 @@ public class ModelBeanTest {
             n1.link = "http://localhost:9000/notif";
             n1.etatLecture = false;
             n1.archiver = false;
-            n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty",null);
+            n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598","azerty");
             Logger.debug(n1.toString());
             n1.save();
             Logger.debug(n1.toString());
@@ -282,8 +282,8 @@ public class ModelBeanTest {
     @Test
     public void testFindUtilisateur() {
         running(fakeApplication(), ()-> {
-            Utilisateur u1 = new Utilisateur("A","C","a.c@apple.com","1236549870","TOTO",null);
-            Utilisateur u2 = new Utilisateur("B","D","b.d@zlatanino.com","0147258369","TATA",null);
+            Utilisateur u1 = new Utilisateur("A","C","a.c@apple.com","1236549870","TOTO");
+            Utilisateur u2 = new Utilisateur("B","D","b.d@zlatanino.com","0147258369","TATA");
             u1.save();
             u2.save();
             assertNotNull(u1.id);
