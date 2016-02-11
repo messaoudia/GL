@@ -65,7 +65,7 @@
                                 <div class="row">
                                     <div class="col-sm-offset-2 col-sm-8">
                                         <div class="row">
-                                            <div class="col-sm-6"><input placeholder="" class="form-control"></div>
+                                            <div class="col-sm-6"><input placeholder="" class="form-control"></input></div>
                                             <div class="col-sm-6">@Messages("priority")
 
                                                 <div class="btn-group" style="display: inline-block ;">
@@ -79,9 +79,16 @@
 
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <div class='form-group'>
+                                                <div class="form-group">
                                                     <label class="label_form" for="projectResponsible">@Messages("projectPersonResponsible")</label>
-                                                    <input class="form-control" id="projectResponsible" name="projectResponsible" required="true"/>
+                                                    <div>
+                                                        <select id="projectResponsible" name="projectResponsible" required="true" class="chosen-select" style="width:100%;" tabindex="2">
+                                                            <option value="">Select</option>
+                                                            <option value="United States">United States</option>
+                                                            <option value="United Kingdom">United Kingdom</option>
+                                                        </select>
+                                                    </div>
+
                                                 </div>
                                             </div>
 
