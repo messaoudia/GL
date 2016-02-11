@@ -92,6 +92,9 @@
 
         <!-- DATE -->
         <script src="/assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script src="/assets/js/plugins/datepicker/bootstrap-datepicker.js"></script>
+        <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.en.js"></script>
+        <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.fr.js"></script>
 
 
 
@@ -119,13 +122,48 @@
 
                     });
 
+                    $('#btn-fermer-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
 
-                    $('#data_1 .input-group.date').datepicker({
+                    });
+
+                    $('#btn-valider-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+
+
+                    $('#datepicker_date_debut .input-group.date').datepicker({
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
                         calendarWeeks: true,
-                        autoclose: true
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_tot .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
                     });
 
                 });

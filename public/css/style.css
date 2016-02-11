@@ -7,6 +7,16 @@
  *
 */
 
+.dropdown-interlocuteurs{
+  padding: 0px 7px;
+  font-size: 13px;
+}
+
+.margin-form{
+  margin-top : 5px;
+  margin-bottom: 5px;
+}
+
 .row-checked{
   background-color: #3CE9AB;
   color:white;
