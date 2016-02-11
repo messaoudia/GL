@@ -101,7 +101,6 @@
         @scripts
         <script>
                 $(document).ready(function () {
-                    $('.dataTables-example').DataTable();
                     $('.footable').footable();
                     var config = {
                         '.chosen-select'           : {},
@@ -117,7 +116,55 @@
                 });
 
                 $( document ).ajaxComplete(function() {
-                    $('.dataTables-example').DataTable();
+                    $('#dataTables-tdb-projet').DataTable({
+                        "columnDefs": [ {
+                            "orderable": false,
+                            "targets": 4
+                        } ]
+                    });
+
+                    $('#dataTables-tdb-tache').DataTable({
+                        "columnDefs": [
+                            {
+                                "orderable": false,
+                                "targets": 5
+                            },
+                            {
+                            "searchable": false,
+                            "orderable": false,
+                            "targets": [6, 7]
+                            } ]
+                    });
+
+                    $('#dataTables-admin-projet').DataTable({
+                        "columnDefs": [
+                            {
+                                "orderable": false,
+                                "targets": 5
+                            },
+                            {
+                                "searchable": false,
+                                "orderable": false,
+                                "targets":6
+                            } ]
+                    });
+
+                    $('#dataTables-admin-client').DataTable({
+                        "columnDefs": [{
+                                "searchable": false,
+                                "orderable": false,
+                                "targets":6
+                        } ]
+                    });
+
+                    $('#dataTables-admin-user').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":7
+                        } ]
+                    });
+
                     $('#btn-modifierTache').click(function() {
                         jQuery.fx.off = true;
                         $('#div-consulterTache').hide();
