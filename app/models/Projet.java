@@ -180,7 +180,6 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Affecte l'utilisateur en parametre en tant que responsable du projet
      *
      * @param responsable

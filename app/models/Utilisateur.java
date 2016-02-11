@@ -91,6 +91,10 @@ public class Utilisateur extends Personne {
         return "[Utilisateur : "+super.toString() +", Password :" + password + ")";
     }
 
+    public List<Projet> listProjetsResponsable(){
+        return Projet.find.where().eq("responsable",this).findList();
+    }
+
     /**
      * TODO testme
      * Affecte la tache en parametre a l'utilisateur courant
