@@ -231,211 +231,129 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>FooTable with row toggler, sorting and pagination</h5>
-
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        <i class="fa fa-wrench"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                        <li><a href="#">Config option 1</a>
-                                        </li>
-                                        <li><a href="#">Config option 2</a>
-                                        </li>
-                                    </ul>
-                                    <a class="close-link">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </div>
-                            </div>
                             <div class="ibox-content">
-
-                                <table id="table-notifications" class="footable table table-stripped toggle-arrow-tiny default breakpoint footable-loaded" data-page-size="8">
-                                    <thead>
-                                        <tr>
-
-                                            <th class="footable-visible footable-first-column footable-sortable" data-toggle="true">Project<span class="footable-sort-indicator"></span></th>
-                                            <th class="footable-visible footable-sortable footable-sorted-desc">Name<span class="footable-sort-indicator"></span></th>
-                                            <th class="footable-visible footable-sortable">Phone<span class="footable-sort-indicator"></span></th>
-                                            <th class="footable-sortable" style="display: none;" data-hide="all">Company<span class="footable-sort-indicator"></span></th>
-                                            <th class="footable-sortable" style="display: none;" data-hide="all">Completed<span class="footable-sort-indicator"></span></th>
-                                            <th class="footable-sortable" style="display: none;" data-hide="all">Task<span class="footable-sort-indicator"></span></th>
-                                            <th class="footable-sortable" style="display: none;" data-hide="all">Date<span class="footable-sort-indicator"></span></th>
-                                            <th class="footable-visible footable-last-column footable-sortable">Action<span class="footable-sort-indicator"></span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                        <tr class="footable-even" style="display: table-row;">
-                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Project
-                                                <small>This is example of project</small>
-                                            </td>
-                                            <td class="footable-visible">Patrick Smith</td>
-                                            <td class="footable-visible">0800 051213</td>
-                                            <td style="display: none;">Inceptos Hymenaeos Ltd</td>
-                                            <td style="display: none;"><span class="pie">0.52/1.561</span></td>
-                                            <td style="display: none;">20%</td>
-                                            <td style="display: none;">Jul 14, 2013</td>
-                                            <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                        </tr><tr class="footable-odd" style="display: table-row;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Project
-                                            <small>This is example of project</small>
-                                        </td>
-                                        <td class="footable-visible">Patrick Smith</td>
-                                        <td class="footable-visible">0800 051213</td>
-                                        <td style="display: none;">Inceptos Hymenaeos Ltd</td>
-                                        <td style="display: none;"><span class="pie">0.52/1.561</span></td>
-                                        <td style="display: none;">20%</td>
-                                        <td style="display: none;">Jul 14, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-even" style="display: table-row;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Project
-                                            <small>This is example of project</small>
-                                        </td>
-                                        <td class="footable-visible">Patrick Smith</td>
-                                        <td class="footable-visible">0800 051213</td>
-                                        <td style="display: none;">Inceptos Hymenaeos Ltd</td>
-                                        <td style="display: none;"><span class="pie">0.52/1.561</span></td>
-                                        <td style="display: none;">20%</td>
-                                        <td style="display: none;">Jul 14, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-odd" style="display: table-row;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Project - This is example of project</td>
-                                        <td class="footable-visible">Patrick Smith</td>
-                                        <td class="footable-visible">0800 051213</td>
-                                        <td style="display: none;">Inceptos Hymenaeos Ltd</td>
-                                        <td style="display: none;"><span class="pie">0.52/1.561</span></td>
-                                        <td style="display: none;">20%</td>
-                                        <td style="display: none;">Jul 14, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr style="display: none;" class="footable-row-detail"><td colspan="4" class="footable-row-detail-cell"><div class="footable-row-detail-inner"><div class="footable-row-detail-row"><div class="footable-row-detail-name">Company:</div><div class="footable-row-detail-value">Inceptos Hymenaeos Ltd</div></div><div class="footable-row-detail-row"><div class="footable-row-detail-name">Completed:</div><div class="footable-row-detail-value"><span class="pie">0.52/1.561</span></div></div><div class="footable-row-detail-row"><div class="footable-row-detail-name">Task:</div><div class="footable-row-detail-value">20%</div></div><div class="footable-row-detail-row"><div class="footable-row-detail-name">Date:</div><div class="footable-row-detail-value">Jul 14, 2013</div></div></div></td></tr><tr class="footable-even" style="display: table-row;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Betha project</td>
-                                        <td class="footable-visible">John Smith</td>
-                                        <td class="footable-visible">0800 1111</td>
-                                        <td style="display: none;">Erat Volutpat</td>
-                                        <td style="display: none;"><span class="pie">3,1</span></td>
-                                        <td style="display: none;">75%</td>
-                                        <td style="display: none;">Jul 18, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-odd" style="display: table-row;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Betha project</td>
-                                        <td class="footable-visible">John Smith</td>
-                                        <td class="footable-visible">0800 1111</td>
-                                        <td style="display: none;">Erat Volutpat</td>
-                                        <td style="display: none;"><span class="pie">3,1</span></td>
-                                        <td style="display: none;">75%</td>
-                                        <td style="display: none;">Jul 18, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-even" style="display: table-row;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Gamma project</td>
-                                        <td class="footable-visible">Anna Jordan</td>
-                                        <td class="footable-visible">(016977) 0648</td>
-                                        <td style="display: none;">Tellus Ltd</td>
-                                        <td style="display: none;"><span class="pie">4,9</span></td>
-                                        <td style="display: none;">18%</td>
-                                        <td style="display: none;">Jul 22, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-odd" style="display: table-row;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Gamma project</td>
-                                        <td class="footable-visible">Anna Jordan</td>
-                                        <td class="footable-visible">(016977) 0648</td>
-                                        <td style="display: none;">Tellus Ltd</td>
-                                        <td style="display: none;"><span class="pie">4,9</span></td>
-                                        <td style="display: none;">18%</td>
-                                        <td style="display: none;">Jul 22, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-even" style="display: none;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Gamma project</td>
-                                        <td class="footable-visible">Anna Jordan</td>
-                                        <td class="footable-visible">(016977) 0648</td>
-                                        <td style="display: none;">Tellus Ltd</td>
-                                        <td style="display: none;"><span class="pie">4,9</span></td>
-                                        <td style="display: none;">18%</td>
-                                        <td style="display: none;">Jul 22, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-odd" style="display: none;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Gamma project</td>
-                                        <td class="footable-visible">Anna Jordan</td>
-                                        <td class="footable-visible">(016977) 0648</td>
-                                        <td style="display: none;">Tellus Ltd</td>
-                                        <td style="display: none;"><span class="pie">4,9</span></td>
-                                        <td style="display: none;">18%</td>
-                                        <td style="display: none;">Jul 22, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-even" style="display: none;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Alpha project</td>
-                                        <td class="footable-visible">Alice Jackson</td>
-                                        <td class="footable-visible">0500 780909</td>
-                                        <td style="display: none;">Nec Euismod In Company</td>
-                                        <td style="display: none;"><span class="pie">6,9</span></td>
-                                        <td style="display: none;">40%</td>
-                                        <td style="display: none;">Jul 16, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-odd" style="display: none;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Alpha project</td>
-                                        <td class="footable-visible">Alice Jackson</td>
-                                        <td class="footable-visible">0500 780909</td>
-                                        <td style="display: none;">Nec Euismod In Company</td>
-                                        <td style="display: none;"><span class="pie">6,9</span></td>
-                                        <td style="display: none;">40%</td>
-                                        <td style="display: none;">Jul 16, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-even" style="display: none;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Alpha project</td>
-                                        <td class="footable-visible">Alice Jackson</td>
-                                        <td class="footable-visible">0500 780909</td>
-                                        <td style="display: none;">Nec Euismod In Company</td>
-                                        <td style="display: none;"><span class="pie">6,9</span></td>
-                                        <td style="display: none;">40%</td>
-                                        <td style="display: none;">Jul 16, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr><tr class="footable-odd" style="display: none;">
-                                        <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Alpha project</td>
-                                        <td class="footable-visible">Alice Jackson</td>
-                                        <td class="footable-visible">0500 780909</td>
-                                        <td style="display: none;">Nec Euismod In Company</td>
-                                        <td style="display: none;"><span class="pie">6,9</span></td>
-                                        <td style="display: none;">40%</td>
-                                        <td style="display: none;">Jul 16, 2013</td>
-                                        <td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>
-                                    </tr></tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td class="footable-visible" colspan="5">
-                                                <ul class="pagination pull-right"><li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li><li class="footable-page-arrow disabled"><a data-page="prev" href="#prev">‹</a></li><li class="footable-page active"><a data-page="0" href="#">1</a></li><li class="footable-page"><a data-page="1" href="#">2</a></li><li class="footable-page-arrow"><a data-page="next" href="#next">›</a></li><li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li></ul>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-
+                                <form id="form-notif">
+                                    <h2>@Messages("notifications") (2)</h2>
+                                    <a class="btn btn-white btn-bitbucket"><i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-white btn-bitbucket"><i class="fa fa-trash"></i></a>
+                                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>@Messages("from")</th>
+                                                <th>@Messages("project")</th>
+                                                <th>@Messages("client")</th>
+                                                <th>@Messages("object")</th>
+                                                <th>@Messages("date")</th>
+                                                <th data-hide="all">@Messages("state")</th>
+                                                <th data-hide="all">@Messages("message")</th>
+                                                <th data-hide="all">@Messages("link")</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="notif-1" class="non-lu">
+                                                <td>
+                                                    <div class="checkbox checkbox-success checkbox-inline">
+                                                        <input id="checkbox-notif-1" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-1','notif-1')">
+                                                        <label for="checkbox-notif-1"></label>
+                                                    </div>
+                                                </td>
+                                                <td>Organiser une réunion</td>
+                                                <td>myProjects</td>
+                                                <td>PoPS5I Inc.</td>
+                                                <td>Modification des interlocuteurs externes</td>
+                                                <td>06/02/2016 (15h15)</td>
+                                                <td>@Messages("unread")</td>
+                                                <td>
+                                                    <p>Nouveau interlocuteur externe : Frédéric Voisin</p>
+                                                </td>
+                                                <td>
+                                                    <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                </td>
+                                            </tr>
+                                            <tr id="notif-2" class="lu">
+                                                <td>
+                                                    <div class="checkbox checkbox-success checkbox-inline">
+                                                        <input id="checkbox-notif-2" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-2','notif-2')">
+                                                        <label for="checkbox-notif-2"></label>
+                                                    </div>
+                                                </td>
+                                                <td>Créer une base de données</td>
+                                                <td>Big Data</td>
+                                                <td>Auchan</td>
+                                                <td>Modification de l'avancement</td>
+                                                <td>06/02/2016 (14h35)</td>
+                                                <td>@Messages("read")</td>
+                                                <td>
+                                                    <p>Amin a modifié l'avancement de la tâche "Créer une base de données"</p>
+                                                    <p>Charge consommée : 10h</p>
+                                                    <p>Charge restante : 20h</p>
+                                                    <p>Pourcentage d'avancement : 33%</p>
+                                                </td>
+                                                <td>
+                                                    <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                </td>
+                                            </tr>
+                                            <tr id="notif-3" class="non-lu">
+                                                <td>
+                                                    <div class="checkbox checkbox-success checkbox-inline">
+                                                        <input id="checkbox-notif-3" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-3','notif-3')">
+                                                        <label for="checkbox-notif-3"></label>
+                                                    </div>
+                                                </td>
+                                                <td>Organiser une réunion</td>
+                                                <td>myProjects</td>
+                                                <td>PoPS5I Inc.</td>
+                                                <td>Modification des interlocuteurs externes</td>
+                                                <td>06/02/2016 (15h15)</td>
+                                                <td>@Messages("unread")</td>
+                                                <td>
+                                                    <p>Nouveau interlocuteur externe : Frédéric Voisin</p>
+                                                </td>
+                                                <td>
+                                                    <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                </td>
+                                            </tr>
+                                            <tr id="notif-4" class="lu">
+                                                <td>
+                                                    <div class="checkbox checkbox-success checkbox-inline">
+                                                        <input id="checkbox-notif-4" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-4','notif-4')">
+                                                        <label for="checkbox-notif-4"></label>
+                                                    </div>
+                                                </td>
+                                                <td>Créer une base de données</td>
+                                                <td>Big Data</td>
+                                                <td>Auchan</td>
+                                                <td>Modification de l'avancement</td>
+                                                <td>06/02/2016 (14h35)</td>
+                                                <td>@Messages("read")</td>
+                                                <td>
+                                                    <p>Amin a modifié l'avancement de la tâche "Créer une base de données"</p>
+                                                    <p>Charge consommée : 10h</p>
+                                                    <p>Charge restante : 20h</p>
+                                                    <p>Pourcentage d'avancement : 33%</p>
+                                                </td>
+                                                <td>
+                                                    <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Pear Corporation &copy; 2015-2016
-                </div>
-            </div>
+
 
         </div>
 

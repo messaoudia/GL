@@ -8,13 +8,30 @@
 */
 
 .table-suppr-user{
-  max-height:350px;
-  overflow:auto;
+  max-height:300px;
 }
 
-.form-group-user{
-  padding-right : 30px;
-  padding-left : 30px;
+.form-group-user {
+  padding-right: 30px;
+  padding-left: 30px;
+}
+.dropdown-interlocuteurs{
+  padding: 0px 7px;
+  font-size: 13px;
+}
+
+.margin-form{
+  margin-top : 5px;
+  margin-bottom: 5px;
+}
+
+.row-checked{
+  background-color: #3CE9AB;
+  color:white;
+}
+
+.non-lu{
+  font-weight: bold;
 }
 
 #right-sidebar{
@@ -72,15 +89,13 @@
 
 
 .list-personnes-notifiees{
-  max-height : 81px;
+  max-height : 85px;
   margin-bottom:10px;
   margin-top:10px;
-  overflow:auto;
 }
 
 .list-modif-client{
-  max-height:121px;
-  overflow: auto;
+  max-height:130px;
 }
 .list-modif-client > table > tbody > tr > td,
 .list-personnes-notifiees > table > tbody > tr > td{
@@ -94,24 +109,17 @@
 .first-td{
   padding-left:10px;
 }
+
 .last-td{
   text-align:center;
-  min-width:30px;
-}
-.last-td > i {
-  color:red;
-  cursor:pointer;
-}
-
-.last-td > i:hover{
-  color:#e80000;
+  width:20px;
+  padding:0px;
 }
 
 /** MODAL VIEW TACHE **/
 
 .list-task {
-  max-height:81px;
-  overflow:auto;
+  max-height:90px;
 }
 .list-task > table,
 .list-modif-client > table{
@@ -146,8 +154,6 @@
 }
 
 .description-modal-tache{
-  max-height:100px;
-  overflow:auto;
   background-color:#F1F1F1;
 }
 
@@ -178,7 +184,7 @@
   margin-bottom : 5px;
 }
 
-.date{
+.dateVert{
 
     background-color: #1AB394;
     text-align: center;
@@ -213,11 +219,13 @@
   color:#676A6C;
 }
 
+#btn-modifierTache-active > .fa-reply,
 .id-tache-modal > a > .fa-bell-slash,
 .icon-notif-tdb > a > .fa-bell-slash {
   color : #bdc3c7;
 }
 
+#btn-modifierTache-active > .fa-reply:hover,
 .id-tache-modal > a > .fa-bell:hover,
 .id-tache-modal > a > .fa-bell-slash:hover,
 .icon-notif-tdb > a > .fa-bell:hover,
@@ -318,17 +326,17 @@
    font-weight : bold;
  }
 
-.panel-tdb > .panel-body {
-  height:130px;
-  overflow:auto;
+.textarea-perso{
+    width:100%;
+    resize: none;
+}
+
+#formModifierDescriptionTache{
+    height: 100px;
 }
 
 #bloc-notes-tdb{
-  color:black;
-  height:172px;
-  width:100%;
-  resize: none;
-
+    color:black;
 }
 
 .panel-heading-normal {
