@@ -20,7 +20,7 @@ public class Notification extends Model{
     public String title;
     public String contentNotification;
 
-    @Formats.DateTime(pattern = "dd/MM/yyyy HH:mm")
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateEnvoi;
     public String link;
     public Boolean etatLecture;

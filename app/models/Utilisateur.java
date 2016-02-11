@@ -1,6 +1,8 @@
 package models;
 
+import com.avaje.ebean.common.BeanList;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import play.Logger;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -21,6 +23,10 @@ public class Utilisateur extends Personne {
     @JoinTable
     public List<Notification> listNotifications;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Tache")
+    public List<Tache> listTaches;
+
     //TODO Make connection to the database to check the authentication
     public String validate() {
         if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
@@ -31,13 +37,15 @@ public class Utilisateur extends Personne {
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public Utilisateur(String nom, String prenom, String email, String telephone, String password) {
+    public Utilisateur(String nom, String prenom, String email, String telephone, String password,List<Tache> listTaches) {
         super(nom, prenom, email, telephone);
         this.save();
         this.password = hachage(this.id,password);
+        this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
     }
 
     public Utilisateur() {
+        this.listTaches = new BeanList<>();
     }
 
     public void setEmail(String email) {
@@ -49,7 +57,8 @@ public class Utilisateur extends Personne {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.save();
+        this.password = hachage(this.id,password);
     }
 
     public String getPassword() {
@@ -77,19 +86,22 @@ public class Utilisateur extends Personne {
         return "[Utilisateur : "+super.toString() +", Password :" + password + ")";
     }
 
-    public List<Tache> listTachesResponsable(){
-        return Tache.find.where().eq("responsable",Utilisateur.find.byId(id)).findList();
-    }
-
-   /* public void affectTask(Tache tache){
+    /**
+     * TODO testme
+     * Affecte la tache en parametre a l'utilisateur courant
+     * @param tache
+     */
+    public void affectTache(Tache tache){
         if(listTaches.contains(tache)){
             throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+ tache.nom);
         }
+        tache.associerResponsable(this);
+        tache.save();
         listTaches.add(tache);
-    }*/
+        save();
+    }
 
     /**
-     * TODO testme
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur
      * @param passwordAttempt
      * @return
@@ -99,7 +111,6 @@ public class Utilisateur extends Personne {
     }
 
     /**
-     * TODO testme
      *  Méthode de hachage du mot de passe avec l'objet digest
      * @param numClient
      * @param password
@@ -114,16 +125,13 @@ public class Utilisateur extends Personne {
             crypt.reset();
             crypt.update(to_encrypt.getBytes("UTF-8"));
             sha1 = byteToHex(crypt.digest());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            Logger.error(e.getMessage());
         }
         return sha1;
     }
 
     /**
-     * TODO testme
      * @param hash
      * @return
      */

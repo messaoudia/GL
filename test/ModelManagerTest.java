@@ -258,19 +258,39 @@ public class ModelManagerTest {
             utilisateur.telephone = "1234567980";
             utilisateur.setPassword(password);
 
+            Projet projet = new Projet();
+            projet.nom = "ProjetTest";
+            projet.save();
+
             Tache tache = new Tache();
             tache.nom = "Tache1";
             tache.description = "description tache1";
+            tache.save();
+
+            projet.ajouterTache(tache);
+
             /*ETC...*/
             utilisateur.affectTache(tache);
+            utilisateur.save();
 
             assertNotNull(utilisateur.id);
-            Logger.debug(utilisateur.toString());
+            assertNotNull(tache.id);
+            assertNotNull(tache.projet);
+            assertNotNull(projet.id);
+            assertNotNull(projet.listTaches.get(0));
 
             Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
+            assertNotNull(utilisateur2.id);
+            assertNotNull(utilisateur2.listTaches);
+
+            Logger.debug(utilisateur.toString());
             Logger.debug(utilisateur2.toString());
 
-            assertEquals(tache,utilisateur2.listTachesResponsable().get(0));
+
+            Logger.debug(utilisateur.listTaches.toString());
+            Logger.debug(utilisateur2.listTaches.toString());
+
+            assertEquals(tache,utilisateur2.listTaches.get(0));
 
         });
     }

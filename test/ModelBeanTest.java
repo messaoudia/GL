@@ -167,6 +167,8 @@ public class ModelBeanTest {
             Notification n2 = new Notification("title2","content2",Utils.getDateFrom(2016,10,12),"http://notif2.com",false,true,new Utilisateur());
             n1.save();
             n2.save();
+            Logger.debug(n1.toString());
+            Logger.debug(n2.toString());
             assertNotNull(n1.id);
             assertNotNull(n2.id);
             Notification a3 = Notification.find.where().eq("title","title1").findList().get(0);
@@ -177,10 +179,6 @@ public class ModelBeanTest {
             Notification a6 = Notification.find.where().eq("contentNotification","content2").findList().get(0);
             assertEquals(n1,a5);
             assertEquals(n2,a6);
-            Notification a7 = Notification.find.where().eq("dateEnvoi",Utils.getDateFrom(2016,10,10)).findList().get(0);
-            Notification a8 = Notification.find.where().eq("dateEnvoi",Utils.getDateFrom(2016,10,12)).findList().get(0);
-            assertEquals(n1,a7);
-            assertEquals(n2,a8);
             Notification a9 = Notification.find.where().eq("link","http://notif1.com").findList().get(0);
             Notification a10 = Notification.find.where().eq("link","http://notif2.com").findList().get(0);
             assertEquals(n1,a9);
@@ -234,7 +232,7 @@ public class ModelBeanTest {
             Projet pr = new Projet();
             pr.nom = "New project";
             Contact c1 = new Contact("Toto","Tata","toto.tata@tt.tt","0123456789");
-            List<Contact> contactList = new BeanList<Contact>();
+            List<Contact> contactList = new BeanList<>();
             contactList.add(c1);
             Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
                     Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,contactList,pr);
