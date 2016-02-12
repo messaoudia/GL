@@ -118,34 +118,19 @@
 
                 $( document ).ajaxComplete(function() {
 
-                    $('#dataTables-tdb-projet').DataTable({
-                        "columnDefs": [ {
-                            "orderable": false,
-                            "targets": 4
-                        } ]
-                    });
+                    $('#dataTables-tdb-projet').DataTable();
 
 
                     $('#dataTables-tdb-tache').DataTable({
-                        "columnDefs": [
-                            {
-                                "orderable": false,
-                                "targets": 5
-                            },
-                            {
+                        "columnDefs": [{
                             "searchable": false,
                             "orderable": false,
                             "targets": [6, 7]
-                            } ]
+                        } ]
                     });
 
                     $('#dataTables-admin-projet').DataTable({
-                        "columnDefs": [
-                            {
-                                "orderable": false,
-                                "targets": 5
-                            },
-                            {
+                        "columnDefs": [{
                                 "searchable": false,
                                 "orderable": false,
                                 "targets":6
