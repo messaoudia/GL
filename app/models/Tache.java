@@ -59,7 +59,7 @@ public class Tache extends EntiteSecurise {
 
     public static Finder<Long, Tache> find = new Finder<>(Tache.class);
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     public Utilisateur responsable;
 
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
@@ -137,7 +137,8 @@ public class Tache extends EntiteSecurise {
         for (Contact c :interlocuteurs) {
             sb.append("\n\t").append(c);
         }
-        sb.append("\nprojet : ").append(projet.nom).append("\n");
+        sb.append("\nprojet : ").append(projet.nom);
+        sb.append("\nresponsable : ").append(responsable.nom).append("\n");
         return sb.toString();
     }
 

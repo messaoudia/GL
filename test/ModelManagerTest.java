@@ -4,7 +4,6 @@ import models.Utils.Utils;
 import org.junit.Test;
 import play.Logger;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -416,6 +415,7 @@ public class ModelManagerTest {
             utilisateur.email = "g.b@gmail.com";
             utilisateur.telephone = "1234567980";
             utilisateur.setPassword(password);
+            utilisateur.save();
 
             Projet projet = new Projet();
             projet.nom = "ProjetTest";
@@ -424,12 +424,14 @@ public class ModelManagerTest {
             Tache tache = new Tache();
             tache.nom = "Tache1";
             tache.description = "description tache1";
+            tache.responsable = utilisateur;
             tache.save();
 
             projet.ajouterTache(tache);
 
             /*ETC...*/
-            utilisateur.affectTache(tache);
+            //utilisateur.affectTache(tache);
+            utilisateur.listTaches.add(tache);
             utilisateur.save();
 
             assertNotNull(utilisateur.id);
@@ -442,9 +444,17 @@ public class ModelManagerTest {
             assertNotNull(utilisateur2.id);
             assertNotNull(utilisateur2.listTaches);
 
+            Logger.debug("UTILISATEURS");
             Logger.debug(utilisateur.toString());
             Logger.debug(utilisateur2.toString());
 
+            Logger.debug("PROJETS");
+            Logger.debug(projet.toString());
+            Logger.debug(Projet.find.byId(projet.id).toString());
+
+            Logger.debug("TACHES");
+            Logger.debug(tache.toString());
+            Logger.debug(Tache.find.byId(tache.id).toString());
 
             Logger.debug(utilisateur.listTaches.toString());
             Logger.debug(utilisateur2.listTaches.toString());

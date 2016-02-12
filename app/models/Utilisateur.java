@@ -104,7 +104,7 @@ public class Utilisateur extends Personne {
         if(listTaches.contains(tache)){
             throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+ tache.nom);
         }
-        tache.associerResponsable(this);
+        tache.responsable = this;
         tache.save();
         listTaches.add(tache);
         save();

@@ -234,11 +234,17 @@ public class ModelBeanTest {
             Contact c1 = new Contact("Toto","Tata","toto.tata@tt.tt","0123456789");
             List<Contact> contactList = new BeanList<>();
             contactList.add(c1);
+            Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789","azerty");
+            u1.save();
             Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
                     Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,contactList,pr);
+            tache.responsable = u1;
+
             c1.save();
             pr.save();
             tache.save();
+            u1.affectTache(tache);
+
             Logger.debug(tache.toString());
             assertNotNull(tache.id);
             Tache t2 = Tache.find.byId(tache.id);
