@@ -198,7 +198,6 @@ taches:
     chargeInitiale:     1
     chargeConsommee:    0
     chargeTotale:       1
-    disponible:         true
     interlocuteurs:
          - *contact4
     projet:             *projet1
@@ -216,7 +215,6 @@ taches:
     chargeInitiale:     1
     chargeConsommee:    0
     chargeTotale:       1
-    disponible:         false
     interlocuteurs:
          - *contact4
     projet:             *projet1
@@ -234,7 +232,6 @@ taches:
     chargeInitiale:     1
     chargeConsommee:    0
     chargeTotale:       1
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -250,7 +247,6 @@ taches:
     chargeInitiale:     1
     chargeConsommee:    0
     chargeTotale:       1
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -266,7 +262,6 @@ taches:
     chargeInitiale:     4
     chargeConsommee:    0
     chargeTotale:       4
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -282,7 +277,6 @@ taches:
     chargeInitiale:     3
     chargeConsommee:    0
     chargeTotale:       3
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur4
 
@@ -298,7 +292,6 @@ taches:
     chargeInitiale:     6
     chargeConsommee:    0
     chargeTotale:       6
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -314,7 +307,6 @@ taches:
     chargeInitiale:     2
     chargeConsommee:    0
     chargeTotale:       2
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache7
@@ -331,7 +323,6 @@ taches:
     chargeInitiale:     2
     chargeConsommee:    0
     chargeTotale:       2
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache7
@@ -348,7 +339,6 @@ taches:
     chargeInitiale:     2
     chargeConsommee:    0
     chargeTotale:       2
-    disponible:         true
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache7
@@ -365,7 +355,6 @@ taches:
     chargeInitiale:     1
     chargeConsommee:    0
     chargeTotale:       1
-    disponible:         true
     projet:             *projet3
     responsableTache:   *utilisateur3
 
@@ -381,7 +370,6 @@ taches:
     chargeInitiale:     2
     chargeConsommee:    0
     chargeTotale:       2
-    disponible:         true
     projet:             *projet3
     responsableTache:   *utilisateur2
 
@@ -397,7 +385,6 @@ taches:
     chargeInitiale:     4
     chargeConsommee:    0
     chargeTotale:       4
-    disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -413,7 +400,6 @@ taches:
     chargeInitiale:     2
     chargeConsommee:    0
     chargeTotale:       2
-    disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -429,7 +415,6 @@ taches:
     chargeInitiale:     3
     chargeConsommee:    0
     chargeTotale:       3
-    disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -445,7 +430,6 @@ taches:
     chargeInitiale:     2
     chargeConsommee:    0
     chargeTotale:       2
-    disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -461,7 +445,6 @@ taches:
     chargeInitiale:     1
     chargeConsommee:    0
     chargeTotale:       1
-    disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -477,6 +460,5 @@ taches:
     chargeInitiale:     4
     chargeConsommee:    0
     chargeTotale:       4
-    disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1

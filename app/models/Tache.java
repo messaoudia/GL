@@ -37,7 +37,6 @@ public class Tache extends EntiteSecurise {
     public Integer chargeConsommee;
     @Constraints.Min(0)
     public Integer chargeTotale;
-    public Boolean disponible;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
     public List<Contact> interlocuteurs;
@@ -63,7 +62,7 @@ public class Tache extends EntiteSecurise {
 
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
-                 Integer chargeTotale, Boolean disponible, List<Contact> interlocuteurs, Projet projet) {
+                 Integer chargeTotale, List<Contact> interlocuteurs, Projet projet) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -74,7 +73,6 @@ public class Tache extends EntiteSecurise {
         this.chargeInitiale = chargeInitiale;
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
-        this.disponible = disponible;
         this.interlocuteurs = (interlocuteurs==null)?new BeanList<>():interlocuteurs;
         this.projet = projet;
     }
@@ -117,8 +115,7 @@ public class Tache extends EntiteSecurise {
                     tache.chargeInitiale.equals(this.chargeInitiale) &&
                     tache.dateFinTard.equals(this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
-                    tache.chargeTotale.equals(this.chargeTotale) &&
-                    tache.disponible.equals(this.disponible));
+                    tache.chargeTotale.equals(this.chargeTotale));
         } catch (ClassCastException e) {
             return false;
         }
@@ -132,7 +129,7 @@ public class Tache extends EntiteSecurise {
         sb.append("\ndateDebut : ").append(dateDebut).append("\ndateFinTot : ").append(dateFinTot);
         sb.append("\ndateFinTard : ").append(dateFinTard).append("\nchargeInitiale : ").append(chargeInitiale);
         sb.append("\nchargeConsommee : ").append(chargeConsommee).append("\nchargeTotale : ").append(chargeTotale);
-        sb.append("\ndisponible : ").append(disponible).append("\ninterlocuteurs : ");
+        sb.append("\ninterlocuteurs : ");
         for (Contact c :interlocuteurs) {
             sb.append("\n\t").append(c);
         }
@@ -150,7 +147,7 @@ public class Tache extends EntiteSecurise {
      * @throws NotAvailableTask
      */
     public void modifierCharge(Integer chargeConsommee, Integer chargeTotale) throws NotAvailableTask {
-        if (!disponible) {
+        if (!estDisponible()) {
             throw new NotAvailableTask("Tache " + nom + ", pas encore disponible, modification de charge impossible");
         }
         if (enfants.size() != 0) {
@@ -275,4 +272,13 @@ public class Tache extends EntiteSecurise {
     public Integer chargeRestante() {
         return chargeTotale - chargeConsommee;
     }
+
+    /**
+     * TODO testme
+     * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
+     */
+    public boolean estDisponible() {
+        return (predecesseur == null || predecesseur.chargeRestante() == 0);
+    }
+
 }

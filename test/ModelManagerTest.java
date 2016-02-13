@@ -260,11 +260,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
             Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
             Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
 
 
             projet.ajouterTache(tache1);
@@ -308,7 +308,7 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
 
             projet.ajouterTache(tache1);
             projet.ajouterTache(tache1);
@@ -340,11 +340,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
             Tache tache2 = new Tache("Etude FACEBOOK 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
             Tache tache3 = new Tache("Etude FACEBOOK 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
 
             projet.ajouterTache(tache1);
             projet.ajouterTache(tache2);
@@ -370,7 +370,7 @@ public class ModelManagerTest {
         running(fakeApplication(), ()-> {
 
             Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
 
             Projet.find.all().get(0).supprimerTache(tache1);
         });
@@ -463,6 +463,48 @@ public class ModelManagerTest {
 
             assertEquals(tache,utilisateur2.listTaches.get(0));
 
+        });
+    }
+
+    @Test
+    public void testTacheEstDisponible() {
+        running(fakeApplication(), ()-> {
+
+            Projet projet = new Projet();
+            projet.nom = "ProjetTest2";
+            projet.save();
+
+            Tache tache = new Tache();
+            tache.nom = "Tache1111";
+            tache.description = "description tache11111";
+            tache.chargeConsommee = 10;
+            tache.chargeInitiale = 10;
+            tache.chargeTotale = 10;
+            tache.save();
+
+            Tache tache2 = new Tache();
+            tache2.nom = "Tache1111";
+            tache2.description = "description tache11111";
+            tache2.associerPredecesseur(tache);
+            tache2.save();
+
+            projet.ajouterTache(tache);
+            projet.ajouterTache(tache2);
+
+            assertNotNull(tache.id);
+            assertNotNull(tache.projet);
+            assertNotNull(projet.id);
+            assertNotNull(projet.listTaches.get(0));
+
+            Logger.debug("PROJETS");
+            Logger.debug(projet.toString());
+            Logger.debug(Projet.find.byId(projet.id).toString());
+
+            Logger.debug("TACHES");
+            Logger.debug(tache.toString());
+            Logger.debug(Tache.find.byId(tache.id).toString());
+
+            assertTrue(Tache.find.byId(tache2.id).estDisponible());
         });
     }
 

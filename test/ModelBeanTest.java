@@ -237,7 +237,7 @@ public class ModelBeanTest {
             Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789","azerty");
             u1.save();
             Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,true,contactList,pr);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,contactList,pr);
             tache.responsableTache = u1;
 
             c1.save();
@@ -259,7 +259,6 @@ public class ModelBeanTest {
             Logger.debug(t2.dateFinTard.toString());
             Logger.debug(t2.dateFinTot.toString());
             Logger.debug(t2.niveau.toString());
-            Logger.debug(t2.disponible.toString());
             //Logger.debug(t2.interlocuteurs.toString());
             Logger.debug(t2.toString());
             assertEquals(tache,t2);
