@@ -418,20 +418,19 @@ public class ModelManagerTest {
             utilisateur.save();
 
             Projet projet = new Projet();
-            projet.nom = "ProjetTest";
+            projet.nom = "ProjetTest2";
             projet.save();
 
             Tache tache = new Tache();
-            tache.nom = "Tache1";
-            tache.description = "description tache1";
-            tache.responsable = utilisateur;
+            tache.nom = "Tache1111";
+            tache.description = "description tache11111";
+            tache.responsableTache = utilisateur;
             tache.save();
 
             projet.ajouterTache(tache);
 
             /*ETC...*/
-            //utilisateur.affectTache(tache);
-            utilisateur.listTaches.add(tache);
+            utilisateur.affectTache(tache);
             utilisateur.save();
 
             assertNotNull(utilisateur.id);
@@ -443,10 +442,13 @@ public class ModelManagerTest {
             Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
             assertNotNull(utilisateur2.id);
             assertNotNull(utilisateur2.listTaches);
+            Logger.debug("LISTTACHES USER : "+utilisateur2.listTaches);
 
             Logger.debug("UTILISATEURS");
             Logger.debug(utilisateur.toString());
+            Logger.debug(utilisateur.listTaches.size()+"");
             Logger.debug(utilisateur2.toString());
+            Logger.debug(utilisateur2.listTaches.size()+"");
 
             Logger.debug("PROJETS");
             Logger.debug(projet.toString());
@@ -463,5 +465,7 @@ public class ModelManagerTest {
 
         });
     }
+
+
 
 }

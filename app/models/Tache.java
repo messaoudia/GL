@@ -4,7 +4,6 @@ import com.avaje.ebean.common.BeanList;
 import models.Exceptions.IllegalTaskCreation;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -60,7 +59,7 @@ public class Tache extends EntiteSecurise {
     public static Finder<Long, Tache> find = new Finder<>(Tache.class);
 
     @ManyToOne(cascade = CascadeType.ALL)
-    public Utilisateur responsable;
+    public Utilisateur responsableTache;
 
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
@@ -138,7 +137,7 @@ public class Tache extends EntiteSecurise {
             sb.append("\n\t").append(c);
         }
         sb.append("\nprojet : ").append(projet.nom);
-        sb.append("\nresponsable : ").append(responsable.nom).append("\n");
+        sb.append("\nresponsableProjet : ").append(responsableTache.nom).append("\n");
         return sb.toString();
     }
 
@@ -200,30 +199,30 @@ public class Tache extends EntiteSecurise {
 
     /**
      * TODO testme
-     * Affecte l'utilisateur en parametre en tant que responsable de la tache
+     * Affecte l'utilisateur en parametre en tant que responsableProjet de la tache
      *
      * @param responsable
      * @throws IllegalStateException
      */
     public void associerResponsable(Utilisateur responsable) throws IllegalStateException {
-        if (this.responsable != null) {
-            throw new IllegalStateException("Il y a deja un responsable pour cette tache");
+        if (this.responsableTache != null) {
+            throw new IllegalStateException("Il y a deja un responsableProjet pour cette tache");
         }
-        this.responsable = responsable;
+        this.responsableTache = responsable;
     }
 
     /**
      * TODO testme
-     * Modifie le responsable de tache par l'utilisateur en parametre
+     * Modifie le responsableProjet de tache par l'utilisateur en parametre
      *
      * @param responsable
      * @throws IllegalArgumentException
      */
     public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException {
-        if (this.responsable == responsable) {
-            throw new IllegalArgumentException("Remplacement du responsable de tache par le même responsable");
+        if (this.responsableTache == responsable) {
+            throw new IllegalArgumentException("Remplacement du responsableProjet de tache par le même responsableProjet");
         }
-        this.responsable = responsable;
+        this.responsableTache = responsable;
     }
 
     /**

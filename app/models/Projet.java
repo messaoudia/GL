@@ -4,7 +4,6 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -25,7 +24,7 @@ public class Projet extends EntiteSecurise {
 
     @ManyToOne
     @JoinColumn
-    public Utilisateur responsable;
+    public Utilisateur responsableProjet;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutTheorique;
@@ -56,12 +55,12 @@ public class Projet extends EntiteSecurise {
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
-    public Projet(String nom, String description, Utilisateur responsable, Date dateDebutTheorique, Date dateFinTheorique,
+    public Projet(String nom, String description, Utilisateur responsableProjet, Date dateDebutTheorique, Date dateFinTheorique,
                   Date dateDebutReel, Date dateFinReel, Integer chargeInitiale, UniteProjetEnum unite,
                   Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches) {
         this.nom = nom;
         this.description = description;
-        this.responsable = responsable;
+        this.responsableProjet = responsableProjet;
         this.dateDebutTheorique = dateDebutTheorique;
         this.dateFinTheorique = dateFinTheorique;
         this.dateDebutReel = dateDebutReel;
@@ -180,35 +179,35 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * Affecte l'utilisateur en parametre en tant que responsable du projet
+     * Affecte l'utilisateur en parametre en tant que responsableProjet du projet
      *
      * @param responsable
      * @throws IllegalStateException
      */
     @Transient
     public void associerResponsable(Utilisateur responsable) throws IllegalStateException {
-        if (this.responsable != null) {
-            throw new IllegalStateException("Il y a deja un responsable pour ce projet");
+        if (this.responsableProjet != null) {
+            throw new IllegalStateException("Il y a deja un responsableProjet pour ce projet");
         }
-//        responsable.listProjetResponsable.add(this);
+//        responsableProjet.listProjetResponsable.add(this);
         responsable.save();
-        this.responsable = responsable;
+        this.responsableProjet = responsable;
         this.save();
     }
 
     /**
      * TODO testme
-     * Modifie le responsable de projet par l'utilisateur en parametre
+     * Modifie le responsableProjet de projet par l'utilisateur en parametre
      *
      * @param responsable
      * @throws IllegalArgumentException
      */
     @Transient
     public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException {
-        if (this.responsable == responsable) {
-            throw new IllegalArgumentException("Remplacement du responsable de projet par le même responsable");
+        if (this.responsableProjet == responsable) {
+            throw new IllegalArgumentException("Remplacement du responsableProjet de projet par le même responsableProjet");
         }
-        this.responsable = responsable;
+        this.responsableProjet = responsable;
     }
 
     /**

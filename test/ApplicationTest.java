@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.*;
 
+import play.Logger;
 import play.mvc.*;
 import play.test.*;
 import play.data.DynamicForm;
@@ -41,6 +43,11 @@ public class ApplicationTest {
             assertEquals("text/html", contentType(html));
             assertTrue(contentAsString(html).contains("Your new application is ready."));
         });
+    }
+
+    @Test
+    public void randomStringTest(){
+        Logger.debug(RandomStringUtils.randomAscii(5));
     }
 
 

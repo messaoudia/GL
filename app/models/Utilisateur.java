@@ -1,7 +1,6 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.Logger;
 import play.data.validation.Constraints;
 
@@ -25,7 +24,6 @@ public class Utilisateur extends Personne {
     public List<Notification> listNotifications;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Tache")
     public List<Tache> listTaches;
 
     //TODO Make connection to the database to check the authentication
@@ -92,7 +90,7 @@ public class Utilisateur extends Personne {
     }
 
     public List<Projet> listProjetsResponsable(){
-        return Projet.find.where().eq("responsable",this).findList();
+        return Projet.find.where().eq("responsableProjet",this).findList();
     }
 
     /**
@@ -100,11 +98,12 @@ public class Utilisateur extends Personne {
      * Affecte la tache en parametre a l'utilisateur courant
      * @param tache
      */
+    @Transient
     public void affectTache(Tache tache){
         if(listTaches.contains(tache)){
             throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+ tache.nom);
         }
-        tache.responsable = this;
+        tache.responsableTache = this;
         tache.save();
         listTaches.add(tache);
         save();
