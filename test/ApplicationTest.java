@@ -47,7 +47,8 @@ public class ApplicationTest {
 
     @Test
     public void randomStringTest(){
-        Logger.debug(RandomStringUtils.randomAscii(5));
+        Logger.debug(RandomStringUtils.randomAlphanumeric(10));
+        Logger.debug(RandomStringUtils.randomAscii(10));
     }
 
 
