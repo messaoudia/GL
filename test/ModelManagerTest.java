@@ -469,6 +469,13 @@ public class ModelManagerTest {
     @Test
     public void testTacheEstDisponible() {
         running(fakeApplication(), ()-> {
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword("123456");
+            utilisateur.save();
 
             Projet projet = new Projet();
             projet.nom = "ProjetTest2";
@@ -487,6 +494,10 @@ public class ModelManagerTest {
             tache2.description = "description tache11111";
             tache2.associerPredecesseur(tache);
             tache2.save();
+
+            utilisateur.affectTache(tache);
+            utilisateur.affectTache(tache2);
+            utilisateur.save();
 
             projet.ajouterTache(tache);
             projet.ajouterTache(tache2);

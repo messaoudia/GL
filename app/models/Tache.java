@@ -265,8 +265,6 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
-     *
      * @return la charge restante pour ce projet (en l'unité définie pour le projet)
      */
     public Integer chargeRestante() {
@@ -274,7 +272,6 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
      */
     public boolean estDisponible() {
