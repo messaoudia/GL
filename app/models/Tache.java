@@ -134,7 +134,7 @@ public class Tache extends EntiteSecurise {
             sb.append("\n\t").append(c);
         }
         sb.append("\nprojet : ").append(projet.nom);
-        sb.append("\nresponsableProjet : ").append(responsableTache.nom).append("\n");
+        sb.append("\nresponsableTache : ").append(responsableTache.nom).append("\n");
         return sb.toString();
     }
 
