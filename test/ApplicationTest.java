@@ -47,8 +47,13 @@ public class ApplicationTest {
 
     @Test
     public void randomStringTest(){
-        Logger.debug(RandomStringUtils.randomAlphanumeric(10));
-        Logger.debug(RandomStringUtils.randomAscii(10));
+        String s1 = RandomStringUtils.randomAlphanumeric(10);
+        String s2 = RandomStringUtils.randomAscii(10);
+        Logger.debug(s1);
+        Logger.debug(s1);
+        assertNotNull(s1);
+        assertNotNull(s2);
+
     }
 
 
