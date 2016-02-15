@@ -193,7 +193,7 @@ public class ModelManagerTest {
             pr.priorite = 1;
             pr.save();
 
-            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azerty");
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
             u1.save();
             pr.associerResponsable(u1);
             pr.associerResponsable(u1);
@@ -204,7 +204,6 @@ public class ModelManagerTest {
     @Test
     public void testAssocierResponsableProjet(){
         running(fakeApplication(), ()-> {
-
 
             Projet pr = new Projet();
             pr.nom = "Site ROCKSTAR";
@@ -224,7 +223,7 @@ public class ModelManagerTest {
             assertNotNull(pr.id);
 
 
-            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azerty");
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
             u1.save();
             assertNotNull(u1.id);
 
@@ -281,6 +280,157 @@ public class ModelManagerTest {
             assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
 
             assertEquals(projet,projetBDD);
+        });
+    }
+
+    @Test
+    public void testInsererTacheAvant() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google";
+            projet.description = "Développement du nouveau site de Google";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tacheApres = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tacheAvant = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,1,1),
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20,0,20,null,null);
+            tacheApres.associerResponsable(Utilisateur.find.all().get(0));
+            tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
+
+            projet.ajouterTache(tacheApres);
+            projet.insererTacheAvant(tacheAvant,tacheApres);
+
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            assertEquals(projet,projetBDD);
+            assertNotNull(Tache.find.where().eq("nom","Etude 1").findList().get(0));
+            assertNotNull(Tache.find.where().eq("nom","Etude 1").findList().get(0).predecesseur);
+            assertEquals(tacheAvant,Tache.find.where().eq("nom","Etude 1").findList().get(0).predecesseur);
+        });
+    }
+
+    @Test
+    public void testInsererTacheEntre() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google";
+            projet.description = "Développement du nouveau site de Google";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,1,1),
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20,0,20,null,null);
+            Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,3,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+
+
+            projet.ajouterTache(tache1);
+            //1 avant 3
+            projet.insererTacheApres(tache1,tache3);
+            //1, puis 2, puis 3
+            projet.insererTacheAvant(tache2,tache3);
+
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            assertEquals(projet,projetBDD);
+            assertEquals(tache2,Tache.find.where().eq("nom","Etude 1").findUnique().getSuccesseurs().get(0));
+            assertEquals(tache3,Tache.find.where().eq("nom","Etude 2").findUnique().getSuccesseurs().get(0));
+        });
+    }
+
+    @Test
+    public void testInsererTacheApres() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google";
+            projet.description = "Développement du nouveau site de Google";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tacheAvant = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tacheApres = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,3,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+            tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
+            tacheApres.associerResponsable(Utilisateur.find.all().get(0));
+
+            projet.ajouterTache(tacheAvant);
+            projet.insererTacheApres(tacheAvant,tacheApres);
+
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            Logger.debug(Tache.find.where().eq("nom","Etude 2").findList().get(0).predecesseur.toString());
+            Logger.debug(Tache.find.where().eq("nom","Etude 1").findList().get(0).getSuccesseurs().get(0).toString());
+
+            assertEquals(projet,projetBDD);
+            assertEquals(tacheApres,Tache.find.where().eq("nom","Etude 1").findUnique().getSuccesseurs().get(0));
         });
     }
 
@@ -379,8 +529,8 @@ public class ModelManagerTest {
     @Test
     public void testUtilisateurCheckPassword() {
         running(fakeApplication(), ()-> {
-            String password = "AZERTY123456";
-            String passwordF = "AZERTY123457";
+            String password = "aZERTY123456";
+            String passwordF = "aZERTY123457";
 
             Utilisateur utilisateur = new Utilisateur();
             utilisateur.nom = "G";
@@ -405,9 +555,40 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void testUtilisateurGenererPassword() {
+        running(fakeApplication(), ()-> {
+            String oldPassword = "aZERTY123456";
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword(oldPassword);
+            utilisateur.save();
+
+            assertNotNull(utilisateur.id);
+            Logger.debug(utilisateur.toString());
+
+            Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
+            Logger.debug(utilisateur2.toString());
+
+            assertTrue(utilisateur2.checkPassword(oldPassword));
+
+            String newPassword = utilisateur2.genererPassword();
+            utilisateur2.setPassword(newPassword);
+            utilisateur2.save();
+
+            assertTrue(utilisateur2.checkPassword(newPassword));
+            assertFalse(utilisateur2.checkPassword(oldPassword));
+
+        });
+    }
+
+    @Test
     public void testUtilisateurAffecterTache() {
         running(fakeApplication(), ()-> {
-            String password = "AZERTY123456";
+            String password = "aZERTY123456";
 
             Utilisateur utilisateur = new Utilisateur();
             utilisateur.nom = "G";
@@ -423,8 +604,15 @@ public class ModelManagerTest {
 
             Tache tache = new Tache();
             tache.nom = "Tache1111";
+            tache.niveau = 0;
+            tache.critique = true;
+            tache.dateDebut = Utils.getDateFrom(2016,12,1);
+            tache.dateFinTot = Utils.getDateFrom(2016,12,1);
+            tache.dateFinTard = Utils.getDateFrom(2016,12,1);
             tache.description = "description tache11111";
-            tache.responsableTache = utilisateur;
+            tache.chargeConsommee = 10;
+            tache.chargeInitiale = 10;
+            tache.chargeTotale = 10;
             tache.save();
 
             projet.ajouterTache(tache);
@@ -441,14 +629,14 @@ public class ModelManagerTest {
 
             Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
             assertNotNull(utilisateur2.id);
-            assertNotNull(utilisateur2.listTaches);
-            Logger.debug("LISTTACHES USER : "+utilisateur2.listTaches);
+            assertNotNull(utilisateur2.getListTaches());
+            Logger.debug("LISTTACHES USER : "+utilisateur2.getListTaches());
 
             Logger.debug("UTILISATEURS");
             Logger.debug(utilisateur.toString());
-            Logger.debug(utilisateur.listTaches.size()+"");
+            Logger.debug(utilisateur.getListTaches().size()+"");
             Logger.debug(utilisateur2.toString());
-            Logger.debug(utilisateur2.listTaches.size()+"");
+            Logger.debug(utilisateur2.getListTaches().size()+"");
 
             Logger.debug("PROJETS");
             Logger.debug(projet.toString());
@@ -458,10 +646,27 @@ public class ModelManagerTest {
             Logger.debug(tache.toString());
             Logger.debug(Tache.find.byId(tache.id).toString());
 
-            Logger.debug(utilisateur.listTaches.toString());
-            Logger.debug(utilisateur2.listTaches.toString());
+            Logger.debug(utilisateur.getListTaches().toString());
+            Logger.debug(utilisateur2.getListTaches().toString());
 
-            assertEquals(tache,utilisateur2.listTaches.get(0));
+            assertEquals(tache,utilisateur2.getListTaches().get(0));
+
+        });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testUtilisateurPasswordEception() {
+        running(fakeApplication(), ()-> {
+            String oldPassword = "AZERTY";
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword(oldPassword);
+            utilisateur.save();
+
 
         });
     }
@@ -474,7 +679,7 @@ public class ModelManagerTest {
             utilisateur.prenom = "B";
             utilisateur.email = "g.b@gmail.com";
             utilisateur.telephone = "1234567980";
-            utilisateur.setPassword("123456");
+            utilisateur.setPassword("123456Aa");
             utilisateur.save();
 
             Projet projet = new Projet();
@@ -518,7 +723,4 @@ public class ModelManagerTest {
             assertTrue(Tache.find.byId(tache2.id).estDisponible());
         });
     }
-
-
-
 }

@@ -143,6 +143,42 @@ public class Projet extends EntiteSecurise {
         save();
     }
 
+    /**
+     * Inserer tacheAvant avant la tacheApres
+     * @param tacheAvant
+     * @param tacheApres
+     * @throws IllegalArgumentException
+     */
+    public void insererTacheAvant(Tache tacheAvant, Tache tacheApres) throws IllegalArgumentException{
+        if(!listTaches.contains(tacheApres)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheApres.nom);
+        }
+        ajouterTache(tacheAvant);
+        if(tacheApres.predecesseur!= null) {
+            Tache tacheA = tacheApres.predecesseur;
+            tacheA.successeurs.remove(tacheApres);
+            tacheA.associerSuccesseur(tacheAvant);
+            tacheA.save();
+        }
+        tacheAvant.associerSuccesseur(tacheApres);
+        save();
+    }
+
+    /**
+     * TODO testme
+     * Insérer la tache tacheApres après la tache tacheAvant
+     * @param tacheAvant
+     * @param tacheApres
+     * @throws IllegalArgumentException
+     */
+    public void insererTacheApres(Tache tacheAvant, Tache tacheApres) throws IllegalArgumentException{
+        if(!listTaches.contains(tacheAvant)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheAvant.nom);
+        }
+        ajouterTache(tacheApres);
+        tacheAvant.associerSuccesseur(tacheApres);
+        save();
+    }
 
     /**
      * TODO testme
@@ -190,7 +226,6 @@ public class Projet extends EntiteSecurise {
         if (this.responsableProjet != null) {
             throw new IllegalStateException("Il y a deja un responsableProjet pour ce projet");
         }
-//        responsableProjet.listProjetResponsable.add(this);
         responsable.save();
         this.responsableProjet = responsable;
         this.save();
