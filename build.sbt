@@ -18,3 +18,5 @@ libraryDependencies ++= Seq(
 // other, legacy style, accesses its actions statically.
 routesGenerator := InjectedRoutesGenerator
 includeFilter in (Assets, LessKeys.less) := "*.less"
+LessKeys.compress := true
+
