@@ -193,7 +193,7 @@ public class ModelManagerTest {
             pr.priorite = 1;
             pr.save();
 
-            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azerty");
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
             u1.save();
             pr.associerResponsable(u1);
             pr.associerResponsable(u1);
@@ -204,7 +204,6 @@ public class ModelManagerTest {
     @Test
     public void testAssocierResponsableProjet(){
         running(fakeApplication(), ()-> {
-
 
             Projet pr = new Projet();
             pr.nom = "Site ROCKSTAR";
@@ -224,7 +223,7 @@ public class ModelManagerTest {
             assertNotNull(pr.id);
 
 
-            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azerty");
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
             u1.save();
             assertNotNull(u1.id);
 
@@ -438,7 +437,7 @@ public class ModelManagerTest {
     @Test
     public void testUtilisateurAffecterTache() {
         running(fakeApplication(), ()-> {
-            String password = "AZERTY123456";
+            String password = "aZERTY123456";
 
             Utilisateur utilisateur = new Utilisateur();
             utilisateur.nom = "G";
@@ -512,7 +511,7 @@ public class ModelManagerTest {
             utilisateur.prenom = "B";
             utilisateur.email = "g.b@gmail.com";
             utilisateur.telephone = "1234567980";
-            utilisateur.setPassword("123456");
+            utilisateur.setPassword("123456Aa");
             utilisateur.save();
 
             Projet projet = new Projet();
