@@ -53,7 +53,7 @@ public class Tache extends EntiteSecurise {
     @ManyToOne(cascade = CascadeType.ALL)
     public Tache parent;
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    public List<Tache> enfants;
+    private List<Tache> enfants;
 
     public static Finder<Long, Tache> find = new Finder<>(Tache.class);
 
@@ -74,11 +74,15 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
         this.interlocuteurs = (interlocuteurs==null)?new BeanList<>():interlocuteurs;
+        this.successeurs = new BeanList<>();
+        this.enfants = new BeanList<>();
         this.projet = projet;
     }
 
     public Tache() {
         this.interlocuteurs = new BeanList<>();
+        this.successeurs = new BeanList<>();
+        this.enfants = new BeanList<>();
     }
 
     /**
@@ -119,6 +123,10 @@ public class Tache extends EntiteSecurise {
         } catch (ClassCastException e) {
             return false;
         }
+    }
+
+    public List<Tache> getSuccesseurs(){
+        return find.where().eq("predecesseur",this).findList();
     }
 
     @Override
@@ -195,7 +203,6 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Affecte l'utilisateur en parametre en tant que responsableProjet de la tache
      *
      * @param responsable
@@ -223,17 +230,17 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Affecte la tache en parametre en tant que predecesseur de la tache courante
      *
      * @param predecesseur
      * @throws IllegalStateException
      */
     public void associerPredecesseur(Tache predecesseur) throws IllegalStateException {
-        if (this.predecesseur != null) {
-            throw new IllegalStateException("Il y a deja un predecesseur pour cette tache");
+        if (this.predecesseur == predecesseur) {
+            throw new IllegalStateException("Ce parametre est le meme que le predecesseur de cette tache");
         }
         this.predecesseur = predecesseur;
+        save();
     }
 
     /**
@@ -247,11 +254,10 @@ public class Tache extends EntiteSecurise {
         if (this.predecesseur == predecesseur) {
             throw new IllegalArgumentException("Remplacement du predecesseur de la tache courante par le même predecesseur");
         }
-        this.predecesseur = predecesseur;
+        associerPredecesseur(predecesseur);
     }
 
     /**
-     * TODO testme
      * Ajoute la tache en parametre en tant que sucesseur de la tache courante
      *
      * @param successeur
@@ -261,10 +267,13 @@ public class Tache extends EntiteSecurise {
         if (this.successeurs.contains(successeur)) {
             throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
         }
-        this.successeurs.add(successeur);
+        successeur.associerPredecesseur(this);
+        successeurs.add(successeur);
+        save();
     }
 
     /**
+     * TODO testme
      * @return la charge restante pour ce projet (en l'unité définie pour le projet)
      */
     public Integer chargeRestante() {
@@ -272,6 +281,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
+     * TODO testme
      * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
      */
     public boolean estDisponible() {
