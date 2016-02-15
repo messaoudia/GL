@@ -288,4 +288,8 @@ public class Tache extends EntiteSecurise {
         return (predecesseur == null || predecesseur.chargeRestante() == 0);
     }
 
+    public boolean hasPredecesseur() { return predecesseur != null; }
+
+    public boolean hasSuccesseur() { return !successeurs.isEmpty(); }
+
 }
