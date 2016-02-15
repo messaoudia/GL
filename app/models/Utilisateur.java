@@ -8,10 +8,7 @@ import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Table
@@ -209,4 +206,53 @@ public class Utilisateur extends Personne {
         }
         return str.charAt(getRandomInt(0, str.length()));
     }
+
+    public List<Tache> getTachesProposees(){
+        List<Tache> listTachesProposees = new ArrayList<Tache>();
+
+        return listTachesProposees;
+    }
+
+    private int getCritere1(Tache t){
+        if(t.critique)
+            return 5;
+        return 1;
+    }
+
+    private int getCritere2(Tache t){
+        Calendar today = Calendar.getInstance();
+        int nbJoursRestants = t.dateFinTard - today;
+
+        if(nbJoursRestants >= 51){
+            return 1;
+        }
+        else if(26 <= nbJoursRestants && nbJoursRestants <= 50){
+            return 2;
+        }
+        else if(11 <= nbJoursRestants && nbJoursRestants <= 25){
+            return 3;
+        }
+        else if(6 <= nbJoursRestants && nbJoursRestants <= 10){
+            return 4;
+        }
+        else{
+            if(nbJoursRestants < 0){
+                nbJoursRestants = 0;
+            }
+            return 10 - nbJoursRestants;
+        }
+    }
+
+    /**
+     * Calcule le nombre de jours entre date1 et date2 :
+     * http://java.mesexemples.com/date-et-heure/compter-les-nombre-de-jour-entre-deux-dates-2/#
+     * @param date1
+     * @param date2
+     * @return
+     */
+    private static long differenceDate(Date date1, Date date2) {
+        long UNE_HEURE = 60 * 60 * 1000L;
+        return ((date2.getTime() - date1.getTime() + UNE_HEURE) / (UNE_HEURE * 24));
+    }
+
 }
