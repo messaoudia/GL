@@ -93,12 +93,15 @@ public class Utilisateur extends Personne {
         return "[Utilisateur : "+super.toString() +", Password :" + password + ")";
     }
 
+    /**
+     * FIXME rustine car le champ ne contient pas la liste des taches
+     * @return list des projets du responsable
+     */
     public List<Projet> listProjetsResponsable(){
         return Projet.find.where().eq("responsableProjet",this).findList();
     }
 
     /**
-     * TODO testme
      * Affecte la tache en parametre a l'utilisateur courant
      * @param tache
      */
