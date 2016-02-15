@@ -405,6 +405,37 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void testUtilisateurGenererPassword() {
+        running(fakeApplication(), ()-> {
+            String oldPassword = "aZERTY123456";
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword(oldPassword);
+            utilisateur.save();
+
+            assertNotNull(utilisateur.id);
+            Logger.debug(utilisateur.toString());
+
+            Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
+            Logger.debug(utilisateur2.toString());
+
+            assertTrue(utilisateur2.checkPassword(oldPassword));
+
+            String newPassword = utilisateur2.genererPassword();
+            utilisateur2.setPassword(newPassword);
+            utilisateur2.save();
+
+            assertTrue(utilisateur2.checkPassword(newPassword));
+            assertFalse(utilisateur2.checkPassword(oldPassword));
+
+        });
+    }
+
+    @Test
     public void testUtilisateurAffecterTache() {
         running(fakeApplication(), ()-> {
             String password = "AZERTY123456";
@@ -425,9 +456,9 @@ public class ModelManagerTest {
             tache.nom = "Tache1111";
             tache.niveau = 0;
             tache.critique = true;
-            tache.dateDebut = Utils.getDateFrom(2016,12,01);
-            tache.dateFinTot = Utils.getDateFrom(2016,12,01);
-            tache.dateFinTard = Utils.getDateFrom(2016,12,01);
+            tache.dateDebut = Utils.getDateFrom(2016,12,1);
+            tache.dateFinTot = Utils.getDateFrom(2016,12,1);
+            tache.dateFinTard = Utils.getDateFrom(2016,12,1);
             tache.description = "description tache11111";
             tache.chargeConsommee = 10;
             tache.chargeInitiale = 10;

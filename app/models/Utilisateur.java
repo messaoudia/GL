@@ -20,7 +20,6 @@ public class Utilisateur extends Personne {
     @Constraints.Required
     protected String password;
 
-    
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
     public List<Notification> listNotifications;
@@ -41,8 +40,7 @@ public class Utilisateur extends Personne {
 
     public Utilisateur(String nom, String prenom, String email, String telephone, String password,List<Tache> listTaches) {
         super(nom, prenom, email, telephone);
-        this.save();
-        this.password = hachage(this.id,password);
+        setPassword(password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
     }
 
@@ -64,6 +62,9 @@ public class Utilisateur extends Personne {
 
     public void setPassword(String password) {
         this.save();
+        if(!validatePassword(password)){
+            throw new IllegalArgumentException("Mot de passe : "+password+" incorrect, veuillez mettre au moins 1 Maj, 1 min, 1 chiffre et 6 caracteres minimum");
+        }
         this.password = hachage(this.id,password);
     }
 
@@ -160,7 +161,24 @@ public class Utilisateur extends Personne {
         return result;
     }
 
-    public String generatePassword(){
+    /**
+     * Verifie que le mot de passe contient bien une Maj, une minuscule , un chiffre et a une taille >= 6
+     * @param password
+     * @return
+     */
+    public boolean validatePassword(String password){
+        boolean hasUppercase = !password.equals(password.toLowerCase());
+        boolean hasLowercase = !password.equals(password.toUpperCase());
+        boolean hasnumber = password.matches(".*\\d+.*");
+
+        return (password.length()>=6 && hasUppercase && hasLowercase && hasnumber);
+    }
+
+    /**
+     * Genere un nouveau mot de passe pour l'utilisateur (de taille 6, un chiffre, une majuscule, une minuscule au moins)
+     * @return
+     */
+    public String genererPassword(){
 
         String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
