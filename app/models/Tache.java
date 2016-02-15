@@ -55,6 +55,8 @@ public class Tache extends EntiteSecurise {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Tache> enfants;
 
+    public boolean archive;
+
     public static Finder<Long, Tache> find = new Finder<>(Tache.class);
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -77,12 +79,14 @@ public class Tache extends EntiteSecurise {
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
         this.projet = projet;
+        this.archive = false;
     }
 
     public Tache() {
         this.interlocuteurs = new BeanList<>();
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
+        this.archive = false;
     }
 
     /**

@@ -497,21 +497,21 @@ public class ModelManagerTest {
                     Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
 
             projet.ajouterTache(tache1);
-            projet.ajouterTache(tache2);
-            projet.ajouterTache(tache3);
+            projet.insererTacheApres(tache1,tache2);
+            projet.insererTacheApres(tache2,tache3);
 
             assertNotNull(projet.id);
             Projet projetBDD = Projet.find.byId(projet.id);
             Logger.debug(projetBDD.toString());
 
             assertTrue(projetBDD.listTaches.size() == 3);
-            projetBDD.supprimerTache(tache1);
+            projetBDD.supprimerTache(tache2);
 
             Projet projetBDD2 = Projet.find.byId(projet.id);
             Logger.debug(projetBDD2.toString());
 
             assertTrue(projetBDD2.listTaches.size() == 2);
-            assertTrue(!projetBDD.listTaches.contains(tache1));
+            assertTrue(!projetBDD.listTaches.contains(tache2));
         });
     }
 

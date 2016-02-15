@@ -205,14 +205,31 @@ public class Projet extends EntiteSecurise {
      */
     @Transient
     public void supprimerTache(Tache tache) throws IllegalArgumentException {
-        if (!listTaches.contains(tache)) {
+        if (!listTaches.contains(tache)){
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
         tache.delete();
         listTaches.remove(tache);
-        Tache.find.deleteById(tache.id);
-        this.save();
+
+        /* Liaisons */
+        Tache tAvant = tache.predecesseur;
+        tAvant.successeurs.remove(tache);
+
+        List<Tache> taches = tache.getSuccesseurs();
+        taches.forEach(t -> {
+            t.predecesseur = null;
+            tAvant.associerSuccesseur(t);
+            t.save();
+        });
+        tAvant.save();
+
+        if (tache.chargeConsommee == 0) {
+            Tache.find.deleteById(tache.id);
+        }else{
+            tache.archive = true;
+            tache.save();
+        }
     }
 
     /**
