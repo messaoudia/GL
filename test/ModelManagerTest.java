@@ -503,6 +503,23 @@ public class ModelManagerTest {
         });
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testUtilisateurPasswordEception() {
+        running(fakeApplication(), ()-> {
+            String oldPassword = "AZERTY";
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword(oldPassword);
+            utilisateur.save();
+
+
+        });
+    }
+
     @Test
     public void testTacheEstDisponible() {
         running(fakeApplication(), ()-> {
