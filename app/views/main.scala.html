@@ -12,13 +12,8 @@
 
         <link href="/css/bootstrap.min.css" rel="stylesheet">
         <link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
-
-            <!-- Toastr style -->
         <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
-            <!-- Gritter -->
         <link href="/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-
         <link href="/css/animate.css" rel="stylesheet">
         <link href="/css/style.css" rel="stylesheet">
 
@@ -29,8 +24,18 @@
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
         <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
         <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
+        <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
+        <link href="/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
+        <link href="/css/plugins/cropper/cropper.min.css" rel="stylesheet">
+        <link href="/css/plugins/switchery/switchery.css" rel="stylesheet">
+        <link href="/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+        <link href="/css/plugins/nouslider/jquery.nouislider.css" rel="stylesheet">
         <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
-
+        <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+        <link href="/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+        <link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+        <link href="/css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+        <link href="/css/plugins/select2/select2.min.css" rel="stylesheet">
     </head>
 
     <body class="md-skin fixed-sidebar fixed-nav pace-done">
@@ -80,44 +85,110 @@
         <script src="/assets/js/plugins/toastr/toastr.min.js"></script>
 
             <!-- Data Tables -->
-        <script src=" /js/plugins/jeditable/jquery.jeditable.js"></script>
+        <script src="/js/plugins/jeditable/jquery.jeditable.js"></script>
         <script src="/js/plugins/dataTables/jquery.dataTables.js"></script>
         <script src="/js/plugins/dataTables/dataTables.bootstrap.js"></script>
         <script src="/js/plugins/dataTables/dataTables.responsive.js"></script>
         <script src="/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
 
-        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
-        <!-- Footable -->
+            <!-- Footable -->
         <script src="/js/plugins/footable/footable.all.min.js"></script>
 
-        <!-- DATE -->
+            <!-- DATE -->
         <script src="/assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
         <script src="/assets/js/plugins/datepicker/bootstrap-datepicker.js"></script>
         <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.en.js"></script>
         <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.fr.js"></script>
 
+            <!-- Chosen -->
+        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
-            <!--########### Start - Custom Script Call  ########### -->
+
+            <!-- JSKnob -->
+        <script src="/js/plugins/jsKnob/jquery.knob.js"></script>
+
+            <!-- Input Mask-->
+        <script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+
+            <!-- Data picker -->
+        <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+            <!-- NouSlider -->
+        <script src="/js/plugins/nouslider/jquery.nouislider.min.js"></script>
+
+            <!-- Switchery -->
+        <script src="/js/plugins/switchery/switchery.js"></script>
+
+            <!-- IonRangeSlider -->
+        <script src="/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+            <!-- iCheck -->
+        <script src="/js/plugins/iCheck/icheck.min.js"></script>
+
+            <!-- MENU -->
+        <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+            <!-- Color picker -->
+        <script src="/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+            <!-- Clock picker -->
+        <script src="/js/plugins/clockpicker/clockpicker.js"></script>
+
+            <!-- Image cropper -->
+        <script src="/js/plugins/cropper/cropper.min.js"></script>
+
+            <!-- Date range use moment.js same as full calendar plugin -->
+        <script src="/js/plugins/fullcalendar/moment.min.js"></script>
+
+            <!-- Date range picker -->
+        <script src="/js/plugins/daterangepicker/daterangepicker.js"></script>
+
+            <!-- Select2 -->
+        <script src="/js/plugins/select2/select2.full.min.js"></script>
+
+            <!-- Projet -->
+        <script src="/js/projet.js"></script>
+
         @scripts
         <script>
                 $(document).ready(function () {
+
+                    /* $("#submitButton").click(function(e) {
+                     alert("JE SUIS LA");
+                     $("#addProjectForm").submit(function( event ) {
+
+                     jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                     success : function(data) {
+                     alert("oki");
+                     },
+                     error: function(errorMessage){
+                     alert("error");
+                     }
+                     });
+
+                     });
+                     });
+                     */
+                    $('.dataTables-example').DataTable();
+
+                    $('#projet_Tache').dataTable( {
+                        "ordering": false
+                    } );
+
+                    $('#projet_Projet').dataTable( {
+                        "ordering": false
+                    } );
+
+
                     $('.footable').footable();
-                    var config = {
-                        '.chosen-select'           : {},
-                        '.chosen-select-deselect'  : {allow_single_deselect:true},
-                        '.chosen-select-no-single' : {disable_search_threshold:10},
-                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-                        '.chosen-select-width'     : {width:"95%"}
-                    }
-                    for (var selector in config) {
-                        $(selector).chosen(config[selector]);
-                    }
 
                     $('.list-personnes-notifiees').slimScroll({
                         height: '85px'
                     });
 
+
+                    $(".select2_demo_1").select2();
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -132,20 +203,31 @@
                             "targets": [6, 7]
                         } ]
                     });
+                    $(".select2_demo_1").select2();
+
+                    $('.dataTables-example').DataTable();
+
+                    $('#projet_Projet').dataTable( {
+                        "ordering": false
+                    } );
 
                     $('#dataTables-admin-projet').DataTable({
                         "columnDefs": [{
-                                "searchable": false,
-                                "orderable": false,
-                                "targets":6
-                            } ]
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":6
+                        } ]
                     });
+                    $('#projet_Tache').dataTable( {
+                        "ordering": false
+                    } );
+
 
                     $('#dataTables-admin-client').DataTable({
                         "columnDefs": [{
-                                "searchable": false,
-                                "orderable": false,
-                                "targets":6
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":6
                         } ]
                     });
 
@@ -235,7 +317,7 @@
                         width: '100%'
                     });
                     $('.description-modal-tache').slimScroll({
-                         height: '100px'
+                        height: '100px'
                     });
 
                     $('.list-task').slimScroll({
@@ -249,28 +331,15 @@
                         height: '85px'
                     });
                     /*
-                    $('.table-suppr-user').slimScroll({
-                        height: '300px'
-                    });
-                    */
+                     $('.table-suppr-user').slimScroll({
+                     height: '300px'
+                     });
+                     */
 
                     $('.footable').footable();
                     $('.popover-info').popover('hidden');
-                   // $('#modal-tdb-tache').modal();
-
-                    var config = {
-                        '.chosen-select'           : {},
-                        '.chosen-select-deselect'  : {allow_single_deselect:true},
-                        '.chosen-select-no-single' : {disable_search_threshold:10},
-                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-                        '.chosen-select-width'     : {width:"95%"}
-                    }
-                    for (var selector in config) {
-                        $(selector).chosen(config[selector]);
-                    }
+                    // $('#modal-tdb-tache').modal();
                 });
-
         </script>
-            <!--########### End - Custom Script Call  ########### -->
     </body>
 </html>
