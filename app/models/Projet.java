@@ -8,6 +8,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -224,4 +225,69 @@ public class Projet extends EntiteSecurise {
         }
         this.client = client;
     }
+
+    public void calculeCheminCritique(){
+        // Récupération des tâches qui sont à la toute fin
+        List<Tache> listTachesFin = new ArrayList<Tache>();
+        for(Tache tache : listTaches){
+            tache.critique = false; // on réinitialise tous les champs 'critique'
+            if(!tache.hasSuccesseur()){
+                listTachesFin.add(tache);
+            }
+        }
+
+        // Récupération de la tâche ayant le moins de marge
+        Tache tacheAvecMoinsMarge = listTachesFin.get(0);
+        for(int i=1; i<listTachesFin.size(); i++){
+            Tache tmp = listTachesFin.get(i);
+            if((tmp.dateFinTard.getTime() - tmp.dateFinTot.getTime()) <
+                    (tacheAvecMoinsMarge.dateFinTard.getTime() - tacheAvecMoinsMarge.dateFinTot.getTime())){
+                tacheAvecMoinsMarge = tmp;
+            }
+        }
+
+        // On remonte jusqu'en haut du chemin + on met la valeur 'true' au champ 'critique' d'une tache
+        calculeCheminCritiqueRecursive(tacheAvecMoinsMarge);
+
+    }
+
+    private void calculeCheminCritiqueRecursive(Tache t){
+        t.critique = true;
+        if(t.hasPredecesseur()){
+            calculeCheminCritiqueRecursive(t.predecesseur);
+            if(t.parent != null)
+                calculeCheminCritiqueTacheMere(t.parent);
+        }
+    }
+
+    private void calculeCheminCritiqueTacheMere(Tache t){
+        t.critique = true;
+        if(t.parent != null)
+            calculeCheminCritiqueTacheMere(t.parent);
+    }
+
+
+
+    /*
+    private List<Tache> getTachesFins(){
+        List<Tache> listTachesFin = new ArrayList<Tache>();
+        for(Tache tache : listTaches){
+            if(!tache.hasPredecesseur()) {
+                getTachesFinsRecursive(tache, listTachesFin);
+            }
+        }
+        return listTachesFin;
+    }
+
+    private void getTachesFinsRecursive(Tache tache, List<Tache> result){
+        if(tache.hasSuccesseur()){
+            result.add(tache);
+        }
+        else{
+            for(Tache successeur : tache.successeurs){
+                getTachesFinsRecursive(successeur, result);
+            }
+        }
+    }
+    */
 }
