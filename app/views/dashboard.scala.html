@@ -2,6 +2,8 @@
 
     @scripts = {
         <script>
+
+
                 $(document).ready(function() {
                     $('.liclickable').click(function (e) {
                         e.preventDefault();
@@ -47,7 +49,7 @@
                                         <div class="panel-heading panel-heading-normal">
                                             @Messages("projects")
                                         </div>
-                                        <div class="panel-body">
+                                        <div id="projet-tdb" class="panel-body"  style="color:black;">
                                             <p>@Messages("currentProjects") : 4</p>
                                             <p>@Messages("almostFinishedProjects") : 1</p>
                                             <p>@Messages("delayedProjects") : 0</p>
@@ -59,7 +61,7 @@
                                         <div class="panel-heading panel-heading-normal">
                                         @Messages("tasks")
                                         </div>
-                                        <div id="tache-tdb" class="panel-body">
+                                        <div id="tache-tdb" class="panel-body"  style="color:black;">
                                             <p>@Messages("currentTasks") : 4</p>
                                             <p>@Messages("notStartedTasks"): 1</p>
                                             <p>@Messages("startedTasks") : 4</p>
@@ -71,7 +73,7 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-12  col-lg-4" style="padding:0px 20px 0px 20px;">
+                        <div class="col-sm-12 col-lg-4" style="padding:0px 20px 0px 20px;">
                             <div class="row">
                                 <h3>@Messages("importantEvents")</h3>
                             </div>
@@ -81,7 +83,7 @@
                                         <div class="panel-heading panel-heading-danger">
                                         @Messages("delayedTasks")
                                         </div>
-                                        <div class="panel-body">
+                                        <div id="taches-retardes" class="panel-body"  style="color:black;">
                                             <p>- Vérification des disques</p>
                                             <p>- Commencer le front-end</p>
                                             <p>- Créer la base de données</p>
@@ -93,7 +95,7 @@
                                         <div class="panel-heading panel-heading-warning">
                                             @Messages("tasksToFinishShortly")
                                         </div>
-                                        <div class="panel-body">
+                                        <div id="taches-proches" class="panel-body" style="color:black;">
                                             <p>- Vérification des disques</p>
                                             <p>- Commencer le front-end</p>
                                             <p>- Créer la base de données</p>
@@ -109,8 +111,7 @@
                                         <div class="panel-heading panel-heading-normal">
                                             @Messages("tasksProposal")
                                         </div>
-                                        <div class="panel-body">
-                                            <div class="test">
+                                        <div id="taches-proposees" class="panel-body">
                                             <p>
                                                 <a class="btn btn-danger btn-tdb">
                                                     Vérification des disques
@@ -126,12 +127,11 @@
                                                     Créer la base de données
                                                 </a>
                                             </p>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <textarea id="bloc-notes-tdb" placeholder='@Messages("notes")...'></textarea>
+                                    <textarea id="bloc-notes-tdb" class="textarea-perso" placeholder='@Messages("notes")...'></textarea>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +171,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-projets-bientot-finis" type="checkbox">
                                                                     <label for="checkbox-tdb-projets-bientot-finis">
                                                                     @Messages("projectsToFinishShortly")
@@ -179,7 +179,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-projets-retardes" type="checkbox">
                                                                     <label for="checkbox-tdb-projets-retardes">
                                                                     @Messages("delayedProjects")
@@ -192,7 +192,7 @@
                                             </div>
                                             <!-- fin filtre -->
                                             <div class="table-responsive table-responsive-tdb">
-                                                <table id="testData" class="table table-striped table-bordered table-hover dataTables-example">
+                                                <table id="dataTables-tdb-projet" class="table table-striped table-bordered table-hover">
                                                      <thead>
                                                         <tr class="table-center">
                                                             <th style="vertical-align:middle;">@Messages("project")</th>
@@ -210,19 +210,21 @@
                                                             <td style="vertical-align:middle;">PoPS5I Inc.</td>
                                                             <td style="vertical-align:middle;">10/10/2015</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2017/10/01</p>
                                                                 <p>01/10/2017</p>
                                                                 <p>10/10/2017</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 50J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 30J</p>
+                                                                <p style="display:none;">060%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                                                                         60%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 30J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -230,19 +232,21 @@
                                                             <td style="vertical-align:middle;">Lavergne Inc.</td>
                                                             <td style="vertical-align:middle;">20/12/2015</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/03/03</p>
                                                                 <p>03/03/2016</p>
                                                                 <p>13/03/2016</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 100J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 50J</p>
+                                                                <p style="display:none;">050%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 100@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 50@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
                                                                         50%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 50J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 50@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -250,19 +254,21 @@
                                                             <td style="vertical-align:middle;">LePhocéen</td>
                                                             <td style="vertical-align:middle;">01/10/2013</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2017/10/01</p>
                                                                 <p>01/10/2017</p>
                                                                 <p>10/10/2017</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 3501J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 300J</p>
+                                                                <p style="display:none;">100%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 3501@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 300@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                                                                         100%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 310J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 310@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -270,19 +276,21 @@
                                                             <td style="vertical-align:middle;">Olympique de Marseille</td>
                                                             <td style="vertical-align:middle;">09/03/2016</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/03/19</p>
                                                                 <p>19/03/2016</p>
                                                                 <p>23/03/2016</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 10J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 10J</p>
+                                                                <p style="display:none;">0%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 10@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 10@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
                                                                         0%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 0J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 0@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -290,19 +298,21 @@
                                                             <td style="vertical-align:middle;">PoPS5I Inc.</td>
                                                             <td style="vertical-align:middle;">10/10/2015</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/04/03</p>
                                                                 <p>03/04/2016</p>
                                                                 <p>13/06/2016</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 50J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 30J</p>
+                                                                <p style="display:none;">060%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                                                                         60%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 30J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -310,19 +320,21 @@
                                                             <td style="vertical-align:middle;">Lavergne Inc.</td>
                                                             <td style="vertical-align:middle;">20/12/2015</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/03/02</p>
                                                                 <p>02/03/2016</p>
                                                                 <p>02/03/2016</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 100J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 50J</p>
+                                                                <p style="display:none;">050%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 100@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 50@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
                                                                         50%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 50J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 50@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -330,19 +342,21 @@
                                                             <td style="vertical-align:middle;">LePhocéen</td>
                                                             <td style="vertical-align:middle;">01/10/2013</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2017/10/01</p>
                                                                 <p>01/10/2017</p>
                                                                 <p>10/10/2017</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 3501J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 300J</p>
+                                                                <p style="display:none;">100%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 3501@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 300@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                                                                         100%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 310J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 310@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -350,19 +364,21 @@
                                                             <td style="vertical-align:middle;">Olympique de Marseille</td>
                                                             <td style="vertical-align:middle;">09/03/2016</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/05/03</p>
                                                                 <p>03/05/2016</p>
                                                                 <p>13/05/2016</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 10J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 10J</p>
+                                                                <p style="display:none;">0%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 10@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 10@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
                                                                         0%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 0J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 0@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
 
@@ -371,19 +387,21 @@
                                                             <td style="vertical-align:middle;">PoPS5I Inc.</td>
                                                             <td style="vertical-align:middle;">10/10/2015</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/11/20</p>
                                                                 <p>20/11/2016</p>
                                                                 <p>23/12/2016</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 50J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 30J</p>
+                                                                <p style="display:none;">060%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                     <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                                                                         60%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 30J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -391,19 +409,21 @@
                                                             <td style="vertical-align:middle;">Lavergne Inc.</td>
                                                             <td style="vertical-align:middle;">20/12/2015</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/01/01</p>
                                                                 <p>01/01/2016</p>
                                                                 <p>01/01/2017</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 100J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 50J</p>
+                                                                <p style="display:none;">050%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 100@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 50@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
                                                                         50%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 50J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 50@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -411,19 +431,21 @@
                                                             <td style="vertical-align:middle;">LePhocéen</td>
                                                             <td style="vertical-align:middle;">01/10/2013</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/05/04</p>
                                                                 <p>04/05/2016</p>
                                                                 <p>07/02/2018</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 3501J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 300J</p>
+                                                                <p style="display:none;">100%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 3501@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 300@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                                                                         100%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 310J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 310@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                         <tr class="table-center">
@@ -431,19 +453,21 @@
                                                             <td style="vertical-align:middle;">Olympique de Marseille</td>
                                                             <td style="vertical-align:middle;">09/03/2016</td>
                                                             <td style="vertical-align:middle;">
+                                                                <p style="display:none;">2016/03/03</p>
                                                                 <p>03/03/2016</p>
                                                                 <p>13/03/2016</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle;">
-                                                                <p class="row-initiale">@Messages("initial") : 10J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 10J</p>
+                                                                <p style="display:none;">0%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 10@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 10@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
                                                                         0%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 0J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 0@Messages("day-first-letter")</p>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -480,7 +504,7 @@
                                                         </button>
                                                         <ul class="dropdown-menu">
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-critiques" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-critiques">
                                                                     @Messages("tasksOnCriticalPath")
@@ -488,7 +512,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-indisponibles" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-indisponibles">
                                                                     @Messages("unavailableTasks")
@@ -496,7 +520,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-semaine-pro" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-semaine-pro">
                                                                         @Messages("tasksStartingNextWeek")
@@ -504,7 +528,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-moins-10j" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-moins-10j">
                                                                     @Messages("tasksMustBeCompletedInLessThan10days")
@@ -512,7 +536,7 @@
                                                                 </div>
                                                             </li>
                                                             <li>
-                                                                <div class="checkbox checkbox-success checkbox-circle checkbox-dropdown">
+                                                                <div class="checkbox checkbox-success checkbox-dropdown">
                                                                     <input id="checkbox-tdb-taches-retardees" type="checkbox">
                                                                     <label for="checkbox-tdb-taches-retardees">
                                                                     @Messages("delayedTasks")
@@ -525,7 +549,7 @@
                                             </div>
                                                 <!-- fin filtre -->
                                             <td class="table-responsive table-responsive-tdb">
-                                                <table id="testData" class="table table-striped table-bordered table-hover dataTables-example">
+                                                <table id="dataTables-tdb-tache" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr class="table-center">
                                                             <th style="vertical-align:middle;">@Messages("task")</th>
@@ -548,19 +572,21 @@
                                                             <td class="td-modal" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">myProjects</td>
                                                             <td class="td-modal" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">10/10/2015</td>
                                                             <td class="td-modal" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                                <p style="display:none;">2016/03/03</p>
                                                                 <p>03/03/2016</p>
                                                                 <p>13/03/2016</p>
                                                             </td>
                                                             <td class="td-modal" class="td-avancement" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                                <p class="row-initiale">@Messages("initial") : 50J</p>
-                                                                <p class="row-restante">@Messages("remaining") : 30J</p>
+                                                                <p style="display:none;">060%</p>
+                                                                <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
+                                                                <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
                                                                 <div class="progress progress-bar-default">
                                                                         <!-- si 0% : color:black; -->
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
                                                                         60%
                                                                     </div>
                                                                 </div>
-                                                                <p class="row-consommee">@Messages("consumed") : 30J</p>
+                                                                <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
                                                             </td>
                                                             <td style="vertical-align:middle;">
                                                                 <div class="row">@Messages("predecessor") : 4.1</div>
@@ -588,112 +614,320 @@
                                                             <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-body">
-                                                                <div class="row">
-                                                                    <!-- 1ere colonne -->
-                                                                    <div class="col-sm-6">
-                                                                        <div class="id-tache-modal">
-                                                                            <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
-                                                                            @Messages("task") 14
-                                                                            <a><i class="fa fa-bell-slash"></i></a>
-                                                                            <a><i class="fa fa-trash"></i></a>
-                                                                            <a><i class="fa fa-pencil"></i></a>
-                                                                        </div>
-                                                                        <p class="titre-tache-modal">Faire la maquette</p>
-                                                                        <div class="description-modal-tache">
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                            Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                        </div>
-                                                                        <p style="margin-top:7px;">@Messages("predecessor") : </p>
-                                                                        <div class="list-task">
-                                                                            <table class="table-bordered">
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
+                                                                <div id="div-consulterTache">
+                                                                    <div class="row">
+                                                                            <!-- 1ere colonne -->
+                                                                        <div class="col-sm-6">
+                                                                            <div class="id-tache-modal">
+                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
+                                                                                @Messages("task") 14
+                                                                                <a><i class="fa fa-bell-slash"></i></a>
+                                                                                <a><i class="fa fa-trash"></i></a>
+                                                                                <a id="btn-modifierTache"><i class="fa fa-pencil"></i></a>
+                                                                            </div>
+                                                                            <p class="titre-tache-modal">Faire la maquette</p>
+                                                                            <div class="description-modal-tache">
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                                Création de la maquette. Création de la maquette. Création de la maquette.
+                                                                            </div>
+                                                                            <p style="margin-top:7px;">@Messages("predecessor") : </p>
+                                                                            <div class="list-task">
+                                                                                <table class="table-bordered">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+
+                                                                            <p style="margin-top:7px;">@Messages("successors") : </p>
+                                                                            <div class="list-task">
+                                                                                <table class="table-bordered">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            <td class="id-task">18</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="id-task">8</td>
+                                                                                            <td class="name-task">Créer la base de données</td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
 
-                                                                        <p style="margin-top:7px;">@Messages("successors") : </p>
-                                                                        <div class="list-task">
-                                                                            <table class="table-bordered">
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td class="id-task">18</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="id-task">8</td>
-                                                                                        <td class="name-task">Créer la base de données</td>
-                                                                                    </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- 2eme colonne -->
-                                                                    <div class="col-sm-6">
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                        <p class="bold">@Messages("project") : myProjects</p>
-                                                                        <p class="bold">@Messages("client") : PoPS5I Inc.</p>
-                                                                        <p>@Messages("taskPersonResponsible") : Daro Heng</p>
-                                                                        <p><a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a> @Messages("externalInterlocutors") :</p>
-                                                                        <select>
-                                                                            <option disabled selected>Valérie Guimard</option>
-                                                                            <option disabled>Frédéric Voisin</option>
-                                                                            <option disabled>Daro Heng</option>
-                                                                            <option disabled>Steve Mandanda</option>
-                                                                            <option disabled>Lassana Diarra</option>
-                                                                        </select>
-                                                                        <p style="margin-top:24px;">@Messages("remainingTime") : 10j</p>
-                                                                        <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-7">
-                                                                            @Messages("startDate")
-                                                                            </div>
-                                                                            <div class="col-sm-4 date">
-                                                                                20/11/2016
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-7">
-                                                                            @Messages("earliestEndDate")
-                                                                            </div>
-                                                                            <div class="col-sm-4 date">
-                                                                                20/11/2016
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row row-date-tache-modal">
-                                                                            <div class="col-sm-7">
-                                                                                @Messages("latestEndDate")
-                                                                            </div>
-                                                                            <div class="col-sm-4 date">
-                                                                                20/11/2016
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="td-avancement" style="margin-top:12px;">
-                                                                            <p class="row-initiale">@Messages("initial") : 50J</p>
-                                                                            <p class="row-restante">@Messages("remaining") : 30J</p>
-                                                                            <div class="progress progress-bar-default">
-                                                                                    <!-- si 0% : color:black; -->
-                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                                                    60%
+                                                                            <!-- 2eme colonne -->
+                                                                        <div class="col-sm-6">
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            <p class="bold">@Messages("project") : myProjects</p>
+                                                                            <p class="bold">@Messages("client") : PoPS5I Inc.</p>
+                                                                            <p>@Messages("taskPersonResponsible") : Daro Heng</p>
+                                                                            <div class="row" style="margin-left:0px;">
+                                                                                <a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a>
+                                                                                <div class="btn-group">
+                                                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white;color:#676A6C;">
+                                                                                        3 @Messages("externalInterlocutors") <span class="caret"></span>
+                                                                                    </button>
+                                                                                    <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                        <li>Lassana Diarra</li>
+                                                                                        <li>Steve Mandanda</li>
+                                                                                        <li>Didier Drogba</li>
+                                                                                    </ul>
                                                                                 </div>
                                                                             </div>
-                                                                            <p class="row-consommee">@Messages("consumed") : 30J</p>
+
+                                                                            <p style="margin-top:12px;">@Messages("remainingTime") : 10@Messages("day-first-letter")</p>
+                                                                            <div class="row row-date-tache-modal">
+                                                                                <div class="col-sm-7">
+                                                                                @Messages("startDate")
+                                                                                </div>
+                                                                                <div class="col-sm-4 dateVert">
+                                                                                    20/11/2016
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row row-date-tache-modal">
+                                                                                <div class="col-sm-7">
+                                                                                @Messages("earliestEndDate")
+                                                                                </div>
+                                                                                <div class="col-sm-4 dateVert">
+                                                                                    20/11/2016
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row row-date-tache-modal">
+                                                                                <div class="col-sm-7">
+                                                                                @Messages("latestEndDate")
+                                                                                </div>
+                                                                                <div class="col-sm-4 dateVert">
+                                                                                    20/11/2016
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="td-avancement" style="margin-top:24px;">
+                                                                                <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
+                                                                                <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
+                                                                                <div class="progress progress-bar-default">
+                                                                                        <!-- si 0% : color:black; -->
+                                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                                                        60%
+                                                                                    </div>
+                                                                                </div>
+                                                                                <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+
+                                                                <!-- Formulaire modifier tache -->
+                                                                <div id="div-modifierTache" style="display: none ;">
+                                                                    <form id="formModifierTache" class="form-horizontal">
+                                                                        <div class="row">
+                                                                                <!-- 1ere colonne -->
+                                                                            <div class="col-sm-6">
+                                                                                <!-- Icones -->
+                                                                                <div class="id-tache-modal">
+                                                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
+                                                                                    @Messages("task") 14
+                                                                                    <a><i class="fa fa-trash"></i></a>
+                                                                                    <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
+                                                                                </div>
+                                                                                <!-- Form nom tache -->
+                                                                                <input type="text" id="formModifierNomTache" class="form-control margin-form" placeholder='@Messages("taskName")...'>
+
+                                                                                <!-- Form description tache -->
+                                                                                <textarea id="formModifierDescriptionTache" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
+
+                                                                                <!-- Modifier predecesseur -->
+                                                                                <p style="margin-top:7px;">@Messages("predecessor") : </p>
+                                                                                <input type="text" id="formModifierPredecesseur" class="form-control" placeholder='@Messages("choosePredecessor")...'>
+                                                                                <div class="list-task">
+                                                                                    <table class="table-bordered">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+
+                                                                                <!-- Modifier successeurs -->
+                                                                                <p style="margin-top:7px;">@Messages("successors") : </p>
+                                                                                <input type="text" id="formModifierSuccesseurs" class="form-control" placeholder='@Messages("chooseSuccessor")...'>
+                                                                                <div class="list-task">
+                                                                                    <table class="table-bordered">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td class="id-task">18</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="id-task">8</td>
+                                                                                                <td class="name-task">Créer la base de données</td>
+                                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+
+                                                                                <!-- 2eme colonne -->
+                                                                            <div class="col-sm-6">
+                                                                                <button id="btn-fermer-modifierTache" type="button" class="close" data-dismiss="modal" style="margin-bottom:7px;">&times;</button>
+
+                                                                                <!-- Form nom du projet -->
+                                                                                <input type="text" id="formModifierProjet" class="form-control margin-form" placeholder='@Messages("projectName")...'>
+
+                                                                                <!-- Form client -->
+                                                                                <input type="text" id="formModifierClient" class="form-control margin-form" placeholder='@Messages("chooseClient")...'>
+
+                                                                                <!-- Form responsable tache -->
+                                                                                <input type="text" id="formModifierRespProjet" class="form-control margin-form" placeholder='@Messages("chooseTaskResponsible")...'>
+
+                                                                                <!-- Liste interlocuteurs externes -->
+                                                                                <div class="row margin-form" style="margin:10px 0px;">
+                                                                                    <div class="btn-group">
+                                                                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white;color:#676A6C;">
+                                                                                            3 @Messages("externalInterlocutors") <span class="caret"></span>
+                                                                                        </button>
+                                                                                        <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                            <li>
+                                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                                                    <input id="checkbox-interlocuteur-1" type="checkbox">
+                                                                                                    <label for="checkbox-interlocuteur-1">
+                                                                                                        Valérie Guimard
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </li>
+                                                                                            <li>
+                                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                                                    <input id="checkbox-interlocuteur-2" type="checkbox" checked>
+                                                                                                    <label for="checkbox-interlocuteur-2">
+                                                                                                        Lassana Diarra
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </li>
+                                                                                            <li>
+                                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                                                    <input id="checkbox-interlocuteur-3" type="checkbox" checked>
+                                                                                                    <label for="checkbox-interlocuteur-3">
+                                                                                                        Steve Mandanda
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </li>
+                                                                                            <li>
+                                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                                                    <input id="checkbox-interlocuteur-4" type="checkbox">
+                                                                                                    <label for="checkbox-interlocuteur-4">
+                                                                                                        Frédéric Voisin
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </li>
+                                                                                            <li>
+                                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                                                    <input id="checkbox-interlocuteur-5" type="checkbox" checked>
+                                                                                                    <label for="checkbox-interlocuteur-5">
+                                                                                                        Didier Drogba
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- datepicker - date debut -->
+                                                                                <div class="row margin-form">
+                                                                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_debut" style="text-align: left">@Messages("startDate")</label>
+                                                                                    <div class="form-group col-sm-8" id="datepicker_date_debut">
+                                                                                        <div class="input-group date">
+                                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                    <!-- datepicker - date fin au + tot -->
+                                                                                <div class="row margin-form">
+                                                                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tot" style="text-align: left">@Messages("earliestEndDate")</label>
+                                                                                    <div class="form-group col-sm-8" id="datepicker_date_fin_tot">
+                                                                                        <div class="input-group date">
+                                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                    <!-- datepicker - date fin au + tard -->
+                                                                                <div class="row margin-form">
+                                                                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tard" style="text-align: left">@Messages("latestEndDate")</label>
+                                                                                    <div class="form-group col-sm-8" id="datepicker_date_fin_tard">
+                                                                                        <div class="input-group date">
+                                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- charge initiale -->
+                                                                                <div class="row form-group margin-form" >
+                                                                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeInitiale" style="text-align: left">@Messages("initialWorload")</label>
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="input-group">
+                                                                                            <input type="number" id="formModifierChargeInitiale" class="form-control" value="0" min="0" step="0.5">
+                                                                                            <span class="input-group-addon" style="background-color:#1AB394;color:white;">J</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                    <!-- charge consommée -->
+                                                                                <div class="row form-group margin-form" >
+                                                                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeConsommee" style="text-align: left">@Messages("consumedWorkload")</label>
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="input-group">
+                                                                                            <input type="number" id="formModifierChargeConsommee" class="form-control" value="0" min="0" step="0.5">
+                                                                                            <span class="input-group-addon" style="background-color:#1AB394;color:white;">@Messages("day-first-letter")</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                    <!-- charge restante -->
+                                                                                <div class="row form-group margin-form" >
+                                                                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeRestante" style="text-align: left">@Messages("remainingWorkload")</label>
+                                                                                    <div class="col-sm-6">
+                                                                                        <div class="input-group">
+                                                                                            <input type="number" id="formModifierChargeRestante" class="form-control" value="0" min="0" step="0.5">
+                                                                                            <span class="input-group-addon" style="background-color:#1AB394;color:white;">@Messages("day-first-letter")</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- bouton valider -->
+                                                                        <div class="row" style="margin-top:15px;">
+                                                                            <div class="div-center">
+                                                                                <button id="btn-valider-modifierTache" class="btn btn-primary" type="submit" form="formModifierTache">
+                                                                                    <i class="fa fa-check-square"></i> @Messages("validate")
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -705,11 +939,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="footer">
-                    <div>
-                        <strong>Copyright</strong> Pear Corporation &copy; 2015-2016
                     </div>
                 </div>
 

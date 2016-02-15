@@ -28,11 +28,10 @@
 
         <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
         <link href="/css/plugins/footable/footable.core.css" rel="stylesheet">
-
+        <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
 
 
         <link href="/css/plugins/iCheck/custom.css" rel="stylesheet">
-        <link href="/css/plugins/chosen/chosen.css" rel="stylesheet">
         <link href="/css/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet">
         <link href="/css/plugins/cropper/cropper.min.css" rel="stylesheet">
         <link href="/css/plugins/switchery/switchery.css" rel="stylesheet">
@@ -102,16 +101,17 @@
         <!-- Footable -->
         <script src="/js/plugins/footable/footable.all.min.js"></script>
 
-
+        <!-- DATE -->
+        <script src="/assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+        <script src="/assets/js/plugins/datepicker/bootstrap-datepicker.js"></script>
+        <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.en.js"></script>
+        <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.fr.js"></script>
 
         <script src="/js/plugins/chosen/chosen.jquery.js"></script>
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
-
-
             <!--########### Start - Custom Script Call  ########### -->
             <!-- Chosen -->
-        <script src="/js/plugins/chosen/chosen.jquery.js"></script>
 
             <!-- JSKnob -->
         <script src="/js/plugins/jsKnob/jquery.knob.js"></script>
@@ -191,10 +191,26 @@
 
                     $('.footable').footable();
 
+                    $('.list-personnes-notifiees').slimScroll({
+                        height: '85px'
+                    });
+
+
                     $(".select2_demo_1").select2();
                 });
 
                 $( document ).ajaxComplete(function() {
+
+                    $('#dataTables-tdb-projet').DataTable();
+
+
+                    $('#dataTables-tdb-tache').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets": [6, 7]
+                        } ]
+                    });
                     $(".select2_demo_1").select2();
 
                     $('.dataTables-example').DataTable();
@@ -203,16 +219,136 @@
                         "ordering": false
                     } );
 
+                    $('#dataTables-admin-projet').DataTable({
+                        "columnDefs": [{
+                                "searchable": false,
+                                "orderable": false,
+                                "targets":6
+                            } ]
+                    });
                     $('#projet_Tache').dataTable( {
                         "ordering": false
                     } );
 
-                    $('.popover-info').popover('hidden');
 
-                    $('#modal-tdb-tache').modal();
+                    $('#dataTables-admin-client').DataTable({
+                        "columnDefs": [{
+                                "searchable": false,
+                                "orderable": false,
+                                "targets":6
+                        } ]
+                    });
+
+                    $('#dataTables-admin-user').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":7
+                        } ]
+                    });
+
+                    $('#btn-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').hide();
+                        $('#div-modifierTache').show();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-fermer-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-valider-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-modifierTache-active').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#datepicker_date_debut .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_tot .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#projet-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#tache-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-retardes').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proches').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proposees').slimScroll({
+                        height: '130px'
+                    });
+                    $('#bloc-notes-tdb').slimScroll({
+                        height: '172px',
+                        width: '100%'
+                    });
+                    $('.description-modal-tache').slimScroll({
+                         height: '100px'
+                    });
+
+                    $('.list-task').slimScroll({
+                        height: '90px'
+                    });
+                    $('.list-modif-client').slimScroll({
+                        height: '130px'
+                    });
+
+                    $('.list-personnes-notifiees').slimScroll({
+                        height: '85px'
+                    });
+                    /*
+                    $('.table-suppr-user').slimScroll({
+                        height: '300px'
+                    });
+                    */
 
                     $('.footable').footable();
+                    $('.popover-info').popover('hidden');
+                   // $('#modal-tdb-tache').modal();
                 });
+
 
                 /*
                 $( document ).ajaxComplete(function() {
