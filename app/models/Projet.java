@@ -142,6 +142,37 @@ public class Projet extends EntiteSecurise {
         save();
     }
 
+    /**
+     * TODO testme
+     * Inserer tache (B) avant la tache (C)
+     * @param tacheB
+     * @param tacheC
+     * @throws IllegalArgumentException
+     */
+    public void insererTacheAvant(Tache tacheB, Tache tacheC) throws IllegalArgumentException{
+        if(!listTaches.contains(tacheC)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheC.nom);
+        }
+        ajouterTache(tacheB);
+        Tache tacheA = tacheC.predecesseur;
+        tacheA.successeurs.remove(tacheC);
+        tacheA.associerSuccesseur(tacheB);
+        tacheB.associerSuccesseur(tacheC);
+    }
+
+    /**
+     * TODO testme
+     * Insérer la tache
+     * @param tacheB
+     * @param tacheA
+     * @throws IllegalArgumentException
+     */
+    public void insererTacheApres(Tache tacheB, Tache tacheA) throws IllegalArgumentException{
+        if(!listTaches.contains(tacheA)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheB.nom);
+        }
+        tacheA.associerSuccesseur(tacheB);
+    }
 
     /**
      * TODO testme
