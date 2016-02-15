@@ -8,8 +8,10 @@ import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table
@@ -151,5 +153,60 @@ public class Utilisateur extends Personne {
         String result = formatter.toString();
         formatter.close();
         return result;
+    }
+
+    public String generatePassword(){
+
+        String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        int passwordLength = 6;
+        char password[] = new char[passwordLength];
+
+        List<Integer> positions = new ArrayList<Integer>();
+        for(int i=0; i<passwordLength; i++){
+            positions.add(i);
+        }
+
+        int index_position;
+
+        // 1ere minuscule
+        index_position = getRandomInt(0, positions.size());
+        password[positions.get(index_position)] = getRandomChar(lowerCaseLetters);
+        positions.remove(index_position);
+
+        // 1ere majuscule
+        index_position = getRandomInt(0, positions.size());
+        password[positions.get(index_position)] = getRandomChar(upperCaseLetters);
+        positions.remove(index_position);
+
+        // 1er chiffre
+        index_position = getRandomInt(0, positions.size());
+        password[positions.get(index_position)] = getRandomChar(numbers);
+        positions.remove(index_position);
+
+        // Autres caractères
+        for(int pos : positions){
+            password[pos] = getRandomChar(upperCaseLetters, lowerCaseLetters, numbers);
+        }
+
+        return String.valueOf(password);
+
+    }
+
+    private int getRandomInt(int deb, int fin){
+        Random rand = new Random();
+        return rand.nextInt(fin-deb) + deb;
+    }
+
+    private char getRandomChar(String... strings){
+        String str;
+        if(strings.length == 0){
+            str = strings[0];
+        }
+        else{
+            str = strings[getRandomInt(0, strings.length)];
+        }
+        return str.charAt(getRandomInt(0, str.length()));
     }
 }
