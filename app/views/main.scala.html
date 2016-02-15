@@ -147,6 +147,9 @@
             <!-- Select2 -->
         <script src="/js/plugins/select2/select2.full.min.js"></script>
 
+            <!-- Nestable -->
+        <script src="/js/plugins/nestable/jquery.nestable.js"></script>
+
             <!-- Projet -->
         <script src="/js/projet.js"></script>
 
@@ -189,6 +192,17 @@
 
 
                     $(".select2_demo_1").select2();
+
+                    // activate Nestable for list 1
+                    $('#nestable').nestable({
+                        group: 1
+                    }).on('change');
+
+
+                    $('#nestable-menu').on('click', function (e) {
+                        var target = $(e.target),
+                                action = target.data('action');
+                    });
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -339,6 +353,17 @@
                     $('.footable').footable();
                     $('.popover-info').popover('hidden');
                     // $('#modal-tdb-tache').modal();
+
+                    // activate Nestable for list 1
+                    $('#nestable').nestable({
+                        group: 1
+                    }).on('change');
+
+
+                    $('#nestable-menu').on('click', function (e) {
+                        var target = $(e.target),
+                                action = target.data('action');
+                    });
                 });
         </script>
     </body>
