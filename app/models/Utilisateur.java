@@ -26,7 +26,8 @@ public class Utilisateur extends Personne {
     public List<Notification> listNotifications;
 
     @OneToMany(cascade = CascadeType.ALL)
-    public List<Tache> listTaches;
+    @JoinTable(name = "Tache")
+    private List<Tache> listTaches;
 
     //TODO Make connection to the database to check the authentication
     public String validate() {
@@ -106,9 +107,13 @@ public class Utilisateur extends Personne {
             throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+ tache.nom);
         }
         tache.responsableTache = this;
-        tache.save();
         listTaches.add(tache);
+        tache.save();
         save();
+    }
+
+    public List<Tache> getListTaches(){
+        return Tache.find.where().eq("responsableTache",this).findList();
     }
 
     /**
@@ -209,4 +214,6 @@ public class Utilisateur extends Personne {
         }
         return str.charAt(getRandomInt(0, str.length()));
     }
+
+
 }

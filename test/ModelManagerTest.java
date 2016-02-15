@@ -379,8 +379,8 @@ public class ModelManagerTest {
     @Test
     public void testUtilisateurCheckPassword() {
         running(fakeApplication(), ()-> {
-            String password = "AZERTY123456";
-            String passwordF = "AZERTY123457";
+            String password = "aZERTY123456";
+            String passwordF = "aZERTY123457";
 
             Utilisateur utilisateur = new Utilisateur();
             utilisateur.nom = "G";
@@ -423,8 +423,15 @@ public class ModelManagerTest {
 
             Tache tache = new Tache();
             tache.nom = "Tache1111";
+            tache.niveau = 0;
+            tache.critique = true;
+            tache.dateDebut = Utils.getDateFrom(2016,12,01);
+            tache.dateFinTot = Utils.getDateFrom(2016,12,01);
+            tache.dateFinTard = Utils.getDateFrom(2016,12,01);
             tache.description = "description tache11111";
-            tache.responsableTache = utilisateur;
+            tache.chargeConsommee = 10;
+            tache.chargeInitiale = 10;
+            tache.chargeTotale = 10;
             tache.save();
 
             projet.ajouterTache(tache);
@@ -441,14 +448,14 @@ public class ModelManagerTest {
 
             Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
             assertNotNull(utilisateur2.id);
-            assertNotNull(utilisateur2.listTaches);
-            Logger.debug("LISTTACHES USER : "+utilisateur2.listTaches);
+            assertNotNull(utilisateur2.getListTaches());
+            Logger.debug("LISTTACHES USER : "+utilisateur2.getListTaches());
 
             Logger.debug("UTILISATEURS");
             Logger.debug(utilisateur.toString());
-            Logger.debug(utilisateur.listTaches.size()+"");
+            Logger.debug(utilisateur.getListTaches().size()+"");
             Logger.debug(utilisateur2.toString());
-            Logger.debug(utilisateur2.listTaches.size()+"");
+            Logger.debug(utilisateur2.getListTaches().size()+"");
 
             Logger.debug("PROJETS");
             Logger.debug(projet.toString());
@@ -458,10 +465,10 @@ public class ModelManagerTest {
             Logger.debug(tache.toString());
             Logger.debug(Tache.find.byId(tache.id).toString());
 
-            Logger.debug(utilisateur.listTaches.toString());
-            Logger.debug(utilisateur2.listTaches.toString());
+            Logger.debug(utilisateur.getListTaches().toString());
+            Logger.debug(utilisateur2.getListTaches().toString());
 
-            assertEquals(tache,utilisateur2.listTaches.get(0));
+            assertEquals(tache,utilisateur2.getListTaches().get(0));
 
         });
     }
@@ -518,7 +525,4 @@ public class ModelManagerTest {
             assertTrue(Tache.find.byId(tache2.id).estDisponible());
         });
     }
-
-
-
 }
