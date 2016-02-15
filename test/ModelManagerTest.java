@@ -500,18 +500,29 @@ public class ModelManagerTest {
             projet.insererTacheApres(tache1,tache2);
             projet.insererTacheApres(tache2,tache3);
 
+            assertEquals(tache1.getSuccesseurs().get(0),tache2);
+            assertEquals(tache2.getSuccesseurs().get(0),tache3);
+            assertEquals(tache2.predecesseur,tache1);
+
             assertNotNull(projet.id);
             Projet projetBDD = Projet.find.byId(projet.id);
             Logger.debug(projetBDD.toString());
 
-            assertTrue(projetBDD.listTaches.size() == 3);
+            assertEquals(projetBDD.listTaches.size(),3);
             projetBDD.supprimerTache(tache2);
+            projet.save();
 
             Projet projetBDD2 = Projet.find.byId(projet.id);
             Logger.debug(projetBDD2.toString());
 
-            assertTrue(projetBDD2.listTaches.size() == 2);
+            assertEquals(projetBDD2.listTaches.size(),2);
             assertTrue(!projetBDD.listTaches.contains(tache2));
+
+            Tache tache1BDD = Tache.find.byId(tache1.id);
+            Tache tache3BDD = Tache.find.byId(tache3.id);
+            assertEquals(tache3BDD.predecesseur,tache1);
+            assertEquals(tache1BDD.getSuccesseurs().get(0),tache3);
+
         });
     }
 

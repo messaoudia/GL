@@ -45,14 +45,14 @@ public class Tache extends EntiteSecurise {
     @JoinColumn
     public Projet projet;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     public Tache predecesseur;
-    @OneToMany(mappedBy = "predecesseur", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "predecesseur")
     public List<Tache> successeurs;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     public Tache parent;
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parent")
     private List<Tache> enfants;
 
     public boolean archive;

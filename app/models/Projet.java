@@ -165,7 +165,6 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Insérer la tache tacheApres après la tache tacheAvant
      * @param tacheAvant
      * @param tacheApres
@@ -199,7 +198,7 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * Supprimer la tâche du systeme
+     * Supprimer la tâche du systeme si elle n'a pas ete commencee (chargeConsommee == 0), l'archive sinon
      * @param tache
      * @throws IllegalArgumentException
      */
@@ -209,21 +208,30 @@ public class Projet extends EntiteSecurise {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
-        tache.delete();
         listTaches.remove(tache);
 
         /* Liaisons */
-        Tache tAvant = tache.predecesseur;
-        tAvant.successeurs.remove(tache);
+        if(tache.predecesseur != null && tache.getSuccesseurs().size()!=0){
 
-        List<Tache> taches = tache.getSuccesseurs();
-        taches.forEach(t -> {
-            t.predecesseur = null;
-            tAvant.associerSuccesseur(t);
-            t.save();
-        });
-        tAvant.save();
+            Tache tAvant = tache.predecesseur;
+            tAvant.successeurs.remove(tache);
 
+            List<Tache> taches = tache.getSuccesseurs();
+            taches.forEach(t -> {
+                t.predecesseur = null;
+                tAvant.associerSuccesseur(t);
+                t.save();
+            });
+            tAvant.save();
+        }else if(tache.predecesseur != null){
+            Tache tAvant = tache.predecesseur;
+            tAvant.successeurs.remove(tache);
+            tAvant.save();
+        }else if(tache.getSuccesseurs().size()!=0){
+            tache.getSuccesseurs().forEach(t -> t.predecesseur = null);
+        }
+
+        /* Suppression/archivage */
         if (tache.chargeConsommee == 0) {
             Tache.find.deleteById(tache.id);
         }else{
@@ -278,6 +286,9 @@ public class Projet extends EntiteSecurise {
         this.client = client;
     }
 
+    /**
+     * TODO testme
+     */
     public void calculeCheminCritique(){
         // Récupération des tâches qui sont à la toute fin
         List<Tache> listTachesFin = new ArrayList<Tache>();
