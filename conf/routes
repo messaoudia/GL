@@ -46,3 +46,7 @@ GET         /adminClients              controllers.AdminController.afficherAdmin
 GET         /adminProjets              controllers.AdminController.afficherAdminProjets
 GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
+
+
+#Project controller
+POST        /ajouterProjet             controllers.ProjetController.ajouterProjet

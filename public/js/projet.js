@@ -24,6 +24,7 @@ $(document).ajaxComplete(function() {
 
     });
 });
+
 $(function(){
     $( "#btn-modifierProjet" ).click(function() {
         //$("#div-consulterProjet").css("display","none");

@@ -47,7 +47,6 @@
                             </li>
                         </ol>
                     </div>
-
                 </div>
 
 
@@ -61,7 +60,6 @@
                                         <label class="label_form" for="projectResponsible">@Messages("project")</label>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col-sm-offset-2 col-sm-8">
                                         <div class="row">
@@ -84,10 +82,12 @@
                                                 <div class="form-group">
                                                     <label class="label_form" for="projectResponsible">@Messages("projectPersonResponsible")</label>
                                                     <div>
-                                                        <select id="projectResponsible" name="projectResponsible" required="true" class="chosen-select" style="width:100%;" tabindex="2">
-                                                            <option value="">Select</option>
-                                                            <option value="United States">United States</option>
-                                                            <option value="United Kingdom">United Kingdom</option>
+                                                        <select  id="projectResponsible" name="projectResponsible" required="true" style="width:100%;" class="select2_demo_1 form-control">
+                                                            <option value="1">Option 1</option>
+                                                            <option value="2">Option 2</option>
+                                                            <option value="3">Option 3</option>
+                                                            <option value="4">Option 4</option>
+                                                            <option value="5">Option 5</option>
                                                         </select>
                                                     </div>
 
@@ -114,15 +114,12 @@
 
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;">
+                            <div type="submit" id="submitButton" class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;">
                                 <h3>@Messages("saveProject")</h3>
                             </div>
                         </div>
                     </div>
-
-
                 </form>
             </div>
 

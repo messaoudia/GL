@@ -161,6 +161,23 @@
         @scripts
         <script>
                 $(document).ready(function () {
+
+                   /* $("#submitButton").click(function(e) {
+                        alert("JE SUIS LA");
+                        $("#addProjectForm").submit(function( event ) {
+
+                            jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                                success : function(data) {
+                                    alert("oki");
+                                },
+                                error: function(errorMessage){
+                                    alert("error");
+                                }
+                            });
+
+                        });
+                    });
+                    */
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Tache').dataTable( {
@@ -174,21 +191,12 @@
 
                     $('.footable').footable();
 
-                    var config = {
-                        '.chosen-select'           : {},
-                        '.chosen-select-deselect'  : {allow_single_deselect:true},
-                        '.chosen-select-no-single' : {disable_search_threshold:10},
-                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-                        '.chosen-select-width'     : {width:"95%"}
-                    }
-                    for (var selector in config) {
-                        $(selector).chosen(config[selector]);
-                    }
-
-
+                    $(".select2_demo_1").select2();
                 });
 
                 $( document ).ajaxComplete(function() {
+                    $(".select2_demo_1").select2();
+
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Projet').dataTable( {
@@ -204,17 +212,6 @@
                     $('#modal-tdb-tache').modal();
 
                     $('.footable').footable();
-
-                    var config = {
-                        '.chosen-select'           : {},
-                        '.chosen-select-deselect'  : {allow_single_deselect:true},
-                        '.chosen-select-no-single' : {disable_search_threshold:10},
-                        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-                        '.chosen-select-width'     : {width:"95%"}
-                    }
-                    for (var selector in config) {
-                        $(selector).chosen(config[selector]);
-                    }
                 });
 
                 /*
