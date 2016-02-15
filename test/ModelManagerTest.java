@@ -283,6 +283,157 @@ public class ModelManagerTest {
         });
     }
 
+    @Test
+    public void testInsererTacheAvant() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google";
+            projet.description = "Développement du nouveau site de Google";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tacheApres = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tacheAvant = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,1,1),
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20,0,20,null,null);
+            tacheApres.associerResponsable(Utilisateur.find.all().get(0));
+            tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
+
+            projet.ajouterTache(tacheApres);
+            projet.insererTacheAvant(tacheAvant,tacheApres);
+
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            assertEquals(projet,projetBDD);
+            assertNotNull(Tache.find.where().eq("nom","Etude 1").findList().get(0));
+            assertNotNull(Tache.find.where().eq("nom","Etude 1").findList().get(0).predecesseur);
+            assertEquals(tacheAvant,Tache.find.where().eq("nom","Etude 1").findList().get(0).predecesseur);
+        });
+    }
+
+    @Test
+    public void testInsererTacheEntre() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google";
+            projet.description = "Développement du nouveau site de Google";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,1,1),
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20,0,20,null,null);
+            Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,3,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+
+
+            projet.ajouterTache(tache1);
+            //1 avant 3
+            projet.insererTacheApres(tache1,tache3);
+            //1, puis 2, puis 3
+            projet.insererTacheAvant(tache2,tache3);
+
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            assertEquals(projet,projetBDD);
+            assertEquals(tache2,Tache.find.where().eq("nom","Etude 1").findUnique().getSuccesseurs().get(0));
+            assertEquals(tache3,Tache.find.where().eq("nom","Etude 2").findUnique().getSuccesseurs().get(0));
+        });
+    }
+
+    @Test
+    public void testInsererTacheApres() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google";
+            projet.description = "Développement du nouveau site de Google";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tacheAvant = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tacheApres = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,3,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+            tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
+            tacheApres.associerResponsable(Utilisateur.find.all().get(0));
+
+            projet.ajouterTache(tacheAvant);
+            projet.insererTacheApres(tacheAvant,tacheApres);
+
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            Logger.debug(Tache.find.where().eq("nom","Etude 2").findList().get(0).predecesseur.toString());
+            Logger.debug(Tache.find.where().eq("nom","Etude 1").findList().get(0).getSuccesseurs().get(0).toString());
+
+            assertEquals(projet,projetBDD);
+            assertEquals(tacheApres,Tache.find.where().eq("nom","Etude 1").findUnique().getSuccesseurs().get(0));
+        });
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testAjoutTacheProjetException() {
         running(fakeApplication(), ()-> {
