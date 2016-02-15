@@ -94,7 +94,7 @@ public class Utilisateur extends Personne {
     }
 
     /**
-     * FIXME rustine car le champ ne contient pas la liste des taches
+     * FIXME rustine car le champ ne contient pas la liste des projets
      * @return list des projets du responsable
      */
     public List<Projet> listProjetsResponsable(){
@@ -116,6 +116,10 @@ public class Utilisateur extends Personne {
         save();
     }
 
+    /**
+     * FIXME rustine car le champ ne contient pas la liste des taches
+     * @return list des taches du responsable
+     */
     public List<Tache> getListTaches(){
         return Tache.find.where().eq("responsableTache",this).findList();
     }
