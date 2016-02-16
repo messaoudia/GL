@@ -173,6 +173,10 @@
                      });
                      });
                      */
+                    $('#nestable').nestable({
+                        group: 1
+                    }).on('change');
+
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Tache').dataTable( {
@@ -190,22 +194,18 @@
                         height: '85px'
                     });
 
+                    // activate Nestable for list 1
 
                     $(".select2_demo_1").select2();
+                });
+
+                $( document ).ajaxComplete(function() {
 
                     // activate Nestable for list 1
                     $('#nestable').nestable({
                         group: 1
                     }).on('change');
 
-
-                    $('#nestable-menu').on('click', function (e) {
-                        var target = $(e.target),
-                                action = target.data('action');
-                    });
-                });
-
-                $( document ).ajaxComplete(function() {
 
                     $('#dataTables-tdb-projet').DataTable();
 
@@ -354,16 +354,7 @@
                     $('.popover-info').popover('hidden');
                     // $('#modal-tdb-tache').modal();
 
-                    // activate Nestable for list 1
-                    $('#nestable').nestable({
-                        group: 1
-                    }).on('change');
 
-
-                    $('#nestable-menu').on('click', function (e) {
-                        var target = $(e.target),
-                                action = target.data('action');
-                    });
                 });
         </script>
     </body>
