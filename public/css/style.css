@@ -7,6 +7,96 @@
  *
 */
 
+.col-middle{
+    display:table-cell;
+    float:none;
+    height:100%;
+    vertical-align:middle;
+}
+
+.border-right{
+    border-right: 1px solid #EBEBEB;
+}
+.border-left{
+    border-left: 1px solid #EBEBEB;
+}
+/*
+.vertical-align {
+    display: flex;
+    flex-direction: row;
+}
+
+.vertical-align > [class^="col-"],
+.vertical-align > [class*=" col-"] {
+    display: flex;
+    align-items: center;
+    justify-content: center; /
+}
+*/
+body, html{
+    height:100%;
+}
+
+/** PROJET ET CLIENT -> NESTABLE **/
+.row-nestable {
+    margin:0px;
+    padding:0px;
+}
+.row-nestable > .col-xs-1,
+.row-nestable > .col-xs-2,
+.row-nestable > .col-xs-3,
+.row-nestable > .col-xs-4,
+.row-nestable > .col-xs-5,
+.row-nestable > .col-xs-6,
+.row-nestable > .col-xs-7,
+.row-nestable > .col-xs-8,
+.row-nestable > .col-xs-9,
+.row-nestable > .col-xs-10,
+.row-nestable > .col-xs-11,
+.row-nestable > .col-xs-12,
+.row-nestable > .col-sm-1,
+.row-nestable > .col-sm-2,
+.row-nestable > .col-sm-3,
+.row-nestable > .col-sm-4,
+.row-nestable > .col-sm-5,
+.row-nestable > .col-sm-6,
+.row-nestable > .col-sm-7,
+.row-nestable > .col-sm-8,
+.row-nestable > .col-sm-9,
+.row-nestable > .col-sm-10,
+.row-nestable > .col-sm-11,
+.row-nestable > .col-sm-12,
+.row-nestable > .col-md-1,
+.row-nestable > .col-md-2,
+.row-nestable > .col-md-3,
+.row-nestable > .col-md-4,
+.row-nestable > .col-md-5,
+.row-nestable > .col-md-6,
+.row-nestable > .col-md-7,
+.row-nestable > .col-md-8,
+.row-nestable > .col-md-9,
+.row-nestable > .col-md-10,
+.row-nestable > .col-md-11,
+.row-nestable > .col-md-12,
+.row-nestable > .col-lg-1,
+.row-nestable > .col-lg-2,
+.row-nestable > .col-lg-3,
+.row-nestable > .col-lg-4,
+.row-nestable > .col-lg-5,
+.row-nestable > .col-lg-6,
+.row-nestable > .col-lg-7,
+.row-nestable > .col-lg-8,
+.row-nestable > .col-lg-9,
+.row-nestable > .col-lg-10,
+.row-nestable > .col-lg-11,
+.row-nestable > .col-lg-12{
+    /*padding:0px;
+    border : 1px solid black;*/
+}
+
+
+/** **/
+
 .normal{
     padding-right: 0px;
     padding-left: 0px;
