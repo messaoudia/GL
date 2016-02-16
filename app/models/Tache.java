@@ -53,7 +53,7 @@ public class Tache extends EntiteSecurise {
     @ManyToOne
     public Tache parent;
     @OneToMany(mappedBy = "parent")
-    private List<Tache> enfants;
+    public List<Tache> enfants;
 
     public boolean archive;
 
@@ -133,6 +133,10 @@ public class Tache extends EntiteSecurise {
         return find.where().eq("predecesseur",this).findList();
     }
 
+    public List<Tache> getEnfants(){
+        return find.where().eq("parent",this).findList();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -179,31 +183,35 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Cree une sous-tâche a cette tâche
-     *
      * @param fille
-     * @throws IllegalTaskCreation
      */
-    public void associerSousTache(Tache fille) throws IllegalTaskCreation {
+    public void associerSousTache(Tache fille) throws IllegalStateException {
         if (niveau == 3) {
-            throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
+            throw new IllegalStateException("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
+        if (this.enfants.contains(fille)) {
+            throw new IllegalStateException("Il y a deja cette tache enfant pour cette tache");
+        }
+        fille.niveau = this. niveau+1;
+        fille.associerTacheMere(this);
         enfants.add(fille);
+        save();
     }
 
     /**
-     * TODO testme
      * Cree une tache mere a cette tâche
-     *
-     * @param mere
-     * @throws IllegalTaskCreation
+     * @param parent
      */
-    public void associerTacheMere(Tache mere) throws IllegalTaskCreation {
-        if (niveau == 3) {
-            throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
+    public void associerTacheMere(Tache parent) throws IllegalStateException {
+        if (niveau == 0) {
+            throw new IllegalStateException("Association d'une tache mere a une tache de niveau 0 impossible");
         }
-        this.parent = mere;
+        if (this.parent == parent) {
+            throw new IllegalStateException("Ce parametre est le meme que le parent de cette tache");
+        }
+        this.parent = parent;
+        save();
     }
 
     /**

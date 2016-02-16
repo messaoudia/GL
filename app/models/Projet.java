@@ -180,6 +180,21 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
+     * Insérer la tache tacheApres après la tache tacheAvant
+     * @param tacheMere
+     * @param tacheFille
+     * @throws IllegalArgumentException
+     */
+    public void insererTacheFille(Tache tacheMere, Tache tacheFille) throws IllegalArgumentException{
+        if(!listTaches.contains(tacheMere)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheMere.nom);
+        }
+        ajouterTache(tacheFille);
+        tacheMere.associerSousTache(tacheFille);
+        save();
+    }
+
+    /**
      * TODO testme
      * Modifie la tache en parametre
      *

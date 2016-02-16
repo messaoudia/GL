@@ -734,4 +734,92 @@ public class ModelManagerTest {
             assertTrue(Tache.find.byId(tache2.id).estDisponible());
         });
     }
+
+    @Test
+    public void testInsererTacheFille() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google 2";
+            projet.description = "Développement du nouveau site de Google 2";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tacheMere = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tacheFille = new Tache("Etude 22","Cette tâche permet de réaliser l'étude poussée du projet",0,true, Utils.getDateFrom(2016,3,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+            tacheMere.associerResponsable(Utilisateur.find.all().get(0));
+            tacheFille.associerResponsable(Utilisateur.find.all().get(0));
+
+            projet.ajouterTache(tacheMere);
+            projet.insererTacheFille(tacheMere,tacheFille);
+
+            Logger.debug(projet.toString());
+            assertNotNull(projet.id);
+            Projet projetBDD = Projet.find.byId(projet.id);
+            Logger.debug(projetBDD.toString());
+
+            List<Tache> listTacheProjetBDD = projetBDD.listTaches;
+
+            assertTrue(listTacheProjetBDD.containsAll(projet.listTaches));
+
+            Logger.debug(Tache.find.where().eq("nom","Etude 22").findList().get(0).parent.toString());
+            Logger.debug(Tache.find.where().eq("nom","Etude 11").findList().get(0).getEnfants().get(0).toString());
+
+            assertEquals(projet,projetBDD);
+            assertEquals(tacheFille,Tache.find.where().eq("nom","Etude 11").findUnique().getEnfants().get(0));
+            assertEquals(Tache.find.where().eq("nom","Etude 11").findUnique().niveau,Integer.valueOf(0));
+            assertEquals(Tache.find.where().eq("nom","Etude 22").findUnique().niveau,Integer.valueOf(1));
+
+        });
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testInsererTacheFilleException() {
+        running(fakeApplication(), ()-> {
+            Client cl = new Client();
+            cl.nom = "Google";
+            cl.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google 2";
+            projet.description = "Développement du nouveau site de Google 2";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.client = cl;
+            projet.priorite = 1;
+            projet.save();
+
+            Tache tacheMere = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+            Tache tacheFille = new Tache("Etude 22","Cette tâche permet de réaliser l'étude poussée du projet",0,true, Utils.getDateFrom(2016,3,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+            tacheMere.associerResponsable(Utilisateur.find.all().get(0));
+            tacheFille.associerResponsable(Utilisateur.find.all().get(0));
+
+            projet.ajouterTache(tacheMere);
+            projet.insererTacheFille(tacheMere,tacheFille);
+        });
+    }
 }
