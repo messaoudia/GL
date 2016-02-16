@@ -284,6 +284,38 @@ public class ModelBeanTest {
         });
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testPasswordCourtException(){
+        running(fakeApplication(), ()-> {
+            Utilisateur u1 = new Utilisateur();
+            u1.setPassword("Azer1");
+        });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPasswordChiffreException(){
+        running(fakeApplication(), ()-> {
+            Utilisateur u1 = new Utilisateur();
+            u1.setPassword("Azertya");
+        });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPasswordMajException(){
+        running(fakeApplication(), ()-> {
+            Utilisateur u1 = new Utilisateur();
+            u1.setPassword("azerty1");
+        });
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPasswordMinException(){
+        running(fakeApplication(), ()-> {
+            Utilisateur u1 = new Utilisateur();
+            u1.setPassword("AZERTY1");
+        });
+    }
+
     @Test
     public void testFindUtilisateur() {
         running(fakeApplication(), ()-> {

@@ -60,7 +60,7 @@ public class Utilisateur extends Personne {
         return email;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) throws IllegalArgumentException{
         this.save();
         if(!validatePassword(password)){
             throw new IllegalArgumentException("Mot de passe : "+password+" incorrect, veuillez mettre au moins 1 Maj, 1 min, 1 chiffre et 6 caracteres minimum");
