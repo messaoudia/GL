@@ -32,11 +32,12 @@ public class Tache extends EntiteSecurise {
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinTard;
     @Constraints.Min(0)
-    public Integer chargeInitiale;
+    public Double chargeInitiale;
     @Constraints.Min(0)
-    public Integer chargeConsommee;
+    public Double chargeConsommee;
     @Constraints.Min(0)
-    public Integer chargeTotale;
+    public Double chargeTotale;
+    public Integer priorite = 0;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
     public List<Contact> interlocuteurs;
@@ -45,15 +46,17 @@ public class Tache extends EntiteSecurise {
     @JoinColumn
     public Projet projet;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     public Tache predecesseur;
-    @OneToMany(mappedBy = "predecesseur", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "predecesseur")
     public List<Tache> successeurs;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     public Tache parent;
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    private List<Tache> enfants;
+    @OneToMany(mappedBy = "parent")
+    public List<Tache> enfants;
+
+    public boolean archive;
 
     public static Finder<Long, Tache> find = new Finder<>(Tache.class);
 
@@ -61,8 +64,8 @@ public class Tache extends EntiteSecurise {
     public Utilisateur responsableTache;
 
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
-                 Date dateFinTot, Date dateFinTard, Integer chargeInitiale, Integer chargeConsommee,
-                 Integer chargeTotale, List<Contact> interlocuteurs, Projet projet) {
+                 Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
+                 Double chargeTotale, List<Contact> interlocuteurs, Projet projet) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -77,12 +80,14 @@ public class Tache extends EntiteSecurise {
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
         this.projet = projet;
+        this.archive = false;
     }
 
     public Tache() {
         this.interlocuteurs = new BeanList<>();
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
+        this.archive = false;
     }
 
     /**
@@ -129,6 +134,10 @@ public class Tache extends EntiteSecurise {
         return find.where().eq("predecesseur",this).findList();
     }
 
+    public List<Tache> getEnfants(){
+        return find.where().eq("parent",this).findList();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -154,7 +163,7 @@ public class Tache extends EntiteSecurise {
      * @param chargeTotale
      * @throws NotAvailableTask
      */
-    public void modifierCharge(Integer chargeConsommee, Integer chargeTotale) throws NotAvailableTask {
+    public void modifierCharge(Double chargeConsommee, Double chargeTotale) throws NotAvailableTask {
         if (!estDisponible()) {
             throw new NotAvailableTask("Tache " + nom + ", pas encore disponible, modification de charge impossible");
         }
@@ -175,31 +184,35 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Cree une sous-tâche a cette tâche
-     *
      * @param fille
-     * @throws IllegalTaskCreation
      */
-    public void associerSousTache(Tache fille) throws IllegalTaskCreation {
+    public void associerSousTache(Tache fille) throws IllegalStateException {
         if (niveau == 3) {
-            throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
+            throw new IllegalStateException("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
+        if (this.enfants.contains(fille)) {
+            throw new IllegalStateException("Il y a deja cette tache enfant pour cette tache");
+        }
+        fille.niveau = this. niveau+1;
+        fille.associerTacheMere(this);
         enfants.add(fille);
+        save();
     }
 
     /**
-     * TODO testme
      * Cree une tache mere a cette tâche
-     *
-     * @param mere
-     * @throws IllegalTaskCreation
+     * @param parent
      */
-    public void associerTacheMere(Tache mere) throws IllegalTaskCreation {
-        if (niveau == 3) {
-            throw new IllegalTaskCreation("Creation d'une tache fille de niveau superieur a 3 impossible");
+    public void associerTacheMere(Tache parent) throws IllegalStateException {
+        if (niveau == 0) {
+            throw new IllegalStateException("Association d'une tache mere a une tache de niveau 0 impossible");
         }
-        this.parent = mere;
+        if (this.parent == parent) {
+            throw new IllegalStateException("Ce parametre est le meme que le parent de cette tache");
+        }
+        this.parent = parent;
+        save();
     }
 
     /**
@@ -276,7 +289,7 @@ public class Tache extends EntiteSecurise {
      * TODO testme
      * @return la charge restante pour ce projet (en l'unité définie pour le projet)
      */
-    public Integer chargeRestante() {
+    public Double chargeRestante() {
         return chargeTotale - chargeConsommee;
     }
 
@@ -285,7 +298,7 @@ public class Tache extends EntiteSecurise {
      * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
      */
     public boolean estDisponible() {
-        return (predecesseur == null || predecesseur.chargeRestante() == 0);
+        return (predecesseur == null || predecesseur.chargeRestante() == 0.0);
     }
 
     public boolean hasPredecesseur() { return predecesseur != null; }

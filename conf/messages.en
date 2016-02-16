@@ -104,3 +104,7 @@ consumedWorkload = Consumed workload
 remainingWorkload = Remaining workload
 day-first-letter = D
 week-first-letter = W
+projectPersonResponsible = Project manager
+saveProject = Save project
+createSubTask = Create subtask
+createTask = Create task
