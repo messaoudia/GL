@@ -22,6 +22,19 @@
                     });
                 });
 
+                $("body").load(function(){
+                    updateMenu();
+                });
+
+                function updateMenu()
+                {
+                    var navHeader = document.getElementById('nav-header-admin');
+                    $(navHeader).addClass('nav-header');
+                    $('.navbar').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important; transition: none;");
+                    $('.pear-theme').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important;");
+                }
+                updateMenu();
+
             });
     </script>
 }
