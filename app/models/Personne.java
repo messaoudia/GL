@@ -46,7 +46,7 @@ public abstract class Personne extends Model{
     public String toString() {
         return  id + "] : " +
                 nom + ", " + prenom + ", " +
-                email + ", " + telephone+", archivé : "+archive;
+                email + ", " + telephone+", archive : "+archive;
     }
 
     @Override

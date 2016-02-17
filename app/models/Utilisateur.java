@@ -43,14 +43,14 @@ public class Utilisateur extends Personne {
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public Utilisateur(String nom, String prenom, String email, String telephone, String password,List<Tache> listTaches) {
-        super(nom, prenom, email, telephone,false);
+    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches) {
+        super(nom, prenom, email, telephone,archive);
         setPassword(password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
     }
 
-    public Utilisateur(String nom, String prenom, String email, String telephone, String password) {
-        this(nom, prenom, email, telephone,password,null);
+    public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
+        this(nom, prenom, email, telephone,archive,password,null);
     }
 
     public Utilisateur() {
@@ -421,6 +421,7 @@ public class Utilisateur extends Personne {
     }
 
     public static List<Utilisateur> getAllNonArchives(){
+        Logger.debug(find.where().eq("archive",false).findList().toString());
         return find.where().eq("archive",false).findList();
     }
 }

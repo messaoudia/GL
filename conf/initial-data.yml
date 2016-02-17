@@ -100,8 +100,8 @@ utilisateurs:
     prenom:       Yasser
     email:        yasser.rabi@u-psud.fr
     telephone:    0564781529
-    password:     Azerty1
     archive:      false
+    password:     Azerty1
 
 - &utilisateur2 !!models.Utilisateur
     id:           12
@@ -109,8 +109,8 @@ utilisateurs:
     prenom:       Julien
     email:        julien.preisner@u-psud.fr
     telephone:    0561234529
-    password:     Azerty2
     archive:      false
+    password:     Azerty2
 
 - &utilisateur3 !!models.Utilisateur
     id:           13
@@ -118,8 +118,8 @@ utilisateurs:
     prenom:       Gishan
     email:        gishan.akbaraly@u-psud.fr
     telephone:    0566543219
-    password:     Azerty3
     archive:      false
+    password:     Azerty3
 
 - &utilisateur4 !!models.Utilisateur
     id:           14
@@ -127,8 +127,8 @@ utilisateurs:
     prenom:       Zlatan
     email:        z.i@psg.fr
     telephone:    0123456789
-    password:     Psg75000
     archive:      false
+    password:     Psg75000
 
 - &utilisateur5 !!models.Utilisateur
     id:           38
@@ -136,8 +136,8 @@ utilisateurs:
     prenom:       Didier
     email:        d.d@edf.fr
     telephone:    6549873210
-    password:     Edf1234
     archive:      true
+    password:     Edf1234
 
 projets:
 
