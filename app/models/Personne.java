@@ -39,7 +39,6 @@ public abstract class Personne extends Model{
     }
 
     public Personne() {
-        this("","","","",false);
     }
 
     @Override

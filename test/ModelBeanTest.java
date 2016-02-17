@@ -150,7 +150,7 @@ public class ModelBeanTest {
             n1.link = "http://localhost:9000/notif";
             n1.etatLecture = false;
             n1.archiver = false;
-            n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598","azertY1");
+            n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598",false,"azertY1");
             Logger.debug(n1.toString());
             n1.save();
             Logger.debug(n1.toString());
@@ -234,7 +234,7 @@ public class ModelBeanTest {
             Contact c1 = new Contact("Toto","Tata","toto.tata@tt.tt","0123456789");
             List<Contact> contactList = new BeanList<>();
             contactList.add(c1);
-            Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789","azertY1");
+            Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789",false,"azertY1");
             u1.save();
             Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
                     Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,contactList,pr);
@@ -319,8 +319,8 @@ public class ModelBeanTest {
     @Test
     public void testFindUtilisateur() {
         running(fakeApplication(), ()-> {
-            Utilisateur u1 = new Utilisateur("A","C","a.c@apple.com","1236549870","TOTO123a");
-            Utilisateur u2 = new Utilisateur("B","D","b.d@zlatanino.com","0147258369","TATA123a");
+            Utilisateur u1 = new Utilisateur("A","C","a.c@apple.com","1236549870",false,"TOTO123a");
+            Utilisateur u2 = new Utilisateur("B","D","b.d@zlatanino.com","0147258369",false,"TATA123a");
             u1.save();
             u2.save();
             assertNotNull(u1.id);

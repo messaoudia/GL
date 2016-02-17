@@ -193,7 +193,7 @@ public class ModelManagerTest {
             pr.priorite = 1;
             pr.save();
 
-            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789",false,"azertY1");
             u1.save();
             pr.associerResponsable(u1);
             pr.associerResponsable(u1);
@@ -223,7 +223,7 @@ public class ModelManagerTest {
             assertNotNull(pr.id);
 
 
-            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789",false,"azertY1");
             u1.save();
             assertNotNull(u1.id);
 
