@@ -1,8 +1,8 @@
 package controllers;
 
+import models.Utilisateur;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.projet;
 import views.html.adminClients;
 import views.html.adminProjets;
 import views.html.adminUtilisateur;
@@ -22,6 +22,6 @@ public class AdminController extends Controller{
     }
 
     public Result afficherAdminUtilisateur() {
-        return ok(adminUtilisateur.render("Admin Utilisateur"));
+        return ok(adminUtilisateur.render("Admin Utilisateur", Utilisateur.getAllNonArchives()));
     }
 }

@@ -22,12 +22,12 @@ public class Contact extends Personne {
     public static Model.Finder<Long, Contact> find = new Model.Finder<>(Contact.class);
 
     public Contact(String nom, String prenom, String email, String telephone, List<Tache> listTachesCorrespondant) {
-        super(nom, prenom, email, telephone);
+        super(nom, prenom, email, telephone,false);
         this.listTachesCorrespondant = listTachesCorrespondant;
     }
 
     public Contact(String nom, String prenom, String email, String telephone) {
-        super(nom, prenom, email, telephone);
+        super(nom, prenom, email, telephone,false);
     }
 
     public Contact() {

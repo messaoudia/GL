@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle:String,utilisateurs:java.util.List[models.Utilisateur])
 
 @scripts = {
     <script>
@@ -181,37 +181,29 @@
                                     <th><i class="fa fa-trash"></i></th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                <tr>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Rabi</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Yasser</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">yasser.rabi&commat;u-psud.fr</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">0123456789</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">25</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">7</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Oui</td>
-                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Heng</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Daro</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">daro.heng&commat;u-psud.fr</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">0123456788</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">7</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">3</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Non</td>
-                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Zheng</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Zhang</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">zz&commat;u-psud.fr</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">09876554321</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">12</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">12</td>
-                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Oui</td>
-                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
-                                </tr>
+                                <!-- Boucle sur la liste des utilisateurs -->
+                                @for(utilisateur <- utilisateurs) {
+                                    <tr>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.telephone</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listProjetsResponsable().size()</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.getListTaches().size()</td>
+                                        @if(utilisateur.archive){
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">
+                                            @Messages("Yes")
+                                            </td>
+                                        } else {
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">
+                                            @Messages("No")
+                                            </td>
+                                        }
+                                        <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
 

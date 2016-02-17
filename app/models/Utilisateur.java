@@ -44,7 +44,7 @@ public class Utilisateur extends Personne {
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
     public Utilisateur(String nom, String prenom, String email, String telephone, String password,List<Tache> listTaches) {
-        super(nom, prenom, email, telephone);
+        super(nom, prenom, email, telephone,false);
         setPassword(password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
     }
@@ -416,4 +416,11 @@ public class Utilisateur extends Personne {
         return ((date2.getTime() - date1.getTime()) / 86400000);
     }
 
+    public static List<Utilisateur> getAllArchives(){
+        return find.where().eq("archive",true).findList();
+    }
+
+    public static List<Utilisateur> getAllNonArchives(){
+        return find.where().eq("archive",false).findList();
+    }
 }

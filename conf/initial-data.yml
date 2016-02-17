@@ -30,6 +30,7 @@ contacts:
     prenom:      Paul
     email:       p.b@google.net
     telephone:   0236541235
+    archive:      false
 
 - &contact2 !!models.Contact
     id:          5
@@ -37,6 +38,7 @@ contacts:
     prenom:      Zinédine
     email:       z.z@google.net
     telephone:   0456371829
+    archive:      false
 
 - &contact3 !!models.Contact
     id:          6
@@ -44,6 +46,7 @@ contacts:
     prenom:      Pierre
     email:       P.lavoine@gmail.com
     telephone:   0689453234
+    archive:      false
 
 - &contact4 !!models.Contact
     id:          7
@@ -51,6 +54,15 @@ contacts:
     prenom:      Tim
     email:       t.c@apple.com
     telephone:   0234456978
+    archive:      false
+
+- &contact5 !!models.Contact
+    id:          37
+    nom:         Henriot
+    prenom:      Marie-christine
+    email:       mch@polytech
+    telephone:   0123456987
+    archive:     true
 
 clients:
 
@@ -89,6 +101,7 @@ utilisateurs:
     email:        yasser.rabi@u-psud.fr
     telephone:    0564781529
     password:     Azerty1
+    archive:      false
 
 - &utilisateur2 !!models.Utilisateur
     id:           12
@@ -97,6 +110,7 @@ utilisateurs:
     email:        julien.preisner@u-psud.fr
     telephone:    0561234529
     password:     Azerty2
+    archive:      false
 
 - &utilisateur3 !!models.Utilisateur
     id:           13
@@ -105,6 +119,7 @@ utilisateurs:
     email:        gishan.akbaraly@u-psud.fr
     telephone:    0566543219
     password:     Azerty3
+    archive:      false
 
 - &utilisateur4 !!models.Utilisateur
     id:           14
@@ -113,6 +128,16 @@ utilisateurs:
     email:        z.i@psg.fr
     telephone:    0123456789
     password:     Psg75000
+    archive:      false
+
+- &utilisateur5 !!models.Utilisateur
+    id:           38
+    nom:          Deschamps
+    prenom:       Didier
+    email:        d.d@edf.fr
+    telephone:    6549873210
+    password:     Edf1234
+    archive:      true
 
 projets:
 

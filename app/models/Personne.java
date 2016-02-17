@@ -28,21 +28,25 @@ public abstract class Personne extends Model{
     //International format
     public String telephone;
 
-    public Personne(String nom, String prenom, String email, String telephone) {
+    public boolean archive;
+
+    public Personne(String nom, String prenom, String email, String telephone,boolean archive) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.telephone = telephone;
+        this.archive = archive;
     }
 
     public Personne() {
+        this("","","","",false);
     }
 
     @Override
     public String toString() {
         return  id + "] : " +
                 nom + ", " + prenom + ", " +
-                email + ", " + telephone;
+                email + ", " + telephone+", archivé : "+archive;
     }
 
     @Override
@@ -56,7 +60,7 @@ public abstract class Personne extends Model{
         try {
             Personne personne = (Personne) obj;
             return (personne.nom.equals(this.nom) && personne.prenom.equals(this.prenom)
-                    && personne.email.equals(this.email) && personne.telephone.equals(this.telephone));
+                    && personne.email.equals(this.email) && personne.telephone.equals(this.telephone) && personne.archive == this.archive);
         } catch (ClassCastException e) {
             return false;
         }
