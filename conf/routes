@@ -45,4 +45,5 @@ GET         /creerProjet               controllers.ProjetController.afficherCree
 GET         /adminClients              controllers.AdminController.afficherAdminClients
 GET         /adminProjets              controllers.AdminController.afficherAdminProjets
 GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
+GET         /adminUtilisateurArchive   controllers.AdminController.afficherUtilisateursArchives
 GET         /dashboard                 controllers.DashboardController.afficherDashboard

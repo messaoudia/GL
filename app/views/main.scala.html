@@ -1,4 +1,5 @@
-@(pageTitle: String, content: Html, scripts: Html)
+@(pageTitle: String, content: Html, script: Html)
+@import java.lang.Boolean; var requestUtilisateurs = false;
 
 <!DOCTYPE html>
 <html>
@@ -150,9 +151,43 @@
             <!-- Projet -->
         <script src="/js/projet.js"></script>
 
-        @scripts
         <script>
                 $(document).ready(function () {
+
+                    $('.liclickable').click(function (e) {
+                        e.preventDefault();
+                        var self = $(this),
+                                controler = self.data('infos') || self.attr('data-infos');
+                        $("#sidebar ul li").removeClass('active');
+                        $(this).addClass('active');
+
+                        eval("jsRoutes.controllers."+controler).ajax({
+                            success: function(html) {
+                                if(controler.substring(0,15) === 'AdminController'){
+                                    var navBarTop = document.getElementById('navBarTop');
+                                    $(navBarTop).addClass('navbar-fixed-top-admin');
+                                    var menuButton = document.getElementById('menuButton');
+                                    $(menuButton).addClass('btn-danger');
+                                    var navHeader = document.getElementById('nav-header');
+                                    $(navHeader).addClass('nav-header-admin');
+
+                                }else{
+                                    var navBarTop = document.getElementById('navBarTop');
+                                    $(navBarTop).removeClass('navbar-fixed-top-admin');
+                                    var menuButton = document.getElementById('menuButton');
+                                    $(menuButton).removeClass('btn-danger');
+                                    var navHeader = document.getElementById('nav-header');
+                                    $(navHeader).removeClass('nav-header-admin');
+                                }
+                                var result = $('#refresh',html);
+                                $('#refresh').empty().html(result);
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
 
                     /* $("#submitButton").click(function(e) {
                      alert("JE SUIS LA");
@@ -189,6 +224,7 @@
 
 
                     $(".select2_demo_1").select2();
+
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -340,6 +376,56 @@
                     $('.popover-info').popover('hidden');
                     // $('#modal-tdb-tache').modal();
                 });
+
+                /* Afficher les clients archivés */
+                function clientsArchived(){
+                    // console.log("TEST checkbox");
+                    if($("#checkBoxClientsArchived").is(":checked")) {
+                        // checkbox is checked
+                        var table = document.getElementById("clientsTable");
+                        $(table).find('tbody')
+                                .append($('<tr>').attr('data-toggle','modal').attr('data-target','#myModal').attr('class','archived')
+                                        .append($('<td>').text('ArchivedName'))
+                                        .append($('<td>').text('ArchivedAdress'))
+                                        .append($('<td>').text('ArchivedNbContacts'))
+                                        .append($('<td>').text('ArchivedNbProjects'))
+                                        .append($('<td>').text('ArchivedNbTasks'))
+                                        .append($('<td>').text('ArchivedPriority'))
+                                        .append($('<td>').append($('<i>').attr('class','fa fa-times-circle'))));
+
+                        //console.log("CHECKED");
+                    } else {
+                        // checkbox is not checked
+                        //console.log("NOT CHECKED");
+                        $('.archived').hide();
+                    }
+                }
+
+                /* Afficher les utilisateurs archivés */
+                function utilisateursArchived(){
+                    $('#checkboxUsersArchived').change(function() {
+                        if($(this).is(":checked")) {
+                            console.log("CHECKED");
+                            if(!@requestUtilisateurs){
+                                $.ajax({
+                                    type :  "POST",
+                                    dataType: 'json',
+                                    url  :  "@routes.AdminController.afficherUtilisateursArchives()",
+                                    success: function(data){
+                                        console.log(data);
+                                    }
+                                });
+                                @requestUtilisateurs === true;
+                            }else{
+                                $('.archived').show();
+                            }
+                        } else {
+                            console.log("UNCHECKED");
+                            $('.archived').hide();
+                        }
+                    });
+                }
+
         </script>
     </body>
 </html>

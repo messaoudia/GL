@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Utilisateur;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -23,5 +24,9 @@ public class AdminController extends Controller{
 
     public Result afficherAdminUtilisateur() {
         return ok(adminUtilisateur.render("Admin Utilisateur", Utilisateur.getAllNonArchives()));
+    }
+
+    public Result afficherUtilisateursArchives() {
+        return ok(adminUtilisateur.render("Admin Utilisateur", Utilisateur.getAllArchives()));
     }
 }

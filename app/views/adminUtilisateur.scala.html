@@ -161,7 +161,7 @@
                     <div class="row row-options-admin-user">
                         <div class="col-sm-3">
                             <div class="checkbox checkbox-danger checkbox-circle">
-                                <input id="checkboxUsersArchived" class="styled" type="checkbox">
+                                <input id="checkboxUsersArchived" class="styled" type="checkbox" onclick="utilisateursArchived()">
                                 <label for="checkboxUsersArchived"> @Messages("showArchivedUsers") </label>
                             </div>
                         </div>
@@ -691,4 +691,4 @@
     </div>
 }
 
-@main(pageTitle,content, scripts)
+@main(pageTitle,content,scripts)
