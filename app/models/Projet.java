@@ -368,4 +368,16 @@ public class Projet extends EntiteSecurise {
         }
     }
     */
+
+    /**
+     * TODO testme
+     * Vérifier la cohérence des 4 dates (dateDebutTheorique <= dateDebutReel <= dateFinReel <= dateFinTheorique)
+     */
+    public boolean verifierCoherenceDesDates() {
+        if ((this.dateDebutTheorique.compareTo(this.dateDebutReel) < 1)
+                && (this.dateDebutReel.compareTo(this.dateFinReel) < 1)
+                && (this.dateFinReel.compareTo(this.dateFinTheorique) < 1))
+            return true;
+        else return false;
+    }
 }

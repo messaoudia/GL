@@ -76,7 +76,7 @@ public class Tache extends EntiteSecurise {
         this.chargeInitiale = chargeInitiale;
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
-        this.interlocuteurs = (interlocuteurs==null)?new BeanList<>():interlocuteurs;
+        this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
         this.projet = projet;
@@ -130,12 +130,12 @@ public class Tache extends EntiteSecurise {
         }
     }
 
-    public List<Tache> getSuccesseurs(){
-        return find.where().eq("predecesseur",this).findList();
+    public List<Tache> getSuccesseurs() {
+        return find.where().eq("predecesseur", this).findList();
     }
 
-    public List<Tache> getEnfants(){
-        return find.where().eq("parent",this).findList();
+    public List<Tache> getEnfants() {
+        return find.where().eq("parent", this).findList();
     }
 
     @Override
@@ -147,7 +147,7 @@ public class Tache extends EntiteSecurise {
         sb.append("\ndateFinTard : ").append(dateFinTard).append("\nchargeInitiale : ").append(chargeInitiale);
         sb.append("\nchargeConsommee : ").append(chargeConsommee).append("\nchargeTotale : ").append(chargeTotale);
         sb.append("\ninterlocuteurs : ");
-        for (Contact c :interlocuteurs) {
+        for (Contact c : interlocuteurs) {
             sb.append("\n\t").append(c);
         }
         sb.append("\nprojet : ").append(projet.nom);
@@ -185,6 +185,7 @@ public class Tache extends EntiteSecurise {
 
     /**
      * Cree une sous-tâche a cette tâche
+     *
      * @param fille
      */
     public void associerSousTache(Tache fille) throws IllegalStateException {
@@ -194,7 +195,7 @@ public class Tache extends EntiteSecurise {
         if (this.enfants.contains(fille)) {
             throw new IllegalStateException("Il y a deja cette tache enfant pour cette tache");
         }
-        fille.niveau = this. niveau+1;
+        fille.niveau = this.niveau + 1;
         fille.associerTacheMere(this);
         enfants.add(fille);
         save();
@@ -202,6 +203,7 @@ public class Tache extends EntiteSecurise {
 
     /**
      * Cree une tache mere a cette tâche
+     *
      * @param parent
      */
     public void associerTacheMere(Tache parent) throws IllegalStateException {
@@ -287,6 +289,7 @@ public class Tache extends EntiteSecurise {
 
     /**
      * TODO testme
+     *
      * @return la charge restante pour ce projet (en l'unité définie pour le projet)
      */
     public Double chargeRestante() {
@@ -295,14 +298,64 @@ public class Tache extends EntiteSecurise {
 
     /**
      * TODO testme
+     *
      * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
      */
     public boolean estDisponible() {
         return (predecesseur == null || predecesseur.chargeRestante() == 0.0);
     }
 
-    public boolean hasPredecesseur() { return predecesseur != null; }
+    public boolean hasPredecesseur() {
+        return predecesseur != null;
+    }
 
-    public boolean hasSuccesseur() { return !successeurs.isEmpty(); }
+    public boolean hasSuccesseur() {
+        return !successeurs.isEmpty();
+    }
+
+    /**
+     * TODO testme
+     * Vérifier la cohérence des 3 dates (dateDebut <= dateFinTot <= dateFinTard)
+     */
+    public boolean verifierCoherenceDesDates() {
+        if ((this.dateDebut.compareTo(this.dateFinTot) < 1) && (this.dateFinTot.compareTo(this.dateFinTard) < 1))
+            return true;
+        else return false;
+    }
+
+    /**
+     * TODO testme
+     * TODO A function may be needed: every time we update the chargeConsommee, we also need to update the chargeConsomme of its parent tache, may need to update avancement too
+     */
+    public Double getAvancementTache() {
+        return (chargeConsommee / chargeTotale);
+    }
+
+    /* TODO
+    public Double getAvancementSousTache() {
+
+    }
+    */
+
+    /**
+     * TODO testme
+     * Vérification de l'ordre des sous-taches (enfants)
+     * Parcourir la liste d'enfants, pour chaque sous-tache,
+     * on verifie que dateFinTard de predecesseur <= dateDebut de sous-tache
+     * et dateFinTard de sous-tache <= dateDebut de toutes les successeurs.
+     */
+    public boolean verifierOrdreSousTaches() {
+        for(Tache sousTache : enfants){
+            if(sousTache.hasPredecesseur()) {
+                if(sousTache.predecesseur.dateFinTard.after(sousTache.dateDebut)) return false;
+            }
+            if(sousTache.hasSuccesseur()) {
+                for(Tache successeur : sousTache.successeurs) {
+                    if(sousTache.dateFinTard.after(successeur.dateDebut)) return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
