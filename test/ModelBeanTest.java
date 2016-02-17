@@ -72,7 +72,7 @@ public class ModelBeanTest {
 
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
                     Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,9),24, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
+                    Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
             List<Projet> listProjet = new BeanList<>();
             listProjet.add(pr);
             Client cl = new Client("Applee",2,true, a1,listContacts, listProjet);
@@ -208,7 +208,7 @@ public class ModelBeanTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -237,7 +237,7 @@ public class ModelBeanTest {
             Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789","azertY1");
             u1.save();
             Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,contactList,pr);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,contactList,pr);
             tache.responsableTache = u1;
 
             c1.save();

@@ -291,7 +291,7 @@ public class Utilisateur extends Personne {
         }
 
         // Ajout de la tâche à la position n°pos_tache_2 dans la liste listTaches
-        listTachesProposees.add(listTaches.get(pos_tache_2))
+        listTachesProposees.add(listTaches.get(pos_tache_2));
 
         // Si pos_tache_2 = pos_tache_3, cela signifie qu’une seule tâche est // à proposer
         if (pos_tache_2 == pos_tache_3){
@@ -313,7 +313,7 @@ public class Utilisateur extends Personne {
         }
         catch(Exception e){
             t.priorite = 0;
-            Logger.warn("Priorite de la tache [" + t.nom + "] = 0 car : " e.getMessage());
+            Logger.warn("Priorite de la tache [" + t.nom + "] = 0 car : "+ e.getMessage());
         }
     }
 

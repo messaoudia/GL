@@ -119,7 +119,7 @@ public class ModelManagerTest {
             pr.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             pr.dateDebutReel = Utils.getDateFrom(2016,2,3);
             pr.dateFinReel = Utils.getDateFrom(2016,2,9);
-            pr.chargeInitiale = 24;
+            pr.chargeInitiale = 24D;
             pr.unite = UniteProjetEnum.SEMAINE;
             pr.avancementGlobal = new Byte("0");
 
@@ -150,7 +150,7 @@ public class ModelManagerTest {
             pr.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             pr.dateDebutReel = Utils.getDateFrom(2016,2,3);
             pr.dateFinReel = Utils.getDateFrom(2016,2,9);
-            pr.chargeInitiale = 24;
+            pr.chargeInitiale = 24D;
             pr.unite = UniteProjetEnum.SEMAINE;
             pr.avancementGlobal = new Byte("0");
 
@@ -185,7 +185,7 @@ public class ModelManagerTest {
             pr.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             pr.dateDebutReel = Utils.getDateFrom(2016,2,3);
             pr.dateFinReel = Utils.getDateFrom(2016,2,9);
-            pr.chargeInitiale = 24;
+            pr.chargeInitiale = 24D;
             pr.unite = UniteProjetEnum.SEMAINE;
             pr.avancementGlobal = new Byte("0");
             pr.enCours = true;
@@ -212,7 +212,7 @@ public class ModelManagerTest {
             pr.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             pr.dateDebutReel = Utils.getDateFrom(2016,2,3);
             pr.dateFinReel = Utils.getDateFrom(2016,2,9);
-            pr.chargeInitiale = 24;
+            pr.chargeInitiale = 24D;
             pr.unite = UniteProjetEnum.SEMAINE;
             pr.avancementGlobal = new Byte("0");
             pr.enCours = true;
@@ -249,7 +249,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -259,11 +259,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
 
 
             projet.ajouterTache(tache1);
@@ -297,7 +297,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -307,9 +307,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheApres = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tacheAvant = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,1,1),
-                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20D,0D,20D,null,null);
             tacheApres.associerResponsable(Utilisateur.find.all().get(0));
             tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
 
@@ -346,7 +346,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -356,11 +356,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,1,1),
-                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20D,0D,20D,null,null);
             Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
 
 
             projet.ajouterTache(tache1);
@@ -398,7 +398,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -408,9 +408,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheAvant = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tacheApres = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
             tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
             tacheApres.associerResponsable(Utilisateur.find.all().get(0));
 
@@ -448,7 +448,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -458,7 +458,7 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
 
             projet.ajouterTache(tache1);
             projet.ajouterTache(tache1);
@@ -480,7 +480,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -490,11 +490,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tache2 = new Tache("Etude FACEBOOK 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tache3 = new Tache("Etude FACEBOOK 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
 
             projet.ajouterTache(tache1);
             projet.insererTacheApres(tache1,tache2);
@@ -531,7 +531,7 @@ public class ModelManagerTest {
         running(fakeApplication(), ()-> {
 
             Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
 
             Projet.find.all().get(0).supprimerTache(tache1);
         });
@@ -621,9 +621,9 @@ public class ModelManagerTest {
             tache.dateFinTot = Utils.getDateFrom(2016,12,1);
             tache.dateFinTard = Utils.getDateFrom(2016,12,1);
             tache.description = "description tache11111";
-            tache.chargeConsommee = 10;
-            tache.chargeInitiale = 10;
-            tache.chargeTotale = 10;
+            tache.chargeConsommee = 10D;
+            tache.chargeInitiale = 10D;
+            tache.chargeTotale = 10D;
             tache.save();
 
             projet.ajouterTache(tache);
@@ -700,9 +700,9 @@ public class ModelManagerTest {
             Tache tache = new Tache();
             tache.nom = "Tache1111";
             tache.description = "description tache11111";
-            tache.chargeConsommee = 10;
-            tache.chargeInitiale = 10;
-            tache.chargeTotale = 10;
+            tache.chargeConsommee = 10D;
+            tache.chargeInitiale = 10D;
+            tache.chargeTotale = 10D;
             tache.save();
 
             Tache tache2 = new Tache();
@@ -749,7 +749,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -759,9 +759,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheMere = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tacheFille = new Tache("Etude 22","Cette tâche permet de réaliser l'étude poussée du projet",0,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
             tacheMere.associerResponsable(Utilisateur.find.all().get(0));
             tacheFille.associerResponsable(Utilisateur.find.all().get(0));
 
@@ -802,7 +802,7 @@ public class ModelManagerTest {
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
             projet.dateFinReel = Utils.getDateFrom(2016,2,9);
-            projet.chargeInitiale = 24;
+            projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
             projet.enCours = true;
@@ -812,9 +812,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheMere = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
             Tache tacheFille = new Tache("Etude 22","Cette tâche permet de réaliser l'étude poussée du projet",0,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20,0,20,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
             tacheMere.associerResponsable(Utilisateur.find.all().get(0));
             tacheFille.associerResponsable(Utilisateur.find.all().get(0));
 
