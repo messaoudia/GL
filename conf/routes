@@ -48,3 +48,6 @@ GET         /adminUtilisateur          controllers.AdminController.afficherAdmin
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
 
 POST        /ajouterProjet             controllers.ProjetController.ajouterProjet
+
+#view notification
+GET         /notifications             controllers.NotificationController.afficherNotifications
