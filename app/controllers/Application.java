@@ -1,5 +1,6 @@
 package controllers;
 
+import play.Logger;
 import play.Routes;
 import play.api.i18n.Lang;
 import play.mvc.Controller;
@@ -75,6 +76,14 @@ public class Application extends Controller {
             ctx().changeLang(Lang.apply$default$2());
         }
         return redirect(request().body().asFormUrlEncoded().get("return_url")[0]);
+    }
+
+    public Result changeLangue(String lang) {
+        //ctx().changeLang(lang);
+
+        Controller.changeLang(lang);
+        Logger.debug(request().getHeader("referer").toString());
+        return redirect(request().getHeader("referer"));
     }
 
 }

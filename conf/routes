@@ -4,6 +4,7 @@
 
 # i18n route
 POST        /changeLanguage            controllers.Application.changeLanguage()
+GET         /changerLangue             controllers.Application.changeLangue(lang: String)
 
 # Home page
 GET         /                          controllers.Application.index()
