@@ -116,3 +116,4 @@ clients = Clients
 createProject = Créer un projet
 createCustomer = Créer un Client
 user = Utilisateur
+dashboard = Tableau de bord

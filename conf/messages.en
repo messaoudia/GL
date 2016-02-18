@@ -116,3 +116,4 @@ clients = Customers
 createProject = Create a project
 createCustomer = Create a customer
 user = User
+dashboard = Dashboard

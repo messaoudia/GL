@@ -14,19 +14,19 @@
                 @if(menu.equals("Dashboard")) {
                     <li class="liclickable active sidebar-btn-green" data-infos="DashboardController.afficherDashboard()">
                         <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Dashboard</span></a>
+                        @Messages("dashboard")</span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-green" data-infos="DashboardController.afficherDashboard()">
                         <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Dashboard</span></a>
+                        @Messages("dashboard")</span></a>
                     </li>
                 }
 
                 @if(menu.equals("Projet")) {
                     <li class="liclickable active sidebar-btn-green" data-infos="ProjetController.afficherProjets()">
                         <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            @Messages("projects")</span></a>
+                        @Messages("projects")</span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-green" data-infos="ProjetController.afficherProjets()">
