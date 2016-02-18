@@ -203,10 +203,12 @@
                     // activate Nestable for list 1
 
                     $(".select2_demo_1").select2();
+
+                    $('[data-toggle="popover"]').popover()
                 });
 
                 $( document ).ajaxComplete(function() {
-
+                    $('[data-toggle="popover"]').popover()
                     // activate Nestable for list 1
                     $('#nestable').nestable({
                         group: 1,
@@ -358,11 +360,8 @@
                      */
 
                     $('.footable').footable();
-                    $('#popover-infodashboard').popover('hidden');
-                    $('#popover-langue').popover('hidden');
 
                     // $('#modal-tdb-tache').modal();
-
 
                 });
         </script>

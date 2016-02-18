@@ -21,7 +21,6 @@
                         }
                     });
                 });
-
             });
     </script>
 }
@@ -130,11 +129,9 @@
                                             <p class="row-consommee">Consommée : 30J</p>
                                         </div>
                                         <div class="col-xs-3">
-                                            <button class="btn btn-circle popover-info" style="color: #ffffff ;" type="button" data-container=
-                                            "body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><div class="cercle cercle-indisponible"></div> Indisponible</p><p><div class="cercle cercle-termine"></div> Terminé</p><p><div class="cercle cercle-ret
-ard"></div> En retard</p>'>
+                                            <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
                                                 <i class="fa fa-info"></i>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 14px ;">
