@@ -108,3 +108,4 @@ projectPersonResponsible = Project manager
 saveProject = Save project
 createSubTask = Create subtask
 createTask = Create task
+chooseProjectManager = Choose a project manager

@@ -108,3 +108,4 @@ consumedWorkload = Charge consommée
 remainingWorkload = Charge restante
 day-first-letter = J
 week-first-letter = S
+chooseProjectManager = Choisir un responsable de projet
