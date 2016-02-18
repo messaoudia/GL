@@ -164,6 +164,7 @@
                 $requestUtilisateursArchives = false;
                 $requestClientsArchives = false;
                 $(document).ready(function () {
+                    $(".select2-input").select2();
 
                     /* $("#submitButton").click(function(e) {
                      alert("JE SUIS LA");
@@ -204,19 +205,32 @@
 
                     // activate Nestable for list 1
 
-                    $(".select2_demo_1").select2();
-
                     $('[data-toggle="popover"]').popover()
+
                 });
 
                 $( document ).ajaxComplete(function() {
-                    $(".select2_demo_1").select2();
-                    $(".select2_demo_2").select2();
-                    $(".select2_demo_3").select2({
-                        placeholder: "Select a state",
-                        allowClear: true
+                    $(".select2-predecesseur").select2({
+                        placeholder : '@Messages("choosePredecessor")...',
+                        maximumSelectionLength: 1
                     });
 
+                    $(".select2-successeur").select2({
+                        placeholder : '@Messages("chooseSuccessor")...'
+                    });
+                    $(".select2-client").select2({
+                        placeholder : '@Messages("chooseClient")...',
+                        maximumSelectionLength: 1
+                    });
+
+                    $(".select2-respo-projet").select2({
+                        placeholder : '@Messages("chooseProjectManager")...',
+                        maximumSelectionLength: 1
+                    });
+                    $(".select2-respo-tache").select2({
+                        placeholder : '@Messages("chooseTaskResponsible")...',
+                        maximumSelectionLength: 1
+                    });
 
                     $('[data-toggle="popover"]').popover()
                     // activate Nestable for list 1
