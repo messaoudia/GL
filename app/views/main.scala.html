@@ -1,5 +1,4 @@
 @(pageTitle: String, content: Html, script: Html)
-@import java.lang.Boolean; var requestUtilisateurs = false;
 
 <!DOCTYPE html>
 <html>
@@ -152,6 +151,7 @@
         <script src="/js/projet.js"></script>
 
         <script>
+                $requestUtilisateurs = false;
                 $(document).ready(function () {
 
                     $('.liclickable').click(function (e) {
@@ -406,16 +406,32 @@
                     $('#checkboxUsersArchived').change(function() {
                         if($(this).is(":checked")) {
                             console.log("CHECKED");
-                            if(!@requestUtilisateurs){
-                                $.ajax({
-                                    type :  "POST",
-                                    dataType: 'json',
-                                    url  :  "@routes.AdminController.afficherUtilisateursArchives()",
-                                    success: function(data){
+                            if(!$requestUtilisateurs){
+
+                                jsRoutes.controllers.AdminController.afficherUtilisateursArchives().ajax({
+                                    success : function(data) {
+                                        var utilisateurList = $('#dataTables-admin-user-body');
                                         console.log(data);
+                                        $("#dataTables-admin-user").dataTable().fnDestroy();
+                                        $(data).each(function(index, utilisateur) {
+                                            var list ="";
+                                            list+=('<tr class="archived">');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.nom+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.prenom+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.email+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.telephone+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listProjetsResponsableSize+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listTachesSize+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("Yes")</td>');
+                                            list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>');
+                                            list+=('</tr>');
+
+                                            utilisateurList.append(list);
+                                        });
                                     }
                                 });
-                                @requestUtilisateurs === true;
+
+                                $requestUtilisateurs = true;
                             }else{
                                 $('.archived').show();
                             }

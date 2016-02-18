@@ -182,7 +182,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody id="dataTables-admin-user-body">
                                 <!-- Boucle sur la liste des utilisateurs -->
                                 @for(utilisateur <- utilisateurs) {
                                     <tr>
@@ -190,8 +190,8 @@
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.telephone</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listProjetsResponsable().size()</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.getListTaches().size()</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listProjetsResponsableSize()</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listTachesSize()</td>
                                         @if(utilisateur.archive){
                                             <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">
                                             @Messages("Yes")

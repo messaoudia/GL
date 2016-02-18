@@ -1,7 +1,10 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Tache;
 import models.Utilisateur;
+import play.Logger;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.adminClients;
@@ -27,6 +30,7 @@ public class AdminController extends Controller{
     }
 
     public Result afficherUtilisateursArchives() {
-        return ok(adminUtilisateur.render("Admin Utilisateur", Utilisateur.getAllArchives()));
+        Logger.debug(Utilisateur.getAllArchives().toString());
+        return ok(Json.toJson(Utilisateur.getAllArchives()));
     }
 }
