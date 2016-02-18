@@ -163,6 +163,21 @@
         <script>
                 $(document).ready(function () {
 
+                    $('#notifTopBar').click(function (e) {
+                        e.preventDefault();
+                        jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html).html();
+                                $('#refresh').empty().html(result);
+
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
+
                     $("#submitButton").click(function(e) {
                         var $form = $('#addProjectForm');
                         var $serialize= $form.serialize();
@@ -181,13 +196,9 @@
                     });
 
                     $('#dataTables-admin-projet tbody tr td:not(:last-child)').click(function (e) {
+                        var $value = $(this).parent('tr').attr('value');
 
-                        /*var self = $(this),
-                         controler = self.data('infos') || self.attr('data-infos');
-                         $('#sidebar ul li').removeClass('active');
-                         $(this).addClass('active');
-
-                         eval("jsRoutes.controllers."+controler).ajax({
+                         jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($value).ajax({
                          success: function(html) {
                          var result = $('#refresh',html);
                          $('#refresh').empty().html(result);
@@ -196,8 +207,8 @@
                          error: function(errorMessage){
                          alert(errorMessage);
                          }
-                         });*/
-                        alert('totoo');
+                         });
+
                     });
 
                     $('#nestable').nestable({
@@ -229,6 +240,8 @@
                 });
 
                 $( document ).ajaxComplete(function() {
+
+
                     $('[data-toggle="popover"]').popover()
                     // activate Nestable for list 1
                     $('#nestable').nestable({
@@ -236,6 +249,20 @@
                         maxDepth: 4
                     }).on('change');
 
+                    $('#notifTopBar').click(function (e) {
+                        e.preventDefault();
+                        jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html).html();
+                                $('#refresh').empty().html(result);
+
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
 
                     $('#dataTables-tdb-projet').DataTable();
 

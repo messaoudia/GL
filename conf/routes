@@ -51,3 +51,5 @@ POST        /ajouterProjet             controllers.ProjetController.ajouterProje
 
 #view notification
 GET         /notifications             controllers.NotificationController.afficherNotifications
+
+POST        /adminProjetSelct          controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)

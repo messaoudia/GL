@@ -82,22 +82,6 @@
                 }
             }
 
-            $('#notifTopBar').click(function (e) {
-                e.preventDefault();
-                jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
-                    success: function(html) {
-                        var result = $('#refresh',html).html();
-                        $('#refresh').empty().html(result);
-
-                    },
-                    //Case we have a problem
-                    error: function(errorMessage){
-                        alert(errorMessage);
-                    }
-                });
-            });
-
-
     </script>
 }
 

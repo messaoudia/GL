@@ -23,7 +23,6 @@ public class ProjetController extends Controller{
     public Result ajouterProjet() {
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         final Form<Projet> projetForm = form(Projet.class).bindFromRequest();
-
         System.out.println(map.get("priorite")[0]);
         return ok();
     }
