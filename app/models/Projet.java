@@ -247,7 +247,7 @@ public class Projet extends EntiteSecurise {
         }
 
         /* Suppression/archivage */
-        if (tache.chargeConsommee == 0.0) {
+        if (tache.getChargeConsommee() == 0.0) {
             Tache.find.deleteById(tache.id);
         }else{
             tache.archive = true;
