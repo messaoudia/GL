@@ -5,15 +5,12 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Securite.EntiteSecurise;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.Logger;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -33,7 +30,7 @@ public class Client extends EntiteSecurise {
     public Boolean archiver;
 
     @OneToOne
-    @JsonRawValue
+    @JsonInclude
     public Adresse adresseClient;
 
     @OneToMany(mappedBy = "client",cascade = CascadeType.ALL)

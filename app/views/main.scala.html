@@ -391,7 +391,9 @@
                                             var list ="";
                                             list+=('<tr class="archived">');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.nom+'</td>');
-                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.adresseClient+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+
+                                            client.adresseClient.adresse+", "+client.adresseClient.zipCode+", "+client.adresseClient.ville+", "+client.adresseClient.pays+
+                                            '</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listContactsSize+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listProjetsSize+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listTachesSize+'</td>');
