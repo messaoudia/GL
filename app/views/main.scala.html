@@ -1,4 +1,4 @@
-@(pageTitle: String, content: Html, script: Html)
+@(pageTitle: String, content: Html, scripts: Html)
 
 <!DOCTYPE html>
 <html>
@@ -15,7 +15,6 @@
         <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
         <link href="/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
         <link href="/css/animate.css" rel="stylesheet">
-        <link href="/css/style.css" rel="stylesheet">
 
         <link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
@@ -36,6 +35,8 @@
         <link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
         <link href="/css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
         <link href="/css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+
     </head>
 
     <body class="md-skin fixed-sidebar fixed-nav pace-done">
@@ -45,9 +46,11 @@
 
             <!--########### End  - Main HTML Content  ########### -->
 
+
             <!-- Mainly scripts -->
         <script src="/assets/js/jquery-2.1.1.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
+
         <script src="/assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="/assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
@@ -147,47 +150,19 @@
             <!-- Select2 -->
         <script src="/js/plugins/select2/select2.full.min.js"></script>
 
+            <!-- Nestable -->
+        <script src="/js/plugins/nestable/jquery.nestable.js"></script>
+
             <!-- Projet -->
         <script src="/js/projet.js"></script>
 
+            <!-- Menu -->
+        <script src="/js/menu.js"></script>
+
+        @scripts
         <script>
                 $requestUtilisateurs = false;
                 $(document).ready(function () {
-
-                    $('.liclickable').click(function (e) {
-                        e.preventDefault();
-                        var self = $(this),
-                                controler = self.data('infos') || self.attr('data-infos');
-                        $("#sidebar ul li").removeClass('active');
-                        $(this).addClass('active');
-
-                        eval("jsRoutes.controllers."+controler).ajax({
-                            success: function(html) {
-                                if(controler.substring(0,15) === 'AdminController'){
-                                    var navBarTop = document.getElementById('navBarTop');
-                                    $(navBarTop).addClass('navbar-fixed-top-admin');
-                                    var menuButton = document.getElementById('menuButton');
-                                    $(menuButton).addClass('btn-danger');
-                                    var navHeader = document.getElementById('nav-header');
-                                    $(navHeader).addClass('nav-header-admin');
-
-                                }else{
-                                    var navBarTop = document.getElementById('navBarTop');
-                                    $(navBarTop).removeClass('navbar-fixed-top-admin');
-                                    var menuButton = document.getElementById('menuButton');
-                                    $(menuButton).removeClass('btn-danger');
-                                    var navHeader = document.getElementById('nav-header');
-                                    $(navHeader).removeClass('nav-header-admin');
-                                }
-                                var result = $('#refresh',html);
-                                $('#refresh').empty().html(result);
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
-                    });
 
                     /* $("#submitButton").click(function(e) {
                      alert("JE SUIS LA");
@@ -205,6 +180,10 @@
                      });
                      });
                      */
+                    $('#nestable').nestable({
+                        group: 1
+                    }).on('change');
+
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Tache').dataTable( {
@@ -222,12 +201,29 @@
                         height: '85px'
                     });
 
+                    // activate Nestable for list 1
 
                     $(".select2_demo_1").select2();
 
+                    $('[data-toggle="popover"]').popover()
                 });
 
                 $( document ).ajaxComplete(function() {
+                    $(".select2_demo_1").select2();
+                    $(".select2_demo_2").select2();
+                    $(".select2_demo_3").select2({
+                        placeholder: "Select a state",
+                        allowClear: true
+                    });
+
+
+                    $('[data-toggle="popover"]').popover()
+                    // activate Nestable for list 1
+                    $('#nestable').nestable({
+                        group: 1,
+                        maxDepth: 4
+                    }).on('change');
+
 
                     $('#dataTables-tdb-projet').DataTable();
 
@@ -373,8 +369,9 @@
                      */
 
                     $('.footable').footable();
-                    $('.popover-info').popover('hidden');
+
                     // $('#modal-tdb-tache').modal();
+
                 });
 
                 /* Afficher les clients archivés */

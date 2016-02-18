@@ -21,142 +21,16 @@
                         }
                     });
                 });
-
             });
     </script>
 }
 
 @content = {
     <div id="wrapper" class="ng-scope">
-        <div class="ng-scope">
-            <nav class="navbar-default navbar-static-side ng-scope" role="navigation">
-                <div id="sidebar" class="sidebar-collapse">
-                    <ul class="nav metismenu" id="side-menu">
-                        <li class="nav-header">
-                            <div>
-                                <span><img alt="image" class="img-circle" src="img/profile_small.jpg" /></span>
-                                <span class="block m-t-xs" style="color:white;"> <strong class="font-bold">David Williams</strong> </span>
-                            </div>
-                        </li>
-
-                        <li class="liclickable" data-infos="DashboardController.afficherDashboard()">
-                            <a ><img src="img/MyIcons/png/map158.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Dashboard</span></a>
-                        </li>
-
-                        <li class="liclickable active" data-infos="ProjetController.afficherProjets()">
-                            <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Projets</span></a>
-                        </li>
-                        <li class="liclickable" data-infos="ClientController.afficherClients()">
-                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Clients</span></a>
-
-                        </li>
-                        <li class="liclickable" data-infos="ProjetController.afficherCreerProjet()">
-                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un projet</span></a>
-                        </li>
-                        <li class="liclickable" data-infos="ClientController.afficherCreerClient()">
-                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px;">Créer un client</span></a>
-
-                        </li>
-
-                        <li style="pointer-events: none; cursor: default; background-color:red;">
-                        <a> <span class="nav-label" style="color:white; padding-right:10px;" >Administrateur </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
-                        </li>
-
-                        <li class="liclickable" data-infos="AdminController.afficherAdminProjets()">
-                            <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;"class="nav-label">Projets </span></a>
-                        </li>
-                        <li class="liclickable" data-infos="AdminController.afficherAdminClients()">
-                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Clients </span></a>
-                        </li>
-                        <li class="liclickable" data-infos="AdminController.afficherAdminUtilisateur()">
-                            <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px;"> <span style="padding-left:7px;" class="nav-label">Utilisateur </span></a>
-
-                        </li>
-
-                    </ul>
-
-                </div>
-            </nav>
-        </div>
+        @sidebar("Projet")
 
         <div id="page-wrapper" class="gray-bg dashbard-1">
-            <div class="row border-bottom">
-                <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    </div>
-                    <ul class="nav navbar-top-links navbar-right">
-                        <li>
-                            <a class="welcome-message">Langage</a>
-                        </li>
-
-                        <li class="dropdown" dropdown="">
-                            <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" aria-expanded="true">
-                                <i class="fa fa-bell"></i>  <span class="label label-warning">8</span>
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-messages">
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="img/a7.jpg">
-                                        </a>
-                                        <div class="media-body">
-                                            <small class="pull-right">46h ago</small>
-                                            <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                                            <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" src="img/a4.jpg">
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right text-navy">5h ago</small>
-                                            <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-                                            <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="dropdown-messages-box">
-                                        <a href="profile.html" class="pull-left">
-                                            <img alt="image" class="img-circle" 1>
-                                        </a>
-                                        <div class="media-body ">
-                                            <small class="pull-right">23h ago</small>
-                                            <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-                                            <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <div class="text-center link-block">
-                                        <a href="mailbox.html">
-                                            <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                    <li>
-                        <a href="login.html">
-                            <i class="fa fa-sign-out"></i> Déconnexion
-                        </a>
-                    </li>
-                        <li>
-                            <a class="right-sidebar-toggle">
-                                <i class="fa fa-tasks"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-
+            @topbar()
 
 
             <div id="refresh" >
@@ -166,7 +40,7 @@
                 <div class="row">
                     <div class="col-md-2" style="background-color: #f2dede ; height: 100% ;">
 
-                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                        <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
                             <div class="sidebar-projet select">
                                 <div class="content">
                                     <div class="sidebar-projet-nom">myProject</div>
@@ -177,7 +51,7 @@
                         </div>
 
 
-                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                        <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
                             <div class="sidebar-projet">
                                 <div class="content">
                                     <div class="sidebar-projet-nom">BigData</div>
@@ -203,12 +77,13 @@
                     <div class="col-md-10">
 
                         <div id="div-consulterProjet">
-                            <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px; padding-right: 0px;">
+                            <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
 
                                 <div class="col-sm-4">
                                     <h3 class="header-text">Projet : myProjects <div class="priorite">1</div> </h3>
                                     <h3 class="header-text">Client : PoPS5I Inc. <div class="priorite">2</div> </h3>
-                                    <textarea readonly class="description" style="width: 100% ;">Le but étant de développer un site web permettant le suivi de projet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam. Sed dapibus est id enim facilisis, at posuere turpis adipiscing. Quisque sit amet dui dui
+                                    <textarea readonly class="description" style="width: 100% ;">
+                                        Le but étant de développer un site web permettant le suivi de projet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam. Sed dapibus est id enim facilisis, at posuere turpis adipiscing. Quisque sit amet dui dui
                                         .</textarea>
                                 </div>
 
@@ -222,7 +97,7 @@
                                                 <td>
                                                     Du <div class="date-projet">14/10/2015</div>
                                                 </td>
-                                                <td style="padding-left: 3px; padding-right: 3px;">au</td>
+                                                <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
                                                 <td>
                                                     <div class="date-projet">01/02/2016</div>
                                                 </td>
@@ -240,7 +115,7 @@
 
                                 <div class="col-sm-3">
 
-                                    <div class="row" style="padding-top: 10px;">
+                                    <div class="row" style="padding-top: 10px ;">
 
                                         <div class="col-xs-9">
                                             <div class="row-initiale">Initiale : 50J</div>
@@ -254,17 +129,15 @@
                                             <p class="row-consommee">Consommée : 30J</p>
                                         </div>
                                         <div class="col-xs-3">
-                                            <button class="btn btn-circle popover-info" style="color: #ffffff ;" type="button" data-container=
-                                            "body" data-toggle="popover" data-placement="bottom" data-html="true" data-content='<p><div class="cercle cercle-indisponible"></div> Indisponible</p><p><div class="cercle cercle-termine"></div> Terminé</p><p><div class="cercle cercle-ret
-ard"></div> En retard</p>'>
+                                            <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
                                                 <i class="fa fa-info"></i>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top: 14px;">
-                                        <div style="margin-top:14px;">
+                                    <div class="row" style="margin-top: 14px ;">
+                                        <div style="margin-top:14px ;">
 
-                                            <button id="btn-modifierProjet" class="btn btn-info" type="button" style="padding: 3px 7px; float: right; border-radius: 0px 0 0 0; background-color: #1AB394"><i class="fa fa-pencil"></i>
+                                            <button id="btn-modifierProjet" class="btn btn-info" type="button" style="padding: 3px 7px ; float: right ; border-radius: 0px 0 0 0 ; background-color: #1AB394"><i class="fa fa-pencil"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -275,11 +148,11 @@ ard"></div> En retard</p>'>
                             </div>
                         </div>
 
-                        <div id="div-modifierProjet" style="display: none;">
+                        <div id="div-modifierProjet" style="display: none ;">
                             <form id="addProjectForm" class="m-t" role="form" method="POST">
 
                                 <div class="wrapper wrapper-content">
-                                    <div class="ibox fadeInRightBig" style="background-color: #FFF; max-width: 100%;">
+                                    <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
                                         <div class="ibox-content">
                                             <div class="row">
                                                 <div class="col-sm-offset-2 col-sm-8">
@@ -324,7 +197,7 @@ ard"></div> En retard</p>'>
                                                         </div>
 
                                                         <div class="col-sm-12">
-                                                            <textarea style="height: 260px; width:100%;"></textarea>
+                                                            <textarea style="height: 260px ; width:100% ;"></textarea>
                                                         </div>
                                                     </div>
 
@@ -332,7 +205,7 @@ ard"></div> En retard</p>'>
                                             </div>
 
                                         </div>
-                                        <div class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;">
+                                        <div class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ;">
 
                                             <h3>@Messages("saveProject")</h3>
                                         </div>
@@ -342,7 +215,6 @@ ard"></div> En retard</p>'>
 
                             </form>
                         </div>
-
                         <div style="margin-top: 30px ;" class="row wrapper wrapper-content white-bg">
                             <div style="margin:auto ;">
                                 <div class="tab-pane active">
@@ -365,6 +237,114 @@ ard"></div> En retard</p>'>
                                                     </label>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="ibox-content">
+
+                                            <p  class="m-b-lg">
+                                                <strong>Nestable</strong> is an interactive hierarchical list. You can drag and drop to rearrange the order. It works well on touch-screens.
+                                            </p>
+
+                                            <div class="dd" id="nestable">
+                                                <ol class="dd-list">
+                                                    <li class="dd-item" data-id="1">
+                                                        <div class="dd-handle" style="padding:0px;">
+                                                            <div class="row row-nestable">
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
+                                                                    <div class="row row-nestable">21/12/1222</div>
+                                                                    <div class="row row-nestable">45/32/2345</div>
+                                                                </div>
+                                                                <div class="col-middle" style="width:22%;border-right: 1px solid #EBEBEB;">
+                                                                    <div class="row row-initiale row-nestable">Initiale : 30J</div>
+                                                                    <div class="row row-restante row-nestable">Totale : 18J</div>
+                                                                    <div class="row progress progress-bar-default row-nestable">
+                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                                                            60%
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row row-consommee row-nestable">Consommée : 30J</div>
+                                                                </div>
+
+                                                                <div class="col-middle" style="width:22%;border-right: 1px solid #EBEBEB;">
+                                                                    <div class="row row-nestable">Précédente : 4.1</div>
+                                                                    <div class="row row-nestable dd-nodrag">
+                                                                        Suivantes :
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                8 tâches <span class="caret"></span>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                <li>5.1</li>
+                                                                                <li>5.1</li>
+                                                                                <li>5.1</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-middle dd-nodrag" style="width:3%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                <div class="col-middle dd-nodrag" style="width:3%;"><i class="fa fa-bell-slash-o"></i></div>
+                                                            </div>
+                                                            <div class="row row-nestable" style="background-color:green; height:25px;">
+
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="dd-item" data-id="2">
+                                                        <div class="dd-handle">
+                                                            <tr>
+                                                                <td>Toto</td>
+                                                                <td>Daro Heng</td>
+                                                                <td>01/01/2000</td>
+                                                                <td>
+                                                                    <div class="row">02/02/2002</div>
+                                                                    <div class="row">04/04/2004</div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="row row-initiale">Initiale : 30J</div>
+                                                                    <div class="row row-restante">Totale : 18J</div>
+                                                                    <div class="row progress progress-bar-default">
+                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                                                            60%
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row row-consommee">Consommée : 30J</div>
+                                                                </td>
+                                                            </tr>
+                                                        </div>
+                                                        <ol class="dd-list">
+                                                            <li class="dd-item" data-id="3">
+                                                                <div class="dd-handle">3 - Adipiscing elit</div>
+                                                            </li>
+                                                            <li class="dd-item" data-id="4">
+                                                                <div class="dd-handle">4 - Nonummy nibh</div>
+                                                            </li>
+                                                        </ol>
+                                                    </li>
+                                                    <li class="dd-item" data-id="5">
+                                                        <div class="dd-handle">5 - Consectetuer</div>
+                                                        <ol class="dd-list">
+                                                            <li class="dd-item" data-id="6">
+                                                                <div class="dd-handle">6 - Aliquam erat</div>
+                                                            </li>
+                                                            <li class="dd-item" data-id="7">
+                                                                <div class="dd-handle">7 - Veniam quis</div>
+                                                            </li>
+                                                        </ol>
+                                                    </li>
+                                                    <li class="dd-item" data-id="8">
+                                                        <div class="dd-handle">8 - Tation ullamcorper</div>
+                                                    </li>
+                                                    <li class="dd-item" data-id="9">
+                                                        <div class="dd-handle">9 - Ea commodo</div>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                            <div class="m-t-md">
+                                                <h5>Serialised Output</h5>
+                                            </div>
+                                            <textarea id="nestable-output" class="form-control"></textarea>
                                         </div>
 
                                         <div class="wrapper wrapper-content">
@@ -439,29 +419,29 @@ ard"></div> En retard</p>'>
                                                                 <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
                                                             </tr>
                                                             <tr id="">
-                                                                <td colspan="9" style="padding:0px;">
-                                                                    <div class="row" style="margin-right: 0px;margin-left: 0px; text-align: center; background-color: #1ab394;">
+                                                                <td colspan="9" style="padding:0px ;">
+                                                                    <div class="row" style="margin-right: 0px ; margin-left: 0px ; text-align: center ; background-color: #1ab394 ;">
 
                                                                         <div class="col-sm-4 normal">
                                                                             <i id="boutonPlusCreerTache" class="fa fa-plus-circle" style=""> </i>
 
-                                                                            <i id="barreCreerTachei" class="fa fa-arrow-right" style="color: #fff; cursor: pointer;">
-                                                                                <p style="display:inline;">
+                                                                            <i id="barreCreerTachei" class="fa fa-arrow-right" style="color: #fff ; cursor: pointer ;">
+                                                                                <p style="display:inline ;">
                                                                                 @Messages("createSubTask")
                                                                                 </p>
                                                                             </i>
 
                                                                         </div>
                                                                         <div class="col-sm-4 normal">
-                                                                            <i id="barreCreerTachei" class="fa fa-arrow-down" style="color: #fff; cursor: pointer;">
-                                                                                <p style="display:inline;">
+                                                                            <i id="barreCreerTachei" class="fa fa-arrow-down" style="color: #fff ; cursor: pointer ;">
+                                                                                <p style="display:inline ;">
                                                                                 @Messages("createTask")
                                                                                 </p>
                                                                             </i>
                                                                         </div>
-                                                                        <div class="col-sm-4 normal" style="border:none;">
-                                                                            <i id="barreCreerTachei" class="fa fa-arrow-up" style="color: #fff; cursor: pointer;">
-                                                                                <p style="display:inline;">
+                                                                        <div class="col-sm-4 normal" style="border:none ;">
+                                                                            <i id="barreCreerTachei" class="fa fa-arrow-up" style="color: #fff ; cursor: pointer ;">
+                                                                                <p style="display:inline ;">
                                                                                 @Messages("createTask")
                                                                                 </p>
                                                                             </i>
@@ -527,12 +507,12 @@ ard"></div> En retard</p>'>
                                                                     </div>
                                                                 </td>
                                                                 <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                                <td style="vertical-align:middle ;" style="padding:0px;">
+                                                                <td style="vertical-align:middle ;" style="padding:0px ;">
                                                                     <div style="display: block ;">
-                                                                        <div class="priorite" style="width: 100%;cursor: pointer;"> <i class="fa fa-arrow-left"> </i> </div>
-                                                                        <div class="priorite" style="width: 100%; margin-top:5px; cursor: pointer;"> <i class="fa fa-arrow-right"> </i> </div>
-                                                                        <div class="priorite" style="width: 100%; margin-top:5px; cursor: pointer;"> <i class="fa fa-arrow-up"> </i> </div>
-                                                                        <div class="priorite" style="width: 100%; margin-top:5px; cursor: pointer;"> <i class="fa fa-arrow-down"> </i> </div>
+                                                                        <div class="priorite" style="width: 100% ; cursor: pointer ;"> <i class="fa fa-arrow-left"> </i> </div>
+                                                                        <div class="priorite" style="width: 100% ; margin-top:5px ; cursor: pointer ;"> <i class="fa fa-arrow-right"> </i> </div>
+                                                                        <div class="priorite" style="width: 100% ; margin-top:5px ; cursor: pointer ;"> <i class="fa fa-arrow-up"> </i> </div>
+                                                                        <div class="priorite" style="width: 100% ; margin-top:5px ; cursor: pointer ;"> <i class="fa fa-arrow-down"> </i> </div>
 
                                                                     </div>
                                                                 </td>
@@ -728,360 +708,10 @@ ard"></div> En retard</p>'>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                               </div>
-
-
-
-            <div class="footer">
-                <div>
-                    <strong>Copyright</strong> Pear Corporation &copy; 2015-2016
-                </div>
-            </div>
-
-        </div>
-
-            <!-- Partie droite, les settings -->
-        <div id="right-sidebar">
-            <div class="sidebar-container">
-
-                <ul class="nav nav-tabs navs-3">
-
-                    <li class="active"><a data-toggle="tab" href="#tab-1">
-                        Notes
-                    </a></li>
-                    <li><a data-toggle="tab" href="#tab-2">
-                        Projects
-                    </a></li>
-                    <li class=""><a data-toggle="tab" href="#tab-3">
-                        <i class="fa fa-gear"></i>
-                    </a></li>
-                </ul>
-
-                <div class="tab-content">
-
-
-                    <div id="tab-1" class="tab-pane active">
-
-                        <div class="sidebar-title">
-                            <h3> <i class="fa fa-comments-o"></i> Latest Notes</h3>
-                            <small><i class="fa fa-tim"></i> You have 10 new message.</small>
-                        </div>
-
-                        <div>
-
-                            <div class="sidebar-message">
-                                <a href="#">
-                                    <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a1.jpg">
-
-                                        <div class="m-t-xs">
-                                            <i class="fa fa-star text-warning"></i>
-                                            <i class="fa fa-star text-warning"></i>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-
-                                        There are many variations of passages of Lorem Ipsum available.
-                                        <br>
-                                        <small class="text-muted">Today 4:21 pm</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="sidebar-message">
-                                <a href="#">
-                                    <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a2.jpg">
-                                    </div>
-                                    <div class="media-body">
-                                        The point of using Lorem Ipsum is that it has a more-or-less normal.
-                                        <br>
-                                        <small class="text-muted">Yesterday 2:45 pm</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="sidebar-message">
-                                <a href="#">
-                                    <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a3.jpg">
-
-                                        <div class="m-t-xs">
-                                            <i class="fa fa-star text-warning"></i>
-                                            <i class="fa fa-star text-warning"></i>
-                                            <i class="fa fa-star text-warning"></i>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        Mevolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                                        <br>
-                                        <small class="text-muted">Yesterday 1:10 pm</small>
-                                    </div>
-                                </a>
-                            </div>
-
-
-                            <div class="sidebar-message">
-                                <a href="#">
-                                    <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a7.jpg">
-                                    </div>
-                                    <div class="media-body">
-                                        Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                                        <br>
-                                        <small class="text-muted">Yesterday 2:45 pm</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="sidebar-message">
-                                <a href="#">
-                                    <div class="pull-left text-center">
-                                        <img alt="image" class="img-circle message-avatar" src="img/a3.jpg">
-
-                                        <div class="m-t-xs">
-                                            <i class="fa fa-star text-warning"></i>
-                                            <i class="fa fa-star text-warning"></i>
-                                            <i class="fa fa-star text-warning"></i>
-                                        </div>
-                                    </div>
-                                    <div class="media-body">
-                                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below.
-                                        <br>
-                                        <small class="text-muted">Yesterday 1:10 pm</small>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div id="tab-2" class="tab-pane">
-
-                        <div class="sidebar-title">
-                            <h3> <i class="fa fa-cube"></i> Latest projects</h3>
-                            <small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small>
-                        </div>
-
-                        <ul class="sidebar-list">
-                            <li>
-                                <a href="#">
-                                    <div class="small pull-right m-t-xs">9 hours ago</div>
-                                    <h4>Business valuation</h4>
-                                    It is a long established fact that a reader will be distracted.
-
-                                    <div class="small">Completion with: 22%</div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
-                                    </div>
-                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="small pull-right m-t-xs">9 hours ago</div>
-                                    <h4>Contract with Company </h4>
-                                    Many desktop publishing packages and web page editors.
-
-                                    <div class="small">Completion with: 48%</div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 48%;" class="progress-bar"></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="small pull-right m-t-xs">9 hours ago</div>
-                                    <h4>Meeting</h4>
-                                    By the readable content of a page when looking at its layout.
-
-                                    <div class="small">Completion with: 14%</div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="label label-primary pull-right">NEW</span>
-                                    <h4>The generated</h4>
-                                        <!--<div class="small pull-right m-t-xs">9 hours ago</div>-->
-                                        There are many variations of passages of Lorem Ipsum available.
-                                    <div class="small">Completion with: 22%</div>
-                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="small pull-right m-t-xs">9 hours ago</div>
-                                    <h4>Business valuation</h4>
-                                    It is a long established fact that a reader will be distracted.
-
-                                    <div class="small">Completion with: 22%</div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
-                                    </div>
-                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="small pull-right m-t-xs">9 hours ago</div>
-                                    <h4>Contract with Company </h4>
-                                    Many desktop publishing packages and web page editors.
-
-                                    <div class="small">Completion with: 48%</div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 48%;" class="progress-bar"></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="small pull-right m-t-xs">9 hours ago</div>
-                                    <h4>Meeting</h4>
-                                    By the readable content of a page when looking at its layout.
-
-                                    <div class="small">Completion with: 14%</div>
-                                    <div class="progress progress-mini">
-                                        <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="label label-primary pull-right">NEW</span>
-                                    <h4>The generated</h4>
-                                        <!--<div class="small pull-right m-t-xs">9 hours ago</div>-->
-                                        There are many variations of passages of Lorem Ipsum available.
-                                    <div class="small">Completion with: 22%</div>
-                                    <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
-                                </a>
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                    <div id="tab-3" class="tab-pane">
-
-                        <div class="sidebar-title">
-                            <h3><i class="fa fa-gears"></i> Settings</h3>
-                            <small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small>
-                        </div>
-
-                        <div class="setings-item">
-                            <span>
-                                Show notifications
-                            </span>
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" nom="collapsemenu" class="onoffswitch-checkbox" id="example">
-                                    <label class="onoffswitch-label" for="example">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setings-item">
-                            <span>
-                                Disable Chat
-                            </span>
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" nom="collapsemenu" checked class="onoffswitch-checkbox" id="example2">
-                                    <label class="onoffswitch-label" for="example2">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setings-item">
-                            <span>
-                                Enable history
-                            </span>
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" nom="collapsemenu" class="onoffswitch-checkbox" id="example3">
-                                    <label class="onoffswitch-label" for="example3">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setings-item">
-                            <span>
-                                Show charts
-                            </span>
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" nom="collapsemenu" class="onoffswitch-checkbox" id="example4">
-                                    <label class="onoffswitch-label" for="example4">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setings-item">
-                            <span>
-                                Offline users
-                            </span>
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" checked nom="collapsemenu" class="onoffswitch-checkbox" id="example5">
-                                    <label class="onoffswitch-label" for="example5">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setings-item">
-                            <span>
-                                Global search
-                            </span>
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" checked nom="collapsemenu" class="onoffswitch-checkbox" id="example6">
-                                    <label class="onoffswitch-label" for="example6">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="setings-item">
-                            <span>
-                                Update everyday
-                            </span>
-                            <div class="switch">
-                                <div class="onoffswitch">
-                                    <input type="checkbox" nom="collapsemenu" class="onoffswitch-checkbox" id="example7">
-                                    <label class="onoffswitch-label" for="example7">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-content">
-                            <h4>Settings</h4>
-                            <div class="small">
-                                I belive that. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                And typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                                Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 }
 
-@main(pageTitle,content, scripts)
+@main(pageTitle, content, scripts)
