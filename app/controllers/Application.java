@@ -79,10 +79,7 @@ public class Application extends Controller {
     }
 
     public Result changeLangue(String lang) {
-        //ctx().changeLang(lang);
-
         Controller.changeLang(lang);
-        Logger.debug(request().getHeader("referer").toString());
         return redirect(request().getHeader("referer"));
     }
 
