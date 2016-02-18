@@ -8,6 +8,9 @@ $(document).ready(function() {
 
     });
 
+
+
+
 });
 
 $(document).ajaxComplete(function() {
@@ -22,6 +25,7 @@ $(document).ajaxComplete(function() {
 });
 
 $(function(){
+
     $( "#btn-modifierProjet" ).click(function() {
         //$("#div-consulterProjet").css("display","none");
         jQuery.fx.off = true;
@@ -34,4 +38,25 @@ $(function(){
 
         $(this).attr('style', '');
     });
+
+    $('#afficheListeProjet').click(function(){
+
+        if($("#col-sidebar-liste-projet").is(":visible")){
+            $('#col-sidebar-liste-projet').hide();
+            $(this).css("width","25px");
+            $("#col-consulterProjet").removeClass("col-md-10");
+            $("#col-consulterProjet").addClass("col-md-12");
+            $("#icon-show-liste-projet").removeClass("fa-outdent");
+            $("#icon-show-liste-projet").addClass("fa-indent");
+        }
+        else{
+            $('#col-sidebar-liste-projet').show();
+            $(this).css("width","170px");
+            $("#col-consulterProjet").removeClass("col-md-12");
+            $("#col-consulterProjet").addClass("col-md-10");
+            $("#icon-show-liste-projet").removeClass("fa-indent");
+            $("#icon-show-liste-projet").addClass("fa-outdent");
+        }
+    });
+
 });

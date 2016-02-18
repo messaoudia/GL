@@ -201,6 +201,40 @@
 
                 $( document ).ajaxComplete(function() {
 
+                    $('#afficheListeProjet').click(function(){
+
+                        if($("#col-sidebar-liste-projet").is(":visible")){
+                            $('#col-sidebar-liste-projet').hide();
+                            $(this).css("width","25px");
+                            $("#col-consulterProjet").removeClass("col-md-10");
+                            $("#col-consulterProjet").addClass("col-md-12");
+                            $("#icon-show-liste-projet").removeClass("fa-outdent");
+                            $("#icon-show-liste-projet").addClass("fa-indent");
+                        }
+                        else{
+                            $('#col-sidebar-liste-projet').show();
+                            $(this).css("width","170px");
+                            $("#col-consulterProjet").removeClass("col-md-12");
+                            $("#col-consulterProjet").addClass("col-md-10");
+                            $("#icon-show-liste-projet").removeClass("fa-indent");
+                            $("#icon-show-liste-projet").addClass("fa-outdent");
+                        }
+                    });
+
+                    $( window ).resize(function() {
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                    });
+
+                    $('.liste-projet').css('height',"100%");
+                    height = $('.liste-projet').css('height');
+                    height = parseInt(height);
+                    height -= 150;
+                    $('.liste-projet').css('height',height);
+
                     // activate Nestable for list 1
                     $('#nestable').nestable({
                         group: 1,
@@ -354,6 +388,8 @@
                     $('.footable').footable();
                     $('.popover-info').popover('hidden');
                     // $('#modal-tdb-tache').modal();
+
+
 
 
                 });
