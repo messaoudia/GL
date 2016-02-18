@@ -112,3 +112,7 @@ chooseProjectManager = Choisir un responsable de projet
 addUser = Ajouter un utilisateur
 yes = Oui
 no = Non
+clients = Clients
+createProject = Créer un projet
+createCustomer = Créer un Client
+user = Utilisateur

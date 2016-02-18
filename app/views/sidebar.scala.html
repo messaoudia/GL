@@ -26,37 +26,37 @@
                 @if(menu.equals("Projet")) {
                     <li class="liclickable active sidebar-btn-green" data-infos="ProjetController.afficherProjets()">
                         <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Projets</span></a>
+                            @Messages("projects")</span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-green" data-infos="ProjetController.afficherProjets()">
                         <a><img src="img/MyIcons/png/bars62.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Projets</span></a>
+                        @Messages("projects")</span></a>
                     </li>
                 }
 
                 @if(menu.equals("Client")) {
                     <li class="liclickable active sidebar-btn-green" data-infos="ClientController.afficherClients()">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Clients</span></a>
+                        @Messages("clients")</span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-green" data-infos="ClientController.afficherClients()">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Clients</span></a>
+                        @Messages("clients")</span></a>
                     </li>
                 }
 
                 @if(menu.equals("CreerProjet")) {
                     <li class="liclickable active sidebar-btn-green" data-infos="ProjetController.afficherCreerProjet()">
                         <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Créer un projet</span></a>
+                        @Messages("createProject")</span></a>
 
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-green" data-infos="ProjetController.afficherCreerProjet()">
                         <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Créer un projet</span></a>
+                        @Messages("createProject")</span></a>
 
                     </li>
                 }
@@ -64,42 +64,42 @@
                 @if(menu.equals("CreerClient")) {
                     <li class="liclickable active sidebar-btn-green" data-infos="ClientController.afficherCreerClient()">
                         <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Créer un client</span></a>
+                        @Messages("createCustomer")</span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-green" data-infos="ClientController.afficherCreerClient()">
                         <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                            Créer un client</span></a>
+                        @Messages("createCustomer")</span></a>
                     </li>
                 }
 
 
                 <li style="pointer-events: none ; cursor: default ; background-color:#e74c3c ;">
                     <a> <span class="nav-label" style="color:white ; padding-right:10px ;" >
-                                Administrateur </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
+                        @Messages("administrator") </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
                 </li>
 
                 @if(menu.equals("ProjetAdmin")) {
                     <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()">
                         <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                            Projets </span></a>
+                        @Messages("projects") </span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()">
                         <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                            Projets </span></a>
+                        @Messages("projects") </span></a>
                     </li>
                 }
 
                 @if(menu.equals("ClientAdmin")) {
                     <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminClients()">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                            Clients </span></a>
+                        @Messages("clients") </span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminClients()">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                            Clients </span></a>
+                        @Messages("clients") </span></a>
                     </li>
                 }
 
@@ -107,12 +107,12 @@
                 @if(menu.equals("UtilisateurAdmin")) {
                     <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()">
                         <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                            Utilisateur </span></a>
+                        @Messages("user") </span></a>
                     </li>
                 } else {
                     <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()">
                         <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 20px ;"> <span style="padding-left:7px ;" class="nav-label">
-                            Utilisateur </span></a>
+                        @Messages("user") </span></a>
                     </li>
                 }
 
