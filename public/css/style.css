@@ -6,7 +6,9 @@
  *   version 2.3
  *
 */
-
+.select2-search__field{
+    width:100% !important;
+}
 .width-20{
     width:20%;
 }
