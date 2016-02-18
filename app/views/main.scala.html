@@ -164,6 +164,28 @@
                 $(document).ready(function () {
                     $(".select2-input").select2();
 
+                    $(".select2-predecesseur").select2({
+                        placeholder : '@Messages("choosePredecessor")...',
+                        maximumSelectionLength: 1
+                    });
+
+                    $(".select2-successeur").select2({
+                        placeholder : '@Messages("chooseSuccessor")...'
+                    });
+                    $(".select2-client").select2({
+                        placeholder : '@Messages("chooseClient")...',
+                        maximumSelectionLength: 1
+                    });
+
+                    $(".select2-respo-projet").select2({
+                        placeholder : '@Messages("chooseProjectManager")...',
+                        maximumSelectionLength: 1
+                    });
+                    $(".select2-respo-tache").select2({
+                        placeholder : '@Messages("chooseTaskResponsible")...',
+                        maximumSelectionLength: 1
+                    });
+
                     $('#notifTopBar').click(function (e) {
                         e.preventDefault();
                         jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
@@ -196,26 +218,6 @@
 
                     });
 
-                    $('#dataTables-admin-projet tbody tr td:not(:last-child)').click(function (e) {
-                        var $value = $(this).parent('tr').attr('value');
-
-                         jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($value).ajax({
-                         success: function(html) {
-                         var result = $('#refresh',html);
-                         $('#refresh').empty().html(result);
-                         },
-                         //Case we have a problem
-                         error: function(errorMessage){
-                         alert(errorMessage);
-                         }
-                         });
-
-                    });
-
-                    $('#nestable').nestable({
-                        group: 1
-                    }).on('change');
-
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Tache').dataTable( {
@@ -226,12 +228,138 @@
                         "ordering": false
                     } );
 
+                    $('#dataTables-tdb-projet').DataTable();
 
-                    $('.footable').footable();
+                    $('#dataTables-tdb-tache').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets": [6, 7]
+                        } ]
+                    });
+
+                    $('#dataTables-admin-projet').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":6
+                        } ]
+                    });
+
+
+                    $('#dataTables-admin-projet tbody').on( 'click', 'tr td:not(:last-child)', function () {
+                        var $valueTr = $(this).parent('tr').attr('value');
+                        jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html);
+                                $('#refresh').empty().html(result);
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
+
+                    $('#nestable').nestable({
+                        group: 1
+                    }).on('change');
+
+                    $('#btn-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').hide();
+                        $('#div-modifierTache').show();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-fermer-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-valider-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-modifierTache-active').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#datepicker_date_debut .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_tot .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#projet-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#tache-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-retardes').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proches').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proposees').slimScroll({
+                        height: '130px'
+                    });
+                    $('#bloc-notes-tdb').slimScroll({
+                        height: '172px',
+                        width: '100%'
+                    });
+                    $('.description-modal-tache').slimScroll({
+                        height: '100px'
+                    });
+
+                    $('.list-task').slimScroll({
+                        height: '90px'
+                    });
+                    $('.list-modif-client').slimScroll({
+                        height: '130px'
+                    });
 
                     $('.list-personnes-notifiees').slimScroll({
                         height: '85px'
                     });
+
+                    $('.footable').footable();
+
+
 
                     // activate Nestable for list 1
 
@@ -240,6 +368,7 @@
                 });
 
                 $( document ).ajaxComplete(function() {
+
                     $(".select2-predecesseur").select2({
                         placeholder : '@Messages("choosePredecessor")...',
                         maximumSelectionLength: 1
@@ -264,6 +393,7 @@
 
                     $('[data-toggle="popover"]').popover()
                     // activate Nestable for list 1
+
                     $('#nestable').nestable({
                         group: 1,
                         maxDepth: 4
@@ -294,6 +424,7 @@
                             "targets": [6, 7]
                         } ]
                     });
+
                     $(".select2_demo_1").select2();
 
                     $('.dataTables-example').DataTable();
@@ -309,6 +440,7 @@
                             "targets":6
                         } ]
                     });
+
                     $('#projet_Tache').dataTable( {
                         "ordering": false
                     } );
@@ -320,6 +452,20 @@
                             "orderable": false,
                             "targets":6
                         } ]
+                    });
+
+                    $('#dataTables-admin-projet tbody').on( 'click', 'tr td:not(:last-child)', function () {
+                        var $valueTr = $(this).parent('tr').attr('value');
+                        jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html);
+                                $('#refresh').empty().html(result);
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
                     });
 
                     $('#dataTables-admin-user').DataTable({

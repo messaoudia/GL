@@ -4,7 +4,7 @@ import play.Routes;
 import play.api.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
+import views.html.dashboard;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +29,7 @@ public class Application extends Controller {
      */
     public Result index() {
         /* TODO : changer en dashboard " */
-        return ok(index.render("Pear project manager"));
+        return ok(dashboard.render("Pear project manager"));
         /*String user = session("connected");
         if (user != null) {
             return ok(index.render("Pear project manager"));
