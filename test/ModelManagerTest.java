@@ -640,14 +640,14 @@ public class ModelManagerTest {
 
             Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
             assertNotNull(utilisateur2.id);
-            assertNotNull(utilisateur2.getListTaches());
-            Logger.debug("LISTTACHES USER : "+utilisateur2.getListTaches());
+            assertNotNull(utilisateur2.listTaches());
+            Logger.debug("LISTTACHES USER : "+utilisateur2.listTaches());
 
             Logger.debug("UTILISATEURS");
             Logger.debug(utilisateur.toString());
-            Logger.debug(utilisateur.getListTaches().size()+"");
+            Logger.debug(utilisateur.listTaches().size()+"");
             Logger.debug(utilisateur2.toString());
-            Logger.debug(utilisateur2.getListTaches().size()+"");
+            Logger.debug(utilisateur2.listTaches().size()+"");
 
             Logger.debug("PROJETS");
             Logger.debug(projet.toString());
@@ -657,10 +657,10 @@ public class ModelManagerTest {
             Logger.debug(tache.toString());
             Logger.debug(Tache.find.byId(tache.id).toString());
 
-            Logger.debug(utilisateur.getListTaches().toString());
-            Logger.debug(utilisateur2.getListTaches().toString());
+            Logger.debug(utilisateur.listTaches().toString());
+            Logger.debug(utilisateur2.listTaches().toString());
 
-            assertEquals(tache,utilisateur2.getListTaches().get(0));
+            assertEquals(tache,utilisateur2.listTaches().get(0));
 
         });
     }

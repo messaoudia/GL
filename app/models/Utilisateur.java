@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import play.Logger;
 import play.data.validation.Constraints;
 
@@ -106,6 +107,10 @@ public class Utilisateur extends Personne {
         return Projet.find.where().eq("responsableProjet",this).findList();
     }
 
+    @JsonSerialize
+    public int listProjetsResponsableSize(){
+        return listProjetsResponsable().size();
+    }
     /**
      * Affecte la tache en parametre a l'utilisateur courant
      * @param tache
@@ -125,8 +130,13 @@ public class Utilisateur extends Personne {
      * FIXME rustine car le champ ne contient pas la liste des taches
      * @return list des taches du responsable
      */
-    public List<Tache> getListTaches(){
+    public List<Tache> listTaches(){
         return Tache.find.where().eq("responsableTache",this).findList();
+    }
+
+    @JsonSerialize
+    public int listTachesSize(){
+        return listTaches().size();
     }
 
     /**
@@ -245,7 +255,7 @@ public class Utilisateur extends Personne {
         return str.charAt(getRandomInt(0, str.length()));
     }
 
-    public List<Tache> getTachesProposees() {
+    public List<Tache> tachesProposees() {
         List<Tache> listTachesProposees = new ArrayList<Tache>();
         if (listTaches.isEmpty())
             return listTachesProposees;
