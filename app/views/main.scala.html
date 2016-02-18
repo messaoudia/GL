@@ -15,7 +15,6 @@
         <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
         <link href="/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
         <link href="/css/animate.css" rel="stylesheet">
-        <link href="/css/style.css" rel="stylesheet">
 
         <link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
@@ -36,6 +35,8 @@
         <link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
         <link href="/css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
         <link href="/css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+
     </head>
 
     <body class="md-skin fixed-sidebar fixed-nav pace-done">
@@ -45,9 +46,11 @@
 
             <!--########### End  - Main HTML Content  ########### -->
 
+
             <!-- Mainly scripts -->
         <script src="/assets/js/jquery-2.1.1.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
+
         <script src="/assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="/assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
@@ -147,8 +150,14 @@
             <!-- Select2 -->
         <script src="/js/plugins/select2/select2.full.min.js"></script>
 
+            <!-- Nestable -->
+        <script src="/js/plugins/nestable/jquery.nestable.js"></script>
+
             <!-- Projet -->
         <script src="/js/projet.js"></script>
+
+            <!-- Menu -->
+        <script src="/js/menu.js"></script>
 
         @scripts
         <script>
@@ -170,6 +179,10 @@
                      });
                      });
                      */
+                    $('#nestable').nestable({
+                        group: 1
+                    }).on('change');
+
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Tache').dataTable( {
@@ -187,11 +200,29 @@
                         height: '85px'
                     });
 
+                    // activate Nestable for list 1
 
                     $(".select2_demo_1").select2();
+
+                    $('[data-toggle="popover"]').popover()
                 });
 
                 $( document ).ajaxComplete(function() {
+                    $(".select2_demo_1").select2();
+                    $(".select2_demo_2").select2();
+                    $(".select2_demo_3").select2({
+                        placeholder: "Select a state",
+                        allowClear: true
+                    });
+
+
+                    $('[data-toggle="popover"]').popover()
+                    // activate Nestable for list 1
+                    $('#nestable').nestable({
+                        group: 1,
+                        maxDepth: 4
+                    }).on('change');
+
 
                     $('#dataTables-tdb-projet').DataTable();
 
@@ -337,8 +368,9 @@
                      */
 
                     $('.footable').footable();
-                    $('.popover-info').popover('hidden');
+
                     // $('#modal-tdb-tache').modal();
+
                 });
         </script>
     </body>
