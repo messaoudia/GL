@@ -109,3 +109,6 @@ saveProject = Save project
 createSubTask = Create subtask
 createTask = Create task
 chooseProjectManager = Choose a project manager
+addUser = Add an user
+yes = Yes
+no = No
