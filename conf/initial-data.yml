@@ -132,12 +132,84 @@ utilisateurs:
 
 - &utilisateur5 !!models.Utilisateur
     id:           38
-    nom:          Deschamps
+    nom:          DESCHAMPS
     prenom:       Didier
     email:        d.d@edf.fr
     telephone:    6549873210
     archive:      true
     password:     Edf1234
+
+- &utilisateur6 !!models.Utilisateur
+    id:           39
+    nom:          ZHENG
+    prenom:       Zhang
+    email:        z.z@mdi.fr
+    telephone:    3216549871
+    archive:      false
+    password:     ZhangZheng1
+
+- &utilisateur7 !!models.Utilisateur
+    id:           40
+    nom:          MAX
+    prenom:       Aurelien
+    email:        amax@limsi.fr
+    telephone:    0231456978
+    archive:      false
+    password:     Amax1234
+
+- &utilisateur8 !!models.Utilisateur
+    id:           41
+    nom:          VOISIN
+    prenom:       Frederic
+    email:        f.v@lri.fr
+    telephone:    0546791823
+    archive:      false
+    password:     FVPolytech01
+
+- &utilisateur9 !!models.Utilisateur
+    id:           42
+    nom:          CHAPITEAU
+    prenom:       Nadia
+    email:        n.c@pops.fr
+    telephone:    0147258369
+    archive:      true
+    password:     polytecH123
+
+- &utilisateur10 !!models.Utilisateur
+    id:           43
+    nom:          BEAU
+    prenom:       Dominique
+    email:        b.d@pops.fr
+    telephone:    0369784512
+    archive:      true
+    password:     Polytech321
+
+- &utilisateur11 !!models.Utilisateur
+    id:           44
+    nom:          SARFATI
+    prenom:       Alain
+    email:        a.s@pops.fr
+    telephone:    4567891230
+    archive:      false
+    password:     12Aplfrhu
+
+- &utilisateur12 !!models.Utilisateur
+    id:           45
+    nom:          LONGUET
+    prenom:       Delphine
+    email:        d.d@pops.fr
+    telephone:    6549873210
+    archive:      false
+    password:     A56depkpj
+
+- &utilisateur13 !!models.Utilisateur
+    id:           46
+    nom:          CHRA
+    prenom:       Evelyne
+    email:        e.c@pops.fr
+    telephone:    0564379812
+    archive:      false
+    password:     Pops12ea
 
 projets:
 
