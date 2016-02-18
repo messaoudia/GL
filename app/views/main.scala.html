@@ -157,22 +157,23 @@
         <script>
                 $(document).ready(function () {
 
-                    /* $("#submitButton").click(function(e) {
-                     alert("JE SUIS LA");
-                     $("#addProjectForm").submit(function( event ) {
+                    $("#submitButton").click(function(e) {
+                        var $form = $('#addProjectForm');
+                        var $serialize= $form.serialize();
+                        var $value = $(".btn-active").attr('value');
+                        jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                            data :$serialize+ '&priorite='+$value,
+                            success : function(data) {
+                                alert("toto");
 
-                     jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
-                     success : function(data) {
-                     alert("oki");
-                     },
-                     error: function(errorMessage){
-                     alert("error");
-                     }
-                     });
+                            },
+                            error: function(errorMessage){
+                                alert("error");
+                            }
+                        });
 
-                     });
-                     });
-                     */
+                    });
+
                     $('#nestable').nestable({
                         group: 1
                     }).on('change');

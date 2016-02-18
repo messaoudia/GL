@@ -8,6 +8,8 @@ $(document).ready(function() {
 
     });
 
+
+
 });
 
 $(document).ajaxComplete(function() {
@@ -19,6 +21,7 @@ $(document).ajaxComplete(function() {
         $(this).addClass('btn-active');
 
     });
+
 });
 
 $(function(){
