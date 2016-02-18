@@ -1,0 +1,167 @@
+    @(pageTitle: String)
+
+    @scripts = {
+        <script>
+
+
+                $(document).ready(function() {
+                    $('.liclickable').click(function (e) {
+                        e.preventDefault();
+                        var self = $(this),
+                                controler = self.data('infos') || self.attr('data-infos');
+                        $('#sidebar ul li').removeClass('active');
+                        $(this).addClass('active');
+
+                        eval("jsRoutes.controllers."+controler).ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html);
+                                $('#refresh').empty().html(result);
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
+                });
+
+        </script>
+    }
+
+    @content = {
+        <div id="wrapper" class="ng-scope">
+            @sidebar("Notification")
+
+            <div id="page-wrapper" class="gray-bg dashbard-1">
+                @topbar()
+                <div id="refresh" >
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-content">
+                                    <form id="form-notif">
+                                        <h2>@Messages("notifications") (2)</h2>
+                                        <a class="btn btn-white btn-bitbucket"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-white btn-bitbucket"><i class="fa fa-trash"></i></a>
+                                        <div class="table-responsive">
+                                            <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>@Messages("from")</th>
+                                                        <th>@Messages("project")</th>
+                                                        <th>@Messages("client")</th>
+                                                        <th>@Messages("object")</th>
+                                                        <th>@Messages("date")</th>
+                                                        <th data-hide="all">@Messages("state")</th>
+                                                        <th data-hide="all">@Messages("message")</th>
+                                                        <th data-hide="all">@Messages("link")</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr id="notif-1" class="non-lu">
+                                                        <td>
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input id="checkbox-notif-1" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-1','notif-1')">
+                                                                <label for="checkbox-notif-1"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>Organiser une réunion</td>
+                                                        <td>myProjects</td>
+                                                        <td>PoPS5I Inc.</td>
+                                                        <td>Modification des interlocuteurs externes</td>
+                                                        <td>06/02/2016 (15:15)</td>
+                                                        <td>@Messages("unread")</td>
+                                                        <td>
+                                                            <p>Nouveau interlocuteur externe : Frédéric Voisin</p>
+                                                        </td>
+                                                        <td>
+                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="notif-2" class="lu">
+                                                        <td>
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input id="checkbox-notif-2" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-2','notif-2')">
+                                                                <label for="checkbox-notif-2"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>Créer une base de données</td>
+                                                        <td>Big Data</td>
+                                                        <td>Auchan</td>
+                                                        <td>Modification de l'avancement</td>
+                                                        <td>06/02/2016 (14:35)</td>
+                                                        <td>@Messages("read")</td>
+                                                        <td>
+                                                            <p>Amin a modifié l'avancement de la tâche "Créer une base de données"</p>
+                                                            <p>Charge consommée : 10h</p>
+                                                            <p>Charge restante : 20h</p>
+                                                            <p>Pourcentage d'avancement : 33%</p>
+                                                        </td>
+                                                        <td>
+                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="notif-3" class="non-lu">
+                                                        <td>
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input id="checkbox-notif-3" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-3','notif-3')">
+                                                                <label for="checkbox-notif-3"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>Organiser une réunion</td>
+                                                        <td>myProjects</td>
+                                                        <td>PoPS5I Inc.</td>
+                                                        <td>Modification des interlocuteurs externes</td>
+                                                        <td>06/02/2016 (15:15)</td>
+                                                        <td>@Messages("unread")</td>
+                                                        <td>
+                                                            <p>Nouveau interlocuteur externe : Frédéric Voisin</p>
+                                                        </td>
+                                                        <td>
+                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="notif-4" class="lu">
+                                                        <td>
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input id="checkbox-notif-4" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-4','notif-4')">
+                                                                <label for="checkbox-notif-4"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>Créer une base de données</td>
+                                                        <td>Big Data</td>
+                                                        <td>Auchan</td>
+                                                        <td>Modification de l'avancement</td>
+                                                        <td>06/02/2016 (14:35)</td>
+                                                        <td>@Messages("read")</td>
+                                                        <td>
+                                                            <p>Amin a modifié l'avancement de la tâche "Créer une base de données"</p>
+                                                            <p>Charge consommée : 10h</p>
+                                                            <p>Charge restante : 20h</p>
+                                                            <p>Pourcentage d'avancement : 33%</p>
+                                                        </td>
+                                                        <td>
+                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="5">
+                                                            <ul class="pagination pull-right"></ul>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+
+    @main(pageTitle,content, scripts)
