@@ -752,7 +752,20 @@
 
                                                                                 <!-- Modifier predecesseur -->
                                                                                 <p style="margin-top:7px;">@Messages("predecessor") : </p>
-                                                                                <input type="text" id="formModifierPredecesseur" class="form-control" placeholder='@Messages("choosePredecessor")...'>
+                                                                                <div class="form-group">
+                                                                                    <label class="font-noraml">Multi select</label>
+                                                                                    <div class="input-group">
+                                                                                        <select class="select2_demo_2 form-control" multiple="multiple">
+                                                                                            <option value="Mayotte">Mayotte</option>
+                                                                                            <option value="Mexico">Mexico</option>
+                                                                                            <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
+                                                                                            <option value="Moldova, Republic of">Moldova, Republic of</option>
+                                                                                            <option value="Monaco">Monaco</option>
+                                                                                            <option value="Mongolia">Mongolia</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <input type="text" id="" class="form-control" placeholder='@Messages("choosePredecessor")...'>
                                                                                 <div class="list-task">
                                                                                     <table class="table-bordered">
                                                                                         <tbody>
@@ -941,6 +954,79 @@
                             </div>
                         </div>
                     </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="ibox">
+                            <div class="ibox-title">
+                                <h5>Select2 <small>https://select2.github.io/</small></h5>
+                            </div>
+                            <div class="ibox-content">
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>
+                                            Select2 is a jQuery based replacement for select boxes. It can take a regular select box and turn it into:
+                                        </p>
+                                        <select class="select2_demo_1 form-control">
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                            <option value="4">Option 4</option>
+                                            <option value="5">Option 5</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <p>
+                                            A placeholder value can be defined and will be displayed until a selection is made.
+                                        </p>
+                                        <select class="select2_demo_3 form-control">
+                                            <option></option>
+                                            <option value="Bahamas">Bahamas</option>
+                                            <option value="Bahrain">Bahrain</option>
+                                            <option value="Bangladesh">Bangladesh</option>
+                                            <option value="Barbados">Barbados</option>
+                                            <option value="Belarus">Belarus</option>
+                                            <option value="Belgium">Belgium</option>
+                                            <option value="Belize">Belize</option>
+                                            <option value="Benin">Benin</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>
+                                            Select2 also supports multi-value select boxes. The select below is declared with the multiple attribute.
+                                        </p>
+                                        <select class="select2_demo_2 form-control" multiple="multiple">
+                                            <option value="Mayotte">Mayotte</option>
+                                            <option value="Mexico">Mexico</option>
+                                            <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
+                                            <option value="Moldova, Republic of">Moldova, Republic of</option>
+                                            <option value="Monaco">Monaco</option>
+                                            <option value="Mongolia">Mongolia</option>
+                                            <option value="Montenegro">Montenegro</option>
+                                            <option value="Montserrat">Montserrat</option>
+                                            <option value="Morocco">Morocco</option>
+                                            <option value="Mozambique">Mozambique</option>
+                                            <option value="Myanmar">Myanmar</option>
+                                            <option value="Namibia">Namibia</option>
+                                            <option value="Nauru">Nauru</option>
+                                            <option value="Nepal">Nepal</option>
+                                            <option value="Netherlands">Netherlands</option>
+                                            <option value="New Caledonia">New Caledonia</option>
+                                            <option value="New Zealand">New Zealand</option>
+                                            <option value="Nicaragua">Nicaragua</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
