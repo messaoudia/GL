@@ -2,7 +2,42 @@
 
 @scripts = {
     <script>
+            $(document).ready(function () {
+                $('.liclickable').click(function (e) {
+                    e.preventDefault();
+                    var self = $(this),
+                            controler = self.data('infos') || self.attr('data-infos');
+                    $("#sidebar ul li").removeClass('active');
+                    $(this).addClass('active');
 
+                    eval("jsRoutes.controllers."+controler).ajax({
+                        success: function(html) {
+                            if(controler.substring(0,15) === 'AdminController'){
+                                var navBarTop = document.getElementById('navBarTop');
+                                $(navBarTop).addClass('navbar-fixed-top-admin');
+                                var menuButton = document.getElementById('menuButton');
+                                $(menuButton).addClass('btn-danger');
+                                var navHeader = document.getElementById('nav-header');
+                                $(navHeader).addClass('nav-header-admin');
+
+                            }else{
+                                var navBarTop = document.getElementById('navBarTop');
+                                $(navBarTop).removeClass('navbar-fixed-top-admin');
+                                var menuButton = document.getElementById('menuButton');
+                                $(menuButton).removeClass('btn-danger');
+                                var navHeader = document.getElementById('nav-header');
+                                $(navHeader).removeClass('nav-header-admin');
+                            }
+                            var result = $('#refresh',html);
+                            $('#refresh').empty().html(result);
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+                });
+            });
     </script>
 }
 

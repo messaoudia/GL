@@ -431,7 +431,7 @@ public class Utilisateur extends Personne {
     }
 
     public static List<Utilisateur> getAllNonArchives(){
-        Logger.debug(find.where().eq("archive",false).findList().toString());
+        //Logger.debug(find.where().eq("archive",false).findList().toString());
         return find.where().eq("archive",false).findList();
     }
 }

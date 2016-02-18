@@ -2,6 +2,11 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Securite.EntiteSecurise;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.Logger;
@@ -28,14 +33,17 @@ public class Client extends EntiteSecurise {
     public Boolean archiver;
 
     @OneToOne
+    @JsonRawValue
     public Adresse adresseClient;
 
     @OneToMany(mappedBy = "client",cascade = CascadeType.ALL)
     @JoinTable
+    @JsonIgnore
     public List<Contact> listeContacts;
 
     @OneToMany(mappedBy = "client",cascade = CascadeType.ALL)
     @JoinTable
+    @JsonIgnore
     public List<Projet> listeProjets;
 
     public static Model.Finder<Long, Client> find = new Model.Finder<>(Client.class);
@@ -87,6 +95,26 @@ public class Client extends EntiteSecurise {
             sb.append("\n").append(projet.nom);
         }
         return sb.toString();
+    }
+
+
+    @JsonSerialize
+    public int listProjetsSize(){
+        return listeProjets.size();
+    }
+
+    @JsonSerialize
+    public int listContactsSize(){
+        return listeContacts.size();
+    }
+
+    @JsonSerialize
+    public int listTachesSize(){
+        int sum = 0;
+        for (Projet projet : listeProjets){
+            sum += projet.listTaches.size();
+        }
+        return sum;
     }
 
     /**
@@ -149,4 +177,11 @@ public class Client extends EntiteSecurise {
         save();
     }
 
+    public static List<Client> getAllArchives(){
+        return find.where().eq("archiver",true).findList();
+    }
+
+    public static List<Client> getAllNonArchives() {
+        return find.where().eq("archiver",false).findList();
+    }
 }

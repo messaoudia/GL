@@ -161,7 +161,8 @@
 
         @scripts
         <script>
-                $requestUtilisateurs = false;
+                $requestUtilisateursArchives = false;
+                $requestClientsArchives = false;
                 $(document).ready(function () {
 
                     /* $("#submitButton").click(function(e) {
@@ -374,28 +375,45 @@
 
                 });
 
-                /* Afficher les clients archivés */
+                /* Afficher les Clients archivés */
                 function clientsArchived(){
-                    // console.log("TEST checkbox");
-                    if($("#checkBoxClientsArchived").is(":checked")) {
-                        // checkbox is checked
-                        var table = document.getElementById("clientsTable");
-                        $(table).find('tbody')
-                                .append($('<tr>').attr('data-toggle','modal').attr('data-target','#myModal').attr('class','archived')
-                                        .append($('<td>').text('ArchivedName'))
-                                        .append($('<td>').text('ArchivedAdress'))
-                                        .append($('<td>').text('ArchivedNbContacts'))
-                                        .append($('<td>').text('ArchivedNbProjects'))
-                                        .append($('<td>').text('ArchivedNbTasks'))
-                                        .append($('<td>').text('ArchivedPriority'))
-                                        .append($('<td>').append($('<i>').attr('class','fa fa-times-circle'))));
+                    $('#checkBoxClientsArchived').change(function() {
+                        if($(this).is(":checked")) {
+                            console.log("CHECKED");
+                            if(!$requestClientsArchives){
+                                console.log("REQUESTCLIENT 1");
+                                jsRoutes.controllers.AdminController.afficherClientsArchives().ajax({
+                                    success : function(data) {
+                                        var clientList = $('#dataTables-admin-client-body');
+                                        console.log(data);
+                                        $("#dataTables-admin-client").dataTable().fnDestroy();
+                                        $(data).each(function(index, client) {
+                                            var list ="";
+                                            list+=('<tr class="archived">');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.nom+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.adresseClient+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listContactsSize+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listProjetsSize+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listTachesSize+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.priorite+'</td>');
+                                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@Messages("Yes")</td>');
+                                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>');
+                                            list+=('</tr>');
 
-                        //console.log("CHECKED");
-                    } else {
-                        // checkbox is not checked
-                        //console.log("NOT CHECKED");
-                        $('.archived').hide();
-                    }
+                                            clientList.append(list);
+                                        });
+                                    }
+                                });
+
+                                $requestClientsArchives = true;
+                            }else{
+                                $('.archived').show();
+                            }
+                        } else {
+                            console.log("UNCHECKED");
+                            $('.archived').hide();
+                        }
+                    });
                 }
 
                 /* Afficher les utilisateurs archivés */
@@ -403,7 +421,7 @@
                     $('#checkboxUsersArchived').change(function() {
                         if($(this).is(":checked")) {
                             console.log("CHECKED");
-                            if(!$requestUtilisateurs){
+                            if(!$requestUtilisateursArchives){
 
                                 jsRoutes.controllers.AdminController.afficherUtilisateursArchives().ajax({
                                     success : function(data) {
@@ -428,7 +446,7 @@
                                     }
                                 });
 
-                                $requestUtilisateurs = true;
+                                $requestUtilisateursArchives = true;
                             }else{
                                 $('.archived').show();
                             }

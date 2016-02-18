@@ -22,6 +22,20 @@ adresses:
     ville:       Paris
     pays:        FRANCE
 
+- &adresse4 !!models.Adresse
+    id:          49
+    adresse:     1 Rue Montparnasse
+    zipCode:     75009
+    ville:       Paris
+    pays:        FRANCE
+
+- &adresse5 !!models.Adresse
+    id:          50
+    adresse:     12 Rue de Montmartre
+    zipCode:     75010
+    ville:       Paris
+    pays:        FRANCE
+
 contacts:
 
 - &contact1 !!models.Contact
@@ -91,6 +105,20 @@ clients:
     listeContacts:
         - *contact1
         - *contact2
+
+- &client4 !!models.Client
+    id:            47
+    nom:           Rockstar
+    priorite:      1
+    archiver:      true
+    adresseClient: *adresse4
+
+- &client5 !!models.Client
+    id:            48
+    nom:           Ubisoft
+    priorite:      1
+    archiver:      true
+    adresseClient: *adresse5
 
 utilisateurs:
 

@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle: String, clients: java.util.List[models.Client])
 
 @scripts = {
     <script>
@@ -70,11 +70,35 @@
                                     <th>@Messages("nbProjects")</th>
                                     <th>@Messages("nbTasks")</th>
                                     <th>@Messages("priority")</th>
+                                    <th>@Messages("archived")</th>
                                     <th><i class="fa fa-trash"></i></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody id="dataTables-admin-client-body">
+
+                                <!-- Boucle sur la liste des clients -->
+                                @for(client <- clients) {
+                                    <tr>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listContactsSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listProjetsSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listTachesSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.priorite</td>
+                                        @if(client.archiver){
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">
+                                            @Messages("Yes")
+                                            </td>
+                                        } else {
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">
+                                            @Messages("No")
+                                            </td>
+                                        }
+                                        <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
+                                    </tr>
+                                }
+
+                                <!--<tr>
                                     <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">Auchan</td>
                                     <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">92 rue Réaumur 75002 Paris</td>
                                     <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">23</td>
@@ -190,7 +214,8 @@
                                     <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">15</td>
                                     <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">1</td>
                                     <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
-                                </tr>
+                                </tr>-->
+
                             </tbody>
                         </table>
 
