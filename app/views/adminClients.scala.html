@@ -78,7 +78,7 @@
 
                                 <!-- Boucle sur la liste des clients -->
                                 @for(client <- clients) {
-                                    <tr>
+                                    <tr value="@client.id">
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listContactsSize</td>
@@ -201,9 +201,13 @@
                                         <div class="col-sm-6">
                                             <h3 style="text-align:center;">@Messages("projects")</h3>
                                             <div class="list-modif-client">
-                                                <table class="table-bordered">
-                                                    <tbody>
-                                                        <tr>
+                                                <table id="table-modal-client-projets" class="table-bordered">
+                                                    <thead>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </thead>
+                                                    <tbody id="table-modal-client-projets-body">
+                                                        <!--<tr>
                                                             <td class="first-td">Projet 1</td>
                                                             <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
@@ -218,7 +222,7 @@
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
                                                             <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                                        </tr>
+                                                        </tr>-->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -226,9 +230,13 @@
                                         <div class="col-sm-6">
                                             <h3 style="text-align:center;">@Messages("contacts")</h3>
                                             <div class="list-modif-client">
-                                                <table class="table-bordered">
-                                                    <tbody>
-                                                        <tr>
+                                                <table id="table-modal-client-contacts" class="table-bordered">
+                                                    <thead>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </thead>
+                                                    <tbody id="table-modal-client-contacts-body">
+                                                       <!-- <tr>
                                                             <td class="first-td">Contact 1</td>
                                                             <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
@@ -243,7 +251,7 @@
                                                         <tr>
                                                             <td class="first-td">Contact 1</td>
                                                             <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                                        </tr>
+                                                        </tr>-->
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -39,7 +39,11 @@ public class AdminController extends Controller{
         return ok(Json.toJson(Utilisateur.getAllArchives()));
     }
 
-    public Result afficherModalUtilisateur(long id){
-        return ok(Json.toJson(Utilisateur.find.byId(id)));
+    public Result afficherModalUtilisateur(long idUtilisateur){
+        return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur)));
+    }
+
+    public Result afficherModalClient(long idUtilisateur) {
+        return ok(Json.toJson(Client.find.byId(idUtilisateur)));
     }
 }

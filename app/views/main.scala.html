@@ -387,6 +387,9 @@
 
                     // $('#modal-tdb-tache').modal();
 
+                    /**
+                     * Methode Ajax pour aller récuperer des informations d'un utilisateur
+                     **/
                     $('#dataTables-admin-user tbody').on( 'click', 'tr td:not(:last-child)', function () {
                         var $id = $(this).parent('tr').attr('value');
                         jsRoutes.controllers.AdminController.afficherModalUtilisateur($id).ajax({
@@ -399,6 +402,73 @@
                                 $('#formFirstName').val(utilisateur.prenom);
                                 $('#formEmail').val(utilisateur.email);
                                 $('#formTel').val(utilisateur.telephone);
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
+
+                    /**
+                     * Methode Ajax pour aller récuperer des informations d'un client
+                     **/
+                    $('#dataTables-admin-client tbody').on( 'click', 'tr td:not(:last-child)', function () {
+                        var $id = $(this).parent('tr').attr('value');
+                        jsRoutes.controllers.AdminController.afficherModalClient($id).ajax({
+                            success: function(client) {
+                                //console.log(client);
+                                $("#dataTables-admin-client").dataTable().fnDestroy();
+
+                                /* fill modal values*/
+                                $('#formClientName').val(client.nom);
+                                $('#formClientAdress').val(client.adresseClient.adresse);
+                                $('#formZipCode').val(client.adresseClient.zipCode);
+                                $('#formCity').val(client.adresseClient.ville);
+                                $('#formCountry').val(client.adresseClient.pays);
+                                /* priority */
+                                $('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
+
+                                /* Look for Projects and contacts */
+                                jsRoutes.controllers.ProjetController.afficherProjetsClient($id).ajax({
+                                    success: function(listProjets) {
+                                        var projetTableBody = $('#table-modal-client-projets-body');
+
+                                        console.log(listProjets);
+                                        $("#dataTables-admin-client").dataTable().fnDestroy();
+                                        if(listProjets.length != 0){
+                                            $(listProjets).each(function(index, projet) {
+                                                var p ="";
+                                                p+=('<tr>');
+                                                p+=('<td class="first-td">'+projet.nom+'</td>');
+                                                p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                                p+=('</tr>');
+
+                                                projetTableBody.append(p);
+                                            });
+                                        }
+                                    }
+                                });
+                                jsRoutes.controllers.ContactController.afficherContactsClient($id).ajax({
+                                    success: function(listContacts) {
+                                        var contactsTableBody = $('#table-modal-client-contacts-body');
+
+                                        console.log(listContacts);
+                                        $("#dataTables-admin-client").dataTable().fnDestroy();
+                                        if(listContacts.length != 0){
+                                            $(listContacts).each(function(index, contact) {
+                                                var c ="";
+                                                c+=('<tr>');
+                                                c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
+                                                c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                                c+=('</tr>');
+
+                                                contactsTableBody.append(c);
+                                            });
+                                        }
+                                    }
+                                });
+
                             },
                             //Case we have a problem
                             error: function(errorMessage){

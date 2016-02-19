@@ -14,10 +14,6 @@ GET         /login                     controllers.Login.index()
 POST        /login                     controllers.Login.authenticate()
 GET         /logout                    controllers.Application.logout()
 
-
-
-
-
 # Tests pages
 GET         /tests                     controllers.Tests.index()
 POST        /tests                     controllers.Tests.add()
@@ -50,3 +46,6 @@ GET         /adminUtilisateur          controllers.AdminController.afficherAdmin
 POST        /adminUtilisateurArchive   controllers.AdminController.afficherUtilisateursArchives
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
 GET         /adminUtilisateurId        controllers.AdminController.afficherModalUtilisateur(id: Long)
+GET         /adminClientId             controllers.AdminController.afficherModalClient(id: Long)
+GET         /adminProjetsClient        controllers.ProjetController.afficherProjetsClient(id: Long)
+GET         /adminContactsClient       controllers.ContactController.afficherContactsClient(id: Long)
