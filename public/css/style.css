@@ -215,12 +215,22 @@ INDEX FIN
 }
 
 .sidebar-projet {
-    margin: 5px;
+    margin: 0px 5px 5px 5px;
     background-color: #ecf0f1;
     width: 95%;
     float: left;
     text-align: center;
     border-left: 6px solid #ecf0f1;
+    cursor: pointer;
+}
+
+.header-sidebar-projet {
+    margin: 5px 5px 3px 5px;
+    height: 30px;
+    background-color: #1AB394;
+    width: 95%;
+    float: left;
+    text-align: center;
     cursor: pointer;
 }
 
@@ -234,18 +244,44 @@ INDEX FIN
     font-size: 20px;
 }
 
-.sidebar-client-priorite {
+.sidebar-client-projet-priorite {
     float:right;
-    padding-right: 8px;
     width: 20px; height: 20px;
     background-color: #9f9f9f;
     color: #ffffff;
     text-align: center;
 }
 
-.sidebar-client-priorite > .valeur {
-    padding-left: 50%;
+.sidebar-projet-priorite {
+    float:right;
+    width: 20px; height: 20px;
+    background-color: #9f9f9f;
+    color: #ffffff;
+    text-align: center;
+}
+
+.sidebar-client-priorite {
+    float:left;
+    width: 30px; height: 30px;
+    background-color: #9f9f9f;
+    color: #ffffff;
+    text-align: center;
+    padding:0;
+}
+
+.sidebar-client-projet-priorite > .valeur {
+    /*padding-left: 50%;*/
     line-height: 20px;
+}
+
+.sidebar-projet-priorite > .valeur {
+    /*padding-left: 50%;*/
+    line-height: 20px;
+}
+
+.sidebar-client-priorite > .valeur {
+    /*padding-left: 50%;*/
+    line-height: 30px;
 }
 
 .sidebar-footer {
