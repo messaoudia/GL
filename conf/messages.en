@@ -117,3 +117,7 @@ createProject = Create a project
 createCustomer = Create a customer
 user = User
 dashboard = Dashboard
+displayFinishProjects = Show ended projects
+progress = Progress
+fromDate = From
+untilDate = Until
