@@ -34,9 +34,9 @@ public class Tache extends EntiteSecurise {
     @Constraints.Min(0)
     public Double chargeInitiale;
     @Constraints.Min(0)
-    public Double chargeConsommee;
+    private Double chargeConsommee;
     @Constraints.Min(0)
-    public Double chargeTotale;
+    private Double chargeTotale;
     public Integer priorite = 0;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
@@ -155,8 +155,35 @@ public class Tache extends EntiteSecurise {
         return sb.toString();
     }
 
+    public Double getChargeConsommee() {
+        return this.chargeConsommee;
+    }
+
+    public Double getChargeTotale() {
+        return this.chargeTotale;
+    }
+
+    public void setChargeConsommee(Double chargeConsommee) throws NotAvailableTask{
+        if (enfants.size() != 0) {
+            throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
+        }
+        this.chargeConsommee = chargeConsommee;
+        updateChargeConsommeeTacheRecursive(this);
+        updateChargeTotaleTacheRecursive(this);
+        save();
+    }
+
+    public void setChargeTotale(Double chargeTotale) throws NotAvailableTask{
+        if (enfants.size() != 0) {
+            throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
+        }
+        this.chargeTotale = chargeTotale;
+        updateChargeConsommeeTacheRecursive(this);
+        updateChargeTotaleTacheRecursive(this);
+        save();
+    }
+
     /**
-     * TODO testme
      * Modifie la charge de la tâche actuelle avec les charges en parametre
      *
      * @param chargeConsommee
@@ -172,6 +199,8 @@ public class Tache extends EntiteSecurise {
         }
         this.chargeConsommee = chargeConsommee;
         this.chargeTotale = chargeTotale;
+        updateChargeConsommeeTacheRecursive(this);
+        updateChargeTotaleTacheRecursive(this);
         updateAvancementTache();
     }
 
@@ -206,7 +235,7 @@ public class Tache extends EntiteSecurise {
      *
      * @param parent
      */
-    public void associerTacheMere(Tache parent) throws IllegalStateException {
+    private void associerTacheMere(Tache parent) throws IllegalStateException {
         if (niveau == 0) {
             throw new IllegalStateException("Association d'une tache mere a une tache de niveau 0 impossible");
         }
@@ -325,17 +354,10 @@ public class Tache extends EntiteSecurise {
 
     /**
      * TODO testme
-     * TODO A function may be needed: every time we update the chargeConsommee, we also need to update the chargeConsomme of its parent tache, may need to update avancement too
      */
     public Double getAvancementTache() {
         return (chargeConsommee / chargeTotale);
     }
-
-    /* TODO
-    public Double getAvancementSousTache() {
-
-    }
-    */
 
     /**
      * TODO testme
@@ -357,5 +379,42 @@ public class Tache extends EntiteSecurise {
         }
         return true;
     }
+
+    public boolean hasParent() {
+        return parent != null;
+    }
+
+    /**
+     * Mets a jour la charge consommee de la tâche éventuellement composée de sous-tâches
+     */
+    private void updateChargeConsommeeTacheRecursive(Tache tache) {
+        if(tache.hasParent()) {
+            Double chargeConsommeeNouvel = 0.0;
+            for(Tache tacheMemeNiveau : tache.parent.enfants){
+                chargeConsommeeNouvel += tacheMemeNiveau.chargeConsommee;
+            }
+            tache.parent.chargeConsommee = chargeConsommeeNouvel;
+            tache.parent.save();
+            updateChargeConsommeeTacheRecursive(tache.parent);
+        }
+    }
+
+    /**
+     * Mets a jour la charge totale de la tâche éventuellement composée de sous-tâches
+     */
+    private void updateChargeTotaleTacheRecursive(Tache tache) {
+        if(tache.hasParent()) {
+            Double chargeTotaleNouvel = 0.0;
+            for(Tache tacheMemeNiveau : tache.parent.enfants){
+                chargeTotaleNouvel += tacheMemeNiveau.chargeTotale;
+            }
+            tache.parent.chargeTotale = chargeTotaleNouvel;
+            tache.parent.save();
+            updateChargeTotaleTacheRecursive(tache.parent);
+        }
+    }
+
+    // TODO ajouter l'exception(chargeConsomee>chargeTotale) dans la fonction modifierCharge + test exception
+
 
 }
