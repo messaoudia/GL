@@ -7,3 +7,6 @@ target
 /.settings
 /RUNNING_PID
 /data
+/conf/evolutions
+GL.iml
+q
