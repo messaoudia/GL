@@ -279,7 +279,7 @@ public class Tache extends EntiteSecurise {
      * @param predecesseur
      * @throws IllegalStateException
      */
-    public void associerPredecesseur(Tache predecesseur) throws IllegalStateException {
+    private void associerPredecesseur(Tache predecesseur) throws IllegalStateException {
         if (this.predecesseur == predecesseur) {
             throw new IllegalStateException("Ce parametre est le meme que le predecesseur de cette tache");
         }
@@ -343,7 +343,6 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Vérifier la cohérence des 3 dates (dateDebut <= dateFinTot <= dateFinTard)
      */
     public boolean verifierCoherenceDesDates() {

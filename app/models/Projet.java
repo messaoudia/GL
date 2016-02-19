@@ -301,9 +301,6 @@ public class Projet extends EntiteSecurise {
         this.client = client;
     }
 
-    /**
-     * TODO testme
-     */
     public void calculeCheminCritique(){
         // Récupération des tâches qui sont à la toute fin
         List<Tache> listTachesFin = new ArrayList<Tache>();

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public abstract class EntiteSecurise extends Model {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     /*
