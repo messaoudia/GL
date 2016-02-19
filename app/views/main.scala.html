@@ -387,6 +387,26 @@
 
                     // $('#modal-tdb-tache').modal();
 
+                    $('#dataTables-admin-user tbody').on( 'click', 'tr td:not(:last-child)', function () {
+                        var $id = $(this).parent('tr').attr('value');
+                        jsRoutes.controllers.AdminController.afficherModalUtilisateur($id).ajax({
+                            success: function(utilisateur) {
+                                //console.log(utilisateur);
+                                $("#dataTables-admin-user").dataTable().fnDestroy();
+
+                                /* fill modal values*/
+                                $('#formLastName').val(utilisateur.nom);
+                                $('#formFirstName').val(utilisateur.prenom);
+                                $('#formEmail').val(utilisateur.email);
+                                $('#formTel').val(utilisateur.telephone);
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
+
                 });
 
                 /* Afficher les Clients archivés */
@@ -471,6 +491,8 @@
                             $('.archived').hide();
                         }
                     });
+
+
                 }
 
         </script>

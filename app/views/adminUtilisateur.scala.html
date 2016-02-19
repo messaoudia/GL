@@ -73,7 +73,7 @@
                             <tbody id="dataTables-admin-user-body">
                                 <!-- Boucle sur la liste des utilisateurs -->
                                 @for(utilisateur <- utilisateurs) {
-                                    <tr>
+                                    <tr value="@utilisateur.id">
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
@@ -249,32 +249,32 @@
                         <div class="ibox-content">
                             <form class="form-horizontal" id="userForm">
                                 <div class="row form-group form-group-user">
-                                    <label class="control-label" for="formLastName">@Messages("formLastName")</label>
-                                    <div><input type="text" id="formLastName" class="form-control"></div>
+                                    <label class="control-label" for="new-formLastName">@Messages("formLastName")</label>
+                                    <div><input type="text" id="new-formLastName" class="form-control"></div>
                                 </div>
                                 <div class="row form-group form-group-user">
-                                    <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
-                                    <div><input type="text" id="formFirstName" class="form-control"></div>
+                                    <label class="control-label" for="new-formFirstName">@Messages("formFirstName")</label>
+                                    <div><input type="text" id="new-formFirstName" class="form-control"></div>
                                 </div>
                                 <div class="row form-group form-group-user">
-                                    <label class="control-label" for="formEmail">@Messages("formEmail")</label>
-                                    <div><input type="text" id="formEmail" class="form-control"></div>
+                                    <label class="control-label" for="new-formEmail">@Messages("formEmail")</label>
+                                    <div><input type="text" id="new-formEmail" class="form-control"></div>
                                 </div>
                                 <div class="row form-group form-group-user">
-                                    <label class="control-label" for="formTel">@Messages("formTel")</label>
-                                    <div><input type="text" id="formTel" class="form-control"></div>
+                                    <label class="control-label" for="new-formTel">@Messages("formTel")</label>
+                                    <div><input type="text" id="new-formTel" class="form-control"></div>
                                 </div>
 
                                 <div class="row form-group form-group-user">
                                     <label class="col-sm-5 control-label">@Messages("administrator")</label>
                                     <div class="col-sm-7">
                                         <div class="radio radio-inline radio-danger">
-                                            <input type="radio" id="inlineRadioAdminOui" value="option1" name="radioInlineAdmin" checked="">
-                                            <label for="inlineRadioAdminOui">@Messages("yes")</label>
+                                            <input type="radio" id="new-inlineRadioAdminOui" value="option1" name="radioInlineAdmin" checked="">
+                                            <label for="new-inlineRadioAdminOui">@Messages("yes")</label>
                                         </div>
                                         <div class="radio radio-inline radio-danger">
-                                            <input type="radio" id="inlineRadioAdminNon" value="option2" name="radioInlineAdmin">
-                                            <label for="inlineRadioAdminNon">@Messages("no")</label>
+                                            <input type="radio" id="new-inlineRadioAdminNon" value="option2" name="radioInlineAdmin">
+                                            <label for="new-inlineRadioAdminNon">@Messages("no")</label>
                                         </div>
                                     </div>
                                 </div>

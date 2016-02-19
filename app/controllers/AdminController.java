@@ -38,4 +38,8 @@ public class AdminController extends Controller{
         //Logger.debug(Utilisateur.getAllArchives().toString());
         return ok(Json.toJson(Utilisateur.getAllArchives()));
     }
+
+    public Result afficherModalUtilisateur(long id){
+        return ok(Json.toJson(Utilisateur.find.byId(id)));
+    }
 }

@@ -49,3 +49,4 @@ GET         /adminProjets              controllers.AdminController.afficherAdmin
 GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
 POST        /adminUtilisateurArchive   controllers.AdminController.afficherUtilisateursArchives
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
+GET         /adminUtilisateurId        controllers.AdminController.afficherModalUtilisateur(id: Long)
