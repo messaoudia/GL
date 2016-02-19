@@ -162,7 +162,6 @@
         @scripts
         <script>
                 $(document).ready(function () {
-                    $(".select2-input").select2();
 
                     /* $("#submitButton").click(function(e) {
                      alert("JE SUIS LA");
@@ -180,30 +179,182 @@
                      });
                      });
                      */
+                    $(".select2-predecesseur").select2({
+                        placeholder : '@Messages("choosePredecessor")...',
+                        maximumSelectionLength: 1
+                    });
+
+                    $(".select2-successeur").select2({
+                        placeholder : '@Messages("chooseSuccessor")...'
+                    });
+                    $(".select2-client").select2({
+                        placeholder : '@Messages("chooseClient")...',
+                        maximumSelectionLength: 1
+                    });
+
+                    $(".select2-respo-projet").select2({
+                        placeholder : '@Messages("chooseProjectManager")...',
+                        maximumSelectionLength: 1
+                    });
+                    $(".select2-respo-tache").select2({
+                        placeholder : '@Messages("chooseTaskResponsible")...',
+                        maximumSelectionLength: 1
+                    });
+
+                    $('[data-toggle="popover"]').popover()
+                    // activate Nestable for list 1
                     $('#nestable').nestable({
-                        group: 1
+                        group: 1,
+                        maxDepth: 4
                     }).on('change');
 
-                    $('.dataTables-example').DataTable();
 
-                    $('#projet_Tache').dataTable( {
-                        "ordering": false
-                    } );
+                    $('#dataTables-tdb-projet').DataTable();
+
+
+                    $('#dataTables-tdb-tache').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets": [6, 7]
+                        } ]
+                    });
+                    $(".select2_demo_1").select2();
+
+                    $('.dataTables-example').DataTable();
 
                     $('#projet_Projet').dataTable( {
                         "ordering": false
                     } );
 
+                    $('#dataTables-admin-projet').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":6
+                        } ]
+                    });
+                    $('#projet_Tache').dataTable( {
+                        "ordering": false
+                    } );
 
-                    $('.footable').footable();
+
+                    $('#dataTables-admin-client').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":6
+                        } ]
+                    });
+
+                    $('#dataTables-admin-user').DataTable({
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":7
+                        } ]
+                    });
+
+                    $('#btn-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').hide();
+                        $('#div-modifierTache').show();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-fermer-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-valider-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-modifierTache-active').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-consulterTache').show();
+                        $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#datepicker_date_debut .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_tot .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#projet-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#tache-tdb').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-retardes').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proches').slimScroll({
+                        height: '130px'
+                    });
+                    $('#taches-proposees').slimScroll({
+                        height: '130px'
+                    });
+                    $('#bloc-notes-tdb').slimScroll({
+                        height: '172px',
+                        width: '100%'
+                    });
+                    $('.description-modal-tache').slimScroll({
+                        height: '100px'
+                    });
+
+                    $('.list-task').slimScroll({
+                        height: '90px'
+                    });
+                    $('.list-modif-client').slimScroll({
+                        height: '130px'
+                    });
 
                     $('.list-personnes-notifiees').slimScroll({
                         height: '85px'
                     });
+                    /*
+                     $('.table-suppr-user').slimScroll({
+                     height: '300px'
+                     });
+                     */
 
-                    // activate Nestable for list 1
+                    $('.footable').footable();
 
-                    $('[data-toggle="popover"]').popover()
+                    // $('#modal-tdb-tache').modal();
 
                 });
 
