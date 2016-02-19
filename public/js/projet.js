@@ -20,10 +20,24 @@ $(document).ajaxComplete(function() {
 
     });
 
+    $( "#btn-modifierProjet" ).click(function() {
+        //$("#div-consulterProjet").css("display","none");
+        jQuery.fx.off = true;
+        $("#div-consulterProjet").hide();
+        $("#div-modifierProjet").show();
+        jQuery.fx.off = false;
+    });
+
+
 });
 
 $(function(){
 
+    $('.sidebar-projet').click(function(){
+        $('.sidebar-projet.select').removeClass("select");
+        $(this).addClass("select");
+
+    });
     $( "#btn-modifierProjet" ).click(function() {
         //$("#div-consulterProjet").css("display","none");
         jQuery.fx.off = true;

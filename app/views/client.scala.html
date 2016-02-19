@@ -1,81 +1,317 @@
 @(pageTitle: String)
 
-@scripts = {
-    <script>
-            $(document).ready(function() {
-                $('.liclickable').click(function (e) {
-                    e.preventDefault();
-                    var self = $(this),
-                            controler = self.data('infos') || self.attr('data-infos');
-                    $('#sidebar ul li').removeClass('active');
-                    $(this).addClass('active');
+    @scripts = {
+        <script>
+                $(document).ready(function() {
+                    $('.liclickable').click(function (e) {
+                        e.preventDefault();
+                        var self = $(this),
+                                controler = self.data('infos') || self.attr('data-infos');
+                        $('#sidebar ul li').removeClass('active');
+                        $(this).addClass('active');
 
-                    eval("jsRoutes.controllers."+controler).ajax({
-                        success: function(html) {
-                            var result = $('#refresh',html);
-                            $('#refresh').empty().html(result);
-                        },
-                        //Case we have a problem
-                        error: function(errorMessage){
-                            alert(errorMessage);
-                        }
+                        eval("jsRoutes.controllers."+controler).ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html);
+                                $('#refresh').empty().html(result);
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
                     });
-                });
+                    $( window ).resize(function() {
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                    });
 
-                $("body").load(function(){
+                    $('.liste-projet').css('height',"100%");
+                    height = $('.liste-projet').css('height');
+                    height = parseInt(height);
+                    height -= 150;
+                    $('.liste-projet').css('height',height);
+
+                    $("body").load(function(){
+                        updateMenu();
+                    });
+
+                    function updateMenu()
+                    {
+                        var navHeader = document.getElementById('nav-header-admin');
+                        $(navHeader).addClass('nav-header');
+                        $('.navbar').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important; transition: none;");
+                        $('.pear-theme').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important;");
+                    }
                     updateMenu();
                 });
+        </script>
+    }
 
-                function updateMenu()
-                {
-                    var navHeader = document.getElementById('nav-header-admin');
-                    $(navHeader).addClass('nav-header');
-                    $('.navbar').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important; transition: none;");
-                    $('.pear-theme').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important;");
-                }
-                updateMenu();
+    @content = {
+        <div id="wrapper" class="ng-scope">
+            @sidebar("Client")
 
-            });
-    </script>
-}
+            <div id="page-wrapper" class="gray-bg dashbard-1">
+                @topbar()
 
-@content = {
-    <div id="wrapper" class="ng-scope">
-        @sidebar("Client")
 
-        <div id="page-wrapper" class="gray-bg dashbard-1">
-            @topbar()
-            <div id="refresh" >
+                <div id="refresh" >
+                    <div>
 
-                <div class="row wrapper border-bottom white-bg page-heading">
-                    <div class="col-sm-4">
-                        <h2>This is CLIENT</h2>
-                        <ol class="breadcrumb">
-                            <li>
-                                <a href="http://webapplayers.com/inspinia_admin-v2.4/index.html">This is</a>
-                            </li>
-                            <li class="active">
-                                <strong>Breadcrumb</strong>
-                            </li>
-                        </ol>
                     </div>
+                    <div class="row">
+                        <div id="afficheListeProjet" style="position:fixed; background-color:#1AB394; height: 25px; width: 170px; z-index:1999; text-align:center; line-height: 25px;">
+                            <i id="icon-show-liste-projet" class="fa fa-outdent" style="color:#FFF;"></i>
+                        </div>
+                        <div id="col-sidebar-liste-projet" class="col-md-2" style="padding: 0;">
+                            <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color: rgb(153, 207, 255);">
+                                <div class="liste-projet" style="overflow-y: auto; height: 100%; margin-top:30px;">
 
-                </div>
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet select">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">myProject</div>
+                                                <div class="sidebar-client-nom">PoPS5I Inc.</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">3</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">myProject</div>
+                                                <div class="sidebar-client-nom">PoPS5I Inc.</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">3</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">myProject</div>
+                                                <div class="sidebar-client-nom">PoPS5I Inc.</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">3</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">myProject</div>
+                                                <div class="sidebar-client-nom">PoPS5I Inc.</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">3</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="wrapper wrapper-content">
-                    <div class="middle-box text-center animated fadeInRightBig">
-                        <h3 class="font-bold">This is page content</h3>
-                        <div class="error-desc">
-                            You can create here any grid layout you want. And any variation layout you imagine:) Check out
-                            main dashboard and other site. It use many different layout.
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">BigData</div>
+                                                <div class="sidebar-client-nom">Auchan</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">2</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">BigData</div>
+                                                <div class="sidebar-client-nom">Auchan</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">2</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">BigData</div>
+                                                <div class="sidebar-client-nom">Auchan</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">2</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">BigData</div>
+                                                <div class="sidebar-client-nom">Auchan</div>
+                                                <div class="sidebar-client-priorite"><div class="valeur">2</div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute; bottom: 51px; background-color: rgba(255, 162, 120, 0.57);">
+                                    <div class="sidebar-footer">
+                                        <div class="checkbox checkbox-success checkbox-circle">
+                                            <input id="checkbox-tache-termines" type="checkbox">
+                                            <label for="checkbox-tache-termines">
+                                                Afficher les projets terminés
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="col-consulterProjet" class="col-md-10">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="div-consulterProjet">
+                                        <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
+
+                                            <div class="col-sm-4">
+                                                <h3 class="header-text">Projet : myProjects <div class="priorite">1</div> </h3>
+                                                <h3 class="header-text">Client : PoPS5I Inc. <div class="priorite">2</div> </h3>
+                                                <textarea readonly class="description" style="width: 100% ;">Le but étant de développer un site web permettant le suivi de projet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam. Sed dapibus est id enim facilisis, at posuere turpis adipiscing. Quisque sit amet dui dui.</textarea>
+                                            </div>
+
+                                            <div class="col-sm-5" id="header-milieu">
+                                                <h3 class="header-text">Responsable projet : Julien Preisner</h3>
+                                                <h3 class="header-text">Avancement : 25%</h3>
+
+                                                <h3 class="header-text">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                Du <div class="date-projet">14/10/2015</div>
+                                                            </td>
+                                                            <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
+                                                            <td>
+                                                                <div class="date-projet">01/02/2016</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>
+                                                                <div class="date-projet">05/02/2016</div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </h3>
+                                            </div>
+
+                                            <div class="col-sm-3">
+
+                                                <div class="row" style="padding-top: 10px ;">
+
+                                                    <div class="col-xs-9">
+                                                        <div class="row-initiale">Initiale : 50J</div>
+                                                        <div class="row-restante">Restante : 30J</div>
+                                                        <div class="progress progress-bar-default">
+                                                                <!-- si 0% : color:black; -->
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                                                60%
+                                                            </div>
+                                                        </div>
+                                                        <p class="row-consommee">Consommée : 30J</p>
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
+                                                            <i class="fa fa-info"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-top: 14px ;">
+                                                    <div style="margin-top:14px ;">
+
+                                                        <button id="btn-modifierProjet" class="btn btn-info" type="button" style="padding: 3px 7px ; float: right ; border-radius: 0px 0 0 0 ; background-color: #1AB394"><i class="fa fa-pencil"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div id="div-modifierProjet" style="display: none ;">
+                                        <form id="addProjectForm" class="m-t" role="form" method="POST">
+
+                                            <div class="wrapper wrapper-content">
+                                                <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
+                                                    <div class="ibox-content">
+                                                        <div class="row">
+                                                            <div class="col-sm-offset-2 col-sm-8">
+                                                                <label class="label_form" for="projectResponsible">@Messages("project")</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-offset-2 col-sm-8">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6"><input placeholder="" class="form-control"></div>
+                                                                    <div class="col-sm-6">@Messages("priority")
+
+                                                                        <div class="btn-group" style="display: inline-block ;">
+                                                                            <button class="btn" type="button">1</button>
+                                                                            <button class="btn btn-active" type="button">2</button>
+                                                                            <button class="btn" type="button">3</button>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <div class='form-group'>
+                                                                            <label class="label_form" for="projectResponsible">@Messages("projectPersonResponsible")</label>
+                                                                            <input class="form-control" id="projectResponsible" name="projectResponsible" required="true"/>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-sm-6">
+                                                                        <div class='form-group'>
+                                                                            <label class="label_form" for="client">@Messages("client")</label>
+                                                                            <input class="form-control" id="client" name="client" required="true"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <label class="label_form">@Messages("description")</label>
+                                                                    </div>
+
+                                                                    <div class="col-sm-12">
+                                                                        <textarea style="height: 260px ; width:100% ;"></textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ;">
+
+                                                        <h3>@Messages("saveProject")</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </form>
+                                    </div>
+                                    <div style="margin-top: 30px ;" class="row wrapper wrapper-content white-bg">
+                                        Tableau
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
-    </div>
-}
+    }
 
 @main(pageTitle,content, scripts)
