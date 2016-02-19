@@ -564,7 +564,7 @@ INDEX FIN
 .dropdown-filtre > li > .checkbox{
     margin-left:10px;
 }
-
+.table-responsive-client > .dataTables_wrapper > .row,
 .table-responsive-admin-user > .dataTables_wrapper > .row,
 .table-responsive-admin-client > .dataTables_wrapper > .row,
 .table-responsive-tdb > .dataTables_wrapper > .row,
