@@ -252,9 +252,9 @@ public class ModelBeanTest {
             Logger.debug(t2.nom);
             Logger.debug(t2.description);
             Logger.debug(t2.critique.toString());
-            Logger.debug(t2.chargeConsommee.toString());
+            Logger.debug(t2.getChargeConsommee().toString());
             Logger.debug(t2.chargeInitiale.toString());
-            Logger.debug(t2.chargeTotale.toString());
+            Logger.debug(t2.getChargeTotale().toString());
             Logger.debug(t2.dateDebut.toString());
             Logger.debug(t2.dateFinTard.toString());
             Logger.debug(t2.dateFinTot.toString());

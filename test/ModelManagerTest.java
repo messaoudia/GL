@@ -1,5 +1,6 @@
 import com.avaje.ebean.common.BeanList;
 import models.*;
+import models.Exceptions.NotAvailableTask;
 import models.Utils.Utils;
 import org.junit.Test;
 import play.Logger;
@@ -621,9 +622,15 @@ public class ModelManagerTest {
             tache.dateFinTot = Utils.getDateFrom(2016,12,1);
             tache.dateFinTard = Utils.getDateFrom(2016,12,1);
             tache.description = "description tache11111";
-            tache.chargeConsommee = 10D;
+            //tache.chargeConsommee = 10D;
+            //tache.chargeTotale = 10D;
             tache.chargeInitiale = 10D;
-            tache.chargeTotale = 10D;
+            try {
+                tache.setChargeConsommee(10D);
+                tache.setChargeTotale(10D);
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
             tache.save();
 
             projet.ajouterTache(tache);
@@ -700,9 +707,13 @@ public class ModelManagerTest {
             Tache tache = new Tache();
             tache.nom = "Tache1111";
             tache.description = "description tache11111";
-            tache.chargeConsommee = 10D;
             tache.chargeInitiale = 10D;
-            tache.chargeTotale = 10D;
+            try {
+                tache.setChargeConsommee(10D);
+                tache.setChargeTotale(10D);
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
             tache.save();
 
             Tache tache2 = new Tache();
@@ -820,6 +831,150 @@ public class ModelManagerTest {
 
             projet.ajouterTache(tacheMere);
             projet.insererTacheFille(tacheMere,tacheFille);
+        });
+    }
+
+    @Test
+    public void testModifierCharge() {
+        running(fakeApplication(), ()-> {
+            Tache tacheGrandParent = new Tache();
+            tacheGrandParent.nom = "TacheGrandParent";
+            tacheGrandParent.description = "description tacheGrandParent";
+            tacheGrandParent.niveau = 0;
+            tacheGrandParent.chargeInitiale = 10D;
+            try {
+                tacheGrandParent.setChargeConsommee(10D);
+                tacheGrandParent.setChargeTotale(10D);
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
+            tacheGrandParent.save();
+
+            Tache tacheParent1 = new Tache();
+            tacheParent1.nom = "tacheParent1";
+            tacheParent1.description = "description tacheParent1";
+            tacheParent1.niveau = 1;
+            tacheParent1.chargeInitiale = 6D;
+            try {
+                tacheParent1.setChargeConsommee(6D);
+                tacheParent1.setChargeTotale(6D);
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
+            tacheParent1.save();
+            tacheGrandParent.associerSousTache(tacheParent1);
+
+            Tache tacheParent2 = new Tache();
+            tacheParent2.nom = "tacheParent2";
+            tacheParent2.description = "description tacheParent2";
+            tacheParent2.niveau = 1;
+            tacheParent2.chargeInitiale = 4D;
+            try {
+                tacheParent2.setChargeConsommee(4D);
+                tacheParent2.setChargeTotale(4D);
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
+            tacheParent2.save();
+            tacheGrandParent.associerSousTache(tacheParent2);
+            tacheParent2.associerPredecesseur(tacheParent1);
+
+            Tache tache1 = new Tache();
+            tache1.nom = "tache1";
+            tache1.description = "description tache1";
+            tache1.niveau = 2;
+            tache1.chargeInitiale = 1D;
+            try {
+                tache1.setChargeConsommee(1D);
+                tache1.setChargeTotale(1D);
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
+            tache1.save();
+            tacheParent1.associerSousTache(tache1);
+
+            Tache tache2 = new Tache();
+            tache2.nom = "tache2";
+            tache2.description = "description tache2";
+            tache2.niveau = 2;
+            tache2.chargeInitiale = 5D;
+            try {
+                tache2.setChargeConsommee(5D);
+                tache2.setChargeTotale(5D);
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
+            tache2.save();
+            tacheParent1.associerSousTache(tache2);
+            tache2.associerPredecesseur(tache1);
+
+            Projet projet = new Projet();
+            projet.nom = "Projet";
+            projet.save();
+            projet.ajouterTache(tacheGrandParent);
+
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
+            u1.save();
+            u1.affectTache(tacheGrandParent);
+            u1.affectTache(tacheParent1);
+            u1.affectTache(tacheParent2);
+            u1.affectTache(tache1);
+            u1.affectTache(tache2);
+
+            //Structure des taches: tacheGrandParent{tacheParent1, tacheParent2}
+            //Structure des taches: tacheParent1{tache1, tache2}
+            try {
+                //Charge consommee Avant: tacheGrandParent=10, tacheParent1=6, tacheParent2=4, tache1=1 et tache2=5
+                assertTrue(Tache.find.byId(tache1.id).getChargeConsommee() == 1D);
+                assertTrue(Tache.find.byId(tache2.id).getChargeConsommee() == 5D);
+                assertTrue(Tache.find.byId(tacheParent1.id).getChargeConsommee() == 6D);
+                assertTrue(Tache.find.byId(tacheParent2.id).getChargeConsommee() == 4D);
+                assertTrue(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() == 10D);
+
+                tache1.setChargeConsommee(2D);
+
+                //Charge consommee Apres: tacheGrandParent=11, tacheParent1=7, tacheParent2=4, tache1=2 et tache2=5
+                assertTrue(Tache.find.byId(tache1.id).getChargeConsommee() == 2D);
+                assertTrue(Tache.find.byId(tache2.id).getChargeConsommee() == 5D);
+                assertTrue(Tache.find.byId(tacheParent1.id).getChargeConsommee() == 7D);
+                assertTrue(Tache.find.byId(tacheParent2.id).getChargeConsommee() == 4D);
+                assertTrue(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() == 11D);
+
+                //Charge totale Avant: tacheGrandParent=10, tacheParent1=6, tacheParent2=4, tache1=1 et tache2=5
+                assertTrue(Tache.find.byId(tache1.id).getChargeTotale() == 1D);
+                assertTrue(Tache.find.byId(tache2.id).getChargeTotale() == 5D);
+                assertTrue(Tache.find.byId(tacheParent1.id).getChargeTotale() == 6D);
+                assertTrue(Tache.find.byId(tacheParent2.id).getChargeTotale() == 4D);
+                assertTrue(Tache.find.byId(tacheGrandParent.id).getChargeTotale() == 10D);
+
+                tache2.setChargeTotale(7D);
+
+                //Charge totale Apres: tacheGrandParent=12, tacheParent1=8, tacheParent2=4, tache1=1 et tache2=7
+                assertTrue(Tache.find.byId(tache1.id).getChargeTotale() == 1D);
+                assertTrue(Tache.find.byId(tache2.id).getChargeTotale() == 7D);
+                assertTrue(Tache.find.byId(tacheParent1.id).getChargeTotale() == 8D);
+                assertTrue(Tache.find.byId(tacheParent2.id).getChargeTotale() == 4D);
+                assertTrue(Tache.find.byId(tacheGrandParent.id).getChargeTotale() == 12D);
+
+                tache1.modifierCharge(3D, 5D);
+                //Charge consommee Apres: tacheGrandParent=12, tacheParent1=8, tacheParent2=4, tache1=3 et tache2=5
+                assertTrue(Tache.find.byId(tache1.id).getChargeConsommee() == 3D);
+                assertTrue(Tache.find.byId(tache2.id).getChargeConsommee() == 5D);
+                assertTrue(Tache.find.byId(tacheParent1.id).getChargeConsommee() == 8D);
+                assertTrue(Tache.find.byId(tacheParent2.id).getChargeConsommee() == 4D);
+                assertTrue(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() == 12D);
+
+                //Charge totale Apres: tacheGrandParent=12, tacheParent1=8, tacheParent2=4, tache1=1 et tache2=7
+                assertTrue(Tache.find.byId(tache1.id).getChargeTotale() == 5D);
+                assertTrue(Tache.find.byId(tache2.id).getChargeTotale() == 7D);
+                assertTrue(Tache.find.byId(tacheParent1.id).getChargeTotale() == 12D);
+                assertTrue(Tache.find.byId(tacheParent2.id).getChargeTotale() == 4D);
+                assertTrue(Tache.find.byId(tacheGrandParent.id).getChargeTotale() == 16D);
+
+            } catch (NotAvailableTask notAvailableTask) {
+                notAvailableTask.printStackTrace();
+            }
+
         });
     }
 }
