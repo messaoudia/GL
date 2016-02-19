@@ -1,0 +1,81 @@
+@(pageTitle: String)
+
+@scripts = {
+    <script>
+            $(document).ready(function() {
+                $('.liclickable').click(function (e) {
+                    e.preventDefault();
+                    var self = $(this),
+                            controler = self.data('infos') || self.attr('data-infos');
+                    $('#sidebar ul li').removeClass('active');
+                    $(this).addClass('active');
+
+                    eval("jsRoutes.controllers."+controler).ajax({
+                        success: function(html) {
+                            var result = $('#refresh',html);
+                            $('#refresh').empty().html(result);
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+                });
+
+                $("body").load(function(){
+                    updateMenu();
+                });
+
+                function updateMenu()
+                {
+                    var navHeader = document.getElementById('nav-header-admin');
+                    $(navHeader).addClass('nav-header');
+                    $('.navbar').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important; transition: none;");
+                    $('.pear-theme').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important;");
+                }
+                updateMenu();
+
+            });
+    </script>
+}
+
+@content = {
+    <div id="wrapper" class="ng-scope">
+        @sidebar("Client")
+
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            @topbar()
+            <div id="refresh" >
+
+                <div class="row wrapper border-bottom white-bg page-heading">
+                    <div class="col-sm-4">
+                        <h2>This is CLIENT</h2>
+                        <ol class="breadcrumb">
+                            <li>
+                                <a href="http://webapplayers.com/inspinia_admin-v2.4/index.html">This is</a>
+                            </li>
+                            <li class="active">
+                                <strong>Breadcrumb</strong>
+                            </li>
+                        </ol>
+                    </div>
+
+                </div>
+
+                <div class="wrapper wrapper-content">
+                    <div class="middle-box text-center animated fadeInRightBig">
+                        <h3 class="font-bold">This is page content</h3>
+                        <div class="error-desc">
+                            You can create here any grid layout you want. And any variation layout you imagine:) Check out
+                            main dashboard and other site. It use many different layout.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+
+@main(pageTitle,content, scripts)

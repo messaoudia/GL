@@ -1,0 +1,306 @@
+@(pageTitle: String)
+
+@scripts = {
+    <script>
+            $(document).ready(function() {
+                $('.liclickable').click(function (e) {
+                    e.preventDefault();
+                    var self = $(this),
+                            controler = self.data('infos') || self.attr('data-infos');
+                    $('#sidebar ul li').removeClass('active');
+                    $(this).addClass('active');
+
+                    eval("jsRoutes.controllers."+controler).ajax({
+                        success: function(html) {
+                            var result = $('#refresh',html);
+                            $('#refresh').empty().html(result);
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+                });
+
+                $("body").load(function(){
+                    updateMenu();
+                });
+
+                function updateMenu()
+                {
+                    var navHeader = document.getElementById('nav-header');
+                    $(navHeader).addClass('nav-header-admin');
+                    $('.navbar').css("cssText", "background-color : #e74c3c !important;border-color : #e74c3c !important; transition: none;");
+                    $('.pear-theme').css("cssText", "background-color : #e74c3c !important;border-color : #e74c3c !important;");
+                }
+                updateMenu();
+            });
+    </script>
+}
+
+@content = {
+    <div id="wrapper" class="ng-scope">
+        @sidebar("UtilisateurAdmin")
+
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            @topbar()
+            <div id="refresh" >
+                <div class="ibox-content">
+                    <div class="row row-options-admin-user">
+                        <div class="col-sm-3">
+                            <div class="checkbox checkbox-danger checkbox-circle">
+                                <input id="checkboxUsersArchived" class="styled" type="checkbox">
+                                <label for="checkboxUsersArchived"> @Messages("showArchivedUsers") </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-responsive-admin-user">
+                        <table id="dataTables-admin-user" class="table table-striped table-bordered table-hover" >
+                            <thead>
+                                <tr>
+                                    <th>@Messages("formLastName")</th>
+                                    <th>@Messages("formFirstName")</th>
+                                    <th>@Messages("formEmail")</th>
+                                    <th>@Messages("formTel")</th>
+                                    <th>@Messages("currentProjects")</th>
+                                    <th>@Messages("currentTasks")</th>
+                                    <th>@Messages("archived")</th>
+                                    <th><i class="fa fa-trash"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Rabi</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Yasser</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">yasser.rabi&commat;u-psud.fr</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">0123456789</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">25</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">7</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Oui</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Heng</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Daro</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">daro.heng&commat;u-psud.fr</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">0123456788</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">7</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">3</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Non</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Zheng</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Zhang</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">zz&commat;u-psud.fr</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">09876554321</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">12</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">12</td>
+                                    <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">Oui</td>
+                                    <td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="modal fade" id="modal-modif-user" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="ibox-title background_admin div-center">
+                                    <h5 class="text-white inline">@Messages("setUser")</h5>
+                                    <div class="ibox-tools">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <i class="fa fa-times"/>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <form class="form-horizontal" id="userForm">
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formLastName">@Messages("formLastName")</label>
+                                            <div><input type="text" id="formLastName" class="form-control"></div>
+                                        </div>
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
+                                            <div><input type="text" id="formFirstName" class="form-control"></div>
+                                        </div>
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formEmail">@Messages("formEmail")</label>
+                                            <div><input type="text" id="formEmail" class="form-control"></div>
+                                        </div>
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formTel">@Messages("formTel")</label>
+                                            <div><input type="text" id="formTel" class="form-control"></div>
+                                        </div>
+
+                                        <div class="row form-group form-group-user">
+                                            <label class="col-sm-5 control-label">@Messages("administrator")</label>
+                                            <div class="col-sm-7">
+                                                <div class="radio radio-inline radio-danger">
+                                                    <input type="radio" id="inlineRadioAdminOui" value="option1" name="radioInlineAdmin" checked="">
+                                                    <label for="inlineRadioAdminOui">Oui</label>
+                                                </div>
+                                                <div class="radio radio-inline radio-danger">
+                                                    <input type="radio" id="inlineRadioAdminNon" value="option2" name="radioInlineAdmin">
+                                                    <label for="inlineRadioAdminNon">Non</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:15px;">
+                                            <div class="div-center">
+                                                    <!--TODO modalview Valider (check contacts & projet & champs -->
+                                                <button class="btn btn-admin" type="submit" form="userForm">
+                                                    <i class="fa fa-check-square"></i> @Messages("validate")
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="modal-suppr-user" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="ibox-title background_admin div-center">
+                                    <h5 class="text-white inline">@Messages("removeUser")</h5>
+                                    <div class="ibox-tools">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <i class="fa fa-times"/>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <form class="form-horizontal" id="removeUserForm">
+                                        <div class="row div-center">
+                                            <h3>@Messages("deletingOf") : Yasser Rabi (yasser.rabi&commat;u-psud.fr)</h3>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>@Messages("projectManagerChange") :</p>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>@Messages("project")</th>
+                                                                <th>@Messages("newPersonResponsible")</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="table-suppr-user">
+                                                            <tr>
+                                                                <td>Projet 1</td>
+                                                                <td>
+                                                                    <select class="form-control select2-respo-tache" style="width:100%;" multiple="multiple">
+                                                                        <option value="Mayotte">Mayotte</option>
+                                                                        <option value="Mexico">Mexico</option>
+                                                                        <option value="Nicaragua">Nicaragua</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!-- TODO : clé traduction -->
+                                                <p>Changement du responsable d'une tâche :</p>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>@Messages("task")</th>
+                                                                <th>@Messages("project")</th>
+                                                                <th>@Messages("newPersonResponsible")</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="table-suppr-user">
+                                                            <tr>
+                                                                <td>Créer la base de données</td>
+                                                                <td>Projet 1</td>
+                                                                <td>
+                                                                    <select class="form-control select2-respo-projet" style="width:100%;" multiple="multiple">
+                                                                        <option value="Mayotte">Mayotte</option>
+                                                                        <option value="Mexico">Mexico</option>
+                                                                        <option value="Nicaragua">Nicaragua</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:15px;">
+                                            <div class="div-center">
+                                                    <!--TODO modalview Valider (check contacts & projet & champs -->
+                                                <button class="btn btn-admin" type="submit" form="removeUserForm">
+                                                    <i class="fa fa-check-square"></i> @Messages("validate")
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <button type="button" class="btn btn-w-m btn-primary" style="position: fixed; bottom: 0; width:100%; margin-left:-15px; padding-left:0px;padding-right:0px;" data-toggle="modal" data-target="#modal-add-user">@Messages("addUser")</button>
+                <div class="modal fade" id="modal-add-user" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="ibox-title background_admin div-center">
+                            <h5 class="text-white inline">@Messages("addUser")</h5>
+                            <div class="ibox-tools">
+                                <button type="button" class="close" data-dismiss="modal">
+                                    <i class="fa fa-times"/>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <form class="form-horizontal" id="userForm">
+                                <div class="row form-group form-group-user">
+                                    <label class="control-label" for="formLastName">@Messages("formLastName")</label>
+                                    <div><input type="text" id="formLastName" class="form-control"></div>
+                                </div>
+                                <div class="row form-group form-group-user">
+                                    <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
+                                    <div><input type="text" id="formFirstName" class="form-control"></div>
+                                </div>
+                                <div class="row form-group form-group-user">
+                                    <label class="control-label" for="formEmail">@Messages("formEmail")</label>
+                                    <div><input type="text" id="formEmail" class="form-control"></div>
+                                </div>
+                                <div class="row form-group form-group-user">
+                                    <label class="control-label" for="formTel">@Messages("formTel")</label>
+                                    <div><input type="text" id="formTel" class="form-control"></div>
+                                </div>
+
+                                <div class="row form-group form-group-user">
+                                    <label class="col-sm-5 control-label">@Messages("administrator")</label>
+                                    <div class="col-sm-7">
+                                        <div class="radio radio-inline radio-danger">
+                                            <input type="radio" id="inlineRadioAdminOui" value="option1" name="radioInlineAdmin" checked="">
+                                            <label for="inlineRadioAdminOui">@Messages("yes")</label>
+                                        </div>
+                                        <div class="radio radio-inline radio-danger">
+                                            <input type="radio" id="inlineRadioAdminNon" value="option2" name="radioInlineAdmin">
+                                            <label for="inlineRadioAdminNon">@Messages("no")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:15px;">
+                                    <div class="div-center">
+                                            <!--TODO modalview Valider (check contacts & projet & champs -->
+                                        <button class="btn btn-admin" type="submit" form="userForm">
+                                            <i class="fa fa-check-square"></i> @Messages("validate")
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@main(pageTitle,content, scripts)

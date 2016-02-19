@@ -1,0 +1,228 @@
+@(taches: List[Task])
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta nom="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>MyProjects | Tests</title>
+
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+        <link href="css/animate.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+    </head>
+
+    <body class="gray-bg">
+        <div class="middle-box text-center animated fadeInDown">
+            <div>
+                <div>
+
+                    <h4 class="logo-nom">Tests</h4>
+                    <form method="POST" action="/changeLanguage">
+                        <input name="language" type="submit" value="en" title="English">
+                        <input name="language" type="submit" value="fr" title="French">
+                        <input name="return_url" type="hidden" value="@request().path()">
+                    </form>
+                        <!-- Form errors goes here -->
+                    <div id="errorOutputPlace" style="color:red">
+
+                    </div>
+                </div>
+                <form id="addTaskhForm" class="m-t" role="form" method="POST">
+                    <div class='row'>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="nom">@Messages("name")</label>
+                                <input class="form-control" id="nom" name="nom" required="true" size="30" type="text" />
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="description">@Messages("description")</label>
+                                <input class="form-control" id="description" name="description" required="true" type="text" />
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="charge">@Messages("load")</label>
+                                <input class="form-control" id="charge" name="charge" required="true" size="30" type="number" />
+                            </div>
+                        </div>
+                        <div class='col-sm-3'>
+                            <div class='form-group'>
+                                <label for="user_lastname">@Messages("submit")</label>
+                                <button id="addTask" type="submit" class="form-control btn btn-primary block full-width m-b">
+                                @Messages("add")</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Custom responsive table </h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="#">Config option 1</a>
+                                    </li>
+                                    <li><a href="#">Config option 2</a>
+                                    </li>
+                                </ul>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+
+                                            <th>#</th>
+                                            <th>Nom </th>
+                                            <th>Description </th>
+                                            <th>Charge </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="taskList">
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <p class="m-t"> <small>MyProjects &copy; 2016</small> </p>
+            </div>
+        </div>
+
+
+            <!-- Mainly scripts -->
+        <script src="js/jquery-2.1.1.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+            <!-- Play Framework Javascript Routes -->
+        <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
+
+        <script type="application/javascript">
+
+                // For simplification purpose
+                var doc = $ (document);
+
+                // Waiting until the web page load all the scripts and the contents
+                doc.ready (function() {
+                    //########################################
+                    //  Ajax call for initializing the view
+                    //########################################
+                    jsRoutes.controllers.Tests.getAll().ajax({
+                        success : function(data) {
+                            var tacheList = $('#taskList');
+                            $(data).each(function(index, tache) {
+                                var list ="";
+                                list+=('<tr>');
+                                list+=('<td>'+tache.id+'</td>');
+                                list+=('<td>'+tache.nom+'</td>');
+                                list+=('<td>'+tache.description+'</td>');
+                                list+=('<td>'+tache.charge+'</td>');
+                                list+=('</tr>');
+
+                                tacheList.append(list);
+                            });
+
+                        }
+                    });
+                    //########################################
+
+                    //########################################
+                    //  Ajax call for adding a task
+                    //########################################
+
+                    $( "#addTaskhForm" ).submit(function( event ) {
+
+                        // Stop form from submitting normally
+                        event.preventDefault();
+
+                        // Get the form itself:
+                        var $form = $( this );
+
+                        // We call the controller created in the controllers package responsible for adding a task
+                        // The controller is available throw the routes file:
+                        // POST        /addTask                   controllers.Tests.addTask()
+
+
+
+
+                        jsRoutes.controllers.Tests.addTask().ajax({
+                            // Serialising the form to send it
+                            data :$form.serialize(),
+                            // Case the operation end successfully
+                            success : function(task) { // task is the response coming from the server
+
+                                // Logging for debug purpose
+                                console.log(task)
+
+                                // Creating the HTML element
+                                var list ="";
+                                list+=('<tr>');
+                                list+=('<td>'+task.id+'</td>');
+                                list+=('<td>'+task.nom+'</td>');
+                                list+=('<td>'+task.description+'</td>');
+                                list+=('<td>'+task.charge+'</td>');
+                                list+=('</tr>');
+
+                                // Adding the newly created task to the html element having the id="tacheList"
+                                $('#taskList').append(list);
+
+                                // Emptying the form after a successful add
+                                $("#addTaskhForm")[0].reset();
+                                $('#errorOutputPlace').empty();
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                // This is an exemple of handling a problem related to a wrong form inputs
+                                // The errorMessage came from the controller and can be personalised
+
+                                // Deleting old error messages
+                                $('#errorOutputPlace').empty();
+
+                                $.each($.parseJSON(errorMessage.responseText), function(inputKey, inputError) {
+                                    console.error(inputKey + ' => ' + inputError);
+
+                                    // Pushing the error to the view in the appropriate HTML elements
+                                    $('#errorOutputPlace').append(inputKey + ' => ' + inputError+"<br>");
+                                });
+                            }
+                        });
+
+                    });
+                    //########################################
+
+
+                    //########################################
+                    //  All the Ajax calls goes here
+                    //########################################
+
+
+
+                    //########################################
+                });
+
+        </script>
+
+    </body>
+
+</html>
