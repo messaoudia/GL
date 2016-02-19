@@ -33,24 +33,7 @@
         <div id="page-wrapper" class="gray-bg dashbard-1">
             @topbar()
             <div id="refresh" >
-
-                <div class="row wrapper border-bottom white-bg page-heading">
-                    <div class="col-sm-4">
-                        <h2>This is CREER PROJET</h2>
-                        <ol class="breadcrumb">
-                            <li>
-                                <a href="http://webapplayers.com/inspinia_admin-v2.4/index.html">This is</a>
-                            </li>
-                            <li class="active">
-                                <strong>Breadcrumb</strong>
-                            </li>
-                        </ol>
-                    </div>
-
-                </div>
-
                 <form id="addProjectForm" class="m-t" role="form" method="POST">
-
                     <div class="wrapper wrapper-content">
                         <div class="ibox animated fadeInRightBig" style="background-color: #FFF; max-width: 100%;">
                             <div class="ibox-content">
@@ -66,12 +49,10 @@
                                                 <input name="projet" required="true" placeholder="" class="form-control"/>
                                             </div>
                                             <div class="col-sm-6">@Messages("priority")
-
                                                 <div class="btn-group" style="display: inline-block ;">
                                                     <button class="btn" type="button" value="1" >1</button>
                                                     <button class="btn  btn-active" value="2" type="button">2</button>
                                                     <button class="btn" type="button" value="3">3</button>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -122,19 +103,20 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label class="label_form">@Messages("theoreticalDate")</label>
-
-                                                    <p>@Messages("startDate")</p>
-                                                    <div class="form-group col-sm-8" id="datepicker_projet_th_debut" name="dateDebut">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                    <div class="row margin-form">
+                                                        <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_debut" style="text-align: left">@Messages("startDate")</label>
+                                                        <div class="form-group col-sm-8" id="datepicker_projet_th_debut">
+                                                            <div class="input-group date">
+                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <p>@Messages("endDate")</p>
-                                                    <div class="form-group col-sm-8" id="datepicker_projet_th_fin" name="dateFin">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                    <div class="row margin-form">
+                                                        <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_fin" style="text-align: left">@Messages("endDate")</label>
+                                                        <div class="form-group col-sm-8" id="datepicker_projet_th_fin">
+                                                            <div class="input-group date">
+                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
