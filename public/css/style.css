@@ -63,9 +63,10 @@ body, html{
 .normal{
     padding-right: 0px;
     padding-left: 0px;
-    line-height: 35px;
-    background-color:#1ab394 !important;
-    border-right: 5px solid red;
+    line-height:35px;
+    background-color:#1ab394;
+    color:white;
+    border-right: 4px solid #E74C3C;
 }
 
 #boutonPlusCreerTache {

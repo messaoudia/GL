@@ -215,35 +215,44 @@
 
                             </form>
                         </div>
+
                         <div style="margin-top: 30px ;" class="row wrapper wrapper-content white-bg">
                             <div style="margin:auto ;">
                                 <div class="tab-pane active">
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-projet-termines" type="checkbox">
-                                                    <label for="checkbox-projet-termines">
-                                                        Afficher les Projets terminées
+                                            <div class="switch" style="display:inline-block;">
+                                                <div class="onoffswitch">
+                                                    <input class="onoffswitch-checkbox" id="checkbox-draft" type="checkbox">
+                                                    <label class="onoffswitch-label" for="checkbox-draft">
+                                                        <span class="onoffswitch-inner"></span>
+                                                        <span class="onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
                                             </div>
-
-                                            <div class="col-sm-4">
+                                            <p style="display:inline-block; margin-left:5px; vertical-align:middle; font-weight: bold;">
+                                                Mode "Draft" (TODO)
+                                            </p>
+                                        </div>
+                                        <div class="row row-options-admin-projet">
+                                            <div class="col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-projet-indisponible" type="checkbox">
-                                                    <label for="checkbox-projet-indisponible">
-                                                        Afficher les Projets indisponibles
+                                                    <input id="checkbox-taches-terminees" type="checkbox">
+                                                    <label for="checkbox-taches-terminees">
+                                                        Taches terminées (TODO)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-taches-indisponibles" type="checkbox">
+                                                    <label for="checkbox-taches-indisponibles">
+                                                        Taches indisponibles (TODO)
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="ibox-content">
-
-                                            <p  class="m-b-lg">
-                                                <strong>Nestable</strong> is an interactive hierarchical list. You can drag and drop to rearrange the order. It works well on touch-screens.
-                                            </p>
-
+                                        <div id="mode-draft" class="table-responsive" style="display:none;">
                                             <div class="dd" id="nestable">
                                                 <ol class="dd-list">
                                                     <li class="dd-item" data-id="1">
@@ -286,42 +295,23 @@
                                                                 <div class="col-middle dd-nodrag" style="width:3%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
                                                                 <div class="col-middle dd-nodrag" style="width:3%;"><i class="fa fa-bell-slash-o"></i></div>
                                                             </div>
-                                                            <div class="row row-nestable" style="background-color:green; height:25px;">
-
+                                                            <div class="row row-nestable dd-nodrag" style="height:25px;">
+                                                                <div class="col-xs-4 normal">
+                                                                    <div class="normal" style="display:inline-block;background-color:#E74C3C; border:none; width:30px; text-align:center;">
+                                                                        <i class="fa fa-plus-circle" style="font-size:14px;"></i>
+                                                                    </div>
+                                                                    <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                                </div>
+                                                                <div class="col-xs-4 normal">
+                                                                    <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                                </div>
+                                                                <div class="col-xs-4 normal" style="border:none ;">
+                                                                    <i class="fa fa-arrow-down"> @Messages("createTask")</i>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li class="dd-item" data-id="2">
-                                                        <div class="dd-handle">
-                                                            <tr>
-                                                                <td>Toto</td>
-                                                                <td>Daro Heng</td>
-                                                                <td>01/01/2000</td>
-                                                                <td>
-                                                                    <div class="row">02/02/2002</div>
-                                                                    <div class="row">04/04/2004</div>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="row row-initiale">Initiale : 30J</div>
-                                                                    <div class="row row-restante">Totale : 18J</div>
-                                                                    <div class="row progress progress-bar-default">
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                            60%
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row row-consommee">Consommée : 30J</div>
-                                                                </td>
-                                                            </tr>
-                                                        </div>
-                                                        <ol class="dd-list">
-                                                            <li class="dd-item" data-id="3">
-                                                                <div class="dd-handle">3 - Adipiscing elit</div>
-                                                            </li>
-                                                            <li class="dd-item" data-id="4">
-                                                                <div class="dd-handle">4 - Nonummy nibh</div>
-                                                            </li>
-                                                        </ol>
-                                                    </li>
+
                                                     <li class="dd-item" data-id="5">
                                                         <div class="dd-handle">5 - Consectetuer</div>
                                                         <ol class="dd-list">
@@ -341,202 +331,170 @@
                                                     </li>
                                                 </ol>
                                             </div>
-                                            <div class="m-t-md">
-                                                <h5>Serialised Output</h5>
-                                            </div>
-                                            <textarea id="nestable-output" class="form-control"></textarea>
                                         </div>
-
-                                        <div class="wrapper wrapper-content">
-                                            <div style="margin:auto ;">
-                                                <div class="table-responsive table-responsive-tdb">
-                                                    <table id="projet_Projet" class="table table-striped table-bordered table-hover">
-                                                        <thead>
-                                                            <tr class="table-center">
-                                                                <th style="vertical-align:middle ;">Projet</th>
-                                                                <th style="vertical-align:middle ;">Client</th>
-                                                                <th style="vertical-align:middle ;">Date début</th>
-                                                                <th style="vertical-align:middle ;">Date fin</th>
-                                                                <th style="vertical-align:middle ;">Charge</th>
-                                                                <th style="vertical-align:middle ;">Pert</th>
-                                                                <th style="vertical-align:middle ;"><i class="fa fa-bell bell"></i></th>
-                                                                <th style="vertical-align:middle ;"><img src="img/MyIcons/png/map47-grey.png" alt="image" class="icone"></th>
-                                                                <th style="vertical-align:middle ;"><i class="fa fa-trash trash"></i></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr class="table-center" data-toggle="modal">
-                                                                <td style="padding:0px ;">
+                                        <div id="mode-non-draft" class="table-responsive">
+                                            <div class="table-responsive table-responsive-tdb">
+                                                <table id="projet_Projet" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                        <tr class="table-center">
+                                                            <th style="vertical-align:middle ;">Projet</th>
+                                                            <th style="vertical-align:middle ;">Client</th>
+                                                            <th style="vertical-align:middle ;">Date début</th>
+                                                            <th style="vertical-align:middle ;">Date fin</th>
+                                                            <th style="vertical-align:middle ;">Charge</th>
+                                                            <th style="vertical-align:middle ;">Pert</th>
+                                                            <th style="vertical-align:middle ;"><i class="fa fa-bell bell"></i></th>
+                                                            <th style="vertical-align:middle ;"><i class="fa fa-trash trash"></i></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="table-center" data-toggle="modal">
+                                                            <td style="padding:0px ;">
+                                                                <div>
+                                                                    <div class="idTache">4.1</div>
                                                                     <div>
-                                                                        <div class="idTache">4.1</div>
-                                                                        <div>
-                                                                            <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
-                                                                            <div class="idNom" style="display: inline-block">
-                                                                                Toto</div>
-                                                                        </div>
+                                                                        <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                        <div class="idNom" style="display: inline-block">
+                                                                            Toto</div>
                                                                     </div>
-                                                                </td>
-                                                                <td style="vertical-align:middle ;">Daro Heng</td>
-                                                                <td style="vertical-align:middle ;">30/10/2015</td>
-                                                                <td style="vertical-align:middle ;">
-                                                                    <p>29/12/2015</p>
-                                                                    <p>4/01/2016</p>
-                                                                </td>
-                                                                <td style="vertical-align:middle ;">
-                                                                    <div class="row-initiale">Initiale : 30J</div>
-                                                                    <div class="row-restante">Totale : 18J</div>
-                                                                    <div class="progress progress-bar-default">
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                            60%
-                                                                        </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="vertical-align:middle ;">Daro Heng</td>
+                                                            <td style="vertical-align:middle ;">30/10/2015</td>
+                                                            <td style="vertical-align:middle ;">
+                                                                <p>29/12/2015</p>
+                                                                <p>4/01/2016</p>
+                                                            </td>
+                                                            <td style="vertical-align:middle ;">
+                                                                <div class="row-initiale">Initiale : 30J</div>
+                                                                <div class="row-restante">Totale : 18J</div>
+                                                                <div class="progress progress-bar-default">
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                                                        60%
                                                                     </div>
-                                                                    <p class="row-consommee">Consommée : 30J</p>
-                                                                </td>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 30J</p>
+                                                            </td>
 
-                                                                <td style="vertical-align:middle ;">
-                                                                    <div class="row">Précédente : 4.1</div>
-                                                                    <div class="row">
-                                                                        Suivantes :
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                8 tâches <span class="caret"></span>
-                                                                            </button>
-                                                                            <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.2</li>
-                                                                                <li>5.3</li>
-                                                                            </ul>
-                                                                        </div>
+                                                            <td style="vertical-align:middle ;">
+                                                                <div class="row">Précédente : 4.1</div>
+                                                                <div class="row">
+                                                                    Suivantes :
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                            8 tâches <span class="caret"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu dropdown-menu-pert">
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.2</li>
+                                                                            <li>5.3</li>
+                                                                        </ul>
                                                                     </div>
-                                                                </td>
-                                                                <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                                <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                                <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                            </tr>
-                                                            <tr id="">
-                                                                <td colspan="9" style="padding:0px ;">
-                                                                    <div class="row" style="margin-right: 0px ; margin-left: 0px ; text-align: center ; background-color: #1ab394 ;">
+                                                                </div>
+                                                            </td>
+                                                            <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
+                                                            <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
+                                                        </tr>
+                                                        <tr id="">
+                                                            <td colspan="9" style="padding:0px ;">
+                                                                <div class="row" style="margin-right: 0px ; margin-left: 0px ; text-align: center ; background-color: #1ab394 ;">
 
-                                                                        <div class="col-sm-4 normal">
-                                                                            <i id="boutonPlusCreerTache" class="fa fa-plus-circle" style=""> </i>
+                                                                    <div class="col-sm-4 normal">
+                                                                        <i id="boutonPlusCreerTache" class="fa fa-plus-circle" style=""> </i>
 
-                                                                            <i id="barreCreerTachei" class="fa fa-arrow-right" style="color: #fff ; cursor: pointer ;">
-                                                                                <p style="display:inline ;">
-                                                                                @Messages("createSubTask")
-                                                                                </p>
-                                                                            </i>
+                                                                        <i id="barreCreerTachei" class="fa fa-arrow-right" style="color: #fff ; cursor: pointer ;">
+                                                                            <p style="display:inline ;">
+                                                                            @Messages("createSubTask")
+                                                                            </p>
+                                                                        </i>
 
-                                                                        </div>
-                                                                        <div class="col-sm-4 normal">
-                                                                            <i id="barreCreerTachei" class="fa fa-arrow-down" style="color: #fff ; cursor: pointer ;">
-                                                                                <p style="display:inline ;">
-                                                                                @Messages("createTask")
-                                                                                </p>
-                                                                            </i>
-                                                                        </div>
-                                                                        <div class="col-sm-4 normal" style="border:none ;">
-                                                                            <i id="barreCreerTachei" class="fa fa-arrow-up" style="color: #fff ; cursor: pointer ;">
-                                                                                <p style="display:inline ;">
-                                                                                @Messages("createTask")
-                                                                                </p>
-                                                                            </i>
-                                                                        </div>
                                                                     </div>
-                                                                </td>
-                                                                <td style="display: none ;"></td>
-                                                                <td style="display: none ;"></td>
-                                                                <td style="display: none ;"></td>
-                                                                <td style="display: none ;"></td>
-                                                                <td style="display: none ;"></td>
-                                                                <td style="display: none ;"></td>
-                                                                <td style="display: none ;"></td>
-                                                                <td style="display: none ;"></td>
-                                                            </tr>
-                                                            <tr class="table-center" data-toggle="modal">
-                                                                <td style="padding:0px ;">
+                                                                    <div class="col-sm-4 normal">
+                                                                        <i id="barreCreerTachei" class="fa fa-arrow-down" style="color: #fff ; cursor: pointer ;">
+                                                                            <p style="display:inline ;">
+                                                                            @Messages("createTask")
+                                                                            </p>
+                                                                        </i>
+                                                                    </div>
+                                                                    <div class="col-sm-4 normal" style="border:none ;">
+                                                                        <i id="barreCreerTachei" class="fa fa-arrow-up" style="color: #fff ; cursor: pointer ;">
+                                                                            <p style="display:inline ;">
+                                                                            @Messages("createTask")
+                                                                            </p>
+                                                                        </i>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="display: none ;"></td>
+                                                            <td style="display: none ;"></td>
+                                                            <td style="display: none ;"></td>
+                                                            <td style="display: none ;"></td>
+                                                            <td style="display: none ;"></td>
+                                                            <td style="display: none ;"></td>
+                                                            <td style="display: none ;"></td>
+                                                            <td style="display: none ;"></td>
+                                                        </tr>
+                                                        <tr class="table-center" data-toggle="modal">
+                                                            <td style="padding:0px ;">
+                                                                <div>
+                                                                    <div class="idTache">4.1</div>
                                                                     <div>
-                                                                        <div class="idTache">4.1</div>
-                                                                        <div>
-                                                                            <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
-                                                                            <div class="idNom" style="display: inline-block">
-                                                                                Toto</div>
-                                                                        </div>
+                                                                        <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                        <div class="idNom" style="display: inline-block">
+                                                                            Toto</div>
                                                                     </div>
-                                                                </td>
-                                                                <td style="vertical-align:middle ;">Daro Heng</td>
-                                                                <td style="vertical-align:middle ;">30/10/2015</td>
-                                                                <td style="vertical-align:middle ;">
-                                                                    <p>29/12/2015</p>
-                                                                    <p>4/01/2016</p>
-                                                                </td>
-                                                                <td style="vertical-align:middle ;">
-                                                                    <div class="row-initiale">Initiale : 30J</div>
-                                                                    <div class="row-restante">Totale : 18J</div>
-                                                                    <div class="progress progress-bar-default">
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                            60%
-                                                                        </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="vertical-align:middle ;">Daro Heng</td>
+                                                            <td style="vertical-align:middle ;">30/10/2015</td>
+                                                            <td style="vertical-align:middle ;">
+                                                                <p>29/12/2015</p>
+                                                                <p>4/01/2016</p>
+                                                            </td>
+                                                            <td style="vertical-align:middle ;">
+                                                                <div class="row-initiale">Initiale : 30J</div>
+                                                                <div class="row-restante">Totale : 18J</div>
+                                                                <div class="progress progress-bar-default">
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                                                        60%
                                                                     </div>
-                                                                    <p class="row-consommee">Consommée : 30J</p>
-                                                                </td>
+                                                                </div>
+                                                                <p class="row-consommee">Consommée : 30J</p>
+                                                            </td>
 
-                                                                <td style="vertical-align:middle ;">
-                                                                    <div class="row">Précédente : 4.1</div>
-                                                                    <div class="row">
-                                                                        Suivantes :
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                8 tâches <span class="caret"></span>
-                                                                            </button>
-                                                                            <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.2</li>
-                                                                                <li>5.3</li>
-                                                                            </ul>
-                                                                        </div>
+                                                            <td style="vertical-align:middle ;">
+                                                                <div class="row">Précédente : 4.1</div>
+                                                                <div class="row">
+                                                                    Suivantes :
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                            8 tâches <span class="caret"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu dropdown-menu-pert">
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.1</li>
+                                                                            <li>5.2</li>
+                                                                            <li>5.3</li>
+                                                                        </ul>
                                                                     </div>
-                                                                </td>
-                                                                <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                                <td style="vertical-align:middle ;" style="padding:0px ;">
-                                                                    <div style="display: block ;">
-                                                                        <div class="priorite" style="width: 100% ; cursor: pointer ;"> <i class="fa fa-arrow-left"> </i> </div>
-                                                                        <div class="priorite" style="width: 100% ; margin-top:5px ; cursor: pointer ;"> <i class="fa fa-arrow-right"> </i> </div>
-                                                                        <div class="priorite" style="width: 100% ; margin-top:5px ; cursor: pointer ;"> <i class="fa fa-arrow-up"> </i> </div>
-                                                                        <div class="priorite" style="width: 100% ; margin-top:5px ; cursor: pointer ;"> <i class="fa fa-arrow-down"> </i> </div>
-
-                                                                    </div>
-                                                                </td>
-                                                                <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                            </tr>
-                                                        </tbody>
-                                                        <tfoot>
-                                                            <tr class="table-center">
-                                                                <th style="vertical-align:middle ;">Projet</th>
-                                                                <th style="vertical-align:middle ;">Client</th>
-                                                                <th style="vertical-align:middle ;">Date début</th>
-                                                                <th style="vertical-align:middle ;">Date fin</th>
-                                                                <th style="vertical-align:middle ;">Charge</th>
-                                                                <th style="vertical-align:middle ;">Pert</th>
-                                                                <th style="vertical-align:middle ;"><i class="fa fa-bell bell"></i></th>
-                                                                <th style="vertical-align:middle ;"><img src="img/MyIcons/png/map47-grey.png" alt="image" class="icone"></th>
-                                                                <th style="vertical-align:middle ;"><i class="fa fa-trash trash"></i></th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
+                                                            <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

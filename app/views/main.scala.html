@@ -577,6 +577,17 @@
 
                     // $('#modal-tdb-tache').modal();
 
+                    $('#checkbox-draft').click(function() {
+                        if($('#checkbox-draft').is(':checked')){
+                            $('#mode-non-draft').hide();
+                            $('#mode-draft').show();
+                        }
+                        else{
+                            $('#mode-draft').hide();
+                            $('#mode-non-draft').show();
+                        }
+                    });
+
                 });
         </script>
     </body>
