@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.DoubleAccumulator;
 
 /**
  * Created by Guillaume on 25/01/2016.
@@ -377,4 +378,28 @@ public class Projet extends EntiteSecurise {
             return true;
         else return false;
     }
+
+    /**
+     * TODO testme
+     */
+    public void updateAvancementGlobal() {
+        Double chargeConsommeeGlobal = 0.0;
+        Double chargeTotaleGlobal = 0.0;
+        for(Tache tache : listTaches){
+            if((!tache.hasParent()) && (tache.critique)) {
+                chargeConsommeeGlobal += tache.getChargeConsommee();
+                chargeTotaleGlobal += tache.getChargeTotale();
+            }
+        }
+        Double avancementDouble = chargeConsommeeGlobal/chargeTotaleGlobal;
+        String result = avancementDouble.toString();
+        if(result.length()==3){
+            // Par example: "0.1"
+            this.avancementGlobal = new Byte(result.substring(2,3)+"0");
+        } else {
+            // Par example: "0.15"
+            this.avancementGlobal = new Byte(result.substring(2,4));
+        }
+    }
+
 }

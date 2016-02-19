@@ -1153,6 +1153,9 @@ public class ModelManagerTest {
             Logger.debug("G"+Tache.find.byId(tacheG.id).critique);
             Logger.debug("H"+Tache.find.byId(tacheH.id).critique);
             */
+            // TODO listTaches n'est pas bien enregistré dans BD
+            //Logger.debug(Integer.toString(Projet.find.byId(projet.id).listTaches.size()));
+            //Logger.debug(Projet.find.byId(projet.id).toString());
 
             assertTrue(Tache.find.byId(tacheA.id).critique);
             assertTrue(Tache.find.byId(tacheB.id).critique);
@@ -1166,4 +1169,101 @@ public class ModelManagerTest {
         });
     }
 
+    @Test
+    public void testUpdateAvancementGlobal() {
+        running(fakeApplication(), ()-> {
+            //Structure des taches: tacheGrandParent{tacheParent1, tacheParent2}
+            //Structure des taches: tacheParent1{tache1, tache2}
+            Tache tacheA = new Tache("Tache A","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,1),
+                    Utils.getDateFrom(2016,1,10),Utils.getDateFrom(2016,1,10),20D,10D,20D,null,null);
+            tacheA.save();
+
+            Tache tacheB = new Tache("Tache B","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,11),
+                    Utils.getDateFrom(2016,1,30),Utils.getDateFrom(2016,1,30),20D,0D,20D,null,null);
+            tacheB.save();
+            //tacheB.associerPredecesseur(tacheA);
+            tacheA.associerSuccesseur(tacheB);
+
+            Tache tacheC = new Tache("Tache C","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,31),
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null);
+            tacheC.save();
+            //tacheC.associerPredecesseur(tacheB);
+            tacheB.associerSuccesseur(tacheC);
+
+            Tache tacheD = new Tache("Tache D","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,5),
+                    Utils.getDateFrom(2016,2,14),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+            tacheD.save();
+            //tacheD.associerPredecesseur(tacheC);
+            tacheC.associerSuccesseur(tacheD);
+
+            Tache tacheE = new Tache("Tache E","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,15),
+                    Utils.getDateFrom(2016,3,5),Utils.getDateFrom(2016,3,5),20D,0D,20D,null,null);
+            tacheE.save();
+            //tacheE.associerPredecesseur(tacheD);
+            tacheD.associerSuccesseur(tacheE);
+
+            Tache tacheF = new Tache("Tache F","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,11),
+                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,9),20D,0D,20D,null,null);
+            tacheF.save();
+            //tacheF.associerPredecesseur(tacheA);
+            tacheA.associerSuccesseur(tacheF);
+
+            Tache tacheG = new Tache("Tache G","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,5),
+                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+            tacheG.save();
+            //tacheG.associerPredecesseur(tacheF);
+            tacheF.associerSuccesseur(tacheG);
+
+
+            Tache tacheH = new Tache("Tache H","Cette tâche permet de réaliser l'étude du projet.",0,true, Utils.getDateFrom(2016,1,11),
+                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+            tacheH.save();
+            //tacheH.associerPredecesseur(tacheA);
+            tacheA.associerSuccesseur(tacheH);
+
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.setPassword("123456Aa");
+            utilisateur.save();
+
+            Client client = new Client("Applee",2,true, null,null, null);
+            client.save();
+
+            Projet projet = new Projet();
+            projet.nom = "Site Google 3";
+            projet.description = "Développement du nouveau site de Google 3";
+            projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
+            projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
+            projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
+            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.chargeInitiale = 24D;
+            projet.unite = UniteProjetEnum.SEMAINE;
+            projet.avancementGlobal = new Byte("0");
+            projet.enCours = true;
+            projet.archive = false;
+            projet.priorite = 1;
+            projet.associerClient(client);
+            projet.associerResponsable(utilisateur);
+            projet.save();
+
+            projet.ajouterTache(tacheA);
+            projet.ajouterTache(tacheB);
+            projet.ajouterTache(tacheC);
+            projet.ajouterTache(tacheD);
+            projet.ajouterTache(tacheE);
+            projet.ajouterTache(tacheF);
+            projet.ajouterTache(tacheG);
+            projet.ajouterTache(tacheH);
+
+            projet.calculeCheminCritique();
+            projet.save();
+
+            projet.calculeCheminCritique();
+            projet.updateAvancementGlobal();
+            assertTrue(projet.avancementGlobal.toString().equals("10"));
+        });
+    }
 }
