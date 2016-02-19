@@ -6,6 +6,13 @@
  *   version 2.3
  *
 */
+
+.dd-item-min-width{
+    min-width:700px;
+}
+.cursor-pointer{
+    cursor:pointer;
+}
 .select2-search__field{
     width:100% !important;
 }
@@ -69,14 +76,18 @@ body, html{
     border-right: 4px solid #E74C3C;
 }
 
-#boutonPlusCreerTache {
+.boutonPlusCreerTache {
     left: 0px;
     position: absolute;
-    line-height: 35px;
     color:#fff;
     width: 30px;
+    display:inline-block;
+    /*
     font-size: 20px;
-    background-color: red;
+    line-height: 35px;
+    */
+    background-color: #E74C3C;
+    border:none;
 }
 
 label {

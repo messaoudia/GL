@@ -112,3 +112,5 @@ chooseProjectManager = Choisir un responsable de projet
 addUser = Ajouter un utilisateur
 yes = Oui
 no = Non
+draftMode = Mode "Draft"
+responsible = Responsable
