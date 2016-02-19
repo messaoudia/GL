@@ -913,7 +913,7 @@ public class ModelManagerTest {
             projet.save();
             projet.ajouterTache(tacheGrandParent);
 
-            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789","azertY1");
+            Utilisateur u1 = new Utilisateur("NomUser","PrenomUser","ert@gmail.com","0123456789",false,"azertY1");
             u1.save();
             u1.affectTache(tacheGrandParent);
             u1.affectTache(tacheParent1);
