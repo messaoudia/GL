@@ -224,7 +224,7 @@
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-projet-termines" type="checkbox">
                                                     <label for="checkbox-projet-termines">
-                                                        Afficher les Projets terminées
+                                                        @Messages("displayFinishProjects")
                                                     </label>
                                                 </div>
                                             </div>
@@ -233,7 +233,7 @@
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-projet-indisponible" type="checkbox">
                                                     <label for="checkbox-projet-indisponible">
-                                                        Afficher les Projets indisponibles
+                                                        @Messages("displayUnavailableProjects")
                                                     </label>
                                                 </div>
                                             </div>
@@ -257,14 +257,14 @@
                                                                     <div class="row row-nestable">45/32/2345</div>
                                                                 </div>
                                                                 <div class="col-middle" style="width:22%;border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                    <div class="row row-restante row-nestable">Totale : 18J</div>
+                                                                    <div class="row row-initiale row-nestable">@Messages("initial") : 30J</div>
+                                                                    <div class="row row-restante row-nestable">@Messages("total") : 18J</div>
                                                                     <div class="row progress progress-bar-default row-nestable">
                                                                         <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
                                                                             60%
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row row-consommee row-nestable">Consommée : 30J</div>
+                                                                    <div class="row row-consommee row-nestable">@Messages("consumed") : 30J</div>
                                                                 </div>
 
                                                                 <div class="col-middle" style="width:22%;border-right: 1px solid #EBEBEB;">

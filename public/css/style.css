@@ -8428,8 +8428,9 @@ body.md-skin {
 }
 .md-skin .nav > li > a {
     color: #676a6c;
-    padding: 14px 20px 14px 25px;
+    padding: 14px 20px 14px 8px;
 }
+
 .md-skin .nav.navbar-right > li > a {
     color: #ffffff;
 }
