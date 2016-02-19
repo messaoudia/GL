@@ -114,3 +114,7 @@ yes = Oui
 no = Non
 draftMode = Mode "Draft"
 responsible = Responsable
+unit = Unité
+day = Jours
+week = Semaines
+theoreticalDate = Dates théoriques

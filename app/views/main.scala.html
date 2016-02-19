@@ -423,7 +423,11 @@
                         maximumSelectionLength: 1
                     });
 
-                    $('[data-toggle="popover"]').popover()
+                    $('#unite').select2({
+                        minimumResultsForSearch: -1
+                    });
+
+                    $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
 
                     $('#nestable').nestable({
@@ -457,7 +461,9 @@
                         } ]
                     });
 
-                    $(".select2_demo_1").select2();
+                    $('#responsableProjet').select2();
+
+                    $('#client').select2();
 
                     $('.dataTables-example').DataTable();
 
@@ -581,6 +587,7 @@
                         language: "fr-FR"
 
                     });
+
                     $('#datepicker_date_fin_tot .input-group.date').datepicker({
                         todayBtn: "linked",
                         keyboardNavigation: false,
@@ -589,7 +596,26 @@
                         autoclose: true,
                         language: "fr-FR"
                     });
+
                     $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#datepicker_projet_th_debut .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#datepicker_projet_th_fin .input-group.date').datepicker({
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
