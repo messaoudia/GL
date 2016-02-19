@@ -28,6 +28,7 @@ public class Application extends Controller {
      * @return A rendered HTML view
      */
     public Result index() {
+        /* TODO : changer en dashboard " */
         return ok(index.render("Pear project manager"));
         /*String user = session("connected");
         if (user != null) {

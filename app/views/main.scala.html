@@ -15,7 +15,6 @@
         <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
         <link href="/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
         <link href="/css/animate.css" rel="stylesheet">
-        <link href="/css/style.css" rel="stylesheet">
 
         <link href="/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
         <link href="/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet">
@@ -36,6 +35,8 @@
         <link href="/css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
         <link href="/css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
         <link href="/css/plugins/select2/select2.min.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+
     </head>
 
     <body class="md-skin fixed-sidebar fixed-nav pace-done">
@@ -45,9 +46,11 @@
 
             <!--########### End  - Main HTML Content  ########### -->
 
+
             <!-- Mainly scripts -->
         <script src="/assets/js/jquery-2.1.1.js"></script>
         <script src="/assets/js/bootstrap.min.js"></script>
+
         <script src="/assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script src="/assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
@@ -153,26 +156,61 @@
             <!-- Projet -->
         <script src="/js/projet.js"></script>
 
+            <!-- Menu -->
+        <script src="/js/menu.js"></script>
+
         @scripts
         <script>
                 $(document).ready(function () {
 
-                    /* $("#submitButton").click(function(e) {
-                     alert("JE SUIS LA");
-                     $("#addProjectForm").submit(function( event ) {
+                    $('#notifTopBar').click(function (e) {
+                        e.preventDefault();
+                        jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html).html();
+                                $('#refresh').empty().html(result);
 
-                     jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
-                     success : function(data) {
-                     alert("oki");
-                     },
-                     error: function(errorMessage){
-                     alert("error");
-                     }
-                     });
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
 
-                     });
-                     });
-                     */
+                    $("#submitButton").click(function(e) {
+                        var $form = $('#addProjectForm');
+                        var $serialize= $form.serialize();
+                        var $value = $(".btn-active").attr('value');
+                        jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                            data :$serialize+ '&priorite='+$value,
+                            success : function(data) {
+                                alert("toto");
+
+                            },
+                            error: function(errorMessage){
+                                alert("error");
+                            }
+                        });
+
+                    });
+
+                    $('#dataTables-admin-projet tbody tr td:not(:last-child)').click(function (e) {
+                        var $value = $(this).parent('tr').attr('value');
+
+                         jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($value).ajax({
+                         success: function(html) {
+                         var result = $('#refresh',html);
+                         $('#refresh').empty().html(result);
+                         },
+                         //Case we have a problem
+                         error: function(errorMessage){
+                         alert(errorMessage);
+                         }
+                         });
+
+                    });
+
                     $('#nestable').nestable({
                         group: 1
                     }).on('change');
@@ -197,6 +235,8 @@
                     // activate Nestable for list 1
 
                     $(".select2_demo_1").select2();
+
+                    $('[data-toggle="popover"]').popover()
                 });
 
                 $( document ).ajaxComplete(function() {
@@ -204,30 +244,49 @@
                     $('#afficheListeProjet').click(function(){
 
                         if($("#col-sidebar-liste-projet").is(":visible")){
-                            $('#col-sidebar-liste-projet').hide();
-                            $(this).css("width","25px");
-                            $("#col-consulterProjet").removeClass("col-md-10");
-                            $("#col-consulterProjet").addClass("col-md-12");
-                            $("#icon-show-liste-projet").removeClass("fa-outdent");
-                            $("#icon-show-liste-projet").addClass("fa-indent");
+                            hideSideBarProjet();
                         }
-                        else{
-                            $('#col-sidebar-liste-projet').show();
-                            $(this).css("width","170px");
-                            $("#col-consulterProjet").removeClass("col-md-12");
-                            $("#col-consulterProjet").addClass("col-md-10");
-                            $("#icon-show-liste-projet").removeClass("fa-indent");
-                            $("#icon-show-liste-projet").addClass("fa-outdent");
+                        else
+                        {
+                            showSideBarProjet();
                         }
                     });
 
-                    $( window ).resize(function() {
+                    /*$( window ).resize(function() {
                         $('.liste-projet').css('height',"100%");
                         height = $('.liste-projet').css('height');
                         height = parseInt(height);
                         height -= 150;
                         $('.liste-projet').css('height',height);
-                    });
+
+                        if($(window).width()<1050){
+                            hideSideBarProjet();
+                        }
+                        else {
+                            showSideBarProjet();
+                        }
+                    });*/
+
+                    function hideSideBarProjet()
+                    {
+                        $('#col-sidebar-liste-projet').hide();
+                        $('#afficheListeProjet').css("width","25px");
+                        $("#col-consulterProjet").removeClass("col-md-10");
+                        $("#col-consulterProjet").addClass("col-md-12");
+                        $("#icon-show-liste-projet").removeClass("fa-outdent");
+                        $("#icon-show-liste-projet").addClass("fa-indent");
+                    }
+                    function showSideBarProjet()
+                    {
+                        $('#col-sidebar-liste-projet').show();
+                        $('#afficheListeProjet').css("width","170px");
+                        $("#col-consulterProjet").removeClass("col-md-12");
+                        $("#col-consulterProjet").addClass("col-md-10");
+                        $("#icon-show-liste-projet").removeClass("fa-indent");
+                        $("#icon-show-liste-projet").addClass("fa-outdent");
+                    }
+
+
 
                     $('.liste-projet').css('height',"100%");
                     height = $('.liste-projet').css('height');
@@ -235,12 +294,28 @@
                     height -= 150;
                     $('.liste-projet').css('height',height);
 
+
+                    $('[data-toggle="popover"]').popover()
                     // activate Nestable for list 1
                     $('#nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
 
+                    $('#notifTopBar').click(function (e) {
+                        e.preventDefault();
+                        jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html).html();
+                                $('#refresh').empty().html(result);
+
+                            },
+                            //Case we have a problem
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
 
                     $('#dataTables-tdb-projet').DataTable();
 
@@ -386,9 +461,8 @@
                      */
 
                     $('.footable').footable();
-                    $('.popover-info').popover('hidden');
-                    // $('#modal-tdb-tache').modal();
 
+                    // $('#modal-tdb-tache').modal();
 
 
 

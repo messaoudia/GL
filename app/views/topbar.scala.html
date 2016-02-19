@@ -1,0 +1,109 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-fixed-top" role="navigation" style="margin-bottom: 0 ; transition: none ;">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary pear-theme" href="#"><i class="fa fa-bars"></i> </a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown" dropdown="">
+                <div tabindex="0" class="popover-info" type="button" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="focus" data-html="true" data-content='<p><a><img class="country-flag" src="img/MyIcons/png/fr.png"/> Français</a></p><a><a><img class="country-flag" src="img/MyIcons/png/en.png"/> English</a></p>'>
+                    <a class="dropdown-toggle count-info pear-theme" data-toggle="dropdown" href="#" aria-expanded="true">
+                        <img class="country-flag" src="img/MyIcons/png/fr.png"/>
+                    </a>
+                </div>
+            </li>
+            <li id="notifTopBar">
+                <a class="dropdown-toggle count-info pear-theme" data-toggle="dropdown" href="#" aria-expanded="true">
+                    <i class="fa fa-bell"></i> <span class="label label-warning">8</span>
+                </a>
+            </li>
+
+            <li>
+                <a class="right-sidebar-toggle">
+                    <i class="logo-eu fa fa-user pear-theme"></i>
+                </a>
+            </li>
+
+            <li>
+                <a href="login.html">
+                    <i class="logo-eu fa fa-power-off pear-theme"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+    <!-- Partie droite, les settings -->
+<div id="right-sidebar">
+    <div class="sidebar-container">
+        <div class="changePassword">
+            <form role="form">
+                <div class="form-group previousPassword">
+                    <label for="previousPassword">@Messages("previousPassword")</label>
+                    <input type="password" id="previousPassword" class="form-control">
+                </div>
+                <div class="form-group newPassword">
+                    <label for="newPassword">@Messages("newPassword")</label>
+                    <input type="password" id="newPassword" class="form-control">
+                </div>
+                <div class="form-group newPasswordConfirm">
+                    <label for="newPasswordConfirm">@Messages("newPasswordConfirm")</label>
+                    <input type="password" id="newPasswordConfirm" class="form-control">
+                </div>
+                <div class="validateForm">
+                    <button class="btn btn-user btn-block" type="submit" onclick>@Messages("validateForm") <i class="fa fa-check"></i></button>
+                </div>
+            </form>
+        </div>
+
+        <div class="notificationFrom">
+            <p>@Messages("titleNotificationFrom")</p>
+            <div>
+                    <!--TODO : auto recherche -->
+                <input type="text" id="searchContact" class="form-control z-index-3"/>
+            </div>
+
+            <div class="list-personnes-notifiees">
+                <table class="table-bordered">
+                    <tbody>
+                        <tr>
+                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
+                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
+                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
+                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                        </tr>
+                        <tr>
+                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
+                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="notificationSettings">
+            <div class="checkbox checkbox-success checkbox-circle">
+                <input id="checkbox-changes" type="checkbox">
+                <label for="checkbox-changes">
+                @Messages("checkbox-changes")
+                </label>
+            </div>
+            <div class="checkbox checkbox-success checkbox-circle">
+                <input id="checkbox-tasks-almost-finish" type="checkbox" >
+                <label for="checkbox-tasks-almost-finish">
+                @Messages("checkbox-tasks-almost-finish")
+                </label>
+            </div>
+            <div class="checkbox checkbox-success checkbox-circle">
+                <input id="checkbox-tasks-late" type="checkbox" checked>
+                <label for="checkbox-tasks-late">
+                @Messages("checkbox-tasks-late")
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

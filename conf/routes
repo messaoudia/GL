@@ -46,3 +46,10 @@ GET         /adminClients              controllers.AdminController.afficherAdmin
 GET         /adminProjets              controllers.AdminController.afficherAdminProjets
 GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
+
+POST        /ajouterProjet             controllers.ProjetController.ajouterProjet
+
+#view notification
+GET         /notifications             controllers.NotificationController.afficherNotifications
+
+POST        /adminProjetSelct          controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
