@@ -1,9 +1,7 @@
 logs
-target
 /data
 q
 project/project
-project/target
 tmp
 .history
 dist
