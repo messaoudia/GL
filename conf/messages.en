@@ -118,3 +118,6 @@ unit = Unit
 day = Days
 week = Weeks
 theoreticalDate = Theoretical dates
+deleteConfirmation = Delete confirmation
+taskDeleteMessage = Do you want to delete the task
+projectDeleteMessage = Do you want to delete the project

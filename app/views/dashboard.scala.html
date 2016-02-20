@@ -1,29 +1,29 @@
 @(pageTitle: String)
 
-    @scripts = {
-        <script>
-                $(document).ready(function() {
-                    $('.liclickable').click(function (e) {
-                        e.preventDefault();
-                        var self = $(this),
-                                controler = self.data('infos') || self.attr('data-infos');
-                        $('#sidebar ul li').removeClass('active');
-                        $(this).addClass('active');
+@scripts = {
+    <script>
+            $(document).ready(function() {
+                $('.liclickable').click(function (e) {
+                    e.preventDefault();
+                    var self = $(this),
+                            controler = self.data('infos') || self.attr('data-infos');
+                    $('#sidebar ul li').removeClass('active');
+                    $(this).addClass('active');
 
-                        eval("jsRoutes.controllers."+controler).ajax({
-                            success: function(html) {
-                                var result = $('#refresh',html);
-                                $('#refresh').empty().html(result);
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
+                    eval("jsRoutes.controllers."+controler).ajax({
+                        success: function(html) {
+                            var result = $('#refresh',html);
+                            $('#refresh').empty().html(result);
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
                     });
                 });
-        </script>
-    }
+            });
+    </script>
+}
 
 
 @content = {
@@ -665,7 +665,7 @@
                                                                             <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                                                             @Messages("task") 14
                                                                             <a><i class="fa fa-bell-slash"></i></a>
-                                                                            <a><i class="fa fa-trash"></i></a>
+                                                                            <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-tdb"><i class="fa fa-trash"></i></a>
                                                                             <a id="btn-modifierTache"><i class="fa fa-pencil"></i></a>
                                                                         </div>
                                                                         <p class="titre-tache-modal">Faire la maquette</p>
@@ -797,7 +797,7 @@
                                                                             <div class="id-tache-modal">
                                                                                 <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                                                                 @Messages("task") 14
-                                                                                <a><i class="fa fa-trash"></i></a>
+                                                                                <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-tdb"><i class="fa fa-trash"></i></a>
                                                                                 <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
                                                                             </div>
                                                                                 <!-- Form nom tache -->
@@ -807,8 +807,9 @@
                                                                             <textarea id="formModifierDescriptionTache" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
 
                                                                                 <!-- Modifier predecesseur -->
-                                                                            <p style="margin-top:7px ;">@Messages("predecessor") : </p>
-                                                                            <select class="form-control select2-predecesseur" style="width:100%;" multiple="multiple">
+                                                                            <p style="margin-top:7px ;">@Messages("predecessor")
+                                                                                : </p>
+                                                                            <select class="form-control select2-predecesseur" style="width:100% ;" multiple="multiple">
                                                                                 <option value="Mayotte">Mayotte</option>
                                                                                 <option value="Mexico">Mexico</option>
                                                                                 <option value="Nicaragua">Nicaragua</option>
@@ -817,7 +818,7 @@
                                                                                 <!-- Modifier successeurs -->
                                                                             <p style="margin-top:7px ;">@Messages("successors")
                                                                                 : </p>
-                                                                            <select class="form-control select2-successeur" style="width:100%;" multiple="multiple">
+                                                                            <select class="form-control select2-successeur" style="width:100% ;" multiple="multiple">
                                                                                 <option value="Mayotte">Mayotte</option>
                                                                                 <option value="Mexico">Mexico</option>
                                                                                 <option value="Nicaragua">Nicaragua</option>
@@ -828,12 +829,14 @@
                                                                         <div class="col-sm-6">
                                                                             <button id="btn-fermer-modifierTache" type="button" class="close" data-dismiss="modal" style="margin-bottom:7px ;">&times;</button>
 
-                                                                            <p class="bold">@Messages("project") : myProjects</p>
+                                                                            <p class="bold">@Messages("project")
+                                                                                : myProjects</p>
 
-                                                                            <p class="bold">@Messages("client") : PoPS5I Inc.</p>
+                                                                            <p class="bold">@Messages("client")
+                                                                                : PoPS5I Inc.</p>
 
                                                                                 <!-- Form responsable tache -->
-                                                                            <select class="form-control select2-respo-tache" style="width:100%;" multiple="multiple">
+                                                                            <select class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple">
                                                                                 <option value="Mayotte">Mayotte</option>
                                                                                 <option value="Mexico">Mexico</option>
                                                                                 <option value="Nicaragua">Nicaragua</option>
@@ -969,6 +972,24 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="modal fade" id="modal-confirmation-suppr-tache-tdb" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header background_admin">
+                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                            <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>@Messages("taskDeleteMessage") : (nom de la tâche) ?</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                                            <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -977,7 +998,6 @@
                 </div>
             </div>
         </div>
-    </div>
 }
 
 @main(pageTitle, content, scripts)
