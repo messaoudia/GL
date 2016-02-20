@@ -194,14 +194,21 @@
                             </tbody>
                         </table>
 
-                            <!-- Modal -->
-                        <div class="modal fade" id="modal-suppr-client" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="ibox-title background_admin div-center">
-                                    ModalVIew Supprimer TItle
-                                </div>
-                                <div class="ibox-content">
-                                    ModalVIew Supprimer Content
+                            <!-- Modal supprimer client -->
+                        <div class="modal fade" id="modal-suppr-client" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header background_admin">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>@Messages("clientDeleteMessage") : (nom du projet) ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                        <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -245,19 +252,11 @@
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label">@Messages("priority")</label>
                                                     <div class="col-sm-7">
-                                                        <div class="radio radio-inline radio-danger">
-                                                            <input type="radio" id="inlineRadio1" value="option1" name="radioInline" checked="">
-                                                            <label for="inlineRadio1">1</label>
+                                                        <div class="btn-group">
+                                                            <button class="btn" type="button" value="1" >1</button>
+                                                            <button class="btn  btn-active" value="2" type="button">2</button>
+                                                            <button class="btn" type="button" value="3">3</button>
                                                         </div>
-                                                        <div class="radio radio-inline radio-danger">
-                                                            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
-                                                            <label for="inlineRadio2">2</label>
-                                                        </div>
-                                                        <div class="radio radio-inline radio-danger">
-                                                            <input type="radio" id="inlineRadio3" value="option3" name="radioInline">
-                                                            <label for="inlineRadio3">3</label>
-                                                        </div>
-
                                                     </div>
                                                 </div>
 
@@ -299,19 +298,19 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                            <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-client" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                            <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-client" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                            <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-client" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="first-td">Projet 1</td>
-                                                            <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                            <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-client" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -354,14 +353,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="modal-confirmation-suppr-projet-client" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header background_admin">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>@Messages("projectDeleteMessage") : (nom du projet) ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                        <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-
                 </div>
             </div>
-
-
-
         </div>
     </div>
 }
