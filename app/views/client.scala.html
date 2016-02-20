@@ -25,14 +25,14 @@
                         $('.liste-projet-client').css('height',"100%");
                         height = $('.liste-projet-client').css('height');
                         height = parseInt(height);
-                        height -= 170;
+                        height -= 200;
                         $('.liste-projet-client').css('height',height);
                     });
 
                     $('.liste-projet-client').css('height',"100%");
                     height = $('.liste-projet-client').css('height');
                     height = parseInt(height);
-                    height -= 170;
+                    height -= 200;
                     $('.liste-projet-client').css('height',height);
 
                     $("body").load(function(){
@@ -155,7 +155,7 @@
                                 </div>
 
                                 <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute; bottom: 51px; background-color: #FFF;">
-                                    <div class="sidebar-footer">
+                                    <div class="sidebar-footer" style="height: 110px;">
                                         <div class="checkbox checkbox-success checkbox-circle">
                                             <input id="checkbox-projet-termines" type="checkbox">
                                             <label for="checkbox-projet-termines">
@@ -163,12 +163,9 @@
                                             </label>
                                         </div>
 
-                                        <div class="checkbox checkbox-success checkbox-circle">
-                                            <input id="checkbox-exporter-client" type="checkbox">
-                                            <label for="checkbox-exporter-client">
-                                                Exporter client
-                                            </label>
-                                        </div>
+                                        <button id="exporter-client">
+                                            Exporter client <i class="fa fa-share-square-o"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
