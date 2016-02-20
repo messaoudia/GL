@@ -123,3 +123,4 @@ displayUnavailableProjects = Afficher les projets indisponibles
 progress = Avancement
 fromDate = Du
 untilDate = Au
+createUser = Créer un utilisateur

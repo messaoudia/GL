@@ -39,6 +39,7 @@ GET         /client                    controllers.ClientController.afficherClie
 GET         /projet                    controllers.ProjetController.afficherProjets
 GET         /creerClient               controllers.ClientController.afficherCreerClient
 GET         /creerProjet               controllers.ProjetController.afficherCreerProjet
+GET         /creerUtilisateur          controllers.UtilisateurController.afficherCreerUtilisateur
 GET         /adminClients              controllers.AdminController.afficherAdminClients
 POST        /adminClientsArchive       controllers.AdminController.afficherClientsArchives
 GET         /adminProjets              controllers.AdminController.afficherAdminProjets
