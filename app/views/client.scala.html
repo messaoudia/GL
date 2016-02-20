@@ -37,6 +37,11 @@
 
                     $("body").load(function(){
                         updateMenu();
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
                     });
 
                     function updateMenu()
@@ -64,11 +69,11 @@
 
                     </div>
                     <div class="row">
-                        <div id="afficheListeProjet" style="position:fixed; background-color:#1AB394; height: 25px; width: 170px; z-index:1999; text-align:center; line-height: 25px;">
+                        <div id="afficheListeProjet" style="position:fixed; background-color:#1AB394; height: 25px; width: 170px; z-index:1999; text-align:center; line-height: 25px;  margin-top: -1px;">
                             <i id="icon-show-liste-projet" class="fa fa-outdent" style="color:#FFF;"></i>
                         </div>
                         <div id="col-sidebar-liste-projet" class="col-md-2" style="padding: 0;">
-                            <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color:#F3F3F4">
+                            <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color:#F3F3F4;">
                                 <div class="liste-projet-client" style="overflow-y: auto; height: 100%; margin-top:30px;">
                                     <div class="sidebar-client">
                                         <div class="row header-sidebar-projet" style="">

@@ -421,11 +421,11 @@
                             }
                         }
 
-                        $('.liste-projet').css('height',"100%");
-                        height = $('.liste-projet').css('height');
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
                         height = parseInt(height);
-                        height -= 200;
-                        $('.liste-projet').css('height',height);
+                        height -= 230;
+                        $('.liste-projet-client').css('height',height);
 
                     });
 
@@ -441,27 +441,6 @@
                     height = $('.liste-projet-client').css('height');
                     height = parseInt(height);
                     height -= 200;
-                    $('.liste-projet-client').css('height',height);
-
-
-                    $('.sidebar-projet').click(function(){
-                        $('.sidebar-projet.select').removeClass("select");
-                        $(this).addClass("select");
-
-                    });
-
-                    $( window ).resize(function() {
-                        $('.liste-projet-client').css('height',"100%");
-                        height = $('.liste-projet-client').css('height');
-                        height = parseInt(height);
-                        height -= 170;
-                        $('.liste-projet-client').css('height',height);
-                    });
-
-                    $('.liste-projet-client').css('height',"100%");
-                    height = $('.liste-projet-client').css('height');
-                    height = parseInt(height);
-                    height -= 170;
                     $('.liste-projet-client').css('height',height);
 
 
