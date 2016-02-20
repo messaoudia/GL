@@ -71,4 +71,32 @@ $(function(){
         }
     });
 
+    $(".header-sidebar-projet").click(function(){
+
+        if($(this).next().is(":visible"))
+        {
+            next = $(this).next();
+            while (next!=null && next.hasClass("client-project"))
+            {
+                next.hide();
+                next = next.next();
+            }
+        }
+        else {
+            next = $(this).next();
+            while (next!=null && next.hasClass("client-project"))
+            {
+                next.show();
+                next = next.next();
+            }
+        }
+
+        $('.liste-projet').css('height',"100%");
+        height = $('.liste-projet').css('height');
+        height = parseInt(height);
+        height -= 170;
+        $('.liste-projet').css('height',height);
+
+    });
+
 });

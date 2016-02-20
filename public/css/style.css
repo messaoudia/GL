@@ -190,7 +190,7 @@ INDEX FIN
     width: 20px;
     height: 20px;
     line-height: 20px;
-    background: #8c8c8c;
+    background: #676A6C;
     text-align: center;
     color: #FFFFFF;
     display: inline-block;
@@ -259,7 +259,7 @@ INDEX FIN
 .sidebar-client-projet-priorite {
     float:right;
     width: 20px; height: 20px;
-    background-color: #9f9f9f;
+    background-color: #676A6C;
     color: #ffffff;
     text-align: center;
 }
@@ -267,7 +267,7 @@ INDEX FIN
 .sidebar-projet-priorite {
     float:right;
     width: 20px; height: 20px;
-    background-color: #9f9f9f;
+    background-color: #676A6C;
     color: #ffffff;
     text-align: center;
 }
@@ -275,8 +275,8 @@ INDEX FIN
 .sidebar-client-priorite {
     float:left;
     width: 30px; height: 30px;
-    background-color: #9f9f9f;
-    color: #ffffff;
+    background-color: #FFF;
+    color: #676A6C;
     text-align: center;
     padding:0;
 }
