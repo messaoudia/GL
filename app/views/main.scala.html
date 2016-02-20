@@ -217,7 +217,7 @@
                         });
 
                     });
-
+                    $('.datatable-consulterClient').DataTable();
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Tache').dataTable( {
@@ -293,6 +293,38 @@
                         jQuery.fx.off = true;
                         $('#div-consulterTache').show();
                         $('#div-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-projet-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').hide();
+                        $('#div-projet-modifierTache').show();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-projet-fermer-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').show();
+                        $('#div-projet-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-projet-valider-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').show();
+                        $('#div-projet-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-projet-modifierTache-active').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').show();
+                        $('#div-projet-modifierTache').hide();
                         jQuery.fx.off = false;
 
                     });
@@ -451,7 +483,11 @@
                         maximumSelectionLength: 1
                     });
 
-                    $('[data-toggle="popover"]').popover()
+                    $('#unite').select2({
+                        minimumResultsForSearch: -1
+                    });
+
+                    $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
 
                     $('#nestable').nestable({
@@ -473,7 +509,7 @@
                             }
                         });
                     });
-
+                    $('.datatable-consulterClient').DataTable();
                     $('#dataTables-tdb-projet').DataTable();
 
 
@@ -485,7 +521,9 @@
                         } ]
                     });
 
-                    $(".select2_demo_1").select2();
+                    $('#responsableProjet').select2();
+
+                    $('#client').select2();
 
                     $('.dataTables-example').DataTable();
 
@@ -568,6 +606,38 @@
 
                     });
 
+                    $('#btn-projet-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').hide();
+                        $('#div-projet-modifierTache').show();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-projet-fermer-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').show();
+                        $('#div-projet-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-projet-valider-modifierTache').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').show();
+                        $('#div-projet-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
+                    $('#btn-projet-modifierTache-active').click(function() {
+                        jQuery.fx.off = true;
+                        $('#div-projet-consulterTache').show();
+                        $('#div-projet-modifierTache').hide();
+                        jQuery.fx.off = false;
+
+                    });
+
                     $('#datepicker_date_debut .input-group.date').datepicker({
                         todayBtn: "linked",
                         keyboardNavigation: false,
@@ -577,6 +647,7 @@
                         language: "fr-FR"
 
                     });
+
                     $('#datepicker_date_fin_tot .input-group.date').datepicker({
                         todayBtn: "linked",
                         keyboardNavigation: false,
@@ -585,7 +656,26 @@
                         autoclose: true,
                         language: "fr-FR"
                     });
+
                     $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#datepicker_projet_th_debut .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#datepicker_projet_th_fin .input-group.date').datepicker({
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
@@ -637,7 +727,16 @@
 
                     // $('#modal-tdb-tache').modal();
 
-
+                    $('#checkbox-draft').click(function() {
+                        if($('#checkbox-draft').is(':checked')){
+                            $('#mode-non-draft').hide();
+                            $('#mode-draft').show();
+                        }
+                        else{
+                            $('#mode-draft').hide();
+                            $('#mode-non-draft').show();
+                        }
+                    });
 
                 });
         </script>

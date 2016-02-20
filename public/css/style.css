@@ -6,6 +6,13 @@
  *   version 2.3
  *
 */
+
+.dd-item-min-width{
+    min-width:700px;
+}
+.cursor-pointer{
+    cursor:pointer;
+}
 .select2-search__field{
     width:100% !important;
 }
@@ -63,19 +70,24 @@ body, html{
 .normal{
     padding-right: 0px;
     padding-left: 0px;
-    line-height: 35px;
-    background-color:#1ab394 !important;
-    border-right: 5px solid red;
+    line-height:35px;
+    background-color:#1ab394;
+    color:white;
+    border-right: 4px solid #E74C3C;
 }
 
-#boutonPlusCreerTache {
+.boutonPlusCreerTache {
     left: 0px;
     position: absolute;
-    line-height: 35px;
     color:#fff;
     width: 30px;
+    display:inline-block;
+    /*
     font-size: 20px;
-    background-color: red;
+    line-height: 35px;
+    */
+    background-color: #E74C3C;
+    border:none;
 }
 
 label {
@@ -589,7 +601,7 @@ INDEX FIN
 .dropdown-filtre > li > .checkbox{
     margin-left:10px;
 }
-
+.table-responsive-client > .dataTables_wrapper > .row,
 .table-responsive-admin-user > .dataTables_wrapper > .row,
 .table-responsive-admin-client > .dataTables_wrapper > .row,
 .table-responsive-tdb > .dataTables_wrapper > .row,
