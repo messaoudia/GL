@@ -38,8 +38,6 @@
         placeClass      : 'dd-placeholder',
         noDragClass     : 'dd-nodrag',
         emptyClass      : 'dd-empty',
-        expandBtnHTML   : '<button data-action="expand" type="button">Expand</button>',
-        collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
         group           : 0,
         maxDepth        : 5,
         threshold       : 20
@@ -234,8 +232,6 @@
         setParent: function(li)
         {
             if (li.children(this.options.listNodeName).length) {
-                li.prepend($(this.options.expandBtnHTML));
-                li.prepend($(this.options.collapseBtnHTML));
             }
             li.children('[data-action="expand"]').hide();
         },

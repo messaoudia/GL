@@ -791,14 +791,27 @@
 
                     // $('#modal-tdb-tache').modal();
 
+                    if($('#checkbox-draft').is(':checked')){
+                        //$('#mode-non-draft').hide();
+                        //$('#mode-draft').show();
+                        $('#nestable').removeClass("dd-nodrag")
+                    }
+                    else{
+                        //$('#mode-draft').hide();
+                        //$('#mode-non-draft').show();
+                        $('#nestable').addClass("dd-nodrag");
+                    }
+
                     $('#checkbox-draft').click(function() {
                         if($('#checkbox-draft').is(':checked')){
-                            $('#mode-non-draft').hide();
-                            $('#mode-draft').show();
+                            //$('#mode-non-draft').hide();
+                            //$('#mode-draft').show();
+                            $('#nestable').removeClass("dd-nodrag")
                         }
                         else{
-                            $('#mode-draft').hide();
-                            $('#mode-non-draft').show();
+                            //$('#mode-draft').hide();
+                            //$('#mode-non-draft').show();
+                            $('#nestable').addClass("dd-nodrag");
                         }
                     });
 
