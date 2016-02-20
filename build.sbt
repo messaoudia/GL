@@ -1,4 +1,4 @@
-name := """pear"""
+name := """play"""
 
 version := "1.0-SNAPSHOT"
 
