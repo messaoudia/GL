@@ -123,3 +123,4 @@ taskDeleteMessage = Voulez-vous vraiment supprimer la tâche
 projectDeleteMessage = Voulez-vous vraiment supprimer le projet
 clientDeleteMessage = Voulez-vous vraiment supprimer le client
 userDeleteMessage = Voulez-vous vraiment supprimer l'utilisateur
+saveClient = Enregistrer le client

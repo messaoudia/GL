@@ -123,3 +123,4 @@ taskDeleteMessage = Do you want to delete the task
 projectDeleteMessage = Do you want to delete the project
 clientDeleteMessage = Do you want to delete the client
 userDeleteMessage = Do you want to delete the user
+saveClient = Save client
