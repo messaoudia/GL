@@ -265,7 +265,7 @@
                                     <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <button type="button" class="close" data-dismiss="modal" style="margin-bottom:7px ;">&times;</button>
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                                         <div class="div-center">
                                             <h3>PoP5SI Inc.</h3>
                                             <h5>12 route du Vélodrome - 13000 Marseille (France)</h5>
@@ -1017,6 +1017,9 @@
                                                 <div class="modal-content">
                                                     <div class="modal-body">
                                                         <form id="formCreerTache-projet" class="form-horizontal">
+                                                            <div class="row" style="margin-right:0px;">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                            </div>
                                                             <div class="row">
                                                                     <!-- 1ere colonne -->
                                                                 <div class="col-sm-6">
@@ -1050,7 +1053,6 @@
 
                                                                     <!-- 2eme colonne -->
                                                                 <div class="col-sm-6">
-                                                                    <button id="btn-projet-fermer-modifierTache" type="button" class="close" data-dismiss="modal" style="margin-bottom:7px ;">&times;</button>
                                                                     <p class="bold">@Messages("project") : myProjects</p>
 
                                                                     <p class="bold">@Messages("client") : PoPS5I Inc.</p>
@@ -1197,6 +1199,9 @@
                                                     <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-body">
+                                                        <div class="row" style="margin-right:0px;">
+                                                            <button id="btn-fermer-modifierTache" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                        </div>
                                                         <div id="div-projet-consulterTache">
                                                             <div class="row">
                                                                     <!-- 1ere colonne -->
@@ -1205,7 +1210,7 @@
                                                                         <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                                                         @Messages("task") 14
                                                                         <a><i class="fa fa-bell-slash"></i></a>
-                                                                        <a><i class="fa fa-trash"></i></a>
+                                                                        <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet"><i class="fa fa-trash"></i></a>
                                                                         <a id="btn-projet-modifierTache"><i class="fa fa-pencil"></i></a>
                                                                     </div>
                                                                     <p class="titre-tache-modal">Faire la maquette</p>
@@ -1262,7 +1267,6 @@
 
                                                                     <!-- 2eme colonne -->
                                                                 <div class="col-sm-6">
-                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                     <p class="bold">@Messages("project")
                                                                         : myProjects</p>
                                                                     <p class="bold">@Messages("client")
@@ -1337,7 +1341,7 @@
                                                                         <div class="id-tache-modal">
                                                                             <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                                                             @Messages("task") 14
-                                                                            <a><i class="fa fa-trash"></i></a>
+                                                                            <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet"><i class="fa fa-trash"></i></a>
                                                                             <a id="btn-projet-modifierTache-active"><i class="fa fa-reply"></i></a>
                                                                         </div>
                                                                             <!-- Form nom tache -->
@@ -1366,7 +1370,6 @@
 
                                                                         <!-- 2eme colonne -->
                                                                     <div class="col-sm-6">
-                                                                        <button id="btn-projet-fermer-modifierTache" type="button" class="close" data-dismiss="modal" style="margin-bottom:7px ;">&times;</button>
                                                                         <p class="bold">@Messages("project") : myProjects</p>
                                                                         <p class="bold">@Messages("client") : PoPS5I Inc.</p>
 
@@ -1503,6 +1506,23 @@
                                                                 </div>
                                                             </form>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="modal-confirmation-suppr-tache-projet" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+                                                    <div class="modal-header background_admin">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>@Messages("taskDeleteMessage") : (nom de la tâche) ?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                                        <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
                                                     </div>
                                                 </div>
                                             </div>
