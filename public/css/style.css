@@ -7,6 +7,24 @@
  *
 */
 
+.btn-creer{
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    margin-left:-15px;
+    padding-left:0px;
+    padding-right:0px;
+    background-color: #27AE62;
+    color:#FFF;
+    height: 30px;
+}
+
+.btn-creer > h3{
+    margin : 5px 0px 0px 0px;
+}
+.btn-creer > h3 > i{
+    margin-right: 7px;
+}
 #exporter-client {
     border: none;
     background-color: #1AB394;
@@ -661,13 +679,13 @@ INDEX FIN
     background-color:#F8AC59;
 }
 
-.panel-tdb > .panel-body{
+.panel-body-tdb{
     background-color:#F3F3F4;
     color:black;
     /* width:100%; */
     padding:8px;
 }
-.panel-tdb > .panel-body > p{
+.panel-body-tdb > p{
     margin-bottom:5px;
 }
 
