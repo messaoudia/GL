@@ -585,6 +585,9 @@
                     $('#unite').select2({
                         minimumResultsForSearch: -1
                     });
+                    $('#unite-projet').select2({
+                        minimumResultsForSearch: -1
+                    });
 
                     $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
@@ -628,6 +631,10 @@
                     $('#responsableProjet').select2();
 
                     $('#client').select2();
+
+                    $('#responsableProjet-projet').select2();
+
+                    $('#client-projet').select2();
 
                     $('.dataTables-example').DataTable();
 
@@ -780,6 +787,24 @@
                     });
 
                     $('#datepicker_projet_th_fin .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#datepicker_projet_th_debut-projet .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+
+                    $('#datepicker_projet_th_fin-projet .input-group.date').datepicker({
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,

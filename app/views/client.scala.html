@@ -248,13 +248,6 @@
                                                             <div class="date-projet">01/02/2016</div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <div class="date-projet">05/02/2016</div>
-                                                        </td>
-                                                    </tr>
                                                 </table>
                                             </h3>
                                         </div>
@@ -386,10 +379,9 @@
                                 </form>
                             </div>
 
-                            <div style="margin-top: 30px ;" class="row wrapper wrapper-content white-bg">
-                                <div style="margin:auto ;">
-                                    <div class="tab-pane active">
-                                        <div class="panel-body">
+                            <div style="margin-top: 30px ; padding-top:0px;" class="row wrapper wrapper-content white-bg">
+                                <di style="margin:auto ;">
+                                    <div class="panel-body">
                                             <div class="row">
                                                 <div class="switch" style="display:inline-block; float:right;">
                                                     <div class="onoffswitch">
@@ -1534,169 +1526,123 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
-                            </div>
-                            <div style="margin-top: 30px ;" class="row wrapper wrapper-content white-bg">
-                                <div style="margin:auto ;">
-                                    <div class="tab-pane active">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-tache-termines" type="checkbox">
-                                                        <label for="checkbox-tache-termines">
-                                                            Afficher les tâches terminées
-                                                        </label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-tache-indisponible" type="checkbox">
-                                                        <label for="checkbox-tache-indisponible">
-                                                            Afficher les tâches indisponibles
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                <div class="ibox-footer text-center cursor-pointer" style="background-color: #27AE62;color:#FFF;height: 40px;" data-toggle="modal" data-target="#modal-add-client">
+                                    <h3 style="margin:0px;"><i class="fa fa-plus-circle" style="margin-right:7px;"></i>@Messages("addClient")</h3>
+                                </div>
+                                    <!-- Modal créer projet -->
+                                <div class="modal fade" id="modal-add-client" role="dialog">
+                                    <div class="modal-dialog">
+                                            <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                <h4 class="modal-title">@Messages("addClient")</h4>
                                             </div>
-                                                <!-- fin filtre -->
-                                            <div class="wrapper wrapper-content">
-                                                <div class="animated fadeInRightBig" style="margin:auto ;">
-                                                    <div class="table-responsive table-responsive-tdb">
-                                                        <table id="projet_Tache" class="table table-striped table-bordered table-hover">
-                                                            <thead>
-                                                                <tr class="table-center">
-                                                                    <th style="vertical-align:middle ;">Tâche</th>
-                                                                    <th style="vertical-align:middle ;">Resp. tâche</th>
-                                                                    <th style="vertical-align:middle ;">Date début</th>
-                                                                    <th style="vertical-align:middle ;">Date fin</th>
-                                                                    <th style="vertical-align:middle ;">Charge</th>
-                                                                    <th style="vertical-align:middle ;">Pert</th>
-                                                                    <th style="vertical-align:middle ;"><i class="fa fa-bell"></i></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr class="table-center" data-toggle="modal">
-                                                                    <td style="padding:0px ;">
-                                                                        <div>
-                                                                            <div class="idTache">4.1</div>
-                                                                            <div>
-                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
-                                                                                <div class="idNom" style="display: inline-block">
-                                                                                    Toto</div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td style="vertical-align:middle ;">Daro Heng</td>
-                                                                    <td style="vertical-align:middle ;">30/10/2015</td>
-                                                                    <td style="vertical-align:middle ;">
-                                                                        <p>29/12/2015</p>
-                                                                        <p>4/01/2016</p>
-                                                                    </td>
-                                                                    <td style="vertical-align:middle ;">
-                                                                        <div class="row-initiale">Initiale : 30J</div>
-                                                                        <div class="row-restante">Totale : 18J</div>
-                                                                        <div class="progress progress-bar-default">
-                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                                60%
-                                                                            </div>
-                                                                        </div>
-                                                                        <p class="row-consommee">Consommée : 30J</p>
-                                                                    </td>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6 b-r">
+                                                        <form class="form-horizontal" id="creerClientForm">
+                                                            <div class="row form-group">
+                                                                <label class="col-sm-5 control-label" for="formCreerClientName">@Messages("formClientName")</label>
+                                                                <div class="col-sm-7"><input type="text" id="formCreerClientName" class="form-control"></div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <label class="col-sm-5 control-label" for="formCreerClientAdress">@Messages("adress")</label>
+                                                                <div class="col-sm-7"><input type="text" id="formCreerClientAdress" class="form-control"></div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <label class="col-sm-5 control-label" for="formCreerClientZipCode">@Messages("formZipCode")</label>
+                                                                <div class="col-sm-7"><input type="text" id="formCreerClientZipCode" class="form-control"></div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <label class="col-sm-5 control-label" for="formCreerClientCity">@Messages("formCity")</label>
+                                                                <div class="col-sm-7"><input type="text" id="formCreerClientCity" class="form-control"></div>
+                                                            </div>
 
-                                                                    <td style="vertical-align:middle ;">
-                                                                        <div class="row">Précédente : 4.1</div>
-                                                                        <div class="row">
-                                                                            Suivantes :
-                                                                            <div class="btn-group">
-                                                                                <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                    8 tâches <span class="caret"></span>
-                                                                                </button>
-                                                                                <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.2</li>
-                                                                                    <li>5.3</li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                                </tr>
+                                                            <div class="row form-group">
+                                                                <label class="col-sm-5 control-label" for="formCreerClientCountry">@Messages("formCountry")</label>
+                                                                <div class="col-sm-7"><input type="text" id="formCreerClientCountry" class="form-control"></div>
+                                                            </div>
 
-                                                                <tr class="table-center" data-toggle="modal">
-                                                                    <td style="padding:0px ;">
-                                                                        <div class="idTache">4.1</div>
-                                                                        <div>
-                                                                            <table>
-                                                                                <tr>
-                                                                                    <td class="sous-tache-1"><p></p></td>
-                                                                                    <td><img src="img/MyIcons/png/Criticite.png" alt="image" class="icone">
-                                                                                        <div class="idNom" style="display: inline-block">
-                                                                                            Faire les maquettes</div></td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td style="vertical-align:middle ;">Daro Heng</td>
-                                                                    <td style="vertical-align:middle ;">30/10/2015</td>
-                                                                    <td style="vertical-align:middle ;">
-                                                                        <p>29/12/2015</p>
-                                                                        <p>4/01/2016</p>
-                                                                    </td>
-                                                                    <td style="vertical-align:middle ;">
-                                                                        <div class="row-initiale">Initiale : 30J</div>
-                                                                        <div class="row-restante">Totale : 18J</div>
-                                                                        <div class="progress progress-bar-default">
-                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                                60%
-                                                                            </div>
-                                                                        </div>
-                                                                        <p class="row-consommee">Consommée : 30J</p>
-                                                                    </td>
+                                                            <div class="row form-group">
+                                                                <label class="col-sm-5 control-label">@Messages("priority")</label>
+                                                                <div class="col-sm-7">
+                                                                    <div class="radio radio-inline radio-danger">
+                                                                        <input type="radio" id="inlineRadio1CreerClient" value="option1" name="radioInline" checked="">
+                                                                        <label for="inlineRadio1CreerClient">1</label>
+                                                                    </div>
+                                                                    <div class="radio radio-inline radio-danger">
+                                                                        <input type="radio" id="inlineRadio2CreerClient" value="option2" name="radioInline">
+                                                                        <label for="inlineRadio2CreerClient">2</label>
+                                                                    </div>
+                                                                    <div class="radio radio-inline radio-danger">
+                                                                        <input type="radio" id="inlineRadio3CreerClient" value="option3" name="radioInline">
+                                                                        <label for="inlineRadio3CreerClient">3</label>
+                                                                    </div>
 
-                                                                    <td style="vertical-align:middle ;">
-                                                                        <div class="row">Précédente : 4.1</div>
-                                                                        <div class="row">
-                                                                            Suivantes :
-                                                                            <div class="btn-group">
-                                                                                <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                    8 tâches <span class="caret"></span>
-                                                                                </button>
-                                                                                <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.1</li>
-                                                                                    <li>5.2</li>
-                                                                                    <li>5.3</li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                                </tr>
-                                                            </tbody>
-                                                            <tfoot>
-                                                                <tr class="table-center">
-                                                                    <th style="vertical-align:middle ;">Tâche</th>
-                                                                    <th style="vertical-align:middle ;">Resp. tâche</th>
-                                                                    <th style="vertical-align:middle ;">Date début</th>
-                                                                    <th style="vertical-align:middle ;">Date fin</th>
-                                                                    <th style="vertical-align:middle ;">Charge</th>
-                                                                    <th style="vertical-align:middle ;">Pert</th>
-                                                                    <th style="vertical-align:middle ;"><i class="fa fa-bell"></i></th>
-                                                                </tr>
-                                                            </tfoot>
-                                                        </table>
+                                                                </div>
+                                                            </div>
+
+                                                        </form>
                                                     </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="div-center">
+                                                            <h3 class="inline">@Messages("addContact")</h3>
+                                                            <form class="form-horizontal" id="contactFormCreerClient">
+                                                                <div class="row form-group">
+                                                                    <label class="col-sm-5 control-label" for="formLastNameCreerClient">@Messages("formLastName")</label>
+                                                                    <div class="col-sm-7"><input type="text" id="formLastNameCreerClient" class="form-control"></div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <label class="col-sm-5 control-label" for="formFirstNameCreerClient">@Messages("formFirstName")</label>
+                                                                    <div class="col-sm-7"><input type="text" id="formFirstNameCreerClient" class="form-control"></div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <label class="col-sm-5 control-label" for="formEmailCreerClient">@Messages("formEmail")</label>
+                                                                    <div class="col-sm-7"><input type="text" id="formEmailCreerClient" class="form-control"></div>
+                                                                </div>
+                                                                <div class="row form-group">
+                                                                    <label class="col-sm-5 control-label" for="formTelCreerClient" >@Messages("formTel")</label>
+                                                                    <div class="col-sm-7"><input type="text" id="formTelCreerClient" class="form-control"></div>
+                                                                </div>
+                                                            </form>
+                                                            <button class="btn btn-primary inline" type="submit" form="contactFormCreerClient">
+                                                                <i class="fa fa-plus-square"></i>  @Messages("add")
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="display:none;">
+                                                    <div class="col-sm-offset-3 col-sm-6">
+                                                        <h3 style="text-align:center;">@Messages("contacts")</h3>
+                                                        <div class="list-modif-client">
+                                                            <table class="table-bordered">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="first-td">Contact 1</td>
+                                                                        <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="first-td">Contact 1</td>
+                                                                        <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="first-td">Contact 1</td>
+                                                                        <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="first-td">Contact 1</td>
+                                                                        <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;">
+                                                    <h3 style="margin:0px;">@Messages("saveClient")</h3>
                                                 </div>
                                             </div>
                                         </div>
