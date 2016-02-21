@@ -258,8 +258,9 @@
                         </div>
                     </div>
                 </div>
-
-                <button type="button" class="btn btn-w-m btn-primary" style="position: fixed; bottom: 0; width:100%; margin-left:-15px; padding-left:0px;padding-right:0px;" data-toggle="modal" data-target="#modal-add-user">@Messages("addUser")</button>
+                <div id="submitButton-creerUser" class="text-center cursor-pointer btn-creer" data-toggle="modal" data-target="#modal-add-user">
+                    <h3><i class="fa fa-plus-circle"></i>@Messages("addUser")</h3>
+                </div>
                 <div class="modal fade" id="modal-add-user" role="dialog">
                     <div class="modal-dialog">
                         <div class="ibox-title background_admin div-center">
@@ -304,7 +305,6 @@
                                 </div>
                                 <div class="row" style="margin-top:15px;">
                                     <div class="div-center">
-                                            <!--TODO modalview Valider (check contacts & projet & champs -->
                                         <button class="btn btn-admin" type="submit" form="userForm">
                                             <i class="fa fa-check-square"></i> @Messages("validate")
                                         </button>
