@@ -11,6 +11,7 @@ import play.mvc.Result;
 import views.html.adminClients;
 import views.html.adminProjets;
 import views.html.adminUtilisateur;
+import views.html.adminProjetsSelect;
 
 
 /**
@@ -47,9 +48,11 @@ public class AdminController extends Controller{
         return ok(Json.toJson(Client.find.byId(idUtilisateur)));
     }
 
+
     public Result afficherAdminProjetsSelect(Long idProjet) {
         System.out.println(idProjet);
-        /* TODO : aller chercher dans la base de donnee le projet correspondant */
+        // TODO : aller chercher dans la base de donnee le projet correspondant
         return ok(adminProjetsSelect.render("Projet"));
     }
+
 }
