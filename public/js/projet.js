@@ -28,6 +28,13 @@ $(document).ajaxComplete(function() {
         jQuery.fx.off = false;
     });
 
+    $( "#btn-cancel-modifierProjet" ).click(function() {
+        jQuery.fx.off = true;
+        $("#div-modifierProjet").hide();
+        $("#div-consulterProjet").show();
+        jQuery.fx.off = false;
+    });
+
 
 });
 

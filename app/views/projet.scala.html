@@ -47,6 +47,9 @@
                     $('.pear-theme').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important;");
                 }
                 updateMenu();
+
+
+
             });
     </script>
 }
@@ -68,7 +71,7 @@
                         <i id="icon-show-liste-projet" class="fa fa-outdent" style="color:#FFF;"></i>
                     </div>
                     <div id="col-sidebar-liste-projet" class="col-md-2" style="padding: 0;">
-                        <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color:#F3F3F4;box-shadow: 3px 0 5px -4px #333;">
+                        <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color:#FFF;box-shadow: 3px 0 5px -4px #333;">
                             <div class="liste-projet" style="overflow-y: auto; height: 100%; margin-top:26px;">
 
                                 <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
@@ -168,57 +171,81 @@
                                 <div class="col-sm-4">
                                     <h3 class="header-text">Projet : myProjects <div class="priorite">1</div></h3>
                                     <h3 class="header-text">Client : PoPS5I Inc. <div class="priorite">2</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet"></i></a></h3>
-                                    <textarea readonly class="description" style="width: 100% ;">
-                                        Le but étant de développer un site web permettant le suivi de projet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam. Sed dapibus est id enim facilisis, at posuere turpis adipiscing. Quisque sit amet dui dui
-                                        .</textarea>
+                                    <textarea readonly class="description" style="width: 100% ; height: 130px;">Le but étant de développer un site web permettant le suivi de projet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam. Sed dapibus est id enim facilisis, at posuere turpis adipiscing. Quisque sit amet dui dui.</textarea>
                                 </div>
 
-                                <div class="col-sm-5" id="header-milieu">
+                                <div class="col-sm-3" id="">
                                     <h3 class="header-text">Responsable projet : Julien Preisner</h3>
                                     <h3 class="header-text">Avancement : 25%</h3>
+                                    <div class="row-initiale">Initiale : 50J</div>
+                                    <div class="row-restante">Restante : 30J</div>
+                                    <div class="progress progress-bar-default">
+                                            <!-- si 0% : color:black; -->
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                            60%
+                                        </div>
+                                    </div>
+                                    <p class="row-consommee">Consommée : 30J</p>
 
-                                    <h3 class="header-text">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    Du <div class="date-projet">14/10/2015</div>
-                                                </td>
-                                                <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
-                                                <td>
-                                                    <div class="date-projet">01/02/2016</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <div class="date-projet">05/02/2016</div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </h3>
                                 </div>
 
-                                <div class="col-sm-3">
+
+                                <div class="col-sm-5">
 
                                     <div class="row" style="padding-top: 10px ;">
 
                                         <div class="col-xs-9">
-                                            <div class="row-initiale">Initiale : 50J</div>
-                                            <div class="row-restante">Restante : 30J</div>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                    60%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">Consommée : 30J</p>
+
                                         </div>
                                         <div class="col-xs-3">
                                             <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
                                                 <i class="fa fa-info"></i>
                                             </a>
                                         </div>
+                                    </div>
+                                    <div class="row" id="date-header">
+
+                                        <h3 class="header-text">
+                                            Dates théoriques
+                                            <table>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Du <div class="date-projet">14/10/2015</div>
+                                                    </td>
+                                                    <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
+                                                    <td>
+                                                        <div class="date-projet">01/02/2016</div>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                            Dates effectives
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        Du <div class="date-projet">14/10/2015</div>
+                                                    </td>
+                                                    <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
+                                                    <td>
+                                                        <div class="date-projet">01/02/2016</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <div class="date-projet">05/02/2016</div>
+                                                    </td>
+                                                </tr>
+
+
+                                            </table>
+                                        </h3>
                                     </div>
                                     <div class="row" style="margin-top: 14px ;">
                                         <div style="margin-top:14px ;">
@@ -280,12 +307,17 @@
                             </div>
                         </div>
 
-                        <div id="div-modifierProjet" style="display: none ;">
+                        <div id="div-modifierProjet" style="display: none;">
                             <form id="addProjectForm" class="m-t" role="form" method="POST">
 
                                 <div class="wrapper wrapper-content">
                                     <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
-                                        <div class="ibox-content">
+                                        <div class="ibox-content" style="padding-top: 0; padding-right: 0;">
+                                            <div class="row">
+                                                <div class="col-md-offset-10 col-md-2" style="padding-right: 0;">
+                                                    <button id="btn-cancel-modifierProjet" style="border:none; background-color:#ec4758; color:#FFF;">Annuler<i class="fa fa-times"></i></button>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-sm-offset-2 col-sm-8">
                                                     <label class="label_form" for="projectResponsible">@Messages("project")</label>
@@ -355,14 +387,14 @@
                                         <div class="row">
                                             <div class="switch" style="display:inline-block; float:right;">
                                                 <div class="onoffswitch">
-                                                    <input class="onoffswitch-checkbox" id="checkbox-draft" type="checkbox">
-                                                    <label class="onoffswitch-label" for="checkbox-draft">
+                                                    <input class="onoffswitch-checkbox" id="checkbox-draft-projet" type="checkbox">
+                                                    <label class="onoffswitch-label" for="checkbox-draft-projet">
                                                         <span class="onoffswitch-inner"></span>
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
                                                 </div>
                                             </div>
-                                            <p style="display:inline-block; margin-left:5px; vertical-align:middle; font-weight: bold; float: right;padding-right: 5px;"> @Messages("draftMode")</p>
+                                            <p style="display:inline-block; margin-left:5px; vertical-align:middle; font-weight: bold;float: right;padding-right: 5px;"> @Messages("draftMode")</p>
                                         </div>
                                         <div class="row row-options-admin-projet">
                                             <div class="col-sm-3">
@@ -383,7 +415,7 @@
                                             </div>
                                         </div>
                                         <div id="mode-draft" class="table-responsive" style="">
-                                            <div class="dd" id="nestable">
+                                            <div class="dd" id="nestable-projet">
                                                 <ol class="dd-list">
                                                         <!-- En-tete -->
                                                     <li class="dd-item dd-item-min-width" data-id="0">
@@ -406,8 +438,16 @@
                                                         <!-- Liste des taches -->
                                                     <li class="dd-item dd-item-min-width" data-id="1">
                                                         <div class="dd-handle" style="padding:0px;">
-                                                            <div class="row row-nestable">
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
+                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                <div class="col-middle first-col-middle" style="">
+                                                                    <div class="row row-nestable id-tache">
+                                                                        14
+                                                                    </div>
+                                                                    <div class="row row-nestable" style="padding-top: 10px;">
+                                                                        <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                        Toto doit supporter PSG
+                                                                    </div>
+                                                                </div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
@@ -466,8 +506,15 @@
                                                         <!-- Tache -->
                                                     <li class="dd-item dd-item-min-width" data-id="2">
                                                         <div class="dd-handle" style="padding:0px;">
-                                                            <div class="row row-nestable">
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
+                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                <div class="col-middle first-col-middle" style="">
+                                                                    <div class="row row-nestable id-tache">
+                                                                        14
+                                                                    </div>
+                                                                    <div class="row row-nestable" style="padding-top: 10px;">
+                                                                        Toto doit supporter PSG
+                                                                    </div>
+                                                                </div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
@@ -527,8 +574,15 @@
                                                                 <!-- Sous-tache 1 -->
                                                             <li class="dd-item dd-item-min-width" data-id="3">
                                                                 <div class="dd-handle" style="padding:0px;">
-                                                                    <div class="row row-nestable">
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
+                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                        <div class="col-middle first-col-middle" style="">
+                                                                            <div class="row row-nestable id-tache">
+                                                                                14
+                                                                            </div>
+                                                                            <div class="row row-nestable" style="padding-top: 10px;">
+                                                                                Toto
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
@@ -587,9 +641,15 @@
                                                                         <!-- Sous-tache 2 -->
                                                                     <li class="dd-item dd-item-min-width" data-id="4">
                                                                         <div class="dd-handle" style="padding:0px;">
-                                                                            <div class="row row-nestable">
-                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
-                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
+                                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                                <div class="col-middle first-col-middle" style="">
+                                                                                    <div class="row row-nestable id-tache">
+                                                                                        14
+                                                                                    </div>
+                                                                                    <div class="row row-nestable" style="padding-top: 10px;">
+                                                                                        Toto
+                                                                                    </div>
+                                                                                </div>                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
                                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
                                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
                                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
@@ -647,9 +707,15 @@
                                                                                 <!-- Sous-tache 3 -->
                                                                             <li class="dd-item dd-item-min-width" data-id="5">
                                                                                 <div class="dd-handle" style="padding:0px;">
-                                                                                    <div class="row row-nestable">
-                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
-                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
+                                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                                        <div class="col-middle first-col-middle" style="">
+                                                                                            <div class="row row-nestable id-tache">
+                                                                                                14
+                                                                                            </div>
+                                                                                            <div class="row row-nestable" style="padding-top: 10px;">
+                                                                                                Toto
+                                                                                            </div>
+                                                                                        </div>                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
                                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
                                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
                                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
@@ -710,9 +776,15 @@
                                                             </li>
                                                             <li class="dd-item dd-item-min-width" data-id="6">
                                                                 <div class="dd-handle" style="padding:0px;">
-                                                                    <div class="row row-nestable">
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
+                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                        <div class="col-middle first-col-middle" style="">
+                                                                            <div class="row row-nestable id-tache">
+                                                                                14
+                                                                            </div>
+                                                                            <div class="row row-nestable" style="padding-top: 10px;">
+                                                                                Toto
+                                                                            </div>
+                                                                        </div>                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
                                                                         <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
@@ -771,9 +843,15 @@
                                                     </li>
                                                     <li class="dd-item dd-item-min-width" data-id="7">
                                                         <div class="dd-handle" style="padding:0px;">
-                                                            <div class="row row-nestable">
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Toto</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
+                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                <div class="col-middle first-col-middle" style="">
+                                                                    <div class="row row-nestable id-tache">
+                                                                        14
+                                                                    </div>
+                                                                    <div class="row row-nestable" style="padding-top: 10px;">
+                                                                        Toto
+                                                                    </div>
+                                                                </div>                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">

@@ -35,6 +35,12 @@
     width:5%;
 }
 
+.id-tache {
+    border-bottom:1px solid rgba(103,106,108,0.27);
+    font-weight: bold;
+    border-top-left-radius: 1px;
+}
+
 .col-middle{
     display:table-cell;
     float:none;
@@ -43,6 +49,12 @@
     text-align:center;
     padding : 0px 5px 0px 5px;
     width:12.5%;
+}
+
+.first-col-middle {
+    border-right: 1px solid #EBEBEB;
+    vertical-align: inherit;
+    padding : 0px 0px 0px 0px;
 }
 
 .border-right{
@@ -223,8 +235,8 @@ INDEX FIN
     font-size: 16px;
 }
 
-#header-milieu {
-    left: 2%;
+#date-header {
+    padding-left: 13%;
 }
 
 .description {
@@ -1234,15 +1246,18 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 }
 @media (max-width: 768px) {
 
+    #date-header {
+        padding-left: 6%;
+    }
     #boutonPlusCreerTache {
         display:none;
         text-align: left;
     }
 
-    .normal{
+    /*.normal{
         text-align: left;
         border:none;
-    }
+    }*/
 
     #barreCreerTachei {
         text-align: left;
@@ -8812,14 +8827,17 @@ body.md-skin {
 }
 @media (max-width: 350px) {
 
+    #date-header {
+        padding-left: 2%;
+    }
     #boutonPlusCreerTache {
         display:none;
     }
 
-    .normal{
+    /*.normal{
         text-align: left;
         border:none;
-    }
+    }*/
     #barreCreerTachei {
         text-align: left;
     }

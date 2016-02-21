@@ -162,6 +162,41 @@
         @scripts
         <script>
                 $(document).ready(function () {
+
+
+                    function modeDraftProjet()
+                    {
+                        if($('#checkbox-draft-projet').is(':checked')){
+                            $('#nestable-projet').removeClass("dd-nodrag");
+                            $('.id-tache').hide();
+                        }
+                        else{
+                            $('#nestable-projet').addClass("dd-nodrag");
+                            $('.id-tache').show();
+                        }
+                    }
+                    modeDraftProjet();
+                    $('#checkbox-draft-projet').click(function() {
+                        modeDraftProjet();
+                    });
+
+                    function modeDraftClient()
+                    {
+                        if($('#checkbox-draft-client').is(':checked')){
+                            $('#nestable-client').removeClass("dd-nodrag");
+                            $('.id-tache').hide();
+                        }
+                        else{
+                            $('#nestable-client').addClass("dd-nodrag");
+                            $('.id-tache').show();
+                        }
+                    }
+                    modeDraftClient();
+                    $('#checkbox-draft-client').click(function() {
+                        modeDraftClient();
+                    });
+
+
                     $(".select2-input").select2();
 
                     $(".select2-predecesseur").select2({
@@ -261,8 +296,13 @@
                         });
                     });
 
-                    $('#nestable').nestable({
-                        group: 1
+                    $('#nestable-projet').nestable({
+                        group: 1,
+                        maxDepth: 4
+                    }).on('change');
+                    $('#nestable-client').nestable({
+                        group: 1,
+                        maxDepth: 4
                     }).on('change');
 
                     $('#btn-modifierTache').click(function() {
@@ -401,6 +441,22 @@
 
                 $( document ).ajaxComplete(function() {
 
+
+                    $( "#btn-modifierProjet" ).click(function() {
+                        //$("#div-consulterProjet").css("display","none");
+                        jQuery.fx.off = true;
+                        $("#div-consulterProjet").hide();
+                        $("#div-modifierProjet").show();
+                        jQuery.fx.off = false;
+                    });
+
+                    $( "#btn-cancel-modifierProjet" ).click(function() {
+                        jQuery.fx.off = true;
+                        $("#div-modifierProjet").hide();
+                        $("#div-consulterProjet").show();
+                        jQuery.fx.off = false;
+                    });
+
                     $(".header-sidebar-projet").click(function(){
 
                         if($(this).next().is(":visible"))
@@ -533,10 +589,15 @@
                     $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
 
-                    $('#nestable').nestable({
+                    $('#nestable-projet').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
+                    $('#nestable-client').nestable({
+                        group: 1,
+                        maxDepth: 4
+                    }).on('change');
+
 
                     $('#notifTopBar').click(function (e) {
                         e.preventDefault();
@@ -770,29 +831,39 @@
 
                     // $('#modal-tdb-tache').modal();
 
-                    if($('#checkbox-draft').is(':checked')){
-                        //$('#mode-non-draft').hide();
-                        //$('#mode-draft').show();
-                        $('#nestable').removeClass("dd-nodrag")
-                    }
-                    else{
-                        //$('#mode-draft').hide();
-                        //$('#mode-non-draft').show();
-                        $('#nestable').addClass("dd-nodrag");
-                    }
 
-                    $('#checkbox-draft').click(function() {
-                        if($('#checkbox-draft').is(':checked')){
-                            //$('#mode-non-draft').hide();
-                            //$('#mode-draft').show();
-                            $('#nestable').removeClass("dd-nodrag")
+                    function modeDraftProjet()
+                    {
+                        if($('#checkbox-draft-projet').is(':checked')){
+                            $('#nestable-projet').removeClass("dd-nodrag");
+                            $('.id-tache').hide();
                         }
                         else{
-                            //$('#mode-draft').hide();
-                            //$('#mode-non-draft').show();
-                            $('#nestable').addClass("dd-nodrag");
+                            $('#nestable-projet').addClass("dd-nodrag");
+                            $('.id-tache').show();
                         }
+                    }
+                    modeDraftProjet();
+                    $('#checkbox-draft-projet').click(function() {
+                        modeDraftProjet();
                     });
+
+                    function modeDraftClient()
+                    {
+                        if($('#checkbox-draft-client').is(':checked')){
+                            $('#nestable-client').removeClass("dd-nodrag");
+                            $('.id-tache').hide();
+                        }
+                        else{
+                            $('#nestable-client').addClass("dd-nodrag");
+                            $('.id-tache').show();
+                        }
+                    }
+                    modeDraftClient();
+                    $('#checkbox-draft-client').click(function() {
+                        modeDraftClient();
+                    });
+
 
                 });
         </script>
