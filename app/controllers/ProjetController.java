@@ -3,15 +3,17 @@ package controllers;
 import models.Client;
 import play.Logger;
 import play.libs.Json;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.creerClient;
 import views.html.creerProjet;
 import views.html.projet;
 
-/**
- * Created by Gishan on 07/01/2016.
- */
+import java.util.Map;
+
+import static play.data.Form.form;
+
 public class ProjetController extends Controller{
 
     public Result afficherProjets() {
@@ -26,5 +28,12 @@ public class ProjetController extends Controller{
         Client client = Client.find.byId(idClient);
         Logger.debug("Projet Client ID : "+idClient);
         return ok(Json.toJson(models.Projet.find.where().eq("client",client).findList()));
+    }
+
+    public Result ajouterProjet() {
+        Map<String, String[]> map = request().body().asFormUrlEncoded();
+        final Form<Projet> projetForm = form(Projet.class).bindFromRequest();
+        System.out.println(map.get("priorite")[0]);
+        return ok();
     }
 }

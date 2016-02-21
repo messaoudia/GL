@@ -46,4 +46,10 @@ public class AdminController extends Controller{
     public Result afficherModalClient(long idUtilisateur) {
         return ok(Json.toJson(Client.find.byId(idUtilisateur)));
     }
+
+    public Result afficherAdminProjetsSelect(Long idProjet) {
+        System.out.println(idProjet);
+        /* TODO : aller chercher dans la base de donnee le projet correspondant */
+        return ok(adminProjetsSelect.render("Projet"));
+    }
 }

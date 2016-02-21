@@ -100,14 +100,21 @@
                             </tbody>
                         </table>
 
-                            <!-- Modal -->
-                        <div class="modal fade" id="modal-suppr-client" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="ibox-title background_admin div-center">
-                                    ModalVIew Supprimer TItle
-                                </div>
-                                <div class="ibox-content">
-                                    ModalVIew Supprimer Content
+                            <!-- Modal supprimer client -->
+                        <div class="modal fade" id="modal-suppr-client" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header background_admin">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>@Messages("clientDeleteMessage") : (nom du projet) ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                        <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -151,19 +158,11 @@
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label">@Messages("priority")</label>
                                                     <div class="col-sm-7">
-                                                        <div class="radio radio-inline radio-danger">
-                                                            <input type="radio" id="inlineRadio1" value="option1" name="radioInline" checked="">
-                                                            <label for="inlineRadio1">1</label>
+                                                        <div class="btn-group">
+                                                            <button class="btn" type="button" value="1" >1</button>
+                                                            <button class="btn  btn-active" value="2" type="button">2</button>
+                                                            <button class="btn" type="button" value="3">3</button>
                                                         </div>
-                                                        <div class="radio radio-inline radio-danger">
-                                                            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
-                                                            <label for="inlineRadio2">2</label>
-                                                        </div>
-                                                        <div class="radio radio-inline radio-danger">
-                                                            <input type="radio" id="inlineRadio3" value="option3" name="radioInline">
-                                                            <label for="inlineRadio3">3</label>
-                                                        </div>
-
                                                     </div>
                                                 </div>
 
@@ -259,7 +258,6 @@
                                     </div>
                                     <div class="row" style="margin-top:15px;">
                                         <div class="div-center">
-                                                <!--TODO modalview Valider (check contacts & projet & champs -->
                                             <button class="btn btn-admin" type="submit" form="clientForm">
                                                 <i class="fa fa-check-square"></i> @Messages("validate")
                                             </button>
@@ -268,14 +266,147 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade" id="modal-confirmation-suppr-projet-client" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header background_admin">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>@Messages("projectDeleteMessage") : (nom du projet) ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                        <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+                <div id="submitButton-admin-client" class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; cursor: pointer ;" data-toggle="modal" data-target="#modal-add-client-admin">
+                    <h3 style="margin:0px ;"><i class="fa fa-plus-circle" style="margin-right:7px;"></i>@Messages("addClient")</h3>
+                </div>
+                    <!-- Modal créer client -->
+                <div class="modal fade" id="modal-add-client-admin" role="dialog">
+                    <div class="modal-dialog">
+                            <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">@Messages("addClient")</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-sm-6 b-r">
+                                        <form class="form-horizontal" id="creerClientForm">
+                                            <div class="row form-group">
+                                                <label class="col-sm-5 control-label" for="formCreerClientName">@Messages("formClientName")</label>
+                                                <div class="col-sm-7"><input type="text" id="formCreerClientName" class="form-control"></div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-sm-5 control-label" for="formCreerClientAdress">@Messages("adress")</label>
+                                                <div class="col-sm-7"><input type="text" id="formCreerClientAdress" class="form-control"></div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-sm-5 control-label" for="formCreerClientZipCode">@Messages("formZipCode")</label>
+                                                <div class="col-sm-7"><input type="text" id="formCreerClientZipCode" class="form-control"></div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-sm-5 control-label" for="formCreerClientCity">@Messages("formCity")</label>
+                                                <div class="col-sm-7"><input type="text" id="formCreerClientCity" class="form-control"></div>
+                                            </div>
 
+                                            <div class="row form-group">
+                                                <label class="col-sm-5 control-label" for="formCreerClientCountry">@Messages("formCountry")</label>
+                                                <div class="col-sm-7"><input type="text" id="formCreerClientCountry" class="form-control"></div>
+                                            </div>
 
+                                            <div class="row form-group">
+                                                <label class="col-sm-5 control-label">@Messages("priority")</label>
+                                                <div class="col-sm-7">
+                                                    <div class="radio radio-inline radio-danger">
+                                                        <input type="radio" id="inlineRadio1CreerClient" value="option1" name="radioInline" checked="">
+                                                        <label for="inlineRadio1CreerClient">1</label>
+                                                    </div>
+                                                    <div class="radio radio-inline radio-danger">
+                                                        <input type="radio" id="inlineRadio2CreerClient" value="option2" name="radioInline">
+                                                        <label for="inlineRadio2CreerClient">2</label>
+                                                    </div>
+                                                    <div class="radio radio-inline radio-danger">
+                                                        <input type="radio" id="inlineRadio3CreerClient" value="option3" name="radioInline">
+                                                        <label for="inlineRadio3CreerClient">3</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="div-center">
+                                            <h3 class="inline">@Messages("addContact")</h3>
+                                            <form class="form-horizontal" id="contactFormCreerClient">
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formLastNameCreerClient">@Messages("formLastName")</label>
+                                                    <div class="col-sm-7"><input type="text" id="formLastNameCreerClient" class="form-control"></div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formFirstNameCreerClient">@Messages("formFirstName")</label>
+                                                    <div class="col-sm-7"><input type="text" id="formFirstNameCreerClient" class="form-control"></div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formEmailCreerClient">@Messages("formEmail")</label>
+                                                    <div class="col-sm-7"><input type="text" id="formEmailCreerClient" class="form-control"></div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formTelCreerClient" >@Messages("formTel")</label>
+                                                    <div class="col-sm-7"><input type="text" id="formTelCreerClient" class="form-control"></div>
+                                                </div>
+                                            </form>
+                                            <button class="btn btn-primary inline" type="submit" form="contactFormCreerClient">
+                                                <i class="fa fa-plus-square"></i>  @Messages("add")
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="display:none;">
+                                    <div class="col-sm-offset-3 col-sm-6">
+                                        <h3 style="text-align:center;">@Messages("contacts")</h3>
+                                        <div class="list-modif-client">
+                                            <table class="table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="first-td">Contact 1</td>
+                                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client"  style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="first-td">Contact 1</td>
+                                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client"  style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="first-td">Contact 1</td>
+                                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client"  style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="first-td">Contact 1</td>
+                                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client"  style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox-footer text-center" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;">
+                                    <h3 style="margin:0px;">@Messages("saveClient")</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 }

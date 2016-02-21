@@ -6,6 +6,40 @@
  *   version 2.3
  *
 */
+
+.btn-creer{
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    margin-left:-15px;
+    padding-left:0px;
+    padding-right:0px;
+    background-color: #27AE62;
+    color:#FFF;
+    height: 30px;
+}
+
+.btn-creer > h3{
+    margin : 5px 0px 0px 0px;
+}
+.btn-creer > h3 > i{
+    margin-right: 7px;
+}
+#exporter-client {
+    border: none;
+    background-color: #1AB394;
+    color: #FFF;
+    width: 100%;
+    height: 43px;
+    cursor: pointer;
+}
+
+.dd-item-min-width{
+    min-width:700px;
+}
+.cursor-pointer{
+    cursor:pointer;
+}
 .select2-search__field{
     width:100% !important;
 }
@@ -19,6 +53,12 @@
     width:5%;
 }
 
+.id-tache {
+    border-bottom:1px solid rgba(103,106,108,0.27);
+    font-weight: bold;
+    border-top-left-radius: 1px;
+}
+
 .col-middle{
     display:table-cell;
     float:none;
@@ -27,6 +67,12 @@
     text-align:center;
     padding : 0px 5px 0px 5px;
     width:12.5%;
+}
+
+.first-col-middle {
+    border-right: 1px solid #EBEBEB;
+    vertical-align: inherit;
+    padding : 0px 0px 0px 0px;
 }
 
 .border-right{
@@ -63,19 +109,24 @@ body, html{
 .normal{
     padding-right: 0px;
     padding-left: 0px;
-    line-height: 35px;
-    background-color:#1ab394 !important;
-    border-right: 5px solid red;
+    line-height:35px;
+    background-color:#1ab394;
+    color:white;
+    border-right: 4px solid #E74C3C;
 }
 
-#boutonPlusCreerTache {
+.boutonPlusCreerTache {
     left: 0px;
     position: absolute;
-    line-height: 35px;
     color:#fff;
     width: 30px;
+    display:inline-block;
+    /*
     font-size: 20px;
-    background-color: red;
+    line-height: 35px;
+    */
+    background-color: #E74C3C;
+    border:none;
 }
 
 label {
@@ -178,7 +229,7 @@ INDEX FIN
     width: 20px;
     height: 20px;
     line-height: 20px;
-    background: #8c8c8c;
+    background: #676A6C;
     text-align: center;
     color: #FFFFFF;
     display: inline-block;
@@ -202,8 +253,20 @@ INDEX FIN
     font-size: 16px;
 }
 
-#header-milieu {
-    left: 2%;
+.date-projet-admin {
+    width: 95px;
+    height: 25px;
+    line-height: 25px;
+    background: #E74C3C;
+    text-align: center;
+    color: #FFFFFF;
+    display: inline-block;
+    margin-bottom: 3px;
+    font-size: 16px;
+}
+
+#date-header {
+    padding-left: 13%;
 }
 
 .description {
@@ -215,12 +278,23 @@ INDEX FIN
 }
 
 .sidebar-projet {
-    margin: 5px;
+    margin: 0px 5px 5px 5px;
     background-color: #ecf0f1;
-    width: 100%;
+    width: 95%;
     float: left;
     text-align: center;
     border-left: 6px solid #ecf0f1;
+    cursor: pointer;
+}
+
+.header-sidebar-projet {
+    margin: 5px 5px 3px 5px;
+    height: 30px;
+    background-color: #1AB394;
+    width: 95%;
+    float: left;
+    text-align: center;
+    cursor: pointer;
 }
 
 .sidebar-projet.select {
@@ -233,18 +307,44 @@ INDEX FIN
     font-size: 20px;
 }
 
-.sidebar-client-priorite {
+.sidebar-client-projet-priorite {
     float:right;
-    padding-right: 8px;
     width: 20px; height: 20px;
-    background-color: #9f9f9f;
+    background-color: #676A6C;
     color: #ffffff;
     text-align: center;
 }
 
-.sidebar-client-priorite > .valeur {
-    padding-left: 50%;
+.sidebar-projet-priorite {
+    float:right;
+    width: 20px; height: 20px;
+    background-color: #676A6C;
+    color: #ffffff;
+    text-align: center;
+}
+
+.sidebar-client-priorite {
+    float:left;
+    width: 30px; height: 30px;
+    background-color: #FFF;
+    color: #676A6C;
+    text-align: center;
+    padding:0;
+}
+
+.sidebar-client-projet-priorite > .valeur {
+    /*padding-left: 50%;*/
     line-height: 20px;
+}
+
+.sidebar-projet-priorite > .valeur {
+    /*padding-left: 50%;*/
+    line-height: 20px;
+}
+
+.sidebar-client-priorite > .valeur {
+    /*padding-left: 50%;*/
+    line-height: 30px;
 }
 
 .sidebar-footer {
@@ -552,7 +652,7 @@ INDEX FIN
 .dropdown-filtre > li > .checkbox{
     margin-left:10px;
 }
-
+.table-responsive-client > .dataTables_wrapper > .row,
 .table-responsive-admin-user > .dataTables_wrapper > .row,
 .table-responsive-admin-client > .dataTables_wrapper > .row,
 .table-responsive-tdb > .dataTables_wrapper > .row,
@@ -591,13 +691,13 @@ INDEX FIN
     background-color:#F8AC59;
 }
 
-.panel-tdb > .panel-body{
+.panel-body-tdb{
     background-color:#F3F3F4;
     color:black;
     /* width:100%; */
     padding:8px;
 }
-.panel-tdb > .panel-body > p{
+.panel-body-tdb > p{
     margin-bottom:5px;
 }
 
@@ -1176,15 +1276,18 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 }
 @media (max-width: 768px) {
 
+    #date-header {
+        padding-left: 6%;
+    }
     #boutonPlusCreerTache {
         display:none;
         text-align: left;
     }
 
-    .normal{
+    /*.normal{
         text-align: left;
         border:none;
-    }
+    }*/
 
     #barreCreerTachei {
         text-align: left;
@@ -8755,14 +8858,17 @@ body.md-skin {
 }
 @media (max-width: 350px) {
 
+    #date-header {
+        padding-left: 2%;
+    }
     #boutonPlusCreerTache {
         display:none;
     }
 
-    .normal{
+    /*.normal{
         text-align: left;
         border:none;
-    }
+    }*/
     #barreCreerTachei {
         text-align: left;
     }

@@ -50,3 +50,10 @@ GET         /adminUtilisateurId        controllers.AdminController.afficherModal
 GET         /adminClientId             controllers.AdminController.afficherModalClient(id: Long)
 GET         /adminProjetsClient        controllers.ProjetController.afficherProjetsClient(id: Long)
 GET         /adminContactsClient       controllers.ContactController.afficherContactsClient(id: Long)
+
+POST        /ajouterProjet             controllers.ProjetController.ajouterProjet
+
+#view notification
+GET         /notifications             controllers.NotificationController.afficherNotifications
+
+POST        /adminProjetSelect          controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
