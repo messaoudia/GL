@@ -35,6 +35,22 @@ $(document).ajaxComplete(function() {
         jQuery.fx.off = false;
     });
 
+    $( "#btn-modifierProjet-admin" ).click(function() {
+        //$("#div-consulterProjet").css("display","none");
+
+        jQuery.fx.off = true;
+        $("#div-consulterProjet-admin").hide();
+        $("#div-modifierProjet-admin").show();
+        jQuery.fx.off = false;
+    });
+
+    $( "#btn-cancel-modifierProjet-admin" ).click(function() {
+        jQuery.fx.off = true;
+        $("#div-modifierProjet-admin").hide();
+        $("#div-consulterProjet-admin").show();
+        jQuery.fx.off = false;
+    });
+
 
 });
 

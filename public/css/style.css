@@ -253,6 +253,18 @@ INDEX FIN
     font-size: 16px;
 }
 
+.date-projet-admin {
+    width: 95px;
+    height: 25px;
+    line-height: 25px;
+    background: #E74C3C;
+    text-align: center;
+    color: #FFFFFF;
+    display: inline-block;
+    margin-bottom: 3px;
+    font-size: 16px;
+}
+
 #date-header {
     padding-left: 13%;
 }

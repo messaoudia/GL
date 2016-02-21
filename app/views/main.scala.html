@@ -196,6 +196,22 @@
                         modeDraftClient();
                     });
 
+                    function modeDraftProjetAdmin()
+                    {
+                        if($('#checkbox-draft-projet-admin').is(':checked')){
+                            $('#nestable-projet-admin').removeClass("dd-nodrag");
+                            $('.id-tache').hide();
+                        }
+                        else{
+                            $('#nestable-projet-admin').addClass("dd-nodrag");
+                            $('.id-tache').show();
+                        }
+                    }
+                    modeDraftProjetAdmin();
+                    $('#checkbox-draft-projet-admin').click(function() {
+                        modeDraftProjetAdmin();
+                    });
+
 
                     $(".select2-input").select2();
 
@@ -442,6 +458,22 @@
                 $( document ).ajaxComplete(function() {
 
 
+                    $( "#btn-modifierProjet-admin" ).click(function() {
+                        //$("#div-consulterProjet").css("display","none");
+
+                        jQuery.fx.off = true;
+                        $("#div-consulterProjet-admin").hide();
+                        $("#div-modifierProjet-admin").show();
+                        jQuery.fx.off = false;
+                    });
+
+                    $( "#btn-cancel-modifierProjet-admin" ).click(function() {
+                        jQuery.fx.off = true;
+                        $("#div-modifierProjet-admin").hide();
+                        $("#div-consulterProjet-admin").show();
+                        jQuery.fx.off = false;
+                    });
+
                     $( "#btn-modifierProjet" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
                         jQuery.fx.off = true;
@@ -517,6 +549,17 @@
                         }
                     });
 
+                    $('#afficheRetour').click(function(){
+
+                        if($("#col-sidebar-retour").is(":visible")){
+                            hideSideBarRetour();
+                        }
+                        else
+                        {
+                            showSideBarRetour();
+                        }
+                    });
+
                     $( window ).resize(function() {
                         $('.liste-projet').css('height',"100%");
                         height = $('.liste-projet').css('height');
@@ -545,6 +588,25 @@
                     {
                         $('#col-sidebar-liste-projet').show();
                         $('#afficheListeProjet').css("width","170px");
+                        $("#col-consulterProjet").removeClass("col-md-12");
+                        $("#col-consulterProjet").addClass("col-md-10");
+                        $("#icon-show-liste-projet").removeClass("fa-indent");
+                        $("#icon-show-liste-projet").addClass("fa-outdent");
+                    }
+
+                    function hideSideBarRetour()
+                    {
+                        $('#col-sidebar-retour').hide();
+                        $('#afficheRetour').css("width","25px");
+                        $("#col-consulterProjet").removeClass("col-md-10");
+                        $("#col-consulterProjet").addClass("col-md-12");
+                        $("#icon-show-liste-projet").removeClass("fa-outdent");
+                        $("#icon-show-liste-projet").addClass("fa-indent");
+                    }
+                    function showSideBarRetour()
+                    {
+                        $('#col-sidebar-retour').show();
+                        $('#afficheRetour').css("width","170px");
                         $("#col-consulterProjet").removeClass("col-md-12");
                         $("#col-consulterProjet").addClass("col-md-10");
                         $("#icon-show-liste-projet").removeClass("fa-indent");
@@ -864,7 +926,21 @@
                         modeDraftClient();
                     });
 
-
+                    function modeDraftProjetAdmin()
+                    {
+                        if($('#checkbox-draft-projet-admin').is(':checked')){
+                            $('#nestable-projet-admin').removeClass("dd-nodrag");
+                            $('.id-tache').hide();
+                        }
+                        else{
+                            $('#nestable-projet-admin').addClass("dd-nodrag");
+                            $('.id-tache').show();
+                        }
+                    }
+                    modeDraftProjetAdmin();
+                    $('#checkbox-draft-projet-admin').click(function() {
+                        modeDraftProjetAdmin();
+                    });
                 });
         </script>
     </body>
