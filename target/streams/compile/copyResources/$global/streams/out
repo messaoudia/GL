@@ -1,9 +1,0 @@
-[0m[[0mdebug[0m] [0mCopy resource mappings: [0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/messages.fr,/home/yachironi/git/myproject/target/scala-2.11/classes/messages.fr)[0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/messages.en,/home/yachironi/git/myproject/target/scala-2.11/classes/messages.en)[0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/evolutions,/home/yachironi/git/myproject/target/scala-2.11/classes/evolutions)[0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/application.conf,/home/yachironi/git/myproject/target/scala-2.11/classes/application.conf)[0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/routes,/home/yachironi/git/myproject/target/scala-2.11/classes/routes)[0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/logback.xml,/home/yachironi/git/myproject/target/scala-2.11/classes/logback.xml)[0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/evolutions/default,/home/yachironi/git/myproject/target/scala-2.11/classes/evolutions/default)[0m
-[0m[[0mdebug[0m] [0m	(/home/yachironi/git/myproject/conf/evolutions/default/1.sql,/home/yachironi/git/myproject/target/scala-2.11/classes/evolutions/default/1.sql)[0m
