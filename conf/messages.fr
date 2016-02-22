@@ -139,3 +139,6 @@ saveClient = Enregistrer le client
 addProject = Créer un projet
 addClient = Créer un client
 cancel = Annuler
+noDelayedTask = Aucune tâche retardée
+noAlmostFinishedTask = Aucune tâche presque finie
+noneProposedTask = Aucune tâche proposée

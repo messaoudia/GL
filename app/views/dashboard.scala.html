@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle: String, utilisateur: models.Utilisateur)
 
 @scripts = {
     <script>
@@ -37,32 +37,38 @@
                 <div class="row wrapper border-bottom white-bg page-heading" style="margin-top:10px ; margin-left:1px ; margin-right:1px ; background-color:#1AB394 ; color:white ;" >
                     <div class="col-sm-12 col-lg-4" style="padding:0px 20px 0px 20px ;">
                         <div class="row">
-                            <h3>@Messages("hello") Julien Preisner</h3>
+                            <h3>@Messages("hello") @utilisateur.prenom @utilisateur.nom</h3>
                         </div>
                         <div class="row row-tdb">
-                            <div class="col-sm-6">
-                                <div class="panel panel-tdb">
-                                    <div class="panel-heading panel-heading-normal">
-                                    @Messages("projects")
-                                    </div>
-                                    <div id="projet-tdb" class="panel-body panel-body-tdb" style="color:black ;">
-                                        <p>@Messages("currentProjects") : 4</p>
-                                        <p>@Messages("almostFinishedProjects") : 1</p>
-                                        <p>@Messages("delayedProjects") : 0</p>
+                            @if(utilisateur.hasProjetsResponsable()) {
+                                <div class="col-sm-6">
+                                    <div class="panel panel-tdb">
+                                        <div class="panel-heading panel-heading-normal">
+                                        @Messages("projects")
+                                        </div>
+                                        <div id="projet-tdb" class="panel-body panel-body-tdb" style="color:black ;">
+                                            <p>@Messages("currentProjects") : @utilisateur.nbDeProjetsResponsableActuel()</p>
+                                            <p>@Messages("almostFinishedProjects") : @utilisateur.nbDeProjetsResponsablePresqueFinis()</p>
+                                            <p>@Messages("delayedProjects") : @utilisateur.nbDeProjetsResponsableRetardes()</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            @if(utilisateur.hasProjetsResponsable()){
                             <div class="col-sm-6">
+                            } else{
+                            <div class="col-sm-12">
+                            }
                                 <div class="panel panel-tdb">
                                     <div class="panel-heading panel-heading-normal">
                                     @Messages("tasks")
                                     </div>
                                     <div id="tache-tdb" class="panel-body panel-body-tdb" style="color:black ;">
-                                        <p>@Messages("currentTasks") : 4</p>
-                                        <p>@Messages("notStartedTasks"): 1</p>
-                                        <p>@Messages("startedTasks") : 4</p>
-                                        <p>@Messages("almostFinishedTasks") : 1</p>
-                                        <p>@Messages("delayedTasks") : 4</p>
+                                        <p>@Messages("currentTasks") : @utilisateur.nbTachesActuelles()</p>
+                                        <p>@Messages("notStartedTasks"): @utilisateur.nbTachesNonCommencees()</p>
+                                        <p>@Messages("startedTasks") : @utilisateur.nbTachesCommencees()</p>
+                                        <p>@Messages("almostFinishedTasks") : @utilisateur.nbTachesPresquesFinies()</p>
+                                        <p>@Messages("delayedTasks") : @utilisateur.nbTachesRetardees()</p>
                                     </div>
                                 </div>
                             </div>
@@ -80,9 +86,13 @@
                                     @Messages("delayedTasks")
                                     </div>
                                     <div id="taches-retardes" class="panel-body panel-body-tdb" style="color:black ;">
-                                        <p>- Vérification des disques</p>
-                                        <p>- Commencer le front-end</p>
-                                        <p>- Créer la base de données</p>
+                                        @if(utilisateur.nbTachesRetardees() == 0){
+                                            <p>@Messages("noDelayedTask")</p>
+                                        } else {
+                                            @for( tache <- utilisateur.tachesRetardees()) {
+                                                <p>- @tache.nom</p>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -92,9 +102,13 @@
                                     @Messages("tasksToFinishShortly")
                                     </div>
                                     <div id="taches-proches" class="panel-body panel-body-tdb" style="color:black ;">
-                                        <p>- Vérification des disques</p>
-                                        <p>- Commencer le front-end</p>
-                                        <p>- Créer la base de données</p>
+                                        @if(utilisateur.nbTachesPresquesFinies() == 0){
+                                            <p>@Messages("noAlmostFinishedTask")</p>
+                                        } else {
+                                            @for( tache <- utilisateur.tachesPresquesFinies()) {
+                                                <p>- @tache.nom</p>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -108,21 +122,17 @@
                                     @Messages("tasksProposal")
                                     </div>
                                     <div id="taches-proposees" class="panel-body panel-body-tdb">
-                                        <p>
-                                            <a class="btn btn-danger btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                Vérification des disques
-                                            </a>
-                                        </p>
-                                        <p>
-                                            <a class="btn btn-danger btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                Commencer le front-end
-                                            </a>
-                                        </p>
-                                        <p>
-                                            <a class="btn btn-warning btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                Créer la base de données
-                                            </a>
-                                        </p>
+                                        @if(utilisateur.tachesProposees().isEmpty()){
+                                            <p>@Messages("noneProposedTask")</p>
+                                        } else {
+                                            @for( tache <- utilisateur.tachesProposees()) {
+                                                <p>
+                                                    <a class="btn btn-danger btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                        @tache.nom
+                                                    </a>
+                                                </p>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>

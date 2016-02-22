@@ -23,6 +23,9 @@ public class Utilisateur extends Personne {
     private static int COEFFICIENT_CRITERE_3 = 2;
     private static int COEFFICIENT_CRITERE_4 = 1;
 
+    private static int LIMITE_PROJET_PRESQUE_FINI = 80;
+    private static int LIMITE_TACHE_PRESQUE_FINI = 80;
+
     @Constraints.Required
     protected String password;
 
@@ -257,6 +260,7 @@ public class Utilisateur extends Personne {
 
     public List<Tache> tachesProposees() {
         List<Tache> listTachesProposees = new ArrayList<Tache>();
+        listTaches = listTaches();
         if (listTaches.isEmpty())
             return listTachesProposees;
 
@@ -413,6 +417,131 @@ public class Utilisateur extends Personne {
     private int critere4(Tache t){
         return 7 - (t.projet.priorite + t.projet.client.priorite);
     }
+
+    /** TODO TESTME **/
+    public int nbDeProjetsResponsableActuel(){
+        int cpt = 0;
+        for(Projet projet : listProjetsResponsable()){
+            if(projet.enCours)  cpt++;
+        }
+        return cpt;
+    }
+
+    /**TODO TESTME
+     * TODO voir byte vs double
+     * @return
+     */
+    public int nbDeProjetsResponsablePresqueFinis(){
+        int cpt = 0;
+        for(Projet projet : listProjetsResponsable()){
+            if(projet.enCours && projet.avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && projet.avancementGlobal < 100)  cpt++;
+        }
+        return cpt;
+    }
+
+    /**TODO TESTME
+     * TODO : Remplacer dateFinReel par dateFinReelTard
+     * @return
+     */
+    public int nbDeProjetsResponsableRetardes(){
+        int cpt = 0;
+        for(Projet projet : listProjetsResponsable()){
+            if(projet.enCours && projet.dateFinReel.after(Calendar.getInstance().getTime()))  cpt++;
+        }
+        return cpt;
+    }
+
+    /**
+     * TODO TEST ME
+     * @return
+     */
+    public int nbTachesActuelles(){
+        int cpt = 0;
+        for(Tache tache : listTaches()){
+            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() < 100.0) cpt++;
+        }
+        return cpt;
+    }
+
+    /**
+     * TODO TEST ME
+     * @return
+     */
+    public int nbTachesNonCommencees(){
+        int cpt = 0;
+        for(Tache tache : listTaches()){
+            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() == 0.0) cpt++;
+        }
+        return cpt;
+    }
+
+    /**
+     * TODO TEST ME
+     * @return
+     */
+    public int nbTachesCommencees(){
+        int cpt = 0;
+        for(Tache tache : listTaches()){
+            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() > 0.0 && tache.getAvancementTache() < 100.0) cpt++;
+        }
+        return cpt;
+    }
+
+    /**
+     * TODO TEST ME
+     * @return
+     */
+    public int nbTachesPresquesFinies(){
+        int cpt = 0;
+        for(Tache tache : listTaches()){
+            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0) cpt++;
+        }
+        return cpt;
+    }
+
+    /**
+     * TODO TEST ME
+     * @return
+     */
+    public int nbTachesRetardees(){
+        int cpt = 0;
+        for(Tache tache : listTaches()){
+            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.after(Calendar.getInstance().getTime())) cpt++;
+        }
+        return cpt;
+    }
+
+    /** TODO TEST ME **/
+    public boolean hasProjetsResponsable(){
+        return !listProjetsResponsable().isEmpty();
+    }
+
+    /**
+     * TODO TEST ME
+     * @return
+     */
+    public List<Tache> tachesPresquesFinies(){
+        List<Tache> res = new ArrayList<>();
+        for(Tache tache : listTaches()){
+            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0) res.add(tache);
+        }
+        return res;
+    }
+
+    /**
+     * TODO TEST ME
+     * @return
+     */
+    public List<Tache> tachesRetardees(){
+        List<Tache> res = new ArrayList<>();
+        for(Tache tache : listTaches()){
+            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.after(Calendar.getInstance().getTime())) res.add(tache);
+        }
+        return res;
+    }
+
+
+
 
 
 

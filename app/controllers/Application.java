@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Utilisateur;
 import play.Logger;
 import play.Routes;
 import play.api.i18n.Lang;
@@ -29,8 +30,8 @@ public class Application extends Controller {
      * @return A rendered HTML view
      */
     public Result index() {
-        /* TODO : changer en dashboard " */
-        return ok(dashboard.render("Pear project manager"));
+        /* TODO mettre utilisateur connecté" */
+        return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
         /*String user = session("connected");
         if (user != null) {
             return ok(index.render("Pear project manager"));
