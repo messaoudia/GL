@@ -250,8 +250,8 @@
                                                                         @Messages("week-first-letter")
                                                                     }
                                                                 </p>
-                                                                <p class="row-restante">@Messages("total")
-                                                                    : @projet.chargeInitiale <!-- TODO : mettre totale -->
+                                                                <p class="row-restante">@Messages("remaining")
+                                                                    : @projet.chargeRestante
                                                                     @if(projet.hasUniteJour()) {
                                                                         @Messages("day-first-letter")
                                                                     } else {
@@ -271,7 +271,7 @@
 
                                                                 </div>
                                                                 <p class="row-consommee">@Messages("consumed")
-                                                                    : @projet.chargeInitiale <!-- TODO : mettre consommée -->
+                                                                    : @projet.chargeConsommee
                                                                     @if(projet.hasUniteJour()) {
                                                                         @Messages("day-first-letter")
                                                                     } else {

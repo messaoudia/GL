@@ -1,14 +1,12 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
-import models.Exceptions.IllegalTaskCreation;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +14,7 @@ import java.util.List;
 @Table
 @DiscriminatorValue("TACHE")
 public class Tache extends EntiteSecurise {
+
 
     @Constraints.Required
     public String nom;
@@ -35,9 +34,9 @@ public class Tache extends EntiteSecurise {
     @Constraints.Min(0)
     public Double chargeInitiale;
     @Constraints.Min(0)
-    private Double chargeConsommee;
+    public Double chargeConsommee;
     @Constraints.Min(0)
-    private Double chargeTotale;
+    public Double chargeRestante;
     public Integer priorite = 0;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
@@ -66,7 +65,7 @@ public class Tache extends EntiteSecurise {
 
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
-                 Double chargeTotale, List<Contact> interlocuteurs, Projet projet) {
+                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -76,7 +75,7 @@ public class Tache extends EntiteSecurise {
         this.dateFinTard = dateFinTard;
         this.chargeInitiale = chargeInitiale;
         this.chargeConsommee = chargeConsommee;
-        this.chargeTotale = chargeTotale;
+        this.chargeRestante = chargeRestante;
         this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
@@ -125,7 +124,7 @@ public class Tache extends EntiteSecurise {
                     tache.chargeInitiale.equals(this.chargeInitiale) &&
                     tache.dateFinTard.equals(this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
-                    tache.chargeTotale.equals(this.chargeTotale));
+                    tache.chargeRestante.equals(this.chargeRestante));
         } catch (ClassCastException e) {
             return false;
         }
@@ -146,7 +145,7 @@ public class Tache extends EntiteSecurise {
         sb.append("\nniveau : ").append(niveau).append("\ncritique : ").append(critique);
         sb.append("\ndateDebut : ").append(dateDebut).append("\ndateFinTot : ").append(dateFinTot);
         sb.append("\ndateFinTard : ").append(dateFinTard).append("\nchargeInitiale : ").append(chargeInitiale);
-        sb.append("\nchargeConsommee : ").append(chargeConsommee).append("\nchargeTotale : ").append(chargeTotale);
+        sb.append("\nchargeConsommee : ").append(chargeConsommee).append("\nchargeRestante : ").append(chargeRestante);
         sb.append("\ninterlocuteurs : ");
         for (Contact c : interlocuteurs) {
             sb.append("\n\t").append(c);
@@ -160,8 +159,8 @@ public class Tache extends EntiteSecurise {
         return this.chargeConsommee;
     }
 
-    public Double getChargeTotale() {
-        return this.chargeTotale;
+    public Double getchargeRestante() {
+        return this.chargeRestante;
     }
 
     public void setChargeConsommee(Double chargeConsommee) throws NotAvailableTask{
@@ -170,17 +169,17 @@ public class Tache extends EntiteSecurise {
         }
         this.chargeConsommee = chargeConsommee;
         updateChargeConsommeeTacheRecursive(this);
-        updateChargeTotaleTacheRecursive(this);
+        updatechargeRestanteTacheRecursive(this);
         save();
     }
 
-    public void setChargeTotale(Double chargeTotale) throws NotAvailableTask{
+    public void setchargeRestante(Double chargeRestante) throws NotAvailableTask{
         if (enfants.size() != 0) {
             throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
         }
-        this.chargeTotale = chargeTotale;
+        this.chargeRestante = chargeRestante;
         updateChargeConsommeeTacheRecursive(this);
-        updateChargeTotaleTacheRecursive(this);
+        updatechargeRestanteTacheRecursive(this);
         save();
     }
 
@@ -188,10 +187,10 @@ public class Tache extends EntiteSecurise {
      * Modifie la charge de la tâche actuelle avec les charges en parametre
      *
      * @param chargeConsommee
-     * @param chargeTotale
+     * @param chargeRestante
      * @throws NotAvailableTask
      */
-    public void modifierCharge(Double chargeConsommee, Double chargeTotale) throws NotAvailableTask {
+    public void modifierCharge(Double chargeConsommee, Double chargeRestante) throws NotAvailableTask {
         if (!estDisponible()) {
             throw new NotAvailableTask("Tache " + nom + ", pas encore disponible, modification de charge impossible");
         }
@@ -199,9 +198,9 @@ public class Tache extends EntiteSecurise {
             throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
         }
         this.chargeConsommee = chargeConsommee;
-        this.chargeTotale = chargeTotale;
+        this.chargeRestante = chargeRestante;
         updateChargeConsommeeTacheRecursive(this);
-        updateChargeTotaleTacheRecursive(this);
+        updatechargeRestanteTacheRecursive(this);
         updateAvancementTache();
     }
 
@@ -320,10 +319,10 @@ public class Tache extends EntiteSecurise {
     /**
      * TODO testme
      *
-     * @return la charge restante pour ce projet (en l'unité définie pour le projet)
+     * @return la charge totale pour ce projet (en l'unité définie pour le projet)
      */
-    public Double chargeRestante() {
-        return chargeTotale - chargeConsommee;
+    public Double chargeTotale() {
+        return chargeConsommee + chargeRestante;
     }
 
     /**
@@ -332,7 +331,7 @@ public class Tache extends EntiteSecurise {
      * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
      */
     public boolean estDisponible() {
-        return (predecesseur == null || predecesseur.chargeRestante() == 0.0);
+        return (predecesseur == null || predecesseur.chargeRestante == 0.0);
     }
 
     public boolean hasPredecesseur() {
@@ -356,7 +355,7 @@ public class Tache extends EntiteSecurise {
      * TODO testme
      */
     public Double getAvancementTache() {
-        return (chargeConsommee / chargeTotale);
+        return (chargeConsommee / (chargeConsommee + chargeRestante));
     }
 
     /**
@@ -402,20 +401,20 @@ public class Tache extends EntiteSecurise {
     /**
      * Mets a jour la charge totale de la tâche éventuellement composée de sous-tâches
      */
-    private void updateChargeTotaleTacheRecursive(Tache tache) {
+    private void updatechargeRestanteTacheRecursive(Tache tache) {
         if(tache.hasParent()) {
-            Double chargeTotaleNouvel = 0.0;
+            Double chargeRestanteNouvel = 0.0;
             for(Tache tacheMemeNiveau : tache.parent.enfants){
-                chargeTotaleNouvel += tacheMemeNiveau.chargeTotale;
+                chargeRestanteNouvel += tacheMemeNiveau.chargeRestante;
             }
-            tache.parent.chargeTotale = chargeTotaleNouvel;
+            tache.parent.chargeRestante = chargeRestanteNouvel;
             tache.parent.save();
-            updateChargeTotaleTacheRecursive(tache.parent);
+            updatechargeRestanteTacheRecursive(tache.parent);
         }
     }
 
 
-    // TODO ajouter l'exception(chargeConsomee>chargeTotale) dans la fonction modifierCharge + test exception
+    // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
 
 }

@@ -326,7 +326,7 @@ taches:
     dateFinTard:        2016-02-26
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeTotale:       1
+    chargeRestante:       1
     interlocuteurs:
          - *contact4
     projet:             *projet1
@@ -343,7 +343,7 @@ taches:
     dateFinTard:        2016-02-27
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeTotale:       1
+    chargeRestante:       1
     interlocuteurs:
          - *contact4
     projet:             *projet1
@@ -360,7 +360,7 @@ taches:
     dateFinTard:        2016-05-13
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeTotale:       1
+    chargeRestante:       1
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -375,7 +375,7 @@ taches:
     dateFinTard:        2016-05-15
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeTotale:       1
+    chargeRestante:       1
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -390,7 +390,7 @@ taches:
     dateFinTard:        2016-05-20
     chargeInitiale:     4
     chargeConsommee:    0
-    chargeTotale:       4
+    chargeRestante:       4
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -405,7 +405,7 @@ taches:
     dateFinTard:        2016-05-22
     chargeInitiale:     3
     chargeConsommee:    0
-    chargeTotale:       3
+    chargeRestante:       3
     projet:             *projet2
     responsableTache:   *utilisateur4
 
@@ -420,7 +420,7 @@ taches:
     dateFinTard:        2016-05-26
     chargeInitiale:     6
     chargeConsommee:    0
-    chargeTotale:       6
+    chargeRestante:       6
     projet:             *projet2
     responsableTache:   *utilisateur3
 
@@ -435,7 +435,7 @@ taches:
     dateFinTard:        2016-05-24
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeTotale:       2
+    chargeRestante:       2
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache7
@@ -451,7 +451,7 @@ taches:
     dateFinTard:        2016-05-24
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeTotale:       2
+    chargeRestante:       2
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache7
@@ -467,7 +467,7 @@ taches:
     dateFinTard:        2016-05-26
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeTotale:       2
+    chargeRestante:       2
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache7
@@ -483,7 +483,7 @@ taches:
     dateFinTard:        2016-05-13
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeTotale:       1
+    chargeRestante:       1
     projet:             *projet3
     responsableTache:   *utilisateur3
 
@@ -498,7 +498,7 @@ taches:
     dateFinTard:        2016-05-24
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeTotale:       2
+    chargeRestante:       2
     projet:             *projet3
     responsableTache:   *utilisateur2
 
@@ -513,7 +513,7 @@ taches:
     dateFinTard:        2016-01-16
     chargeInitiale:     4
     chargeConsommee:    0
-    chargeTotale:       4
+    chargeRestante:       4
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -528,7 +528,7 @@ taches:
     dateFinTard:        2016-01-18
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeTotale:       2
+    chargeRestante:       2
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -543,7 +543,7 @@ taches:
     dateFinTard:        2016-01-21
     chargeInitiale:     3
     chargeConsommee:    0
-    chargeTotale:       3
+    chargeRestante:       3
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -558,7 +558,7 @@ taches:
     dateFinTard:        2016-01-24
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeTotale:       2
+    chargeRestante:       2
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -573,7 +573,7 @@ taches:
     dateFinTard:        2016-01-24
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeTotale:       1
+    chargeRestante:       1
     projet:             *projet4
     responsableTache:   *utilisateur1
 
@@ -588,6 +588,6 @@ taches:
     dateFinTard:        2016-01-26
     chargeInitiale:     4
     chargeConsommee:    0
-    chargeTotale:       4
+    chargeRestante:       4
     projet:             *projet4
     responsableTache:   *utilisateur1

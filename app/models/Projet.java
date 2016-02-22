@@ -45,6 +45,8 @@ public class Projet extends EntiteSecurise {
     public Date dateFinReelTard;
 
     public Double chargeInitiale;
+    public Double chargeConsommee;
+    public Double chargeRestante;
     public Byte avancementGlobal;
     public Boolean enCours;
     public Boolean archive;
@@ -63,10 +65,10 @@ public class Projet extends EntiteSecurise {
 
     public UniteProjetEnum unite;
 
-    final String FILENAME_DATE_PATTERN = "dd/MM/yyyy";
-    final String FILENAME_DATE_PATTERN_TRI = "yyyy/MM/dd";
-    final SimpleDateFormat dateFormat = new SimpleDateFormat(FILENAME_DATE_PATTERN);
-    final SimpleDateFormat dateFormatTri = new SimpleDateFormat(FILENAME_DATE_PATTERN_TRI);
+    final String DATE_PATTERN = "dd/MM/yyyy";
+    final String DATE_PATTERN_TRI = "yyyy/MM/dd";
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+    final SimpleDateFormat dateFormatTri = new SimpleDateFormat(DATE_PATTERN_TRI);
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
@@ -399,14 +401,16 @@ public class Projet extends EntiteSecurise {
      */
     public void updateAvancementGlobal() {
         Double chargeConsommeeGlobal = 0.0;
-        Double chargeTotaleGlobal = 0.0;
+        Double chargeRestanteGlobal = 0.0;
         for(Tache tache : listTaches){
             if(!tache.hasParent()) {
                 chargeConsommeeGlobal += tache.getChargeConsommee();
-                chargeTotaleGlobal += tache.getChargeTotale();
+                chargeRestanteGlobal += tache.getchargeRestante();
             }
         }
-        Double avancementDouble = chargeConsommeeGlobal/chargeTotaleGlobal;
+        this.chargeConsommee = chargeConsommeeGlobal;
+        this.chargeRestante = chargeRestanteGlobal;
+        Double avancementDouble = chargeConsommeeGlobal/(chargeConsommeeGlobal + chargeRestanteGlobal);
         String result = avancementDouble.toString();
         if(result.length()==3){
             // Par example: "0.1"
@@ -429,24 +433,20 @@ public class Projet extends EntiteSecurise {
      * TODO: TEST ME
      * @return
      */
-    public HashMap<String,Double> chargeConsommeEtTotale(){
+    public HashMap<String,Double> chargeConsommeEtRestante(){
         Double chargeConsommeeGlobal = 0.0;
-        Double chargeTotaleGlobal = 0.0;
-        Double restante = 0.0;
+        Double chargeRestanteGlobal = 0.0;
         HashMap<String,Double> map = new HashMap<String, Double>();
         if(!listTaches.isEmpty()) {
             for (Tache tache : listTaches) {
                 if (!tache.hasParent()) {
                     chargeConsommeeGlobal += tache.getChargeConsommee();
-                    chargeTotaleGlobal+= tache.getChargeTotale();
-                    restante+=tache.chargeRestante();
+                    chargeRestanteGlobal+= tache.getchargeRestante();
                 }
             }
-            map.put("restante", restante);
-            map.put("totale",chargeTotaleGlobal);
+            map.put("restante",chargeRestanteGlobal);
         }else{
             map.put("restante",this.chargeInitiale);
-            map.put("totale",this.chargeInitiale);
         }
         map.put("consommee", chargeConsommeeGlobal);
         return map;
