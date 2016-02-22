@@ -17,7 +17,7 @@ import java.util.List;
 @DiscriminatorValue("TACHE")
 public class Tache extends EntiteSecurise {
 
-
+    public String idTache;
     @Constraints.Required
     public String nom;
     @Constraints.Required
@@ -66,9 +66,10 @@ public class Tache extends EntiteSecurise {
     @ManyToOne(cascade = CascadeType.ALL)
     public Utilisateur responsableTache;
 
-    public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
+    public Tache(String idTache, String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
                  Double chargeRestante, List<Contact> interlocuteurs, Projet projet) {
+        this.idTache = idTache;
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -119,7 +120,7 @@ public class Tache extends EntiteSecurise {
         try {
             Tache tache = (Tache) obj;
             return (tache.id.equals(this.id) && tache.nom.equals(this.nom) &&
-                    tache.description.equals(this.description) &&
+                    tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
                     tache.critique.equals(this.critique) &&
                     tache.dateDebut.equals(this.dateDebut) &&
@@ -144,7 +145,7 @@ public class Tache extends EntiteSecurise {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[Tâche : ").append(id).append("] : ").append(nom).append(", ").append(description);
+        sb.append("[Tâche : ").append(id).append(" - ").append(idTache).append("] : ").append(nom).append(", ").append(description);
         sb.append("\nniveau : ").append(niveau).append("\ncritique : ").append(critique);
         sb.append("\ndateDebut : ").append(dateDebut).append("\ndateFinTot : ").append(dateFinTot);
         sb.append("\ndateFinTard : ").append(dateFinTard).append("\nchargeInitiale : ").append(chargeInitiale);
@@ -174,17 +175,19 @@ public class Tache extends EntiteSecurise {
         }
         this.chargeConsommee = chargeConsommee;
         updateChargeConsommeeTacheRecursive(this);
-        updatechargeRestanteTacheRecursive(this);
+        updateChargeRestanteTacheRecursive(this);
+        updateAvancementTache();
         save();
     }
 
-    public void setchargeRestante(Double chargeRestante) throws NotAvailableTask{
+    public void setChargeRestante(Double chargeRestante) throws NotAvailableTask{
         if (enfants.size() != 0) {
             throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
         }
         this.chargeRestante = chargeRestante;
         updateChargeConsommeeTacheRecursive(this);
-        updatechargeRestanteTacheRecursive(this);
+        updateChargeRestanteTacheRecursive(this);
+        updateAvancementTache();
         save();
     }
 
@@ -205,12 +208,14 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         updateChargeConsommeeTacheRecursive(this);
-        updatechargeRestanteTacheRecursive(this);
+        updateChargeRestanteTacheRecursive(this);
         updateAvancementTache();
+        projet.updateAvancementGlobal(); // met a jour les charges du projet
     }
 
     /**
      * TODO testme
+     * TODO REMARQUE JULIEN : PAS BESOIN DE LA FAIRE CAR LA METHODE GETAVANCEMENTTACHE EST LA
      * Mets a jour l'avancement de la tâche éventuellement composée de sous-tâches
      */
     private void updateAvancementTache() {
@@ -231,6 +236,7 @@ public class Tache extends EntiteSecurise {
         }
         fille.niveau = this.niveau + 1;
         fille.associerTacheMere(this);
+        fille.idTache = this.idTache + "." + this.enfants.size() + 1;
         enfants.add(fille);
         save();
     }
@@ -410,7 +416,7 @@ public class Tache extends EntiteSecurise {
     /**
      * Mets a jour la charge totale de la tâche éventuellement composée de sous-tâches
      */
-    private void updatechargeRestanteTacheRecursive(Tache tache) {
+    private void updateChargeRestanteTacheRecursive(Tache tache) {
         if(tache.hasParent()) {
             Double chargeRestanteNouvel = 0.0;
             for(Tache tacheMemeNiveau : tache.parent.enfants){
@@ -418,7 +424,7 @@ public class Tache extends EntiteSecurise {
             }
             tache.parent.chargeRestante = chargeRestanteNouvel;
             tache.parent.save();
-            updatechargeRestanteTacheRecursive(tache.parent);
+            updateChargeRestanteTacheRecursive(tache.parent);
         }
     }
 

@@ -384,7 +384,7 @@
                                                     @for(tache <- utilisateur.listTaches()){
                                                         <tr class="table-center">
                                                             <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                                <p class="tdb-id-tache">4.1 (TODO)</p>
+                                                                <p class="tdb-id-tache">@tache.idTache</p>
                                                                 <p class="tdb-nom-tache">@tache.nom</p>
                                                             </td>
                                                             <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
@@ -446,7 +446,7 @@
                                                             <td style="vertical-align:middle ;">
                                                                 @if(tache.hasPredecesseur()) {
                                                                     <div class="row">@Messages("predecessor")
-                                                                        : 4.1 TODO</div>
+                                                                        : @tache.predecesseur.idTache</div>
                                                                 }
                                                                 @if(tache.hasSuccesseur()){
                                                                     <div class="row">
@@ -456,9 +456,9 @@
                                                                                 @tache.nbSuccesseurs() @Messages("tasks-lower") <span class="caret"></span>
                                                                             </button>
                                                                             <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                <li>5.1 TODO</li>
-                                                                                <li>5.2 TODO</li>
-                                                                                <li>5.3 TODO</li>
+                                                                                @for(successeur <- tache.successeurs){
+                                                                                    <li>@successeur.idTache</li>
+                                                                                }
                                                                             </ul>
                                                                         </div>
                                                                     </div>

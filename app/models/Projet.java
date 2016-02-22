@@ -162,6 +162,7 @@ public class Projet extends EntiteSecurise {
         tache.save();
         listTaches.add(tache);
         save();
+
     }
 
     /**
