@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import play.data.format.Formats;
@@ -40,6 +41,7 @@ public class Tache extends EntiteSecurise {
     public Integer priorite = 0;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
+    @JsonIgnore
     public List<Contact> interlocuteurs;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -155,10 +157,12 @@ public class Tache extends EntiteSecurise {
         return sb.toString();
     }
 
+    @JsonIgnore
     public double getChargeConsommee() {
         return this.chargeConsommee;
     }
 
+    @JsonIgnore
     public Double getchargeRestante() {
         return this.chargeRestante;
     }
