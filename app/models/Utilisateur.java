@@ -451,7 +451,7 @@ public class Utilisateur extends Personne {
     public int nbDeProjetsResponsableRetardes(){
         int cpt = 0;
         for(Projet projet : listProjetsResponsable()){
-            if(projet.enCours && projet.dateFinReelTard.after(Calendar.getInstance().getTime()))  cpt++;
+            if(projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
         }
         return cpt;
     }
@@ -511,7 +511,7 @@ public class Utilisateur extends Personne {
     public int nbTachesRetardees(){
         int cpt = 0;
         for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.after(Calendar.getInstance().getTime())) cpt++;
+            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime())) cpt++;
         }
         return cpt;
     }
@@ -540,7 +540,7 @@ public class Utilisateur extends Personne {
     public List<Tache> tachesRetardees(){
         List<Tache> res = new ArrayList<>();
         for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.after(Calendar.getInstance().getTime())) res.add(tache);
+            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime())) res.add(tache);
         }
         return res;
     }
