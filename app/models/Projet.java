@@ -2,19 +2,21 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 /**
  * Created by Guillaume on 25/01/2016.
@@ -40,11 +42,13 @@ public class Projet extends EntiteSecurise {
     public Date dateDebutReel;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
-    public Date dateFinReelTôt;
+    public Date dateFinReelTot;
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinReelTard;
 
     public Double chargeInitiale;
+    public Double chargeConsommee;
+    public Double chargeRestante;
     public Byte avancementGlobal;
     public Boolean enCours;
     public Boolean archive;
@@ -59,19 +63,20 @@ public class Projet extends EntiteSecurise {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Tache")
+    @JsonIgnore
     public List<Tache> listTaches;
 
     public UniteProjetEnum unite;
 
-    final String FILENAME_DATE_PATTERN = "dd/MM/yyyy";
-    final String FILENAME_DATE_PATTERN_TRI = "yyyy/MM/dd";
-    final SimpleDateFormat dateFormat = new SimpleDateFormat(FILENAME_DATE_PATTERN);
-    final SimpleDateFormat dateFormatTri = new SimpleDateFormat(FILENAME_DATE_PATTERN_TRI);
+    final String DATE_PATTERN = "dd/MM/yyyy";
+    final String DATE_PATTERN_TRI = "yyyy/MM/dd";
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+    final SimpleDateFormat dateFormatTri = new SimpleDateFormat(DATE_PATTERN_TRI);
 
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
     public Projet(String nom, String description, Utilisateur responsableProjet, Date dateDebutTheorique, Date dateFinTheorique,
-                  Date dateDebutReel, Date dateFinReelTôt,Date dateFinReelTard, Double chargeInitiale, UniteProjetEnum unite,
+                  Date dateDebutReel, Date dateFinReelTot, Date dateFinReelTard, Double chargeInitiale, UniteProjetEnum unite,
                   Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches) {
         this.nom = nom;
         this.description = description;
@@ -79,7 +84,7 @@ public class Projet extends EntiteSecurise {
         this.dateDebutTheorique = dateDebutTheorique;
         this.dateFinTheorique = dateFinTheorique;
         this.dateDebutReel = dateDebutReel;
-        this.dateFinReelTôt = dateFinReelTôt;
+        this.dateFinReelTot = dateFinReelTot;
         this.dateFinReelTard = dateFinReelTard;
         this.chargeInitiale = chargeInitiale;
         this.unite = unite;
@@ -110,7 +115,7 @@ public class Projet extends EntiteSecurise {
                     projet.dateDebutTheorique.equals(this.dateDebutTheorique) &&
                     projet.dateFinTheorique.equals(this.dateFinTheorique) &&
                     projet.dateDebutReel.equals(this.dateDebutReel) &&
-                    projet.dateFinReelTôt.equals(this.dateFinReelTôt) &&
+                    projet.dateFinReelTot.equals(this.dateFinReelTot) &&
                     projet.dateFinReelTard.equals(this.dateFinReelTard) &&
                     projet.chargeInitiale.equals(this.chargeInitiale) &&
                     projet.avancementGlobal.equals(this.avancementGlobal) &&
@@ -128,7 +133,7 @@ public class Projet extends EntiteSecurise {
         StringBuilder sb = new StringBuilder();
         sb.append("[Projet : ").append(id).append("] : ").append(nom).append(", ").append(description);
         sb.append("\nDebutTH : ").append(dateDebutTheorique).append(", FinTH : ").append(dateFinTheorique);
-        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRETôt : ").append(dateFinReelTôt).append(", FinRETard : ").append(dateFinReelTard);
+        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRETôt : ").append(dateFinReelTot).append(", FinRETard : ").append(dateFinReelTard);
         sb.append("\nChargeInitiale : ").append(chargeInitiale).append(", Avancement (%) : ").append(avancementGlobal);
         sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
         sb.append(", Priorite :").append(priorite).append("\n");
@@ -399,21 +404,27 @@ public class Projet extends EntiteSecurise {
      */
     public void updateAvancementGlobal() {
         Double chargeConsommeeGlobal = 0.0;
-        Double chargeTotaleGlobal = 0.0;
+        Double chargeRestanteGlobal = 0.0;
         for(Tache tache : listTaches){
             if(!tache.hasParent()) {
                 chargeConsommeeGlobal += tache.getChargeConsommee();
-                chargeTotaleGlobal += tache.getChargeTotale();
+                chargeRestanteGlobal += tache.getchargeRestante();
             }
         }
-        Double avancementDouble = chargeConsommeeGlobal/chargeTotaleGlobal;
-        String result = avancementDouble.toString();
-        if(result.length()==3){
-            // Par example: "0.1"
-            this.avancementGlobal = new Byte(result.substring(2,3)+"0");
-        } else {
-            // Par example: "0.15"
-            this.avancementGlobal = new Byte(result.substring(2,4));
+        if(listTaches.size() != 0){
+            this.chargeConsommee = chargeConsommeeGlobal;
+            this.chargeRestante = chargeRestanteGlobal;
+            Double avancementDouble = chargeConsommeeGlobal/(chargeConsommeeGlobal + chargeRestanteGlobal);
+            BigDecimal bd = new BigDecimal(avancementDouble);
+            BigDecimal bd2 = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+            String result = bd2.toString();
+            if(result.length()==3){
+                // Par example: "0.1"
+                this.avancementGlobal = new Byte(result.substring(2,3)+"0");
+            } else {
+                // Par example: "0.15"
+                this.avancementGlobal = new Byte(result.substring(2,4));
+            }
         }
     }
 
@@ -429,24 +440,20 @@ public class Projet extends EntiteSecurise {
      * TODO: TEST ME
      * @return
      */
-    public HashMap<String,Double> chargeConsommeEtTotale(){
+    public HashMap<String,Double> chargeConsommeEtRestante(){
         Double chargeConsommeeGlobal = 0.0;
-        Double chargeTotaleGlobal = 0.0;
-        Double restante = 0.0;
+        Double chargeRestanteGlobal = 0.0;
         HashMap<String,Double> map = new HashMap<String, Double>();
         if(!listTaches.isEmpty()) {
             for (Tache tache : listTaches) {
                 if (!tache.hasParent()) {
                     chargeConsommeeGlobal += tache.getChargeConsommee();
-                    chargeTotaleGlobal+= tache.getChargeTotale();
-                    restante+=tache.chargeRestante();
+                    chargeRestanteGlobal+= tache.getchargeRestante();
                 }
             }
-            map.put("restante", restante);
-            map.put("totale",chargeTotaleGlobal);
+            map.put("restante",chargeRestanteGlobal);
         }else{
             map.put("restante",this.chargeInitiale);
-            map.put("totale",this.chargeInitiale);
         }
         map.put("consommee", chargeConsommeeGlobal);
         return map;

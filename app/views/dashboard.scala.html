@@ -154,10 +154,13 @@
                         </div>
                         <div class="tabs-container">
                             <ul class="nav nav-tabs">
+                            @if(utilisateur.hasProjetsResponsable()){
                                 <li class="active"><a data-toggle="tab" href="#tab-projets">@Messages("myProjects")</a></li>
                                 <li class=""><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
+                            } else {
+                                <li class="active"><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
+                            }
                             </ul>
-
                             <div class="tab-content">
                                 @if(utilisateur.hasProjetsResponsable()){
                                     <!-- Tab "Mes projets" -->
@@ -230,8 +233,8 @@
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.formateDate(projet.dateDebutReel)</td>
                                                             <td style="vertical-align:middle ;">
-                                                                <p style="display:none ;">@projet.formateDateTri(projet.dateFinReelTôt)</p>
-                                                                <p>@projet.formateDate(projet.dateFinReelTôt)</p>
+                                                                <p style="display:none ;">@projet.formateDateTri(projet.dateFinReelTot)</p>
+                                                                <p>@projet.formateDate(projet.dateFinReelTot)</p>
                                                                 <p>@projet.formateDate(projet.dateFinReelTard)</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle ;">
@@ -250,8 +253,8 @@
                                                                         @Messages("week-first-letter")
                                                                     }
                                                                 </p>
-                                                                <p class="row-restante">@Messages("total")
-                                                                    : @projet.chargeInitiale <!-- TODO : mettre totale -->
+                                                                <p class="row-restante">@Messages("remaining")
+                                                                    : @projet.chargeRestante
                                                                     @if(projet.hasUniteJour()) {
                                                                         @Messages("day-first-letter")
                                                                     } else {
@@ -271,7 +274,7 @@
 
                                                                 </div>
                                                                 <p class="row-consommee">@Messages("consumed")
-                                                                    : @projet.chargeInitiale <!-- TODO : mettre consommée -->
+                                                                    : @projet.chargeConsommee
                                                                     @if(projet.hasUniteJour()) {
                                                                         @Messages("day-first-letter")
                                                                     } else {

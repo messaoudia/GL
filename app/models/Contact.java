@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.List;
 public class Contact extends Personne {
 
     @ManyToMany
+    @JsonIgnore
     public List<Tache> listTachesCorrespondant;
 
     @ManyToOne

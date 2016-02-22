@@ -107,7 +107,12 @@ public class Utilisateur extends Personne {
      * @return list des projets du responsable
      */
     public List<Projet> listProjetsResponsable(){
-        return Projet.find.where().eq("responsableProjet",this).findList();
+        List<Projet> listProjet = Projet.find.where().eq("responsableProjet",this).findList();
+        /** TODO : obliger de faire ça car pas présent en BDD **/
+        for(Projet projet : listProjet){
+            projet.updateAvancementGlobal();
+        }
+        return listProjet;
     }
 
     @JsonSerialize
@@ -376,7 +381,7 @@ public class Utilisateur extends Personne {
     }
 
     private int critere3Jour(Tache t){
-        double chargeRestante =  t.chargeRestante();
+        double chargeRestante =  t.chargeRestante;
         if(chargeRestante >= 51){
             return 1;
         }
@@ -395,7 +400,7 @@ public class Utilisateur extends Personne {
     }
 
     private int critere3Semaine(Tache t){
-        double chargeRestante =  t.chargeRestante();
+        double chargeRestante =  t.chargeRestante;
 
         if(chargeRestante >= 7){
             return 1;
