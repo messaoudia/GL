@@ -8,6 +8,8 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -411,7 +413,9 @@ public class Projet extends EntiteSecurise {
             this.chargeConsommee = chargeConsommeeGlobal;
             this.chargeRestante = chargeRestanteGlobal;
             Double avancementDouble = chargeConsommeeGlobal/(chargeConsommeeGlobal + chargeRestanteGlobal);
-            String result = avancementDouble.toString();
+            BigDecimal bd = new BigDecimal(avancementDouble);
+            BigDecimal bd2 = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+            String result = bd2.toString();
             if(result.length()==3){
                 // Par example: "0.1"
                 this.avancementGlobal = new Byte(result.substring(2,3)+"0");
