@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 /**
  * Created by Guillaume on 25/01/2016.
@@ -40,7 +39,7 @@ public class Projet extends EntiteSecurise {
     public Date dateDebutReel;
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
-    public Date dateFinReelTôt;
+    public Date dateFinReelTot;
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinReelTard;
 
@@ -73,7 +72,7 @@ public class Projet extends EntiteSecurise {
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
     public Projet(String nom, String description, Utilisateur responsableProjet, Date dateDebutTheorique, Date dateFinTheorique,
-                  Date dateDebutReel, Date dateFinReelTôt,Date dateFinReelTard, Double chargeInitiale, UniteProjetEnum unite,
+                  Date dateDebutReel, Date dateFinReelTot, Date dateFinReelTard, Double chargeInitiale, UniteProjetEnum unite,
                   Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches) {
         this.nom = nom;
         this.description = description;
@@ -81,7 +80,7 @@ public class Projet extends EntiteSecurise {
         this.dateDebutTheorique = dateDebutTheorique;
         this.dateFinTheorique = dateFinTheorique;
         this.dateDebutReel = dateDebutReel;
-        this.dateFinReelTôt = dateFinReelTôt;
+        this.dateFinReelTot = dateFinReelTot;
         this.dateFinReelTard = dateFinReelTard;
         this.chargeInitiale = chargeInitiale;
         this.unite = unite;
@@ -112,7 +111,7 @@ public class Projet extends EntiteSecurise {
                     projet.dateDebutTheorique.equals(this.dateDebutTheorique) &&
                     projet.dateFinTheorique.equals(this.dateFinTheorique) &&
                     projet.dateDebutReel.equals(this.dateDebutReel) &&
-                    projet.dateFinReelTôt.equals(this.dateFinReelTôt) &&
+                    projet.dateFinReelTot.equals(this.dateFinReelTot) &&
                     projet.dateFinReelTard.equals(this.dateFinReelTard) &&
                     projet.chargeInitiale.equals(this.chargeInitiale) &&
                     projet.avancementGlobal.equals(this.avancementGlobal) &&
@@ -130,7 +129,7 @@ public class Projet extends EntiteSecurise {
         StringBuilder sb = new StringBuilder();
         sb.append("[Projet : ").append(id).append("] : ").append(nom).append(", ").append(description);
         sb.append("\nDebutTH : ").append(dateDebutTheorique).append(", FinTH : ").append(dateFinTheorique);
-        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRETôt : ").append(dateFinReelTôt).append(", FinRETard : ").append(dateFinReelTard);
+        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRETôt : ").append(dateFinReelTot).append(", FinRETard : ").append(dateFinReelTard);
         sb.append("\nChargeInitiale : ").append(chargeInitiale).append(", Avancement (%) : ").append(avancementGlobal);
         sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
         sb.append(", Priorite :").append(priorite).append("\n");
@@ -408,16 +407,18 @@ public class Projet extends EntiteSecurise {
                 chargeRestanteGlobal += tache.getchargeRestante();
             }
         }
-        this.chargeConsommee = chargeConsommeeGlobal;
-        this.chargeRestante = chargeRestanteGlobal;
-        Double avancementDouble = chargeConsommeeGlobal/(chargeConsommeeGlobal + chargeRestanteGlobal);
-        String result = avancementDouble.toString();
-        if(result.length()==3){
-            // Par example: "0.1"
-            this.avancementGlobal = new Byte(result.substring(2,3)+"0");
-        } else {
-            // Par example: "0.15"
-            this.avancementGlobal = new Byte(result.substring(2,4));
+        if(listTaches.size() != 0){
+            this.chargeConsommee = chargeConsommeeGlobal;
+            this.chargeRestante = chargeRestanteGlobal;
+            Double avancementDouble = chargeConsommeeGlobal/(chargeConsommeeGlobal + chargeRestanteGlobal);
+            String result = avancementDouble.toString();
+            if(result.length()==3){
+                // Par example: "0.1"
+                this.avancementGlobal = new Byte(result.substring(2,3)+"0");
+            } else {
+                // Par example: "0.15"
+                this.avancementGlobal = new Byte(result.substring(2,4));
+            }
         }
     }
 

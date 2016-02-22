@@ -156,7 +156,7 @@ public class Tache extends EntiteSecurise {
         return sb.toString();
     }
 
-    public Double getChargeConsommee() {
+    public double getChargeConsommee() {
         return this.chargeConsommee;
     }
 
