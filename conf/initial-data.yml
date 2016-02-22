@@ -36,48 +36,6 @@ adresses:
     ville:       Paris
     pays:        FRANCE
 
-contacts:
-
-- &contact1 !!models.Contact
-    id:          4
-    nom:         POGBA
-    prenom:      Paul
-    email:       p.b@google.net
-    telephone:   0236541235
-    archive:      false
-
-- &contact2 !!models.Contact
-    id:          5
-    nom:         ZIDANE
-    prenom:      Zinédine
-    email:       z.z@google.net
-    telephone:   0456371829
-    archive:      false
-
-- &contact3 !!models.Contact
-    id:          6
-    nom:         LAVOINE
-    prenom:      Pierre
-    email:       P.lavoine@gmail.com
-    telephone:   0689453234
-    archive:      false
-
-- &contact4 !!models.Contact
-    id:          7
-    nom:         COOK
-    prenom:      Tim
-    email:       t.c@apple.com
-    telephone:   0234456978
-    archive:      false
-
-- &contact5 !!models.Contact
-    id:          37
-    nom:         Henriot
-    prenom:      Marie-christine
-    email:       mch@polytech
-    telephone:   0123456987
-    archive:     true
-
 clients:
 
 - &client1 !!models.Client
@@ -86,8 +44,6 @@ clients:
     priorite:      2
     archiver:      false
     adresseClient: *adresse1
-    listeContacts:
-        - *contact4
 
 - &client2 !!models.Client
     id:            9
@@ -102,9 +58,6 @@ clients:
     priorite:      1
     archiver:      false
     adresseClient: *adresse3
-    listeContacts:
-        - *contact1
-        - *contact2
 
 - &client4 !!models.Client
     id:            47
@@ -119,6 +72,62 @@ clients:
     priorite:      1
     archiver:      true
     adresseClient: *adresse5
+
+
+contacts:
+
+- &contact1 !!models.Contact
+    id:          4
+    nom:         POGBA
+    prenom:      Paul
+    email:       p.b@google.net
+    telephone:   0236541235
+    archive:     false
+    client:      *client1
+
+- &contact2 !!models.Contact
+    id:          5
+    nom:         ZIDANE
+    prenom:      Zinédine
+    email:       z.z@google.net
+    telephone:   0456371829
+    client:      *client2
+
+- &contact3 !!models.Contact
+    id:          6
+    nom:         LAVOINE
+    prenom:      Pierre
+    email:       P.lavoine@gmail.com
+    telephone:   0689453234
+    archive:      false
+    client:      *client3
+
+- &contact4 !!models.Contact
+    id:          7
+    nom:         COOK
+    prenom:      Tim
+    email:       t.c@apple.com
+    telephone:   0234456978
+    archive:      false
+    client:      *client4
+
+- &contact5 !!models.Contact
+    id:          37
+    nom:         Henriot
+    prenom:      Marie-christine
+    email:       mch@polytech
+    telephone:   0123456987
+    archive:     true
+    client:      *client5
+
+- &contact6 !!models.Contact
+    id:          78
+    nom:         Sazio
+    prenom:      Mauro
+    email:       mauro.sazio@telecom
+    telephone:   0143154717
+    archive:     true
+    client:      *client1
 
 utilisateurs:
 
