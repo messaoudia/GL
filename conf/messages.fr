@@ -138,3 +138,4 @@ userDeleteMessage = Voulez-vous vraiment supprimer l'utilisateur
 saveClient = Enregistrer le client
 addProject = Créer un projet
 addClient = Créer un client
+cancel = Annuler

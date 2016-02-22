@@ -165,6 +165,40 @@
                 $requestClientsArchives = false;
                 $(document).ready(function () {
 
+                    $('#sidebar-back-select').click(function(){
+                        alert("JS : #sidebar-back-select");
+                    })
+
+                    $( "#btn-modifierProjet-admin" ).click(function() {
+                        //$("#div-consulterProjet").css("display","none");
+
+                        jQuery.fx.off = true;
+                        $("#div-consulterProjet-admin").hide();
+                        $("#div-modifierProjet-admin").show();
+                        jQuery.fx.off = false;
+                    });
+
+                    $( "#btn-cancel-modifierProjet-admin" ).click(function() {
+                        jQuery.fx.off = true;
+                        $("#div-modifierProjet-admin").hide();
+                        $("#div-consulterProjet-admin").show();
+                        jQuery.fx.off = false;
+                    });
+
+                    $( "#btn-modifierProjet-client" ).click(function() {
+                        //$("#div-consulterProjet").css("display","none");
+                        jQuery.fx.off = true;
+                        $("#div-consulterProjet-client").hide();
+                        $("#div-modifierProjet-client").show();
+                        jQuery.fx.off = false;
+                    });
+
+                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
+                        jQuery.fx.off = true;
+                        $("#div-modifierProjet-client").hide();
+                        $("#div-consulterProjet-client").show();
+                        jQuery.fx.off = false;
+                    });
 
                     function modeDraftProjet()
                     {
@@ -453,6 +487,9 @@
 
                 $( document ).ajaxComplete(function() {
 
+                    $('#sidebar-back-select').click(function(){
+                        alert("JS : #sidebar-back-select");
+                    })
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -467,6 +504,21 @@
                         jQuery.fx.off = true;
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
+                        jQuery.fx.off = false;
+                    });
+
+                    $( "#btn-modifierProjet-client" ).click(function() {
+                        //$("#div-consulterProjet").css("display","none");
+                        jQuery.fx.off = true;
+                        $("#div-consulterProjet-client").hide();
+                        $("#div-modifierProjet-client").show();
+                        jQuery.fx.off = false;
+                    });
+
+                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
+                        jQuery.fx.off = true;
+                        $("#div-modifierProjet-client").hide();
+                        $("#div-consulterProjet-client").show();
                         jQuery.fx.off = false;
                     });
 
