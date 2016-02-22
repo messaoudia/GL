@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Utilisateur;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
@@ -9,6 +10,6 @@ import views.html.dashboard;
  */
 public class DashboardController extends Controller{
     public Result afficherDashboard() {
-        return ok(dashboard.render("Dashboard"));
+        return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));   // provisoir en attendant login
     }
 }

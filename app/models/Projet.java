@@ -10,6 +10,7 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.concurrent.atomic.DoubleAccumulator;
 @Table
 @DiscriminatorValue("PROJET")
 public class Projet extends EntiteSecurise {
+    private static int LIMITE_PROJET_PRESQUE_FINI = 80;
 
     public String nom;
     public String description;
@@ -71,7 +73,6 @@ public class Projet extends EntiteSecurise {
     public Projet(String nom, String description, Utilisateur responsableProjet, Date dateDebutTheorique, Date dateFinTheorique,
                   Date dateDebutReel, Date dateFinReelTôt,Date dateFinReelTard, Double chargeInitiale, UniteProjetEnum unite,
                   Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches) {
-        System.out.println("JE CREE PROJET");
         this.nom = nom;
         this.description = description;
         this.responsableProjet = responsableProjet;
@@ -451,4 +452,11 @@ public class Projet extends EntiteSecurise {
     public static List<Projet> getAll() {
         return find.all();
     }
+    public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
+    public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
+
+    /** TODO : mettre dateFinReelTard **/
+    public boolean estRetarde(){ return dateFinReel.after(Calendar.getInstance().getTime());}
+    public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
+    public boolean estTermine(){ return avancementGlobal == 100; }
 }

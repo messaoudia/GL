@@ -138,3 +138,6 @@ saveClient = Save client
 addProject = Create a project
 addClient = Create a client
 cancel = Cancel
+noDelayedTask = No delayed task
+noAlmostFinishedTask = No almost finished task
+noneProposedTask = None proposed task
