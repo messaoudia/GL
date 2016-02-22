@@ -300,57 +300,71 @@
                                     <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
                                         <div class="ibox-content" style="padding-top: 0; padding-right: 0;">
                                             <div class="row">
-                                                <div class="col-md-offset-10 col-md-2" style="padding-right: 0;">
-                                                    <button id="btn-cancel-modifierProjet" style="border:none; background-color:#E74C3C; color:#FFF;">Annuler<i class="fa fa-times"></i></button>
+                                                <div class="col-md-offset-11 col-md-1" style="padding-right: 15px; padding-left:0px; text-align:center;">
+                                                    <div id="btn-cancel-modifierProjet" style="border:none; background-color:#E74C3C; color:#FFF;">Annuler<i class="fa fa-times"></i></div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-offset-2 col-sm-8">
-                                                    <label class="label_form" for="projectResponsible">@Messages("project")</label>
+                                                    <label class="label_form" for="projet">@Messages("project")</label>
                                                 </div>
                                             </div>
-
                                             <div class="row">
                                                 <div class="col-sm-offset-2 col-sm-8">
                                                     <div class="row">
-                                                        <div class="col-sm-6"><input placeholder="" class="form-control"></div>
+                                                        <div class="col-sm-6">
+                                                            <input name="projet" required="true" placeholder="" class="form-control"/>
+                                                        </div>
                                                         <div class="col-sm-6">@Messages("priority")
-
                                                             <div class="btn-group" style="display: inline-block ;">
-                                                                <button class="btn" type="button">1</button>
-                                                                <button class="btn btn-active" type="button">2</button>
-                                                                <button class="btn" type="button">3</button>
-
+                                                                <button class="btn" type="button" value="1" >1</button>
+                                                                <button class="btn  btn-active" value="2" type="button">2</button>
+                                                                <button class="btn" type="button" value="3">3</button>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <div class='form-group'>
-                                                                <label class="label_form" for="projectResponsible">@Messages("projectPersonResponsible")</label>
-                                                                <input class="form-control" id="projectResponsible" name="projectResponsible" required="true"/>
+                                                            <div class="form-group">
+                                                                <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
+                                                                <div>
+                                                                    <select id="responsableProjet" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
+                                                                        <option value="1">Option 1</option>
+                                                                        <option value="2">Option 2</option>
+                                                                        <option value="3">Option 3</option>
+                                                                        <option value="4">Option 4</option>
+                                                                        <option value="5">Option 5</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-6">
                                                             <div class='form-group'>
                                                                 <label class="label_form" for="client">@Messages("client")</label>
-                                                                <input class="form-control" id="client" name="client" required="true"/>
+                                                                <div>
+                                                                    <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
+                                                                        <option value="1">Option 1</option>
+                                                                        <option value="2">Option 2</option>
+                                                                        <option value="3">Option 3</option>
+                                                                        <option value="4">Option 4</option>
+                                                                        <option value="5">Option 5</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <label class="label_form">@Messages("description")</label>
+                                                            <label for="description" class="label_form">@Messages("description")</label>
                                                         </div>
 
                                                         <div class="col-sm-12">
-                                                            <textarea style="height: 260px ; width:100% ;"></textarea>
+                                                            <textarea name="description" style="height: 150px ; width:100% ;"></textarea>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
 

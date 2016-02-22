@@ -63,6 +63,21 @@ $(document).ajaxComplete(function() {
         jQuery.fx.off = false;
     });
 
+    $( "#btn-modifierProjet-client" ).click(function() {
+        //$("#div-consulterProjet").css("display","none");
+        jQuery.fx.off = true;
+        $("#div-consulterProjet-client").hide();
+        $("#div-modifierProjet-client").show();
+        jQuery.fx.off = false;
+    });
+
+    $( "#btn-cancel-modifierProjet-client" ).click(function() {
+        jQuery.fx.off = true;
+        $("#div-modifierProjet-client").hide();
+        $("#div-consulterProjet-client").show();
+        jQuery.fx.off = false;
+    });
+
     $("#creerSousTache").click(function() {
         $(this).attr('style', '');
     });
