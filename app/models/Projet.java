@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
 import play.data.format.Formats;
@@ -60,6 +61,7 @@ public class Projet extends EntiteSecurise {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Tache")
+    @JsonIgnore
     public List<Tache> listTaches;
 
     public UniteProjetEnum unite;
