@@ -2,12 +2,15 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,6 +63,7 @@ public class Projet extends EntiteSecurise {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Tache")
+    @JsonIgnore
     public List<Tache> listTaches;
 
     public UniteProjetEnum unite;
@@ -411,7 +415,9 @@ public class Projet extends EntiteSecurise {
             this.chargeConsommee = chargeConsommeeGlobal;
             this.chargeRestante = chargeRestanteGlobal;
             Double avancementDouble = chargeConsommeeGlobal/(chargeConsommeeGlobal + chargeRestanteGlobal);
-            String result = avancementDouble.toString();
+            BigDecimal bd = new BigDecimal(avancementDouble);
+            BigDecimal bd2 = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+            String result = bd2.toString();
             if(result.length()==3){
                 // Par example: "0.1"
                 this.avancementGlobal = new Byte(result.substring(2,3)+"0");
