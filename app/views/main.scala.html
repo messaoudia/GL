@@ -1059,9 +1059,10 @@
 
                                 /* Look for Projects and contacts */
                                 jsRoutes.controllers.ProjetController.afficherProjetsClient($id).ajax({
+
                                     success: function(listProjets) {
                                         var projetTableBody = $('#table-modal-client-projets-body');
-
+                                        $("#table-modal-client-projets-body").empty();
                                         console.log(listProjets);
                                         $("#dataTables-admin-client").dataTable().fnDestroy();
                                         if(listProjets.length != 0){
@@ -1080,6 +1081,7 @@
                                 jsRoutes.controllers.ContactController.afficherContactsClient($id).ajax({
                                     success: function(listContacts) {
                                         var contactsTableBody = $('#table-modal-client-contacts-body');
+                                        $("#table-modal-client-contacts-body").empty();
 
                                         console.log(listContacts);
                                         $("#dataTables-admin-client").dataTable().fnDestroy();
