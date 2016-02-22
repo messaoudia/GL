@@ -228,11 +228,11 @@
                                                         }
                                                             <td style="vertical-align:middle ;"> @projet.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
-                                                            <td style="vertical-align:middle ;">@projet.dateDebutReel</td>
+                                                            <td style="vertical-align:middle ;">@projet.formateDate(projet.dateDebutReel)</td>
                                                             <td style="vertical-align:middle ;">
-                                                                <p style="display:none ;">2017/10/01</p> <!-- TODO -->
-                                                                <p>@projet.dateFinReel</p> <!-- TODO -->
-                                                                <p>@projet.dateFinReel</p> <!-- TODO -->
+                                                                <p style="display:none ;">@projet.formateDateTri(projet.dateFinReelTôt)</p>
+                                                                <p>@projet.formateDate(projet.dateFinReelTôt)</p>
+                                                                <p>@projet.formateDate(projet.dateFinReelTard)</p>
                                                             </td>
                                                             <td class="td-avancement" style="vertical-align:middle ;">
                                                                 <p style="display:none ;">

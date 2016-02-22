@@ -112,9 +112,15 @@
                                                          @Messages("day-first-letter")</p>
                                                     <div class="progress progress-bar-default">
                                                             <!-- si 0% : color:black; -->
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="@projet.avancementGlobal;">
-                                                            @projet.avancementGlobal %
-                                                        </div>
+                                                        @if(projet.avancementGlobal == 0){
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                                0%
+                                                            </div>
+                                                        } else{
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                @projet.avancementGlobal%
+                                                            </div>
+                                                        }
                                                     </div>
                                                     <p class="row-consommee">@Messages("consumed")
                                                         : 50 @Messages("day-first-letter")</p>
@@ -129,9 +135,15 @@
                                                         50 @Messages("week-first-letter")</p>
                                                     <div class="progress progress-bar-default">
                                                             <!-- si 0% : color:black; -->
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                            @projet.avancementGlobal %
-                                                        </div>
+                                                        @if(projet.avancementGlobal == 0){
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                                0%
+                                                            </div>
+                                                        } else{
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                @projet.avancementGlobal%
+                                                            </div>
+                                                        }
                                                     </div>
                                                     <p class="row-consommee">@Messages("consumed")
                                                         :  50 @Messages("week-first-letter")</p>

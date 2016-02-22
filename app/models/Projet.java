@@ -431,18 +431,22 @@ public class Projet extends EntiteSecurise {
      */
     public HashMap<String,Double> chargeConsommeEtTotale(){
         Double chargeConsommeeGlobal = 0.0;
+        Double chargeTotaleGlobal = 0.0;
         Double restante = 0.0;
         HashMap<String,Double> map = new HashMap<String, Double>();
         if(!listTaches.isEmpty()) {
             for (Tache tache : listTaches) {
                 if (!tache.hasParent()) {
                     chargeConsommeeGlobal += tache.getChargeConsommee();
+                    chargeTotaleGlobal+= tache.getChargeTotale();
                     restante+=tache.chargeRestante();
                 }
             }
             map.put("restante", restante);
+            map.put("totale",chargeTotaleGlobal);
         }else{
             map.put("restante",this.chargeInitiale);
+            map.put("totale",this.chargeInitiale);
         }
         map.put("consommee", chargeConsommeeGlobal);
         return map;
@@ -455,8 +459,7 @@ public class Projet extends EntiteSecurise {
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
     public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
 
-    /** TODO : mettre dateFinReelTard **/
-    public boolean estRetarde(){ return dateFinReel.after(Calendar.getInstance().getTime());}
+    public boolean estRetarde(){ return dateFinReelTard.after(Calendar.getInstance().getTime());}
     public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
     public boolean estTermine(){ return avancementGlobal == 100; }
 }
