@@ -26,7 +26,7 @@ public class AdminController extends Controller{
     }
 
     public Result afficherAdminProjets() {
-        return ok(adminProjets.render("Admin Projets", models.Projet.getAll()));
+        return ok(adminProjets.render("Admin Projets", models.Projet.getAllNonArchivesNonTermines()));
     }
 
     public Result afficherAdminUtilisateur() {
@@ -48,9 +48,9 @@ public class AdminController extends Controller{
 
 
     public Result afficherAdminProjetsSelect(Long idProjet) {
-        System.out.println(idProjet);
-        // TODO : aller chercher dans la base de donnee le projet correspondant
-        return ok(adminProjetsSelect.render("Projet"));
+        models.Projet p = models.Projet.find.byId(idProjet);
+        System.out.println(p.client.listeContacts.size());
+        return ok(adminProjetsSelect.render("Projet",models.Projet.find.byId(idProjet)));
     }
 
 }

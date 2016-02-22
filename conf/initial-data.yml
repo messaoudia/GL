@@ -95,6 +95,9 @@ clients:
     priorite:      2
     archiver:      false
     adresseClient: *adresse2
+    listeContacts:
+            - *contact1
+            - *contact2
 
 - &client3 !!models.Client
     id:            10
@@ -289,7 +292,7 @@ projets:
     dateFinReelTard:    2016-05-24
     chargeInitiale:     3
     avancementGlobal:   0
-    enCours:            true
+    enCours:            false
     archive:            false
     client:             *client2
     priorite:           2

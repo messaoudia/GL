@@ -142,3 +142,4 @@ cancel = Annuler
 noDelayedTask = Aucune tâche retardée
 noAlmostFinishedTask = Aucune tâche presque finie
 noneProposedTask = Aucune tâche proposée
+effectiveDates = Dates effectives

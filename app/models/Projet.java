@@ -456,6 +456,18 @@ public class Projet extends EntiteSecurise {
     public static List<Projet> getAll() {
         return find.all();
     }
+
+    public static List<Projet> getAllNonArchivesNonTermines(){
+        return find.where()
+                .eq("archive",false)
+                .eq("enCours",true)
+                .findList();
+    }
+
+    public static List<Projet> getAllArchives(){
+        return find.where().eq("archive",true).findList();
+    }
+
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
     public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
 
