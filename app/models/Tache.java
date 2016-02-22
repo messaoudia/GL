@@ -7,6 +7,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -342,6 +343,10 @@ public class Tache extends EntiteSecurise {
         return !successeurs.isEmpty();
     }
 
+    public int nbSuccesseurs(){
+        return successeurs.size();
+    }
+
     /**
      * Vérifier la cohérence des 3 dates (dateDebut <= dateFinTot <= dateFinTard)
      */
@@ -411,6 +416,19 @@ public class Tache extends EntiteSecurise {
             tache.parent.save();
             updatechargeRestanteTacheRecursive(tache.parent);
         }
+    }
+
+    final String DATE_PATTERN = "dd/MM/yyyy";
+    final String DATE_PATTERN_TRI = "yyyy/MM/dd";
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+    final SimpleDateFormat dateFormatTri = new SimpleDateFormat(DATE_PATTERN_TRI);
+
+    public String formateDate(Date d){
+        return dateFormat.format(d);
+    }
+
+    public String formateDateTri(Date d){
+        return dateFormatTri.format(d);
     }
 
 
