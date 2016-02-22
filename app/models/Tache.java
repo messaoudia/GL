@@ -8,6 +8,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -412,6 +413,7 @@ public class Tache extends EntiteSecurise {
             updateChargeTotaleTacheRecursive(tache.parent);
         }
     }
+
 
     // TODO ajouter l'exception(chargeConsomee>chargeTotale) dans la fonction modifierCharge + test exception
 

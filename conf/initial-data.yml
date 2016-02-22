@@ -244,13 +244,14 @@ projets:
 - &projet1 !!models.Projet
     id:                 15
     nom:                Projet Test 3
-    description:        Ceci est un projet de test 3
-    responsableProjet:        *utilisateur2
+    description:        Ceci est un projet de test 4
+    responsableProjet:  *utilisateur1
     dateDebutTheorique: 2016-02-12
     dateFinTheorique:   2017-02-12
-    dateDebutReel:      2016-05-12
-    dateFinReel:        2016-05-26
-    chargeInitiale:     15
+    dateDebutReel:      2016-02-25
+    dateFinReelTôt:     2016-02-27
+    dateFinReelTard:    2016-02-27
+    chargeInitiale:     2
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -262,12 +263,13 @@ projets:
     id:                 16
     nom:                Projet de test
     description:        Ceci est un projet de test
-    responsableProjet:        *utilisateur1
+    responsableProjet:        *utilisateur2
     dateDebutTheorique: 2016-02-12
     dateFinTheorique:   2017-02-12
-    dateDebutReel:      2016-02-25
-    dateFinReel:        2016-02-26
-    chargeInitiale:     1
+    dateDebutReel:      2016-05-12
+    dateFinReelTôt:        2016-05-25
+    dateFinReelTard:        2016-05-26
+    chargeInitiale:     15
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -281,10 +283,11 @@ projets:
     description:        Ceci est un projet de test 2
     responsableProjet:        *utilisateur4
     dateDebutTheorique: 2016-02-12
-    dateFinTheorique:   2016-02-12
+    dateFinTheorique:   2017-02-12
     dateDebutReel:      2016-05-12
-    dateFinReel:        2016-05-24
-    chargeInitiale:     12
+    dateFinReelTôt:     2016-05-23
+    dateFinReelTard:    2016-05-24
+    chargeInitiale:     3
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -298,9 +301,10 @@ projets:
     responsableProjet:        *utilisateur2
     description:        Ceci est un projet de test 3
     dateDebutTheorique: 2014-02-12
-    dateFinTheorique:   2016-02-12
+    dateFinTheorique:   2015-02-12
     dateDebutReel:      2016-01-12
-    dateFinReel:        2016-01-25
+    dateFinReelTôt:     2016-01-25
+    dateFinReelTard:    2016-01-26
     chargeInitiale:     13
     avancementGlobal:   0
     enCours:            true

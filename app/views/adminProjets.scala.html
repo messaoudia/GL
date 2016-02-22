@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle: String, projets: java.util.List[models.Projet])
 
 @scripts = {
     <script>
@@ -82,298 +82,66 @@
                                         <th><i class="fa fa-trash"></i></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr class="table-center cursor-pointer" value="5">
-                                        <td style="vertical-align:middle;">
-                                            myProjects
-                                        </td>
-                                        <td style="vertical-align:middle;">PoPS5I Inc.</td>
-                                        <td style="vertical-align:middle;">10/10/2015</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2017/10/01</p>
-                                            <p>01/10/2017</p>
-                                            <p>10/10/2017</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">060%</p>
-                                            <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                    60%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer" value="6" id="test">
-                                        <td style="vertical-align:middle;">EISD</td>
-                                        <td style="vertical-align:middle;">Lavergne Inc.</td>
-                                        <td style="vertical-align:middle;">20/12/2015</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/03/03</p>
-                                            <p>03/03/2016</p>
-                                            <p>13/03/2016</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">050%</p>
-                                            <p class="row-initiale">@Messages("initial") : 100@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 50@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                                    50%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 50@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer" value="5">
-                                        <td style="vertical-align:middle;">Développer une application mobile</td>
-                                        <td style="vertical-align:middle;">LePhocéen</td>
-                                        <td style="vertical-align:middle;">01/10/2013</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2017/10/01</p>
-                                            <p>01/10/2017</p>
-                                            <p>10/10/2017</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">100%</p>
-                                            <p class="row-initiale">@Messages("initial") : 3501@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 300@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                    100%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 310@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer" value="5">
-                                        <td style="vertical-align:middle;">Gagner un match</td>
-                                        <td style="vertical-align:middle;">Olympique de Marseille</td>
-                                        <td style="vertical-align:middle;">09/03/2016</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/03/19</p>
-                                            <p>19/03/2016</p>
-                                            <p>23/03/2016</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">0%</p>
-                                            <p class="row-initiale">@Messages("initial") : 10@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 10@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
-                                                    0%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 0@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer" value="5">
-                                        <td style="vertical-align:middle;">myProjects</td>
-                                        <td style="vertical-align:middle;">PoPS5I Inc.</td>
-                                        <td style="vertical-align:middle;">10/10/2015</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/04/03</p>
-                                            <p>03/04/2016</p>
-                                            <p>13/06/2016</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">060%</p>
-                                            <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                    60%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer" value="5">
-                                        <td style="vertical-align:middle;">EISD</td>
-                                        <td style="vertical-align:middle;">Lavergne Inc.</td>
-                                        <td style="vertical-align:middle;">20/12/2015</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/03/02</p>
-                                            <p>02/03/2016</p>
-                                            <p>02/03/2016</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">050%</p>
-                                            <p class="row-initiale">@Messages("initial") : 100@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 50@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                                    50%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 50@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer" value="5">
-                                        <td style="vertical-align:middle;">Développer une application mobile</td>
-                                        <td style="vertical-align:middle;">LePhocéen</td>
-                                        <td style="vertical-align:middle;">01/10/2013</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2017/10/01</p>
-                                            <p>01/10/2017</p>
-                                            <p>10/10/2017</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">100%</p>
-                                            <p class="row-initiale">@Messages("initial") : 3501@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 300@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                    100%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 310@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer">
-                                        <td style="vertical-align:middle;">Gagner un match</td>
-                                        <td style="vertical-align:middle;">Olympique de Marseille</td>
-                                        <td style="vertical-align:middle;">09/03/2016</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/05/03</p>
-                                            <p>03/05/2016</p>
-                                            <p>13/05/2016</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">0%</p>
-                                            <p class="row-initiale">@Messages("initial") : 10@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 10@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
-                                                    0%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 0@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
+                                <tbody id="dataTables-admin-projet-body">
+                                @for(projet <- projets) {
 
-                                    <tr class="table-center cursor-pointer">
-                                        <td style="vertical-align:middle;">myProjects</td>
-                                        <td style="vertical-align:middle;">PoPS5I Inc.</td>
-                                        <td style="vertical-align:middle;">10/10/2015</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/11/20</p>
-                                            <p>20/11/2016</p>
-                                            <p>23/12/2016</p>
+                                    <tr class="table-center cursor-pointer" value="@projet.id">
+                                        <td style="vertical-align:middle ;">
+                                        @projet.nom
                                         </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">060%</p>
-                                            <p class="row-initiale">@Messages("initial") : 50@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 30@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                                    60%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 30@Messages("day-first-letter")</p>
+                                        <td style="vertical-align:middle ;">@projet.client.nom</td>
+                                        <td style="vertical-align:middle ;">@projet.formateDate(projet.dateDebutReel)</td>
+                                        <td style="vertical-align:middle ;">
+                                            <p style="display:none ;">@projet.formateDateTri(projet.dateFinReelTôt)</p>
+                                            <p>@projet.formateDate(projet.dateFinReelTôt)</p>
+                                            <p>@projet.formateDate(projet.dateFinReelTard)</p>
                                         </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                        @if(projet.archive) {
+                                            <td style="vertical-align:middle ;">@Messages("yes")</td>
+                                        }else {
+                                            <td style="vertical-align:middle ;">@Messages("no")</td>
+                                        }
+
+                                        @projet.unite match{
+                                            case UniteProjetEnum.JOUR => {
+                                                <td class="td-avancement" style="vertical-align:middle ;">
+                                                    <p style="display:none ;">@projet.avancementGlobal%</p>
+                                                    <p class="row-initiale">@Messages("initial") :
+                                                        @projet.chargeInitiale @Messages("day-first-letter")</p>
+                                                    <p class="row-restante">@Messages("remaining"): 50
+                                                         @Messages("day-first-letter")</p>
+                                                    <div class="progress progress-bar-default">
+                                                            <!-- si 0% : color:black; -->
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="@projet.avancementGlobal;">
+                                                            @projet.avancementGlobal %
+                                                        </div>
+                                                    </div>
+                                                    <p class="row-consommee">@Messages("consumed")
+                                                        : 50 @Messages("day-first-letter")</p>
+                                                </td>
+                                            }
+                                            case UniteProjetEnum.SEMAINE => {
+                                                <td class="td-avancement" style="vertical-align:middle ;">
+                                                    <p style="display:none ;">@projet.avancementGlobal%</p>
+                                                    <p class="row-initiale">@Messages("initial") :
+                                                        @projet.chargeInitiale @Messages("week-first-letter")</p>
+                                                    <p class="row-restante">@Messages("remaining"):
+                                                        50 @Messages("week-first-letter")</p>
+                                                    <div class="progress progress-bar-default">
+                                                            <!-- si 0% : color:black; -->
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                                            @projet.avancementGlobal %
+                                                        </div>
+                                                    </div>
+                                                    <p class="row-consommee">@Messages("consumed")
+                                                        :  50 @Messages("week-first-letter")</p>
+                                                </td>
+                                            }
+                                        }
+
+                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
                                     </tr>
-                                    <tr class="table-center cursor-pointer">
-                                        <td style="vertical-align:middle;">EISD</td>
-                                        <td style="vertical-align:middle;">Lavergne Inc.</td>
-                                        <td style="vertical-align:middle;">20/12/2015</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/01/01</p>
-                                            <p>01/01/2016</p>
-                                            <p>01/01/2017</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">050%</p>
-                                            <p class="row-initiale">@Messages("initial") : 100@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 50@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;">
-                                                    50%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 50@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer">
-                                        <td style="vertical-align:middle;">Développer une application mobile</td>
-                                        <td style="vertical-align:middle;">LePhocéen</td>
-                                        <td style="vertical-align:middle;">01/10/2013</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/05/04</p>
-                                            <p>04/05/2016</p>
-                                            <p>07/02/2018</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">100%</p>
-                                            <p class="row-initiale">@Messages("initial") : 3501@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 300@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                                    100%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 310@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr class="table-center cursor-pointer">
-                                        <td style="vertical-align:middle;">Gagner un match</td>
-                                        <td style="vertical-align:middle;">Olympique de Marseille</td>
-                                        <td style="vertical-align:middle;">09/03/2016</td>
-                                        <td style="vertical-align:middle;">
-                                            <p style="display:none;">2016/03/03</p>
-                                            <p>03/03/2016</p>
-                                            <p>13/03/2016</p>
-                                        </td>
-                                        <td style="vertical-align:middle;">Non</td>
-                                        <td class="td-avancement" style="vertical-align:middle;">
-                                            <p style="display:none;">0%</p>
-                                            <p class="row-initiale">@Messages("initial") : 10@Messages("day-first-letter")</p>
-                                            <p class="row-restante">@Messages("remaining") : 10@Messages("day-first-letter")</p>
-                                            <div class="progress progress-bar-default">
-                                                    <!-- si 0% : color:black; -->
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; color:black;">
-                                                    0%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">@Messages("consumed") : 0@Messages("day-first-letter")</p>
-                                        </td>
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                    </tr>
+                                }
                                 </tbody>
                             </table>
                         </div>

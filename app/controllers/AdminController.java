@@ -1,9 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Client;
-import models.Tache;
-import models.Utilisateur;
+import models.*;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -28,7 +26,7 @@ public class AdminController extends Controller{
     }
 
     public Result afficherAdminProjets() {
-        return ok(adminProjets.render("Admin Projets"));
+        return ok(adminProjets.render("Admin Projets", models.Projet.getAll()));
     }
 
     public Result afficherAdminUtilisateur() {

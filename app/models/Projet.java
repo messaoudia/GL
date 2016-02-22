@@ -8,8 +8,10 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.DoubleAccumulator;
 
@@ -34,8 +36,12 @@ public class Projet extends EntiteSecurise {
     public Date dateFinTheorique;
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutReel;
+
     @Formats.DateTime(pattern = "dd/MM/yyyy")
-    public Date dateFinReel;
+    public Date dateFinReelTôt;
+    @Formats.DateTime(pattern = "dd/MM/yyyy")
+    public Date dateFinReelTard;
+
     public Double chargeInitiale;
     public Byte avancementGlobal;
     public Boolean enCours;
@@ -55,18 +61,25 @@ public class Projet extends EntiteSecurise {
 
     public UniteProjetEnum unite;
 
+    final String FILENAME_DATE_PATTERN = "dd/MM/yyyy";
+    final String FILENAME_DATE_PATTERN_TRI = "yyyy/MM/dd";
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(FILENAME_DATE_PATTERN);
+    final SimpleDateFormat dateFormatTri = new SimpleDateFormat(FILENAME_DATE_PATTERN_TRI);
+
     public static Model.Finder<Long, Projet> find = new Model.Finder<>(Projet.class);
 
     public Projet(String nom, String description, Utilisateur responsableProjet, Date dateDebutTheorique, Date dateFinTheorique,
-                  Date dateDebutReel, Date dateFinReel, Double chargeInitiale, UniteProjetEnum unite,
+                  Date dateDebutReel, Date dateFinReelTôt,Date dateFinReelTard, Double chargeInitiale, UniteProjetEnum unite,
                   Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches) {
+        System.out.println("JE CREE PROJET");
         this.nom = nom;
         this.description = description;
         this.responsableProjet = responsableProjet;
         this.dateDebutTheorique = dateDebutTheorique;
         this.dateFinTheorique = dateFinTheorique;
         this.dateDebutReel = dateDebutReel;
-        this.dateFinReel = dateFinReel;
+        this.dateFinReelTôt = dateFinReelTôt;
+        this.dateFinReelTard = dateFinReelTard;
         this.chargeInitiale = chargeInitiale;
         this.unite = unite;
         this.avancementGlobal = avancementGlobal;
@@ -96,7 +109,8 @@ public class Projet extends EntiteSecurise {
                     projet.dateDebutTheorique.equals(this.dateDebutTheorique) &&
                     projet.dateFinTheorique.equals(this.dateFinTheorique) &&
                     projet.dateDebutReel.equals(this.dateDebutReel) &&
-                    projet.dateFinTheorique.equals(this.dateFinTheorique) &&
+                    projet.dateFinReelTôt.equals(this.dateFinReelTôt) &&
+                    projet.dateFinReelTard.equals(this.dateFinReelTard) &&
                     projet.chargeInitiale.equals(this.chargeInitiale) &&
                     projet.avancementGlobal.equals(this.avancementGlobal) &&
                     projet.enCours.equals(this.enCours) &&
@@ -113,7 +127,7 @@ public class Projet extends EntiteSecurise {
         StringBuilder sb = new StringBuilder();
         sb.append("[Projet : ").append(id).append("] : ").append(nom).append(", ").append(description);
         sb.append("\nDebutTH : ").append(dateDebutTheorique).append(", FinTH : ").append(dateFinTheorique);
-        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRE : ").append(dateFinReel);
+        sb.append(", DebutRE : ").append(dateDebutReel).append(", FinRETôt : ").append(dateFinReelTôt).append(", FinRETard : ").append(dateFinReelTard);
         sb.append("\nChargeInitiale : ").append(chargeInitiale).append(", Avancement (%) : ").append(avancementGlobal);
         sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
         sb.append(", Priorite :").append(priorite).append("\n");
@@ -368,16 +382,16 @@ public class Projet extends EntiteSecurise {
     */
 
     /**
-     * TODO testme
+     * TODO testme : A CHANGER CAR AJOUT DE DEUX DATES
      * Vérifier la cohérence des 4 dates (dateDebutTheorique <= dateDebutReel <= dateFinReel <= dateFinTheorique)
      */
-    public boolean verifierCoherenceDesDates() {
+    /*public boolean verifierCoherenceDesDates() {
         if ((this.dateDebutTheorique.compareTo(this.dateDebutReel) < 1)
                 && (this.dateDebutReel.compareTo(this.dateFinReel) < 1)
                 && (this.dateFinReel.compareTo(this.dateFinTheorique) < 1))
             return true;
         else return false;
-    }
+    }*/
 
     /**
      * TODO testme
@@ -386,7 +400,7 @@ public class Projet extends EntiteSecurise {
         Double chargeConsommeeGlobal = 0.0;
         Double chargeTotaleGlobal = 0.0;
         for(Tache tache : listTaches){
-            if((!tache.hasParent()) && (tache.critique)) {
+            if(!tache.hasParent()) {
                 chargeConsommeeGlobal += tache.getChargeConsommee();
                 chargeTotaleGlobal += tache.getChargeTotale();
             }
@@ -402,4 +416,39 @@ public class Projet extends EntiteSecurise {
         }
     }
 
+    public String formateDate(Date d){
+        return dateFormat.format(d);
+    }
+
+    public String formateDateTri(Date d){
+        return dateFormatTri.format(d);
+    }
+
+    /**
+     * TODO: TEST ME
+     * @return
+     */
+    public HashMap<String,Double> chargeConsommeEtTotale(){
+        Double chargeConsommeeGlobal = 0.0;
+        Double restante = 0.0;
+        HashMap<String,Double> map = new HashMap<String, Double>();
+        if(!listTaches.isEmpty()) {
+            for (Tache tache : listTaches) {
+                if (!tache.hasParent()) {
+                    chargeConsommeeGlobal += tache.getChargeConsommee();
+                    restante+=tache.chargeRestante();
+                }
+            }
+            map.put("restante", restante);
+        }else{
+            map.put("restante",this.chargeInitiale);
+        }
+        map.put("consommee", chargeConsommeeGlobal);
+        return map;
+    }
+
+
+    public static List<Projet> getAll() {
+        return find.all();
+    }
 }
