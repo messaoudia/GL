@@ -72,7 +72,7 @@ public class ModelBeanTest {
 
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
                     Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
+                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
             List<Projet> listProjet = new BeanList<>();
             listProjet.add(pr);
             Client cl = new Client("Applee",2,true, a1,listContacts, listProjet);
@@ -207,7 +207,8 @@ public class ModelBeanTest {
             projet.dateDebutTheorique = Utils.getDateFrom(2016,2,2);
             projet.dateFinTheorique = Utils.getDateFrom(2016,2,10);
             projet.dateDebutReel = Utils.getDateFrom(2016,2,3);
-            projet.dateFinReel = Utils.getDateFrom(2016,2,9);
+            projet.dateFinReelTot = Utils.getDateFrom(2016,2,9);
+            projet.dateFinReelTard = Utils.getDateFrom(2016,2,9);
             projet.chargeInitiale = 24D;
             projet.unite = UniteProjetEnum.SEMAINE;
             projet.avancementGlobal = new Byte("0");
@@ -252,9 +253,8 @@ public class ModelBeanTest {
             Logger.debug(t2.nom);
             Logger.debug(t2.description);
             Logger.debug(t2.critique.toString());
-            Logger.debug(t2.getChargeConsommee().toString());
+            Logger.debug(Double.toString(t2.getChargeConsommee()));
             Logger.debug(t2.chargeInitiale.toString());
-            Logger.debug(t2.getChargeTotale().toString());
             Logger.debug(t2.dateDebut.toString());
             Logger.debug(t2.dateFinTard.toString());
             Logger.debug(t2.dateFinTot.toString());
