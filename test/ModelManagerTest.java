@@ -633,7 +633,7 @@ public class ModelManagerTest {
             tache.chargeInitiale = 10D;
             try {
                 tache.setChargeConsommee(10D);
-                tache.setchargeRestante(0D);
+                tache.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -716,7 +716,7 @@ public class ModelManagerTest {
             tache.chargeInitiale = 10D;
             try {
                 tache.setChargeConsommee(10D);
-                tache.setchargeRestante(0D);
+                tache.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -924,7 +924,7 @@ public class ModelManagerTest {
             tacheGrandParent.chargeInitiale = 10D;
             try {
                 tacheGrandParent.setChargeConsommee(10D);
-                tacheGrandParent.setchargeRestante(0D);
+                tacheGrandParent.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -937,7 +937,7 @@ public class ModelManagerTest {
             tacheParent1.chargeInitiale = 6D;
             try {
                 tacheParent1.setChargeConsommee(6D);
-                tacheParent1.setchargeRestante(0D);
+                tacheParent1.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -951,7 +951,7 @@ public class ModelManagerTest {
             tacheParent2.chargeInitiale = 4D;
             try {
                 tacheParent2.setChargeConsommee(4D);
-                tacheParent2.setchargeRestante(0D);
+                tacheParent2.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -967,7 +967,7 @@ public class ModelManagerTest {
             tache1.chargeInitiale = 1D;
             try {
                 tache1.setChargeConsommee(1D);
-                tache1.setchargeRestante(0D);
+                tache1.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -981,7 +981,7 @@ public class ModelManagerTest {
             tache2.chargeInitiale = 5D;
             try {
                 tache2.setChargeConsommee(5D);
-                tache2.setchargeRestante(0D);
+                tache2.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -1032,7 +1032,7 @@ public class ModelManagerTest {
                 assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getChargeRestante() , 4D,0);
                 assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getChargeRestante() , 11D,0);
 
-                tache2.setchargeRestante(7D);
+                tache2.setChargeRestante(7D);
 
                 //Charge consommee: tacheGrandParent=11, tacheParent1=7, tacheParent2=4, tache1=2 et tache2=5
                 //Charge restante : tacheGrandParent= 7, tacheParent1=7, tacheParent2=0, tache1=0 et tache2=7

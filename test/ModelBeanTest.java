@@ -237,8 +237,18 @@ public class ModelBeanTest {
             contactList.add(c1);
             Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789",false,"azertY1");
             u1.save();
-            Tache tache = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,contactList,pr);
+            Tache tache = new Tache(
+                    "Etude 1",
+                    "Cette tâche permet de réaliser l'étude du projet",
+                    1,
+                    true,
+                    Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),
+                    Utils.getDateFrom(2016,2,25),
+                    20D,
+                    0D,
+                    20D,
+                    contactList,pr);
             tache.responsableTache = u1;
 
             c1.save();

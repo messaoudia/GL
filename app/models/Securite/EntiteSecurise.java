@@ -1,8 +1,12 @@
 package models.Securite;
 
 import com.avaje.ebean.Model;
+import com.google.common.collect.ImmutableMap;
+import models.Utilisateur;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by yachironi on 05/02/16.
@@ -15,12 +19,12 @@ public abstract class EntiteSecurise extends Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    /*
+
     public List<Permission> getPermissions(Utilisateur utilisateur) {
         final List<Permission> listOfPermissions = Autorisation
                 .find
                 .where()
-                .like("utilsateur", utilisateur.id.toString())
+                .allEq(ImmutableMap.of("utilisateur.id", utilisateur.id.toString(), "entiteSecurise.id", this.id.toString()))
                 .findList()
                 .stream()
                 .flatMap(autorisation -> autorisation.roles.stream().map(role -> role.permissions))
@@ -32,5 +36,5 @@ public abstract class EntiteSecurise extends Model {
 
     public Boolean havePermission(Utilisateur utilisateur, Permission permission) {
         return getPermissions(utilisateur).contains(permission);
-    }*/
+    }
 }
