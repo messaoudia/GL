@@ -1055,7 +1055,10 @@
                                 $('#formCity').val(client.adresseClient.ville);
                                 $('#formCountry').val(client.adresseClient.pays);
                                 /* priority */
-                                $('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
+                                $('#client-priority-1').removeClass("btn-active");
+                                $('#client-priority-2').removeClass("btn-active");
+                                $('#client-priority-3').removeClass("btn-active");
+                                $('#client-priority-'+client.priorite).addClass("btn-active");
 
                                 /* Look for Projects and contacts */
                                 /*jsRoutes.controllers.ProjetController.afficherProjetsClient($id).ajax({
