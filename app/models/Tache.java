@@ -66,9 +66,12 @@ public class Tache extends EntiteSecurise {
     @ManyToOne(cascade = CascadeType.ALL)
     public Utilisateur responsableTache;
 
+    // TODO @qqch?
+    public List<Utilisateur> utilisateursNotifications;
+
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
-                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet) {
+                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, List<Utilisateur> utilisateursNotifications) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
