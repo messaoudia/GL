@@ -432,9 +432,8 @@ public class Projet extends EntiteSecurise {
         }
         listTaches.remove(tache);
 
-        /* Liaisons */
-        if(tache.predecesseur != null && tache.getSuccesseurs().size()!=0){
-
+        // Modifications au niveau des liaisons predecesseur/successeurs
+        if(tache.hasPredecesseur() && tache.hasSuccesseur()){
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
 
@@ -445,15 +444,33 @@ public class Projet extends EntiteSecurise {
                 t.save();
             });
             tAvant.save();
-        }else if(tache.predecesseur != null){
+        }else if(tache.hasPredecesseur()){
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
             tAvant.save();
-        }else if(tache.getSuccesseurs().size()!=0){
+        }else if(tache.hasSuccesseur()){
             tache.getSuccesseurs().forEach(t -> t.predecesseur = null);
         }
 
-        /* Suppression/archivage */
+        // Modification des idTache
+        String[] idTacheParse = tache.idTache.split("\\.");
+        int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
+
+        for(Tache tacheDuProjet : listTaches){
+            if(!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau){
+                // On parse l'id(=A.B.C.D) pour avoir A, B, C et D
+                String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
+                int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
+
+                // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >
+                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger > idTacheInteger){
+                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger-1, tache.niveau);
+                    tacheDuProjet.save();
+                }
+            }
+        }
+
+        // Suppression ou archivage
         if (tache.getChargeConsommee() == 0.0) {
             Tache.find.deleteById(tache.id);
         }else{
