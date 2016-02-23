@@ -1054,10 +1054,13 @@
                                 $('#formCity').val(client.adresseClient.ville);
                                 $('#formCountry').val(client.adresseClient.pays);
                                 /* priority */
-                                $('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
+                                $('#client-priority-1').removeClass("btn-active");
+                                $('#client-priority-2').removeClass("btn-active");
+                                $('#client-priority-3').removeClass("btn-active");
+                                $('#client-priority-'+client.priorite).addClass("btn-active");
 
                                 /* Look for Projects and contacts */
-                                jsRoutes.controllers.ProjetController.afficherProjetsClient($id).ajax({
+                                /*jsRoutes.controllers.ProjetController.afficherProjetsClient($id).ajax({
 
                                     success: function(listProjets) {
                                         var projetTableBody = $('#table-modal-client-projets-body');
@@ -1096,7 +1099,7 @@
                                             });
                                         }
                                     }
-                                });
+                                });*/
 
                             },
                             //Case we have a problem
@@ -1153,7 +1156,7 @@
                                         $("#dataTables-admin-client").dataTable().fnDestroy();
                                         $(data).each(function(index, client) {
                                             var list ="";
-                                            list+=('<tr class="archived">');
+                                            list+=('<tr class="archived" value='+client.id+'>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.nom+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+
                                             client.adresseClient.adresse+", "+client.adresseClient.zipCode+", "+client.adresseClient.ville+", "+client.adresseClient.pays+
@@ -1195,7 +1198,7 @@
                                         $("#dataTables-admin-user").dataTable().fnDestroy();
                                         $(data).each(function(index, utilisateur) {
                                             var list ="";
-                                            list+=('<tr class="archived">');
+                                            list+=('<tr class="archived" value='+utilisateur.id+'>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.nom+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.prenom+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.email+'</td>');

@@ -103,7 +103,7 @@
                                     </div>
                                     <div id="taches-proches" class="panel-body panel-body-tdb" style="color:black ;">
                                         @if(utilisateur.nbTachesPresquesFinies() == 0){
-                                            <p>@Messages("noAlmostFinishedTask")</p>
+                                            <p>@Messages("noTaskToFinishShortly")</p>
                                         } else {
                                             @for( tache <- utilisateur.tachesPresquesFinies()) {
                                                 <p>- @tache.nom</p>
@@ -244,7 +244,7 @@
                                                                     } else{
                                                                         @projet.avancementGlobal
                                                                     }
-                                                                </p> <!-- TODO -->
+                                                                </p>
                                                                 <p class="row-initiale">@Messages("initial")
                                                                     : @projet.chargeInitiale
                                                                     @if(projet.hasUniteJour()) {
@@ -381,55 +381,92 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr class="table-center">
-                                                        <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                            <p class="tdb-id-tache">4.1</p>
-                                                            <p class="tdb-nom-tache">Créer la base de données</p>
-                                                        </td>
-                                                        <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                            PoPS5I Inc.</td>
-                                                        <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                            myProjects</td>
-                                                        <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                            10/10/2015</td>
-                                                        <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                            <p style="display:none ;">2016/03/03</p>
-                                                            <p>03/03/2016</p>
-                                                            <p>13/03/2016</p>
-                                                        </td>
-                                                        <td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
-                                                            <p style="display:none ;">060%</p>
-                                                            <p class="row-initiale">@Messages("initial")
-                                                                : 50@Messages("day-first-letter")</p>
-                                                            <p class="row-restante">@Messages("remaining")
-                                                                : 30@Messages("day-first-letter")</p>
-                                                            <div class="progress progress-bar-default">
-                                                                    <!-- si 0% : color:black; -->
-                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                    60%
+                                                    @for(tache <- utilisateur.listTaches()){
+                                                        <tr class="table-center">
+                                                            <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                                <p class="tdb-id-tache">@tache.idTache</p>
+                                                                <p class="tdb-nom-tache">@tache.nom</p>
+                                                            </td>
+                                                            <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                            @tache.projet.nom</td>
+                                                            <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                            @tache.projet.client.nom</td> <!-- TODO : voir pour tache.nom -->
+                                                            <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                            @tache.formateDate(tache.dateDebut)</td>
+                                                            <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                                <p style="display:none ;">@tache.formateDateTri(tache.dateFinTard)</p>
+                                                                <p>@tache.formateDate(tache.dateFinTot)</p>
+                                                                <p>@tache.formateDate(tache.dateFinTard)</p>
+                                                            </td>
+                                                            <td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                                <p style="display:none ;">
+                                                                @if(tache.getAvancementTache() > 0 || tache.getAvancementTache() < 100){
+                                                                    0@tache.getAvancementTache()
+                                                                } else{
+                                                                    @tache.getAvancementTache()
+                                                                }
+                                                                </p>
+                                                                <p class="row-initiale">@Messages("initial")
+                                                                    : @tache.chargeInitiale
+                                                                    @if(tache.projet.hasUniteJour()) {
+                                                                        @Messages("day-first-letter")
+                                                                    } else {
+                                                                        @Messages("week-first-letter")
+                                                                    }
+                                                                </p>
+                                                                <p class="row-restante">@Messages("remaining")
+                                                                    : @tache.chargeRestante
+                                                                    @if(tache.projet.hasUniteJour()) {
+                                                                        @Messages("day-first-letter")
+                                                                    } else {
+                                                                        @Messages("week-first-letter")
+                                                                    }
+                                                                </p>
+                                                                <div class="progress progress-bar-default">
+                                                                @if(tache.getAvancementTache() == 0){
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                                        0%
+                                                                    </div>
+                                                                } else{
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@tache.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @tache.getAvancementTache()% ;">
+                                                                        @tache.getAvancementTache()%
+                                                                    </div>
+                                                                }
+
                                                                 </div>
-                                                            </div>
-                                                            <p class="row-consommee">@Messages("consumed")
-                                                                : 30@Messages("day-first-letter")</p>
-                                                        </td>
-                                                        <td style="vertical-align:middle ;">
-                                                            <div class="row">@Messages("predecessor") : 4.1</div>
-                                                            <div class="row">
-                                                                @Messages("successors") :
-                                                                <div class="btn-group">
-                                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                        3 @Messages("tasks-lower") <span class="caret"></span>
-                                                                    </button>
-                                                                    <ul class="dropdown-menu dropdown-menu-pert">
-                                                                        <li>5.1</li>
-                                                                        <li>5.2</li>
-                                                                        <li>5.3</li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="clickOnNotification('notif-tache-1')"><i id="notif-tache-1" class="fa fa-bell-slash"></i></a></td>
-                                                    </tr>
+                                                                <p class="row-consommee">@Messages("consumed")
+                                                                    : @tache.chargeConsommee
+                                                                    @if(tache.projet.hasUniteJour()) {
+                                                                        @Messages("day-first-letter")
+                                                                    } else {
+                                                                        @Messages("week-first-letter")
+                                                                    }
+                                                                </p>
+                                                            </td>
+                                                            <td style="vertical-align:middle ;">
+                                                                @if(tache.hasPredecesseur()) {
+                                                                    <div class="row">@Messages("predecessor")
+                                                                        : @tache.predecesseur.idTache</div>
+                                                                }
+                                                                @if(tache.hasSuccesseur()){
+                                                                    <div class="row">
+                                                                        @Messages("successors") :
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                @tache.nbSuccesseurs() @Messages("tasks-lower") <span class="caret"></span>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                @for(successeur <- tache.successeurs){
+                                                                                    <li>@successeur.idTache</li>
+                                                                                }
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                            <td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="clickOnNotification('notif-tache-1')"><i id="notif-tache-1" class="fa fa-bell-slash"></i></a></td>
+                                                        </tr>
+                                                    }
                                                 </tbody>
                                             </table>
                                         </div>

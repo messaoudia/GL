@@ -1,7 +1,8 @@
 package controllers.Global;
 
 import com.avaje.ebean.Ebean;
-import models.*;
+import models.Client;
+import models.Utilisateur;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.Yaml;
@@ -35,6 +36,12 @@ public class Global extends GlobalSettings {
             /* add elements to DB */
             all.forEach((key, value) -> Ebean.save(value));
 
+            Client.find.all().stream().forEach(client -> {
+                Logger.debug("Client:" + client.nom);
+                client.listeContacts.forEach(contact -> {
+                    Logger.debug("- contact:" + contact);
+                });
+            });
             /* display DB content */
             /*Logger.debug(String.valueOf(Adresse.find.all()));
             Logger.debug(String.valueOf(Contact.find.all()));

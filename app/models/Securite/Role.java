@@ -1,21 +1,62 @@
 package models.Securite;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.annotation.Transactional;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by yachironi on 05/02/16.
  */
+@Entity
+@Table(name = "role")
 public class Role extends Model {
 
     @Id
     @GeneratedValue
     public Long id;
+
     public String nomDuRole;
 
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     public List<Permission> permissions;
 
+    //TODO Rendre la relation ManyToMany est plus logique
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    public Autorisation autorisation;
+
+
+    public static Model.Finder<Long, Role> find = new Model.Finder<>(Role.class);
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    @Transactional
+    public void addPermission(Permission permission) {
+        permission.role = this;
+        permission.save();
+        this.permissions.add(permission);
+        save();
+    }
+
+    @Transactional
+    public void addAutorisation(Autorisation autorisation) {
+        this.autorisation = autorisation;
+        autorisation.roles.add(this);
+        autorisation.save();
+        this.autorisation.save();
+        save();
+    }
+
+    @Override
+    public String toString() {
+        return nomDuRole + ", permissions:" + permissions;
+    }
 }

@@ -37,6 +37,9 @@ public class Utilisateur extends Personne {
     @JoinTable(name = "Tache")
     private List<Tache> listTaches;
 
+    // TODO @qqch?
+    List<Object> listObjetsNotifications;
+
     //TODO Make connection to the database to check the authentication
     public String validate() {
         if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
@@ -47,14 +50,15 @@ public class Utilisateur extends Personne {
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches) {
+    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches, List<Object> listObjetsNotifications) {
         super(nom, prenom, email, telephone,archive);
         setPassword(password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
+        this.listObjetsNotifications = (listObjetsNotifications == null)?new BeanList<>():listObjetsNotifications;
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone,archive,password,null);
+        this(nom, prenom, email, telephone,archive,password,null, null);
     }
 
     public Utilisateur() {
@@ -146,6 +150,8 @@ public class Utilisateur extends Personne {
     public int listTachesSize(){
         return listTaches().size();
     }
+
+    // TODO getListObjetsNotifications
 
     /**
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur
@@ -269,14 +275,45 @@ public class Utilisateur extends Personne {
         if (listTaches.isEmpty())
             return listTachesProposees;
 
-        // position des tâches à proposer
-        int pos_tache_1 = 0;
-        int pos_tache_2 = 0;
-        int pos_tache_3 = 0;
+        if(listTaches.size() == 1){
+            listTachesProposees.add(listTaches.get(0));
+            return listTachesProposees;
+        }
+        int pos_tache_1;
+        int pos_tache_2;
 
         setPrioriteTache(listTaches.get(0));
+        setPrioriteTache(listTaches.get(1));
 
-        for (int i = 1; i < listTaches.size(); i++) {
+        if(listTaches.get(0).priorite > listTaches.get(1).priorite){
+            pos_tache_1 = 0;
+            pos_tache_2 = 1;
+        }
+        else{
+            pos_tache_1 = 1;
+            pos_tache_2 = 0;
+        }
+
+        if(listTaches.size() == 2){
+            listTachesProposees.add(listTaches.get(pos_tache_1));
+            listTachesProposees.add(listTaches.get(pos_tache_2));
+            return listTachesProposees;
+        }
+
+        int pos_tache_3;
+        setPrioriteTache(listTaches.get(2));
+        if(listTaches.get(2).priorite > listTaches.get(pos_tache_1).priorite){
+            pos_tache_3 = pos_tache_2;
+            pos_tache_2 = pos_tache_1;
+            pos_tache_1 = 2;
+        } else if(listTaches.get(2).priorite > listTaches.get(pos_tache_2).priorite){
+            pos_tache_3 = pos_tache_2;
+            pos_tache_2 = 2;
+        } else{
+            pos_tache_3 = 2;
+        }
+
+        for (int i = 3; i < listTaches.size(); i++) {
             // Calcule du critère de priorité de la tâche a la position n°i de la liste de tâche “listTaches”
             setPrioriteTache(listTaches.get(i));
 
@@ -301,25 +338,9 @@ public class Utilisateur extends Personne {
             }
         }
 
-        // Ajout de la tâche à la position n°pos_tache_1 dans la liste listTaches
         listTachesProposees.add(listTaches.get(pos_tache_1));
-
-        // Si pos_tache_1 = pos_tache_2, alors pos_tache_1 = pos_tache_3 aussi, ce qui signifie qu’une seule tâche est à proposer
-        if (pos_tache_1 == pos_tache_2) {
-            return listTachesProposees;
-        }
-
-        // Ajout de la tâche à la position n°pos_tache_2 dans la liste listTaches
         listTachesProposees.add(listTaches.get(pos_tache_2));
-
-        // Si pos_tache_2 = pos_tache_3, cela signifie qu’une seule tâche est // à proposer
-        if (pos_tache_2 == pos_tache_3){
-            return listTachesProposees;
-        }
-
-        // Ajout de la tâche à la position n°pos_tache_3 dans la liste listTaches
         listTachesProposees.add(listTaches.get(pos_tache_3));
-
         return listTachesProposees;
     }
 
@@ -451,7 +472,7 @@ public class Utilisateur extends Personne {
     public int nbDeProjetsResponsableRetardes(){
         int cpt = 0;
         for(Projet projet : listProjetsResponsable()){
-            if(projet.enCours && projet.dateFinReelTard.after(Calendar.getInstance().getTime()))  cpt++;
+            if(projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
         }
         return cpt;
     }
@@ -511,7 +532,7 @@ public class Utilisateur extends Personne {
     public int nbTachesRetardees(){
         int cpt = 0;
         for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.after(Calendar.getInstance().getTime())) cpt++;
+            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime())) cpt++;
         }
         return cpt;
     }
@@ -540,7 +561,7 @@ public class Utilisateur extends Personne {
     public List<Tache> tachesRetardees(){
         List<Tache> res = new ArrayList<>();
         for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.after(Calendar.getInstance().getTime())) res.add(tache);
+            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime())) res.add(tache);
         }
         return res;
     }

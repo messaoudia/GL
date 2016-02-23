@@ -8,6 +8,7 @@ import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @DiscriminatorValue("TACHE")
 public class Tache extends EntiteSecurise {
 
-
+    public String idTache;
     @Constraints.Required
     public String nom;
     @Constraints.Required
@@ -65,9 +66,12 @@ public class Tache extends EntiteSecurise {
     @ManyToOne(cascade = CascadeType.ALL)
     public Utilisateur responsableTache;
 
+    // TODO @qqch?
+    public List<Utilisateur> utilisateursNotifications;
+
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
-                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet) {
+                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, List<Utilisateur> utilisateursNotifications) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -83,6 +87,7 @@ public class Tache extends EntiteSecurise {
         this.enfants = new BeanList<>();
         this.projet = projet;
         this.archive = false;
+        this.utilisateursNotifications = utilisateursNotifications;
     }
 
     public Tache() {
@@ -90,19 +95,52 @@ public class Tache extends EntiteSecurise {
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
         this.archive = false;
+        this.utilisateursNotifications = new BeanList<>();
     }
 
     /**
      * Create a tache
      */
     public static Tache create(Tache tache) {
+        // Initialisation des personnes a notifié par défaut à la création de la tache
+        addUtilisateurNotification(tache, tache.responsableTache);
+        initUtilisateursNotificationsEnfants(tache);
+        initUtilisateursNotificationsParents(tache);
         tache.save();
         return tache;
     }
 
-    /**
-     * Create a task
-     */
+    private static void initUtilisateursNotificationsEnfants(Tache tache){
+        for(Tache child : tache.enfants){
+            addUtilisateurNotification(tache, child.responsableTache);
+            addUtilisateurNotification(child, tache.responsableTache);
+            initUtilisateursNotificationsEnfants(child);
+        }
+    }
+
+    private static void initUtilisateursNotificationsParents(Tache tache){
+        if(tache.hasParent()){
+            addUtilisateurNotification(tache, tache.parent.responsableTache);
+            addUtilisateurNotification(tache.parent, tache.responsableTache);
+            initUtilisateursNotificationsParents(tache.parent);
+        }
+    }
+
+    private static void addUtilisateurNotification(Tache tache, Utilisateur user){
+        if(!tache.utilisateursNotifications.contains(user))
+            tache.utilisateursNotifications.add(user);
+        if(!user.listObjetsNotifications.contains(tache))
+            user.listObjetsNotifications.add(tache);
+    }
+
+    private static void removeUtilisateurNotification(Tache tache, Utilisateur user){
+        if(!tache.utilisateursNotifications.contains(user))
+            tache.utilisateursNotifications.remove(user);
+        if(!user.listObjetsNotifications.contains(tache))
+            user.listObjetsNotifications.remove(tache);
+    }
+
+
     public static List<Tache> getAll() {
         return find.all();
     }
@@ -118,7 +156,7 @@ public class Tache extends EntiteSecurise {
         try {
             Tache tache = (Tache) obj;
             return (tache.id.equals(this.id) && tache.nom.equals(this.nom) &&
-                    tache.description.equals(this.description) &&
+                    tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
                     tache.critique.equals(this.critique) &&
                     tache.dateDebut.equals(this.dateDebut) &&
@@ -143,7 +181,7 @@ public class Tache extends EntiteSecurise {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[Tâche : ").append(id).append("] : ").append(nom).append(", ").append(description);
+        sb.append("[Tâche : ").append(id).append(" - ").append(idTache).append("] : ").append(nom).append(", ").append(description);
         sb.append("\nniveau : ").append(niveau).append("\ncritique : ").append(critique);
         sb.append("\ndateDebut : ").append(dateDebut).append("\ndateFinTot : ").append(dateFinTot);
         sb.append("\ndateFinTard : ").append(dateFinTard).append("\nchargeInitiale : ").append(chargeInitiale);
@@ -163,7 +201,7 @@ public class Tache extends EntiteSecurise {
     }
 
     @JsonIgnore
-    public Double getchargeRestante() {
+    public Double getChargeRestante() {
         return this.chargeRestante;
     }
 
@@ -173,17 +211,19 @@ public class Tache extends EntiteSecurise {
         }
         this.chargeConsommee = chargeConsommee;
         updateChargeConsommeeTacheRecursive(this);
-        updatechargeRestanteTacheRecursive(this);
+        updateChargeRestanteTacheRecursive(this);
+        updateAvancementTache();
         save();
     }
 
-    public void setchargeRestante(Double chargeRestante) throws NotAvailableTask{
+    public void setChargeRestante(Double chargeRestante) throws NotAvailableTask{
         if (enfants.size() != 0) {
             throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
         }
         this.chargeRestante = chargeRestante;
         updateChargeConsommeeTacheRecursive(this);
-        updatechargeRestanteTacheRecursive(this);
+        updateChargeRestanteTacheRecursive(this);
+        updateAvancementTache();
         save();
     }
 
@@ -204,12 +244,14 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         updateChargeConsommeeTacheRecursive(this);
-        updatechargeRestanteTacheRecursive(this);
+        updateChargeRestanteTacheRecursive(this);
         updateAvancementTache();
+        projet.updateAvancementGlobal(); // met a jour les charges du projet
     }
 
     /**
      * TODO testme
+     * TODO REMARQUE JULIEN : PAS BESOIN DE LA FAIRE CAR LA METHODE GETAVANCEMENTTACHE EST LA
      * Mets a jour l'avancement de la tâche éventuellement composée de sous-tâches
      */
     private void updateAvancementTache() {
@@ -230,6 +272,7 @@ public class Tache extends EntiteSecurise {
         }
         fille.niveau = this.niveau + 1;
         fille.associerTacheMere(this);
+        fille.idTache = this.idTache + "." + this.enfants.size() + 1;
         enfants.add(fille);
         save();
     }
@@ -346,6 +389,10 @@ public class Tache extends EntiteSecurise {
         return !successeurs.isEmpty();
     }
 
+    public int nbSuccesseurs(){
+        return successeurs.size();
+    }
+
     /**
      * Vérifier la cohérence des 3 dates (dateDebut <= dateFinTot <= dateFinTard)
      */
@@ -405,7 +452,7 @@ public class Tache extends EntiteSecurise {
     /**
      * Mets a jour la charge totale de la tâche éventuellement composée de sous-tâches
      */
-    private void updatechargeRestanteTacheRecursive(Tache tache) {
+    private void updateChargeRestanteTacheRecursive(Tache tache) {
         if(tache.hasParent()) {
             Double chargeRestanteNouvel = 0.0;
             for(Tache tacheMemeNiveau : tache.parent.enfants){
@@ -413,8 +460,21 @@ public class Tache extends EntiteSecurise {
             }
             tache.parent.chargeRestante = chargeRestanteNouvel;
             tache.parent.save();
-            updatechargeRestanteTacheRecursive(tache.parent);
+            updateChargeRestanteTacheRecursive(tache.parent);
         }
+    }
+
+    final String DATE_PATTERN = "dd/MM/yyyy";
+    final String DATE_PATTERN_TRI = "yyyy/MM/dd";
+    final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+    final SimpleDateFormat dateFormatTri = new SimpleDateFormat(DATE_PATTERN_TRI);
+
+    public String formateDate(Date d){
+        return dateFormat.format(d);
+    }
+
+    public String formateDateTri(Date d){
+        return dateFormatTri.format(d);
     }
 
 

@@ -263,11 +263,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
 
 
             projet.ajouterTache(tache1);
@@ -312,9 +312,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheApres = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tacheAvant = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,1,1),
-                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20D,0D,20D,null,null,null);
             tacheApres.associerResponsable(Utilisateur.find.all().get(0));
             tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
 
@@ -362,11 +362,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,1,1),
-                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,20),Utils.getDateFrom(2016,1,25),20D,0D,20D,null,null,null);
             Tache tache2 = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tache3 = new Tache("Etude 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null);
 
 
             projet.ajouterTache(tache1);
@@ -415,9 +415,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheAvant = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tacheApres = new Tache("Etude 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null);
             tacheAvant.associerResponsable(Utilisateur.find.all().get(0));
             tacheApres.associerResponsable(Utilisateur.find.all().get(0));
 
@@ -465,7 +465,7 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
 
             projet.ajouterTache(tache1);
             projet.ajouterTache(tache1);
@@ -497,11 +497,11 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tache2 = new Tache("Etude FACEBOOK 2","Cette tâche permet de réaliser l'étude poussée du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tache3 = new Tache("Etude FACEBOOK 3","Cette tâche permet de réaliser l'étude approfondie du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
 
             projet.ajouterTache(tache1);
             projet.insererTacheApres(tache1,tache2);
@@ -538,7 +538,7 @@ public class ModelManagerTest {
         running(fakeApplication(), ()-> {
 
             Tache tache1 = new Tache("Etude FACEBOOK 1","Cette tâche permet de réaliser l'étude du projet",1,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
 
             Projet.find.all().get(0).supprimerTache(tache1);
         });
@@ -633,7 +633,7 @@ public class ModelManagerTest {
             tache.chargeInitiale = 10D;
             try {
                 tache.setChargeConsommee(10D);
-                tache.setchargeRestante(0D);
+                tache.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -716,7 +716,7 @@ public class ModelManagerTest {
             tache.chargeInitiale = 10D;
             try {
                 tache.setChargeConsommee(10D);
-                tache.setchargeRestante(0D);
+                tache.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -778,9 +778,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheMere = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tacheFille = new Tache("Etude 22","Cette tâche permet de réaliser l'étude poussée du projet",0,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null);
             tacheMere.associerResponsable(Utilisateur.find.all().get(0));
             tacheFille.associerResponsable(Utilisateur.find.all().get(0));
 
@@ -831,9 +831,9 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheMere = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             Tache tacheFille = new Tache("Etude 22","Cette tâche permet de réaliser l'étude poussée du projet",0,true, Utils.getDateFrom(2016,3,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null);
             tacheMere.associerResponsable(Utilisateur.find.all().get(0));
             tacheFille.associerResponsable(Utilisateur.find.all().get(0));
 
@@ -846,11 +846,11 @@ public class ModelManagerTest {
     public void testVerifierCoherenceDesDates() {
         running(fakeApplication(), ()-> {
             Tache tache1 = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             tache1.save();
 
             Tache tache2 = new Tache("Etude 12","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,17),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,17),20D,0D,20D,null,null,null);
             tache2.save();
             assertTrue(Tache.find.byId(tache1.id).verifierCoherenceDesDates());
             assertFalse(Tache.find.byId(tache2.id).verifierCoherenceDesDates());
@@ -887,24 +887,24 @@ public class ModelManagerTest {
             */
 
             Tache tacheParent2 = new Tache("Tache parent2","Cette tâche permet de réaliser l'étude du projet",2,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null);
             tacheParent2.save();
 
             Tache tache21 = new Tache("Tache 21","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null);
             tache21.save();
             tacheParent2.associerSousTache(tache21);
 
 
             Tache tache22 = new Tache("Tache 22","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,26),
-                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,null);
             tache22.save();
             tacheParent2.associerSousTache(tache22);
             //tache22.associerPredecesseur(tache21);
             tache21.associerSuccesseur(tache22);
 
             Tache tache23 = new Tache("Tache 23","Cette tâche permet de réaliser l'étude du projet",3,true, Utils.getDateFrom(2016,2,27),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null);
             tache23.save();
             tacheParent2.associerSousTache(tache23);
             //tache23.associerPredecesseur(tache22);
@@ -924,7 +924,7 @@ public class ModelManagerTest {
             tacheGrandParent.chargeInitiale = 10D;
             try {
                 tacheGrandParent.setChargeConsommee(10D);
-                tacheGrandParent.setchargeRestante(0D);
+                tacheGrandParent.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -937,7 +937,7 @@ public class ModelManagerTest {
             tacheParent1.chargeInitiale = 6D;
             try {
                 tacheParent1.setChargeConsommee(6D);
-                tacheParent1.setchargeRestante(0D);
+                tacheParent1.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -951,7 +951,7 @@ public class ModelManagerTest {
             tacheParent2.chargeInitiale = 4D;
             try {
                 tacheParent2.setChargeConsommee(4D);
-                tacheParent2.setchargeRestante(0D);
+                tacheParent2.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -967,7 +967,7 @@ public class ModelManagerTest {
             tache1.chargeInitiale = 1D;
             try {
                 tache1.setChargeConsommee(1D);
-                tache1.setchargeRestante(0D);
+                tache1.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -981,7 +981,7 @@ public class ModelManagerTest {
             tache2.chargeInitiale = 5D;
             try {
                 tache2.setChargeConsommee(5D);
-                tache2.setchargeRestante(0D);
+                tache2.setChargeRestante(0D);
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
             }
@@ -1026,21 +1026,21 @@ public class ModelManagerTest {
 
                 //Charge consommee: tacheGrandParent=11, tacheParent1=7, tacheParent2=4, tache1=2 et tache2=5
                 //Charge restante : tacheGrandParent= 0, tacheParent1=0, tacheParent2=0, tache1=0 et tache2=0
-                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getchargeRestante(),2D,0);
-                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getchargeRestante() , 5D,0);
-                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getchargeRestante() , 7D,0);
-                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getchargeRestante() , 4D,0);
-                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getchargeRestante() , 11D,0);
+                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getChargeRestante(),2D,0);
+                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getChargeRestante() , 5D,0);
+                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getChargeRestante() , 7D,0);
+                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getChargeRestante() , 4D,0);
+                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getChargeRestante() , 11D,0);
 
-                tache2.setchargeRestante(7D);
+                tache2.setChargeRestante(7D);
 
                 //Charge consommee: tacheGrandParent=11, tacheParent1=7, tacheParent2=4, tache1=2 et tache2=5
                 //Charge restante : tacheGrandParent= 7, tacheParent1=7, tacheParent2=0, tache1=0 et tache2=7
-                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getchargeRestante() , 2D,0);
-                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getchargeRestante() , 12D,0);
-                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getchargeRestante() , 14D,0);
-                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getchargeRestante() , 4D,0);
-                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getchargeRestante() , 18D,0);
+                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getChargeRestante() , 2D,0);
+                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getChargeRestante() , 12D,0);
+                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getChargeRestante() , 14D,0);
+                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getChargeRestante() , 4D,0);
+                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getChargeRestante() , 18D,0);
 
                 tache1.modifierCharge(3D, 5D);
 
@@ -1054,11 +1054,11 @@ public class ModelManagerTest {
 
                 //Charge consommee: tacheGrandParent=12, tacheParent1= 8, tacheParent2=4, tache1=3 et tache2=5
                 //Charge restante : tacheGrandParent=12, tacheParent1=12, tacheParent2=0, tache1=5 et tache2=7
-                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getchargeRestante() , 8D,0);
-                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getchargeRestante() , 12D,0);
-                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getchargeRestante() , 20D,0);
-                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getchargeRestante() , 4D,0);
-                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getchargeRestante() , 24D,0);
+                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getChargeRestante() , 8D,0);
+                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getChargeRestante() , 12D,0);
+                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getChargeRestante() , 20D,0);
+                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getChargeRestante() , 4D,0);
+                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getChargeRestante() , 24D,0);
 
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();
@@ -1070,48 +1070,48 @@ public class ModelManagerTest {
     public void testCalculeCheminCritique() {
         running(fakeApplication(), ()-> {
             Tache tacheA = new Tache("Tache A","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,1),
-                    Utils.getDateFrom(2016,1,10),Utils.getDateFrom(2016,1,10),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,10),Utils.getDateFrom(2016,1,10),20D,0D,20D,null,null,null);
             tacheA.save();
 
             Tache tacheB = new Tache("Tache B","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,11),
-                    Utils.getDateFrom(2016,1,30),Utils.getDateFrom(2016,1,30),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,30),Utils.getDateFrom(2016,1,30),20D,0D,20D,null,null,null);
             tacheB.save();
             //tacheB.associerPredecesseur(tacheA);
             tacheA.associerSuccesseur(tacheB);
 
             Tache tacheC = new Tache("Tache C","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,31),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null,null);
             tacheC.save();
             //tacheC.associerPredecesseur(tacheB);
             tacheB.associerSuccesseur(tacheC);
 
             Tache tacheD = new Tache("Tache D","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,14),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,14),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null,null);
             tacheD.save();
             //tacheD.associerPredecesseur(tacheC);
             tacheC.associerSuccesseur(tacheD);
 
             Tache tacheE = new Tache("Tache E","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,15),
-                    Utils.getDateFrom(2016,3,5),Utils.getDateFrom(2016,3,5),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,3,5),Utils.getDateFrom(2016,3,5),20D,0D,20D,null,null,null);
             tacheE.save();
             //tacheE.associerPredecesseur(tacheD);
             tacheD.associerSuccesseur(tacheE);
 
             Tache tacheF = new Tache("Tache F","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,11),
-                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,9),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,9),20D,0D,20D,null,null,null);
             tacheF.save();
             //tacheF.associerPredecesseur(tacheA);
             tacheA.associerSuccesseur(tacheF);
 
             Tache tacheG = new Tache("Tache G","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null,null);
             tacheG.save();
             //tacheG.associerPredecesseur(tacheF);
             tacheF.associerSuccesseur(tacheG);
 
 
             Tache tacheH = new Tache("Tache H","Cette tâche permet de réaliser l'étude du projet.",0,true, Utils.getDateFrom(2016,1,11),
-                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null,null);
             tacheH.save();
             //tacheH.associerPredecesseur(tacheA);
             tacheA.associerSuccesseur(tacheH);
@@ -1189,42 +1189,42 @@ public class ModelManagerTest {
             //Structure des taches: tacheGrandParent{tacheParent1, tacheParent2}
             //Structure des taches: tacheParent1{tache1, tache2}
             Tache tacheA = new Tache("Tache A","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,1),
-                    Utils.getDateFrom(2016,1,10),Utils.getDateFrom(2016,1,10),20D,10D,20D,null,null);
+                    Utils.getDateFrom(2016,1,10),Utils.getDateFrom(2016,1,10),20D,10D,20D,null,null,null);
             tacheA.save();
 
             Tache tacheB = new Tache("Tache B","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,11),
-                    Utils.getDateFrom(2016,1,30),Utils.getDateFrom(2016,1,30),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,30),Utils.getDateFrom(2016,1,30),20D,0D,20D,null,null,null);
             tacheB.save();
             tacheA.associerSuccesseur(tacheB);
 
             Tache tacheC = new Tache("Tache C","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,31),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null,null);
             tacheC.save();
             tacheB.associerSuccesseur(tacheC);
 
             Tache tacheD = new Tache("Tache D","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,14),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,14),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null,null);
             tacheD.save();
             tacheC.associerSuccesseur(tacheD);
 
             Tache tacheE = new Tache("Tache E","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,15),
-                    Utils.getDateFrom(2016,3,5),Utils.getDateFrom(2016,3,5),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,3,5),Utils.getDateFrom(2016,3,5),20D,0D,20D,null,null,null);
             tacheE.save();
             tacheD.associerSuccesseur(tacheE);
 
             Tache tacheF = new Tache("Tache F","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,1,11),
-                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,9),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,9),20D,0D,20D,null,null,null);
             tacheF.save();
             tacheA.associerSuccesseur(tacheF);
 
             Tache tacheG = new Tache("Tache G","Cette tâche permet de réaliser l'étude du projet",0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null,null);
             tacheG.save();
             tacheF.associerSuccesseur(tacheG);
 
 
             Tache tacheH = new Tache("Tache H","Cette tâche permet de réaliser l'étude du projet.",0,true, Utils.getDateFrom(2016,1,11),
-                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null);
+                    Utils.getDateFrom(2016,1,25),Utils.getDateFrom(2016,2,14),20D,0D,20D,null,null,null);
             tacheH.save();
             tacheA.associerSuccesseur(tacheH);
 
