@@ -1123,7 +1123,7 @@
                                         $("#dataTables-admin-client").dataTable().fnDestroy();
                                         $(data).each(function(index, client) {
                                             var list ="";
-                                            list+=('<tr class="archived">');
+                                            list+=('<tr class="archived" value='+client.id+'>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.nom+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+
                                             client.adresseClient.adresse+", "+client.adresseClient.zipCode+", "+client.adresseClient.ville+", "+client.adresseClient.pays+
@@ -1165,7 +1165,7 @@
                                         $("#dataTables-admin-user").dataTable().fnDestroy();
                                         $(data).each(function(index, utilisateur) {
                                             var list ="";
-                                            list+=('<tr class="archived">');
+                                            list+=('<tr class="archived" value='+utilisateur.id+'>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.nom+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.prenom+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.email+'</td>');
