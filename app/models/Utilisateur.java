@@ -566,11 +566,6 @@ public class Utilisateur extends Personne {
         return res;
     }
 
-
-
-
-
-
     /**
      * Calcule le nombre de jours entre date1 et date2 : date2-date1
      * @param date1

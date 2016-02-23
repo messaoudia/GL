@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class Role extends Model {
 
     @Id
     @GeneratedValue
+    @Column(name = "role_id")
     public Long id;
 
     public String nomDuRole;
@@ -23,9 +25,8 @@ public class Role extends Model {
     public List<Permission> permissions;
 
     //TODO Rendre la relation ManyToMany est plus logique
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn
-    public Autorisation autorisation;
+    @ManyToMany(mappedBy = "roles")
+    public List<Autorisation> autorisations = new ArrayList<>();
 
 
     public static Model.Finder<Long, Role> find = new Model.Finder<>(Role.class);
@@ -48,10 +49,9 @@ public class Role extends Model {
 
     @Transactional
     public void addAutorisation(Autorisation autorisation) {
-        this.autorisation = autorisation;
+        this.autorisations.add(autorisation);
         autorisation.roles.add(this);
         autorisation.save();
-        this.autorisation.save();
         save();
     }
 

@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle: String , projet: models.Projet)
 
     @scripts = {
         <script>
@@ -82,24 +82,49 @@
                                 <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
 
                                     <div class="col-sm-4">
-                                        <h3 class="header-text">Projet : myProjects <div class="priorite">1</div></h3>
-                                        <h3 class="header-text">Client : PoPS5I Inc. <div class="priorite">2</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet"></i></a></h3>
-                                        <textarea readonly class="description" style="width: 100% ; height: 130px;">Le but étant de développer un site web permettant le suivi de projet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam. Sed dapibus est id enim facilisis, at posuere turpis adipiscing. Quisque sit amet dui dui.</textarea>
+                                        <h3 class="header-text">@Messages("project") : @projet.nom <div class="priorite">@projet.priorite</div></h3>
+                                        <h3 class="header-text">@Messages("client") : @projet.client.nom <div class="priorite">@projet.client.priorite</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet"></i></a></h3>
+                                        <textarea readonly class="description" style="width: 100% ; height: 130px;">@projet.description</textarea>
                                     </div>
 
                                     <div class="col-sm-3" id="">
-                                        <h3 class="header-text">Responsable projet : Julien Preisner</h3>
-                                        <h3 class="header-text">Avancement : 25%</h3>
-                                        <div class="row-initiale">Initiale : 50J</div>
-                                        <div class="row-restante">Restante : 30J</div>
-                                        <div class="progress progress-bar-default">
-                                                <!-- si 0% : color:black; -->
-                                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                60%
+                                        <h3 class="header-text">@Messages("projectPersonResponsible") : @projet.responsableProjet.prenom @projet.responsableProjet.nom</h3>
+                                        <h3 class="header-text">@Messages("progress") : @projet.avancementGlobal%</h3>
+                                        @if(projet.hasUniteJour) {
+                                            <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
+                                            <!-- TODO : restante et consomme  -->
+                                            <div class="row-restante">@Messages("remaining") : 30  @Messages("day-first-letter")</div>
+                                            <div class="progress progress-bar-default">
+                                                    <!-- si 0% : color:black; -->
+                                                @if(projet.avancementGlobal == 0){
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                        0%
+                                                    </div>
+                                                } else{
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                        @projet.avancementGlobal%
+                                                    </div>
+                                                }
                                             </div>
-                                        </div>
-                                        <p class="row-consommee">Consommée : 30J</p>
-
+                                            <p class="row-consommee">Consommée : 30  @Messages("day-first-letter")</p>
+                                        }else{
+                                            <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
+                                                <!-- TODO : restante et consomme  -->
+                                            <div class="row-restante">@Messages("remaining") : 30  @Messages("week-first-letter")</div>
+                                            <div class="progress progress-bar-default">
+                                                    <!-- si 0% : color:black; -->
+                                                @if(projet.avancementGlobal == 0){
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                        0%
+                                                    </div>
+                                                } else{
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                        @projet.avancementGlobal%
+                                                    </div>
+                                                }
+                                            </div>
+                                            <p class="row-consommee">Consommée : 30  @Messages("week-first-letter")</p>
+                                        }
                                     </div>
 
 
@@ -119,7 +144,7 @@
                                         <div class="row" id="date-header">
 
                                             <h3 class="header-text">
-                                                Dates théoriques
+                                                @Messages("theoreticalDate")
                                                 <table>
                                                     <tr>
                                                         <td></td>
@@ -128,35 +153,33 @@
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            Du <div class="date-projet-admin">14/10/2015</div>
+                                                            @Messages("fromDate") <div class="date-projet-admin">@projet.formateDate(projet.dateDebutTheorique)</div>
                                                         </td>
-                                                        <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
+                                                        <td style="padding-left: 3px ; padding-right: 3px ;">@Messages("untilDate")</td>
                                                         <td>
-                                                            <div class="date-projet-admin">01/02/2016</div>
+                                                            <div class="date-projet-admin">@projet.formateDate(projet.dateFinTheorique)</div>
                                                         </td>
                                                     </tr>
 
                                                 </table>
-                                                Dates effectives
+                                                @Messages("effectiveDates")
                                                 <table>
                                                     <tr>
                                                         <td>
-                                                            Du <div class="date-projet-admin">14/10/2015</div>
+                                                            @Messages("fromDate") <div class="date-projet-admin">@projet.formateDate(projet.dateDebutReel)</div>
                                                         </td>
-                                                        <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
+                                                        <td style="padding-left: 3px ; padding-right: 3px ;">@Messages("untilDate")</td>
                                                         <td>
-                                                            <div class="date-projet-admin">01/02/2016</div>
+                                                            <div class="date-projet-admin">@projet.formateDate(projet.dateFinReelTot)</div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td></td>
                                                         <td></td>
                                                         <td>
-                                                            <div class="date-projet-admin">05/02/2016</div>
+                                                            <div class="date-projet-admin">@projet.formateDate(projet.dateFinReelTard)</div>
                                                         </td>
                                                     </tr>
-
-
                                                 </table>
                                             </h3>
                                         </div>
@@ -180,8 +203,8 @@
                                         <div class="modal-body">
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                                             <div class="div-center">
-                                                <h3>PoP5SI Inc.</h3>
-                                                <h5>12 route du Vélodrome - 13000 Marseille (France)</h5>
+                                                <h3>@projet.client.nom</h3>
+                                                <h5>@projet.client.adresseClient</h5>
                                                 <div class="table-responsive table-responsive-client">
                                                     <table class="datatable-consulterClient table table-striped table-bordered table-hover">
                                                         <thead>
@@ -193,24 +216,15 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+
                                                             <tr class="table-center">
-                                                                <td style="vertical-align:middle;">Guimard</td>
+                                                                <td style="vertical-align:middle ;">Bite</td>
                                                                 <td style="vertical-align:middle ;">Valérie</td>
-                                                                <td style="vertical-align:middle ;">valérie.guimard&commat;u-psud.fr</td>
+                                                                <td style="vertical-align:middle ;">valérie.guimard&commat;
+                                                                    u-psud.fr</td>
                                                                 <td style="vertical-align:middle ;">0123456789</td>
                                                             </tr>
-                                                            <tr class="table-center">
-                                                                <td style="vertical-align:middle;">Voisin</td>
-                                                                <td style="vertical-align:middle ;">Frédéric</td>
-                                                                <td style="vertical-align:middle ;">f.v&commat;u-psud.fr</td>
-                                                                <td style="vertical-align:middle ;">0123456789</td>
-                                                            </tr>
-                                                            <tr class="table-center">
-                                                                <td style="vertical-align:middle;">Zidane</td>
-                                                                <td style="vertical-align:middle ;">Zinédine</td>
-                                                                <td style="vertical-align:middle ;">z.z&commat;u-psud.fr</td>
-                                                                <td style="vertical-align:middle ;">0123456189</td>
-                                                            </tr>
+
                                                         </tbody>
                                                     </table>
                                                 </div>

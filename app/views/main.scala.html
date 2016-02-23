@@ -163,6 +163,9 @@
         <script>
                 $requestUtilisateursArchives = false;
                 $requestClientsArchives = false;
+                $requestProjetsTermines = false;
+                $requestProjetsArchives = false;
+                var $tmpTr;
                 $(document).ready(function () {
 
                     $('#sidebar-back-select').click(function(){
@@ -486,10 +489,6 @@
                 });
 
                 $( document ).ajaxComplete(function() {
-
-                    $('#sidebar-back-select').click(function(){
-                        alert("JS : #sidebar-back-select");
-                    })
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -1110,6 +1109,37 @@
                         });
                     });
 
+                    $('#dataTables-admin-projet tr td:last-child').click(function(){
+                        $('#modal-projet-admin-nom-projet').html($(this).parent('tr').find("td:first-child").text());
+                        $trTmp = $(this).parent('tr');
+                    });
+
+                    $('#button-admin-projet').click(function(){
+                        var $value = $trTmp.attr('value');
+
+                        jsRoutes.controllers.AdminController.supprimerProjet($value).ajax({
+                            success: function(html) {
+                                $('#dataTables-admin-projet').dataTable().fnDestroy();
+                                $trTmp.remove();
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
+
+                    $('#sidebar-back-select').click(function(){
+                        jsRoutes.controllers.AdminController.afficherAdminProjets().ajax({
+                            success: function(html) {
+                                var result = $('#refresh',html);
+                                $('#refresh').empty().html(result);
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    });
+
                 });
 
                 /* Afficher les Clients archivés */
@@ -1193,10 +1223,174 @@
                             $('.archived').hide();
                         }
                     });
+                }
+
+                function reverse(string){
+                    var res =  string.split('/');
+                    var final = res[2] + '/' + res[1] + '/' + res[0];
+                    return final;
+                }
+                //TODO : changer pour la partie consommee
+                function projetTermines(){
+                    $('#checkbox-projet-admin-projets-termines').change(function() {
+                        if($(this).is(":checked")) {
+                           /* var str;
+                            if($('#checkbox-projet-admin-projets-archives').is(":checked")) {
+                                str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(true)";
+                                $requestProjetsTermines = false;
+                            }else{
+                                str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(false)";
+                                $requestProjetsTermines = false;
+                            }*/
+                            var str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(false)";
+                            if(!$requestProjetsTermines){
+                                eval(str).ajax({
+                                    success : function(data) {
+                                        alert(data);
+                                        var projetList = $('#dataTables-admin-projet-body');
+                                        $("#dataTables-admin-projet").dataTable().fnDestroy();
+                                        $(data).each(function(index, projet) {
+                                            var list ="";
+                                            list+=('<tr class="table-center cursor-pointer projetTermines" value="'+projet.id+'">');
+                                            list+=('<td style="vertical-align:middle ;">'+projet.nom+'</td>');
+                                            list+=('<td style="vertical-align:middle ;">'+projet.client.nom+'</td>');
+                                            list+=('<td style="vertical-align:middle ;">'+projet.dateDebutReel+'</td>');
+                                            list+=('<td style="vertical-align:middle ;"> <p style="display:none ;">'+reverse(projet.dateFinReelTot)+'</p>'
+                                            +'<p>'+projet.dateFinReelTot+'</p>'
+                                            +'<p>'+projet.dateFinReelTard+'</p>')
+                                            if(projet.archive){
+                                                list+=('<td style="vertical-align:middle;">@Messages("yes")</td>');
+                                            }else{
+                                                list+=('<td style="vertical-align:middle;">@Messages("no")</td>');
+                                            }
+                                            if(projet.unite == "JOUR"){
+                                                list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
+                                                '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
+                                                '<p class="row-initiale">@Messages("initial") :'+
+                                                projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                ' @Messages("day-first-letter")</p>');
+                                                list+=('<div class="progress progress-bar-default">');
+                                                if(projet.avancementGlobal == 0){
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;"> 0% </div>');
+                                                }else{
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
+                                                }
+                                                list+=('</div>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("day-first-letter") </p>');
+                                                list+=('</td>');
+                                            }else if(projet.unite == "SEMAINE"){
+                                                list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
+                                                '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
+                                                '<p class="row-initiale">@Messages("initial") :'+
+                                                projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                ' @Messages("week-first-letter")</p>');
+                                                list+=('<div class="progress progress-bar-default">');
+                                                if(projet.avancementGlobal == 0){
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;"> 0% </div>');
+                                                }else{
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
+                                                }
+                                                list+=('</div>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("week-first-letter") </p>');
+                                                list+=('</td>');
+                                            }
+                                            list+=('<td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>');
+                                            list+=('</tr>');
+                                            projetList.append(list);
+                                        });
+                                    }
+                                });
+                                $requestProjetsTermines = true;
+                            }else{
+                                $('.projetTermines').show();
+                            }
+                        } else {
+
+                            $('.projetTermines').hide();
+                        }
+                    });
 
 
                 }
 
+                function projetArchives(){
+                    $('#checkbox-projet-admin-projets-archives').change(function() {
+                        if($(this).is(":checked")) {
+                            /*var str;
+                            if($('#checkbox-projet-admin-projets-termines').is(":checked")) {
+                                str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(true)";
+                                $requestProjetsArchives = false;
+                            }else{
+                                str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(false)";
+                                $requestProjetsArchives = false;
+                            }*/
+                            var str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(false)";
+                            if(!$requestProjetsArchives){
+                                jsRoutes.controllers.AdminController.afficherProjetsArchives(false).ajax({
+                                    success : function(data) {
+                                        alert(data);
+                                        var projetList = $('#dataTables-admin-projet-body');
+                                        $("#dataTables-admin-projet").dataTable().fnDestroy();
+                                        $(data).each(function(index, projet) {
+                                            var list ="";
+                                            list+=('<tr class="table-center cursor-pointer projetArchives" value="'+projet.id+'">');
+                                            list+=('<td style="vertical-align:middle ;">'+projet.nom+'</td>');
+                                            list+=('<td style="vertical-align:middle ;">'+projet.client.nom+'</td>');
+                                            list+=('<td style="vertical-align:middle ;">'+projet.dateDebutReel+'</td>');
+                                            list+=('<td style="vertical-align:middle ;"> <p style="display:none ;">'+reverse(projet.dateFinReelTot)+'</p>'
+                                            +'<p>'+projet.dateFinReelTot+'</p>'
+                                            +'<p>'+projet.dateFinReelTard+'</p>')
+                                            if(projet.archive){
+                                                list+=('<td style="vertical-align:middle;">@Messages("yes")</td>');
+                                            }else{
+                                                list+=('<td style="vertical-align:middle;">@Messages("no")</td>');
+                                            }
+                                            if(projet.unite == "JOUR"){
+                                                list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
+                                                '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
+                                                '<p class="row-initiale">@Messages("initial") :'+
+                                                projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                ' @Messages("day-first-letter")</p>');
+                                                list+=('<div class="progress progress-bar-default">');
+                                                if(projet.avancementGlobal == 0){
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;"> 0% </div>');
+                                                }else{
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
+                                                }
+                                                list+=('</div>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("day-first-letter") </p>');
+                                                list+=('</td>');
+                                            }else if(projet.unite == "SEMAINE"){
+                                                list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
+                                                '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
+                                                '<p class="row-initiale">@Messages("initial") :'+
+                                                projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                ' @Messages("week-first-letter")</p>');
+                                                list+=('<div class="progress progress-bar-default">');
+                                                if(projet.avancementGlobal == 0){
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;"> 0% </div>');
+                                                }else{
+                                                    list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
+                                                }
+                                                list+=('</div>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("week-first-letter") </p>');
+                                                list+=('</td>');
+                                            }
+                                            list+=('<td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>');
+                                            list+=('</tr>');
+                                            projetList.append(list);
+                                        });
+                                    }
+                                });
+                                $requestProjetsArchives = true;
+                            }else{
+                                $('.projetArchives').show();
+                            }
+                        } else {
+                            $('.projetArchives').hide();
+                        }
+                    });
+                }
         </script>
     </body>
 </html>

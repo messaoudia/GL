@@ -54,7 +54,7 @@
                         <div class="row row-options-admin-projet">
                             <div class="col-sm-3">
                                 <div class="checkbox checkbox-success checkbox-circle">
-                                    <input id="checkbox-projet-admin-projets-termines" type="checkbox">
+                                    <input id="checkbox-projet-admin-projets-termines" type="checkbox" onclick="projetTermines()">
                                     <label for="checkbox-projet-admin-projets-termines">
                                     @Messages("completedProjects")
                                     </label>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="checkbox checkbox-success checkbox-circle">
-                                    <input id="checkbox-projet-admin-projets-archives" type="checkbox">
+                                    <input id="checkbox-projet-admin-projets-archives" type="checkbox" onclick="projetArchives()">
                                     <label for="checkbox-projet-admin-projets-archives">
                                     @Messages("archivedProjects")
                                     </label>
@@ -84,7 +84,6 @@
                                 </thead>
                                 <tbody id="dataTables-admin-projet-body">
                                 @for(projet <- projets) {
-
                                     <tr class="table-center cursor-pointer" value="@projet.id">
                                         <td style="vertical-align:middle ;">
                                         @projet.nom
@@ -151,12 +150,13 @@
                                             }
                                         }
 
-                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                                        <td id=25" class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
                                     </tr>
                                 }
                                 </tbody>
                             </table>
                         </div>
+
                         <div class="modal fade" id="modal-confirmation-suppr-projet-admin" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
@@ -165,10 +165,12 @@
                                         <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>@Messages("projectDeleteMessage") : (nom du projet) ?</p>
+                                        <p>@Messages("projectDeleteMessage") : </p>
+                                        <p id="modal-projet-admin-nom-projet">  </p>
+                                        <p> ? </p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                        <button id="button-admin-projet" type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
                                         <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
                                     </div>
                                 </div>
