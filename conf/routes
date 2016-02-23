@@ -56,4 +56,7 @@ POST        /ajouterProjet             controllers.ProjetController.ajouterProje
 #view notification
 GET         /notifications             controllers.NotificationController.afficherNotifications
 
-POST        /adminProjetSelect          controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
+POST        /adminProjetSelect         controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
+POST        /adminProjetTermine        controllers.AdminController.afficherProjetsTermines(check:Boolean)
+POST        /adminProjetArchives       controllers.AdminController.afficherProjetsArchives(check:Boolean)
+POST        /adminProjetSupprimer      controllers.AdminController.supprimerProjet(idProjet:Long)

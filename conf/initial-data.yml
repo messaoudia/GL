@@ -264,7 +264,7 @@ projets:
 
 - &projet2 !!models.Projet
     id:                 16
-    nom:                Projet de test
+    nom:                Projet de test CACA BOUDIN
     description:        Ceci est un projet de test
     responsableProjet:        *utilisateur2
     dateDebutTheorique: 2016-02-12
@@ -293,7 +293,7 @@ projets:
     chargeInitiale:     3
     avancementGlobal:   0
     enCours:            false
-    archive:            false
+    archive:            true
     client:             *client2
     priorite:           2
     unite:              JOUR

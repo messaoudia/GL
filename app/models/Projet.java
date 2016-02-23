@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
@@ -34,15 +35,21 @@ public class Projet extends EntiteSecurise {
     @JoinColumn
     public Utilisateur responsableProjet;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutTheorique;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinTheorique;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutReel;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinReelTot;
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinReelTard;
 
@@ -471,9 +478,29 @@ public class Projet extends EntiteSecurise {
                 .findList();
     }
 
-    public static List<Projet> getAllArchives(){
-        return find.where().eq("archive",true).findList();
+    public static List<Projet> getAllArchives(Boolean check){
+        if(check){
+            return find.where().eq("archive",true).eq("enCours",true).findList();
+        }else{
+            return find.where().eq("archive",true).findList();
+        }
     }
+
+    public static List<Projet> getAllTermines(Boolean check){
+        if(check){
+            return find.where().eq("enCours",false).eq("archive",false).findList();
+        }else{
+            return find.where().eq("enCours",false).findList();
+        }
+    }
+
+    public static void supprimerPorjet(Long idProjet){
+         Projet p = find.byId(idProjet);
+         p.archive = true;
+         p.save();
+    }
+
+
 
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
     public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }

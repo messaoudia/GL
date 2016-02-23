@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Client;
+import models.Projet;
 import play.Logger;
 import play.libs.Json;
 import play.data.Form;
