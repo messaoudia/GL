@@ -103,7 +103,7 @@
                                     </div>
                                     <div id="taches-proches" class="panel-body panel-body-tdb" style="color:black ;">
                                         @if(utilisateur.nbTachesPresquesFinies() == 0){
-                                            <p>@Messages("noAlmostFinishedTask")</p>
+                                            <p>@Messages("noTaskToFinishShortly")</p>
                                         } else {
                                             @for( tache <- utilisateur.tachesPresquesFinies()) {
                                                 <p>- @tache.nom</p>

@@ -139,5 +139,5 @@ addProject = Create a project
 addClient = Create a client
 cancel = Cancel
 noDelayedTask = No delayed task
-noAlmostFinishedTask = No almost finished task
+noTaskToFinishShortly = No task to finish shortly
 noneProposedTask = None proposed task

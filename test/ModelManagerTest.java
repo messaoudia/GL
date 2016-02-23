@@ -1026,21 +1026,21 @@ public class ModelManagerTest {
 
                 //Charge consommee: tacheGrandParent=11, tacheParent1=7, tacheParent2=4, tache1=2 et tache2=5
                 //Charge restante : tacheGrandParent= 0, tacheParent1=0, tacheParent2=0, tache1=0 et tache2=0
-                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getchargeRestante(),2D,0);
-                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getchargeRestante() , 5D,0);
-                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getchargeRestante() , 7D,0);
-                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getchargeRestante() , 4D,0);
-                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getchargeRestante() , 11D,0);
+                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getChargeRestante(),2D,0);
+                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getChargeRestante() , 5D,0);
+                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getChargeRestante() , 7D,0);
+                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getChargeRestante() , 4D,0);
+                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getChargeRestante() , 11D,0);
 
                 tache2.setchargeRestante(7D);
 
                 //Charge consommee: tacheGrandParent=11, tacheParent1=7, tacheParent2=4, tache1=2 et tache2=5
                 //Charge restante : tacheGrandParent= 7, tacheParent1=7, tacheParent2=0, tache1=0 et tache2=7
-                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getchargeRestante() , 2D,0);
-                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getchargeRestante() , 12D,0);
-                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getchargeRestante() , 14D,0);
-                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getchargeRestante() , 4D,0);
-                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getchargeRestante() , 18D,0);
+                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getChargeRestante() , 2D,0);
+                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getChargeRestante() , 12D,0);
+                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getChargeRestante() , 14D,0);
+                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getChargeRestante() , 4D,0);
+                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getChargeRestante() , 18D,0);
 
                 tache1.modifierCharge(3D, 5D);
 
@@ -1054,11 +1054,11 @@ public class ModelManagerTest {
 
                 //Charge consommee: tacheGrandParent=12, tacheParent1= 8, tacheParent2=4, tache1=3 et tache2=5
                 //Charge restante : tacheGrandParent=12, tacheParent1=12, tacheParent2=0, tache1=5 et tache2=7
-                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getchargeRestante() , 8D,0);
-                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getchargeRestante() , 12D,0);
-                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getchargeRestante() , 20D,0);
-                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getchargeRestante() , 4D,0);
-                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getchargeRestante() , 24D,0);
+                assertEquals(Tache.find.byId(tache1.id).getChargeConsommee() + Tache.find.byId(tache1.id).getChargeRestante() , 8D,0);
+                assertEquals(Tache.find.byId(tache2.id).getChargeConsommee() + Tache.find.byId(tache2.id).getChargeRestante() , 12D,0);
+                assertEquals(Tache.find.byId(tacheParent1.id).getChargeConsommee() + Tache.find.byId(tacheParent1.id).getChargeRestante() , 20D,0);
+                assertEquals(Tache.find.byId(tacheParent2.id).getChargeConsommee() + Tache.find.byId(tacheParent2.id).getChargeRestante() , 4D,0);
+                assertEquals(Tache.find.byId(tacheGrandParent.id).getChargeConsommee() + Tache.find.byId(tacheGrandParent.id).getChargeRestante() , 24D,0);
 
             } catch (NotAvailableTask notAvailableTask) {
                 notAvailableTask.printStackTrace();

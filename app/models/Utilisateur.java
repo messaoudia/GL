@@ -37,6 +37,9 @@ public class Utilisateur extends Personne {
     @JoinTable(name = "Tache")
     private List<Tache> listTaches;
 
+    // TODO @qqch?
+    List<Object> listObjetsNotifications;
+
     //TODO Make connection to the database to check the authentication
     public String validate() {
         if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
@@ -47,14 +50,15 @@ public class Utilisateur extends Personne {
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches) {
+    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches, List<Object> listObjetsNotifications) {
         super(nom, prenom, email, telephone,archive);
         setPassword(password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
+        this.listObjetsNotifications = (listObjetsNotifications == null)?new BeanList<>():listObjetsNotifications;
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone,archive,password,null);
+        this(nom, prenom, email, telephone,archive,password,null, null);
     }
 
     public Utilisateur() {
@@ -146,6 +150,8 @@ public class Utilisateur extends Personne {
     public int listTachesSize(){
         return listTaches().size();
     }
+
+    // TODO getListObjetsNotifications
 
     /**
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur

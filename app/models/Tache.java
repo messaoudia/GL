@@ -66,9 +66,12 @@ public class Tache extends EntiteSecurise {
     @ManyToOne(cascade = CascadeType.ALL)
     public Utilisateur responsableTache;
 
+    // TODO @qqch?
+    public List<Utilisateur> utilisateursNotifications;
+
     public Tache(String idTache, String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
-                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet) {
+                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, List<Utilisateur> utilisateursNotifications) {
         this.idTache = idTache;
         this.nom = nom;
         this.description = description;
@@ -85,6 +88,7 @@ public class Tache extends EntiteSecurise {
         this.enfants = new BeanList<>();
         this.projet = projet;
         this.archive = false;
+        this.utilisateursNotifications = utilisateursNotifications;
     }
 
     public Tache() {
@@ -92,19 +96,52 @@ public class Tache extends EntiteSecurise {
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
         this.archive = false;
+        this.utilisateursNotifications = new BeanList<>();
     }
 
     /**
      * Create a tache
      */
     public static Tache create(Tache tache) {
+        // Initialisation des personnes a notifié par défaut à la création de la tache
+        addUtilisateurNotification(tache, tache.responsableTache);
+        initUtilisateursNotificationsEnfants(tache);
+        initUtilisateursNotificationsParents(tache);
         tache.save();
         return tache;
     }
 
-    /**
-     * Create a task
-     */
+    private static void initUtilisateursNotificationsEnfants(Tache tache){
+        for(Tache child : tache.enfants){
+            addUtilisateurNotification(tache, child.responsableTache);
+            addUtilisateurNotification(child, tache.responsableTache);
+            initUtilisateursNotificationsEnfants(child);
+        }
+    }
+
+    private static void initUtilisateursNotificationsParents(Tache tache){
+        if(tache.hasParent()){
+            addUtilisateurNotification(tache, tache.parent.responsableTache);
+            addUtilisateurNotification(tache.parent, tache.responsableTache);
+            initUtilisateursNotificationsParents(tache.parent);
+        }
+    }
+
+    private static void addUtilisateurNotification(Tache tache, Utilisateur user){
+        if(!tache.utilisateursNotifications.contains(user))
+            tache.utilisateursNotifications.add(user);
+        if(!user.listObjetsNotifications.contains(tache))
+            user.listObjetsNotifications.add(tache);
+    }
+
+    private static void removeUtilisateurNotification(Tache tache, Utilisateur user){
+        if(!tache.utilisateursNotifications.contains(user))
+            tache.utilisateursNotifications.remove(user);
+        if(!user.listObjetsNotifications.contains(tache))
+            user.listObjetsNotifications.remove(tache);
+    }
+
+
     public static List<Tache> getAll() {
         return find.all();
     }
@@ -142,6 +179,8 @@ public class Tache extends EntiteSecurise {
         return find.where().eq("parent", this).findList();
     }
 
+    // TODO : getUtilisateursNotifies
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -165,7 +204,7 @@ public class Tache extends EntiteSecurise {
     }
 
     @JsonIgnore
-    public Double getchargeRestante() {
+    public Double getChargeRestante() {
         return this.chargeRestante;
     }
 

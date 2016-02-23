@@ -10,7 +10,6 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -409,7 +408,7 @@ public class Projet extends EntiteSecurise {
         for(Tache tache : listTaches){
             if(!tache.hasParent()) {
                 chargeConsommeeGlobal += tache.getChargeConsommee();
-                chargeRestanteGlobal += tache.getchargeRestante();
+                chargeRestanteGlobal += tache.getChargeRestante();
             }
         }
         if(listTaches.size() != 0){
@@ -449,7 +448,7 @@ public class Projet extends EntiteSecurise {
             for (Tache tache : listTaches) {
                 if (!tache.hasParent()) {
                     chargeConsommeeGlobal += tache.getChargeConsommee();
-                    chargeRestanteGlobal+= tache.getchargeRestante();
+                    chargeRestanteGlobal+= tache.getChargeRestante();
                 }
             }
             map.put("restante",chargeRestanteGlobal);
