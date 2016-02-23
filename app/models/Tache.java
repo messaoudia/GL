@@ -17,6 +17,8 @@ import java.util.List;
 @DiscriminatorValue("TACHE")
 public class Tache extends EntiteSecurise {
 
+    public static int NIVEAU_MAX = 3;
+
     public String idTache;
     @Constraints.Required
     public String nom;
@@ -270,9 +272,6 @@ public class Tache extends EntiteSecurise {
         if (this.enfants.contains(fille)) {
             throw new IllegalStateException("Il y a deja cette tache enfant pour cette tache");
         }
-        fille.niveau = this.niveau + 1;
-        fille.associerTacheMere(this);
-        fille.idTache = this.idTache + "." + this.enfants.size() + 1;
         enfants.add(fille);
         save();
     }

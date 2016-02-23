@@ -147,73 +147,252 @@ public class Projet extends EntiteSecurise {
         return sb.toString();
     }
 
-    /**
+    /** !!! A NE JAMAIS APPELER DANS LES PAGES HTML !!!
      * Ajouter la tache en parametre a la liste des taches du projet
      * @param tache
      */
     @Transient
-    public void ajouterTache(Tache tache) throws IllegalArgumentException {
-        if (listTaches.contains(tache)) {
-            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
-                    ", creation impossible");
+    private void ajouterTache(Tache tache) throws IllegalArgumentException {
+
+        // Met a jour le parent
+        if(tache.hasParent()){
+            if(tache.parent.enfants == null)
+                tache.parent.enfants = new BeanList<>();
+
+            if(!tache.parent.enfants.contains(tache)){
+                tache.parent.enfants.add(tache);
+                tache.parent.save();
+            }
+        }
+
+        // Met a jour les enfants
+        if(tache.enfants != null && !tache.enfants.isEmpty()){
+            for(Tache enfant : tache.enfants){
+                enfant.parent = tache;
+                enfant.save();
+            }
+        }
+
+        // Met a jour le prédécesseur
+        if(tache.hasPredecesseur()){
+            if(tache.predecesseur.successeurs == null)
+                tache.predecesseur.successeurs = new BeanList<>();
+
+            if(!tache.predecesseur.successeurs.contains(tache)){
+                tache.predecesseur.successeurs.add(tache);
+                tache.predecesseur.save();
+            }
+        }
+        // Met a jour les successeur
+        if(tache.hasSuccesseur()){
+            for(Tache successeur : tache.successeurs){
+                successeur.predecesseur = tache;
+                successeur.save();
+            }
         }
         tache.projet = this;
         tache.save();
         listTaches.add(tache);
-        save();
-
-    }
-
-    /**
-     * Inserer tacheAvant avant la tacheApres
-     * @param tacheAvant
-     * @param tacheApres
-     * @throws IllegalArgumentException
-     */
-    public void insererTacheAvant(Tache tacheAvant, Tache tacheApres) throws IllegalArgumentException{
-        if(!listTaches.contains(tacheApres)){
-            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheApres.nom);
-        }
-        ajouterTache(tacheAvant);
-        if(tacheApres.predecesseur!= null) {
-            Tache tacheA = tacheApres.predecesseur;
-            tacheA.successeurs.remove(tacheApres);
-            tacheA.associerSuccesseur(tacheAvant);
-            tacheA.save();
-        }
-        tacheAvant.associerSuccesseur(tacheApres);
+        // TODO : mettre a jour les charges des taches meres
+        // TODO : mettre a jour les charges du projet + avancement + chemin critique
         save();
     }
 
     /**
-     * Insérer la tache tacheApres après la tache tacheAvant
-     * @param tacheAvant
-     * @param tacheApres
+     * Méthode uniquement appelée lorsque le projet n'a aucune tâche
+     * @param tache
      * @throws IllegalArgumentException
      */
-    public void insererTacheApres(Tache tacheAvant, Tache tacheApres) throws IllegalArgumentException{
-        if(!listTaches.contains(tacheAvant)){
-            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheAvant.nom);
+    public void creerTacheInitialisationProjet(Tache tache) throws IllegalArgumentException {
+        if (listTaches.contains(tache)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
+                    ", creation impossible");
         }
-        ajouterTache(tacheApres);
-        tacheAvant.associerSuccesseur(tacheApres);
+        tache.idTache = "1";
+        tache.niveau = 0;
+        tache.parent = null;
+        tache.enfants = new BeanList<>();
+        ajouterTache(tache);
+    }
+
+    /**
+     * A appeler quand on fait Créer une tache au dessus
+     * @param tache
+     * @param tacheDejaInseree
+     * @throws IllegalArgumentException
+     */
+    public void creerTacheAuDessus(Tache tache, Tache tacheDejaInseree) throws IllegalArgumentException{
+        // Vérifications initiales
+        if(!listTaches.contains(tacheDejaInseree)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheDejaInseree.nom);
+        }
+        if (listTaches.contains(tache)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
+                    ", creation impossible");
+        }
+
+        // Même niveau et parent que la tache en dessous
+        tache.niveau = tacheDejaInseree.niveau;
+        tache.parent = (tacheDejaInseree.parent == null)?null:tacheDejaInseree.parent;
+
+        // Pas d'enfant
+        tache.enfants = new BeanList<>();
+
+        // Id de la tache est l'id de la tache qui va etre en dessous. Modification des id des autres taches ci-dessous
+        tache.idTache = tacheDejaInseree.idTache;
+
+        // Modification de l'id des autres taches
+
+        String[] idTacheParse = tache.idTache.split("\\.");
+        int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
+
+        for(Tache tacheDuProjet : listTaches){
+            if(!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau){
+                // On parse l'id(=A.B.C.D) pour avoir A, B, C et D
+                String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
+                int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
+
+                // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >=
+                // (car il faut modifier aussi tacheDejaInseree qui a le meme id)
+                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger){
+                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger+1, tache.niveau);
+                    tacheDuProjet.save();
+                }
+            }
+        }
+
+        ajouterTache(tache);
+        save();
+    }
+
+
+    /**
+     * A appeler quand on fait Créer une tache en dessous
+     * @param tache
+     * @param tacheDejaInseree
+     * @throws IllegalArgumentException
+     */
+    public void creerTacheEnDessous(Tache tache, Tache tacheDejaInseree) throws IllegalArgumentException{
+        // Vérifications initiales
+        if(!listTaches.contains(tacheDejaInseree)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheDejaInseree.nom);
+        }
+        if (listTaches.contains(tache)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
+                    ", creation impossible");
+        }
+
+        // Même niveau et parent que la tache en dessous
+        tache.niveau = tacheDejaInseree.niveau;
+        tache.parent = (tacheDejaInseree.parent == null)?null:tacheDejaInseree.parent;
+
+        // Pas d'enfant
+        tache.enfants = new BeanList<>();
+
+        // Id de la tache est l'id de la tache qui va etre au dessus +1. Modification des id des autres taches ci-dessous
+        tache.idTache = tacheDejaInseree.idTache;
+        String[] idTacheParse = tache.idTache.split("\\.");
+        int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
+        // Modification de idTache
+        idTacheInteger++;
+        // Mise a jour de idTacheParse
+        idTacheParse[tache.niveau] = "" + idTacheInteger;
+        // Reconstitution de idTache - TODO A VERIFIER !
+        tache.idTache = reconstituerIdTache(idTacheParse, idTacheInteger, tache.niveau);
+
+        // Modification de l'id des autres taches
+        for(Tache tacheDuProjet : listTaches){
+            if(!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau){
+                // On parse l'id(=A.B.C.D) pour avoir A, B, C et D
+                String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
+                int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
+
+                // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >
+                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger > idTacheInteger){
+                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger+1, tache.niveau);
+                    tacheDuProjet.save();
+                }
+            }
+        }
+        ajouterTache(tache);
         save();
     }
 
     /**
-     * Insérer la tache tacheApres après la tache tacheAvant
-     * @param tacheMere
-     * @param tacheFille
+     * Créer une sous-tâche à la tache parent
+     * @param tache
+     * @param parent
      * @throws IllegalArgumentException
      */
-    public void insererTacheFille(Tache tacheMere, Tache tacheFille) throws IllegalArgumentException{
-        if(!listTaches.contains(tacheMere)){
-            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheMere.nom);
+    public void creerSousTache(Tache tache, Tache parent) throws IllegalArgumentException{
+        // Vérifications initiales
+        if(parent.niveau > Tache.NIVEAU_MAX){
+            throw new IllegalArgumentException("La tache " + parent.nom +
+                    " ne peut pas avoir de sous-tâche car elle est déjà au niveau de profondeur maximum ("+Tache.NIVEAU_MAX + ")");
         }
-        ajouterTache(tacheFille);
-        tacheMere.associerSousTache(tacheFille);
+        if(!listTaches.contains(parent)){
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+parent.nom);
+        }
+        if (listTaches.contains(tache)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
+                    ", creation impossible");
+        }
+
+        // Même niveau et parent que la tache en dessous
+        tache.niveau = parent.niveau+1;
+
+        // Parent est le parent de la tache. Mise a jour de la liste des enfants de 'parent' dans la methode 'ajouterTache'
+        tache.parent = parent;
+
+        // Pas d'enfant
+        tache.enfants = new BeanList<>();
+
+        // Si le parent a l'id 'A.B.C', alors tache a l'id 'A.B.C.1'
+        tache.idTache = parent.idTache + ".1";
+
+        ajouterTache(tache);
         save();
     }
+
+    /**
+     * Vérifie si deux taches ont le meme prefixe pour leur idTache
+     * @param idTacheDuProjetParse
+     * @param idTacheParse
+     * @param niveau
+     * @return
+     */
+    private boolean samePrefix(String[] idTacheDuProjetParse, String[] idTacheParse, int niveau){
+        // Condition pour faire le changement : il faut que ce qui précède l'id à l'indice niveau soit égal
+        for(int i=0; i<niveau; i++){
+            if(idTacheDuProjetParse[i].equals(idTacheParse[i]))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Reconstitue idTache d'une tache en modifiant a l'indice niveau par newIdTacheInteger
+     * @param idTacheParse
+     * @param newIdTache
+     * @param niveau
+     * @return
+     */
+    private String reconstituerIdTache(String[] idTacheParse, int newIdTache, int niveau){
+        String idTache = "";
+        // Même debut entre 0 et niveau-1
+        for(int i=0; i<niveau; i++){
+            idTache += idTacheParse[i] + ".";
+        }
+        // Modification a l'indice niveau
+        idTache += newIdTache + ".";
+
+        // Meme fin entre niveau+1 et fin
+        for(int i=niveau+1; i<=3; i++){
+            idTache += idTacheParse[i] + ".";
+        }
+        return idTache.substring(0, idTache.length()-1);
+    }
+
 
     /**
      * TODO testme
