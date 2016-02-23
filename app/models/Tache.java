@@ -245,10 +245,15 @@ public class Tache extends EntiteSecurise {
         }
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
+        updateChargesTachesMeresEtProjet();
+    }
+
+    public void updateChargesTachesMeresEtProjet(){
         updateChargeConsommeeTacheRecursive(this);
         updateChargeRestanteTacheRecursive(this);
-        updateAvancementTache();
         projet.updateAvancementGlobal(); // met a jour les charges du projet
+        save();
+        projet.save();
     }
 
     /**

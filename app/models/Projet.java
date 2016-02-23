@@ -157,9 +157,11 @@ public class Projet extends EntiteSecurise {
     /** !!! A NE JAMAIS APPELER DANS LES PAGES HTML !!!
      * Ajouter la tache en parametre a la liste des taches du projet
      * @param tache
+     * @param tache
+     * @throws Exception
      */
     @Transient
-    private void ajouterTache(Tache tache) throws IllegalArgumentException {
+    private void ajouterTache(Tache tache) throws Exception {
 
         // Met a jour le parent
         if(tache.hasParent()){
@@ -200,17 +202,21 @@ public class Projet extends EntiteSecurise {
         tache.projet = this;
         tache.save();
         listTaches.add(tache);
-        // TODO : mettre a jour les charges des taches meres
-        // TODO : mettre a jour les charges du projet + avancement + chemin critique
+        // TODO : mettre a jour les charges des taches meres -> a checker
+        tache.modifierCharge(0.0, tache.chargeInitiale);
+        // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
+        updateAvancementGlobal();
+        calculeCheminCritique();
+
         save();
     }
 
     /**
      * Méthode uniquement appelée lorsque le projet n'a aucune tâche
      * @param tache
-     * @throws IllegalArgumentException
+     * @throws Exception
      */
-    public void creerTacheInitialisationProjet(Tache tache) throws IllegalArgumentException {
+    public void creerTacheInitialisationProjet(Tache tache) throws Exception {
         if (listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
                     ", creation impossible");
@@ -226,9 +232,9 @@ public class Projet extends EntiteSecurise {
      * A appeler quand on fait Créer une tache au dessus
      * @param tache
      * @param tacheDejaInseree
-     * @throws IllegalArgumentException
+     * @throws Exception
      */
-    public void creerTacheAuDessus(Tache tache, Tache tacheDejaInseree) throws IllegalArgumentException{
+    public void creerTacheAuDessus(Tache tache, Tache tacheDejaInseree) throws Exception{
         // Vérifications initiales
         if(!listTaches.contains(tacheDejaInseree)){
             throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheDejaInseree.nom);
@@ -277,9 +283,9 @@ public class Projet extends EntiteSecurise {
      * A appeler quand on fait Créer une tache en dessous
      * @param tache
      * @param tacheDejaInseree
-     * @throws IllegalArgumentException
+     * @throws Exception
      */
-    public void creerTacheEnDessous(Tache tache, Tache tacheDejaInseree) throws IllegalArgumentException{
+    public void creerTacheEnDessous(Tache tache, Tache tacheDejaInseree) throws Exception{
         // Vérifications initiales
         if(!listTaches.contains(tacheDejaInseree)){
             throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheDejaInseree.nom);
@@ -329,9 +335,9 @@ public class Projet extends EntiteSecurise {
      * Créer une sous-tâche à la tache parent
      * @param tache
      * @param parent
-     * @throws IllegalArgumentException
+     * @throws Exception
      */
-    public void creerSousTache(Tache tache, Tache parent) throws IllegalArgumentException{
+    public void creerSousTache(Tache tache, Tache parent) throws Exception{
         // Vérifications initiales
         if(parent.niveau > Tache.NIVEAU_MAX){
             throw new IllegalArgumentException("La tache " + parent.nom +
@@ -406,10 +412,10 @@ public class Projet extends EntiteSecurise {
      * Modifie la tache en parametre
      *
      * @param tache
-     * @throws IllegalArgumentException
+     * @throws Exception
      */
     @Transient
-    public void modifierTache(Tache tache) throws IllegalArgumentException {
+    public void modifierTache(Tache tache) throws Exception {
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", modification impossible");
@@ -422,10 +428,10 @@ public class Projet extends EntiteSecurise {
     /**
      * Supprimer la tâche du systeme si elle n'a pas ete commencee (chargeConsommee == 0), l'archive sinon
      * @param tache
-     * @throws IllegalArgumentException
+     * @throws Exception
      */
     @Transient
-    public void supprimerTache(Tache tache) throws IllegalArgumentException {
+    public void supprimerTache(Tache tache) throws Exception {
         if (!listTaches.contains(tache)){
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
@@ -470,6 +476,13 @@ public class Projet extends EntiteSecurise {
             }
         }
 
+        // TODO Mettre a jour les charges des taches filles -> a checker
+        tache.updateChargesTachesMeresEtProjet();
+
+        // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
+        updateAvancementGlobal();
+        calculeCheminCritique();
+
         // Suppression ou archivage
         if (tache.getChargeConsommee() == 0.0) {
             Tache.find.deleteById(tache.id);
@@ -500,10 +513,10 @@ public class Projet extends EntiteSecurise {
      * Modifie le responsableProjet de projet par l'utilisateur en parametre
      *
      * @param responsable
-     * @throws IllegalArgumentException
+     * @throws Exception
      */
     @Transient
-    public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException {
+    public void modifierResponsable(Utilisateur responsable) throws Exception {
         if (this.responsableProjet == responsable) {
             throw new IllegalArgumentException("Remplacement du responsableProjet de projet par le même responsableProjet");
         }
@@ -525,7 +538,7 @@ public class Projet extends EntiteSecurise {
         this.client = client;
     }
 
-    public void calculeCheminCritique(){
+    private void calculeCheminCritique(){
         // Récupération des tâches qui sont à la toute fin
         List<Tache> listTachesFin = new ArrayList<Tache>();
         for(Tache tache : listTaches){
