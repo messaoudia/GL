@@ -42,6 +42,9 @@ public class AdminController extends Controller{
     }
 
     public Result afficherModalUtilisateur(long idUtilisateur){
+        Utilisateur t = Utilisateur.find.byId(idUtilisateur);
+        System.out.println("LAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println(t.checkAdmin());
         return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur)));
     }
 

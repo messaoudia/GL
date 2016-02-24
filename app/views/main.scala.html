@@ -171,7 +171,7 @@
 
                     $('#sidebar-back-select').click(function(){
                         alert("JS : #sidebar-back-select");
-                    })
+                    });
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -1032,6 +1032,11 @@
                                 $('#formFirstName').val(utilisateur.prenom);
                                 $('#formEmail').val(utilisateur.email);
                                 $('#formTel').val(utilisateur.telephone);
+                                if(utilisateur.checkAdmin == "true"){
+                                    $('#inlineRadioAdminOui').prop('checked', true);
+                                }else{
+                                    $('#inlineRadioAdminNon').prop('checked', true);
+                                }
                             },
                             //Case we have a problem
                             error: function(errorMessage){
