@@ -19,6 +19,7 @@ public class Role extends Model {
     @Column(name = "role_id")
     public Long id;
 
+    @Column(unique = true)
     public String nomDuRole;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
@@ -58,5 +59,9 @@ public class Role extends Model {
     @Override
     public String toString() {
         return nomDuRole + ", permissions:" + permissions;
+    }
+
+    public static Role getRole(String nomDuRole) {
+        return Role.find.where().eq("nomDuRole", nomDuRole).findUnique();
     }
 }

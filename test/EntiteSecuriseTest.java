@@ -137,14 +137,13 @@ public class EntiteSecuriseTest {
 
         Permission examplePermission2 = role2DB.permissions.get(0);
 
-        Assert.assertEquals(projet1DB.havePermission(utilisateur1DB, examplePermission), true);
-        Assert.assertEquals(projet1DB.havePermission(utilisateur1DB, examplePermission2), false);
-        Assert.assertEquals(projet1DB.havePermission(utilisateur2DB, examplePermission2), true);
+        Assert.assertEquals(projet1DB.havePermission(utilisateur1DB, examplePermission.permissionValue), true);
+        Assert.assertEquals(projet1DB.havePermission(utilisateur1DB, examplePermission2.permissionValue), false);
+        Assert.assertEquals(projet1DB.havePermission(utilisateur2DB, examplePermission2.permissionValue), true);
 
         //Delete role Test
         Autorisation.enleverLeRole(utilisateur2DB, projet1DB, role2DB);
-        Assert.assertEquals(projet1DB.havePermission(utilisateur2DB, examplePermission2), false);
-
+        Assert.assertEquals(projet1DB.havePermission(utilisateur2DB, examplePermission2.permissionValue), false);
     }
 
     @AfterClass
