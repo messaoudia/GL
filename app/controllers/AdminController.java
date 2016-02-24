@@ -45,6 +45,7 @@ public class AdminController extends Controller{
     }
 
     public Result afficherModalClient(long idUtilisateur) {
+        Logger.debug("afficherModalClient : "+Json.toJson(Client.find.byId(idUtilisateur)));
         return ok(Json.toJson(Client.find.byId(idUtilisateur)));
     }
 

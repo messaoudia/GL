@@ -20,6 +20,11 @@ $(document).ready(function() {
         $(this).attr('style', '');
     });
 
+    /**
+     * Methode Ajax pour aller récuperer des informations d'un client
+     **/
+
+
 });
 
 $(document).ajaxComplete(function() {

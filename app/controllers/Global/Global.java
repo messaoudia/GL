@@ -4,8 +4,14 @@ import com.avaje.ebean.Ebean;
 import models.*;
 import play.GlobalSettings;
 import play.Logger;
+import play.api.mvc.RequestHeader;
+import play.libs.F;
 import play.libs.Yaml;
+import play.mvc.Action;
+import play.mvc.Http;
+import play.mvc.Result;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +20,12 @@ import java.util.Map;
  */
 
 public class Global extends GlobalSettings {
+
+    @Override
+    public Action onRequest(Http.Request request, Method actionMethod) {
+        Logger.info("Request Received : " + request.uri());
+        return super.onRequest(request, actionMethod);
+    }
 
     @Override
     public void onStart(play.Application app) {
