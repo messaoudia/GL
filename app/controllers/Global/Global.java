@@ -2,6 +2,7 @@ package controllers.Global;
 
 import com.avaje.ebean.Ebean;
 import models.Client;
+import models.EntiteGenerique;
 import models.Securite.Autorisation;
 import models.Securite.Role;
 import models.Utilisateur;
@@ -59,6 +60,14 @@ public class Global extends GlobalSettings {
                 Logger.debug("- entiteSecurise id: " + autorisation.entiteSecurise.id);
                 Logger.debug("- role: " + autorisation.roles.stream().map(x -> x.nomDuRole).collect(Collectors.toList()));
             });
+
+            if (EntiteGenerique.find.where().eq("nom", "system").findUnique() == null) {
+                throw new IllegalStateException("EntiteGenerique: system , non charge, veuillez verifier initial-data.yml");
+            } else {
+                EntiteGenerique.find.all().forEach(entiteGenerique -> {
+                    Logger.debug("EntiteGenerique:" + entiteGenerique.nom);
+                });
+            }
             /* display DB content */
             /*Logger.debug(String.valueOf(Adresse.find.all()));
             Logger.debug(String.valueOf(Contact.find.all()));

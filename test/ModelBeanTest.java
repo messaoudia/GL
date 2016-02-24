@@ -252,6 +252,7 @@ public class ModelBeanTest {
                     20D,
                     contactList,pr,utilisateursNotifications);
             tache.responsableTache = u1;
+            tache.idTache = "1";
 
             c1.save();
             pr.save();
