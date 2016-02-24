@@ -166,6 +166,7 @@
                 $requestProjetsTermines = false;
                 $requestProjetsArchives = false;
                 var $tmpTr;
+
                 $(document).ready(function () {
 
                     $('#sidebar-back-select').click(function(){
@@ -291,22 +292,7 @@
                         });
                     });
 
-                    $("#submitButton").click(function(e) {
-                        var $form = $('#addProjectForm');
-                        var $serialize= $form.serialize();
-                        var $value = $(".btn-active").attr('value');
-                        jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
-                            data :$serialize+ '&priorite='+$value,
-                            success : function(data) {
-                                alert("toto");
 
-                            },
-                            error: function(errorMessage){
-                                alert("error");
-                            }
-                        });
-
-                    });
                     $('.datatable-consulterClient').DataTable();
                     $('.dataTables-example').DataTable();
 
@@ -484,11 +470,28 @@
                         height: '85px'
                     });
 
-                    $('[data-toggle="popover"]').popover()
+                    $('[data-toggle="popover"]').popover();
+
 
                 });
 
+                $(document).on('click', '#submitButton', function(){
+                    var $form = $('#addProjectForm');
+                    var $serialize= $form.serialize();
+                    var $value = $(".btn-active").attr('value');
+                    jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                        data :$serialize+ '&priorite='+$value,
+                        success : function(data) {
+                            $("#addProjectForm")[0].reset();
+                        },
+                        error: function(errorMessage){
+
+                        }
+                    });
+                });
+
                 $( document ).ajaxComplete(function() {
+
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");

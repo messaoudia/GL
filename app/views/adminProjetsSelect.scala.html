@@ -47,9 +47,6 @@
                         $('.pear-theme').css("cssText", "background-color : #e74c3c !important;border-color : #e74c3c !important;");
                     }
                     updateMenu();
-
-
-
                 });
         </script>
     }
@@ -106,7 +103,7 @@
                                                     </div>
                                                 }
                                             </div>
-                                            <p class="row-consommee">Consommée : 30  @Messages("day-first-letter")</p>
+                                            <p class="row-consommee">@Messages("consumed") : 30  @Messages("day-first-letter")</p>
                                         }else{
                                             <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
                                                 <!-- TODO : restante et consomme  -->

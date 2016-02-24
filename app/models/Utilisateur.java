@@ -577,6 +577,10 @@ public class Utilisateur extends Personne {
     }
 
     public static List<Utilisateur> getAllArchives(){
+        return find.all();
+    }
+
+    public static List<Utilisateur> getAll(){
         return find.where().eq("archive",true).findList();
     }
 

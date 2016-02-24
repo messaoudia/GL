@@ -55,23 +55,15 @@ public class AdminController extends Controller{
     }
 
     public Result afficherProjetsTermines(Boolean check){
-        List<Projet> p = Projet.getAllTermines(check);
-        System.out.println(p.size());
         return ok(Json.toJson(Projet.getAllTermines(check)));
     }
 
     public Result afficherProjetsArchives(Boolean check) {
-        System.out.println("LAAAAAAAAAAAA");
-        List<Projet> p = Projet.getAllArchives(check);
-        System.out.println(p.size());
-        System.out.println(p.get(0).nom);
-        System.out.println(p.get(1).nom);
         return ok(Json.toJson(Projet.getAllArchives(check)));
     }
 
     public Result supprimerProjet(Long idProjet){
         Projet.supprimerPorjet(idProjet);
-        System.out.println(Projet.find.byId(idProjet).archive);
         return ok();
     }
 }

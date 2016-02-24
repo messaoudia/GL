@@ -2,6 +2,7 @@ package controllers;
 
 import models.Client;
 import models.Projet;
+import models.Utilisateur;
 import play.Logger;
 import play.libs.Json;
 import play.data.Form;
@@ -22,7 +23,7 @@ public class ProjetController extends Controller{
     }
 
     public Result afficherCreerProjet(){
-        return ok(creerProjet.render("Créer Projet"));
+        return ok(creerProjet.render("Créer Projet", Utilisateur.getAll(), Client.getAll()));
     }
 
     public Result afficherProjetsClient(long idClient) {
@@ -33,8 +34,8 @@ public class ProjetController extends Controller{
 
     public Result ajouterProjet() {
         Map<String, String[]> map = request().body().asFormUrlEncoded();
-        final Form<Projet> projetForm = form(Projet.class).bindFromRequest();
         System.out.println(map.get("priorite")[0]);
+        System.out.println(map.get("dateDebutTheorique")[0]);
         return ok();
     }
 }
