@@ -165,7 +165,10 @@
                 $requestUtilisateursArchives = false;
                 $requestClientsArchives = false;
 
-                var theFunctionToRename = function (t) {
+                /**
+                 * Methode Ajax pour aller récuperer des informations d'un client
+                 **/
+                var afficherModalClient = function (t) {
 
                     var idC = $(t).attr('value');
 
@@ -173,7 +176,7 @@
                         success: function(client) {
                             //console.log(client);
                             console.log("client : "+client)
-                            $("#dataTables-admin-client").dataTable().fnDestroy();
+                           $("#dataTables-admin-client").dataTable().fnDestroy();
 
                             /* fill modal values*/
                             $('#formClientName').val(client.nom);
@@ -189,7 +192,7 @@
                                 success: function(listProjets) {
 
                                     var projetTableBody = $('#table-modal-client-projets-body');
-
+                                    projetTableBody.empty();
                                     console.log(listProjets);
                                     $("#dataTables-admin-client").dataTable().fnDestroy();
                                     if(listProjets.length != 0){
@@ -208,7 +211,7 @@
                             jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
                                 success: function(listContacts) {
                                     var contactsTableBody = $('#table-modal-client-contacts-body');
-
+                                    contactsTableBody.empty();
                                     //console.log(listContacts);
                                     $("#dataTables-admin-client").dataTable().fnDestroy();
                                     if(listContacts.length != 0){
@@ -233,6 +236,78 @@
                         }
                     });
                 }
+
+                var afficherNotifications = function () {
+                    //e.preventDefault();
+                    jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
+                        success: function(html) {
+                            var result = $('#refresh',html).html();
+                            $('#refresh').empty().html(result);
+
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+                }
+
+
+                /**
+                 * Methode Ajax pour aller récuperer des informations d'un utilisateur
+                 **/
+                var afficherModalUtilisateur = function (t) {
+
+                    var id = $(t).attr('value');
+                    jsRoutes.controllers.AdminController.afficherModalUtilisateur(id).ajax({
+                        success: function(utilisateur) {
+                            //console.log(utilisateur);
+                            $("#dataTables-admin-user").dataTable().fnDestroy();
+                            /* fill modal values*/
+                            $('#formLastName').val(utilisateur.nom);
+                            $('#formFirstName').val(utilisateur.prenom);
+                            $('#formEmail').val(utilisateur.email);
+                            $('#formTel').val(utilisateur.telephone);
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+                }
+
+                var ajouterProjet = function() {
+                    var $form = $('#addProjectForm');
+                    var $serialize= $form.serialize();
+                    var $value = $(".btn-active").attr('value');
+                    jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                        data :$serialize+ '&priorite='+$value,
+                        success : function(data) {
+                            alert("toto");
+
+                        },
+                        error: function(errorMessage){
+                            alert("error");
+                        }
+                    });
+
+                }
+
+
+                var afficherAdminProjetsSelect = function (t) {
+                    var $valueTr = $(t).attr('value');
+                    jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
+                        success: function(html) {
+                            var result = $('#refresh',html);
+                            $('#refresh').empty().html(result);
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+                }
+
                 $(document).ready(function () {
 
 
@@ -347,37 +422,7 @@
                         maximumSelectionLength: 1
                     });
 
-                    $('#notifTopBar').click(function (e) {
-                        e.preventDefault();
-                        jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
-                            success: function(html) {
-                                var result = $('#refresh',html).html();
-                                $('#refresh').empty().html(result);
 
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
-                    });
-
-                    $("#submitButton").click(function(e) {
-                        var $form = $('#addProjectForm');
-                        var $serialize= $form.serialize();
-                        var $value = $(".btn-active").attr('value');
-                        jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
-                            data :$serialize+ '&priorite='+$value,
-                            success : function(data) {
-                                alert("toto");
-
-                            },
-                            error: function(errorMessage){
-                                alert("error");
-                            }
-                        });
-
-                    });
                     $('.datatable-consulterClient').DataTable();
                     $('.dataTables-example').DataTable();
 
@@ -405,21 +450,6 @@
                             "orderable": false,
                             "targets":6
                         } ]
-                    });
-
-
-                    $('#dataTables-admin-projet tbody').on( 'click', 'tr td:not(:last-child)', function () {
-                        var $valueTr = $(this).parent('tr').attr('value');
-                        jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
-                            success: function(html) {
-                                var result = $('#refresh',html);
-                                $('#refresh').empty().html(result);
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
                     });
 
                     $('#nestable-projet').nestable({
@@ -793,20 +823,7 @@
                     }).on('change');
 
 
-                    $('#notifTopBar').click(function (e) {
-                        e.preventDefault();
-                        jsRoutes.controllers.NotificationController.afficherNotifications().ajax({
-                            success: function(html) {
-                                var result = $('#refresh',html).html();
-                                $('#refresh').empty().html(result);
 
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
-                    });
                     $('.datatable-consulterClient').DataTable();
                     $('#dataTables-tdb-projet').DataTable();
 
@@ -854,19 +871,6 @@
                         } ]
                     });
 
-                    $('#dataTables-admin-projet tbody').on( 'click', 'tr td:not(:last-child)', function () {
-                        var $valueTr = $(this).parent('tr').attr('value');
-                        jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
-                            success: function(html) {
-                                var result = $('#refresh',html);
-                                $('#refresh').empty().html(result);
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
-                    });
 
                     $('#dataTables-admin-user').DataTable({
                         "columnDefs": [{
@@ -1096,28 +1100,7 @@
                         modeDraftProjetAdmin();
                     });
 
-                    /**
-                     * Methode Ajax pour aller récuperer des informations d'un utilisateur
-                     **/
-                    $('#dataTables-admin-user tbody').on( 'click', 'tr td:not(:last-child)', function () {
-                        var id = $(this).parent('tr').attr('value');
-                        jsRoutes.controllers.AdminController.afficherModalUtilisateur(id).ajax({
-                            success: function(utilisateur) {
-                                //console.log(utilisateur);
-                                $("#dataTables-admin-user").dataTable().fnDestroy();
 
-                                /* fill modal values*/
-                                $('#formLastName').val(utilisateur.nom);
-                                $('#formFirstName').val(utilisateur.prenom);
-                                $('#formEmail').val(utilisateur.email);
-                                $('#formTel').val(utilisateur.telephone);
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
-                    });
 
                 });
 
