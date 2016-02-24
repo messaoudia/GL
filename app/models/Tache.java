@@ -104,42 +104,62 @@ public class Tache extends EntiteSecurise {
      * Create a tache
      */
     public static Tache create(Tache tache) {
-        // Initialisation des personnes a notifié par défaut à la création de la tache
-        addUtilisateurNotification(tache, tache.responsableTache);
-        initUtilisateursNotificationsEnfants(tache);
-        initUtilisateursNotificationsParents(tache);
         tache.save();
         return tache;
     }
 
-    private static void initUtilisateursNotificationsEnfants(Tache tache){
-        for(Tache child : tache.enfants){
-            addUtilisateurNotification(tache, child.responsableTache);
-            addUtilisateurNotification(child, tache.responsableTache);
-            initUtilisateursNotificationsEnfants(child);
+    public void initUtilisateursNotificationsEnfants(){
+        for(Tache child : enfants){
+            addUtilisateurNotification(child.responsableTache);
+            child.addUtilisateurNotification(responsableTache);
+            child.initUtilisateursNotificationsEnfants();
         }
     }
 
-    private static void initUtilisateursNotificationsParents(Tache tache){
-        if(tache.hasParent()){
-            addUtilisateurNotification(tache, tache.parent.responsableTache);
-            addUtilisateurNotification(tache.parent, tache.responsableTache);
-            initUtilisateursNotificationsParents(tache.parent);
+    public void initUtilisateursNotificationsParents(){
+        if(hasParent()){
+            addUtilisateurNotification(parent.responsableTache);
+            parent.addUtilisateurNotification(responsableTache);
+            parent.initUtilisateursNotificationsParents();
         }
     }
 
-    private static void addUtilisateurNotification(Tache tache, Utilisateur user){
-        if(!tache.utilisateursNotifications.contains(user))
-            tache.utilisateursNotifications.add(user);
-        if(!user.listObjetsNotifications.contains(tache))
-            user.listObjetsNotifications.add(tache);
+    public void addUtilisateurNotification(Utilisateur user){
+        if(!utilisateursNotifications.contains(user)) {
+            utilisateursNotifications.add(user);
+            save();
+        }
+        if(!user.listTachesNotifications.contains(this)) {
+            user.listTachesNotifications.add(this);
+            user.save();
+        }
     }
 
-    private static void removeUtilisateurNotification(Tache tache, Utilisateur user){
-        if(!tache.utilisateursNotifications.contains(user))
-            tache.utilisateursNotifications.remove(user);
-        if(!user.listObjetsNotifications.contains(tache))
-            user.listObjetsNotifications.remove(tache);
+    public void removeUtilisateurNotification(Utilisateur user){
+        if(!utilisateursNotifications.contains(user)) {
+            utilisateursNotifications.remove(user);
+            save();
+        }
+        if(!user.listTachesNotifications.contains(this)) {
+            user.listTachesNotifications.remove(this);
+            user.save();
+        }
+    }
+
+    public void removeUtilisateurNotificationEnfants(){
+        for(Tache child : enfants){
+            removeUtilisateurNotification(child.responsableTache);
+            child.removeUtilisateurNotification(responsableTache);
+            child.removeUtilisateurNotificationEnfants();
+        }
+    }
+
+    public void removeUtilisateurNotificationParents(){
+        if(hasParent()){
+            removeUtilisateurNotification(parent.responsableTache);
+            parent.removeUtilisateurNotification(responsableTache);
+            parent.removeUtilisateurNotificationParents();
+        }
     }
 
 

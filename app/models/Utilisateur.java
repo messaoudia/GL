@@ -38,7 +38,11 @@ public class Utilisateur extends Personne {
     private List<Tache> listTaches;
 
     // TODO @qqch?
-    List<Object> listObjetsNotifications;
+    List<Tache> listTachesNotifications;
+    // TODO @qqch? + liste des utilisateurs où je souhaite recevoir une notification
+    List<Utilisateur> utilisateursSuivis;
+    // TODO @qqch? + liste des utilisateurs qui me suivent
+    List<Utilisateur> utilisateursMeSuivant;
 
     //TODO Make connection to the database to check the authentication
     public String validate() {
@@ -50,15 +54,18 @@ public class Utilisateur extends Personne {
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches, List<Object> listObjetsNotifications) {
+    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches,
+                       List<Tache> listTachesNotifications,List<Utilisateur> utilisateursSuivis,List<Utilisateur> utilisateursMeSuivant) {
         super(nom, prenom, email, telephone,archive);
         setPassword(password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
-        this.listObjetsNotifications = (listObjetsNotifications == null)?new BeanList<>():listObjetsNotifications;
+        this.listTachesNotifications = (listTachesNotifications == null)?new BeanList<>(): listTachesNotifications;
+        this.utilisateursSuivis = (utilisateursSuivis == null)?new BeanList<>(): utilisateursSuivis;
+        this.utilisateursMeSuivant = (utilisateursMeSuivant == null)?new BeanList<>(): utilisateursMeSuivant;
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone,archive,password,null, null);
+        this(nom, prenom, email, telephone,archive,password,null, null, null, null);
     }
 
     public Utilisateur() {
@@ -151,7 +158,7 @@ public class Utilisateur extends Personne {
         return listTaches().size();
     }
 
-    // TODO getListObjetsNotifications
+    // TODO getListTachesNotifications, utilisateursMeSuivant, utilisateursMeSuivant
 
     /**
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur
@@ -583,5 +590,40 @@ public class Utilisateur extends Personne {
     public static List<Utilisateur> getAllNonArchives(){
         //Logger.debug(find.where().eq("archive",false).findList().toString());
         return find.where().eq("archive",false).findList();
+    }
+
+    public void suivreUnUtilisateur(Utilisateur user){
+        if(!utilisateursSuivis.contains(user)){
+            utilisateursSuivis.add(user);
+            save();
+        }
+        if(!user.utilisateursMeSuivant.contains(this)){
+            user.utilisateursMeSuivant.add(this);
+            user.save();
+        }
+    }
+
+    public void activerNotification(Tache tache){
+        // TODO : Rajouter un test de permission?
+        if(!listTachesNotifications.contains(tache)){
+            listTachesNotifications.add(tache);
+            save();
+        }
+        if(!tache.utilisateursNotifications.contains(this)){
+            tache.utilisateursNotifications.add(this);
+            tache.save();
+        }
+    }
+
+    public void desactiverNotification(Tache tache){
+        // TODO : Rajouter un test de permission?
+        if(!listTachesNotifications.contains(tache)){
+            listTachesNotifications.remove(tache);
+            save();
+        }
+        if(!tache.utilisateursNotifications.contains(this)){
+            tache.utilisateursNotifications.remove(this);
+            tache.save();
+        }
     }
 }
