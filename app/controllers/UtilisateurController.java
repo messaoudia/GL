@@ -7,6 +7,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.creerUtilisateur;
+
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,13 +21,14 @@ public class UtilisateurController extends Controller {
         public boolean prenomVide, prenomTropLong;
         public boolean emailVide, emailIncorrecte;
         public boolean telVide, telIncorrecte;
+        public boolean userExist;
 
         public boolean hasErrorUtilisateur()
         {
             return nomVide || nomTropLong
                     || prenomVide || prenomTropLong
                     || emailVide || emailIncorrecte
-                    || telVide || telIncorrecte;
+                    || telVide || telIncorrecte || userExist;
         }
 
     }
@@ -93,17 +96,22 @@ public class UtilisateurController extends Controller {
             error.telIncorrecte = true;
         }
 
+        List<Utilisateur> listUser = Utilisateur.find.where().eq("email",map.get("new-formEmail")[0]).findList();
+
+        if(!listUser.isEmpty()) {
+            error.userExist = true;
+        }
+
         if(error.hasErrorUtilisateur())
         {
             return badRequest(Json.toJson(error));
-        }else{
+        }
+        else{
             //creation user
-            // TODO : check si user existe
             Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false, Utilisateur.genererPassword());
             user.save();
             //TODO : send email to user
             return ok();
-
         }
     }
 }

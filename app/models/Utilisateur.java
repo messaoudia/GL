@@ -102,7 +102,7 @@ public class Utilisateur extends Personne {
         }
         try {
             Utilisateur utilisateur = (Utilisateur) obj;
-            return utilisateur.password.equals(this.password) && super.equals(utilisateur);
+            return utilisateur.email.equals(this.email);
         } catch (ClassCastException e) {
             return false;
         }
