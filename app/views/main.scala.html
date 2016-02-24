@@ -168,12 +168,11 @@
                 var theFunctionToRename = function (t) {
 
                     var idC = $(t).attr('value');
-                    //$(e.currentTarget).unbind('ajaxComplete');
 
                     jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
                         success: function(client) {
                             //console.log(client);
-                            //console.log("client : "+client)
+                            console.log("client : "+client)
                             $("#dataTables-admin-client").dataTable().fnDestroy();
 
                             /* fill modal values*/
@@ -562,21 +561,14 @@
 
                 });
 
-                var serge = false;
                 $( document ).ajaxComplete(function(e,x,s)
                 {
-                    console.log(e.currentTarget.URL);
+                    //console.log(e.currentTarget.URL);
                    // console.log(x);
-                    console.log("#####################################################################");
+                    //console.log("#####################################################################");
 
-                    if(true)
-                    {
 
-                    serge = true;
                     //alert("ajaxcomplete");
-
-
-
 
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
@@ -1126,7 +1118,7 @@
                             }
                         });
                     });
-                }
+
                 });
 
                 /* Afficher les Clients archivés */
