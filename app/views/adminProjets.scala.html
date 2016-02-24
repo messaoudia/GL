@@ -84,7 +84,7 @@
                                 </thead>
                                 <tbody id="dataTables-admin-projet-body">
                                 @for(projet <- projets) {
-                                    <tr class="table-center cursor-pointer" value="@projet.id">
+                                    <tr class="table-center cursor-pointer" onclick="afficherAdminProjetsSelect(this)" value="@projet.id">
                                         <td style="vertical-align:middle ;">
                                         @projet.nom
                                         </td>
@@ -170,7 +170,7 @@
                                         <p> ? </p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button id="button-admin-projet" type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                                        <button id="button-admin-projet" onclick="supprimerProjet()" type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
                                         <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
                                     </div>
                                 </div>

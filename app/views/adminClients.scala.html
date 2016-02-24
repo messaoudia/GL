@@ -78,7 +78,7 @@
 
                                 <!-- Boucle sur la liste des clients -->
                                 @for(client <- clients) {
-                                    <tr value="@client.id">
+                                    <tr value="@client.id" onclick="afficherModalClient(this)">
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listContactsSize</td>
