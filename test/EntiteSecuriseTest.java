@@ -1,4 +1,5 @@
 import com.avaje.ebean.Ebean;
+import models.EntiteGenerique;
 import models.Projet;
 import models.Securite.Autorisation;
 import models.Securite.Permission;
@@ -144,6 +145,16 @@ public class EntiteSecuriseTest {
         //Delete role Test
         Autorisation.enleverLeRole(utilisateur2DB, projet1DB, role2DB);
         Assert.assertEquals(projet1DB.havePermission(utilisateur2DB, examplePermission2.permissionValue), false);
+    }
+
+    @Test
+    public void testStaticEntite() {
+        EntiteGenerique system = new EntiteGenerique();
+        system.nom="system";
+        system.save();
+        EntiteGenerique systemDB = EntiteGenerique.find.where().eq("nom", "system").findUnique();
+
+        Assert.assertNotEquals(systemDB, null);
     }
 
     @AfterClass

@@ -692,3 +692,9 @@ autorisations:
   roles:
       - *role3
       - *role2
+
+egeneriques:
+
+- &eGenerique1 !!models.EntiteGenerique
+  id:   100
+  nom:  system
