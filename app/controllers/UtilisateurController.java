@@ -61,6 +61,7 @@ public class UtilisateurController extends Controller {
             error.prenomTropLong = true;
         }
 
+        //pattern java
         Pattern emailRegex = Pattern.compile("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$");
         Matcher emailMatch = emailRegex.matcher(map.get("new-formEmail")[0]);
         // email
