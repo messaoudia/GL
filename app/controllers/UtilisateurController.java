@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Utilisateur;
 import play.api.data.validation.Constraint;
 import play.data.validation.Constraints;
 import play.libs.Json;
@@ -78,12 +79,16 @@ public class UtilisateurController extends Controller {
 
         Pattern telRegex = Pattern.compile(telRegexS);
         Matcher telMatch = emailRegex.matcher(map.get("new-formTel")[0]);
+
+
+
+        boolean res = Pattern.matches(telRegexS, map.get("new-formTel")[0]) ;
         // tel
         if(map.get("new-formTel")[0].isEmpty())
         {
             error.telVide = true;
         }
-        else if(!telMatch.matches())
+        else if(!res)
         {
             error.telIncorrecte = true;
         }
@@ -91,9 +96,14 @@ public class UtilisateurController extends Controller {
         if(error.hasErrorUtilisateur())
         {
             return badRequest(Json.toJson(error));
+        }else{
+            //creation user
+            // TODO : check si user existe
+            Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false, Utilisateur.genererPassword());
+            user.save();
+            //TODO : send email to user
+            return ok();
+
         }
-
-
-        return ok();
     }
 }

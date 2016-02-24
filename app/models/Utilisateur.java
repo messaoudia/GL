@@ -221,7 +221,7 @@ public class Utilisateur extends Personne {
      * Genere un nouveau mot de passe pour l'utilisateur (de taille 6, un chiffre, une majuscule, une minuscule au moins)
      * @return
      */
-    public String genererPassword(){
+    public static String genererPassword(){
 
         String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
@@ -260,12 +260,12 @@ public class Utilisateur extends Personne {
 
     }
 
-    private int getRandomInt(int deb, int fin){
+    private static int getRandomInt(int deb, int fin){
         Random rand = new Random();
         return rand.nextInt(fin-deb) + deb;
     }
 
-    private char getRandomChar(String... strings){
+    private static char getRandomChar(String... strings){
         String str;
         if(strings.length == 0){
             str = strings[0];
