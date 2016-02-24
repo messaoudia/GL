@@ -23,7 +23,7 @@ public class ProjetController extends Controller{
     }
 
     public Result afficherCreerProjet(){
-        return ok(creerProjet.render("Créer Projet", Utilisateur.getAll(), Client.getAll()));
+        return ok(creerProjet.render("Créer Projet", Utilisateur.getAllNonArchives(), Client.getAllNonArchives()));
     }
 
     public Result afficherProjetsClient(long idClient) {

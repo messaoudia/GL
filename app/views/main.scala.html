@@ -1378,7 +1378,6 @@
                             if(!$requestProjetsArchives){
                                 jsRoutes.controllers.AdminController.afficherProjetsArchives(false).ajax({
                                     success : function(data) {
-                                        alert(data);
                                         var projetList = $('#dataTables-admin-projet-body');
                                         $("#dataTables-admin-projet").dataTable().fnDestroy();
                                         $(data).each(function(index, projet) {

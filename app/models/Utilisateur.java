@@ -593,7 +593,7 @@ public class Utilisateur extends Personne {
         //Logger.debug(find.where().eq("archive",false).findList().toString());
         return find.where().eq("archive",false).findList();
     }
-    @JsonSerialize
+
     public Boolean checkAdmin(){
         return StaticEntite.getSystem().haveRole(this, Role.getRole("Administrateur"));
     }
