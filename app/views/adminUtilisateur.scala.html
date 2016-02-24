@@ -73,7 +73,7 @@
                             <tbody id="dataTables-admin-user-body">
                                 <!-- Boucle sur la liste des utilisateurs -->
                                 @for(utilisateur <- utilisateurs) {
-                                    <tr value="@utilisateur.id" onclick="afficherModalUtilisateur(this)">
+                                    <tr value="@utilisateur.id">
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
@@ -106,41 +106,41 @@
                                     </div>
                                 </div>
                                 <div class="ibox-content">
-                                    <form class="form-horizontal" id="userForm">
+                                    <form class="form-horizontal" id="modifierUserForm">
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formLastName">@Messages("formLastName")</label>
-                                            <div><input type="text" id="formLastName" class="form-control"></div>
+                                            <div><input type="text" name="formLastName" id="formLastName" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
-                                            <div><input type="text" id="formFirstName" class="form-control"></div>
+                                            <div><input type="text" name="formFirstName" id="formFirstName" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formEmail">@Messages("formEmail")</label>
-                                            <div><input type="text" id="formEmail" class="form-control"></div>
+                                            <div><input type="text" name="formEmail" id="formEmail" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formTel">@Messages("formTel")</label>
-                                            <div><input type="text" id="formTel" class="form-control"></div>
+                                            <div><input type="text" name="formTel" id="formTel" class="form-control"></div>
                                         </div>
 
+
                                         <div class="row form-group form-group-user">
-                                            <label class="col-sm-5 control-label">@Messages("administrator")</label>
-                                            <div class="col-sm-7">
-                                                <div class="radio radio-inline radio-danger">
-                                                    <input type="radio" id="inlineRadioAdminOui" value="option1" name="radioInlineAdmin" checked="">
-                                                    <label for="inlineRadioAdminOui">Oui</label>
-                                                </div>
-                                                <div class="radio radio-inline radio-danger">
-                                                    <input type="radio" id="inlineRadioAdminNon" value="option2" name="radioInlineAdmin">
-                                                    <label for="inlineRadioAdminNon">Non</label>
+                                            <div class="" style="font-weight: 700;">@Messages("administrator")
+                                                <div class="btn-group" style="display: inline-block ;">
+                                                    <button class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
+                                                    <button class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
                                                 </div>
                                             </div>
                                         </div>
+
+
+
+
                                         <div class="row" style="margin-top:15px;">
                                             <div class="div-center">
                                                     <!--TODO modalview Valider (check contacts & projet & champs -->
-                                                <button class="btn btn-admin" type="submit" form="userForm">
+                                                <button class="btn btn-admin" type="submit" form="modifierUserForm">
                                                     <i class="fa fa-check-square"></i> @Messages("validate")
                                                 </button>
                                             </div>
@@ -250,7 +250,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="submitButton-creerUser" class="text-center cursor-pointer btn-creer" data-toggle="modal" data-target="#modal-add-user">
+                <div id="submitButton-creerUser" style="z-index:1000;" class="text-center cursor-pointer btn-creer" data-toggle="modal" data-target="#modal-add-user">
                     <h3><i class="fa fa-plus-circle"></i>@Messages("addUser")</h3>
                 </div>
                 <div class="modal fade" id="modal-add-user" role="dialog">
@@ -264,40 +264,35 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form class="form-horizontal" id="userForm">
+                            <form class="form-horizontal" id="creerUserForm">
                                 <div class="row form-group form-group-user">
                                     <label class="control-label" for="new-formLastName">@Messages("formLastName")</label>
-                                    <div><input type="text" id="new-formLastName" class="form-control"></div>
+                                    <div><input type="text" name="new-formLastName" id="new-formLastName" class="form-control"></div>
                                 </div>
                                 <div class="row form-group form-group-user">
                                     <label class="control-label" for="new-formFirstName">@Messages("formFirstName")</label>
-                                    <div><input type="text" id="new-formFirstName" class="form-control"></div>
+                                    <div><input type="text" name="new-formFirstName" id="new-formFirstName" class="form-control"></div>
                                 </div>
                                 <div class="row form-group form-group-user">
                                     <label class="control-label" for="new-formEmail">@Messages("formEmail")</label>
-                                    <div><input type="text" id="new-formEmail" class="form-control"></div>
+                                    <div><input type="text" name="new-formEmail" id="new-formEmail" class="form-control"></div>
                                 </div>
                                 <div class="row form-group form-group-user">
                                     <label class="control-label" for="new-formTel">@Messages("formTel")</label>
-                                    <div><input type="text" id="new-formTel" class="form-control"></div>
+                                    <div><input type="text" name="new-formTel" id="new-formTel" class="form-control"></div>
                                 </div>
 
                                 <div class="row form-group form-group-user">
-                                    <label class="col-sm-5 control-label">@Messages("administrator")</label>
-                                    <div class="col-sm-7">
-                                        <div class="radio radio-inline radio-danger">
-                                            <input type="radio" id="new-inlineRadioAdminOui" value="option1" name="radioInlineAdmin" checked="">
-                                            <label for="new-inlineRadioAdminOui">@Messages("yes")</label>
-                                        </div>
-                                        <div class="radio radio-inline radio-danger">
-                                            <input type="radio" id="new-inlineRadioAdminNon" value="option2" name="radioInlineAdmin">
-                                            <label for="new-inlineRadioAdminNon">@Messages("no")</label>
+                                    <div class="" style="font-weight: 700;">@Messages("administrator")
+                                        <div class="btn-group" style="display: inline-block ;">
+                                            <button class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
+                                            <button class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:15px;">
                                     <div class="div-center">
-                                        <button class="btn btn-admin" type="submit" form="userForm">
+                                        <button class="btn btn-admin" onclick="creerUtilisateur(this); return false;" type="submit" form="creerUserForm">
                                             <i class="fa fa-check-square"></i> @Messages("validate")
                                         </button>
                                     </div>
