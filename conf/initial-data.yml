@@ -619,3 +619,76 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            6
+
+roles:
+
+- &role1 !!models.Securite.Role
+    id:                 1
+    nomDuRole:          Administrateur
+
+- &role2 !!models.Securite.Role
+    id:                 2
+    nomDuRole:          Collaborateur
+
+- &role3 !!models.Securite.Role
+    id:                 3
+    nomDuRole:          ResponsableProjet
+
+permissions:
+
+- &permission1 !!models.Securite.Permission
+    id:                 1
+    permissionValue:    ModifierTousProjet
+    role:               *role3
+
+- &permission2 !!models.Securite.Permission
+    id:                 2
+    permissionValue:    SupprimerProjet
+    role:               *role3
+
+- &permission3 !!models.Securite.Permission
+    id:                 3
+    permissionValue:    AfficherTousProjet
+    role:               *role3
+
+- &permission4 !!models.Securite.Permission
+    id:                 4
+    permissionValue:    CreerUtilisateur
+    role:               *role1
+
+- &permission5 !!models.Securite.Permission
+    id:                 5
+    permissionValue:    ModifierUtilisateur
+    role:               *role1
+
+- &permission6 !!models.Securite.Permission
+    id:                 6
+    permissionValue:    SupprUtilisateur
+    role:               *role1
+
+- &permission7 !!models.Securite.Permission
+    id:                 7
+    permissionValue:    CreerTache
+    role:               *role2
+
+- &permission8 !!models.Securite.Permission
+    id:                 8
+    permissionValue:    ModifierTache
+    role:               *role2
+
+- &permission9 !!models.Securite.Permission
+    id:                 9
+    permissionValue:    SupprimerTacheNonCommencee
+    role:               *role2
+
+autorisations:
+
+- &autorisation1 !!models.Securite.Autorisation
+  autorisationId:
+      utilisateur_id:     11
+      entite_securise_id: 18
+  utilisateur:      *utilisateur1
+  entiteSecurise:   *projet4
+  roles:
+      - *role3
+      - *role2

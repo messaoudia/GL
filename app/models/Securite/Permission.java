@@ -48,7 +48,7 @@ public class Permission extends Model {
         @EnumValue("10")CreerUtilisateur,
         @EnumValue("11")ModifierUtilisateur,
         @EnumValue("12")SupprUtilisateur,
-        @EnumValue("AfficherUtilisateur")AfficherUtilisateur,
+        @EnumValue("36")AfficherUtilisateur,
         @EnumValue("13")AfficherSideBarAdministrateur,
         @EnumValue("14")ImporrterClientContact,
         @EnumValue("15")ModifierProjetReponsable,
