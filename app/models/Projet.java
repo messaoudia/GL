@@ -578,6 +578,7 @@ public class Projet extends EntiteSecurise {
         }
         responsable.save();
         this.responsableProjet = responsable;
+        addUtilisateurNotification(this.responsableProjet);
         this.save();
     }
 
