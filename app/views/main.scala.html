@@ -412,7 +412,7 @@
                     jsRoutes.controllers.UtilisateurController.creerUtilisateur().ajax({
                         data: serialize+"&admin"+value,
                         success : function(data) {
-                            alert("utilisateur cree")
+                            $(form)[0].reset();
                         },
                         error: function(errorMessage){
                             console.log(errorMessage);
