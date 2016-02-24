@@ -2,6 +2,8 @@ package controllers.Global;
 
 import com.avaje.ebean.Ebean;
 import models.Client;
+import models.Securite.Autorisation;
+import models.Securite.Role;
 import models.Utilisateur;
 import play.GlobalSettings;
 import play.Logger;
@@ -9,6 +11,7 @@ import play.libs.Yaml;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Guillaume on 05/02/2016.
@@ -41,6 +44,20 @@ public class Global extends GlobalSettings {
                 client.listeContacts.forEach(contact -> {
                     Logger.debug("- contact:" + contact);
                 });
+            });
+
+            Role.find.all().stream().forEach(role -> {
+                Logger.debug("Role:" + role.nomDuRole);
+                role.permissions.forEach(permission -> {
+                    Logger.debug(" - Permission:" + permission.permissionValue.name());
+                });
+            });
+
+            Autorisation.find.all().stream().forEach(autorisation -> {
+                Logger.debug("Autorisation:");
+                Logger.debug("- utilisateur id: " + autorisation.utilisateur.id);
+                Logger.debug("- entiteSecurise id: " + autorisation.entiteSecurise.id);
+                Logger.debug("- role: " + autorisation.roles.stream().map(x -> x.nomDuRole).collect(Collectors.toList()));
             });
             /* display DB content */
             /*Logger.debug(String.valueOf(Adresse.find.all()));

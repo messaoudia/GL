@@ -57,4 +57,9 @@ public class AutorisationId implements java.io.Serializable {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return utilisateur_id + ", " + entite_securise_id;
+    }
 }

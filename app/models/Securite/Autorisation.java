@@ -18,7 +18,7 @@ public class Autorisation extends Model {
 
     @EmbeddedId
     @Column(name = "autorisation_id")
-    AutorisationId autorisationId = new AutorisationId();
+    public AutorisationId autorisationId = new AutorisationId();
 
     public void setAutorisationId(Utilisateur utilisateur, EntiteSecurise entiteSecurise) {
         autorisationId.utilisateur_id = utilisateur.id;
@@ -78,6 +78,6 @@ public class Autorisation extends Model {
 
     @Override
     public String toString() {
-        return "user id: " + utilisateur.id + ",entity id: " + entiteSecurise.id + " => " + roles;
+        return "user id: " + (utilisateur != null ? utilisateur.id : null) + ",entity id: " + (entiteSecurise != null ? entiteSecurise.id : null) + " => " + roles;
     }
 }
