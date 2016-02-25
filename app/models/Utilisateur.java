@@ -72,6 +72,9 @@ public class Utilisateur extends Personne {
 
     public Utilisateur() {
         this.listTaches = new BeanList<>();
+        this.listTachesNotifications = new BeanList<>();
+        this.utilisateursSuivis = new BeanList<>();
+        this.utilisateursMeSuivant = new BeanList<>();
     }
 
     public void setEmail(String email) {

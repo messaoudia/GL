@@ -46,6 +46,7 @@ GET         /adminProjets              controllers.AdminController.afficherAdmin
 GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
 POST        /adminUtilisateurArchive   controllers.AdminController.afficherUtilisateursArchives
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
+GET         /dashboardTacheId          controllers.DashboardController.afficherModalTache(id: Long)
 GET         /adminUtilisateurId        controllers.AdminController.afficherModalUtilisateur(id: Long)
 GET         /adminClientId             controllers.AdminController.afficherModalClient(id: Long)
 GET         /adminProjetsClient        controllers.ProjetController.afficherProjetsClient(id: Long)

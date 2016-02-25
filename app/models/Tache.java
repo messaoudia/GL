@@ -89,7 +89,7 @@ public class Tache extends EntiteSecurise {
         this.enfants = new BeanList<>();
         this.projet = projet;
         this.archive = false;
-        this.utilisateursNotifications = utilisateursNotifications;
+        this.utilisateursNotifications = (utilisateursNotifications == null) ? new BeanList<>() : utilisateursNotifications;
     }
 
     public Tache() {

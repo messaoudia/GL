@@ -74,6 +74,7 @@ public class Projet extends EntiteSecurise {
 
     public UniteProjetEnum unite;
 
+    @JsonIgnore
     public List<Utilisateur> utilisateursNotifications;
 
     final String DATE_PATTERN = "dd/MM/yyyy";

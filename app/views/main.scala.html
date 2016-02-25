@@ -191,6 +191,17 @@
                         }
                     });
                 });
+                $(document).on('click','#dataTables-admin-client tr td:last-child', function(){
+                    var idC = $(this).parent('tr').attr('value');
+                    jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
+                    success: function(client){
+                        $("#delete-project-name").empty();
+                        $("#delete-project-name").append(client.nom);
+                    }
+                });
+
+                });
+
 
                 $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
                     var idC = $(this).parent('tr').attr('value');
@@ -206,7 +217,7 @@
                             $('#formZipCode').val(client.adresseClient.zipCode);
                             $('#formCity').val(client.adresseClient.ville);
                             $('#formCountry').val(client.adresseClient.pays);
-                            //$('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
+
                             $('#client-priority-1').removeClass("btn-active");
                             $('#client-priority-2').removeClass("btn-active");
                             $('#client-priority-3').removeClass("btn-active");
@@ -238,7 +249,7 @@
                                 success: function(listContacts) {
                                     var contactsTableBody = $('#table-modal-client-contacts-body');
                                     contactsTableBody.empty();
-                                    //console.log(listContacts);
+                                    console.log(listContacts);
                                     $("#dataTables-admin-client").dataTable().fnDestroy();
                                     if(listContacts.length != 0){
                                         $(listContacts).each(function(index, contact) {
@@ -251,6 +262,9 @@
                                             contactsTableBody.append(c);
                                         });
                                     }
+                                },
+                                error: function(errorMessage){
+                                    console.log("error : "+errorMessage)
                                 }
                             });
 
@@ -414,6 +428,102 @@
                             var result = $('#refresh',html);
                             $('#refresh').empty().html(result);
                         },
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+                }
+
+                var afficherModalTache = function (t) {
+
+                    var idTache = $(t).attr('value');
+
+                    jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
+                        success: function(tache) {
+                            console.log("tache : "+tache.nom)
+                            $("#dataTables-tdb-tache").dataTable().fnDestroy();
+
+                            // div-consulter-tache
+                            if(tache.critique){
+                                $('#imgCritique-consulterTache-tdb').show();
+                            }
+                            else{
+                                $('#imgCritique-consulterTache-tdb').hide();
+                            }
+
+                            $('#idTache-consulter-tdb').val(tache.idTache);
+                            $('#nomTache-consulter-tdb').val(tache.nom);
+                            $('#descriptionTache-consulter-tdb').val(tache.description);
+
+                            if(tache.predecesseur == null){
+                                $('#titre-predecesseur-consulter-tdb').hide()
+                                $('#table-predecesseurTache-consulter-tdb').hide();
+                            }
+                            else{
+                                $('#titre-predecesseur-consulter-tdb').show()
+                                $('#table-predecesseurTache-consulter-tdb').show();
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').val(tache.predecesseur.idTache);
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').val(tache.predecesseur.nom);
+                            }
+
+                            // TODO : Successeurs
+
+
+                            $('#nomProjet-consulter-tdb').val(tache.projet.nom);
+                            $('#nomClient-consulter-tdb').val(tache.client.nom);
+                            $('#nomRespTache-consulter-tdb').val(tache.responsableTache.nom);
+
+
+                            // div-modifier-tache
+
+
+                            /* Look for Projects and contacts
+                            jsRoutes.controllers.ProjetController.afficherProjetsClient(idTache).ajax({
+                                success: function(listProjets) {
+                                    console.log("sucess -----");
+                                    var projetTableBody = $('#table-modal-client-projets-body');
+                                    projetTableBody.empty();
+                                    console.log(listProjets);
+                                    $("#dataTables-tdb-tache").dataTable().fnDestroy();
+                                    if(listProjets.length != 0){
+                                        $(listProjets).each(function(index, projet) {
+                                            var p ="";
+                                            p+=('<tr>');
+                                            p+=('<td class="first-td">'+projet.nom+'</td>');
+                                            p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            p+=('</tr>');
+
+                                            projetTableBody.append(p);
+                                        });
+                                    }
+                                },
+                                error: function(errorMessage){
+                                    console.log("error : "+errorMessage)
+                                }
+                            });
+                            jsRoutes.controllers.ContactController.afficherContactsClient(idTache).ajax({
+                                success: function(listContacts) {
+                                    var contactsTableBody = $('#table-modal-client-contacts-body');
+                                    contactsTableBody.empty();
+                                    //console.log(listContacts);
+                                    $("#dataTables-tdb-tache").dataTable().fnDestroy();
+                                    if(listContacts.length != 0){
+                                        $(listContacts).each(function(index, contact) {
+                                            var c ="";
+                                            c+=('<tr>');
+                                            c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
+                                            c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            c+=('</tr>');
+
+                                            contactsTableBody.append(c);
+                                        });
+                                    }
+                                }
+                            });*/
+
+
+                        },
+                        //Case we have a problem
                         error: function(errorMessage){
                             alert(errorMessage);
                         }
