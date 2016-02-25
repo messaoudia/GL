@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle: String ,users : List[Utilisateur], clients : List[Client])
 
 @scripts = {
     <script>
@@ -44,7 +44,7 @@
                             <div class="col-sm-offset-2 col-sm-8">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <input name="projet" required="true" placeholder="" class="form-control"/>
+                                        <input name="nom" required="true" placeholder="" class="form-control"/>
                                     </div>
                                     <div class="col-sm-6">@Messages("priority")
                                         <div class="btn-group" style="display: inline-block ;">
@@ -61,11 +61,13 @@
                                             <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
                                             <div>
                                                 <select id="responsableProjet" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
-                                                    <option value="1">Option 1</option>
-                                                    <option value="2">Option 2</option>
-                                                    <option value="3">Option 3</option>
-                                                    <option value="4">Option 4</option>
-                                                    <option value="5">Option 5</option>
+                                                    @{
+                                                        var test =0
+                                                    }
+                                                    @for(user <- users) {
+                                                        <option value="1">@user.prenom @user.nom</option>
+                                                    }
+
                                                 </select>
                                             </div>
                                         </div>
@@ -105,7 +107,7 @@
                                                 <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_debut" style="text-align: left">@Messages("startDate")</label>
                                                 <div class="form-group col-sm-8" id="datepicker_projet_th_debut">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="dateDebutTheorique" type="text" class="form-control" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -113,7 +115,7 @@
                                                 <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_fin" style="text-align: left">@Messages("endDate")</label>
                                                 <div class="form-group col-sm-8" id="datepicker_projet_th_fin">
                                                     <div class="input-group date">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="dateFinTheorique" type="text" class="form-control" value="">
                                                     </div>
                                                 </div>
                                             </div>

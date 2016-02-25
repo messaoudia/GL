@@ -787,8 +787,6 @@ public class Projet extends EntiteSecurise {
          p.save();
     }
 
-
-
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
     public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
 

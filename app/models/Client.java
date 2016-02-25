@@ -178,6 +178,10 @@ public class Client extends EntiteSecurise {
         return find.where().eq("archiver",true).findList();
     }
 
+    public static List<Client> getAll(){
+        return find.all();
+    }
+
     public static List<Client> getAllNonArchives() {
         return find.where().eq("archiver",false).findList();
     }

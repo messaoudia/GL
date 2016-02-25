@@ -1368,9 +1368,12 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
     border-color: #18a689;
     color: #FFFFFF;
 }
-.btn-admin {
-    background-color: #f35454;
-    border-color: #f35454;
+.btn-admin,
+.btn-admin:hover,
+.btn-admin:focus,
+.btn-admin:active{
+    background-color: #e74c3c;
+    border-color: #e74c3c;
     color: #FFFFFF;
 }
 .btn-admin:hover,
@@ -1382,8 +1385,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-admin:active:hover,
 .btn-admin.active:hover,
 .btn-admin.active:focus {
-    background-color: #f32d2a;
-    border-color: #f32d2a;
+    background-color: #e74c3c;
+    border-color: #e74c3c;
     color: #FFFFFF;
 }
 .btn-primary:active,
@@ -8912,7 +8915,7 @@ body.md-skin {
 }
 
 .background_admin{
-    background-color: #f35454;
+    background-color: #e74c3c;
 }
 
 .radiobuttongroup {

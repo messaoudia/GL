@@ -161,32 +161,42 @@
 
         @scripts
         <script>
-                $requestUtilisateursArchives = false;
-                $requestClientsArchives = false;
-                $requestProjetsTermines = false;
-                $requestProjetsArchives = false;
-                var $tmpTr;
 
-                var supprimerProjet = function(){
-                    var $value = $trTmp.attr('value');
-
-                    jsRoutes.controllers.AdminController.supprimerProjet($value).ajax({
-                        success: function(html) {
-                            $('#dataTables-admin-projet').dataTable().fnDestroy();
-                            $trTmp.remove();
+                $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
+                    var id = $(this).parent('tr').attr('value');
+                    console.log("id.on = "+id);
+                    jsRoutes.controllers.AdminController.afficherModalUtilisateur(id).ajax({
+                        success: function(utilisateur) {
+                            //console.log(utilisateur);
+                            /* fill modal values*/
+                            $('#formLastName').val(utilisateur.nom);
+                            $('#formFirstName').val(utilisateur.prenom);
+                            $('#formEmail').val(utilisateur.email);
+                            $('#formTel').val(utilisateur.telephone);
                         },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            //alert(errorMessage);
+                        }
+                    });
+                });
+
+                $(document).on('click','#dataTables-admin-projet tr td:not(:last-child)', function(){
+                    var $valueTr = $(this).parent('tr').attr('value');
+                    jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
+                        success: function(html) {
+                            var result = $('#refresh',html);
+                            $('#refresh').empty().html(result);
+                        },
+                        //Case we have a problem
                         error: function(errorMessage){
                             alert(errorMessage);
                         }
                     });
-                }
+                });
 
-                /**
-                 * Methode Ajax pour aller récuperer des informations d'un client
-                 **/
-                var afficherModalClient = function (t) {
-
-                    var idC = $(t).attr('value');
+                $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
+                    var idC = $(this).parent('tr').attr('value');
 
                     jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
                         success: function(client) {
@@ -194,19 +204,16 @@
                             console.log("client : "+client)
                             $("#dataTables-admin-client").dataTable().fnDestroy();
 
-                            /* fill modal values*/
                             $('#formClientName').val(client.nom);
                             $('#formClientAdress').val(client.adresseClient.adresse);
                             $('#formZipCode').val(client.adresseClient.zipCode);
                             $('#formCity').val(client.adresseClient.ville);
                             $('#formCountry').val(client.adresseClient.pays);
-                            /* priority */
                             //$('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
                             $('#client-priority-1').removeClass("btn-active");
                             $('#client-priority-2').removeClass("btn-active");
                             $('#client-priority-3').removeClass("btn-active");
                             $('#client-priority-'+client.priorite).addClass("btn-active");
-                            /* Look for Projects and contacts */
                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
                                 success: function(listProjets) {
                                     console.log("sucess -----");
@@ -257,7 +264,30 @@
                             alert(errorMessage);
                         }
                     });
+                });
+                //dataTables-admin-client
+
+
+                $requestUtilisateursArchives = false;
+                $requestClientsArchives = false;
+                $requestProjetsTermines = false;
+                $requestProjetsArchives = false;
+                var $tmpTr;
+
+                var supprimerProjet = function(){
+                    var $value = $trTmp.attr('value');
+
+                    jsRoutes.controllers.AdminController.supprimerProjet($value).ajax({
+                        success: function(html) {
+                            $('#dataTables-admin-projet').dataTable().fnDestroy();
+                            $trTmp.remove();
+                        },
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
                 }
+
 
                 var afficherNotifications = function () {
                     //e.preventDefault();
@@ -298,6 +328,39 @@
                     });
                 }
 
+                var creerUtilisateur = function(btn)
+                {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    var value = $(".btn-active").attr('value');
+                    console.log("value : "+value);
+                    jsRoutes.controllers.UtilisateurController.creerUtilisateur().ajax({
+                        data: serialize+"&admin"+value,
+                        success : function(data) {
+                            $(form)[0].reset();
+                        },
+                        error: function(errorMessage){
+                            console.log(errorMessage);
+                            if(errorMessage.responseJSON.nomVide==true)
+                            {
+                                alert("nomVide");
+                                console.log(errorMessage);
+                            }
+                            else if(errorMessage.responseJSON.nomTropLong==true)
+                            {
+                                alert("nomTropLong");
+                                console.log(errorMessage);
+                            }
+                            else
+                            {
+                                // alert(errorMessage)
+                            }
+                        }
+                    })
+                }
+
+
                 var ajouterProjet = function() {
                     var $form = $('#addProjectForm');
                     var $serialize= $form.serialize();
@@ -313,21 +376,6 @@
                         }
                     });
 
-                }
-
-
-                var afficherAdminProjetsSelect = function (t) {
-                    var $valueTr = $(t).attr('value');
-                    jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
-                        success: function(html) {
-                            var result = $('#refresh',html);
-                            $('#refresh').empty().html(result);
-                        },
-                        //Case we have a problem
-                        error: function(errorMessage){
-                            alert(errorMessage);
-                        }
-                    });
                 }
 
 
@@ -443,11 +491,12 @@
 
 
 
+
                 $(document).ready(function () {
 
                     $('#sidebar-back-select').click(function(){
                         alert("JS : #sidebar-back-select");
-                    })
+                    });
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -720,11 +769,28 @@
                         height: '85px'
                     });
 
-                    $('[data-toggle="popover"]').popover()
+                    $('[data-toggle="popover"]').popover();
+
 
                 });
 
+                $(document).on('click', '#submitButton', function(){
+                    var $form = $('#addProjectForm');
+                    var $serialize= $form.serialize();
+                    var $value = $(".btn-active").attr('value');
+                    jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                        data :$serialize+ '&priorite='+$value,
+                        success : function(data) {
+                            $("#addProjectForm")[0].reset();
+                        },
+                        error: function(errorMessage){
+
+                        }
+                    });
+                });
+
                 $( document ).ajaxComplete(function() {
+
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -795,7 +861,7 @@
                         $('.liste-projet-client').css('height',"100%");
                         height = $('.liste-projet-client').css('height');
                         height = parseInt(height);
-                        height -= 230;
+                        height -= 200;
                         $('.liste-projet-client').css('height',height);
 
                     });
@@ -953,10 +1019,20 @@
 
 
                     $('#dataTables-tdb-tache').DataTable({
+                        destroy:true,
                         "columnDefs": [{
                             "searchable": false,
                             "orderable": false,
                             "targets": [6, 7]
+                        } ]
+                    });
+
+                    $('#dataTables-admin-user').DataTable({
+                        destroy:true,
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":7,
                         } ]
                     });
 
@@ -975,6 +1051,7 @@
                     } );
 
                     $('#dataTables-admin-projet').DataTable({
+                        destroy: true,
                         "columnDefs": [{
                             "searchable": false,
                             "orderable": false,
@@ -988,21 +1065,16 @@
 
 
                     $('#dataTables-admin-client').DataTable({
+                        destroy: true,
                         "columnDefs": [{
                             "searchable": false,
                             "orderable": false,
-                            "targets":6,
+                            "targets":6
                         } ]
                     });
 
 
-                    $('#dataTables-admin-user').DataTable({
-                        "columnDefs": [{
-                            "searchable": false,
-                            "orderable": false,
-                            "targets":7
-                        } ]
-                    });
+
 
                     $('#btn-modifierTache').click(function() {
                         jQuery.fx.off = true;
