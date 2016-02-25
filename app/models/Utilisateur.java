@@ -179,6 +179,52 @@ public class Utilisateur extends Personne {
     }
 
     /**
+     * Donne la liste des projets où participe l'utilisateur
+     * @return
+     */
+    public List<Projet> listProjets(){
+        List<Projet> listProjet = listProjetsResponsable();
+        if(listProjet == null)  listProjet = new BeanList<>();
+        for(Tache tache : listTaches()){
+            if(!listProjet.contains(tache.projet)){
+                listProjet.add(tache.projet);
+            }
+        }
+        return listProjet;
+    }
+
+    /**
+     * TODO : peut etre faire une requete uniquement
+     * @return
+     */
+    public List<Client> listClients(){
+        List<Projet> listProjets = listProjets();
+        List<Client> listClients = new BeanList<>();
+        for(Projet projet : listProjets){
+            if(!listClients.contains(projet.client)){
+                listClients.add(projet.client);
+            }
+        }
+        return listClients;
+    }
+
+    /**
+     * TODO : peut etre faire une requete uniquement
+     * @param client
+     * @return
+     */
+    public List<Projet> listProjetsDuClient(Client client){
+        List<Projet> listProjets = listProjets();
+        List<Projet> listToReturn = new BeanList<>();
+        for(Projet projet : listProjets){
+            if(projet.client.equals(client)){
+                listToReturn.add(projet);
+            }
+        }
+        return listToReturn;
+    }
+
+    /**
      *  Méthode de hachage du mot de passe avec l'objet digest
      * @param numClient
      * @param password

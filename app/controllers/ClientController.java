@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Utilisateur;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.client;
@@ -13,7 +14,7 @@ import static play.mvc.Results.ok;
 public class ClientController extends Controller {
 
     public Result afficherClients() {
-        return ok(client.render("Clients"));
+        return ok(client.render("Clients", Utilisateur.getAllNonArchives().get(0)));
     }
 
     public Result afficherCreerClient() {

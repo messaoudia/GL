@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle: String, utilisateur: models.Utilisateur)
 
 @scripts = {
     <script>
@@ -69,81 +69,17 @@
                     <div id="col-sidebar-liste-projet" class="col-md-2" style="padding: 0;">
                         <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color:#FFF;box-shadow: 3px 0 5px -4px #333;">
                             <div class="liste-projet" style="overflow-y: auto; height: 100%; margin-top:26px;">
-
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet select">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">myProject</div>
-                                            <div class="sidebar-client-nom">PoPS5I Inc.</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">3</div></div>
+                                @for(projet <- utilisateur.listProjets()){
+                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                        <div class="sidebar-projet select">
+                                            <div class="content">
+                                                <div class="sidebar-projet-nom">@projet.nom</div>
+                                                <div class="sidebar-client-nom">@projet.client.nom</div>
+                                                <div class="sidebar-client-projet-priorite"><div class="valeur">@projet.prioriteProjetEtClient()</div></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">myProject</div>
-                                            <div class="sidebar-client-nom">PoPS5I Inc.</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">3</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">myProject</div>
-                                            <div class="sidebar-client-nom">PoPS5I Inc.</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">3</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">myProject</div>
-                                            <div class="sidebar-client-nom">PoPS5I Inc.</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">3</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">BigData</div>
-                                            <div class="sidebar-client-nom">Auchan</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">2</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">BigData</div>
-                                            <div class="sidebar-client-nom">Auchan</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">2</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">BigData</div>
-                                            <div class="sidebar-client-nom">Auchan</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">2</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div class="sidebar-projet">
-                                        <div class="content">
-                                            <div class="sidebar-projet-nom">BigData</div>
-                                            <div class="sidebar-client-nom">Auchan</div>
-                                            <div class="sidebar-client-projet-priorite"><div class="valeur">2</div></div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                }
                             </div>
 
                             <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute; bottom: 51px; background-color: #FFF;">

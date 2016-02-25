@@ -804,4 +804,6 @@ public class Projet extends EntiteSecurise {
     public boolean estRetarde(){ return dateFinReelTard.after(Calendar.getInstance().getTime());}
     public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
     public boolean estTermine(){ return avancementGlobal == 100; }
+
+    public int prioriteProjetEtClient(){ return priorite + client.priorite;}
 }

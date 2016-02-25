@@ -19,7 +19,7 @@ import static play.data.Form.form;
 public class ProjetController extends Controller{
 
     public Result afficherProjets() {
-        return ok(projet.render("Projets"));
+        return ok(projet.render("Projets", Utilisateur.getAllNonArchives().get(0)));   // provisoir en attendant login
     }
 
     public Result afficherCreerProjet(){
