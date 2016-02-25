@@ -167,6 +167,19 @@ public class Utilisateur extends Personne {
         return listTaches().size();
     }
 
+    public List<Notification> listNotifications(){
+        return Notification.find.where().eq("utilisateur",this).findList();
+    }
+
+    public int nbNotificationsNonLues(){
+        listNotifications = listNotifications();
+        int cpt = 0;
+        for(Notification notif : listNotifications){
+            if(!notif.etatLecture) cpt++;
+        }
+        return cpt;
+    }
+
     // TODO getListTachesNotifications, utilisateursMeSuivant, utilisateursMeSuivant
 
     /**

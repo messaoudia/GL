@@ -1,48 +1,51 @@
-    @(pageTitle: String)
+@(pageTitle: String, utilisateur: models.Utilisateur)
 
-    @scripts = {
-        <script>
+@scripts = {
+    <script>
 
 
-                $(document).ready(function() {
-                    $('.liclickable').click(function (e) {
-                        e.preventDefault();
-                        var self = $(this),
-                                controler = self.data('infos') || self.attr('data-infos');
-                        $('#sidebar ul li').removeClass('active');
-                        $(this).addClass('active');
+            $(document).ready(function() {
+                $('.liclickable').click(function (e) {
+                    e.preventDefault();
+                    var self = $(this),
+                            controler = self.data('infos') || self.attr('data-infos');
+                    $('#sidebar ul li').removeClass('active');
+                    $(this).addClass('active');
 
-                        eval("jsRoutes.controllers."+controler).ajax({
-                            success: function(html) {
-                                var result = $('#refresh',html);
-                                $('#refresh').empty().html(result);
-                            },
-                            //Case we have a problem
-                            error: function(errorMessage){
-                                alert(errorMessage);
-                            }
-                        });
+                    eval("jsRoutes.controllers."+controler).ajax({
+                        success: function(html) {
+                            var result = $('#refresh',html);
+                            $('#refresh').empty().html(result);
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
                     });
                 });
+            });
 
-        </script>
-    }
+    </script>
+}
 
-    @content = {
-        <div id="wrapper" class="ng-scope">
-            @sidebar("Notification")
+@content = {
+    <div id="wrapper" class="ng-scope">
+        @sidebar("Notification")
 
-            <div id="page-wrapper" class="gray-bg dashbard-1">
-                @topbar()
-                <div id="refresh" >
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-content">
-                                    <form id="form-notif">
-                                        <h2>@Messages("notifications") (2)</h2>
-                                        <a class="btn btn-white btn-bitbucket"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-white btn-bitbucket"><i class="fa fa-trash"></i></a>
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            @topbar()
+            <div id="refresh" >
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                <form id="form-notif">
+                                    <h2>@Messages("notifications") (@utilisateur.nbNotificationsNonLues())</h2>
+                                    <a class="btn btn-white btn-bitbucket"><i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-white btn-bitbucket"><i class="fa fa-trash"></i></a>
+                                    @if(utilisateur.listNotifications().isEmpty()) {
+                                        <div class="div-center"><h3>@Messages("noneNotification")</h3></div>
+                                    } else {
                                         <div class="table-responsive">
                                             <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
                                                 <thead>
@@ -55,96 +58,45 @@
                                                         <th>@Messages("date")</th>
                                                         <th data-hide="all">@Messages("state")</th>
                                                         <th data-hide="all">@Messages("message")</th>
-                                                        <th data-hide="all">@Messages("link")</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr id="notif-1" class="non-lu">
-                                                        <td>
-                                                            <div class="checkbox checkbox-success checkbox-inline">
-                                                                <input id="checkbox-notif-1" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-1','notif-1')">
-                                                                <label for="checkbox-notif-1"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>Organiser une réunion</td>
-                                                        <td>myProjects</td>
-                                                        <td>PoPS5I Inc.</td>
-                                                        <td>Modification des interlocuteurs externes</td>
-                                                        <td>06/02/2016 (15:15)</td>
-                                                        <td>@Messages("unread")</td>
-                                                        <td>
-                                                            <p>Nouveau interlocuteur externe : Frédéric Voisin</p>
-                                                        </td>
-                                                        <td>
-                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="notif-2" class="lu">
-                                                        <td>
-                                                            <div class="checkbox checkbox-success checkbox-inline">
-                                                                <input id="checkbox-notif-2" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-2','notif-2')">
-                                                                <label for="checkbox-notif-2"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>Créer une base de données</td>
-                                                        <td>Big Data</td>
-                                                        <td>Auchan</td>
-                                                        <td>Modification de l'avancement</td>
-                                                        <td>06/02/2016 (14:35)</td>
+                                                @for( notification <- utilisateur.listNotifications()) {
+                                                    @if(notification.etatLecture) {
+                                                        <tr id="notif-@notification.id" class="lu">
+                                                    } else {
+                                                        <tr id="notif-@notification.id" class="non-lu">
+                                                        }
+
+                                                    <td>
+                                                        <div class="checkbox checkbox-success checkbox-inline">
+                                                            <input id="checkbox-notif-@notification.id" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-@notification.id','notif-@notification.id')">
+                                                            <label for="checkbox-notif-@notification.id"></label>
+                                                        </div>
+                                                    </td>
+                                                    @if(notification.concerneTache) {
+                                                        <td>@notification.tache.nom</td>
+                                                        <td>@notification.tache.projet.nom</td>
+                                                        <td>@notification.tache.projet.client.nom</td>
+                                                    } else {
+                                                        <td></td>
+                                                        <td>@notification.projet.nom</td>
+                                                        <td>@notification.projet.client.nom</td>
+                                                    }
+
+                                                    <td>@notification.title</td>
+                                                    <td>06/02/2016 (15:15) (TODO)</td>
+                                                    @if(notification.etatLecture == true) {
                                                         <td>@Messages("read")</td>
-                                                        <td>
-                                                            <p>Amin a modifié l'avancement de la tâche "Créer une base de données"</p>
-                                                            <p>Charge consommée : 10h</p>
-                                                            <p>Charge restante : 20h</p>
-                                                            <p>Pourcentage d'avancement : 33%</p>
-                                                        </td>
-                                                        <td>
-                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="notif-3" class="non-lu">
-                                                        <td>
-                                                            <div class="checkbox checkbox-success checkbox-inline">
-                                                                <input id="checkbox-notif-3" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-3','notif-3')">
-                                                                <label for="checkbox-notif-3"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>Organiser une réunion</td>
-                                                        <td>myProjects</td>
-                                                        <td>PoPS5I Inc.</td>
-                                                        <td>Modification des interlocuteurs externes</td>
-                                                        <td>06/02/2016 (15:15)</td>
+                                                    } else {
                                                         <td>@Messages("unread")</td>
-                                                        <td>
-                                                            <p>Nouveau interlocuteur externe : Frédéric Voisin</p>
-                                                        </td>
-                                                        <td>
-                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="notif-4" class="lu">
-                                                        <td>
-                                                            <div class="checkbox checkbox-success checkbox-inline">
-                                                                <input id="checkbox-notif-4" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-4','notif-4')">
-                                                                <label for="checkbox-notif-4"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>Créer une base de données</td>
-                                                        <td>Big Data</td>
-                                                        <td>Auchan</td>
-                                                        <td>Modification de l'avancement</td>
-                                                        <td>06/02/2016 (14:35)</td>
-                                                        <td>@Messages("read")</td>
-                                                        <td>
-                                                            <p>Amin a modifié l'avancement de la tâche "Créer une base de données"</p>
-                                                            <p>Charge consommée : 10h</p>
-                                                            <p>Charge restante : 20h</p>
-                                                            <p>Pourcentage d'avancement : 33%</p>
-                                                        </td>
-                                                        <td>
-                                                            <p><a href="#">Cliquer ici pour accéder au détail</a></p>
-                                                        </td>
-                                                    </tr>
+                                                    }
+                                                    <td>
+                                                        <p>@notification.contentNotification</p>
+                                                    </td>
+
+                                                </tr>
+                                                }
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
@@ -155,13 +107,15 @@
                                                 </tfoot>
                                             </table>
                                         </div>
-                                    </form>
-                                </div>
+                                    }
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-    }
+        </div>
+    </div>
+}
 
-    @main(pageTitle,content, scripts)
+@main(pageTitle, content, scripts)

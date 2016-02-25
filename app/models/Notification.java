@@ -22,7 +22,6 @@ public class Notification extends Model{
 
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateEnvoi;
-    public String link;
     public Boolean etatLecture;
     public Boolean archiver;
 
@@ -30,16 +29,33 @@ public class Notification extends Model{
     @JoinColumn
     public Utilisateur utilisateur;
 
+    // True = tache, False = projet
+    public Boolean concerneTache;
+    public Tache tache;
+
+    public Projet projet;
+
     public static Model.Finder<Long, Notification> find = new Model.Finder<>(Notification.class);
 
-    public Notification(String title, String contentNotification, Date dateEnvoi, String link, Boolean etatLecture, Boolean archiver, Utilisateur utilisateur) {
+    public Notification(String title, String contentNotification, Date dateEnvoi, Boolean etatLecture, Boolean archiver, Utilisateur utilisateur, Tache tache, Projet projet) {
         this.title = title;
         this.contentNotification = contentNotification;
         this.dateEnvoi = dateEnvoi;
-        this.link = link;
         this.etatLecture = etatLecture;
         this.archiver = archiver;
         this.utilisateur = utilisateur;
+        if(tache == null && projet == null){
+            throw new IllegalArgumentException("Une notification concerne au moins une tache ou un projet. Veuillez renseigner un des deux");
+        }
+        if(tache == null){
+            this.tache = null;
+            this.projet = projet;
+            this.concerneTache = false;
+        }  else{
+            this.tache = tache;
+            this.projet = tache.projet;
+            this.concerneTache = true;
+        }
     }
 
     public Notification() {
@@ -48,8 +64,7 @@ public class Notification extends Model{
     @Override
     public String toString() {
         return "[Notification : " + id + "] : " +
-                title + ", " + dateEnvoi + ", " +
-                link + ", etatLecture " + etatLecture +
+                title + ", " + dateEnvoi + ", etatLecture " + etatLecture +
                 ", archiver " + archiver +
                 ", contentNotification \n" + contentNotification + "\n";
     }
@@ -66,9 +81,12 @@ public class Notification extends Model{
             Notification notification = (Notification) obj;
             return (notification.id.equals(this.id) && notification.title.equals(this.title) &&
                     notification.dateEnvoi.equals(this.dateEnvoi) &&
-                    notification.link.equals(this.link) && notification.etatLecture.equals(this.etatLecture) &&
+                    notification.etatLecture.equals(this.etatLecture) &&
                     notification.archiver.equals(this.archiver) &&
-                    notification.contentNotification.equals(this.contentNotification) );
+                    notification.contentNotification.equals(this.contentNotification)&&
+                    notification.projet.equals(this.projet) &&
+                    notification.tache.equals(this.tache) &&
+                    notification.concerneTache.equals(this.concerneTache));
         } catch (ClassCastException e) {
             return false;
         }
