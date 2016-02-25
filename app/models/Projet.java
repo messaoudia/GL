@@ -806,4 +806,8 @@ public class Projet extends EntiteSecurise {
     public boolean estTermine(){ return avancementGlobal == 100; }
 
     public int prioriteProjetEtClient(){ return priorite + client.priorite;}
+
+    public List<Tache> listTaches(){
+        return Tache.find.where().eq("projet",this).findList();
+    }
 }
