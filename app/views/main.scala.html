@@ -288,80 +288,6 @@
                     });
                 }
 
-                /**
-                 * Methode Ajax pour aller récuperer des informations d'un client
-                 **/
-                /*var afficherModalClient = function (t) {
-
-                    var idC = $(t).attr('value');
-
-                    jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
-                        success: function(client) {
-                            //console.log(client);
-                            console.log("client : "+client)
-                            $("#dataTables-admin-client").dataTable().fnDestroy();
-
-                            $('#formClientName').val(client.nom);
-                            $('#formClientAdress').val(client.adresseClient.adresse);
-                            $('#formZipCode').val(client.adresseClient.zipCode);
-                            $('#formCity').val(client.adresseClient.ville);
-                            $('#formCountry').val(client.adresseClient.pays);
-                            //$('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
-                            $('#client-priority-1').removeClass("btn-active");
-                            $('#client-priority-2').removeClass("btn-active");
-                            $('#client-priority-3').removeClass("btn-active");
-                            $('#client-priority-'+client.priorite).addClass("btn-active");
-                            jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
-                                success: function(listProjets) {
-                                    console.log("sucess -----");
-                                    var projetTableBody = $('#table-modal-client-projets-body');
-                                    projetTableBody.empty();
-                                    console.log(listProjets);
-                                    $("#dataTables-admin-client").dataTable().fnDestroy();
-                                    if(listProjets.length != 0){
-                                        $(listProjets).each(function(index, projet) {
-                                            var p ="";
-                                            p+=('<tr>');
-                                            p+=('<td class="first-td">'+projet.nom+'</td>');
-                                            p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            p+=('</tr>');
-
-                                            projetTableBody.append(p);
-                                        });
-                                    }
-                                },
-                                error: function(errorMessage){
-                                    console.log("error : "+errorMessage)
-                                }
-                            });
-                            jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
-                                success: function(listContacts) {
-                                    var contactsTableBody = $('#table-modal-client-contacts-body');
-                                    contactsTableBody.empty();
-                                    //console.log(listContacts);
-                                    $("#dataTables-admin-client").dataTable().fnDestroy();
-                                    if(listContacts.length != 0){
-                                        $(listContacts).each(function(index, contact) {
-                                            var c ="";
-                                            c+=('<tr>');
-                                            c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                                            c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            c+=('</tr>');
-
-                                            contactsTableBody.append(c);
-                                        });
-                                    }
-                                }
-                            });
-
-
-                        },
-                        //Case we have a problem
-                        error: function(errorMessage){
-                            alert(errorMessage);
-                        }
-                    });
-                }*/
 
                 var afficherNotifications = function () {
                     //e.preventDefault();
@@ -385,10 +311,10 @@
                 var afficherModalUtilisateur = function (t) {
 
                     var id = $(t).attr('value');
-                    console.log("id = "+id);
                     jsRoutes.controllers.AdminController.afficherModalUtilisateur(id).ajax({
                         success: function(utilisateur) {
                             //console.log(utilisateur);
+                            $("#dataTables-admin-user").dataTable().fnDestroy();
                             /* fill modal values*/
                             $('#formLastName').val(utilisateur.nom);
                             $('#formFirstName').val(utilisateur.prenom);
@@ -453,21 +379,6 @@
                 }
 
 
-                /*var afficherAdminProjetsSelect = function (t) {
-                    var $valueTr = $(t).attr('value');
-                    jsRoutes.controllers.AdminController.afficherAdminProjetsSelect($valueTr).ajax({
-                        success: function(html) {
-                            var result = $('#refresh',html);
-                            $('#refresh').empty().html(result);
-                        },
-                        //Case we have a problem
-                        error: function(errorMessage){
-                            alert(errorMessage);
-                        }
-                    });
-                }*/
-
-
                 var afficherAdminProjets = function(){
                     jsRoutes.controllers.AdminController.afficherAdminProjets().ajax({
                         success: function(html) {
@@ -483,11 +394,13 @@
 
 
 
+
+
                 $(document).ready(function () {
 
                     $('#sidebar-back-select').click(function(){
                         alert("JS : #sidebar-back-select");
-                    })
+                    });
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -760,11 +673,28 @@
                         height: '85px'
                     });
 
-                    $('[data-toggle="popover"]').popover()
+                    $('[data-toggle="popover"]').popover();
+
 
                 });
 
+                $(document).on('click', '#submitButton', function(){
+                    var $form = $('#addProjectForm');
+                    var $serialize= $form.serialize();
+                    var $value = $(".btn-active").attr('value');
+                    jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                        data :$serialize+ '&priorite='+$value,
+                        success : function(data) {
+                            $("#addProjectForm")[0].reset();
+                        },
+                        error: function(errorMessage){
+
+                        }
+                    });
+                });
+
                 $( document ).ajaxComplete(function() {
+
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -835,7 +765,7 @@
                         $('.liste-projet-client').css('height',"100%");
                         height = $('.liste-projet-client').css('height');
                         height = parseInt(height);
-                        height -= 230;
+                        height -= 200;
                         $('.liste-projet-client').css('height',height);
 
                     });
@@ -1043,9 +973,10 @@
                         "columnDefs": [{
                             "searchable": false,
                             "orderable": false,
-                            "targets":6,
+                            "targets":6
                         } ]
                     });
+
 
 
 
@@ -1333,6 +1264,7 @@
                                     success : function(data) {
                                         var utilisateurList = $('#dataTables-admin-user-body');
                                         console.log(data);
+                                        $("#dataTables-admin-user").dataTable().fnDestroy();
                                         $(data).each(function(index, utilisateur) {
                                             var list ="";
                                             list+=('<tr class="archived" value='+utilisateur.id+'>');

@@ -2,6 +2,8 @@ package models;
 
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import controllers.Global.StaticEntite;
+import models.Securite.Role;
 import play.Logger;
 import play.data.validation.Constraints;
 
@@ -590,6 +592,10 @@ public class Utilisateur extends Personne {
     public static List<Utilisateur> getAllNonArchives(){
         //Logger.debug(find.where().eq("archive",false).findList().toString());
         return find.where().eq("archive",false).findList();
+    }
+
+    public Boolean checkAdmin(){
+        return StaticEntite.getSystem().haveRole(this, Role.getRole("Administrateur"));
     }
 
     public void suivreUnUtilisateur(Utilisateur user){
