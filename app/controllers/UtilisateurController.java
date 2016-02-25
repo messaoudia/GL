@@ -7,6 +7,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.creerUtilisateur;
+import models.Error;
 
 import java.util.List;
 import java.util.Map;
@@ -15,23 +16,7 @@ import java.util.regex.Pattern;
 
 public class UtilisateurController extends Controller {
 
-    public class Error
-    {
-        public boolean nomVide, nomTropLong;
-        public boolean prenomVide, prenomTropLong;
-        public boolean emailVide, emailIncorrecte;
-        public boolean telVide, telIncorrecte;
-        public boolean userExist;
 
-        public boolean hasErrorUtilisateur()
-        {
-            return nomVide || nomTropLong
-                    || prenomVide || prenomTropLong
-                    || emailVide || emailIncorrecte
-                    || telVide || telIncorrecte || userExist;
-        }
-
-    }
     public Result afficherCreerUtilisateur() {
         return ok(creerUtilisateur.render("Créer Utilisateur"));
     }
