@@ -51,7 +51,7 @@ GET         /adminClientId             controllers.AdminController.afficherModal
 GET         /adminProjetsClient        controllers.ProjetController.afficherProjetsClient(id: Long)
 GET         /adminContactsClient       controllers.ContactController.afficherContactsClient(id: Long)
 
-POST        /ajouterProjet             controllers.ProjetController.ajouterProjet
+POST        /ajouterProjet             controllers.ProjetController.creerProjet
 
 #view notification
 GET         /notifications             controllers.NotificationController.afficherNotifications
@@ -62,3 +62,4 @@ POST        /adminProjetArchives       controllers.AdminController.afficherProje
 POST        /adminProjetSupprimer      controllers.AdminController.supprimerProjet(idProjet:Long)
 
 POST        /ajouterUtilisateur        controllers.UtilisateurController.creerUtilisateur
+POST        /ajouterClient             controllers.ClientController.creerClient

@@ -99,7 +99,6 @@
 
             <!-- DATE -->
         <script src="/assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-        <script src="/assets/js/plugins/datepicker/bootstrap-datepicker.js"></script>
         <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.en.js"></script>
         <script src="/assets/js/plugins/datepicker/locales/bootstrap-datepicker.fr.js"></script>
 
@@ -114,8 +113,6 @@
             <!-- Input Mask-->
         <script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
 
-            <!-- Data picker -->
-        <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
             <!-- NouSlider -->
         <script src="/js/plugins/nouslider/jquery.nouislider.min.js"></script>
@@ -360,6 +357,38 @@
                     })
                 }
 
+                var creerClient = function(btn)
+                {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    var value = $(".btn-active").attr('value');
+                    console.log("value : "+value);
+                    jsRoutes.controllers.UtilisateurController.creerClient().ajax({
+                        data: serialize+"&admin"+value,
+                        success : function(data) {
+                            $(form)[0].reset();
+                        },
+                        error: function(errorMessage){
+                            console.log(errorMessage);
+                            if(errorMessage.responseJSON.nomVide==true)
+                            {
+                                alert("nomVide");
+                                console.log(errorMessage);
+                            }
+                            else if(errorMessage.responseJSON.nomTropLong==true)
+                            {
+                                alert("nomTropLong");
+                                console.log(errorMessage);
+                            }
+                            else
+                            {
+                                // alert(errorMessage)
+                            }
+                        }
+                    })
+                }
+
 
                 var ajouterProjet = function() {
                     var $form = $('#addProjectForm');
@@ -392,11 +421,8 @@
                 }
 
 
-
-
-
-
                 $(document).ready(function () {
+
 
                     $('#sidebar-back-select').click(function(){
                         alert("JS : #sidebar-back-select");
@@ -682,7 +708,8 @@
                     var $form = $('#addProjectForm');
                     var $serialize= $form.serialize();
                     var $value = $(".btn-active").attr('value');
-                    jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
+                    alert($('#responsableProjet').find(':selected').attr('value'));
+                    jsRoutes.controllers.ProjetController.creerProjet().ajax({
                         data :$serialize+ '&priorite='+$value,
                         success : function(data) {
                             $("#addProjectForm")[0].reset();
@@ -694,7 +721,6 @@
                 });
 
                 $( document ).ajaxComplete(function() {
-
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -1045,67 +1071,83 @@
                     });
 
                     $('#datepicker_date_debut .input-group.date').datepicker({
+                        format: 'dd/mm/yy',
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
                         calendarWeeks: true,
                         autoclose: true,
                         language: "fr-FR"
+
 
                     });
 
                     $('#datepicker_date_fin_tot .input-group.date').datepicker({
+                        format: 'dd/mm/yy',
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
                         calendarWeeks: true,
                         autoclose: true,
-                        language: "fr-FR"
+                        language: "fr-FR",
+
                     });
 
                     $('#datepicker_date_fin_tard .input-group.date').datepicker({
+                        format: 'dd/mm/yy',
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
                         calendarWeeks: true,
                         autoclose: true,
                         language: "fr-FR"
+
                     });
 
-                    $('#datepicker_projet_th_debut .input-group.date').datepicker({
-                        todayBtn: "linked",
-                        keyboardNavigation: false,
-                        forceParse: false,
-                        calendarWeeks: true,
-                        autoclose: true,
-                        language: "fr-FR"
-                    });
 
-                    $('#datepicker_projet_th_fin .input-group.date').datepicker({
-                        todayBtn: "linked",
-                        keyboardNavigation: false,
-                        forceParse: false,
-                        calendarWeeks: true,
-                        autoclose: true,
-                        language: "fr-FR"
-                    });
+
 
                     $('#datepicker_projet_th_debut-projet .input-group.date').datepicker({
+                        format: 'dd/mm/yy',
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
                         calendarWeeks: true,
                         autoclose: true,
-                        language: "fr-FR"
+                        language: "fr-FR",
+
                     });
 
                     $('#datepicker_projet_th_fin-projet .input-group.date').datepicker({
+                        format: 'dd/mm/yy',
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
                         calendarWeeks: true,
                         autoclose: true,
                         language: "fr-FR"
+
+                    });
+
+                    $('#datepicker_projet_th_debut .input-group.date').datepicker({
+                        format: 'dd/mm/yyyy',
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr"
+
+                    });
+
+                    $('#datepicker_projet_th_fin .input-group.date').datepicker({
+                        format: 'dd/mm/yyyy',
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr"
                     });
 
                     $('#projet-tdb').slimScroll({
@@ -1204,13 +1246,7 @@
                         $('#modal-projet-admin-nom-projet').html($(this).parent('tr').find("td:first-child").text());
                         $trTmp = $(this).parent('tr');
                     });
-
-
-
-
-
                 });
-
                 /* Afficher les Clients archivés */
                 function clientsArchived(){
                     $('#checkBoxClientsArchived').change(function() {

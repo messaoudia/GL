@@ -61,11 +61,8 @@
                                             <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
                                             <div>
                                                 <select id="responsableProjet" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
-                                                    @{
-                                                        var test =0
-                                                    }
                                                     @for(user <- users) {
-                                                        <option value="1">@user.prenom @user.nom</option>
+                                                        <option value="@user.id">@user.prenom @user.nom</option>
                                                     }
 
                                                 </select>
@@ -78,11 +75,9 @@
                                             <label class="label_form" for="client">@Messages("client")</label>
                                             <div>
                                                 <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
-                                                    <option value="1">Option 1</option>
-                                                    <option value="2">Option 2</option>
-                                                    <option value="3">Option 3</option>
-                                                    <option value="4">Option 4</option>
-                                                    <option value="5">Option 5</option>
+                                                @for(client <- clients) {
+                                                    <option value="@client.id">@client.nom</option>
+                                                }
                                                 </select>
                                             </div>
                                         </div>
@@ -126,8 +121,8 @@
                                             <label class="label_form" for="unite">@Messages("unit")</label>
                                             <div>
                                                 <select id="unite" name="unite" required="true" style="width:100% ;" class="form-control">
-                                                    <option value="1">@Messages("day")</option>
-                                                    <option value="2">@Messages("week")</option>
+                                                    <option value="JOUR">@Messages("day")</option>
+                                                    <option value="SEMAINE">@Messages("week")</option>
                                                 </select>
                                             </div>
                                         </div>

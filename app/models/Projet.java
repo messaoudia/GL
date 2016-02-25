@@ -153,6 +153,9 @@ public class Projet extends EntiteSecurise {
         }
     }
 
+    public Projet(String nom,String description,Utilisateur responsableProjet,Date dateDebutTheorique,Date dateFinTheorique,UniteProjetEnum unite,Client client, Integer priorite){
+        this(nom,description,responsableProjet,dateDebutTheorique,dateFinTheorique, null, null, null, 0.0,unite , (byte)0, true, false,client,priorite ,null,null);
+    }
 
     public Projet() {
         this.listTaches = new BeanList<>();
