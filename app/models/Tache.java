@@ -69,11 +69,11 @@ public class Tache extends EntiteSecurise {
     public Utilisateur responsableTache;
 
     // TODO @qqch?
-    public List<Utilisateur> utilisateursNotifications;
+    //public List<Utilisateur> utilisateursNotifications;
 
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
-                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, List<Utilisateur> utilisateursNotifications) {
+                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet/*, List<Utilisateur> utilisateursNotifications*/) {
         this.nom = nom;
         this.description = description;
         this.niveau = niveau;
@@ -89,7 +89,7 @@ public class Tache extends EntiteSecurise {
         this.enfants = new BeanList<>();
         this.projet = projet;
         this.archive = false;
-        this.utilisateursNotifications = (utilisateursNotifications == null) ? new BeanList<>() : utilisateursNotifications;
+        //this.utilisateursNotifications = (utilisateursNotifications == null) ? new BeanList<>() : utilisateursNotifications;
     }
 
     public Tache() {
@@ -97,7 +97,7 @@ public class Tache extends EntiteSecurise {
         this.successeurs = new BeanList<>();
         this.enfants = new BeanList<>();
         this.archive = false;
-        this.utilisateursNotifications = new BeanList<>();
+        //this.utilisateursNotifications = new BeanList<>();
     }
 
     /**
@@ -107,6 +107,7 @@ public class Tache extends EntiteSecurise {
         tache.save();
         return tache;
     }
+    /*
 
     public void initUtilisateursNotificationsEnfants(){
         for(Tache child : enfants){
@@ -161,7 +162,7 @@ public class Tache extends EntiteSecurise {
             parent.removeUtilisateurNotificationParents();
         }
     }
-
+    */
 
     public static List<Tache> getAll() {
         return find.all();

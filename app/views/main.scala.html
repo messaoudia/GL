@@ -397,7 +397,6 @@
 
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
                         success: function(tache) {
-                            console.log("tache : "+tache.nom)
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
                             // div-consulter-tache
@@ -408,10 +407,12 @@
                                 $('#imgCritique-consulterTache-tdb').hide();
                             }
 
-                            $('#idTache-consulter-tdb').val(tache.idTache);
-                            $('#nomTache-consulter-tdb').val(tache.nom);
-                            $('#descriptionTache-consulter-tdb').val(tache.description);
-
+                            $('#idTache-consulter-tdb').html(tache.idTache);
+                            $('#idTache-modifier-tdb').html(tache.idTache);
+                            $('#nomTache-consulter-tdb').html(tache.nom);
+                            $('#formModifierNomTache-tdb').val(tache.nom);
+                            $('#descriptionTache-consulter-tdb').html(tache.description);
+                            $('#formModifierDescriptionTache-tdb').val(tache.description);
                             if(tache.predecesseur == null){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
@@ -419,16 +420,16 @@
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
                                 $('#table-predecesseurTache-consulter-tdb').show();
-                                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').val(tache.predecesseur.idTache);
-                                $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').val(tache.predecesseur.nom);
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseur.idTache);
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseur.nom);
                             }
 
                             // TODO : Successeurs
 
 
-                            $('#nomProjet-consulter-tdb').val(tache.projet.nom);
-                            $('#nomClient-consulter-tdb').val(tache.client.nom);
-                            $('#nomRespTache-consulter-tdb').val(tache.responsableTache.nom);
+                            $('#nomProjet-consulter-tdb').html(tache.projet.nom);
+                            $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
+                            $('#nomRespTache-consulter-tdb').html(tache.responsableTache.prenom + " " + tache.responsableTache.nom);
 
 
                             // div-modifier-tache
