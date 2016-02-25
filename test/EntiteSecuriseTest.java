@@ -83,7 +83,7 @@ public class EntiteSecuriseTest {
 
         Projet projet1 = new Projet("projet1_UNIQUE", "description1", utilisateur1DB,
                 Utils.getDateFrom(2016, 2, 2), Utils.getDateFrom(2016, 2, 10), Utils.getDateFrom(2016, 2, 3),
-                Utils.getDateFrom(2016, 2, 9), Utils.getDateFrom(2016, 2, 9), 24D, UniteProjetEnum.SEMAINE, new Byte("0"), false, false, null, 3, null, null);
+                Utils.getDateFrom(2016, 2, 9), Utils.getDateFrom(2016, 2, 9), 24D, UniteProjetEnum.SEMAINE, new Byte("0"), false, false, null, 3, null);
         projet1.save();
 
         Projet projet1DB = Projet.find.where().eq("nom", "projet1_UNIQUE").findList().get(0);
