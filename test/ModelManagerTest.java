@@ -65,15 +65,17 @@ public class ModelManagerTest {
 
             try {
                 projet.creerTacheInitialisationProjet(tache1);
+                // tache2: idTache=1; tache1: idTache=2
                 projet.creerTacheAuDessus(tache2, tache1);
 
                 Tache tache2Selected = Tache.find.byId(tache2.id);
                 Projet projetSelected = Projet.find.byId(projet.id);
+
                 assertTrue(projetSelected.listTaches().contains(tache2Selected));
+                assertEquals(tache1.idTache, "2");
+                assertEquals(tache2.idTache, "1");
 
-                Logger.debug(tache1.idTache);
-                Logger.debug(tache2.idTache);
-
+                //TODO test the case where project has sous taches.
             } catch (Exception e) {
                 e.printStackTrace();
             }

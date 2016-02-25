@@ -469,7 +469,7 @@ public class Projet extends EntiteSecurise {
         idTache += newIdTache + ".";
 
         // Meme fin entre niveau+1 et fin
-        for(int i=niveau+1; i<=idTacheParse.length; i++){
+        for(int i=niveau+1; i<idTacheParse.length; i++){
             idTache += idTacheParse[i] + ".";
         }
         return idTache.substring(0, idTache.length()-1);
