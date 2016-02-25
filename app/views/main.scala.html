@@ -209,7 +209,7 @@
                             $('#formZipCode').val(client.adresseClient.zipCode);
                             $('#formCity').val(client.adresseClient.ville);
                             $('#formCountry').val(client.adresseClient.pays);
-                            //$('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
+
                             $('#client-priority-1').removeClass("btn-active");
                             $('#client-priority-2').removeClass("btn-active");
                             $('#client-priority-3').removeClass("btn-active");
@@ -241,7 +241,7 @@
                                 success: function(listContacts) {
                                     var contactsTableBody = $('#table-modal-client-contacts-body');
                                     contactsTableBody.empty();
-                                    //console.log(listContacts);
+                                    console.log(listContacts);
                                     $("#dataTables-admin-client").dataTable().fnDestroy();
                                     if(listContacts.length != 0){
                                         $(listContacts).each(function(index, contact) {
@@ -254,6 +254,9 @@
                                             contactsTableBody.append(c);
                                         });
                                     }
+                                },
+                                error: function(errorMessage){
+                                    console.log("error : "+errorMessage)
                                 }
                             });
 
