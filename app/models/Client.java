@@ -174,6 +174,8 @@ public class Client extends EntiteSecurise {
         save();
     }
 
+    public List<Contact> listContacts(){ return Contact.find.where().eq("client",this).findList(); }
+
     public static List<Client> getAllArchives(){
         return find.where().eq("archiver",true).findList();
     }

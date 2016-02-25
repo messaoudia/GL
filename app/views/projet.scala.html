@@ -1,5 +1,6 @@
 @(pageTitle: String, utilisateur: models.Utilisateur)
 
+
 @scripts = {
     <script>
             $(document).ready(function() {
@@ -47,9 +48,6 @@
                     $('.pear-theme').css("cssText", "background-color : #1AB394 !important;border-color : #1AB394 !important;");
                 }
                 updateMenu();
-
-
-
             });
     </script>
 }
@@ -69,9 +67,10 @@
                     <div id="col-sidebar-liste-projet" class="col-md-2" style="padding: 0;">
                         <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color:#FFF;box-shadow: 3px 0 5px -4px #333;">
                             <div class="liste-projet" style="overflow-y: auto; height: 100%; margin-top:26px;">
+
                                 @for(projet <- utilisateur.listProjets()){
                                     <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                        <div class="sidebar-projet select">
+                                        <div name="projet-@projet.id" class="sidebar-projet">
                                             <div class="content">
                                                 <div class="sidebar-projet-nom">@projet.nom</div>
                                                 <div class="sidebar-client-nom">@projet.client.nom</div>
@@ -95,39 +94,56 @@
                         </div>
                     </div>
 
-                    <div id="col-consulterProjet" class="col-md-10">
+                    @for(projet <- utilisateur.listProjets()){
+                        <div id="projet-@projet.id" class="col-md-10" style="display:none;">
 
-                        <div id="div-consulterProjet">
+                        <div id="div-consulterProjet-@projet.id">
                             <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
 
                                 <div class="col-sm-4">
-                                    <h3 class="header-text">@Messages("project") : myProjects <div class="priorite">1</div></h3>
-                                    <h3 class="header-text">@Messages("client") : PoPS5I Inc. <div class="priorite">2</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet"></i></a></h3>
-                                    <textarea readonly class="description" style="width: 100% ; height: 130px;">Le but étant de développer un site web permettant le suivi de projet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sed sapien quam. Sed dapibus est id enim facilisis, at posuere turpis adipiscing. Quisque sit amet dui dui.</textarea>
+                                    <h3 class="header-text">@Messages("project") : @projet.nom <div class="priorite">@projet.priorite</div></h3>
+                                    <h3 class="header-text">@Messages("client") : @projet.client.nom <div class="priorite">@projet.client.priorite</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet-@projet.id"></i></a></h3>
+                                    <textarea readonly class="description" style="width: 100% ; height: 130px;">@projet.description</textarea>
                                 </div>
 
                                 <div class="col-sm-3" id="">
-                                    <h3 class="header-text">@Messages("projectPersonResponsible") : Julien Preisner</h3>
-                                    <h3 class="header-text">@Messages("progress") : 25%</h3>
-                                    <div class="row-initiale">@Messages("initial") : 50J</div>
-                                    <div class="row-restante">@Messages("remaining") : 30J</div>
-                                    <div class="progress progress-bar-default">
-                                            <!-- si 0% : color:black; -->
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                            60%
-                                        </div>
+                                    <h3 class="header-text">@Messages("projectPersonResponsible") : @projet.responsableProjet.prenom @projet.responsableProjet.nom</h3>
+                                    <h3 class="header-text">@Messages("progress") : @projet.avancementGlobal%</h3>
+                                    <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale
+                                        @if(projet.hasUniteJour()) {
+                                            @Messages("day-first-letter")
+                                        } else {
+                                            @Messages("week-first-letter")
+                                        }
                                     </div>
-                                    <p class="row-consommee">@Messages("consumed") : 30J</p>
+                                    <div class="row-restante">@Messages("remaining") : @projet.chargeRestante
+                                        @if(projet.hasUniteJour()) {
+                                            @Messages("day-first-letter")
+                                        } else {
+                                            @Messages("week-first-letter")
+                                        }</div>
+                                    <div class="progress progress-bar-default">
+                                    @if(projet.avancementGlobal == 0){
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                            0%
+                                        </div>
+                                    } else{
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                            @projet.avancementGlobal%
+                                        </div>
+                                    }
 
+                                    </div>
+                                    <p class="row-consommee">@Messages("consumed") : @projet.chargeConsommee
+                                        @if(projet.hasUniteJour()) {
+                                            @Messages("day-first-letter")
+                                        } else {
+                                            @Messages("week-first-letter")
+                                        }</p>
                                 </div>
-
-
                                 <div class="col-sm-5">
-
                                     <div class="row" style="padding-top: 10px ;">
-
                                         <div class="col-xs-9">
-
                                         </div>
                                         <div class="col-xs-3">
                                             <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
@@ -136,9 +152,8 @@
                                         </div>
                                     </div>
                                     <div class="row" id="date-header">
-
                                         <h3 class="header-text">
-                                            Dates théoriques
+                                            @Messages("theoreticalDate")
                                             <table>
                                                 <tr>
                                                     <td></td>
@@ -147,24 +162,31 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        Du <div class="date-projet">14/10/2015</div>
+                                                        @Messages("fromDate") <div class="date-projet">@projet.formateDate(projet.dateDebutTheorique)</div>
                                                     </td>
-                                                    <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
+                                                    <td style="padding-left: 3px ; padding-right: 3px ;">@Messages("untilDate")</td>
                                                     <td>
-                                                        <div class="date-projet">01/02/2016</div>
+                                                        <div class="date-projet">@projet.formateDate(projet.dateFinTheorique)</div>
                                                     </td>
                                                 </tr>
 
                                             </table>
-                                            Dates effectives
+                                            @Messages("effectiveDates")
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        Du <div class="date-projet">14/10/2015</div>
+                                                        @Messages("fromDate") <div class="date-projet">@projet.formateDate(projet.dateDebutReel)</div>
                                                     </td>
-                                                    <td style="padding-left: 3px ; padding-right: 3px ;">au</td>
+                                                    <td style="padding-left: 3px ; padding-right: 3px ;">@Messages("untilDate")</td>
                                                     <td>
-                                                        <div class="date-projet">01/02/2016</div>
+                                                        <div class="date-projet">@projet.formateDate(projet.dateFinReelTot)</div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <div class="date-projet">@projet.formateDate(projet.dateFinReelTard)</div>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -172,26 +194,22 @@
                                     </div>
                                     <div class="row" style="margin-top: 14px ;">
                                         <div style="margin-top:14px ;">
-
-                                            <button id="btn-modifierProjet" class="btn btn-info" type="button" style="padding: 3px 7px ; float: right ; border-radius: 0px 0 0 0 ; background-color: #1AB394"><i class="fa fa-pencil"></i>
+                                            <button id="btn-modifierProjet" name="@projet.id" class="btn btn-info" type="button" style="padding: 3px 7px ; float: right ; border-radius: 0px 0 0 0 ; background-color: #1AB394"><i class="fa fa-pencil"></i>
                                             </button>
                                         </div>
                                     </div>
-
-
                                 </div>
-
                             </div>
                         </div>
-                        <div class="modal fade" id="modal-consulterClient-projet" role="dialog">
+                        <div class="modal fade" id="modal-consulterClient-projet-@projet.id" role="dialog">
                             <div class="modal-dialog modal-lg">
                                     <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-body">
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                                         <div class="div-center">
-                                            <h3>PoP5SI Inc.</h3>
-                                            <h5>12 route du Vélodrome - 13000 Marseille (France)</h5>
+                                            <h3>@projet.client.nom</h3>
+                                            <h5>@projet.client.adresseClient</h5>
                                             <div class="table-responsive table-responsive-client">
                                                 <table class="datatable-consulterClient table table-striped table-bordered table-hover">
                                                     <thead>
@@ -203,24 +221,14 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr class="table-center">
-                                                            <td style="vertical-align:middle;">Guimard</td>
-                                                            <td style="vertical-align:middle ;">Valérie</td>
-                                                            <td style="vertical-align:middle ;">valérie.guimard&commat;u-psud.fr</td>
-                                                            <td style="vertical-align:middle ;">0123456789</td>
-                                                        </tr>
-                                                        <tr class="table-center">
-                                                            <td style="vertical-align:middle;">Voisin</td>
-                                                            <td style="vertical-align:middle ;">Frédéric</td>
-                                                            <td style="vertical-align:middle ;">f.v&commat;u-psud.fr</td>
-                                                            <td style="vertical-align:middle ;">0123456789</td>
-                                                        </tr>
-                                                        <tr class="table-center">
-                                                            <td style="vertical-align:middle;">Zidane</td>
-                                                            <td style="vertical-align:middle ;">Zinédine</td>
-                                                            <td style="vertical-align:middle ;">z.z&commat;u-psud.fr</td>
-                                                            <td style="vertical-align:middle ;">0123456189</td>
-                                                        </tr>
+                                                        @for(contact <- projet.client.listContacts()) {
+                                                            <tr class="table-center">
+                                                                <td style="vertical-align:middle ;">@contact.nom</td>
+                                                                <td style="vertical-align:middle ;">@contact.prenom</td>
+                                                                <td style="vertical-align:middle ;">@contact.email</td>
+                                                                <td style="vertical-align:middle ;">@contact.telephone</td>
+                                                            </tr>
+                                                        }
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -230,14 +238,14 @@
                             </div>
                         </div>
 
-                        <div id="div-modifierProjet" style="display: none;">
-                            <form id="addProjectForm" class="m-t" role="form" method="POST">
+                        <div id="div-modifierProjet-@projet.id" style="display: none;">
+                            <form id="addProjectForm-projet-@projet.id" class="m-t" role="form" method="POST">
                                 <div class="wrapper wrapper-content">
                                     <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
                                         <div class="ibox-content" style="padding-top: 0; padding-right: 0;">
                                             <div class="row">
                                                 <div class="col-md-offset-11 col-md-1" style="padding-right: 15px; padding-left:0px; text-align:center;">
-                                                    <div id="btn-cancel-modifierProjet" class="cursor-pointer" style="border:none; background-color:#E74C3C; color:#FFF;">@Messages("cancel")<i class="fa fa-times"></i></div>
+                                                    <div id="btn-cancel-modifierProjet" name="@projet.id" class="cursor-pointer" style="border:none; background-color:#E74C3C; color:#FFF;">@Messages("cancel")<i class="fa fa-times"></i></div>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -249,13 +257,26 @@
                                                 <div class="col-sm-offset-2 col-sm-8">
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <input name="projet" required="true" placeholder="" class="form-control"/>
+                                                            <input name="projet" value="@projet.nom" required="true" placeholder="" class="form-control"/>
                                                         </div>
                                                         <div class="col-sm-6">@Messages("priority")
                                                             <div class="btn-group" style="display: inline-block ;">
-                                                                <button class="btn" type="button" value="1" >1</button>
-                                                                <button class="btn  btn-active" value="2" type="button">2</button>
-                                                                <button class="btn" type="button" value="3">3</button>
+                                                                @if(projet.priorite == 1){
+                                                                    <button class="btn btn-active" type="button" value="1" >1</button>
+                                                                    <button class="btn" value="2" type="button">2</button>
+                                                                    <button class="btn" type="button" value="3">3</button>
+                                                                } else {
+                                                                    @if(projet.priorite == 2){
+                                                                        <button class="btn" type="button" value="1" >1</button>
+                                                                        <button class="btn btn-active" value="2" type="button">2</button>
+                                                                        <button class="btn" type="button" value="3">3</button>
+                                                                    }else {
+                                                                        <button class="btn" type="button" value="1" >1</button>
+                                                                        <button class="btn  btn-active" value="2" type="button">2</button>
+                                                                        <button class="btn btn-active" type="button" value="3">3</button>
+                                                                    }
+                                                            }
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -265,12 +286,10 @@
                                                             <div class="form-group">
                                                                 <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
                                                                 <div>
-                                                                    <select id="responsableProjet" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
-                                                                        <option value="1">Option 1</option>
-                                                                        <option value="2">Option 2</option>
-                                                                        <option value="3">Option 3</option>
-                                                                        <option value="4">Option 4</option>
-                                                                        <option value="5">Option 5</option>
+                                                                    <select id="responsableProjet" value="@projet.responsableProjet.prenom @projet.responsableProjet.nom" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
+                                                                        @for(utilisateur <- Utilisateur.getAllNonArchives) {
+                                                                             <option value="@utilisateur.prenom @utilisateur.nom">@utilisateur.prenom @utilisateur.nom</option>
+                                                                        }
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -279,7 +298,8 @@
                                                         <div class="col-sm-6">
                                                             <div class='form-group'>
                                                                 <label class="label_form" for="client">@Messages("client")</label>
-                                                                <div>
+                                                                <div> @projet.client.nom
+                                                                    <!--
                                                                     <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
                                                                         <option value="1">Option 1</option>
                                                                         <option value="2">Option 2</option>
@@ -287,6 +307,7 @@
                                                                         <option value="4">Option 4</option>
                                                                         <option value="5">Option 5</option>
                                                                     </select>
+                                                                    -->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -298,7 +319,7 @@
                                                         </div>
 
                                                         <div class="col-sm-12">
-                                                            <textarea name="description" style="height: 150px ; width:100% ;"></textarea>
+                                                            <textarea name="description" style="height: 150px ; width:100% ;">@projet.description</textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1581,6 +1602,7 @@
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
         </div>

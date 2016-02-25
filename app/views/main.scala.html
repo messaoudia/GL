@@ -826,16 +826,18 @@
 
                     $( "#btn-modifierProjet" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
+                        var idProjet = $( "#btn-modifierProjet" ).attr("name");
                         jQuery.fx.off = true;
-                        $("#div-consulterProjet").hide();
-                        $("#div-modifierProjet").show();
+                        $("#div-consulterProjet-" + idProjet).hide();
+                        $("#div-modifierProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
                     $( "#btn-cancel-modifierProjet" ).click(function() {
                         jQuery.fx.off = true;
-                        $("#div-modifierProjet").hide();
-                        $("#div-consulterProjet").show();
+                        var idProjet = $("#btn-cancel-modifierProjet").attr("name");
+                        $("#div-modifierProjet-" + idProjet).hide();
+                        $("#div-consulterProjet" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
@@ -884,7 +886,11 @@
 
                     $('.sidebar-projet').click(function(){
                         $('.sidebar-projet.select').removeClass("select");
+                        var idProjet = '#' + $('.sidebar-projet.select').attr("name");
+                        $(idProjet).hide();
                         $(this).addClass("select");
+                        var newIdProjet = '#' + $(this).attr("name");
+                        $(newIdProjet).show();
 
                     });
 
