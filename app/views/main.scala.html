@@ -194,6 +194,26 @@
                         }
                     });
                 });
+                $(document).on('click','#dataTables-admin-client tr td:last-child', function(){
+                    var idC = $(this).parent('tr').attr('value');
+                    jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
+                        success: function(client){
+                            $("#delete-project-name").empty();
+                            $("#delete-project-name").append(client.nom);
+                        }
+                    });
+                });
+
+                $(document).on('click','#dataTables-admin-user tr td:last-child', function(){
+                    var idU = $(this).parent('tr').attr('value');
+                    jsRoutes.controllers.AdminController.afficherModalUtilisateur(idU).ajax({
+                        success: function(u){
+                            $("#delete-utilisateur-name").empty();
+                            $("#delete-utilisateur-name").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
+                        }
+                    });
+                });
+
 
                 $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
                     var idC = $(this).parent('tr').attr('value');
@@ -209,7 +229,7 @@
                             $('#formZipCode').val(client.adresseClient.zipCode);
                             $('#formCity').val(client.adresseClient.ville);
                             $('#formCountry').val(client.adresseClient.pays);
-                            //$('input[name="radioInline"][value="option' + client.priorite + '"]').prop('checked', true);
+
                             $('#client-priority-1').removeClass("btn-active");
                             $('#client-priority-2').removeClass("btn-active");
                             $('#client-priority-3').removeClass("btn-active");
@@ -241,7 +261,7 @@
                                 success: function(listContacts) {
                                     var contactsTableBody = $('#table-modal-client-contacts-body');
                                     contactsTableBody.empty();
-                                    //console.log(listContacts);
+                                    console.log(listContacts);
                                     $("#dataTables-admin-client").dataTable().fnDestroy();
                                     if(listContacts.length != 0){
                                         $(listContacts).each(function(index, contact) {
@@ -254,6 +274,9 @@
                                             contactsTableBody.append(c);
                                         });
                                     }
+                                },
+                                error: function(errorMessage){
+                                    console.log("error : "+errorMessage)
                                 }
                             });
 
@@ -1338,7 +1361,7 @@
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listTachesSize+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.priorite+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@Messages("yes")</td>');
-                                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>');
+                                            list+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;" data-toggle="modal"><i class="fa fa-times"></i></td>');
                                             list+=('</tr>');
 
                                             clientList.append(list);
@@ -1378,7 +1401,7 @@
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listProjetsResponsableSize+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listTachesSize+'</td>');
                                             list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("yes")</td>');
-                                            list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>');
+                                            list+=('<td class="td-btn-suppr-disable" style="vertical-align:middle; cursor:no-drop;" data-toggle="modal" disabled><i class="fa fa-times"></i></td>');
                                             list+=('</tr>');
 
                                             utilisateurList.append(list);

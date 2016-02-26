@@ -145,3 +145,4 @@ noneProposedTask = Aucune tâche proposée
 effectiveDates = Dates effectives
 noneNotification = Vous n'avez pas de notification
 none = Aucun
+changeResponsableTask = Changement du responsable d'une tâche :

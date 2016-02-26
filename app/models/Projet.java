@@ -70,7 +70,9 @@ public class Projet extends EntiteSecurise {
 
     public UniteProjetEnum unite;
 
-   // public List<Utilisateur> utilisateursNotifications;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    public List<Utilisateur> utilisateursNotifications;
 
     final String DATE_PATTERN = "dd/MM/yyyy";
     final String DATE_PATTERN_TRI = "yyyy/MM/dd";
@@ -81,8 +83,8 @@ public class Projet extends EntiteSecurise {
 
     public Projet(String nom, String description, Utilisateur responsableProjet, Date dateDebutTheorique, Date dateFinTheorique,
                   Date dateDebutReel, Date dateFinReelTot, Date dateFinReelTard, Double chargeInitiale, UniteProjetEnum unite,
-                  Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches/*,
-                  List<Utilisateur> utilisateursNotifications*/) {
+                  Byte avancementGlobal, Boolean enCours, Boolean archive, Client client, Integer priorite, List<Tache> listTaches,
+                  List<Utilisateur> utilisateursNotifications) {
         this.nom = nom;
         this.description = description;
         this.responsableProjet = responsableProjet;
@@ -99,18 +101,15 @@ public class Projet extends EntiteSecurise {
         this.client = client;
         this.priorite = priorite;
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
-        /*
         if(utilisateursNotifications == null ||utilisateursNotifications.isEmpty()){
             initUtilisateursNotifications();
         }
         else{
             this.utilisateursNotifications = utilisateursNotifications;
         }
-        */
 
     }
 
-    /*
     private void initUtilisateursNotifications(){
         utilisateursNotifications = new BeanList<>();
         utilisateursNotifications.add(responsableProjet);
@@ -120,22 +119,18 @@ public class Projet extends EntiteSecurise {
         }
         save();
     }
-    */
 
-    /*
     private void addUtilisateurNotification(Utilisateur user){
         if(!utilisateursNotifications.contains(user)) {
             utilisateursNotifications.add(user);
             save();
         }
     }
-    */
 
     /**
      * Attention : cette méthode doit être appelé une fois la suppression (tache, responsable de tache) effectuée
      * @param user
      */
-    /*
     private void removeUtilisateurNotification(Utilisateur user){
         if(responsableProjet.equals(user))
             return;
@@ -155,7 +150,7 @@ public class Projet extends EntiteSecurise {
             save();
         }
     }
-    */
+
 
     public Projet() {
         this.listTaches = new BeanList<>();
@@ -183,10 +178,8 @@ public class Projet extends EntiteSecurise {
                     projet.enCours.equals(this.enCours) &&
                     projet.archive.equals(this.archive) &&
                     projet.priorite.equals(this.priorite) &&
-                    Utils.isEqualList(projet.listTaches,listTaches) /*&&
-                    Utils.isEqualList(projet.utilisateursNotifications,utilisateursNotifications)
-                    */
-            );
+                    Utils.isEqualList(projet.listTaches,listTaches) &&
+                    Utils.isEqualList(projet.utilisateursNotifications,utilisateursNotifications));
         } catch (ClassCastException e) {
             return false;
         }
@@ -272,10 +265,10 @@ public class Projet extends EntiteSecurise {
             }
         }
         // Initialisation des personnes a notifié par défaut à la création de la tache
-        //tache.addUtilisateurNotification(tache.responsableTache);
-        //tache.initUtilisateursNotificationsEnfants();
-        //tache.initUtilisateursNotificationsParents();
-        //this.addUtilisateurNotification(tache.responsableTache);
+        tache.addUtilisateurNotification(tache.responsableTache);
+        tache.initUtilisateursNotificationsEnfants();
+        tache.initUtilisateursNotificationsParents();
+        this.addUtilisateurNotification(tache.responsableTache);
         tache.projet = this;
         tache.save();
         listTaches.add(tache);
@@ -555,7 +548,7 @@ public class Projet extends EntiteSecurise {
         }
 
         // Notifications
-        //removeUtilisateurNotification(tache.responsableTache);
+        removeUtilisateurNotification(tache.responsableTache);
 
         /** TODO : est-ce qu'on supprime la tache de la liste des notifs pour l'user et inversement?
         tache.removeUtilisateurNotification(tache.responsableTache);
@@ -572,11 +565,9 @@ public class Projet extends EntiteSecurise {
 
         // Suppression ou archivage
         if (tache.getChargeConsommee() == 0.0) {
-            /*
             tache.removeUtilisateurNotification(tache.responsableTache);
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
-            */
             Tache.find.deleteById(tache.id);
         }else{
             tache.archive = true;
@@ -598,7 +589,7 @@ public class Projet extends EntiteSecurise {
         }
         responsable.save();
         this.responsableProjet = responsable;
-        //addUtilisateurNotification(this.responsableProjet);
+        addUtilisateurNotification(this.responsableProjet);
         this.save();
     }
 
@@ -617,8 +608,8 @@ public class Projet extends EntiteSecurise {
 
         Utilisateur ancienResponsableProjet = this.responsableProjet;
         this.responsableProjet = responsable;
-        //removeUtilisateurNotification(ancienResponsableProjet);
-        //addUtilisateurNotification(this.responsableProjet);
+        removeUtilisateurNotification(ancienResponsableProjet);
+        addUtilisateurNotification(this.responsableProjet);
     }
 
     /**

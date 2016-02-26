@@ -72,7 +72,7 @@ public class ModelBeanTest {
 
             Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
                     Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
+                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null,null);
             List<Projet> listProjet = new BeanList<>();
             listProjet.add(pr);
             Client cl = new Client("Applee",2,true, a1,listContacts, listProjet);

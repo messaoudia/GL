@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import controllers.Global.StaticEntite;
 import models.Securite.Role;
@@ -39,12 +40,21 @@ public class Utilisateur extends Personne {
     @JoinTable(name = "Tache")
     private List<Tache> listTaches;
 
-    // TODO @qqch?
-    //List<Tache> listTachesNotifications;
-    // TODO @qqch? + liste des utilisateurs où je souhaite recevoir une notification
-    //List<Utilisateur> utilisateursSuivis;
-    // TODO @qqch? + liste des utilisateurs qui me suivent
-    //List<Utilisateur> utilisateursMeSuivant;
+    @ManyToMany(cascade = CascadeType.ALL)
+    List<Tache> listTachesNotifications;
+    // liste des utilisateurs où je souhaite recevoir une notification
+
+    @ManyToMany
+    @JoinTable(name="tbl_follow_user", joinColumns=@JoinColumn(name="suivant"), inverseJoinColumns=@JoinColumn(name="suivi"))
+    List<Utilisateur> utilisateursSuivis;
+    // liste des utilisateurs qui me suivent
+    @ManyToMany
+    @JoinTable(name="tbl_follow_user", joinColumns=@JoinColumn(name="suivi"), inverseJoinColumns=@JoinColumn(name="suivant"))
+    List<Utilisateur> utilisateursMeSuivant;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    public List<Projet> projetsNotifications;
 
     //TODO Make connection to the database to check the authentication
     public String validate() {
@@ -56,29 +66,25 @@ public class Utilisateur extends Personne {
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches/*,
-                       List<Tache> listTachesNotifications,List<Utilisateur> utilisateursSuivis,List<Utilisateur> utilisateursMeSuivant*/) {
+    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches,
+                       List<Tache> listTachesNotifications,List<Utilisateur> utilisateursSuivis,List<Utilisateur> utilisateursMeSuivant) {
         super(nom, prenom, email, telephone,archive);
         setPassword(password);
         this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
-        /*
         this.listTachesNotifications = (listTachesNotifications == null)?new BeanList<>(): listTachesNotifications;
         this.utilisateursSuivis = (utilisateursSuivis == null)?new BeanList<>(): utilisateursSuivis;
         this.utilisateursMeSuivant = (utilisateursMeSuivant == null)?new BeanList<>(): utilisateursMeSuivant;
-        */
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone,archive,password,null/*, null, null, null*/);
+        this(nom, prenom, email, telephone,archive,password,null, null, null, null);
     }
 
     public Utilisateur() {
         this.listTaches = new BeanList<>();
-        /*
         this.listTachesNotifications = new BeanList<>();
         this.utilisateursSuivis = new BeanList<>();
         this.utilisateursMeSuivant = new BeanList<>();
-        */
     }
 
     public void setEmail(String email) {
@@ -726,7 +732,6 @@ public class Utilisateur extends Personne {
         return StaticEntite.getSystem().haveRole(this, Role.getRole("Administrateur"));
     }
 
-    /*
     public void suivreUnUtilisateur(Utilisateur user){
         if(!utilisateursSuivis.contains(user)){
             utilisateursSuivis.add(user);
@@ -761,5 +766,4 @@ public class Utilisateur extends Personne {
             tache.save();
         }
     }
-    */
 }
