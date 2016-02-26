@@ -127,7 +127,7 @@
                                         } else {
                                             @for( tache <- utilisateur.tachesProposees()) {
                                                 <p>
-                                                    <a class="btn btn-danger btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                    <a class="btn btn-danger btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache" value="@tache.id" onclick="afficherModalTache(this)">
                                                         @tache.nom
                                                     </a>
                                                 </p>

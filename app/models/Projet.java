@@ -12,11 +12,7 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Guillaume on 25/01/2016.
@@ -821,6 +817,34 @@ public class Projet extends EntiteSecurise {
     public int prioriteProjetEtClient(){ return priorite + client.priorite;}
 
     public List<Tache> listTaches(){
-        return Tache.find.where().eq("projet",this).findList();
+        listTaches = Tache.find.where().eq("projet",this).findList();
+        // Trier en fonction de idTache
+        Collections.sort(listTaches, new Comparator<Tache>(){
+            @Override
+            public int compare(Tache t1, Tache t2) {
+                String[] idT1Parse = t1.idTache.split("\\.");
+                String[] idT2Parse = t2.idTache.split("\\.");
+                Integer[] idT1Integer = new Integer[idT1Parse.length];
+                Integer[] idT2Integer = new Integer[idT2Parse.length];
+                for(int i=0; i<idT1Parse.length; i++){
+                    idT1Integer[i] = Integer.parseInt(idT1Parse[i]);
+                }
+                for(int i=0; i<idT2Parse.length; i++){
+                    idT2Integer[i] = Integer.parseInt(idT2Parse[i]);
+                }
+                for(int i=0; i<idT1Integer.length || i<idT2Integer.length; i++){
+                    if(i >= idT1Integer.length)
+                        return -1;
+                    if(i >= idT2Integer.length)
+                        return 1;
+                    if(idT1Integer[i] < idT2Integer[i])
+                        return -1;
+                    if(idT1Integer[i] > idT2Integer[i])
+                        return 1;
+                }
+                return 0;
+            }
+        });
+        return listTaches;
     }
 }

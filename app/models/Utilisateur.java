@@ -159,7 +159,8 @@ public class Utilisateur extends Personne {
      * @return list des taches du responsable
      */
     public List<Tache> listTaches(){
-        return Tache.find.where().eq("responsableTache",this).findList();
+        listTaches = Tache.find.where().eq("responsableTache",this).findList();
+        return listTaches;
     }
 
     @JsonSerialize

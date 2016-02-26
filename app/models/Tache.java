@@ -9,13 +9,14 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table
 @DiscriminatorValue("TACHE")
-public class Tache extends EntiteSecurise {
+public class Tache extends EntiteSecurise{
 
     public static int NIVEAU_MAX = 3;
 
@@ -292,7 +293,7 @@ public class Tache extends EntiteSecurise {
      * @param fille
      */
     public void associerSousTache(Tache fille) throws IllegalStateException {
-        if (niveau == 3) {
+        if (niveau == NIVEAU_MAX) {
             throw new IllegalStateException("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
         if (this.enfants.contains(fille)) {
