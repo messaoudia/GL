@@ -229,6 +229,9 @@ public class Projet extends EntiteSecurise {
 
         // Met a jour le parent
         if(tache.hasParent()){
+            if(tache.parent.equals(tache))
+                throw new IllegalArgumentException("Le parent de la tache " + tache.nom + " est lui-même!");
+
             if(tache.parent.enfants == null)
                 tache.parent.enfants = new BeanList<>();
 
@@ -239,7 +242,10 @@ public class Projet extends EntiteSecurise {
         }
 
         // Met a jour les enfants
-        if(tache.enfants != null && !tache.enfants.isEmpty()){
+        if(tache.enfants != null){
+            if(tache.enfants.contains(tache))
+                throw new IllegalArgumentException("Un des enfants de la tache " + tache.nom + " est lui-même!");
+
             for(Tache enfant : tache.enfants){
                 enfant.parent = tache;
                 enfant.save();
@@ -248,6 +254,9 @@ public class Projet extends EntiteSecurise {
 
         // Met a jour le prédécesseur
         if(tache.hasPredecesseur()){
+            if(tache.predecesseur.equals(tache))
+                throw new IllegalArgumentException("Le predecesseur de la tache " + tache.nom + " est lui-même!");
+
             if(tache.predecesseur.successeurs == null)
                 tache.predecesseur.successeurs = new BeanList<>();
 
@@ -258,6 +267,9 @@ public class Projet extends EntiteSecurise {
         }
         // Met a jour les successeur
         if(tache.hasSuccesseur()){
+            if(tache.successeurs.contains(tache))
+                throw new IllegalArgumentException("Un des successeurs de la tache " + tache.nom + " est lui-même!");
+
             for(Tache successeur : tache.successeurs){
                 successeur.predecesseur = tache;
                 successeur.save();
@@ -389,8 +401,9 @@ public class Projet extends EntiteSecurise {
                 String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
                 int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
 
-                // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >
-                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger > idTacheInteger){
+                // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >=
+                // (car il faut modifier aussi tacheDejaInseree+1 qui a le meme id)
+                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger){
                     tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger+1, tache.niveau);
                     tacheDuProjet.save();
                 }

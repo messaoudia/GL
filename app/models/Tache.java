@@ -356,6 +356,13 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Ce parametre est le meme que le predecesseur de cette tache");
         }
         this.predecesseur = predecesseur;
+        if(predecesseur.successeurs == null){
+            predecesseur.successeurs = new BeanList<>();
+        }
+        if(!predecesseur.successeurs.contains(this)){
+            predecesseur.successeurs.add(this);
+        }
+        predecesseur.save();
         save();
     }
 
@@ -367,9 +374,11 @@ public class Tache extends EntiteSecurise {
      * @throws IllegalArgumentException
      */
     public void modifierPredecesseur(Tache predecesseur) throws IllegalArgumentException {
-        if (this.predecesseur == predecesseur) {
+        if (this.predecesseur.equals(predecesseur)) {
             throw new IllegalArgumentException("Remplacement du predecesseur de la tache courante par le même predecesseur");
         }
+        if(this.predecesseur.hasSuccesseur() && this.predecesseur.successeurs.contains(this))
+            this.predecesseur.successeurs.remove(this);
         associerPredecesseur(predecesseur);
     }
 
@@ -411,7 +420,7 @@ public class Tache extends EntiteSecurise {
     }
 
     public boolean hasSuccesseur() {
-        return !successeurs.isEmpty();
+        return successeurs != null && !successeurs.isEmpty();
     }
 
     public int nbSuccesseurs(){
@@ -501,6 +510,8 @@ public class Tache extends EntiteSecurise {
     public String formateDateTri(Date d){
         return dateFormatTri.format(d);
     }
+
+    public List<Tache> enfants() { return Tache.find.where().eq("parent",this).findList(); }
 
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception

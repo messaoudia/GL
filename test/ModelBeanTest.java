@@ -147,7 +147,7 @@ public class ModelBeanTest {
             n1.title = "3 Street Cloud";
             n1.contentNotification = "64500";
             n1.dateEnvoi = Utils.getDateFrom(2016,12,1);
-            n1.link = "http://localhost:9000/notif";
+            //n1.link = "http://localhost:9000/notif";
             n1.etatLecture = false;
             n1.archiver = false;
             n1.utilisateur = new Utilisateur("Jean","De la fontaine","jlf@vieux.com","0247563598",false,"azertY1");
@@ -163,8 +163,8 @@ public class ModelBeanTest {
     @Test
     public void testFindNotification() {
         running(fakeApplication(), ()-> {
-            Notification n1 = new Notification("title1","content1",Utils.getDateFrom(2016,10,10),"http://notif1.com",true,false,new Utilisateur());
-            Notification n2 = new Notification("title2","content2",Utils.getDateFrom(2016,10,12),"http://notif2.com",false,true,new Utilisateur());
+            Notification n1 = new Notification("title1","content1",Utils.getDateFrom(2016,10,10),true,false,new Utilisateur(), null, new Projet());
+            Notification n2 = new Notification("title2","content2",Utils.getDateFrom(2016,10,12),false,true,new Utilisateur(), new Tache(), null);
             n1.save();
             n2.save();
             Logger.debug(n1.toString());

@@ -17,10 +17,11 @@ public class ModelManagerTest {
     @Test
     public void testCreerTacheInitialisationProjet() {
         running(fakeApplication(), ()-> {
+            Client client = new Client("Apple", 2, false, null, new BeanList<Contact>(), new BeanList<Projet>());
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,10, dateDebutReel: 2016,2,3, dateFinReelTot: 2016,2,9, dateFinReelTard: 2016,2,9
             Projet projet = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
                     Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null);
+                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,client,3,null);
             projet.save();
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
@@ -156,7 +157,7 @@ public class ModelManagerTest {
                 assertEquals(tache2Selected.idTache, "1.1");
                 // TODO: assertTrue(tache1Selected.enfants.contains(tache2Selected)); marche pas => besoin de la fonction tache1Selected.enfants()
                 //assertTrue(tache1.enfants.contains(tache2Selected));
-                assertTrue(tache1Selected.enfants.contains(tache2Selected));
+                assertTrue(tache1Selected.enfants().contains(tache2Selected));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -253,12 +254,60 @@ public class ModelManagerTest {
                 */
 
                 projet.creerTacheInitialisationProjet(tacheA);
+                System.out.println("------ L1 -------");
+                System.out.println(tacheA.nom + " " + tacheA.idTache);
+                System.out.println("------ Fin - L1 -------");
+
                 projet.creerTacheEnDessous(tacheB,tacheA);
+                System.out.println("------ L2 -------");
+                System.out.println(tacheA.nom + " " + tacheA.idTache);
+                System.out.println(tacheB.nom + " " + tacheB.idTache);
+                System.out.println("------ Fin - L2 -------");
+
                 projet.creerTacheEnDessous(tacheC,tacheB);
+                System.out.println("------ L3 -------");
+                System.out.println(tacheA.nom + " " + tacheA.idTache);
+                System.out.println(tacheB.nom + " " + tacheB.idTache);
+                System.out.println(tacheC.nom + " " + tacheC.idTache);
+                System.out.println("------ Fin - L3 -------");
+
                 projet.creerTacheEnDessous(tacheD,tacheC);
+                System.out.println("------ L4 -------");
+                System.out.println(tacheA.nom + " " + tacheA.idTache);
+                System.out.println(tacheB.nom + " " + tacheB.idTache);
+                System.out.println(tacheC.nom + " " + tacheC.idTache);
+                System.out.println(tacheD.nom + " " + tacheD.idTache);
+                System.out.println("------ Fin - L4 -------");
+
                 projet.creerTacheEnDessous(tacheE,tacheB);
+                System.out.println("------ L5 -------");
+                System.out.println(tacheA.nom + " " + tacheA.idTache);
+                System.out.println(tacheB.nom + " " + tacheB.idTache);
+                System.out.println(tacheE.nom + " " + tacheE.idTache);
+                System.out.println(tacheC.nom + " " + tacheC.idTache);
+                System.out.println(tacheD.nom + " " + tacheD.idTache);
+                System.out.println("------ Fin - L5 -------");
+
                 projet.creerTacheEnDessous(tacheF,tacheA);
+                System.out.println("------ L6 -------");
+                System.out.println(tacheA.nom + " " + tacheA.idTache);
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheB.nom + " " + tacheB.idTache);
+                System.out.println(tacheE.nom + " " + tacheE.idTache);
+                System.out.println(tacheC.nom + " " + tacheC.idTache);
+                System.out.println(tacheD.nom + " " + tacheD.idTache);
+                System.out.println("------ Fin - L6 -------");
+
                 projet.creerTacheEnDessous(tacheG,tacheF);
+                System.out.println("------ L7 -------");
+                System.out.println(tacheA.nom + " " + tacheA.idTache);
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheG.nom + " " + tacheG.idTache);
+                System.out.println(tacheB.nom + " " + tacheB.idTache);
+                System.out.println(tacheE.nom + " " + tacheE.idTache);
+                System.out.println(tacheC.nom + " " + tacheC.idTache);
+                System.out.println(tacheD.nom + " " + tacheD.idTache);
+                System.out.println("------ Fin - L7 -------");
 
                 projet.creerSousTache(tacheH,tacheF);
 
