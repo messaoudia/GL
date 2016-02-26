@@ -318,6 +318,7 @@
                 $requestProjetsArchives = false;
                 var $tmpTr;
 
+
                 var supprimerProjet = function(){
                     var $value = $trTmp.attr('value');
 
@@ -498,6 +499,22 @@
                     return list;
                 }
 
+                function generateRowClient(client)
+                {
+                    var list ="";
+                    list+=('<tr value='+client.id+'>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.nom+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.adresseClient+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listContactsSize+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listProjetsSize+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listTachesSize+'</td>);
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.priorite+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client"> @Messages("no") </td>');
+                    list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>');
+                    list+=('</tr>');
+                    return list;
+                }
+
                 var modifierUtilisateur = function(btn)
                 {
                     var form = $(btn).attr("form");
@@ -590,21 +607,94 @@
                     }
 
                     jsRoutes.controllers.ClientController.creerClient().ajax({
-
                         data: json,
                         contentType: "application/json",
 
                         success : function(data) {
+                            $("#errorCreerClientP").empty();
+                            $("#errorCreerClient").hide();
+
+                            $("#successCreerClientP").html('@Messages("client") '+data.nom+' @Messages("created")');
+                            $("#successCreerClient").show();
+                            setTimeout(function(){
+                                $("#successCreerClient").hide();
+                            },4000);
 
                             $(form)[0].reset();
                             $('#tableContact tr:not(:first)').remove();
                             $('#tableContact').hide();
                         },
-                        error: function(errorCode,errorMessage){
-                            // faire les messages d'erruer
+                        error: function(errorMessage){
+                            $("#successCreerClient").hide();
+                            $("#successCreerClientP").empty();
+
+                            var messageDiv = generateErrorCreerClient(errorMessage);
+
+                            $("#errorCreerClientP").html(messageDiv);
+                            $("#errorCreerClient").show();
                         }
                     });
                 }
+
+                function generateErrorCreerClient(errorMessage)
+                {
+                    alert(errorMessage);
+                    var messageDiv = '@Messages("errors") : ';
+
+                    if(errorMessage.responseJSON.nomClientVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameClientEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.nomClientTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameClientTooLongError")';
+                    }
+                    else if(errorMessage.responseJSON.nomClientIncorrecte==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameClientIncorrectError")';
+                    }
+
+                    if(errorMessage.responseJSON.adresseVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("adressEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.adresseTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("adressTooLongError")';
+                    }
+                    if(errorMessage.responseJSON.codePostalVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("zipEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.codePostalTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("zipTooLongError")';
+                    }
+                    if(errorMessage.responseJSON.villeVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("cityEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.villeTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("cityTooLongError")';
+                    }
+                    if(errorMessage.responseJSON.paysVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("stateEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.paysTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("stateTooLongError")';
+                    }
+
+                    if(errorMessage.responseJSON.clientExiste)
+                    {
+                        messageDiv += '<br> - /!\\ @Messages("clientExistError")';
+                    }
+                    return messageDiv;
+                }
+
+
                 var supprContact = function(td){
                     var tr = $(td).parent('tr');
                     tr.remove();
@@ -615,40 +705,118 @@
                 }
                 var creerContact = function(btn)
                 {
+                    console.log("ICI");
                     var form = $(btn).attr("form");
                     form = "#"+form;
-                    var serialize = $(form).serializeObject();
+                    var serialize = $(form).serialize();
+                    console.log(serialize);
                     jsRoutes.controllers.ClientController.contactCheck().ajax({
                         data: serialize,
                         success : function(data) {
-                            //On ajoute au niveau de la liste
-                            alert("oki");
-                            if ($('#listContactAjout').not(':visible')){
-                                $('#listContactAjout').show();
-                            }
-                            //verif si mail existe deja
-                            var $email = $('#formEmailContactClient').val();
+                            var $email = data.email;
                             var $length = $('#listContactAjout tr > td:contains('+$email+')').length;
                             if($length>0){
-                                alert("contact existe deja");
+                                $("#successCreerClient").hide();
+                                $("#successCreerClientP").empty();
+                                var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                                $("#errorCreerClientP").html(messageDiv);
+                                $("#errorCreerClient").show();
                             }else{
-                                var contact = $('#listContactAjout tbody');
+                                $("#errorCreerClientP").empty();
+                                $("#errorCreerClient").hide();
+
+                                $("#successCreerClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
+                                $("#successCreerClient").show();
+
+                                if ($('#listContactAjout').not(':visible')){
+                                    $('#listContactAjout').show();
+                                }
+                                setTimeout(function(){
+                                    $("#successCreerClient").hide();
+                                },4000);
+                                var contact = $('#tableContact tbody');
                                 var list ="";
+
                                 list+=('<tr>');
-                                list+=('<td class="first-td">'+$('#formLastNameContactClient').val()+'</td>');
-                                list+=('<td class="first-td">'+$('#formFirstNameContactClient').val()+'</td>');
-                                list+=('<td class="first-td">'+$('#formEmailContactClient').val()+'</td>');
-                                list+=('<td class="first-td">'+$('#formTelContactClient').val()+'</td>');
+                                list+=('<td class="first-td">'+data.nom+'</td>');
+                                list+=('<td class="first-td">'+data.prenom+'</td>');
+                                list+=('<td class="first-td">'+data.email+'</td>');
+                                list+=('<td class="first-td">'+data.telephone+'</td>');
                                 list+=('<td class="td-btn-suppr" style="vertical-align:middle;" onclick="supprContact(this)"><i class="fa fa-times"></i></td>');
                                 list+=('</tr>');
                                 contact.append(list);
                                 $(form)[0].reset();
+
                             }
-                            },
-                            error: function(errorMessage){
-                                //afficher les erreurs
-                            }
+                        },
+                        error: function(errorMessage){
+                            $("#successCreerClient").hide();
+                            $("#successCreerClientP").empty();
+                            var messageDiv = generateErrorCreerClientContact(errorMessage);
+                            $("#errorCreerClientP").html(messageDiv);
+                            $("#errorCreerClient").show();
+                        }
                     });
+                }
+
+                function generateErrorCreerClientContact(errorMessage)
+                {
+                    var messageDiv = '@Messages("errors") : ';
+
+                    if(errorMessage.responseJSON.nomVideContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("lastnameEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.nomTropLongContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("lastnameTooLongError")';
+                    }
+                    else if(errorMessage.responseJSON.nomIncorrectContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("lastnameIncorrectError")';
+                    }
+
+                    if(errorMessage.responseJSON.prenomVideContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("firstnameEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.prenomTropLongContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("firstnameTooLongError")';
+                    }
+                    else if(errorMessage.responseJSON.prenomIncorrectContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("firstnameIncorrectError")';
+                    }
+
+
+                    if(errorMessage.responseJSON.emailVideContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("emailEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.emailIncorrecteContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("emailIncorrectError")';
+                    }
+                    else if(errorMessage.responseJSON.emailTropLongContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("emailTooLongError")';
+                    }
+
+                    if(errorMessage.responseJSON.telVideContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("telEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.telIncorrecteContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("telIncorrectError")';
+                    }
+                    else if(errorMessage.responseJSON.telTropLongContact==true)
+                    {
+                        messageDiv += '<br> - @Messages("telTooLongError")';
+                    }
+
+                    return messageDiv;
                 }
 
                 var afficherAdminProjets = function(){
@@ -707,48 +875,48 @@
 
 
                             /* Look for Projects and contacts
-                            jsRoutes.controllers.ProjetController.afficherProjetsClient(idTache).ajax({
-                                success: function(listProjets) {
-                                    console.log("sucess -----");
-                                    var projetTableBody = $('#table-modal-client-projets-body');
-                                    projetTableBody.empty();
-                                    console.log(listProjets);
-                                    $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                                    if(listProjets.length != 0){
-                                        $(listProjets).each(function(index, projet) {
-                                            var p ="";
-                                            p+=('<tr>');
-                                            p+=('<td class="first-td">'+projet.nom+'</td>');
-                                            p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            p+=('</tr>');
+                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idTache).ajax({
+                             success: function(listProjets) {
+                             console.log("sucess -----");
+                             var projetTableBody = $('#table-modal-client-projets-body');
+                             projetTableBody.empty();
+                             console.log(listProjets);
+                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
+                             if(listProjets.length != 0){
+                             $(listProjets).each(function(index, projet) {
+                             var p ="";
+                             p+=('<tr>');
+                             p+=('<td class="first-td">'+projet.nom+'</td>');
+                             p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                             p+=('</tr>');
 
-                                            projetTableBody.append(p);
-                                        });
-                                    }
-                                },
-                                error: function(errorMessage){
-                                    console.log("error : "+errorMessage)
-                                }
-                            });
-                            jsRoutes.controllers.ContactController.afficherContactsClient(idTache).ajax({
-                                success: function(listContacts) {
-                                    var contactsTableBody = $('#table-modal-client-contacts-body');
-                                    contactsTableBody.empty();
-                                    //console.log(listContacts);
-                                    $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                                    if(listContacts.length != 0){
-                                        $(listContacts).each(function(index, contact) {
-                                            var c ="";
-                                            c+=('<tr>');
-                                            c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                                            c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            c+=('</tr>');
+                             projetTableBody.append(p);
+                             });
+                             }
+                             },
+                             error: function(errorMessage){
+                             console.log("error : "+errorMessage)
+                             }
+                             });
+                             jsRoutes.controllers.ContactController.afficherContactsClient(idTache).ajax({
+                             success: function(listContacts) {
+                             var contactsTableBody = $('#table-modal-client-contacts-body');
+                             contactsTableBody.empty();
+                             //console.log(listContacts);
+                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
+                             if(listContacts.length != 0){
+                             $(listContacts).each(function(index, contact) {
+                             var c ="";
+                             c+=('<tr>');
+                             c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
+                             c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                             c+=('</tr>');
 
-                                            contactsTableBody.append(c);
-                                        });
-                                    }
-                                }
-                            });*/
+                             contactsTableBody.append(c);
+                             });
+                             }
+                             }
+                             });*/
 
 
                         },
@@ -1084,6 +1252,10 @@
                         $("#errorCreerUser").hide()
                     });
 
+                    $("#errorCreerClient > button").click(function(){
+                        $("#errorCreerClient").hide()
+                    });
+
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
 
@@ -1209,11 +1381,11 @@
                         $('.liste-projet').css('height',height);
 
                         /*if($(window).width()<1050){
-                            hideSideBarProjet();
-                        }
-                        else {
-                            showSideBarProjet();
-                        }*/
+                         hideSideBarProjet();
+                         }
+                         else {
+                         showSideBarProjet();
+                         }*/
                     });
 
                     function hideSideBarProjet()
@@ -1707,14 +1879,14 @@
                 function projetTermines(){
                     $('#checkbox-projet-admin-projets-termines').change(function() {
                         if($(this).is(":checked")) {
-                           /* var str;
-                            if($('#checkbox-projet-admin-projets-archives').is(":checked")) {
-                                str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(true)";
-                                $requestProjetsTermines = false;
-                            }else{
-                                str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(false)";
-                                $requestProjetsTermines = false;
-                            }*/
+                            /* var str;
+                             if($('#checkbox-projet-admin-projets-archives').is(":checked")) {
+                             str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(true)";
+                             $requestProjetsTermines = false;
+                             }else{
+                             str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(false)";
+                             $requestProjetsTermines = false;
+                             }*/
                             var str = "jsRoutes.controllers.AdminController.afficherProjetsTermines(false)";
                             if(!$requestProjetsTermines){
                                 eval(str).ajax({
@@ -1790,13 +1962,13 @@
                     $('#checkbox-projet-admin-projets-archives').change(function() {
                         if($(this).is(":checked")) {
                             /*var str;
-                            if($('#checkbox-projet-admin-projets-termines').is(":checked")) {
-                                str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(true)";
-                                $requestProjetsArchives = false;
-                            }else{
-                                str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(false)";
-                                $requestProjetsArchives = false;
-                            }*/
+                             if($('#checkbox-projet-admin-projets-termines').is(":checked")) {
+                             str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(true)";
+                             $requestProjetsArchives = false;
+                             }else{
+                             str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(false)";
+                             $requestProjetsArchives = false;
+                             }*/
                             var str = "jsRoutes.controllers.AdminController.afficherProjetsArchives(false)";
                             if(!$requestProjetsArchives){
                                 jsRoutes.controllers.AdminController.afficherProjetsArchives(false).ajax({

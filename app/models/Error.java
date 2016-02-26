@@ -13,12 +13,13 @@ public class Error
     public boolean villeVide,villeTropLong;
     public boolean paysVide, paysTropLong;
     public boolean descriptionTropLong;
+    public boolean clientExiste;
 
     public boolean nomProjetVide;
     public boolean dateThDebutProjetVide,dateThFinProjetVide;
 
-    public boolean nomVideContact, nomTropLongContact;
-    public boolean prenomVideContact, prenomTropLongContact;
+    public boolean nomVideContact, nomTropLongContact,nomIncorrectContact;
+    public boolean prenomVideContact, prenomTropLongContact,prenomIncorrectContact;
     public boolean emailVideContact, emailIncorrecteContact, emailTropLongContact;
     public boolean telVideContact, telIncorrecteContact, telTropLongContact;
 
@@ -37,12 +38,13 @@ public class Error
 
     public boolean hasErrorContact() {
         return nomVideContact || nomTropLongContact || prenomVideContact || prenomTropLongContact || emailVideContact
-                || emailIncorrecteContact || telVideContact || telIncorrecteContact || telTropLongContact || emailTropLongContact;
+                || emailIncorrecteContact || telVideContact || telIncorrecteContact || telTropLongContact || emailTropLongContact
+                || nomIncorrectContact ||prenomIncorrectContact;
     }
 
     public boolean hasErrorClient(){
         return nomClientVide || nomClientTropLong || adresseVide || adresseTropLong || codePostalVide || codePostaleTropLong
-                || villeVide || villeTropLong || paysVide || paysTropLong;
+                || villeVide || villeTropLong || paysVide || paysTropLong || clientExiste;
     }
 
 }

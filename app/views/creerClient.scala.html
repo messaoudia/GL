@@ -38,6 +38,16 @@
                     <div class="row">
                         <div class="col-sm-6 b-r">
                             <form class="form-horizontal" id="creerClientForm">
+
+                                <div id="successCreerClient" class="alert alert-success alert-dismissable" style="display: none;">
+                                    <button class="close" type="button">×</button>
+                                    <p id="successCreerClientP"><p>
+                                </div>
+                                <div id="errorCreerClient" class="alert alert-danger alert-dismissable" style="display: none;">
+                                    <button class="close" type="button">×</button>
+                                    <p id="errorCreerClientP"><p>
+                                </div>
+
                                 <div class="row form-group">
                                     <label class="col-sm-5 control-label" for="formCreerClientName">@Messages("formClientName")</label>
                                     <div class="col-sm-7"><input type="text" id="formCreerClientName" name="formCreerClientName" class="form-control"></div>
@@ -103,7 +113,7 @@
                         <div class="col-sm-offset-3 col-sm-6">
                             <h3 style="text-align:center;">@Messages("contacts")</h3>
                             <div class="list-modif-client">
-                                <table id="tableContact" class="table-bordered">
+                                <table id="tableContact" class="table table-bordered">
 
                                     <thead>
                                         <tr>

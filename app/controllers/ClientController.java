@@ -35,6 +35,7 @@ public class ClientController extends Controller {
     public Result creerClient()
     {
         JsonNode json = request().body().asJson();
+        System.out.println("LAAAAAAAAAAAAAAAAAAAAAA"+json);
         Error error = new Error();
         String nomClient =  json.get("form").get("formCreerClientName").asText();
         String adresseClient =  json.get("form").get("formCreerClientAdress").asText();
@@ -42,11 +43,17 @@ public class ClientController extends Controller {
         String ville =  json.get("form").get("formCreerClientCity").asText();
         String pays =  json.get("form").get("formCreerClientCountry").asText();
         int priorite = json.get("priorite").asInt();
-        System.out.println(priorite);
+
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,30}$");
+        Matcher nameMatch = nameRegex.matcher(nomClient);
+
+        //TODO : utiliser matche pour le nomClient
         if(nomClient.isEmpty()){
             error.nomClientVide = true;
         }else if(nomClient.length()>30){
             error.nomClientTropLong = true;
+        }else if(!nameMatch.matches()) {
+            error.nomIncorrect = true;
         }
 
         if(adresseClient.isEmpty()){
@@ -56,9 +63,9 @@ public class ClientController extends Controller {
         }
 
         if(codePostal.isEmpty()){
-            error.adresseVide = true;
+            error.codePostalVide = true;
         }else if(codePostal.length()>10){
-            error.adresseTropLong = true;
+            error.codePostaleTropLong = true;
         }
 
         if(ville.isEmpty()){
@@ -73,15 +80,19 @@ public class ClientController extends Controller {
             error.paysTropLong = true;
         }
 
-        if(error.hasErrorClient()){
-            System.out.println("ERREUR");
+        Adresse adresse = new Adresse(adresseClient,codePostal,ville,pays);
+        List<Contact> listC = new BeanList<>();
+        Client client = new Client(nomClient,priorite,false, adresse, listC, null);
+
+        List<Client> lClient = Client.getAll();
+        if(lClient.contains(client)){
+            error.clientExiste = true;
+        }
+        if(error.hasErrorClient()) {
+            System.out.println("ERREUUUUUURRRRR");
             return badRequest(Json.toJson(error));
-        }else{
-            Adresse adresse = new Adresse(adresseClient,codePostal,ville,pays);
+        }else {
             adresse.save();
-            //TODO : est ce que c'est nécessaire ?
-            //TODO: beanList ou normal ?
-            List<Contact> listC = new BeanList<>();
             if(json.get("table") != null){
                 Iterator<JsonNode> elements = json.get("table").elements();
                 String nom ="",prenom="",email="",tel="";
@@ -92,15 +103,14 @@ public class ClientController extends Controller {
                     listC.add(c);
                 }
             }
-            Client client = new Client(nomClient,priorite,false, adresse, listC, null);
+            client.listeContacts = listC;
             client.save();
             for(Contact c : listC){
                 c.client = client;
                 c.save();
             }
-            return ok();
+            return ok(Json.toJson(client));
         }
-
     }
 
     public Result contactCheck() {
@@ -113,18 +123,25 @@ public class ClientController extends Controller {
         String email =  map.get("formEmailContactClient")[0];
         String tel =  map.get("formTelContactClient")[0];
 
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,30}$");
+        Matcher nameMatch = nameRegex.matcher(nom);
+        Matcher prenomMatch = nameRegex.matcher(prenom);
+
         if(nom.isEmpty()){
             error.nomVideContact = true;
         }else if(nom.length()>15){
             error.nomTropLongContact = true;
+        }else if(!nameMatch.matches()) {
+            error.nomIncorrectContact = true;
         }
 
         if(prenom.isEmpty()){
             error.prenomVideContact = true;
         }else if(prenom.length()>15){
             error.prenomTropLongContact = true;
+        }else if(!prenomMatch.matches()) {
+            error.prenomIncorrectContact = true;
         }
-
         //pattern java
         Pattern emailRegex = Pattern.compile("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$");
         Matcher emailMatch = emailRegex.matcher(email);
@@ -155,15 +172,13 @@ public class ClientController extends Controller {
         {
             error.telIncorrecteContact = true;
         }
-
+        //TODO : contact existe deja ?
         if(error.hasErrorContact()){
             return badRequest(Json.toJson(error));
         }else{
-            return ok();
+            Contact c = new Contact(nom,prenom, email,tel);
+            return ok(Json.toJson(c));
         }
     }
 
-    public Result test(){
-        return ok();
-    }
 }
