@@ -12,11 +12,7 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Guillaume on 25/01/2016.
@@ -34,7 +30,7 @@ public class Projet extends EntiteSecurise {
     @JoinColumn
     public Utilisateur responsableProjet;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutTheorique;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
@@ -222,6 +218,9 @@ public class Projet extends EntiteSecurise {
 
         // Met a jour le parent
         if(tache.hasParent()){
+            if(tache.parent.equals(tache))
+                throw new IllegalArgumentException("Le parent de la tache " + tache.nom + " est lui-même!");
+
             if(tache.parent.enfants == null)
                 tache.parent.enfants = new BeanList<>();
 
@@ -232,7 +231,10 @@ public class Projet extends EntiteSecurise {
         }
 
         // Met a jour les enfants
-        if(tache.enfants != null && !tache.enfants.isEmpty()){
+        if(tache.enfants != null){
+            if(tache.enfants.contains(tache))
+                throw new IllegalArgumentException("Un des enfants de la tache " + tache.nom + " est lui-même!");
+
             for(Tache enfant : tache.enfants){
                 enfant.parent = tache;
                 enfant.save();
@@ -241,6 +243,9 @@ public class Projet extends EntiteSecurise {
 
         // Met a jour le prédécesseur
         if(tache.hasPredecesseur()){
+            if(tache.predecesseur.equals(tache))
+                throw new IllegalArgumentException("Le predecesseur de la tache " + tache.nom + " est lui-même!");
+
             if(tache.predecesseur.successeurs == null)
                 tache.predecesseur.successeurs = new BeanList<>();
 
@@ -251,6 +256,9 @@ public class Projet extends EntiteSecurise {
         }
         // Met a jour les successeur
         if(tache.hasSuccesseur()){
+            if(tache.successeurs.contains(tache))
+                throw new IllegalArgumentException("Un des successeurs de la tache " + tache.nom + " est lui-même!");
+
             for(Tache successeur : tache.successeurs){
                 successeur.predecesseur = tache;
                 successeur.save();
@@ -382,8 +390,9 @@ public class Projet extends EntiteSecurise {
                 String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
                 int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
 
-                // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >
-                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger > idTacheInteger){
+                // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >=
+                // (car il faut modifier aussi tacheDejaInseree+1 qui a le meme id)
+                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger){
                     tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger+1, tache.niveau);
                     tacheDuProjet.save();
                 }
@@ -439,7 +448,7 @@ public class Projet extends EntiteSecurise {
     private boolean samePrefix(String[] idTacheDuProjetParse, String[] idTacheParse, int niveau){
         // Condition pour faire le changement : il faut que ce qui précède l'id à l'indice niveau soit égal
         for(int i=0; i<niveau; i++){
-            if(idTacheDuProjetParse[i].equals(idTacheParse[i]))
+            if(!idTacheDuProjetParse[i].equals(idTacheParse[i]))
                 return false;
         }
         return true;
@@ -462,7 +471,7 @@ public class Projet extends EntiteSecurise {
         idTache += newIdTache + ".";
 
         // Meme fin entre niveau+1 et fin
-        for(int i=niveau+1; i<=3; i++){
+        for(int i=niveau+1; i<idTacheParse.length; i++){
             idTache += idTacheParse[i] + ".";
         }
         return idTache.substring(0, idTache.length()-1);
@@ -795,4 +804,58 @@ public class Projet extends EntiteSecurise {
     public boolean estRetarde(){ return dateFinReelTard.after(Calendar.getInstance().getTime());}
     public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
     public boolean estTermine(){ return avancementGlobal == 100; }
+
+    public int prioriteProjetEtClient(){ return priorite + client.priorite;}
+
+    public List<Tache> listTaches(){
+        listTaches = Tache.find.where().eq("projet",this).findList();
+        /*
+        // Trier en fonction de idTache
+        Collections.sort(listTaches, new Comparator<Tache>(){
+            @Override
+            public int compare(Tache t1, Tache t2) {
+                String[] idT1Parse = t1.idTache.split("\\.");
+                String[] idT2Parse = t2.idTache.split("\\.");
+                Integer[] idT1Integer = new Integer[idT1Parse.length];
+                Integer[] idT2Integer = new Integer[idT2Parse.length];
+                for(int i=0; i<idT1Parse.length; i++){
+                    idT1Integer[i] = Integer.parseInt(idT1Parse[i]);
+                }
+                for(int i=0; i<idT2Parse.length; i++){
+                    idT2Integer[i] = Integer.parseInt(idT2Parse[i]);
+                }
+                for(int i=0; i<idT1Integer.length || i<idT2Integer.length; i++){
+                    if(i >= idT1Integer.length)
+                        return -1;
+                    if(i >= idT2Integer.length)
+                        return 1;
+                    if(idT1Integer[i] < idT2Integer[i])
+                        return -1;
+                    if(idT1Integer[i] > idT2Integer[i])
+                        return 1;
+                }
+                return 0;
+            }
+        });
+         */
+        return listTaches;
+    }
+
+    public List<Tache> listTachesAAfficher(){
+        listTaches = listTaches();
+        List<Tache> taches = new BeanList<>();
+        for(Tache tache : listTaches){
+            if(!tache.hasParent()){
+                taches.add(tache);
+            }
+        }
+        // Trier en fonction de idTache (normalement que des int)
+        Collections.sort(taches, new Comparator<Tache>(){
+            @Override
+            public int compare(Tache t1, Tache t2) {
+                return Integer.parseInt(t1.idTache) - Integer.parseInt(t2.idTache);
+            }
+        });
+        return taches;
+    }
 }

@@ -127,7 +127,7 @@
                                         } else {
                                             @for( tache <- utilisateur.tachesProposees()) {
                                                 <p>
-                                                    <a class="btn btn-danger btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache">
+                                                    <a class="btn btn-danger btn-tdb" data-toggle="modal" data-target="#modal-tdb-tache" value="@tache.id" onclick="afficherModalTache(this)">
                                                         @tache.nom
                                                     </a>
                                                 </p>
@@ -539,9 +539,19 @@
 
                                                             <!-- 2eme colonne -->
                                                         <div class="col-sm-6">
-                                                            <p id="nomProjet-consulter-tdb" class="bold">@Messages("project")</p>
-                                                            <p id="nomClient-consulter-tdb" class="bold">@Messages("client")</p>
-                                                            <p id="nomRespTache-consulter-tdb">@Messages("taskPersonResponsible")</p>
+                                                            <div>
+                                                                <p style="display:inline-block;" class="bold">@Messages("project") : </p>
+                                                                <p style="display:inline-block;" id="nomProjet-consulter-tdb" class="bold"></p>
+                                                            </div>
+                                                            <div>
+                                                                <p style="display:inline-block;" class="bold">@Messages("client") : </p>
+                                                                <p style="display:inline-block;" id="nomClient-consulter-tdb" class="bold"></p>
+                                                            </div>
+                                                            <div>
+                                                                <p style="display:inline-block;">@Messages("taskPersonResponsible") : </p>
+                                                                <p style="display:inline-block;" id="nomRespTache-consulter-tdb"></p>
+                                                            </div>
+
                                                             <div class="row" style="margin-left:0px ;">
                                                                 <a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a>
                                                                 <div class="btn-group">
@@ -608,16 +618,16 @@
                                                             <div class="col-sm-6">
                                                                     <!-- Icones -->
                                                                 <div class="id-tache-modal">
-                                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
-                                                                    @Messages("task") 14
+                                                                    <img id="imgCritique-modifierTache-tdb" src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
+                                                                    @Messages("task") <p id="idTache-modifier-tdb" style="display:inline-block;"></p>
                                                                     <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-tdb"><i class="fa fa-trash"></i></a>
                                                                     <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
                                                                 </div>
                                                                     <!-- Form nom tache -->
-                                                                <input type="text" id="formModifierNomTache" class="form-control margin-form" placeholder='@Messages("taskName")...'>
+                                                                <input type="text" id="formModifierNomTache-tdb" class="form-control margin-form" placeholder='@Messages("taskName")...'>
 
                                                                     <!-- Form description tache -->
-                                                                <textarea id="formModifierDescriptionTache" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
+                                                                <textarea id="formModifierDescriptionTache-tdb" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
 
                                                                     <!-- Modifier predecesseur -->
                                                                 <p style="margin-top:7px ;">@Messages("predecessor")

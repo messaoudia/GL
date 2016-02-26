@@ -65,3 +65,4 @@ POST        /adminProjetArchives       controllers.AdminController.afficherProje
 POST        /adminProjetSupprimer      controllers.AdminController.supprimerProjet(idProjet:Long)
 
 POST        /ajouterUtilisateur        controllers.UtilisateurController.creerUtilisateur
+POST        /modifierUtilisateur        controllers.UtilisateurController.modifierUtilisateur(id: Long)

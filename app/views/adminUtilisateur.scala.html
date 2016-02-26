@@ -101,35 +101,43 @@
                                     <h5 class="text-white inline">@Messages("setUser")</h5>
                                     <div class="ibox-tools">
                                         <button type="button" class="close" data-dismiss="modal">
-                                            <i class="fa fa-times"/>
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="ibox-content">
                                     <form class="form-horizontal" id="modifierUserForm">
+                                        <div id="successModifierUser" class="alert alert-success alert-dismissable" style="display: none;">
+                                            <button class="close" type="button">×</button>
+                                            <p id="successModifierUserP"><p>
+                                        </div>
+                                        <div id="errorModifierUser" class="alert alert-danger alert-dismissable" style="display: none;">
+                                            <button class="close" type="button">×</button>
+                                            <p id="errorModifierUserP"><p>
+                                        </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formLastName">@Messages("formLastName")</label>
-                                            <div><input type="text" name="formLastName" id="formLastName" class="form-control"></div>
+                                            <div><input type="text" name="modify-formLastName" id="formLastName" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
-                                            <div><input type="text" name="formFirstName" id="formFirstName" class="form-control"></div>
+                                            <div><input type="text" name="modify-formFirstName" id="formFirstName" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formEmail">@Messages("formEmail")</label>
-                                            <div><input type="text" name="formEmail" id="formEmail" class="form-control"></div>
+                                            <div><input type="text" name="modify-formEmail" id="formEmail" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formTel">@Messages("formTel")</label>
-                                            <div><input type="text" name="formTel" id="formTel" class="form-control"></div>
+                                            <div><input type="text" name="modify-formTel" id="formTel" class="form-control"></div>
                                         </div>
 
 
                                         <div class="row form-group form-group-user">
                                             <div class="" style="font-weight: 700;">@Messages("administrator")
                                                 <div class="btn-group" style="display: inline-block ;">
-                                                    <button class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
-                                                    <button class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
+                                                    <button id="btnAdminOuiModifier" class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
+                                                    <button id="btnAdminNonModifier" class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,7 +148,7 @@
                                         <div class="row" style="margin-top:15px;">
                                             <div class="div-center">
                                                     <!--TODO modalview Valider (check contacts & projet & champs -->
-                                                <button class="btn btn-admin" type="submit" form="modifierUserForm">
+                                                <button onclick="modifierUtilisateur(this); return false;" class="btn btn-admin" type="submit" form="modifierUserForm">
                                                     <i class="fa fa-check-square"></i> @Messages("validate")
                                                 </button>
                                             </div>
@@ -156,7 +164,8 @@
                                     <h5 class="text-white inline">@Messages("removeUser")</h5>
                                     <div class="ibox-tools">
                                         <button type="button" class="close" data-dismiss="modal">
-                                            <i class="fa fa-times"/>
+
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -258,12 +267,20 @@
                             <h5 class="text-white inline">@Messages("addUser")</h5>
                             <div class="ibox-tools">
                                 <button type="button" class="close" data-dismiss="modal">
-                                    <i class="fa fa-times"/>
+                                    <i class="fa fa-times"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="ibox-content">
                             <form class="form-horizontal" id="creerUserForm">
+                                <div id="successCreerUser" class="alert alert-success alert-dismissable" style="display: none;">
+                                    <button class="close" type="button">×</button>
+                                    <p id="successCreerUserP"><p>
+                                </div>
+                                <div id="errorCreerUser" class="alert alert-danger alert-dismissable" style="display: none;">
+                                    <button class="close" type="button">×</button>
+                                    <p id="errorCreerUserP"><p>
+                                </div>
                                 <div class="row form-group form-group-user">
                                     <label class="control-label" for="new-formLastName">@Messages("formLastName")</label>
                                     <div><input type="text" name="new-formLastName" id="new-formLastName" class="form-control"></div>
@@ -284,8 +301,8 @@
                                 <div class="row form-group form-group-user">
                                     <div class="" style="font-weight: 700;">@Messages("administrator")
                                         <div class="btn-group" style="display: inline-block ;">
-                                            <button class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
-                                            <button class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
+                                            <button id="btnAdminOuiCreer" class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
+                                            <button id="btnAdminNonCreer" class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
                                         </div>
                                     </div>
                                 </div>
