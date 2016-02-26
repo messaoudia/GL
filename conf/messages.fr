@@ -147,6 +147,7 @@ changeResponsableTask = Changement du responsable d'une tâche :
 
 created = crée(e)
 errors = Erreur(s)
+saveUser = Enregistrer l'utilisateur
 lastnameEmptyError = Veuillez renseigner un nom 1 à 15 caractères alphabétiques
 lastnameTooLongError = Champs nom trop long 1 à 15 caractères alphabétiques
 lastnameIncorrectError = Champs nom incorrecte : requis 1 à 15 caractères alphabétiques

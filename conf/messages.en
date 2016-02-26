@@ -143,9 +143,10 @@ noTaskToFinishShortly = No task to finish shortly
 noneProposedTask = None proposed task
 effectiveDates = Effective dates
 changeResponsableTask = Change of the person in charge of a task :
-created = created
 
+created = created
 errors = Error(s)
+saveUser = Save user
 lastnameEmptyError = Please enter a last name 1 to 15 alphabetic characters
 lastnameTooLongError = Field last name is too long 1 to 15 alphabetic characters
 lastnameIncorrectError = Field last name is incorrect : requires 1 to 15 alphabetic characters
