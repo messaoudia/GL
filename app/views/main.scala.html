@@ -197,12 +197,21 @@
                 $(document).on('click','#dataTables-admin-client tr td:last-child', function(){
                     var idC = $(this).parent('tr').attr('value');
                     jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
-                    success: function(client){
-                        $("#delete-project-name").empty();
-                        $("#delete-project-name").append(client.nom);
-                    }
+                        success: function(client){
+                            $("#delete-project-name").empty();
+                            $("#delete-project-name").append(client.nom);
+                        }
+                    });
                 });
 
+                $(document).on('click','#dataTables-admin-user tr td:last-child', function(){
+                    var idU = $(this).parent('tr').attr('value');
+                    jsRoutes.controllers.AdminController.afficherModalUtilisateur(idU).ajax({
+                        success: function(u){
+                            $("#delete-utilisateur-name").empty();
+                            $("#delete-utilisateur-name").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
+                        }
+                    });
                 });
 
 
