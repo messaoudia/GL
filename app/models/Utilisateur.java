@@ -632,4 +632,10 @@ public class Utilisateur extends Personne {
             tache.save();
         }
     }
+
+    public static void supprimer(Long idUtilisateur){
+        Utilisateur u = find.byId(idUtilisateur);
+        u.archive = true;
+        u.save();
+    }
 }

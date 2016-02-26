@@ -101,7 +101,7 @@
                                     <h5 class="text-white inline">@Messages("setUser")</h5>
                                     <div class="ibox-tools">
                                         <button type="button" class="close" data-dismiss="modal">
-                                            <i class="fa fa-times"/>
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -128,8 +128,8 @@
                                         <div class="row form-group form-group-user">
                                             <div class="" style="font-weight: 700;">@Messages("administrator")
                                                 <div class="btn-group" style="display: inline-block ;">
-                                                    <button class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
-                                                    <button class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
+                                                    <button id="btnAdminOuiModifier" class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
+                                                    <button id="btnAdminNonModifier" class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,7 +156,8 @@
                                     <h5 class="text-white inline">@Messages("removeUser")</h5>
                                     <div class="ibox-tools">
                                         <button type="button" class="close" data-dismiss="modal">
-                                            <i class="fa fa-times"/>
+
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -259,12 +260,16 @@
                             <h5 class="text-white inline">@Messages("addUser")</h5>
                             <div class="ibox-tools">
                                 <button type="button" class="close" data-dismiss="modal">
-                                    <i class="fa fa-times"/>
+                                    <i class="fa fa-times"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="ibox-content">
                             <form class="form-horizontal" id="creerUserForm">
+                                <div id="errorCreerUser" class="alert alert-danger alert-dismissable" style="display: none;">
+                                    <button class="close" type="button">×</button>
+                                    <p id="errorCreerUserP"><p>
+                                </div>
                                 <div class="row form-group form-group-user">
                                     <label class="control-label" for="new-formLastName">@Messages("formLastName")</label>
                                     <div><input type="text" name="new-formLastName" id="new-formLastName" class="form-control"></div>
@@ -285,8 +290,8 @@
                                 <div class="row form-group form-group-user">
                                     <div class="" style="font-weight: 700;">@Messages("administrator")
                                         <div class="btn-group" style="display: inline-block ;">
-                                            <button class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
-                                            <button class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
+                                            <button id="btnAdminOuiCreer" class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
+                                            <button id="btnAdminNonCreer" class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
                                         </div>
                                     </div>
                                 </div>

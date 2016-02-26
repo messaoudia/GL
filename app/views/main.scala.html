@@ -173,10 +173,30 @@
                             $('#formFirstName').val(utilisateur.prenom);
                             $('#formEmail').val(utilisateur.email);
                             $('#formTel').val(utilisateur.telephone);
+
+                            //TODO mettre la condition si !admin sinon
+                            if(true)
+                            {
+                                // si le bouton a deja la classe ca sert a rien de changer
+                                if(!$("#btnAdminNonModifier").hasClass("btn-active"))
+                                {
+                                    $("#btnAdminOuiModifier").removeClass("btn-active")
+                                    $("#btnAdminNonModifier").addClass("btn-active");
+                                }
+                            }
+                            else
+                            {
+                                if(!$("#btnAdminOuiModifier").hasClass("btn-active"))
+                                {
+                                    $("#btnAdminNonModifier").removeClass("btn-active")
+                                    $("#btnAdminOuiModifier").addClass("btn-active");
+                                }
+                            }
                         },
                         //Case we have a problem
                         error: function(errorMessage){
-                            //alert(errorMessage);
+                            alert(errorMessage);
+                            console.log(errorMessage);
                         }
                     });
                 });
@@ -194,6 +214,7 @@
                         }
                     });
                 });
+
 
                 $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
                     var idC = $(this).parent('tr').attr('value');
@@ -334,28 +355,92 @@
                     form = "#"+form;
                     var serialize = $(form).serialize();
                     var value = $(".btn-active").attr('value');
+                    //TODO faire if $("#btnAdminOuiCreer").hasClass('btn-active') ou laisser comme ca ?
                     console.log("value : "+value);
                     jsRoutes.controllers.UtilisateurController.creerUtilisateur().ajax({
-                        data: serialize+"&admin"+value,
+                        data: serialize+"&admin="+value,
                         success : function(data) {
+                            $("#errorCreerUserP").empty();
+                            $("#errorCreerUser").hide();
+
                             $(form)[0].reset();
+                            console.log("data return = "+data.nom);
+
+                            var utilisateurList = $('#dataTables-admin-user-body');
+                            $("#dataTables-admin-user").dataTable().fnDestroy();
+
+                            var utilisateur = data;
+                            var list ="";
+                            list+=('<tr class="archived" value='+utilisateur.id+'>');
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.nom+'</td>');
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.prenom+'</td>');
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.email+'</td>');
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.telephone+'</td>');
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listProjetsResponsableSize+'</td>');
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listTachesSize+'</td>');
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("yes")</td>');
+                            list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>');
+                            list+=('</tr>');
+
+                            utilisateurList.append(list);
+
+                            console.log(list);
+                            console.log(utilisateurList);
                         },
                         error: function(errorMessage){
                             console.log(errorMessage);
+                            var messageDiv = "Erreur(s) (TODO mettre arbosase message) : ";
                             if(errorMessage.responseJSON.nomVide==true)
                             {
-                                alert("nomVide");
-                                console.log(errorMessage);
+                                messageDiv += "<br> - Veuillez renseigner un nom 1 à 15 caractères alphabétiques";
                             }
                             else if(errorMessage.responseJSON.nomTropLong==true)
                             {
-                                alert("nomTropLong");
-                                console.log(errorMessage);
+                                messageDiv += "<br> - Champs nom trop long 1 à 15 caractères alphabétiques";
                             }
-                            else
+
+                            if(errorMessage.responseJSON.prenomVide==true)
                             {
-                                // alert(errorMessage)
+                                messageDiv += "<br> - Veuillez renseigner un prenom 1 à 15 caractères alphabétiques";
                             }
+                            else if(errorMessage.responseJSON.prenomTropLong==true)
+                            {
+                                messageDiv += "<br> - Champs prenom trop long 1 à 15 caractères alphabétiques";
+                            }
+
+                            if(errorMessage.responseJSON.emailVide==true)
+                            {
+                                messageDiv += "<br> - Champs email vide";
+                            }
+                            else if(errorMessage.responseJSON.emailIncorrecte==true)
+                            {
+                                messageDiv += "<br> - Veuillez renseigner une adresse mail valide (ex : pear&#64;corporation.com)";
+                            }
+                            else if(errorMessage.responseJSON.emailTropLong==true)
+                            {
+                                messageDiv += "<br> - Veuillez renseigner une adresse mail de moins de 50 caractères (seuls autorisés . _ lettres chiffres)";
+                            }
+
+                            if(errorMessage.responseJSON.telVide==true)
+                            {
+                                messageDiv += "<br> - Champs téléphone vide";
+                            }
+                            else if(errorMessage.responseJSON.telIncorrecte==true)
+                            {
+                                messageDiv += "<br> - Veuillez renseigner un numéro de téléphone valide (ex : ++331234567)";
+                            }
+                            else if(errorMessage.responseJSON.telTropLong==true)
+                            {
+                                messageDiv += "<br> - Veuillez renseigner un numéro de téléphone de moins de 15 caractères";
+                            }
+
+                            if(errorMessage.responseJSON.userExist)
+                            {
+                                messageDiv += "<br> - /!\\ Adresse mail déjà utilisée  !";
+                            }
+
+                            $("#errorCreerUserP").html(messageDiv);
+                            $("#errorCreerUser").show();
                         }
                     })
                 }
@@ -397,6 +482,25 @@
 
 
                 $(document).ready(function () {
+
+                    $('#dataTables-admin-user').DataTable({
+                        destroy:true,
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":7,
+                        } ]
+                    });
+
+
+                    $('#dataTables-admin-client').DataTable({
+                        destroy: true,
+                        "columnDefs": [{
+                            "searchable": false,
+                            "orderable": false,
+                            "targets":6
+                        } ]
+                    });
 
                     $('#sidebar-back-select').click(function(){
                         alert("JS : #sidebar-back-select");
@@ -691,10 +795,16 @@
 
                         }
                     });
+                    $("#errorCreerUser > button").click(function(){
+                        $("#errorCreerUser").hide()
+                    });
                 });
 
                 $( document ).ajaxComplete(function() {
 
+                    $("#errorCreerUser > button").click(function(){
+                        $("#errorCreerUser").hide()
+                    });
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
