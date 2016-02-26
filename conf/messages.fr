@@ -144,3 +144,4 @@ noTaskToFinishShortly = Aucune tâche à finir bientôt
 noneProposedTask = Aucune tâche proposée
 effectiveDates = Dates effectives
 noneNotification = Vous n'avez pas de notification
+none = Aucun

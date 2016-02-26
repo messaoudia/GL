@@ -154,6 +154,12 @@ public class Utilisateur extends Personne {
         save();
     }
 
+    public List<Tache> listTachesDansProjet(Projet projet){
+        if(projet.responsableProjet.equals(this))
+            return projet.listTachesAAfficher();
+        return listTachesDansProjetNonResponsable(projet);
+    }
+
     /**
      * FIXME rustine car le champ ne contient pas la liste des taches
      * @return list des taches du responsable
@@ -163,7 +169,7 @@ public class Utilisateur extends Personne {
         return listTaches;
     }
 
-    public List<Tache> listTachesDansProjet(Projet projet){
+    private List<Tache> listTachesDansProjetNonResponsable(Projet projet){
         List<Tache> taches = Tache.find.where().eq("responsableTache",this).eq("projet", projet).findList();
         // Ajout des taches meres et filles
         for(Tache tache : taches){

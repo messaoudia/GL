@@ -388,257 +388,190 @@
                                                     </li>
                                                 </ol>
                                                 <ol class="dd-list">
-                                                        <!-- Liste des taches -->
-                                                    <li class="dd-item dd-item-min-width" data-id="1">
-                                                        <div class="dd-handle" style="padding:0px;">
-                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                <div class="col-middle first-col-middle" style="">
-                                                                    <div class="row row-nestable id-tache">
-                                                                        14
-                                                                    </div>
-                                                                    <div class="row row-nestable" style="padding-top: 10px;">
-                                                                        <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
-                                                                        Toto doit supporter PSG
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-nestable">21/12/1222</div>
-                                                                    <div class="row row-nestable">45/32/2345</div>
-                                                                </div>
-                                                                <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                    <div class="row row-restante row-nestable">Totale : 18J</div>
-                                                                    <div class="row progress progress-bar-default row-nestable">
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                            60%
+                                                    @for(tacheMere <- utilisateur.listTachesDansProjet(projet)){
+                                                        <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
+                                                            <div class="dd-handle" style="padding:0px;">
+                                                                <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                    <div class="col-middle first-col-middle" style="">
+                                                                        <div class="row row-nestable id-tache">
+                                                                        @tacheMere.idTache
+                                                                        </div>
+                                                                        <div class="row row-nestable" style="padding-top: 10px;">
+                                                                        @tacheMere.nom
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row row-consommee row-nestable">@Messages("consumed") : 30J</div>
-                                                                </div>
-
-                                                                <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-nestable">Précédente : 4.1</div>
-                                                                    <div class="row row-nestable dd-nodrag">
-                                                                        Suivantes :
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                8 tâches <span class="caret"></span>
-                                                                            </button>
-                                                                            <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                            </ul>
+                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
+                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@tacheMere.projet.client.nom</div>
+                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@tacheMere.formateDate(tacheMere.dateDebut)</div>
+                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
+                                                                        <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTot)</div>
+                                                                        <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTard)</div>
+                                                                    </div>
+                                                                    <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
+                                                                        <div class="row row-initiale row-nestable">@Messages("initial") : @tacheMere.chargeInitiale
+                                                                            @if(projet.hasUniteJour()) {
+                                                                                @Messages("day-first-letter")
+                                                                            } else {
+                                                                                @Messages("week-first-letter")
+                                                                            }
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
-                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="width:3%;"><i class="fa fa-times"></i></div>
-                                                            </div>
-                                                            <div class="row row-nestable dd-nodrag" style="text-align:center;">
-                                                                <div class="col-xs-4 normal">
-                                                                    <div class="normal boutonPlusCreerTache">
-                                                                        <i class="fa fa-plus-circle" style="font-size:14px;"></i>
-                                                                    </div>
-                                                                    <div data-toggle="modal" data-target="#modal-creer-tache">
-                                                                        <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                    <i class="fa fa-arrow-up"> @Messages("createTask")</i>
-                                                                </div>
-                                                                <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                    <i class="fa fa-arrow-down"> @Messages("createTask")</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                        <!-- Tache -->
-                                                    <li class="dd-item dd-item-min-width" data-id="2">
-                                                        <div class="dd-handle" style="padding:0px;">
-                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                <div class="col-middle first-col-middle" style="">
-                                                                    <div class="row row-nestable id-tache">
-                                                                        14
-                                                                    </div>
-                                                                    <div class="row row-nestable" style="padding-top: 10px;">
-                                                                        Toto doit supporter PSG
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-nestable">21/12/1222</div>
-                                                                    <div class="row row-nestable">45/32/2345</div>
-                                                                </div>
-                                                                <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                    <div class="row row-restante row-nestable">Totale : 18J</div>
-                                                                    <div class="row progress progress-bar-default row-nestable">
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                            60%
+                                                                        <div class="row row-restante row-nestable">@Messages("remaining") : @tacheMere.chargeRestante
+                                                                            @if(projet.hasUniteJour()) {
+                                                                                @Messages("day-first-letter")
+                                                                            } else {
+                                                                                @Messages("week-first-letter")
+                                                                            }
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="row row-consommee row-nestable">Consommée : 30J</div>
-                                                                </div>
-
-                                                                <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-nestable">Précédente : 4.1</div>
-                                                                    <div class="row row-nestable dd-nodrag">
-                                                                        Suivantes :
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                8 tâches <span class="caret"></span>
-                                                                            </button>
-                                                                            <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
-                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="width:3%;"><i class="fa fa-times"></i></div>
-                                                            </div>
-                                                            <div class="row row-nestable dd-nodrag" style="text-align:center;">
-                                                                <div class="col-xs-4 normal">
-                                                                    <div class="normal boutonPlusCreerTache">
-                                                                        <i class="fa fa-plus-circle" style="font-size:14px;"></i>
-                                                                    </div>
-                                                                    <div data-toggle="modal" data-target="#modal-creer-tache">
-                                                                        <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                    <i class="fa fa-arrow-up"> @Messages("createTask")</i>
-                                                                </div>
-                                                                <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                    <i class="fa fa-arrow-down"> @Messages("createTask")</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                            <!-- Liste sous-tâches -->
-                                                        <ol class="dd-list">
-                                                                <!-- Sous-tache 1 -->
-                                                            <li class="dd-item dd-item-min-width" data-id="3">
-                                                                <div class="dd-handle" style="padding:0px;">
-                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                        <div class="col-middle first-col-middle" style="">
-                                                                            <div class="row row-nestable id-tache">
-                                                                                14
+                                                                        <div class="row progress progress-bar-default row-nestable">
+                                                                        @if(tacheMere.getAvancementTache() == 0.0){
+                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                                                0%
                                                                             </div>
-                                                                            <div class="row row-nestable" style="padding-top: 10px;">
-                                                                                Toto
+                                                                        } else{
+                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@tacheMere.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                                @tacheMere.getAvancementTache()%
                                                                             </div>
+                                                                        }
                                                                         </div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
-                                                                            <div class="row row-nestable">21/12/1222</div>
-                                                                            <div class="row row-nestable">45/32/2345</div>
-                                                                        </div>
-                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                            <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                            <div class="row row-restante row-nestable">Totale : 18J</div>
-                                                                            <div class="row progress progress-bar-default row-nestable">
-                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                                    60%
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row row-consommee row-nestable">Consommée : 30J</div>
-                                                                        </div>
+                                                                        <div class="row row-consommee row-nestable">@Messages("consumed") : @tacheMere.chargeConsommee
+                                                                            @if(projet.hasUniteJour()) {
+                                                                                @Messages("day-first-letter")
+                                                                            } else {
+                                                                                @Messages("week-first-letter")
+                                                                            }</div>
+                                                                    </div>
 
-                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                            <div class="row row-nestable">Précédente : 4.1</div>
-                                                                            <div class="row row-nestable dd-nodrag">
-                                                                                Suivantes :
+                                                                    <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
+                                                                        <div class="row row-nestable">@Messages("predecessor") :
+                                                                            @if(tacheMere.hasPredecesseur()){
+                                                                                @tacheMere.predecesseur.idTache
+                                                                            } else {
+                                                                                @Messages("none")
+                                                                        }
+                                                                        </div>
+                                                                        <div class="row row-nestable dd-nodrag">
+                                                                            @Messages("successors") :
+                                                                            @if(tacheMere.hasSuccesseur()){
                                                                                 <div class="btn-group">
                                                                                     <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                        8 tâches <span class="caret"></span>
+                                                                                        @tacheMere.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                     </button>
                                                                                     <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                        <li>5.1</li>
-                                                                                        <li>5.1</li>
-                                                                                        <li>5.1</li>
+                                                                                    @for(successeur <- tacheMere.successeurs){
+                                                                                        <li>@successeur.idTache</li>
+                                                                                    }
                                                                                     </ul>
                                                                                 </div>
-                                                                            </div>
+                                                                            } else {
+                                                                                @Messages("none")
+                                                                            }
                                                                         </div>
-                                                                        <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
-                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="width:3%;"><i class="fa fa-times"></i></div>
                                                                     </div>
-                                                                    <div class="row row-nestable dd-nodrag" style="text-align:center;">
-                                                                        <div class="col-xs-4 normal">
-                                                                            <div class="normal boutonPlusCreerTache">
-                                                                                <i class="fa fa-plus-circle" style="font-size:14px;"></i>
-                                                                            </div>
-                                                                            <div data-toggle="modal" data-target="#modal-creer-tache">
-                                                                                <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
-                                                                            </div>
+                                                                    <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3%;"><i class="fa fa-times"></i></div>
+                                                                </div>
+                                                                <div class="row row-nestable dd-nodrag" style="text-align:center;">
+                                                                    <div class="col-xs-4 normal">
+                                                                        <div class="normal boutonPlusCreerTache">
+                                                                            <i class="fa fa-plus-circle" style="font-size:14px;"></i>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                            <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                                        <div data-toggle="modal" data-target="#modal-creer-tache">
+                                                                            <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                            <i class="fa fa-arrow-down"> @Messages("createTask")</i>
-                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                        <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                                    </div>
+                                                                    <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                        <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            @if(tacheMere.hasEnfant()){
                                                                 <ol class="dd-list">
-                                                                        <!-- Sous-tache 2 -->
-                                                                    <li class="dd-item dd-item-min-width" data-id="4">
+                                                                @for(sousTache1 <- tacheMere.enfants()){
+                                                                    <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
                                                                         <div class="dd-handle" style="padding:0px;">
                                                                             <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
                                                                                 <div class="col-middle first-col-middle" style="">
                                                                                     <div class="row row-nestable id-tache">
-                                                                                        14
+                                                                                    @sousTache1.idTache
                                                                                     </div>
                                                                                     <div class="row row-nestable" style="padding-top: 10px;">
-                                                                                        Toto
+                                                                                    @sousTache1.nom
                                                                                     </div>
-                                                                                </div>                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
-                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
-                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
+                                                                                </div>
+                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
+                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache1.projet.client.nom</div>
+                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache1.formateDate(sousTache1.dateDebut)</div>
                                                                                 <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
-                                                                                    <div class="row row-nestable">21/12/1222</div>
-                                                                                    <div class="row row-nestable">45/32/2345</div>
+                                                                                    <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTot)</div>
+                                                                                    <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTard)</div>
                                                                                 </div>
                                                                                 <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                                    <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                                    <div class="row row-restante row-nestable">Totale : 18J</div>
-                                                                                    <div class="row progress progress-bar-default row-nestable">
-                                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                                            60%
-                                                                                        </div>
+                                                                                    <div class="row row-initiale row-nestable">@Messages("initial") : @sousTache1.chargeInitiale
+                                                                                        @if(projet.hasUniteJour()) {
+                                                                                            @Messages("day-first-letter")
+                                                                                        } else {
+                                                                                            @Messages("week-first-letter")
+                                                                                        }
                                                                                     </div>
-                                                                                    <div class="row row-consommee row-nestable">Consommée : 30J</div>
+                                                                                    <div class="row row-restante row-nestable">@Messages("remaining") : @tacheMere.chargeRestante
+                                                                                        @if(projet.hasUniteJour()) {
+                                                                                            @Messages("day-first-letter")
+                                                                                        } else {
+                                                                                            @Messages("week-first-letter")
+                                                                                        }
+                                                                                    </div>
+                                                                                    <div class="row progress progress-bar-default row-nestable">
+                                                                                    @if(sousTache1.getAvancementTache() == 0.0){
+                                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                                                            0%
+                                                                                        </div>
+                                                                                    } else{
+                                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache1.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                                            @sousTache1.getAvancementTache()%
+                                                                                        </div>
+                                                                                    }
+                                                                                    </div>
+                                                                                    <div class="row row-consommee row-nestable">@Messages("consumed") : @sousTache1.chargeConsommee
+                                                                                        @if(projet.hasUniteJour()) {
+                                                                                            @Messages("day-first-letter")
+                                                                                        } else {
+                                                                                            @Messages("week-first-letter")
+                                                                                        }</div>
                                                                                 </div>
 
                                                                                 <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                                    <div class="row row-nestable">Précédente : 4.1</div>
+                                                                                    <div class="row row-nestable">@Messages("predecessor") :
+                                                                                        @if(sousTache1.hasPredecesseur()){
+                                                                                            @sousTache1.predecesseur.idTache
+                                                                                        } else {
+                                                                                            @Messages("none")
+                                                                                    }
+                                                                                    </div>
                                                                                     <div class="row row-nestable dd-nodrag">
-                                                                                        Suivantes :
-                                                                                        <div class="btn-group">
-                                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                                8 tâches <span class="caret"></span>
-                                                                                            </button>
-                                                                                            <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                <li>5.1</li>
-                                                                                                <li>5.1</li>
-                                                                                                <li>5.1</li>
-                                                                                            </ul>
-                                                                                        </div>
+                                                                                        @Messages("successors") :
+                                                                                        @if(sousTache1.hasSuccesseur()){
+                                                                                            <div class="btn-group">
+                                                                                                <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                                    @sousTache1.successeurs.size() @Messages("tasks") <span class="caret"></span>
+                                                                                                </button>
+                                                                                                <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                                @for(successeur <- sousTache1.successeurs){
+                                                                                                    <li>@successeur.idTache</li>
+                                                                                                }
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        } else {
+                                                                                            @Messages("none")
+                                                                                        }
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
-                                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="width:3%;"><i class="fa fa-times"></i></div>
-                                                                            </div>
+                                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3%;"><i class="fa fa-times"></i></div>
+
+                                                                                </div>
                                                                             <div class="row row-nestable dd-nodrag" style="text-align:center;">
                                                                                 <div class="col-xs-4 normal">
                                                                                     <div class="normal boutonPlusCreerTache">
@@ -656,209 +589,232 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <ol class="dd-list">
-                                                                                <!-- Sous-tache 3 -->
-                                                                            <li class="dd-item dd-item-min-width" data-id="5">
-                                                                                <div class="dd-handle" style="padding:0px;">
-                                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                        <div class="col-middle first-col-middle" style="">
-                                                                                            <div class="row row-nestable id-tache">
-                                                                                                14
-                                                                                            </div>
-                                                                                            <div class="row row-nestable" style="padding-top: 10px;">
-                                                                                                Toto
-                                                                                            </div>
-                                                                                        </div>                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
-                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
-                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
-                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
-                                                                                            <div class="row row-nestable">21/12/1222</div>
-                                                                                            <div class="row row-nestable">45/32/2345</div>
-                                                                                        </div>
-                                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                                            <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                                            <div class="row row-restante row-nestable">Totale : 18J</div>
-                                                                                            <div class="row progress progress-bar-default row-nestable">
-                                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                                                    60%
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="row row-consommee row-nestable">Consommée : 30J</div>
-                                                                                        </div>
 
-                                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                                            <div class="row row-nestable">Précédente : 4.1</div>
-                                                                                            <div class="row row-nestable dd-nodrag">
-                                                                                                Suivantes :
-                                                                                                <div class="btn-group">
-                                                                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                                        8 tâches <span class="caret"></span>
-                                                                                                    </button>
-                                                                                                    <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                        <li>5.1</li>
-                                                                                                        <li>5.1</li>
-                                                                                                        <li>5.1</li>
-                                                                                                    </ul>
+                                                                        @if(sousTache1.hasEnfant()) {
+                                                                            <ol class="dd-list">
+                                                                            @for(sousTache2 <- sousTache1.enfants()) {
+                                                                                <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
+                                                                                    <div class="dd-handle" style="padding:0px;">
+                                                                                        <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                                            <div class="col-middle first-col-middle" style="">
+                                                                                                <div class="row row-nestable id-tache">
+                                                                                                @sousTache2.idTache
+                                                                                                </div>
+                                                                                                <div class="row row-nestable" style="padding-top: 10px;">
+                                                                                                @sousTache2.nom
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
-                                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="width:3%;"><i class="fa fa-times"></i></div>
-                                                                                    </div>
-                                                                                    <div class="row row-nestable dd-nodrag" style="text-align:center;">
-                                                                                        <div class="col-xs-4 normal">
-                                                                                            <div class="normal boutonPlusCreerTache">
-                                                                                                <i class="fa fa-plus-circle" style="font-size:14px;"></i>
+                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
+                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache2.projet.client.nom</div>
+                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache2.formateDate(sousTache2.dateDebut)</div>
+                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
+                                                                                                <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTot)</div>
+                                                                                                <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTard)</div>
                                                                                             </div>
-                                                                                            <div data-toggle="modal" data-target="#modal-creer-tache">
-                                                                                                <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                                                            <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
+                                                                                                <div class="row row-initiale row-nestable">@Messages("initial") : @sousTache2.chargeInitiale
+                                                                                                    @if(projet.hasUniteJour()) {
+                                                                                                        @Messages("day-first-letter")
+                                                                                                    } else {
+                                                                                                        @Messages("week-first-letter")
+                                                                                                    }
+                                                                                                </div>
+                                                                                                <div class="row row-restante row-nestable">@Messages("remaining") : @tacheMere.chargeRestante
+                                                                                                    @if(projet.hasUniteJour()) {
+                                                                                                        @Messages("day-first-letter")
+                                                                                                    } else {
+                                                                                                        @Messages("week-first-letter")
+                                                                                                    }
+                                                                                                </div>
+                                                                                                <div class="row progress progress-bar-default row-nestable">
+                                                                                                @if(sousTache2.getAvancementTache() == 0.0){
+                                                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                                                                        0%
+                                                                                                    </div>
+                                                                                                } else{
+                                                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache2.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                                                        @sousTache2.getAvancementTache()%
+                                                                                                    </div>
+                                                                                                }
+                                                                                                </div>
+                                                                                                <div class="row row-consommee row-nestable">@Messages("consumed") : @sousTache2.chargeConsommee
+                                                                                                    @if(projet.hasUniteJour()) {
+                                                                                                        @Messages("day-first-letter")
+                                                                                                    } else {
+                                                                                                        @Messages("week-first-letter")
+                                                                                                    }</div>
+                                                                                            </div>
+
+                                                                                            <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
+                                                                                                <div class="row row-nestable">@Messages("predecessor") :
+                                                                                                    @if(sousTache2.hasPredecesseur()){
+                                                                                                        @sousTache2.predecesseur.idTache
+                                                                                                    } else {
+                                                                                                        @Messages("none")
+                                                                                                }
+                                                                                                </div>
+                                                                                                <div class="row row-nestable dd-nodrag">
+                                                                                                    @Messages("successors") :
+                                                                                                    @if(sousTache2.hasSuccesseur()){
+                                                                                                        <div class="btn-group">
+                                                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                                                @sousTache2.successeurs.size() @Messages("tasks") <span class="caret"></span>
+                                                                                                            </button>
+                                                                                                            <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                                            @for(successeur <- sousTache2.successeurs){
+                                                                                                                <li>@successeur.idTache</li>
+                                                                                                            }
+                                                                                                            </ul>
+                                                                                                        </div>
+                                                                                                    } else {
+                                                                                                        @Messages("none")
+                                                                                                    }
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3%;"><i class="fa fa-times"></i></div>
+
+
+                                                                                            </div>
+                                                                                        <div class="row row-nestable dd-nodrag" style="text-align:center;">
+                                                                                            <div class="col-xs-4 normal">
+                                                                                                <div class="normal boutonPlusCreerTache">
+                                                                                                    <i class="fa fa-plus-circle" style="font-size:14px;"></i>
+                                                                                                </div>
+                                                                                                <div data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                    <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                                                            </div>
+                                                                                            <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                                            <i class="fa fa-arrow-up"> @Messages("createTask")</i>
-                                                                                        </div>
-                                                                                        <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                                            <i class="fa fa-arrow-down"> @Messages("createTask")</i>
-                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ol>
+                                                                                    @if(sousTache2.hasEnfant()) {
+                                                                                        <ol class="dd-list">
+                                                                                        @for( sousTache3 <- sousTache2.enfants()) {
+                                                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
+                                                                                                <div class="dd-handle" style="padding:0px;">
+                                                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                                                        <div class="col-middle first-col-middle" style="">
+                                                                                                            <div class="row row-nestable id-tache">
+                                                                                                            @sousTache3.idTache
+                                                                                                            </div>
+                                                                                                            <div class="row row-nestable" style="padding-top: 10px;">
+                                                                                                            @sousTache3.nom
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
+                                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache3.projet.client.nom</div>
+                                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">@sousTache3.formateDate(sousTache3.dateDebut)</div>
+                                                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
+                                                                                                            <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTot)</div>
+                                                                                                            <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTard)</div>
+                                                                                                        </div>
+                                                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
+                                                                                                            <div class="row row-initiale row-nestable">@Messages("initial") : @sousTache3.chargeInitiale
+                                                                                                                @if(projet.hasUniteJour()) {
+                                                                                                                    @Messages("day-first-letter")
+                                                                                                                } else {
+                                                                                                                    @Messages("week-first-letter")
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                            <div class="row row-restante row-nestable">@Messages("remaining") : @tacheMere.chargeRestante
+                                                                                                                @if(projet.hasUniteJour()) {
+                                                                                                                    @Messages("day-first-letter")
+                                                                                                                } else {
+                                                                                                                    @Messages("week-first-letter")
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                            <div class="row progress progress-bar-default row-nestable">
+                                                                                                            @if(sousTache3.getAvancementTache() == 0.0){
+                                                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">
+                                                                                                                    0%
+                                                                                                                </div>
+                                                                                                            } else{
+                                                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache3.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                                                                    @sousTache3.getAvancementTache()%
+                                                                                                                </div>
+                                                                                                            }
+                                                                                                            </div>
+                                                                                                            <div class="row row-consommee row-nestable">@Messages("consumed") : @sousTache3.chargeConsommee
+                                                                                                                @if(projet.hasUniteJour()) {
+                                                                                                                    @Messages("day-first-letter")
+                                                                                                                } else {
+                                                                                                                    @Messages("week-first-letter")
+                                                                                                                }</div>
+                                                                                                        </div>
+
+                                                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
+                                                                                                            <div class="row row-nestable">@Messages("predecessor") :
+                                                                                                            @if(sousTache3.hasPredecesseur()){
+                                                                                                                 @sousTache3.predecesseur.idTache
+                                                                                                            } else {
+                                                                                                                @Messages("none")
+                                                                                                            }
+                                                                                                            </div>
+                                                                                                            <div class="row row-nestable dd-nodrag">
+                                                                                                                @Messages("successors") :
+                                                                                                                @if(sousTache3.hasSuccesseur()){
+                                                                                                                    <div class="btn-group">
+                                                                                                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                                                            @sousTache3.successeurs.size() @Messages("tasks") <span class="caret"></span>
+                                                                                                                        </button>
+                                                                                                                        <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                                                        @for(successeur <- sousTache3.successeurs){
+                                                                                                                            <li>@successeur.idTache</li>
+                                                                                                                        }
+                                                                                                                        </ul>
+                                                                                                                    </div>
+                                                                                                                } else {
+                                                                                                                    @Messages("none")
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                        </div>
+
+                                                                                                        <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3%;"><i class="fa fa-times"></i></div>
+
+
+                                                                                                        </div>
+                                                                                                    <div class="row row-nestable dd-nodrag" style="text-align:center;">
+                                                                                                        <div class="col-xs-4 normal">
+                                                                                                            <div class="normal boutonPlusCreerTache">
+                                                                                                                <i class="fa fa-plus-circle" style="font-size:14px;"></i>
+                                                                                                            </div>
+                                                                                                            <div data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                                <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                            <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                                                                        </div>
+                                                                                                        <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                            <i class="fa fa-arrow-down"> @Messages("createTask")</i>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </li>
+                                                                                        }
+                                                                                        </ol>
+                                                                                    }
+
+                                                                                </li>
+                                                                            }
+                                                                            </ol>
+                                                                        }
                                                                     </li>
+                                                                }
                                                                 </ol>
-                                                            </li>
-                                                            <li class="dd-item dd-item-min-width" data-id="6">
-                                                                <div class="dd-handle" style="padding:0px;">
-                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                        <div class="col-middle first-col-middle" style="">
-                                                                            <div class="row row-nestable id-tache">
-                                                                                14
-                                                                            </div>
-                                                                            <div class="row row-nestable" style="padding-top: 10px;">
-                                                                                Toto
-                                                                            </div>
-                                                                        </div>                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
-                                                                            <div class="row row-nestable">21/12/1222</div>
-                                                                            <div class="row row-nestable">45/32/2345</div>
-                                                                        </div>
-                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                            <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                            <div class="row row-restante row-nestable">Totale : 18J</div>
-                                                                            <div class="row progress progress-bar-default row-nestable">
-                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                                    60%
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row row-consommee row-nestable">Consommée : 30J</div>
-                                                                        </div>
+                                                            }
+                                                        </li>
 
-                                                                        <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                            <div class="row row-nestable">Précédente : 4.1</div>
-                                                                            <div class="row row-nestable dd-nodrag">
-                                                                                Suivantes :
-                                                                                <div class="btn-group">
-                                                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                        8 tâches <span class="caret"></span>
-                                                                                    </button>
-                                                                                    <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                        <li>5.1</li>
-                                                                                        <li>5.1</li>
-                                                                                        <li>5.1</li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
-                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="width:3%;"><i class="fa fa-times"></i></div>
-                                                                    </div>
-                                                                    <div class="row row-nestable dd-nodrag" style="text-align:center;">
-                                                                        <div class="col-xs-4 normal">
-                                                                            <div class="normal boutonPlusCreerTache">
-                                                                                <i class="fa fa-plus-circle" style="font-size:14px;"></i>
-                                                                            </div>
-                                                                            <div data-toggle="modal" data-target="#modal-creer-tache">
-                                                                                <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                            <i class="fa fa-arrow-up"> @Messages("createTask")</i>
-                                                                        </div>
-                                                                        <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                            <i class="fa fa-arrow-down"> @Messages("createTask")</i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </ol>
-                                                    </li>
-                                                    <li class="dd-item dd-item-min-width" data-id="7">
-                                                        <div class="dd-handle" style="padding:0px;">
-                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                <div class="col-middle first-col-middle" style="">
-                                                                    <div class="row row-nestable id-tache">
-                                                                        14
-                                                                    </div>
-                                                                    <div class="row row-nestable" style="padding-top: 10px;">
-                                                                        Toto
-                                                                    </div>
-                                                                </div>                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Daro Heng</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">Thalès</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">01/01/2000</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-nestable">21/12/1222</div>
-                                                                    <div class="row row-nestable">45/32/2345</div>
-                                                                </div>
-                                                                <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-initiale row-nestable">Initiale : 30J</div>
-                                                                    <div class="row row-restante row-nestable">Totale : 18J</div>
-                                                                    <div class="row progress progress-bar-default row-nestable">
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                                            60%
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row row-consommee row-nestable">Consommée : 30J</div>
-                                                                </div>
+                                                    }
 
-                                                                <div class="col-middle" style="width:15.75%;border-right: 1px solid #EBEBEB;">
-                                                                    <div class="row row-nestable">Précédente : 4.1</div>
-                                                                    <div class="row row-nestable dd-nodrag">
-                                                                        Suivantes :
-                                                                        <div class="btn-group">
-                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                                8 tâches <span class="caret"></span>
-                                                                            </button>
-                                                                            <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                                <li>5.1</li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-middle dd-nodrag" style="width:2%; border-right: 1px solid #EBEBEB;"><i class="fa fa-bell-slash-o"></i></div>
-                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="width:3%;"><i class="fa fa-times"></i></div>
-                                                            </div>
-                                                            <div class="row row-nestable dd-nodrag" style="text-align:center;">
-                                                                <div class="col-xs-4 normal">
-                                                                    <div class="normal boutonPlusCreerTache">
-                                                                        <i class="fa fa-plus-circle" style="font-size:14px;"></i>
-                                                                    </div>
-                                                                    <div data-toggle="modal" data-target="#modal-creer-tache">
-                                                                        <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                    <i class="fa fa-arrow-up"> @Messages("createTask")</i>
-                                                                </div>
-                                                                <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                    <i class="fa fa-arrow-down"> @Messages("createTask")</i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
                                                 </ol>
                                             </div>
                                         </div>
@@ -929,7 +885,7 @@
                                                                 </div>
                                                             </td>
                                                             <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                                            <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-client" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                                                            <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="9" style="padding:0px ;">
