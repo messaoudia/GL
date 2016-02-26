@@ -885,8 +885,8 @@
 
 
                     $('.sidebar-projet').click(function(){
-                        $('.sidebar-projet.select').removeClass("select");
                         var idProjet = '#' + $('.sidebar-projet.select').attr("name");
+                        $('.sidebar-projet.select').removeClass("select");
                         $(idProjet).hide();
                         $(this).addClass("select");
                         var newIdProjet = '#' + $(this).attr("name");
