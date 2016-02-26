@@ -48,6 +48,10 @@ public class AdminController extends Controller{
         return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur)));
     }
 
+    public Result afficherModalSupprimerUtilisateur(long idUtilisateur){
+        return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur)));
+    }
+
     public Result afficherModalClient(long idUtilisateur) {
         return ok(Json.toJson(Client.find.byId(idUtilisateur)));
     }
