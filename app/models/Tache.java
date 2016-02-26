@@ -69,6 +69,7 @@ public class Tache extends EntiteSecurise {
     public Utilisateur responsableTache;
 
     // TODO @qqch?
+    @ManyToMany(cascade = CascadeType.ALL)
     public List<Utilisateur> utilisateursNotifications;
 
     public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,

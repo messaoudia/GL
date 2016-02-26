@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import controllers.Global.StaticEntite;
 import models.Securite.Role;
@@ -39,12 +40,21 @@ public class Utilisateur extends Personne {
     @JoinTable(name = "Tache")
     private List<Tache> listTaches;
 
-    // TODO @qqch?
+    @ManyToMany(cascade = CascadeType.ALL)
     List<Tache> listTachesNotifications;
-    // TODO @qqch? + liste des utilisateurs où je souhaite recevoir une notification
+    // liste des utilisateurs où je souhaite recevoir une notification
+
+    @ManyToMany
+    @JoinTable(name="tbl_follow_user", joinColumns=@JoinColumn(name="suivant"), inverseJoinColumns=@JoinColumn(name="suivi"))
     List<Utilisateur> utilisateursSuivis;
-    // TODO @qqch? + liste des utilisateurs qui me suivent
+    // liste des utilisateurs qui me suivent
+    @ManyToMany
+    @JoinTable(name="tbl_follow_user", joinColumns=@JoinColumn(name="suivi"), inverseJoinColumns=@JoinColumn(name="suivant"))
     List<Utilisateur> utilisateursMeSuivant;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    public List<Projet> projetsNotifications;
 
     //TODO Make connection to the database to check the authentication
     public String validate() {
