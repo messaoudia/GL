@@ -230,6 +230,70 @@
                         success: function(u){
                             $("#delete-utilisateur-name").empty();
                             $("#delete-utilisateur-name").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
+                            jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
+                               success: function(utilisateurs){
+                                 console.log(utilisateurs);
+                                   jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
+                                       success: function(listProjets){
+                                           console.log(listProjets);
+                                           //listProjets
+                                           var projetTableBody = $('#table-modal-suppr-user-projet-body');
+                                           projetTableBody.empty();
+
+                                           var p ="";
+                                           if(listProjets.length != 0){
+                                               $(listProjets).each(function(index, projet) {
+                                                   p+=('<tr>');
+                                                   p+=('<td>'+projet.nom+'</td>');
+                                                   if(utilisateurs.length != 0){
+                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="multiple">');
+                                                       $(utilisateurs).each(function(index,u){
+                                                           p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                           //console.log(u.nom);
+                                                       });
+                                                       p+=('</select></td>');
+                                                   }
+                                                   p+=('</tr>');
+
+                                               });
+                                               projetTableBody.append(p);
+                                               p = "";
+                                           }
+                                       }
+                                   });
+
+                                   jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
+                                       success: function(listTaches){
+                                           console.log(listTaches);
+                                           var tacheeBody = $('#table-modal-suppr-user-tache-body');
+                                           tacheeBody.empty();
+
+                                           var p="";
+                                           if(listTaches.length != 0){
+                                               $(listTaches).each(function(index, tache) {
+                                                   p+=('<tr>');
+                                                   p+=('<td>'+tache.nom+'</td>');
+                                                   p+=('<td>'+tache.projet.nom+'</td>');
+                                                   if(utilisateurs.length != 0){
+                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="multiple">');
+                                                       $(utilisateurs).each(function(index,u){
+                                                           p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                           //console.log(u.nom);
+                                                       });
+                                                       p+=('</select></td>');
+                                                   }
+                                                   p+=('</tr>');
+
+                                               });
+                                               tacheeBody.append(p);
+                                               p = "";
+                                           }
+                                       }
+                                   });
+                               }
+                            });
+                            // lister tous les utilisaturs en cours sauf l'utilisatuer courant
+
                         }
                     });
                 });
@@ -837,7 +901,6 @@
 
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
                         success: function(tache) {
-                            console.log("tache : "+tache.nom)
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
                             // div-consulter-tache
@@ -848,10 +911,12 @@
                                 $('#imgCritique-consulterTache-tdb').hide();
                             }
 
-                            $('#idTache-consulter-tdb').val(tache.idTache);
-                            $('#nomTache-consulter-tdb').val(tache.nom);
-                            $('#descriptionTache-consulter-tdb').val(tache.description);
-
+                            $('#idTache-consulter-tdb').html(tache.idTache);
+                            $('#idTache-modifier-tdb').html(tache.idTache);
+                            $('#nomTache-consulter-tdb').html(tache.nom);
+                            $('#formModifierNomTache-tdb').val(tache.nom);
+                            $('#descriptionTache-consulter-tdb').html(tache.description);
+                            $('#formModifierDescriptionTache-tdb').val(tache.description);
                             if(tache.predecesseur == null){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
@@ -859,16 +924,16 @@
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
                                 $('#table-predecesseurTache-consulter-tdb').show();
-                                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').val(tache.predecesseur.idTache);
-                                $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').val(tache.predecesseur.nom);
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseur.idTache);
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseur.nom);
                             }
 
                             // TODO : Successeurs
 
 
-                            $('#nomProjet-consulter-tdb').val(tache.projet.nom);
-                            $('#nomClient-consulter-tdb').val(tache.client.nom);
-                            $('#nomRespTache-consulter-tdb').val(tache.responsableTache.nom);
+                            $('#nomProjet-consulter-tdb').html(tache.projet.nom);
+                            $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
+                            $('#nomRespTache-consulter-tdb').html(tache.responsableTache.prenom + " " + tache.responsableTache.nom);
 
 
                             // div-modifier-tache
@@ -1289,16 +1354,18 @@
 
                     $( "#btn-modifierProjet" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
+                        var idProjet = $( "#btn-modifierProjet" ).attr("name");
                         jQuery.fx.off = true;
-                        $("#div-consulterProjet").hide();
-                        $("#div-modifierProjet").show();
+                        $("#div-consulterProjet-" + idProjet).hide();
+                        $("#div-modifierProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
                     $( "#btn-cancel-modifierProjet" ).click(function() {
                         jQuery.fx.off = true;
-                        $("#div-modifierProjet").hide();
-                        $("#div-consulterProjet").show();
+                        var idProjet = $("#btn-cancel-modifierProjet").attr("name");
+                        $("#div-modifierProjet-" + idProjet).hide();
+                        $("#div-consulterProjet" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
@@ -1346,8 +1413,12 @@
 
 
                     $('.sidebar-projet').click(function(){
+                        var idProjet = '#' + $('.sidebar-projet.select').attr("name");
                         $('.sidebar-projet.select').removeClass("select");
+                        $(idProjet).hide();
                         $(this).addClass("select");
+                        var newIdProjet = '#' + $(this).attr("name");
+                        $(newIdProjet).show();
 
                     });
 

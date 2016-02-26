@@ -168,4 +168,15 @@ public class UtilisateurController extends Controller {
 
         return ok(Json.toJson(utst));
     }
+
+    public Result afficherUtilisateursNonArchives() {
+        return ok(Json.toJson(Utilisateur.getAllNonArchives()));
+    }
+
+    public Result listProjetsUtilisateur(Long idUtilisateur) {
+        return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listProjetsResponsable()));
+    }
+    public Result listTachesUtilisateur(Long idUtilisateur) {
+        return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listTaches()));
+    }
 }

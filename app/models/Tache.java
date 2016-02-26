@@ -9,6 +9,8 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -53,12 +55,16 @@ public class Tache extends EntiteSecurise {
 
     @ManyToOne
     public Tache predecesseur;
+
     @OneToMany(mappedBy = "predecesseur")
+    @JsonIgnore
     public List<Tache> successeurs;
 
     @ManyToOne
     public Tache parent;
+
     @OneToMany(mappedBy = "parent")
+    @JsonIgnore
     public List<Tache> enfants;
 
     public boolean archive;
@@ -72,11 +78,12 @@ public class Tache extends EntiteSecurise {
     @ManyToMany(cascade = CascadeType.ALL)
     public List<Utilisateur> utilisateursNotifications;
 
-    public Tache(String nom, String description, Integer niveau, Boolean critique, Date dateDebut,
+    public Tache(String nom, String description, Utilisateur responsableTache, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
-                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, List<Utilisateur> utilisateursNotifications) {
+                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, Tache predecesseur, List<Tache> successeurs, List<Utilisateur> utilisateursNotifications) {
         this.nom = nom;
         this.description = description;
+        this.responsableTache = responsableTache;
         this.niveau = niveau;
         this.critique = critique;
         this.dateDebut = dateDebut;
@@ -86,7 +93,8 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
-        this.successeurs = new BeanList<>();
+        this.predecesseur = predecesseur;
+        this.successeurs = (successeurs == null)?new BeanList<>():successeurs;
         this.enfants = new BeanList<>();
         this.projet = projet;
         this.archive = false;
@@ -292,7 +300,7 @@ public class Tache extends EntiteSecurise {
      * @param fille
      */
     public void associerSousTache(Tache fille) throws IllegalStateException {
-        if (niveau == 3) {
+        if (niveau == NIVEAU_MAX) {
             throw new IllegalStateException("Creation d'une tache fille de niveau superieur a 3 impossible");
         }
         if (this.enfants.contains(fille)) {
@@ -356,6 +364,13 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Ce parametre est le meme que le predecesseur de cette tache");
         }
         this.predecesseur = predecesseur;
+        if(predecesseur.successeurs == null){
+            predecesseur.successeurs = new BeanList<>();
+        }
+        if(!predecesseur.successeurs.contains(this)){
+            predecesseur.successeurs.add(this);
+        }
+        predecesseur.save();
         save();
     }
 
@@ -367,9 +382,11 @@ public class Tache extends EntiteSecurise {
      * @throws IllegalArgumentException
      */
     public void modifierPredecesseur(Tache predecesseur) throws IllegalArgumentException {
-        if (this.predecesseur == predecesseur) {
+        if (this.predecesseur.equals(predecesseur)) {
             throw new IllegalArgumentException("Remplacement du predecesseur de la tache courante par le même predecesseur");
         }
+        if(this.predecesseur.hasSuccesseur() && this.predecesseur.successeurs.contains(this))
+            this.predecesseur.successeurs.remove(this);
         associerPredecesseur(predecesseur);
     }
 
@@ -411,7 +428,7 @@ public class Tache extends EntiteSecurise {
     }
 
     public boolean hasSuccesseur() {
-        return !successeurs.isEmpty();
+        return successeurs != null && !successeurs.isEmpty();
     }
 
     public int nbSuccesseurs(){
@@ -458,6 +475,9 @@ public class Tache extends EntiteSecurise {
     public boolean hasParent() {
         return parent != null;
     }
+    public boolean hasEnfant() {
+        return enfants != null || enfants.isEmpty();
+    }
 
     /**
      * Mets a jour la charge consommee de la tâche éventuellement composée de sous-tâches
@@ -500,6 +520,20 @@ public class Tache extends EntiteSecurise {
 
     public String formateDateTri(Date d){
         return dateFormatTri.format(d);
+    }
+
+    public List<Tache> enfants() {
+        enfants =  Tache.find.where().eq("parent",this).findList();
+        // Trier en fonction de idTache (tri que sur le dernier int)
+        Collections.sort(enfants, new Comparator<Tache>(){
+            @Override
+            public int compare(Tache t1, Tache t2) {
+                String[] idT1parse = t1.idTache.split("\\.");
+                String[] idT2parse = t2.idTache.split("\\.");
+                return Integer.parseInt(idT1parse[t1.niveau]) - Integer.parseInt(idT2parse[t2.niveau]);
+            }
+        });
+        return enfants;
     }
 
 

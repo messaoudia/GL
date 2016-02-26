@@ -45,6 +45,7 @@ POST        /adminClientsArchive       controllers.AdminController.afficherClien
 GET         /adminProjets              controllers.AdminController.afficherAdminProjets
 GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
 POST        /adminUtilisateurArchive   controllers.AdminController.afficherUtilisateursArchives
+GET        /adminUtilisateurNonArchive controllers.UtilisateurController.afficherUtilisateursNonArchives
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
 GET         /dashboardTacheId          controllers.DashboardController.afficherModalTache(id: Long)
 GET         /adminUtilisateurId        controllers.AdminController.afficherModalUtilisateur(id: Long)
@@ -53,6 +54,8 @@ GET         /adminProjetsClient        controllers.ProjetController.afficherProj
 GET         /adminContactsClient       controllers.ContactController.afficherContactsClient(id: Long)
 
 POST        /ajouterProjet             controllers.ProjetController.creerProjet
+GET         /listProjetsUtilisateur    controllers.UtilisateurController.listProjetsUtilisateur(id: Long)
+GET         /listTachesUtilisateur     controllers.UtilisateurController.listTachesUtilisateur(id: Long)
 
 #view notification
 GET         /notifications             controllers.NotificationController.afficherNotifications

@@ -1,4 +1,4 @@
-@(pageTitle: String)
+@(pageTitle: String, utilisateur: models.Utilisateur)
 
     @scripts = {
         <script>
@@ -75,88 +75,25 @@
                         <div id="col-sidebar-liste-projet" class="col-md-2" style="padding: 0;">
                             <div class="sidebar-liste-projet" style="position: fixed;width: 170px;z-index: 1998;height: 100%;background-color:#FFF; box-shadow: 3px 0 5px -4px #333;">
                                 <div class="liste-projet-client" style="overflow-y: auto; height: 100%; margin-top:26px;">
-                                    <div class="sidebar-client">
-                                        <div class="row header-sidebar-projet" style="">
-                                            <div class="sidebar-client-priorite"><div class="valeur">3</div></div>
-                                            <div> <i class="fa fa-angle-down" style="float: right;display: inline-block;width: 20px;height: 30px;line-height: 30px;text-align: center;background-color: #FFF;color: #676A6C;"></i></div>
-                                            <div class="sidebar-client-nom" style="color:#FFF; line-height: 30px;">PoPS5I Inc.</div>
-
-                                        </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-
-                                            <div class="sidebar-projet select">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">myProject</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
-                                                </div>
+                                    @for(client <- utilisateur.listClients()){
+                                        <div class="sidebar-client">
+                                            <div class="row header-sidebar-projet" style="">
+                                                <div class="sidebar-client-priorite"><div class="valeur">@client.priorite</div></div>
+                                                <div> <i class="fa fa-angle-down" style="float: right;display: inline-block;width: 20px;height: 30px;line-height: 30px;text-align: center;background-color: #FFF;color: #676A6C;"></i></div>
+                                                <div class="sidebar-client-nom" style="color:#FFF; line-height: 30px;">@client.nom</div>
                                             </div>
-                                        </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-                                            <div class="sidebar-projet">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">myProject</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
+                                            @for(projet <- utilisateur.listProjetsDuClient(client)){
+                                                <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
+                                                    <div class="sidebar-projet select">
+                                                        <div class="content">
+                                                            <div class="sidebar-projet-nom">@projet.nom</div>
+                                                            <div class="sidebar-projet-priorite"><div class="valeur">@projet.priorite</div></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
                                         </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-                                            <div class="sidebar-projet">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">myProject</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-                                            <div class="sidebar-projet">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">myProject</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="sidebar-client">
-                                        <div class="row header-sidebar-projet" style="">
-                                            <div class="sidebar-client-priorite"><div class="valeur">3</div></div>
-                                            <div> <i class="fa fa-angle-down" style="float: right;display: inline-block;width: 20px;height: 30px;line-height: 30px;text-align: center;background-color: #FFF;color: #676A6C;"></i></div>
-                                            <div class="sidebar-client-nom" style="color:#FFF; line-height: 30px;">Auchan</div>
-                                        </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-
-                                            <div class="sidebar-projet">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">Big Data</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-                                            <div class="sidebar-projet">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">Big Data</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-                                            <div class="sidebar-projet">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">Big Data</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
-                                            <div class="sidebar-projet">
-                                                <div class="content">
-                                                    <div class="sidebar-projet-nom">myProject</div>
-                                                    <div class="sidebar-projet-priorite"><div class="valeur">3</div></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    }
                                 </div>
 
                                 <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute; bottom: 51px; background-color: #FFF;">
