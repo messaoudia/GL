@@ -444,6 +444,22 @@ INDEX FIN
     background-color: #ec4758;
 }
 
+.td-btn-suppr-disable{
+    text-align:center;
+    width:30px;
+    padding:0px;
+    color:white;
+    cursor:no-drop;
+    vertical-align: middle;
+    background-color: rgba(128, 124, 124, 0.56);
+    color: #FFFFFF;
+}
+
+.td-btn-suppr-disable:hover{
+    background-color: rgba(42, 38, 38, 0.67);
+
+}
+
 /** MODAL VIEW TACHE **/
 
 .list-task {

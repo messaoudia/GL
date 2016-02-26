@@ -382,7 +382,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @for(tache <- utilisateur.listTaches()){
-                                                        <tr class="table-center">
+                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center">
                                                             <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p class="tdb-id-tache">@tache.idTache</p>
                                                                 <p class="tdb-nom-tache">@tache.nom</p>
@@ -486,37 +486,30 @@
                                                             <!-- 1ere colonne -->
                                                         <div class="col-sm-6">
                                                             <div class="id-tache-modal">
-                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
-                                                                @Messages("task") 14
-                                                                <a><i class="fa fa-bell-slash"></i></a>
+                                                                <img id="imgCritique-consulterTache-tdb" src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
+                                                                @Messages("task") <p id="idTache-consulter-tdb" style="display:inline-block;"></p>
+                                                                <a><i class="fa fa-bell-slash"></i></a> <!-- TODO NOTIFICATION TACHE -->
                                                                 <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-tdb"><i class="fa fa-trash"></i></a>
                                                                 <a id="btn-modifierTache"><i class="fa fa-pencil"></i></a>
                                                             </div>
-                                                            <p class="titre-tache-modal">Faire la maquette</p>
-                                                            <div class="description-modal-tache">
-                                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                            </div>
-                                                            <p style="margin-top:7px ;">@Messages("predecessor")
+                                                            <p id="nomTache-consulter-tdb" class="titre-tache-modal"></p>
+                                                            <div id="descriptionTache-consulter-tdb" class="description-modal-tache"></div>
+                                                            <p id="titre-predecesseur-consulter-tdb" style="margin-top:7px ;">@Messages("predecessor")
                                                                 : </p>
-                                                            <div class="list-task">
+                                                            <div id="table-predecesseurTache-consulter-tdb" class="list-task">
                                                                 <table class="table-bordered">
                                                                     <tbody>
                                                                         <tr>
-                                                                            <td class="id-task">8</td>
-                                                                            <td class="name-task">
-                                                                                Créer la base de données</td>
+                                                                            <td class="id-task"></td>
+                                                                            <td class="name-task"></td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
 
-                                                            <p style="margin-top:7px ;">@Messages("successors")
+                                                            <p id="titre-successeurs-consulter-tdb" style="margin-top:7px ;">@Messages("successors")
                                                                 : </p>
-                                                            <div class="list-task">
+                                                            <div id="table-successeursTache-consulter-tdb" class="list-task">
                                                                 <table class="table-bordered">
                                                                     <tbody>
                                                                         <tr>
@@ -546,12 +539,9 @@
 
                                                             <!-- 2eme colonne -->
                                                         <div class="col-sm-6">
-                                                            <p class="bold">@Messages("project")
-                                                                : myProjects</p>
-                                                            <p class="bold">@Messages("client")
-                                                                : PoPS5I Inc.</p>
-                                                            <p>@Messages("taskPersonResponsible")
-                                                                : Daro Heng</p>
+                                                            <p id="nomProjet-consulter-tdb" class="bold">@Messages("project")</p>
+                                                            <p id="nomClient-consulter-tdb" class="bold">@Messages("client")</p>
+                                                            <p id="nomRespTache-consulter-tdb">@Messages("taskPersonResponsible")</p>
                                                             <div class="row" style="margin-left:0px ;">
                                                                 <a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a>
                                                                 <div class="btn-group">

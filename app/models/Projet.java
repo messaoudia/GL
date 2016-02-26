@@ -74,6 +74,8 @@ public class Projet extends EntiteSecurise {
 
     public UniteProjetEnum unite;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     public List<Utilisateur> utilisateursNotifications;
 
     final String DATE_PATTERN = "dd/MM/yyyy";

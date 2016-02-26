@@ -143,3 +143,4 @@ noDelayedTask = Aucune tâche retardée
 noTaskToFinishShortly = Aucune tâche à finir bientôt
 noneProposedTask = Aucune tâche proposée
 effectiveDates = Dates effectives
+changeResponsableTask = Changement du responsable d'une tâche :
