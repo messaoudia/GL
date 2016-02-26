@@ -241,7 +241,7 @@ public class ModelBeanTest {
             List<Utilisateur> utilisateursNotifications = null;
             Tache tache = new Tache(
                     "Etude 1",
-                    "Cette tâche permet de réaliser l'étude du projet",
+                    "Cette tâche permet de réaliser l'étude du projet",u1,
                     1,
                     true,
                     Utils.getDateFrom(2016,2,1),
@@ -250,8 +250,8 @@ public class ModelBeanTest {
                     20D,
                     0D,
                     20D,
-                    contactList,pr,null);
-            tache.responsableTache = u1;
+                    contactList,pr,null,null,null);
+            //tache.responsableTache = u1;
             tache.idTache = "1";
 
             c1.save();
