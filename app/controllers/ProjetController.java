@@ -73,6 +73,9 @@ public class ProjetController extends Controller{
             error.dateThFinProjetVide = true;
         }
 
+        if(description.length()>65536){
+            error.descriptionTropLong = true;
+        }
         if(error.hasErrorProjet()){
             return badRequest(Json.toJson(error));
         }
@@ -87,13 +90,15 @@ public class ProjetController extends Controller{
         try {
             dateDebutTheorique = formatter.parse(dateDeb);
             dateFinTheorique = formatter.parse(dateFin);
-            Projet p = new Projet(nom,description,responsableProjet,dateDebutTheorique,dateFinTheorique,unite,client,priorite);
-            p.save();
+            if(dateFinTheorique.after(dateDebutTheorique)){
+                Projet p = new Projet(nom,description,responsableProjet,dateDebutTheorique,dateFinTheorique,unite,client,priorite);
+                p.save();
+
+            }
+            //TODO : RENVOYER ERROR
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //create projet
-
         return ok();
     }
 }

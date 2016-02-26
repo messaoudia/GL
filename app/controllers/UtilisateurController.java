@@ -26,7 +26,6 @@ public class UtilisateurController extends Controller {
 
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         System.out.println("map = "+map);
-        Json errorJson = new Json();
         Error error = new Error();
 
         // nom utilisateur [1,15] char

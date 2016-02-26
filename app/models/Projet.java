@@ -727,11 +727,18 @@ public class Projet extends EntiteSecurise {
     }
 
     public String formateDate(Date d){
-        return dateFormat.format(d);
+        if(d!=null){
+        return dateFormat.format(d);}else{
+            return "";
+        }
     }
 
     public String formateDateTri(Date d){
-        return dateFormatTri.format(d);
+        if(d!=null) {
+            return dateFormatTri.format(d);
+        }else{
+            return "";
+        }
     }
 
     /**

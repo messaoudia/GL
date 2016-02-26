@@ -1,13 +1,17 @@
 package controllers;
 
+import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.databind.JsonNode;
+import models.*;
 import models.Error;
-import models.Utilisateur;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.client;
 import views.html.creerClient;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -30,78 +34,132 @@ public class ClientController extends Controller {
 
     public Result creerClient()
     {
-        Map<String, String[]> map = request().body().asFormUrlEncoded();
-        System.out.println("map = "+map);
-        Json errorJson = new Json();
+        JsonNode json = request().body().asJson();
+        System.out.println(json);
         Error error = new Error();
+        String nomClient =  json.get("form").get("formCreerClientName").asText();
+        String adresseClient =  json.get("form").get("formCreerClientAdress").asText();
+        String codePostal =  json.get("form").get("formCreerClientZipCode").asText();
+        String ville =  json.get("form").get("formCreerClientCity").asText();
+        String pays =  json.get("form").get("formCreerClientCountry").asText();
+        int priorite = json.get("priorite").asInt();
+        System.out.println(priorite);
+        if(nomClient.isEmpty()){
+            error.nomClientVide = true;
+        }else if(nomClient.length()>30){
+            error.nomClientTropLong = true;
+        }
 
-        // nom utilisateur [1,15] char
-        if(map.get("new-formLastName")[0].isEmpty())
-        {
-            error.nomVide = true;
-            //return badRequest(Json.toJson(error));
-        }
-        else if(map.get("new-formLastName")[0].length()>15)
-        {
-            error.nomTropLong = true;
+        if(adresseClient.isEmpty()){
+            error.adresseVide = true;
+        }else if(adresseClient.length()>50){
+            error.adresseTropLong = true;
         }
 
-        // prenom utilisateur [1,15] char
-        if(map.get("new-formFirstName")[0].isEmpty())
-        {
-            error.prenomVide = true;
+        if(codePostal.isEmpty()){
+            error.adresseVide = true;
+        }else if(codePostal.length()>10){
+            error.adresseTropLong = true;
         }
-        else if(map.get("new-formFirstName")[0].length()>15)
-        {
-            error.prenomTropLong = true;
+
+        if(ville.isEmpty()){
+            error.villeVide = true;
+        }else if(ville.length()>20){
+            error.villeTropLong = true;
+        }
+
+        if(pays.isEmpty()){
+            error.paysVide = true;
+        }else if(pays.length()>20){
+            error.paysTropLong = true;
+        }
+
+        if(error.hasErrorClient()){
+            System.out.println("ERREUR");
+            return badRequest(Json.toJson(error));
+        }else{
+            Adresse adresse = new Adresse(adresseClient,codePostal,ville,pays);
+            adresse.save();
+            Client client = new Client(nomClient,priorite,false, adresse, null, null);
+            //TODO : est ce que c'est nécessaire ?
+            client.save();
+            //TODO: beanList ou normal ?
+            List<Contact> listC = new BeanList<Contact>();
+            if(json.get("table") != null){
+                Iterator<JsonNode> elements = json.get("table").elements();
+                String nom ="",prenom="",email="",tel="";
+                while(elements.hasNext()){
+                    JsonNode contact = elements.next();
+                    Contact c = new Contact(contact.get("Nom").asText(),contact.get("Prenom").asText(), contact.get("Email").asText(),contact.get("Tel").asText(), new BeanList<Tache>());
+                    c.save();
+                    listC.add(c);
+                }
+            }
+            System.out.println(listC);
+            client.listeContacts = listC;
+            client.save();
+            System.out.println(client.listeContacts);
+            return ok();
+        }
+
+    }
+
+    public Result contactCheck() {
+
+        Map<String, String[]> map = request().body().asFormUrlEncoded();
+
+        Error error = new Error();
+        String nom = map.get("formLastNameContactClient")[0];
+        String prenom = map.get("formFirstNameContactClient")[0];
+        String email =  map.get("formEmailContactClient")[0];
+        String tel =  map.get("formTelContactClient")[0];
+
+        if(nom.isEmpty()){
+            error.nomVideContact = true;
+        }else if(nom.length()>15){
+            error.nomTropLongContact = true;
+        }
+
+        if(prenom.isEmpty()){
+            error.prenomVideContact = true;
+        }else if(prenom.length()>15){
+            error.prenomTropLongContact = true;
         }
 
         //pattern java
         Pattern emailRegex = Pattern.compile("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$");
-        Matcher emailMatch = emailRegex.matcher(map.get("new-formEmail")[0]);
+        Matcher emailMatch = emailRegex.matcher(email);
         // email
-        if(map.get("new-formEmail")[0].isEmpty())
+        if(email.isEmpty())
         {
-            error.emailVide = true;
+            error.emailVideContact = true;
+        }
+        else if(email.length()>50){
+            error.emailTropLongContact = true;
         }
         else if(!emailMatch.matches())
         {
-            error.emailIncorrecte = true;
+            error.emailIncorrecteContact = true;
         }
 
         String telRegexS = "^(([(]?(\\d{2,4})[)]?)|(\\d{2,4})|([+1-9]+\\d{1,2}))?[-\\s]?(\\d{2,3})?[-\\s]?((\\d{7,8})|(\\d{3,4}[-\\s]\\d{3,4}))$";
 
-        Pattern telRegex = Pattern.compile(telRegexS);
-        Matcher telMatch = emailRegex.matcher(map.get("new-formTel")[0]);
-
-
-
-        boolean res = Pattern.matches(telRegexS, map.get("new-formTel")[0]) ;
-        // tel
-        if(map.get("new-formTel")[0].isEmpty())
+        boolean res = Pattern.matches(telRegexS, tel) ;
+        if(tel.isEmpty())
         {
-            error.telVide = true;
+            error.telVideContact = true;
+        }
+        else if(tel.length()>15){
+            error.telIncorrecteContact = true;
         }
         else if(!res)
         {
-            error.telIncorrecte = true;
+            error.telIncorrecteContact = true;
         }
 
-        List<Utilisateur> listUser = Utilisateur.find.where().eq("email",map.get("new-formEmail")[0]).findList();
-
-        if(!listUser.isEmpty()) {
-            error.userExist = true;
-        }
-
-        if(error.hasErrorUtilisateur())
-        {
+        if(error.hasErrorContact()){
             return badRequest(Json.toJson(error));
-        }
-        else{
-            //creation user
-            Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false, Utilisateur.genererPassword());
-            user.save();
-            //TODO : send email to user
+        }else{
             return ok();
         }
     }

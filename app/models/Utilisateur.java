@@ -484,7 +484,9 @@ public class Utilisateur extends Personne {
     public int nbDeProjetsResponsableRetardes(){
         int cpt = 0;
         for(Projet projet : listProjetsResponsable()){
-            if(projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+            if(projet.dateFinReelTard!=null) {
+                if (projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+            }
         }
         return cpt;
     }

@@ -61,6 +61,6 @@ POST        /adminProjetSelect         controllers.AdminController.afficherAdmin
 POST        /adminProjetTermine        controllers.AdminController.afficherProjetsTermines(check:Boolean)
 POST        /adminProjetArchives       controllers.AdminController.afficherProjetsArchives(check:Boolean)
 POST        /adminProjetSupprimer      controllers.AdminController.supprimerProjet(idProjet:Long)
-
+POST        /checkContact              controllers.ClientController.contactCheck
 POST        /ajouterUtilisateur        controllers.UtilisateurController.creerUtilisateur
 POST        /ajouterClient             controllers.ClientController.creerClient

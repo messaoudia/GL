@@ -368,59 +368,99 @@
                                 // alert(errorMessage)
                             }
                         }
-                    })
+                    });
                 }
-
+                $.fn.serializeObject = function()
+                {
+                    var o = {};
+                    var a = this.serializeArray();
+                    $.each(a, function() {
+                        if (o[this.name] !== undefined) {
+                            if (!o[this.name].push) {
+                                o[this.name] = [o[this.name]];
+                            }
+                            o[this.name].push(this.value || '');
+                        } else {
+                            o[this.name] = this.value || '';
+                        }
+                    });
+                    return o;
+                };
                 var creerClient = function(btn)
                 {
                     var form = $(btn).attr("form");
                     form = "#"+form;
-                    var serialize = $(form).serialize();
+                    var serialize = $(form).serializeObject();
+                    //var myRows = { myRows: [] };
                     var value = $(".btn-active").attr('value');
-                    console.log("value : "+value);
-                    jsRoutes.controllers.UtilisateurController.creerClient().ajax({
-                        data: serialize+"&admin"+value,
+                    var $th = $('#tableContact th');
+
+                    var rowCount = $('#tableContact tbody tr').length;
+                    if(rowCount != 0){
+                        var tbl = $('#tableContact tr:has(td)').map(function(i, v) {
+                            var $td =  $('td', this);
+                            return {
+                                Nom: $td.eq(0).text(),
+                                Prenom: $td.eq(1).text(),
+                                Email: $td.eq(2).text(),
+                                Tel :$td.eq(2).text()
+                            }
+                        }).get();
+                        var json = "{\"form\":"+JSON.stringify(serialize)+",\"table\":"+JSON.stringify(tbl)+",\"priorite\":"+value+"}";
+                    }else{
+                        var json = "{\"form\":"+JSON.stringify(serialize)+",\"priorite\":"+value+"}";
+                    }
+
+                    jsRoutes.controllers.ClientController.creerClient().ajax({
+                        dataType : 'json',
+                        contentType : 'application/json; charset=utf-8',
+                        data: json,
                         success : function(data) {
                             $(form)[0].reset();
-                        },
-                        error: function(errorMessage){
-                            console.log(errorMessage);
-                            if(errorMessage.responseJSON.nomVide==true)
-                            {
-                                alert("nomVide");
-                                console.log(errorMessage);
-                            }
-                            else if(errorMessage.responseJSON.nomTropLong==true)
-                            {
-                                alert("nomTropLong");
-                                console.log(errorMessage);
-                            }
-                            else
-                            {
-                                // alert(errorMessage)
-                            }
-                        }
-                    })
-                }
-
-
-                var ajouterProjet = function() {
-                    var $form = $('#addProjectForm');
-                    var $serialize= $form.serialize();
-                    var $value = $(".btn-active").attr('value');
-                    jsRoutes.controllers.ProjetController.ajouterProjet().ajax({
-                        data :$serialize+ '&priorite='+$value,
-                        success : function(data) {
-                            alert("toto");
-
                         },
                         error: function(errorMessage){
                             alert("error");
                         }
                     });
-
                 }
 
+                var creerContact = function(btn)
+                {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serializeObject();
+                    jsRoutes.controllers.ClientController.contactCheck().ajax({
+                        data: serialize,
+                        success : function(data) {
+                            //On ajoute au niveau de la liste
+                            alert("oki");
+                            if ($('#listContactAjout').not(':visible')){
+                                $('#listContactAjout').show();
+                            }
+                            //verif si mail existe deja
+                            var $email = $('#formEmailContactClient').val();
+                            var $length = $('#listContactAjout tr > td:contains('+$email+')').length;
+                            if($length>0){
+                                alert("contact existe deja");
+                            }else{
+                                var contact = $('#listContactAjout tbody');
+                                var list ="";
+                                list+=('<tr>');
+                                list+=('<td class="first-td">'+$('#formLastNameContactClient').val()+'</td>');
+                                list+=('<td class="first-td">'+$('#formFirstNameContactClient').val()+'</td>');
+                                list+=('<td class="first-td">'+$('#formEmailContactClient').val()+'</td>');
+                                list+=('<td class="first-td">'+$('#formTelContactClient').val()+'</td>');
+                                list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                list+=('</tr>');
+                                contact.append(list);
+                                $(form)[0].reset();
+                            }
+                            },
+                            error: function(errorMessage){
+                                //afficher les erreurs
+                            }
+                    });
+                }
 
                 var afficherAdminProjets = function(){
                     jsRoutes.controllers.AdminController.afficherAdminProjets().ajax({
@@ -818,7 +858,6 @@
                     var $form = $('#addProjectForm');
                     var $serialize= $form.serialize();
                     var $value = $(".btn-active").attr('value');
-                    alert($('#responsableProjet').find(':selected').attr('value'));
                     jsRoutes.controllers.ProjetController.creerProjet().ajax({
                         data :$serialize+ '&priorite='+$value,
                         success : function(data) {
@@ -1224,7 +1263,7 @@
                         forceParse: false,
                         calendarWeeks: true,
                         autoclose: true,
-                        language: "fr-FR",
+                        language: "fr-FR"
 
                     });
 
@@ -1240,7 +1279,7 @@
                     });
 
                     $('#datepicker_projet_th_debut .input-group.date').datepicker({
-                        format: 'dd/mm/yyyy',
+                        //format: 'dd/mm/yyyy',
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
@@ -1251,7 +1290,7 @@
                     });
 
                     $('#datepicker_projet_th_fin .input-group.date').datepicker({
-                        format: 'dd/mm/yyyy',
+                        //format: 'dd/mm/yyyy',
                         todayBtn: "linked",
                         keyboardNavigation: false,
                         forceParse: false,
