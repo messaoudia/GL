@@ -53,12 +53,16 @@ public class Tache extends EntiteSecurise {
 
     @ManyToOne
     public Tache predecesseur;
+
     @OneToMany(mappedBy = "predecesseur")
+    @JsonIgnore
     public List<Tache> successeurs;
 
     @ManyToOne
     public Tache parent;
+
     @OneToMany(mappedBy = "parent")
+    @JsonIgnore
     public List<Tache> enfants;
 
     public boolean archive;

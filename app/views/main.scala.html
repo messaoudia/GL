@@ -210,8 +210,26 @@
                         success: function(u){
                             $("#delete-utilisateur-name").empty();
                             $("#delete-utilisateur-name").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
-                            //listTaches
-                            //listProjets
+                            jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
+                               success: function(utilisateurs){
+                                 console.log(utilisateurs);
+                                   jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
+                                       success: function(listProjets){
+                                           console.log(listProjets);
+                                           //listProjets
+
+                                       }
+                                   });
+
+                                   jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
+                                       success: function(listTaches){
+                                           console.log(listTaches);
+                                           //listTaches
+
+                                       }
+                                   });
+                               }
+                            });
                             // lister tous les utilisaturs en cours sauf l'utilisatuer courant
 
                         }
