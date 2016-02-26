@@ -403,8 +403,6 @@ public class Projet extends EntiteSecurise {
 
                 // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >=
                 // (car il faut modifier aussi tacheDejaInseree+1 qui a le meme id)
-                System.out.println("Avant SamePrefix : " + tacheDuProjet.nom + " - " + tacheDuProjet.idTache);
-                System.out.println("  --> " + samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau));
                 if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger){
                     tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger+1, tache.niveau);
                     tacheDuProjet.save();
