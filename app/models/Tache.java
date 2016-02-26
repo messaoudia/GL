@@ -9,6 +9,7 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -468,6 +469,9 @@ public class Tache extends EntiteSecurise{
     public boolean hasParent() {
         return parent != null;
     }
+    public boolean hasEnfant() {
+        return enfants != null || enfants.isEmpty();
+    }
 
     /**
      * Mets a jour la charge consommee de la tâche éventuellement composée de sous-tâches
@@ -512,7 +516,19 @@ public class Tache extends EntiteSecurise{
         return dateFormatTri.format(d);
     }
 
-    public List<Tache> enfants() { return Tache.find.where().eq("parent",this).findList(); }
+    public List<Tache> enfants() {
+        enfants =  Tache.find.where().eq("parent",this).findList();
+        // Trier en fonction de idTache (tri que sur le dernier int)
+        Collections.sort(enfants, new Comparator<Tache>(){
+            @Override
+            public int compare(Tache t1, Tache t2) {
+                String[] idT1parse = t1.idTache.split("\\.");
+                String[] idT2parse = t2.idTache.split("\\.");
+                return Integer.parseInt(idT1parse[t1.niveau]) - Integer.parseInt(idT2parse[t2.niveau]);
+            }
+        });
+        return enfants;
+    }
 
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception

@@ -163,6 +163,61 @@ public class Utilisateur extends Personne {
         return listTaches;
     }
 
+    public List<Tache> listTachesDansProjet(Projet projet){
+        List<Tache> taches = Tache.find.where().eq("responsableTache",this).eq("projet", projet).findList();
+        // Ajout des taches meres et filles
+        for(Tache tache : taches){
+            ajoutDesTachesParents(taches, tache);
+            ajoutDesTachesEnfants(taches, tache);
+        }
+
+        // Tri en fonction des id
+        Collections.sort(listTaches, new Comparator<Tache>(){
+            @Override
+            public int compare(Tache t1, Tache t2) {
+                String[] idT1Parse = t1.idTache.split("\\.");
+                String[] idT2Parse = t2.idTache.split("\\.");
+                Integer[] idT1Integer = new Integer[idT1Parse.length];
+                Integer[] idT2Integer = new Integer[idT2Parse.length];
+                for(int i=0; i<idT1Parse.length; i++){
+                    idT1Integer[i] = Integer.parseInt(idT1Parse[i]);
+                }
+                for(int i=0; i<idT2Parse.length; i++){
+                    idT2Integer[i] = Integer.parseInt(idT2Parse[i]);
+                }
+                for(int i=0; i<idT1Integer.length || i<idT2Integer.length; i++){
+                    if(i >= idT1Integer.length)
+                        return -1;
+                    if(i >= idT2Integer.length)
+                        return 1;
+                    if(idT1Integer[i] < idT2Integer[i])
+                        return -1;
+                    if(idT1Integer[i] > idT2Integer[i])
+                        return 1;
+                }
+                return 0;
+            }
+        });
+        return taches;
+    }
+
+    private void ajoutDesTachesParents(List<Tache> taches, Tache tache){
+        if(tache.hasParent()){
+            if(!taches.contains(tache.parent))
+                taches.add(tache.parent);
+            ajoutDesTachesParents(taches, tache.parent);
+        }
+    }
+    private void ajoutDesTachesEnfants(List<Tache> taches, Tache tache){
+        if(tache.hasEnfant()){
+            for(Tache enfant : tache.enfants()){
+                if(!taches.contains(enfant))
+                    taches.add(enfant);
+                ajoutDesTachesParents(taches, enfant);
+            }
+        }
+    }
+
     @JsonSerialize
     public int listTachesSize(){
         return listTaches().size();

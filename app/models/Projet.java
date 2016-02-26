@@ -818,6 +818,7 @@ public class Projet extends EntiteSecurise {
 
     public List<Tache> listTaches(){
         listTaches = Tache.find.where().eq("projet",this).findList();
+        /*
         // Trier en fonction de idTache
         Collections.sort(listTaches, new Comparator<Tache>(){
             @Override
@@ -845,6 +846,25 @@ public class Projet extends EntiteSecurise {
                 return 0;
             }
         });
+         */
         return listTaches;
+    }
+
+    public List<Tache> listTachesAAfficher(){
+        listTaches = listTaches();
+        List<Tache> taches = new BeanList<>();
+        for(Tache tache : listTaches){
+            if(!tache.hasParent()){
+                taches.add(tache);
+            }
+        }
+        // Trier en fonction de idTache (normalement que des int)
+        Collections.sort(taches, new Comparator<Tache>(){
+            @Override
+            public int compare(Tache t1, Tache t2) {
+                return Integer.parseInt(t1.idTache) - Integer.parseInt(t2.idTache);
+            }
+        });
+        return taches;
     }
 }
