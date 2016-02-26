@@ -310,12 +310,55 @@ public class ModelManagerTest {
                 System.out.println("------ Fin - L7 -------");
 
                 projet.creerSousTache(tacheH,tacheF);
+                System.out.println("------ L8 -------");
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheH.nom + " " + tacheH.idTache);
+                System.out.println("------ Fin - L8 -------");
 
                 projet.creerTacheEnDessous(tacheI,tacheH);
+                System.out.println("------ L9 -------");
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheH.nom + " " + tacheH.idTache);
+                System.out.println(tacheI.nom + " " + tacheI.idTache);
+                System.out.println("------ Fin - L9 -------");
+
                 projet.creerTacheEnDessous(tacheJ,tacheI);
+                System.out.println("------ L10 -------");
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheH.nom + " " + tacheH.idTache);
+                System.out.println(tacheI.nom + " " + tacheI.idTache);
+                System.out.println(tacheJ.nom + " " + tacheJ.idTache);
+                System.out.println("------ Fin - L10 -------");
+
                 projet.creerTacheEnDessous(tacheK,tacheJ);
+                System.out.println("------ L11 -------");
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheH.nom + " " + tacheH.idTache);
+                System.out.println(tacheI.nom + " " + tacheI.idTache);
+                System.out.println(tacheJ.nom + " " + tacheJ.idTache);
+                System.out.println(tacheK.nom + " " + tacheK.idTache);
+                System.out.println("------ Fin - L11 -------");
+
                 projet.creerTacheEnDessous(tacheL,tacheH);
+                System.out.println("------ L12 -------");
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheH.nom + " " + tacheH.idTache);
+                System.out.println(tacheL.nom + " " + tacheL.idTache);
+                System.out.println(tacheI.nom + " " + tacheI.idTache);
+                System.out.println(tacheJ.nom + " " + tacheJ.idTache);
+                System.out.println(tacheK.nom + " " + tacheK.idTache);
+                System.out.println("------ Fin - L12 -------");
+
                 projet.creerTacheEnDessous(tacheM,tacheL);
+                System.out.println("------ L13 -------");
+                System.out.println(tacheF.nom + " " + tacheF.idTache);
+                System.out.println(tacheH.nom + " " + tacheH.idTache);
+                System.out.println(tacheL.nom + " " + tacheL.idTache);
+                System.out.println(tacheM.nom + " " + tacheM.idTache);
+                System.out.println(tacheI.nom + " " + tacheI.idTache);
+                System.out.println(tacheJ.nom + " " + tacheJ.idTache);
+                System.out.println(tacheK.nom + " " + tacheK.idTache);
+                System.out.println("------ Fin - L13 -------");
 
                 Projet projetSelected = Projet.find.byId(projet.id);
                 Tache tacheASelected = Tache.find.byId(tacheA.id);
