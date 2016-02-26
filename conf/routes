@@ -64,3 +64,5 @@ POST        /adminProjetSupprimer      controllers.AdminController.supprimerProj
 POST        /checkContact              controllers.ClientController.contactCheck
 POST        /ajouterUtilisateur        controllers.UtilisateurController.creerUtilisateur
 POST        /ajouterClient             controllers.ClientController.creerClient
+POST        /test             controllers.ClientController.test
+

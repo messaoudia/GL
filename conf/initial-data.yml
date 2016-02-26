@@ -263,7 +263,7 @@ projets:
     chargeInitiale:     2
     avancementGlobal:   0
     enCours:            true
-    archive:            false
+    archive:            true
     client:             *client1
     priorite:           2
     unite:              JOUR

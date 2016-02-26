@@ -412,7 +412,7 @@
                                 Nom: $td.eq(0).text(),
                                 Prenom: $td.eq(1).text(),
                                 Email: $td.eq(2).text(),
-                                Tel :$td.eq(2).text()
+                                Tel :$td.eq(3).text()
                             }
                         }).get();
                         var json = "{\"form\":"+JSON.stringify(serialize)+",\"table\":"+JSON.stringify(tbl)+",\"priorite\":"+value+"}";
@@ -421,18 +421,29 @@
                     }
 
                     jsRoutes.controllers.ClientController.creerClient().ajax({
-                        dataType : 'json',
-                        contentType : 'application/json; charset=utf-8',
+
                         data: json,
+                        contentType: "application/json",
+
                         success : function(data) {
+
                             $(form)[0].reset();
+                            $('#tableContact tr:not(:first)').remove();
+                            $('#tableContact').hide();
                         },
-                        error: function(errorMessage){
-                            alert("error");
+                        error: function(errorCode,errorMessage){
+                            // faire les messages d'erruer
                         }
                     });
                 }
-
+                var supprContact = function(td){
+                    var tr = $(td).parent('tr');
+                    tr.remove();
+                    var rowCount = $('#tableContact tbody tr').length;
+                    if(rowCount == 0){
+                        $('#tableContact').hide();
+                    }
+                }
                 var creerContact = function(btn)
                 {
                     var form = $(btn).attr("form");
@@ -459,7 +470,7 @@
                                 list+=('<td class="first-td">'+$('#formFirstNameContactClient').val()+'</td>');
                                 list+=('<td class="first-td">'+$('#formEmailContactClient').val()+'</td>');
                                 list+=('<td class="first-td">'+$('#formTelContactClient').val()+'</td>');
-                                list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                list+=('<td class="td-btn-suppr" style="vertical-align:middle;" onclick="supprContact(this)"><i class="fa fa-times"></i></td>');
                                 list+=('</tr>');
                                 contact.append(list);
                                 $(form)[0].reset();
@@ -1639,7 +1650,7 @@
                                                 list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("week-first-letter") </p>');
                                                 list+=('</td>');
                                             }
-                                            list+=('<td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>');
+                                            list+=('<td class="td-btn-suppr-disable" style="vertical-align:middle; cursor:no-drop;" data-toggle="modal" disabled><i class="fa fa-times"></i></td>');
                                             list+=('</tr>');
                                             projetList.append(list);
                                         });

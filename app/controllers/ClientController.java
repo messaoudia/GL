@@ -35,7 +35,6 @@ public class ClientController extends Controller {
     public Result creerClient()
     {
         JsonNode json = request().body().asJson();
-        System.out.println(json);
         Error error = new Error();
         String nomClient =  json.get("form").get("formCreerClientName").asText();
         String adresseClient =  json.get("form").get("formCreerClientAdress").asText();
@@ -80,11 +79,9 @@ public class ClientController extends Controller {
         }else{
             Adresse adresse = new Adresse(adresseClient,codePostal,ville,pays);
             adresse.save();
-            Client client = new Client(nomClient,priorite,false, adresse, null, null);
             //TODO : est ce que c'est nécessaire ?
-            client.save();
             //TODO: beanList ou normal ?
-            List<Contact> listC = new BeanList<Contact>();
+            List<Contact> listC = new BeanList<>();
             if(json.get("table") != null){
                 Iterator<JsonNode> elements = json.get("table").elements();
                 String nom ="",prenom="",email="",tel="";
@@ -95,10 +92,12 @@ public class ClientController extends Controller {
                     listC.add(c);
                 }
             }
-            System.out.println(listC);
-            client.listeContacts = listC;
+            Client client = new Client(nomClient,priorite,false, adresse, listC, null);
             client.save();
-            System.out.println(client.listeContacts);
+            for(Contact c : listC){
+                c.client = client;
+                c.save();
+            }
             return ok();
         }
 
@@ -164,4 +163,7 @@ public class ClientController extends Controller {
         }
     }
 
+    public Result test(){
+        return ok();
+    }
 }
