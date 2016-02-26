@@ -29,6 +29,8 @@ public class UtilisateurController extends Controller {
         Json errorJson = new Json();
         Error error = new Error();
 
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");
+        Matcher nameMatch = nameRegex.matcher(map.get("new-formLastName")[0]);
 
         //TODO regex nom : que des lettres ' -
         // nom utilisateur [1,15] char
@@ -41,6 +43,12 @@ public class UtilisateurController extends Controller {
         {
             error.nomTropLong = true;
         }
+        else if(!nameMatch.matches())
+        {
+            error.nomIncorrect = true;
+        }
+
+        nameMatch = nameRegex.matcher(map.get("new-formFirstName")[0]);
 
         //TODO regex prenom : que des lettres ' -
         // prenom utilisateur [1,15] char
@@ -51,6 +59,10 @@ public class UtilisateurController extends Controller {
         else if(map.get("new-formFirstName")[0].length()>15)
         {
             error.prenomTropLong = true;
+        }
+        else if(!nameMatch.matches())
+        {
+            error.prenomIncorrect = true;
         }
 
         //pattern java

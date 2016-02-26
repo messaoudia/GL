@@ -409,57 +409,78 @@
 
                             console.log(list);
                             console.log(utilisateurList);
+
+                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("yes")</td>');
+
+
+                            $("#successCreerUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("created")');
+                            $("#successCreerUser").show();
+                            setTimeout(function(){
+                                $("#successCreerUser").hide();
+                            },4000);
                         },
                         error: function(errorMessage){
                             console.log(errorMessage);
-                            var messageDiv = "Erreur(s) (TODO mettre arbosase message) : ";
+                            $("#successCreerUser").hide();
+                            $("#successCreerUserP").empty();
+
+                            var messageDiv = '@Messages("errors") : ';
                             if(errorMessage.responseJSON.nomVide==true)
                             {
-                                messageDiv += "<br> - Veuillez renseigner un nom 1 à 15 caractères alphabétiques";
+                                messageDiv += '<br> - @Messages("lastnameEmptyError")';
                             }
                             else if(errorMessage.responseJSON.nomTropLong==true)
                             {
-                                messageDiv += "<br> - Champs nom trop long 1 à 15 caractères alphabétiques";
+                                messageDiv += '<br> - @Messages("lastnameTooLongError")';
+                            }
+                            else if(errorMessage.responseJSON.nomIncorrect==true)
+                            {
+                                messageDiv += '<br> - @Messages("lastnameIncorrectError")';
                             }
 
                             if(errorMessage.responseJSON.prenomVide==true)
                             {
-                                messageDiv += "<br> - Veuillez renseigner un prenom 1 à 15 caractères alphabétiques";
+                                messageDiv += '<br> - @Messages("firstnameEmptyError")';
                             }
                             else if(errorMessage.responseJSON.prenomTropLong==true)
                             {
-                                messageDiv += "<br> - Champs prenom trop long 1 à 15 caractères alphabétiques";
+                                messageDiv += '<br> - @Messages("firstnameTooLongError")';
                             }
+                            else if(errorMessage.responseJSON.prenomIncorrect==true)
+                            {
+                                messageDiv += '<br> - @Messages("firstnameIncorrectError")';
+                            }
+
 
                             if(errorMessage.responseJSON.emailVide==true)
                             {
-                                messageDiv += "<br> - Champs email vide";
+                                messageDiv += '<br> - @Messages("emailEmptyError")';
                             }
                             else if(errorMessage.responseJSON.emailIncorrecte==true)
                             {
-                                messageDiv += "<br> - Veuillez renseigner une adresse mail valide (ex : pear&#64;corporation.com)";
+                                messageDiv += '<br> - @Messages("emailIncorrectError")';
                             }
                             else if(errorMessage.responseJSON.emailTropLong==true)
                             {
-                                messageDiv += "<br> - Veuillez renseigner une adresse mail de moins de 50 caractères (seuls autorisés . _ lettres chiffres)";
+                                messageDiv += '<br> - @Messages("emailTooLongError")';
                             }
 
                             if(errorMessage.responseJSON.telVide==true)
                             {
-                                messageDiv += "<br> - Champs téléphone vide";
+                                messageDiv += '<br> - @Messages("telEmptyError")';
                             }
                             else if(errorMessage.responseJSON.telIncorrecte==true)
                             {
-                                messageDiv += "<br> - Veuillez renseigner un numéro de téléphone valide (ex : ++331234567)";
+                                messageDiv += '<br> - @Messages("telIncorrectError")';
                             }
                             else if(errorMessage.responseJSON.telTropLong==true)
                             {
-                                messageDiv += "<br> - Veuillez renseigner un numéro de téléphone de moins de 15 caractères";
+                                messageDiv += '<br> - @Messages("telTooLongError")';
                             }
 
                             if(errorMessage.responseJSON.userExist)
                             {
-                                messageDiv += "<br> - /!\\ Adresse mail déjà utilisée  !";
+                                messageDiv += '<br> - /!\\ @Messages("emailAlreadyUsed")';
                             }
 
                             $("#errorCreerUserP").html(messageDiv);
