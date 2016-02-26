@@ -107,21 +107,29 @@
                                 </div>
                                 <div class="ibox-content">
                                     <form class="form-horizontal" id="modifierUserForm">
+                                        <div id="successModifierUser" class="alert alert-success alert-dismissable" style="display: none;">
+                                            <button class="close" type="button">×</button>
+                                            <p id="successModifierUserP"><p>
+                                        </div>
+                                        <div id="errorModifierUser" class="alert alert-danger alert-dismissable" style="display: none;">
+                                            <button class="close" type="button">×</button>
+                                            <p id="errorModifierUserP"><p>
+                                        </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formLastName">@Messages("formLastName")</label>
-                                            <div><input type="text" name="formLastName" id="formLastName" class="form-control"></div>
+                                            <div><input type="text" name="modify-formLastName" id="formLastName" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
-                                            <div><input type="text" name="formFirstName" id="formFirstName" class="form-control"></div>
+                                            <div><input type="text" name="modify-formFirstName" id="formFirstName" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formEmail">@Messages("formEmail")</label>
-                                            <div><input type="text" name="formEmail" id="formEmail" class="form-control"></div>
+                                            <div><input type="text" name="modify-formEmail" id="formEmail" class="form-control"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formTel">@Messages("formTel")</label>
-                                            <div><input type="text" name="formTel" id="formTel" class="form-control"></div>
+                                            <div><input type="text" name="modify-formTel" id="formTel" class="form-control"></div>
                                         </div>
 
 
@@ -140,7 +148,7 @@
                                         <div class="row" style="margin-top:15px;">
                                             <div class="div-center">
                                                     <!--TODO modalview Valider (check contacts & projet & champs -->
-                                                <button class="btn btn-admin" type="submit" form="modifierUserForm">
+                                                <button onclick="modifierUtilisateur(this); return false;" class="btn btn-admin" type="submit" form="modifierUserForm">
                                                     <i class="fa fa-check-square"></i> @Messages("validate")
                                                 </button>
                                             </div>

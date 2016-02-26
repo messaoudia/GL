@@ -162,8 +162,11 @@
         @scripts
         <script>
 
+                var userRow;
+
                 $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
                     var id = $(this).parent('tr').attr('value');
+                    userRow = $(this).parent('tr');
                     console.log("id.on = "+id);
                     jsRoutes.controllers.AdminController.afficherModalUtilisateur(id).ajax({
                         success: function(utilisateur) {
@@ -377,8 +380,11 @@
                     var form = $(btn).attr("form");
                     form = "#"+form;
                     var serialize = $(form).serialize();
-                    var value = $(".btn-active").attr('value');
-                    //TODO faire if $("#btnAdminOuiCreer").hasClass('btn-active') ou laisser comme ca ?
+                    var value = "Non";
+                    if($("#btnAdminOuiCreer").hasClass("btn-active"))
+                    {
+                        value = "Oui";
+                    }
                     console.log("value : "+value);
                     jsRoutes.controllers.UtilisateurController.creerUtilisateur().ajax({
                         data: serialize+"&admin="+value,
@@ -393,25 +399,8 @@
                             $("#dataTables-admin-user").dataTable().fnDestroy();
 
                             var utilisateur = data;
-                            var list ="";
-                            list+=('<tr class="archived" value='+utilisateur.id+'>');
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.nom+'</td>');
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.prenom+'</td>');
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.email+'</td>');
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.telephone+'</td>');
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listProjetsResponsableSize+'</td>');
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listTachesSize+'</td>');
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("yes")</td>');
-                            list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>');
-                            list+=('</tr>');
-
+                            var list = generateRowUtilisateur(utilisateur);
                             utilisateurList.append(list);
-
-                            console.log(list);
-                            console.log(utilisateurList);
-
-                            list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("yes")</td>');
-
 
                             $("#successCreerUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("created")');
                             $("#successCreerUser").show();
@@ -424,64 +413,7 @@
                             $("#successCreerUser").hide();
                             $("#successCreerUserP").empty();
 
-                            var messageDiv = '@Messages("errors") : ';
-                            if(errorMessage.responseJSON.nomVide==true)
-                            {
-                                messageDiv += '<br> - @Messages("lastnameEmptyError")';
-                            }
-                            else if(errorMessage.responseJSON.nomTropLong==true)
-                            {
-                                messageDiv += '<br> - @Messages("lastnameTooLongError")';
-                            }
-                            else if(errorMessage.responseJSON.nomIncorrect==true)
-                            {
-                                messageDiv += '<br> - @Messages("lastnameIncorrectError")';
-                            }
-
-                            if(errorMessage.responseJSON.prenomVide==true)
-                            {
-                                messageDiv += '<br> - @Messages("firstnameEmptyError")';
-                            }
-                            else if(errorMessage.responseJSON.prenomTropLong==true)
-                            {
-                                messageDiv += '<br> - @Messages("firstnameTooLongError")';
-                            }
-                            else if(errorMessage.responseJSON.prenomIncorrect==true)
-                            {
-                                messageDiv += '<br> - @Messages("firstnameIncorrectError")';
-                            }
-
-
-                            if(errorMessage.responseJSON.emailVide==true)
-                            {
-                                messageDiv += '<br> - @Messages("emailEmptyError")';
-                            }
-                            else if(errorMessage.responseJSON.emailIncorrecte==true)
-                            {
-                                messageDiv += '<br> - @Messages("emailIncorrectError")';
-                            }
-                            else if(errorMessage.responseJSON.emailTropLong==true)
-                            {
-                                messageDiv += '<br> - @Messages("emailTooLongError")';
-                            }
-
-                            if(errorMessage.responseJSON.telVide==true)
-                            {
-                                messageDiv += '<br> - @Messages("telEmptyError")';
-                            }
-                            else if(errorMessage.responseJSON.telIncorrecte==true)
-                            {
-                                messageDiv += '<br> - @Messages("telIncorrectError")';
-                            }
-                            else if(errorMessage.responseJSON.telTropLong==true)
-                            {
-                                messageDiv += '<br> - @Messages("telTooLongError")';
-                            }
-
-                            if(errorMessage.responseJSON.userExist)
-                            {
-                                messageDiv += '<br> - /!\\ @Messages("emailAlreadyUsed")';
-                            }
+                            var messageDiv = generateErrorUtilisateur(errorMessage);
 
                             $("#errorCreerUserP").html(messageDiv);
                             $("#errorCreerUser").show();
@@ -489,6 +421,136 @@
                     })
                 }
 
+                function generateErrorUtilisateur(errorMessage)
+                {
+                    var messageDiv = '@Messages("errors") : ';
+                    if(errorMessage.responseJSON.nomVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("lastnameEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.nomTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("lastnameTooLongError")';
+                    }
+                    else if(errorMessage.responseJSON.nomIncorrect==true)
+                    {
+                        messageDiv += '<br> - @Messages("lastnameIncorrectError")';
+                    }
+
+                    if(errorMessage.responseJSON.prenomVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("firstnameEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.prenomTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("firstnameTooLongError")';
+                    }
+                    else if(errorMessage.responseJSON.prenomIncorrect==true)
+                    {
+                        messageDiv += '<br> - @Messages("firstnameIncorrectError")';
+                    }
+
+
+                    if(errorMessage.responseJSON.emailVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("emailEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.emailIncorrecte==true)
+                    {
+                        messageDiv += '<br> - @Messages("emailIncorrectError")';
+                    }
+                    else if(errorMessage.responseJSON.emailTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("emailTooLongError")';
+                    }
+
+                    if(errorMessage.responseJSON.telVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("telEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.telIncorrecte==true)
+                    {
+                        messageDiv += '<br> - @Messages("telIncorrectError")';
+                    }
+                    else if(errorMessage.responseJSON.telTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("telTooLongError")';
+                    }
+
+                    if(errorMessage.responseJSON.userExist)
+                    {
+                        messageDiv += '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                    }
+                    return messageDiv;
+                }
+
+                function generateRowUtilisateur(utilisateur)
+                {
+                    var list ="";
+                    list+=('<tr class="archived" value='+utilisateur.id+'>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.nom+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.prenom+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.email+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.telephone+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listProjetsResponsableSize+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listTachesSize+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("yes")</td>');
+                    list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>');
+                    list+=('</tr>');
+
+                    return list;
+                }
+
+                var modifierUtilisateur = function(btn)
+                {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    var value = "Non";
+                    if($("#btnAdminOuiModifier").hasClass("btn-active"))
+                    {
+                        value = "Oui";
+                    }
+                    var idUtilisateur = userRow.attr('value');
+
+                    console.log("value : "+value);
+                    jsRoutes.controllers.UtilisateurController.modifierUtilisateur(idUtilisateur).ajax({
+                        data: serialize+"&admin="+value,
+                        success : function(data) {
+                            $("#errorModifierUserP").empty();
+                            $("#errorModifierUser").hide();
+
+
+                            console.log("data return = "+data.nom);
+
+                            var utilisateurList = $('#dataTables-admin-user-body');
+                            $("#dataTables-admin-user").dataTable().fnDestroy();
+                            userRow.remove();
+
+                            var utilisateur = data;
+
+                            var list = generateRowUtilisateur(utilisateur);
+
+                            utilisateurList.append(list);
+
+                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("modified")');
+                            $("#successModifierUser").show();
+                            setTimeout(function(){
+                                $("#successModifierUser").hide();
+                            },4000);
+                        },
+                        error: function(errorMessage){
+                            console.log(errorMessage);
+                            $("#successModifierUser").hide();
+                            $("#successModifierUserP").empty();
+
+                            var messageDiv = generateErrorUtilisateur(errorMessage);
+
+                            $("#errorModifierUserP").html(messageDiv);
+                            $("#errorModifierUser").show();
+                        }
+                    })
+                }
 
                 var ajouterProjet = function() {
                     var $form = $('#addProjectForm');
