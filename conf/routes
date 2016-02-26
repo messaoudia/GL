@@ -63,6 +63,6 @@ POST        /adminProjetArchives       controllers.AdminController.afficherProje
 POST        /adminProjetSupprimer      controllers.AdminController.supprimerProjet(idProjet:Long)
 POST        /checkContact              controllers.ClientController.contactCheck
 POST        /ajouterUtilisateur        controllers.UtilisateurController.creerUtilisateur
+POST        /modifierUtilisateur        controllers.UtilisateurController.modifierUtilisateur(id: Long)
 POST        /ajouterClient             controllers.ClientController.creerClient
-POST        /test             controllers.ClientController.test
 

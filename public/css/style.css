@@ -7,6 +7,10 @@
  *
 */
 
+.select2-search {
+    width: 100%;
+}
+
 .btn-creer{
     position: fixed;
     bottom: 0;

@@ -87,6 +87,15 @@ public class Utilisateur extends Personne {
         this.utilisateursMeSuivant = new BeanList<>();
     }
 
+    public void setFirstName(String firstName) {this.prenom = firstName;}
+    public String getFirstname() { return this.prenom; }
+
+    public void setLastName(String lastName) {this.nom = lastName;}
+    public String getLastname() { return this.nom; }
+
+    public void setTelephone(String tel) {this.telephone = tel;}
+    public String getTelephone() { return this.telephone; }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -646,5 +655,11 @@ public class Utilisateur extends Personne {
             tache.utilisateursNotifications.remove(this);
             tache.save();
         }
+    }
+
+    public static void supprimer(Long idUtilisateur){
+        Utilisateur u = find.byId(idUtilisateur);
+        u.archive = true;
+        u.save();
     }
 }
