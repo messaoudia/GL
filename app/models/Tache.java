@@ -356,7 +356,11 @@ public class Tache extends EntiteSecurise {
         if (this.responsableTache == responsable) {
             throw new IllegalArgumentException("Remplacement du responsableProjet de tache par le même responsableProjet");
         }
+
+        Utilisateur ancienResponsableTache = this.responsableTache;
         this.responsableTache = responsable;
+        removeUtilisateurNotification(ancienResponsableTache);
+        addUtilisateurNotification(this.responsableTache);
     }
 
     /**

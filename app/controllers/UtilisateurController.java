@@ -1,12 +1,16 @@
 package controllers;
 
+import models.Projet;
+import models.Tache;
 import models.Utilisateur;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.creerUtilisateur;
 import models.Error;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -178,5 +182,50 @@ public class UtilisateurController extends Controller {
     }
     public Result listTachesUtilisateur(Long idUtilisateur) {
         return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listTaches()));
+    }
+
+    public Result supprimerUtilisateur(Long idUtilisateur,String strProjet,String strTache){
+
+        String[] arrayProjets = strProjet.split(";");
+        String[] arrayTaches = strTache.split(";");
+
+        HashMap<String,String> mapProjet = new HashMap<>();
+        HashMap<String,String> mapTache = new HashMap<>();
+
+        for(String projetUser : arrayProjets){
+            if(!projetUser.equals("")){
+                mapProjet.put(projetUser.split(",")[0],projetUser.split(",")[1]);
+            }
+        }
+
+        for(String tacheUser : arrayTaches){
+            if(!tacheUser.equals("")){
+                mapTache.put(tacheUser.split(",")[0],tacheUser.split(",")[1]);
+            }
+        }
+
+        Logger.debug(mapProjet.toString());
+        Logger.debug(mapTache.toString());
+        //Projets
+        // <idProjet,idUtilisateur>
+        for (Map.Entry<String, String> entry : mapProjet.entrySet()){
+            Projet p = Projet.find.byId(Long.valueOf(entry.getKey()));
+            Utilisateur u = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
+            p.modifierResponsable(u);
+        }
+
+        //Taches
+        //<idTache,idUtilisateur>
+        for (Map.Entry<String, String> entry : mapTache.entrySet()){
+            Tache t = Tache.find.byId(Long.valueOf(entry.getKey()));
+            Utilisateur u = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
+            t.modifierResponsable(u);
+        }
+
+        //Delete Utilisateur
+        Utilisateur u = Utilisateur.find.byId(idUtilisateur);
+        u.archive = true;
+        u.save();
+        return ok();
     }
 }

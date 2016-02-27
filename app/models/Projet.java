@@ -610,10 +610,10 @@ public class Projet extends EntiteSecurise {
      * Modifie le responsableProjet de projet par l'utilisateur en parametre
      *
      * @param responsable
-     * @throws Exception
+     * @throws IllegalArgumentException
      */
     @Transient
-    public void modifierResponsable(Utilisateur responsable) throws Exception {
+    public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException {
         if (this.responsableProjet == responsable) {
             throw new IllegalArgumentException("Remplacement du responsableProjet de projet par le même responsableProjet");
         }

@@ -435,25 +435,48 @@
                 var supprimerUtilisateur = function(){
                     var idUtilisateur = $tmpTrAdminUser.attr('value');
                     console.log('Utilisateur a supprimer : '+idUtilisateur);
-                    var mapProjet = {};
-                    var mapTache = {};
+                    //<idProjet,idUtilisateur>
+                    var mapProjet = "";
+                    //<idTache; idUtilisateur>
+                    var mapTache = "";
 
                     /* tester si ils sont tous remplis */
 
                     $("#table-modal-suppr-user-projet-body > tr").each(function() {
                         var projectID = $(this).attr('value');
                         var idUserSelected = $(this).children('td').eq(1).children('select').select2().val()[0];
-                        mapProjet[projectID] = idUserSelected;
+                        mapProjet+=projectID+","+idUserSelected+";";
                     });
 
                     $("#table-modal-suppr-user-tache-body > tr").each(function() {
                         var tacheID = $(this).attr('value');
                         var idUserSelected = $(this).children('td').eq(2).children('select').select2().val()[0];
-                        mapTache[tacheID] = idUserSelected;
+                        mapTache+=tacheID+","+idUserSelected+";";
+
                     });
 
                     console.log(mapProjet);
                     console.log(mapTache);
+
+                    jsRoutes.controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur,mapProjet,mapTache).ajax({
+                        success: function() {
+                            $('#modal-suppr-user').modal('hide');
+                            if( $('#checkboxUsersArchived').is(":checked")) {
+                                $tmpTrAdminUser.addClass("archived");
+                                $tmpTrAdminUser.children('td').eq(6).empty();
+                                $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
+                                $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal')
+                                $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable')
+                            }else{
+                                $tmpTrAdminUser.remove();
+                            }
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                            alert(errorMessage);
+                        }
+                    });
+
                 }
 
                 var afficherNotifications = function () {
@@ -816,7 +839,7 @@
                     list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listTachesSize+'</td>');
                     list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.priorite+'</td>');
                     list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@Messages("no")</td>');
-                    list+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;" data-toggle="modal"><i class="fa fa-times"></i></td>');
+                    list+=('<td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal"><i class="fa fa-times"></i></td>');
                     list+=('</tr>');
                     return list;
                 }

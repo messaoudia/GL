@@ -72,3 +72,4 @@ POST        /afficherModalProjetAdmin  controllers.AdminController.afficherModal
 POST        /initModalAdminProjetRespo   controllers.AdminController.afficherModalCreerProjetResponsable
 POST        /initModalAdminProjetClient   controllers.AdminController.afficherModalCreerProjetClient
 POST        /adminClientSupprimer            controllers.AdminController.supprimerClient(idC : Long)
+POST        /supprimerUtilisateur       controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur: Long ,strProjet: String ,strTache: String)
