@@ -1546,12 +1546,16 @@
                         jQuery.fx.off = false;
                     });
 
+
                     $( "#btn-cancel-modifierProjet-client" ).click(function() {
                         jQuery.fx.off = true;
-                        $("#div-modifierProjet-client").hide();
-                        $("#div-consulterProjet-client").show();
+                        var idProjet = $("#btn-cancel-modifierProjet-client").attr("name");
+                        $("#div-modifierProjet-client-" + idProjet).hide();
+                        $("#div-consulterProjet-client-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
+
+
 
                     $( "#btn-modifierProjet" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -1562,11 +1566,20 @@
                         jQuery.fx.off = false;
                     });
 
+                    $( "#btn-modifierProjet-client" ).click(function() {
+                        //$("#div-consulterProjet").css("display","none");
+                        var idProjet = $( "#btn-modifierProjet-client" ).attr("name");
+                        jQuery.fx.off = true;
+                        $("#div-consulterProjet-client-" + idProjet).hide();
+                        $("#div-modifierProjet-client-" + idProjet).show();
+                        jQuery.fx.off = false;
+                    });
+
                     $( "#btn-cancel-modifierProjet" ).click(function() {
                         jQuery.fx.off = true;
                         var idProjet = $("#btn-cancel-modifierProjet").attr("name");
                         $("#div-modifierProjet-" + idProjet).hide();
-                        $("#div-consulterProjet" + idProjet).show();
+                        $("#div-consulterProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 

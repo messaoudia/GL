@@ -542,6 +542,8 @@ public class Tache extends EntiteSecurise {
         return enfants;
     }
 
+    public boolean estTerminee(){ return getAvancementTache() == 100.0; }
+
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
