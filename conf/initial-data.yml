@@ -248,6 +248,15 @@ utilisateurs:
     archive:      false
     password:     Pops12ea
 
+- &utilisateur14 !!models.Utilisateur
+    id:           47
+    nom:          MESSAOUDI
+    prenom:       Amin
+    email:        amin@psg.com
+    telephone:    +336768798
+    archive:      false
+    password:     allezparisAM1
+
 projets:
 
 - &projet1 !!models.Projet
