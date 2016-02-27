@@ -509,7 +509,6 @@ public class ModelManagerTest {
             tacheM.save();
 
             try {
-                // TODO here
                 projet.creerTacheInitialisationProjet(tacheA);
                 projet.creerTacheEnDessous(tacheB,tacheA);
                 projet.creerTacheEnDessous(tacheC,tacheB);
@@ -526,6 +525,7 @@ public class ModelManagerTest {
                 projet.creerTacheEnDessous(tacheL,tacheH);
                 projet.creerTacheEnDessous(tacheM,tacheL);
 
+                /*
                 tacheA.associerSuccesseur(tacheB);
                 tacheB.associerSuccesseur(tacheC);
                 tacheC.associerSuccesseur(tacheD);
@@ -537,6 +537,7 @@ public class ModelManagerTest {
                 tacheJ.associerSuccesseur(tacheK);
                 tacheH.associerSuccesseur(tacheL);
                 tacheL.associerSuccesseur(tacheM);
+                */
 
                 Projet projetSelected = Projet.find.byId(projet.id);
                 Tache tacheASelected = Tache.find.byId(tacheA.id);
@@ -552,6 +553,27 @@ public class ModelManagerTest {
                 Tache tacheKSelected = Tache.find.byId(tacheK.id);
                 Tache tacheLSelected = Tache.find.byId(tacheL.id);
                 Tache tacheMSelected = Tache.find.byId(tacheM.id);
+
+                // Verifier les structure des taches de projet est bien MAJ
+                assertTrue(tacheASelected.getSuccesseurs().contains(tacheBSelected));
+                assertTrue(tacheASelected.getSuccesseurs().contains(tacheFSelected));
+                assertTrue(tacheBSelected.getSuccesseurs().contains(tacheCSelected));
+                assertTrue(tacheBSelected.getSuccesseurs().contains(tacheESelected));
+                assertTrue(tacheCSelected.getSuccesseurs().contains(tacheDSelected));
+                assertTrue(tacheFSelected.getSuccesseurs().contains(tacheGSelected));
+
+                assertTrue(tacheFSelected.enfants().contains(tacheHSelected));
+                assertTrue(tacheFSelected.enfants().contains(tacheISelected));
+                assertTrue(tacheFSelected.enfants().contains(tacheJSelected));
+                assertTrue(tacheFSelected.enfants().contains(tacheKSelected));
+                assertTrue(tacheFSelected.enfants().contains(tacheLSelected));
+                assertTrue(tacheFSelected.enfants().contains(tacheMSelected));
+
+                assertTrue(tacheHSelected.getSuccesseurs().contains(tacheISelected));
+                assertTrue(tacheHSelected.getSuccesseurs().contains(tacheLSelected));
+                assertTrue(tacheISelected.getSuccesseurs().contains(tacheJSelected));
+                assertTrue(tacheJSelected.getSuccesseurs().contains(tacheKSelected));
+                assertTrue(tacheLSelected.getSuccesseurs().contains(tacheMSelected));
 
                 // Afficher l'attribut critique de chaque tache
                 Logger.debug("CRITIQUE");
