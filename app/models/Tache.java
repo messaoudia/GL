@@ -265,6 +265,12 @@ public class Tache extends EntiteSecurise {
      * @param chargeRestante
      * @throws NotAvailableTask
      */
+
+    public void initCharge(Double chargeConsommee, Double chargeRestante){
+        this.chargeConsommee = chargeConsommee;
+        this.chargeRestante = chargeRestante;
+        updateChargesTachesMeresEtProjet();
+    }
     public void modifierCharge(Double chargeConsommee, Double chargeRestante) throws NotAvailableTask {
         if (!estDisponible()) {
             throw new NotAvailableTask("Tache " + nom + ", pas encore disponible, modification de charge impossible");

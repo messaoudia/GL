@@ -276,7 +276,7 @@ public class Projet extends EntiteSecurise {
         tache.save();
         listTaches.add(tache);
         // TODO : mettre a jour les charges des taches meres -> a checker
-        tache.modifierCharge(0.0, tache.chargeInitiale);
+        tache.initCharge(0.0, tache.chargeInitiale);
         // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
         updateAvancementGlobal();
         calculeCheminCritique();
