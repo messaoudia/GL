@@ -596,10 +596,10 @@ public class ModelManagerTest {
                 assertTrue(tacheBSelected.critique);
                 assertTrue(tacheCSelected.critique);
                 assertTrue(tacheDSelected.critique);
-                assertTrue(tacheHSelected.critique);
-                assertTrue(tacheLSelected.critique);
-                assertTrue(tacheMSelected.critique);
 
+                assertFalse(tacheHSelected.critique);
+                assertFalse(tacheLSelected.critique);
+                assertFalse(tacheMSelected.critique);
                 assertFalse(tacheESelected.critique);
                 assertFalse(tacheFSelected.critique);
                 assertFalse(tacheGSelected.critique);
