@@ -239,6 +239,8 @@
                         success: function(u){
                             $("#delete-utilisateur-name").empty();
                             $("#delete-utilisateur-name").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
+                            $("#delete-utilisateur-name-confirm").empty();
+                            $("#delete-utilisateur-name-confirm").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                                success: function(utilisateurs){
                                  console.log(utilisateurs);
@@ -424,7 +426,6 @@
                         }
                     });
                 }
-
 
                 var afficherNotifications = function () {
                     //e.preventDefault();
@@ -2099,6 +2100,7 @@
                         }
                     });
                 });
+
                 /* Afficher les Clients archivés */
                 function clientsArchived(){
                     $('#checkBoxClientsArchived').change(function() {
