@@ -76,8 +76,8 @@
                             </thead>
                             <tbody id="dataTables-admin-client-body">
 
-                                <!-- Boucle sur la liste des clients -->
-                                @for(client <- clients) {
+                                    <!-- Boucle sur la liste des clients -->
+                                @for( client <- clients) {
                                     <tr value="@client.id">
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
@@ -85,7 +85,7 @@
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listProjetsSize</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listTachesSize</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.priorite</td>
-                                        @if(client.archiver){
+                                        @if(client.archiver) {
                                             <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">
                                             @Messages("yes")
                                             </td>
@@ -105,11 +105,13 @@
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header background_admin">
-                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
+                                            ×</span><span class="sr-only">Close</span></button>
                                         <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p style="display:inline;">@Messages("clientDeleteMessage") : </p><p id="delete-project-name" style="display:inline;"></p>
+                                        <p style="display:inline ;">@Messages("clientDeleteMessage")
+                                            : </p><p id="delete-project-name" style="display:inline ;"></p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
@@ -159,9 +161,12 @@
                                                     <label class="col-sm-5 control-label">@Messages("priority")</label>
                                                     <div class="col-sm-7">
                                                         <div class="btn-group">
-                                                            <button id="client-priority-1" class="btn" type="button" value="1" >1</button>
-                                                            <button id="client-priority-2" class="btn btn-active" value="2" type="button">2</button>
-                                                            <button id="client-priority-3" class="btn" type="button" value="3">3</button>
+                                                            <button id="client-priority-1" class="btn" type="button" value="1" >
+                                                                1</button>
+                                                            <button id="client-priority-2" class="btn btn-active" value="2" type="button">
+                                                                2</button>
+                                                            <button id="client-priority-3" class="btn" type="button" value="3">
+                                                                3</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -198,7 +203,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <h3 style="text-align:center;">@Messages("projects")</h3>
+                                            <h3 style="text-align:center ;">@Messages("projects")</h3>
                                             <div class="list-modif-client">
                                                 <table id="table-modal-client-projets" class="table-bordered">
                                                     <thead>
@@ -206,7 +211,7 @@
                                                         <td></td>
                                                     </thead>
                                                     <tbody id="table-modal-client-projets-body">
-                                                        <!--<tr>
+                                                            <!--<tr>
                                                             <td class="first-td">Projet 1</td>
                                                             <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
@@ -227,7 +232,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
-                                            <h3 style="text-align:center;">@Messages("contacts")</h3>
+                                            <h3 style="text-align:center ;">@Messages("contacts")</h3>
                                             <div class="list-modif-client">
                                                 <table id="table-modal-client-contacts" class="table-bordered">
                                                     <thead>
@@ -235,7 +240,7 @@
                                                         <td></td>
                                                     </thead>
                                                     <tbody id="table-modal-client-contacts-body">
-                                                       <!-- <tr>
+                                                            <!-- <tr>
                                                             <td class="first-td">Contact 1</td>
                                                             <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
                                                         </tr>
@@ -256,7 +261,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:15px;">
+                                    <div class="row" style="margin-top:15px ;">
                                         <div class="div-center">
                                             <button class="btn btn-admin" type="submit" form="clientForm">
                                                 <i class="fa fa-check-square"></i> @Messages("validate")
@@ -270,7 +275,8 @@
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
                                     <div class="modal-header background_admin">
-                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
+                                            ×</span><span class="sr-only">Close</span></button>
                                         <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
                                     </div>
                                     <div class="modal-body">
@@ -286,7 +292,7 @@
                     </div>
                 </div>
                 <div id="submitButton-admin-client" class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; cursor: pointer ;" data-toggle="modal" data-target="#modal-add-client-admin">
-                    <h3 style="margin:0px ;"><i class="fa fa-plus-circle" style="margin-right:7px;"></i>@Messages("addClient")</h3>
+                    <h3 style="margin:0px ;"><i class="fa fa-plus-circle" style="margin-right:7px ;"></i>@Messages("addClient")</h3>
                 </div>
                     <!-- Modal créer client -->
                 <div class="modal fade" id="modal-add-client-admin" role="dialog">
@@ -294,7 +300,8 @@
                             <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
+                                    ×</span><span class="sr-only">Close</span></button>
                                 <h4 class="modal-title">@Messages("addClient")</h4>
                             </div>
                             <div class="modal-body">
@@ -302,11 +309,11 @@
                                     <div class="col-sm-6 b-r">
                                         <form class="form-horizontal" id="creerClientForm">
 
-                                            <div id="successCreerClient" class="alert alert-success alert-dismissable" style="display: none;">
+                                            <div id="successCreerClient" class="alert alert-success alert-dismissable" style="display: none ;">
                                                 <button class="close" type="button">×</button>
                                                 <p id="successCreerClientP"><p>
                                             </div>
-                                            <div id="errorCreerClient" class="alert alert-danger alert-dismissable" style="display: none;">
+                                            <div id="errorCreerClient" class="alert alert-danger alert-dismissable" style="display: none ;">
                                                 <button class="close" type="button">×</button>
                                                 <p id="errorCreerClientP"><p>
                                             </div>
@@ -372,33 +379,30 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="display:none;">
-                                    <div id="listContactAjout" class="row" style="display:none;">
-                                        <div class="col-sm-offset-3 col-sm-6">
-                                            <h3 style="text-align:center;">@Messages("contacts")</h3>
-                                            <div class="list-modif-client">
-                                                <table id="tableContact" class="table table-bordered">
+                                <div id="listContactAjout" class="row" style="display:none ;">
+                                    <div class="col-sm-offset-3 col-sm-6">
+                                        <h3 style="text-align:center ;">@Messages("contacts")</h3>
+                                        <div class="list-modif-client">
+                                            <table id="tableContact" class="table table-bordered">
 
-                                                    <thead>
-                                                        <tr>
-                                                            <th data-override="t">@Messages("formLastName")</th>
-                                                            <th data-override="g">@Messages("formFirstName")</th>
-                                                            <th data-override="h">@Messages("formEmail")</th>
-                                                            <th data-override="j">@Messages("formTel")</th>
-                                                            <th data-override="n"><i class="fa fa-trash"></i></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                                                <thead>
+                                                    <tr>
+                                                        <th>@Messages("formLastName")</th>
+                                                        <th >@Messages("formFirstName")</th>
+                                                        <th >@Messages("formEmail")</th>
+                                                        <th >@Messages("formTel")</th>
+                                                        <th ><i class="fa fa-trash"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="ibox-footer text-center" onclick="creerClient(this); return false;" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;">
-                                    <h3 style="margin:0px;">@Messages("saveClient")</h3>
-                                </div>
+                            <div class="ibox-footer text-center" onclick="creerClient(this); return false;" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; cursor: pointer ;" form="creerClientForm">
+                                <h3 style="margin:0px ;">@Messages("saveClient")</h3>
                             </div>
                         </div>
                     </div>
@@ -406,6 +410,7 @@
             </div>
         </div>
     </div>
+    </div>
 }
 
-@main(pageTitle,content, scripts)
+@main(pageTitle, content, scripts)

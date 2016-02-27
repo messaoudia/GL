@@ -70,7 +70,20 @@ public class AdminController extends Controller{
     }
 
     public Result supprimerProjet(Long idProjet){
-        Projet.supprimerPorjet(idProjet);
+        Projet.supprimerProjet(idProjet);
         return ok();
     }
+
+    public Result afficherModalProjet(Long idProjet){
+        return ok(Json.toJson(Projet.find.byId(idProjet)));
+    }
+
+    public Result afficherModalCreerProjetResponsable(){
+        return ok(Json.toJson(Utilisateur.getAllNonArchives()));
+    }
+
+    public Result afficherModalCreerProjetClient(){
+        return ok(Json.toJson(Client.getAllNonArchives()));
+    }
+
 }

@@ -802,7 +802,7 @@ public class Projet extends EntiteSecurise {
         }
     }
 
-    public static void supprimerPorjet(Long idProjet){
+    public static void supprimerProjet(Long idProjet){
          Projet p = find.byId(idProjet);
          p.archive = true;
          p.save();
@@ -811,7 +811,13 @@ public class Projet extends EntiteSecurise {
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
     public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
 
-    public boolean estRetarde(){ return dateFinReelTard.after(Calendar.getInstance().getTime());}
+    public boolean estRetarde(){
+        if(dateFinReelTard!=null){
+            return dateFinReelTard.after(Calendar.getInstance().getTime());
+        }else{
+            return false;
+        }
+    }
     public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
     public boolean estTermine(){ return avancementGlobal == 100; }
 

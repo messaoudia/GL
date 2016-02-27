@@ -37,68 +37,64 @@ public class ProjetController extends Controller{
     public Result creerProjet() {
         //TODO : description non obligatoire ?
         Map<String, String[]> map = request().body().asFormUrlEncoded();
+        System.out.println(map);
         Error error = new Error();
         String nom = map.get("nom")[0];
-        if(nom.isEmpty())
-        {
+        if (nom.isEmpty()) {
             error.nomProjetVide = true;
-        }
-        else if(nom.length()>30)
-        {
-            error.nomProjetVide = true;
+        } else if (nom.length() > 30) {
+            error.nomProjetTropLong= true;
         }
         Utilisateur responsableProjet = Utilisateur.find.byId(Long.valueOf(map.get("responsableProjet")[0]));
         Client client = Client.find.byId(Long.valueOf(map.get("client")[0]));
 
         String description = map.get("description")[0];
-        System.out.println("DESCRIPTION   ========="+description);
 
         int priorite = Integer.parseInt(map.get("priorite")[0]);
-        System.out.println("PRIOTITY ========= "+priorite);
         UniteProjetEnum unite;
-        System.out.println("UNITE ==========="+map.get("unite")[0]);
-        if(map.get("unite")[0] == "JOUR"){
+        if (map.get("unite")[0].equals("JOUR")) {
             unite = UniteProjetEnum.JOUR;
-        }else{
+        } else {
             unite = UniteProjetEnum.SEMAINE;
         }
 
         String dateDeb = map.get("dateDebutTheorique")[0];
         String dateFin = map.get("dateFinTheorique")[0];
         //Date
-        if(dateDeb.isEmpty()){
+        if (dateDeb.isEmpty()) {
             error.dateThDebutProjetVide = true;
         }
-        if(dateFin.isEmpty()){
+        if (dateFin.isEmpty()) {
             error.dateThFinProjetVide = true;
         }
 
-        if(description.length()>65536){
+        if (description.length() > 65536) {
             error.descriptionTropLong = true;
         }
-        if(error.hasErrorProjet()){
+
+        if (error.hasErrorProjet()) {
             return badRequest(Json.toJson(error));
-        }
-        //TODO : AU NIVEAU DES DATE IL Y A UN PROBLEME
-
-        //transform string to date
-        //TODO : check format date en fonction de la langue ou on impose un seul format de date
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date dateDebutTheorique = null;
-        Date dateFinTheorique = null;
-        try {
-            dateDebutTheorique = formatter.parse(dateDeb);
-            dateFinTheorique = formatter.parse(dateFin);
-            if(dateFinTheorique.after(dateDebutTheorique)){
-                Projet p = new Projet(nom,description,responsableProjet,dateDebutTheorique,dateFinTheorique,unite,client,priorite);
-                p.save();
+        } else {
+            //TODO: check date en fonction de la langue && check si projet existe deja
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date dateDebutTheorique = null;
+            Date dateFinTheorique = null;
+            try {
+                dateDebutTheorique = formatter.parse(dateDeb);
+                dateFinTheorique = formatter.parse(dateFin);
+                if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
+                    Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
+                    p.save();
+                    return ok(Json.toJson(p));
+                } else {
+                    error.dateFinAvantDebut = true;
+                }
+            } catch (ParseException e) {
+                error.parseError = true;
 
             }
-            //TODO : RENVOYER ERROR
-        } catch (ParseException e) {
-            e.printStackTrace();
+            return badRequest(Json.toJson(error));
         }
-        return ok();
     }
+
 }

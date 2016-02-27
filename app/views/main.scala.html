@@ -556,27 +556,64 @@
                     list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.telephone+'</td>');
                     list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listProjetsResponsableSize+'</td>');
                     list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">'+utilisateur.listTachesSize+'</td>');
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("yes")</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@Messages("no")</td>');
                     list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>');
                     list+=('</tr>');
 
                     return list;
                 }
 
-                function generateRowClient(client)
+
+
+                var modifierUtilisateur = function(btn)
                 {
-                    var list ="";
-                    list+=('<tr value='+client.id+'>');
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.nom+'</td>');
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.adresseClient+'</td>');
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listContactsSize+'</td>');
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listProjetsSize+'</td>');
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listTachesSize+'</td>);
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.priorite+'</td>');
-                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client"> @Messages("no") </td>');
-                    list+=('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>');
-                    list+=('</tr>');
-                    return list;
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    var value = "Non";
+                    if($("#btnAdminOuiModifier").hasClass("btn-active"))
+                    {
+                        value = "Oui";
+                    }
+                    var idUtilisateur = userRow.attr('value');
+
+                    console.log("value : "+value);
+                    jsRoutes.controllers.UtilisateurController.modifierUtilisateur(idUtilisateur).ajax({
+                        data: serialize+"&admin="+value,
+                        success : function(data) {
+                            $("#errorModifierUserP").empty();
+                            $("#errorModifierUser").hide();
+
+
+                            console.log("data return = "+data.nom);
+
+                            var utilisateurList = $('#dataTables-admin-user-body');
+                            $("#dataTables-admin-user").dataTable().fnDestroy();
+                            userRow.remove();
+
+                            var utilisateur = data;
+
+                            var list = generateRowUtilisateur(utilisateur);
+
+                            utilisateurList.append(list);
+
+                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("modified")');
+                            $("#successModifierUser").show();
+                            setTimeout(function(){
+                                $("#successModifierUser").hide();
+                            },4000);
+                        },
+                        error: function(errorMessage){
+                            console.log(errorMessage);
+                            $("#successModifierUser").hide();
+                            $("#successModifierUserP").empty();
+
+                            var messageDiv = generateErrorUtilisateur(errorMessage);
+
+                            $("#errorModifierUserP").html(messageDiv);
+                            $("#errorModifierUser").show();
+                        }
+                    });
                 }
 
                 var modifierUtilisateur = function(btn)
@@ -686,7 +723,16 @@
 
                             $(form)[0].reset();
                             $('#tableContact tr:not(:first)').remove();
-                            $('#tableContact').hide();
+                            $('#listContactAjout').hide();
+
+                            var clientList = $('#dataTables-admin-client-body');
+                            $("#dataTables-admin-client").dataTable().fnDestroy();
+
+                            var utilisateur = data;
+                            var list = generateRowClient(data);
+                            alert(list);
+                            clientList.append(list);
+
                         },
                         error: function(errorMessage){
                             $("#successCreerClient").hide();
@@ -698,6 +744,24 @@
                             $("#errorCreerClient").show();
                         }
                     });
+                }
+
+                function generateRowClient(client)
+                {
+                    var list;
+                    list+=('<tr value='+client.id+'>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.nom+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+
+                    client.adresseClient.adresse+", "+client.adresseClient.zipCode+", "+client.adresseClient.ville+", "+client.adresseClient.pays+
+                    '</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listContactsSize+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listProjetsSize+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.listTachesSize+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+client.priorite+'</td>');
+                    list+=('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@Messages("no")</td>');
+                    list+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;" data-toggle="modal"><i class="fa fa-times"></i></td>');
+                    list+=('</tr>');
+                    return list;
                 }
 
                 function generateErrorCreerClient(errorMessage)
@@ -764,7 +828,7 @@
                     tr.remove();
                     var rowCount = $('#tableContact tbody tr').length;
                     if(rowCount == 0){
-                        $('#tableContact').hide();
+                        $('#listContactAjout').hide();
                     }
                 }
                 var creerContact = function(btn)
@@ -1302,15 +1366,118 @@
                     jsRoutes.controllers.ProjetController.creerProjet().ajax({
                         data :$serialize+ '&priorite='+$value,
                         success : function(data) {
+                            $("#errorCreerProjetP").empty();
+                            $("#errorCreerProjet").hide();
+                            $("#successCreerProjetP").html('@Messages("projet") '+data.nom+' @Messages("created")');
+                            $("#successCreerProjet").show();
+                            setTimeout(function(){
+                                $("#successCreerProjet").hide();
+                            },4000);
+                            var projetList = $('#dataTables-admin-projet-body');
+                            $("#dataTables-admin-projet").dataTable().fnDestroy();
+                            var list = generateRowProjet(data);
+                            projetList.append(list);
+
                             $("#addProjectForm")[0].reset();
                         },
                         error: function(errorMessage){
+                            $("#successCreerProjet").hide();
+                            $("#successCreerProjetP").empty();
 
+                            var messageDiv = generateErrorCreerProjet(errorMessage);
+
+                            $("#errorCreerProjetP").html(messageDiv);
+                            $("#errorCreerProjet").show();
                         }
                     });
 
                 });
 
+                function generateRowProjet(projet)
+                {
+                    var list ="";
+                    list+=('<tr class="table-center cursor-pointer" value="'+projet.id+'">');
+                    list+=('<td style="vertical-align:middle ;">'+projet.nom+'</td>');
+                    list+=('<td style="vertical-align:middle ;">'+projet.client.nom+'</td>');
+                    list+=('<td style="vertical-align:middle ;"> </td>');
+                    list+=('<td style="vertical-align:middle ;"> <p style="display:none ;"></p>');
+                    list+=('<td style="vertical-align:middle;">@Messages("no")</td>');
+                    if(projet.unite == "JOUR"){
+                        list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
+                        '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
+                        '<p class="row-initiale">@Messages("initial") :'+
+                        projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                        ' @Messages("day-first-letter")</p>');
+                        list+=('<div class="progress progress-bar-default">');
+                        if(projet.avancementGlobal == 0){
+                            list+=('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;"> 0% </div>');
+                        }else{
+                            list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
+                        }
+                        list+=('</div>');
+                        list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("day-first-letter") </p>');
+                        list+=('</td>');
+                    }else if(projet.unite == "SEMAINE"){
+                        list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
+                        '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
+                        '<p class="row-initiale">@Messages("initial") :'+
+                        projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                        ' @Messages("week-first-letter")</p>');
+                        list+=('<div class="progress progress-bar-default">');
+                        if(projet.avancementGlobal == 0){
+                            list+=('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;"> 0% </div>');
+                        }else{
+                            list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
+                        }
+                        list+=('</div>');
+                        list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("week-first-letter") </p>');
+                        list+=('</td>');
+                    }
+
+                    list+=('<td id=25" class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>');
+                    list+=('</tr>');
+                    return list;
+                }
+                function generateErrorCreerProjet(errorMessage)
+                {
+                    var messageDiv = '@Messages("errors") : ';
+
+                    if(errorMessage.responseJSON.nomProjetVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameProjetEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.nomProjetTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameProjetTooLongError")';
+                    }
+
+
+                    if(errorMessage.responseJSON.dateThDebutProjetVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("startDateEmptyError")';
+                    }
+                    if(errorMessage.responseJSON.dateThFinProjetVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("endDateEmptyError")';
+                    }
+
+                    if(errorMessage.responseJSON.descriptionTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("descriptionTooLongError")';
+                    }
+
+
+                    if(errorMessage.responseJSON.dateFinAvantDebut==true)
+                    {
+                        messageDiv += '<br> - @Messages("incoherentDate")';
+                    }
+
+                    if(errorMessage.responseJSON.parseError==true)
+                    {
+                        messageDiv += '<br> - @Messages("incoherentDate")';
+                    }
+                    return messageDiv;
+                }
                 $( document ).ajaxComplete(function() {
 
                     $("#errorCreerUser > button").click(function(){
@@ -1320,6 +1487,12 @@
                     $("#errorCreerClient > button").click(function(){
                         $("#errorCreerClient").hide()
                     });
+
+                    $("#errorCreerProjet > button").click(function(){
+                        $("#errorProjet").hide()
+                    });
+
+
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -1846,18 +2019,57 @@
                     $('#checkbox-draft-projet-admin').click(function() {
                         modeDraftProjetAdmin();
                     });
-
-                    $('#dataTables-admin-projet tr td:last-child').click(function(){
-                        $('#modal-projet-admin-nom-projet').html($(this).parent('tr').find("td:first-child").text());
-                        $trTmp = $(this).parent('tr');
-                    });
-
-
-
-
-
                 });
 
+                $(document).on("hidden.bs.modal","#modal-add-client-admin",function(){
+                    $("#contactFormCreerClient")[0].reset();
+                    $("#creerClientForm")[0].reset();
+                    $('#tableContact tr:not(:first)').remove();
+                    $('#listContactAjout').hide();
+                });
+
+                $(document).on("shown.bs.modal","#modal-add-projet-admin",function(){
+                    //init la selection de client et de projet
+                    jsRoutes.controllers.AdminController.afficherModalCreerProjetResponsable().ajax({
+                        success: function(listResponsable){
+                            var responsablelist = $('#responsableProjet');
+                            $(listResponsable).each(function(index, user) {
+                                var list ="";
+                                list+=('<option value='+user.id+'>'+user.prenom+' '+user.nom+'</option>');
+                                responsablelist.append(list);
+                            });
+                        }
+                    });
+                    jsRoutes.controllers.AdminController.afficherModalCreerProjetClient().ajax({
+                        success: function(listClient){
+                            var clientlist = $('#client');
+                            $(listClient).each(function(index, client) {
+                                var list ="";
+                                list+=('<option value='+client.id+'>'+client.nom+'</option>');
+                                clientlist.append(list);
+                            });
+                        }
+                    });
+                });
+
+                $(document).on("hidden.bs.modal","#modal-add-projet-admin",function(){
+                    $("#addProjectForm")[0].reset();
+                });
+
+                $(document).on("hidden.bs.modal","#modal-add-user",function(){
+                    $("#creerUserForm")[0].reset();
+                });
+
+                $(document).on('click','#dataTables-admin-projet tr td:last-child', function(){
+                    var idP = $(this).parent('tr').attr('value');
+                    jsRoutes.controllers.AdminController.afficherModalProjet(idP).ajax({
+                        success: function(projet){
+                            $("#modal-projet-admin-nom-projet").empty();
+                            $("#modal-projet-admin-nom-projet").append(projet.nom);
+                            $trTmp = $(this).parent('tr');
+                        }
+                    });
+                });
                 /* Afficher les Clients archivés */
                 function clientsArchived(){
                     $('#checkBoxClientsArchived').change(function() {
