@@ -404,17 +404,20 @@
                 }
 
                 var supprimerClient = function(){
-                    var $value = $tmpTrAdminClient.attr('value');;
+                    var $value = $tmpTrAdminClient.attr('value');
                     console.log($value);
                     jsRoutes.controllers.AdminController.supprimerClient($value).ajax({
                         success: function(html) {
                             $('#dataTables-admin-client').dataTable().fnDestroy();
-                            //$tmpTrAdminClient.remove();
-                            $tmpTrAdminClient.addClass("archived");
-                            $tmpTrAdminClient.children('td').eq(6).empty();
-                            $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
-                            $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal')
-                            $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable')
+                            if( $('#checkBoxClientsArchived').is(":checked")) {
+                                $tmpTrAdminClient.addClass("archived");
+                                $tmpTrAdminClient.children('td').eq(6).empty();
+                                $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
+                                $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal')
+                                $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable')
+                            }else{
+                                $tmpTrAdminClient.remove();
+                            }
                         },
                         error: function(errorMessage){
                             alert(errorMessage);
