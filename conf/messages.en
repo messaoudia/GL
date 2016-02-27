@@ -182,3 +182,4 @@ endDateEmptyError = Please select an ending date
 descriptionTooLongError =Field description is too long  1 to 65536 caractères
 incoherentDate = Dates are incoherent
 parseError = Error parsing the dates
+noContact = No contact

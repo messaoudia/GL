@@ -100,7 +100,16 @@ public class Projet extends EntiteSecurise {
         this.archive = archive;
         this.client = client;
         this.priorite = priorite;
-        this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
+        if(listTaches == null){
+            this.listTaches = new BeanList<>();
+            this.chargeConsommee = 0.0;
+            this.chargeRestante = chargeInitiale;
+        }else{
+            this.listTaches = listTaches;
+            System.out.println(listTaches);
+            updateAvancementGlobal();
+        }
+
         if(utilisateursNotifications == null ||utilisateursNotifications.isEmpty()){
             initUtilisateursNotifications();
         }
@@ -750,30 +759,6 @@ public class Projet extends EntiteSecurise {
             return "";
         }
     }
-
-    /**
-     * TODO: TEST ME
-     * @return
-     */
-    public HashMap<String,Double> chargeConsommeEtRestante(){
-        Double chargeConsommeeGlobal = 0.0;
-        Double chargeRestanteGlobal = 0.0;
-        HashMap<String,Double> map = new HashMap<String, Double>();
-        if(!listTaches.isEmpty()) {
-            for (Tache tache : listTaches) {
-                if (!tache.hasParent()) {
-                    chargeConsommeeGlobal += tache.getChargeConsommee();
-                    chargeRestanteGlobal+= tache.getChargeRestante();
-                }
-            }
-            map.put("restante",chargeRestanteGlobal);
-        }else{
-            map.put("restante",this.chargeInitiale);
-        }
-        map.put("consommee", chargeConsommeeGlobal);
-        return map;
-    }
-
 
     public static List<Projet> getAll() {
         return find.all();

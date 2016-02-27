@@ -107,7 +107,7 @@
                                                     <p style="display:none ;">@projet.avancementGlobal%</p>
                                                     <p class="row-initiale">@Messages("initial") :
                                                         @projet.chargeInitiale @Messages("day-first-letter")</p>
-                                                    <p class="row-restante">@Messages("remaining"): 50
+                                                    <p class="row-restante">@Messages("remaining"): @projet.chargeRestante
                                                          @Messages("day-first-letter")</p>
                                                     <div class="progress progress-bar-default">
                                                             <!-- si 0% : color:black; -->
@@ -122,7 +122,7 @@
                                                         }
                                                     </div>
                                                     <p class="row-consommee">@Messages("consumed")
-                                                        : 50 @Messages("day-first-letter")</p>
+                                                        : @projet.chargeConsommee @Messages("day-first-letter")</p>
                                                 </td>
                                             }
                                             case UniteProjetEnum.SEMAINE => {
@@ -131,7 +131,7 @@
                                                     <p class="row-initiale">@Messages("initial") :
                                                         @projet.chargeInitiale @Messages("week-first-letter")</p>
                                                     <p class="row-restante">@Messages("remaining"):
-                                                        50 @Messages("week-first-letter")</p>
+                                                        @projet.chargeRestante @Messages("week-first-letter")</p>
                                                     <div class="progress progress-bar-default">
                                                             <!-- si 0% : color:black; -->
                                                         @if(projet.avancementGlobal == 0){
@@ -145,7 +145,7 @@
                                                         }
                                                     </div>
                                                     <p class="row-consommee">@Messages("consumed")
-                                                        :  50 @Messages("week-first-letter")</p>
+                                                        :  @projet.chargeConsommee @Messages("week-first-letter")</p>
                                                 </td>
                                             }
                                         }

@@ -730,7 +730,6 @@
 
                             var utilisateur = data;
                             var list = generateRowClient(data);
-                            alert(list);
                             clientList.append(list);
 
                         },
@@ -1406,7 +1405,7 @@
                         list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
                         '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
                         '<p class="row-initiale">@Messages("initial") :'+
-                        projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                        projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': '+projet.chargeRestante+
                         ' @Messages("day-first-letter")</p>');
                         list+=('<div class="progress progress-bar-default">');
                         if(projet.avancementGlobal == 0){
@@ -1415,13 +1414,13 @@
                             list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
                         }
                         list+=('</div>');
-                        list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("day-first-letter") </p>');
+                        list+=('<p class="row-consommee">'+'@Messages("consumed") : '+projet.chargeConsommee+'@Messages("day-first-letter") </p>');
                         list+=('</td>');
                     }else if(projet.unite == "SEMAINE"){
                         list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
                         '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
                         '<p class="row-initiale">@Messages("initial") :'+
-                        projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                        projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining")'+':'+projet.chargeRestante+
                         ' @Messages("week-first-letter")</p>');
                         list+=('<div class="progress progress-bar-default">');
                         if(projet.avancementGlobal == 0){
@@ -1430,11 +1429,11 @@
                             list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
                         }
                         list+=('</div>');
-                        list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("week-first-letter") </p>');
+                        list+=('<p class="row-consommee">'+'@Messages("consumed")'+': '+projet.chargeConsommee+' @Messages("week-first-letter") </p>');
                         list+=('</td>');
                     }
 
-                    list+=('<td id=25" class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>');
+                    list+=('<td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>');
                     list+=('</tr>');
                     return list;
                 }
@@ -2195,7 +2194,7 @@
                                                 list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
                                                 '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
                                                 '<p class="row-initiale">@Messages("initial") :'+
-                                                projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining") : '+projet.chargeRestante+
                                                 ' @Messages("day-first-letter")</p>');
                                                 list+=('<div class="progress progress-bar-default">');
                                                 if(projet.avancementGlobal == 0){
@@ -2204,13 +2203,13 @@
                                                     list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
                                                 }
                                                 list+=('</div>');
-                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("day-first-letter") </p>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed") : '+projet.chargeConsomee+' @Messages("day-first-letter") </p>');
                                                 list+=('</td>');
                                             }else if(projet.unite == "SEMAINE"){
                                                 list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
                                                 '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
                                                 '<p class="row-initiale">@Messages("initial") :'+
-                                                projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining") : '+projet.chargeRestante+
                                                 ' @Messages("week-first-letter")</p>');
                                                 list+=('<div class="progress progress-bar-default">');
                                                 if(projet.avancementGlobal == 0){
@@ -2219,7 +2218,7 @@
                                                     list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
                                                 }
                                                 list+=('</div>');
-                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("week-first-letter") </p>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed") : '+projet.chargeConsomee+' @Messages("week-first-letter") </p>');
                                                 list+=('</td>');
                                             }
                                             list+=('<td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>');
@@ -2277,7 +2276,7 @@
                                                 list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
                                                 '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
                                                 '<p class="row-initiale">@Messages("initial") :'+
-                                                projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                projet.chargeInitiale+' @Messages("day-first-letter")</p> <p class="row-restante">@Messages("remaining") :'+projet.chargeRestante+
                                                 ' @Messages("day-first-letter")</p>');
                                                 list+=('<div class="progress progress-bar-default">');
                                                 if(projet.avancementGlobal == 0){
@@ -2286,13 +2285,13 @@
                                                     list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
                                                 }
                                                 list+=('</div>');
-                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("day-first-letter") </p>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed") : '+projet.chargeConsommee+' @Messages("day-first-letter") </p>');
                                                 list+=('</td>');
                                             }else if(projet.unite == "SEMAINE"){
                                                 list+=('<td class="td-avancement" style="vertical-align:middle ;">'+
                                                 '<p style="display:none ;">'+projet.avancementGlobal+'</p>'+
                                                 '<p class="row-initiale">@Messages("initial") :'+
-                                                projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining")'+': 50'+
+                                                projet.chargeInitiale+' @Messages("week-first-letter")</p> <p class="row-restante">@Messages("remaining") : '+projet.chargeRestante+
                                                 ' @Messages("week-first-letter")</p>');
                                                 list+=('<div class="progress progress-bar-default">');
                                                 if(projet.avancementGlobal == 0){
@@ -2301,7 +2300,7 @@
                                                     list+=('<div class="progress-bar" role="progressbar" aria-valuenow="'+projet.avancementGlobal+'"aria-valuemin="0" aria-valuemax="100" style="width:'+projet.avancementGlobal+'% ;">'+ projet.avancementGlobal+'% </div>');
                                                 }
                                                 list+=('</div>');
-                                                list+=('<p class="row-consommee">'+'@Messages("consumed")'+' : 50'+' @Messages("week-first-letter") </p>');
+                                                list+=('<p class="row-consommee">'+'@Messages("consumed") : '+projet.chargeConsommee+' @Messages("week-first-letter") </p>');
                                                 list+=('</td>');
                                             }
                                             list+=('<td class="td-btn-suppr-disable" style="vertical-align:middle; cursor:no-drop;" data-toggle="modal" disabled><i class="fa fa-times"></i></td>');

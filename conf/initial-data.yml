@@ -262,6 +262,8 @@ projets:
     dateFinReelTard:    2016-02-27
     chargeInitiale:     2
     avancementGlobal:   0
+    chargeConsommee :   0
+    chargeRestante :    2
     enCours:            true
     archive:            true
     client:             *client1
@@ -279,6 +281,8 @@ projets:
     dateFinReelTot:        2016-05-25
     dateFinReelTard:        2016-05-26
     chargeInitiale:     15
+    chargeConsommee :   0
+    chargeRestante :    15
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -297,6 +301,8 @@ projets:
     dateFinReelTot:     2016-05-23
     dateFinReelTard:    2016-05-24
     chargeInitiale:     3
+    chargeConsommee :   0
+    chargeRestante :    3
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -315,6 +321,8 @@ projets:
     dateFinReelTot:     2016-01-25
     dateFinReelTard:    2016-01-26
     chargeInitiale:     13
+    chargeConsommee :   0
+    chargeRestante :    13
     avancementGlobal:   0
     enCours:            true
     archive:            false
