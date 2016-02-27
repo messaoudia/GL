@@ -465,7 +465,7 @@ taches:
     parent :            *tache7
     idTache :             5.1
 
-- &tache8 !!models.Tache
+- &tache17 !!models.Tache
     id:                 27
     nom:                Diagramme UML u3
     description:        Diagramme de classe v2
@@ -479,10 +479,10 @@ taches:
     chargeRestante:       2
     projet:             *projet2
     responsableTache:   *utilisateur3
-    parent :            *tache7
+    parent :            *tache8
     idTache :             5.2
 
-- &tache8 !!models.Tache
+- &tache18 !!models.Tache
     id:                 28
     nom:                Diagramme UML u4
     description:        Diagramme de classe v3
@@ -496,7 +496,7 @@ taches:
     chargeRestante:       2
     projet:             *projet2
     responsableTache:   *utilisateur3
-    parent :            *tache7
+    parent :            *tache17
     idTache :            5.3
 
 - &tache9 !!models.Tache
