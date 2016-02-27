@@ -95,6 +95,11 @@ public class AdminController extends Controller{
             p.archive = true;
             p.save();
         }
+
+        for(Contact c : client.listContacts()){
+            c.archive = true;
+            c.save();
+        }
         client.save();
         System.out.println(client.listeProjets.size());
 

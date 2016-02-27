@@ -409,7 +409,12 @@
                     jsRoutes.controllers.AdminController.supprimerClient($value).ajax({
                         success: function(html) {
                             $('#dataTables-admin-client').dataTable().fnDestroy();
-                            $tmpTrAdminClient.remove();
+                            //$tmpTrAdminClient.remove();
+                            $tmpTrAdminClient.addClass("archived");
+                            $tmpTrAdminClient.children('td').eq(6).empty();
+                            $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
+                            $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal')
+                            $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable')
                         },
                         error: function(errorMessage){
                             alert(errorMessage);
