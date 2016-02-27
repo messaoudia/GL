@@ -71,6 +71,7 @@ public class AdminController extends Controller{
 
     public Result supprimerProjet(Long idProjet){
         Projet.supprimerProjet(idProjet);
+
         return ok();
     }
 
@@ -86,4 +87,17 @@ public class AdminController extends Controller{
         return ok(Json.toJson(Client.getAllNonArchives()));
     }
 
+    public Result supprimerClient(Long id){
+        Client client = Client.find.byId(id);
+        client.archiver = true;
+        for(Projet p : client.listeProjets){
+            System.out.println(p.nom);
+            p.archive = true;
+            p.save();
+        }
+        client.save();
+        System.out.println(client.listeProjets.size());
+
+        return ok();
+    }
 }

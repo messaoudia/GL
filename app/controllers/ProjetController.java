@@ -85,6 +85,8 @@ public class ProjetController extends Controller{
                 if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
                     Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
                     p.save();
+                    client.listeProjets.add(p);
+                    client.save();
                     return ok(Json.toJson(p));
                 } else {
                     error.dateFinAvantDebut = true;

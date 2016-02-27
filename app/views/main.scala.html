@@ -160,6 +160,12 @@
         <script>
 
                 var userRow;
+                $requestUtilisateursArchives = false;
+                $requestClientsArchives = false;
+                $requestProjetsTermines = false;
+                $requestProjetsArchives = false;
+                var $tmpTr;
+                var $tmpTrAdminClient;
 
                 $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
                     var id = $(this).parent('tr').attr('value');
@@ -214,12 +220,15 @@
                         }
                     });
                 });
-                $(document).on('click','#dataTables-admin-client tr td:last-child', function(){
-                    var idC = $(this).parent('tr').attr('value');
+                $(document).on('click','#dataTables-admin-client-body tr td:last-child', function(){
+
+                    var parent = $(this).parent('tr');
+                    var idC = parent.attr('value');
                     jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
                         success: function(client){
                             $("#delete-project-name").empty();
                             $("#delete-project-name").append(client.nom);
+                            $tmpTrAdminClient = parent;
                         }
                     });
                 });
@@ -376,20 +385,31 @@
                 //dataTables-admin-client
 
 
-                $requestUtilisateursArchives = false;
-                $requestClientsArchives = false;
-                $requestProjetsTermines = false;
-                $requestProjetsArchives = false;
-                var $tmpTr;
+
 
 
                 var supprimerProjet = function(){
-                    var $value = $trTmp.attr('value');
-
+                    var $value = $tmpTr.attr('value');
+                    console.log($value);
                     jsRoutes.controllers.AdminController.supprimerProjet($value).ajax({
                         success: function(html) {
                             $('#dataTables-admin-projet').dataTable().fnDestroy();
-                            $trTmp.remove();
+                            $tmpTr.remove();
+                        },
+                        error: function(errorMessage,codeerror){
+                            alert(errorMessage);
+                            alert(codeerror);
+                        }
+                    });
+                }
+
+                var supprimerClient = function(){
+                    var $value = $tmpTrAdminClient.attr('value');;
+                    console.log($value);
+                    jsRoutes.controllers.AdminController.supprimerClient($value).ajax({
+                        success: function(html) {
+                            $('#dataTables-admin-client').dataTable().fnDestroy();
+                            $tmpTrAdminClient.remove();
                         },
                         error: function(errorMessage){
                             alert(errorMessage);
@@ -2059,13 +2079,15 @@
                     $("#creerUserForm")[0].reset();
                 });
 
-                $(document).on('click','#dataTables-admin-projet tr td:last-child', function(){
-                    var idP = $(this).parent('tr').attr('value');
+                $(document).on('click','#dataTables-admin-projet-body tr td:last-child', function(){
+                    var parent = $(this).parent('tr');
+                    var idP = parent.attr('value');
+
                     jsRoutes.controllers.AdminController.afficherModalProjet(idP).ajax({
                         success: function(projet){
                             $("#modal-projet-admin-nom-projet").empty();
                             $("#modal-projet-admin-nom-projet").append(projet.nom);
-                            $trTmp = $(this).parent('tr');
+                            $tmpTr = parent;
                         }
                     });
                 });
@@ -2153,9 +2175,22 @@
                 }
 
                 function reverse(string){
-                    var res =  string.split('/');
-                    var final = res[2] + '/' + res[1] + '/' + res[0];
-                    return final;
+                    if(string===null){
+                        return "";
+                    }else{
+                        var res =  string.split('/');
+                        var final = res[2] + '/' + res[1] + '/' + res[0];
+                        return final;
+                    }
+
+                }
+
+                function verif(string){
+                    if(string === null){
+                        return "";
+                    }else{
+                        return string;
+                    }
                 }
                 //TODO : changer pour la partie consommee
                 function projetTermines(){
@@ -2177,14 +2212,15 @@
                                         var projetList = $('#dataTables-admin-projet-body');
                                         $("#dataTables-admin-projet").dataTable().fnDestroy();
                                         $(data).each(function(index, projet) {
+
                                             var list ="";
                                             list+=('<tr class="table-center cursor-pointer projetTermines" value="'+projet.id+'">');
                                             list+=('<td style="vertical-align:middle ;">'+projet.nom+'</td>');
                                             list+=('<td style="vertical-align:middle ;">'+projet.client.nom+'</td>');
-                                            list+=('<td style="vertical-align:middle ;">'+projet.dateDebutReel+'</td>');
+                                            list+=('<td style="vertical-align:middle ;">'+verif(projet.dateDebutReel)+'</td>');
                                             list+=('<td style="vertical-align:middle ;"> <p style="display:none ;">'+reverse(projet.dateFinReelTot)+'</p>'
-                                            +'<p>'+projet.dateFinReelTot+'</p>'
-                                            +'<p>'+projet.dateFinReelTard+'</p>')
+                                            +'<p>'+verif(projet.dateFinReelTot)+'</p>'
+                                            +'<p>'+verif(projet.dateFinReelTard)+'</p>')
                                             if(projet.archive){
                                                 list+=('<td style="vertical-align:middle;">@Messages("yes")</td>');
                                             }else{
@@ -2255,7 +2291,6 @@
                             if(!$requestProjetsArchives){
                                 jsRoutes.controllers.AdminController.afficherProjetsArchives(false).ajax({
                                     success : function(data) {
-                                        alert(data);
                                         var projetList = $('#dataTables-admin-projet-body');
                                         $("#dataTables-admin-projet").dataTable().fnDestroy();
                                         $(data).each(function(index, projet) {
@@ -2263,10 +2298,10 @@
                                             list+=('<tr class="table-center cursor-pointer projetArchives" value="'+projet.id+'">');
                                             list+=('<td style="vertical-align:middle ;">'+projet.nom+'</td>');
                                             list+=('<td style="vertical-align:middle ;">'+projet.client.nom+'</td>');
-                                            list+=('<td style="vertical-align:middle ;">'+projet.dateDebutReel+'</td>');
+                                            list+=('<td style="vertical-align:middle ;">'+verif(projet.dateDebutReel)+'</td>');
                                             list+=('<td style="vertical-align:middle ;"> <p style="display:none ;">'+reverse(projet.dateFinReelTot)+'</p>'
-                                            +'<p>'+projet.dateFinReelTot+'</p>'
-                                            +'<p>'+projet.dateFinReelTard+'</p>')
+                                            +'<p>'+verif(projet.dateFinReelTot)+'</p>'
+                                            +'<p>'+verif(projet.dateFinReelTard)+'</p>')
                                             if(projet.archive){
                                                 list+=('<td style="vertical-align:middle;">@Messages("yes")</td>');
                                             }else{

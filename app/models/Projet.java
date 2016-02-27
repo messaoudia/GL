@@ -791,6 +791,11 @@ public class Projet extends EntiteSecurise {
          Projet p = find.byId(idProjet);
          p.archive = true;
          p.save();
+        System.out.println("P"+p.nom);
+         for(int i=0; i<p.client.listeProjets.size();i++){
+             System.out.println(p.client.listeProjets.get(i).nom);
+             System.out.println(p.client.listeProjets.get(i).archive);
+         }
     }
 
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }

@@ -71,3 +71,4 @@ POST        /ajouterClient             controllers.ClientController.creerClient
 POST        /afficherModalProjetAdmin  controllers.AdminController.afficherModalProjet(idP: Long)
 POST        /initModalAdminProjetRespo   controllers.AdminController.afficherModalCreerProjetResponsable
 POST        /initModalAdminProjetClient   controllers.AdminController.afficherModalCreerProjetClient
+POST        /adminClientSupprimer            controllers.AdminController.supprimerClient(idC : Long)
