@@ -255,7 +255,7 @@
                                                    p+=('<tr>');
                                                    p+=('<td>'+projet.nom+'</td>');
                                                    if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="multiple">');
+                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
                                                        $(utilisateurs).each(function(index,u){
                                                            p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
                                                            //console.log(u.nom);
@@ -284,7 +284,7 @@
                                                    p+=('<td>'+tache.nom+'</td>');
                                                    p+=('<td>'+tache.projet.nom+'</td>');
                                                    if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="multiple">');
+                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
                                                        $(utilisateurs).each(function(index,u){
                                                            p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
                                                            //console.log(u.nom);
