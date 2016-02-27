@@ -184,3 +184,4 @@ descriptionTooLongError = Champs description trop long 1 à 65536 caractères
 incoherentDate = Les dates sont incohérente
 parseError = Erreur au niveau du traitement des dates
 noContact = Pas de contact
+exportClients = Exporter clients
