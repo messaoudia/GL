@@ -606,7 +606,6 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
      * Modifie le responsableProjet de projet par l'utilisateur en parametre
      *
      * @param responsable

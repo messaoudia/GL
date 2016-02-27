@@ -219,7 +219,7 @@ public class UtilisateurController extends Controller {
         for (Map.Entry<String, String> entry : mapTache.entrySet()){
             Tache t = Tache.find.byId(Long.valueOf(entry.getKey()));
             Utilisateur u = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
-            t.modifierResponsable(u);
+            u.affectTache(t);
         }
 
         //Delete Utilisateur

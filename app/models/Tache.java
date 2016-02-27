@@ -71,7 +71,8 @@ public class Tache extends EntiteSecurise {
 
     public static Finder<Long, Tache> find = new Finder<>(Tache.class);
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn
     public Utilisateur responsableTache;
 
     // TODO @qqch?
@@ -352,9 +353,10 @@ public class Tache extends EntiteSecurise {
      * @param responsable
      * @throws IllegalArgumentException
      */
+    @Transient
     public void modifierResponsable(Utilisateur responsable) throws IllegalArgumentException {
         if (this.responsableTache == responsable) {
-            throw new IllegalArgumentException("Remplacement du responsableProjet de tache par le même responsableProjet");
+            throw new IllegalArgumentException("Remplacement du responsableProjet de tache par le même responsable de Tache");
         }
 
         Utilisateur ancienResponsableTache = this.responsableTache;
