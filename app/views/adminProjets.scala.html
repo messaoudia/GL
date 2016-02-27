@@ -107,7 +107,7 @@
                                                     <p style="display:none ;">@projet.avancementGlobal%</p>
                                                     <p class="row-initiale">@Messages("initial") :
                                                         @projet.chargeInitiale @Messages("day-first-letter")</p>
-                                                    <p class="row-restante">@Messages("remaining"): 50
+                                                    <p class="row-restante">@Messages("remaining"): @projet.chargeRestante
                                                          @Messages("day-first-letter")</p>
                                                     <div class="progress progress-bar-default">
                                                             <!-- si 0% : color:black; -->
@@ -122,7 +122,7 @@
                                                         }
                                                     </div>
                                                     <p class="row-consommee">@Messages("consumed")
-                                                        : 50 @Messages("day-first-letter")</p>
+                                                        : @projet.chargeConsommee @Messages("day-first-letter")</p>
                                                 </td>
                                             }
                                             case UniteProjetEnum.SEMAINE => {
@@ -131,7 +131,7 @@
                                                     <p class="row-initiale">@Messages("initial") :
                                                         @projet.chargeInitiale @Messages("week-first-letter")</p>
                                                     <p class="row-restante">@Messages("remaining"):
-                                                        50 @Messages("week-first-letter")</p>
+                                                        @projet.chargeRestante @Messages("week-first-letter")</p>
                                                     <div class="progress progress-bar-default">
                                                             <!-- si 0% : color:black; -->
                                                         @if(projet.avancementGlobal == 0){
@@ -145,7 +145,7 @@
                                                         }
                                                     </div>
                                                     <p class="row-consommee">@Messages("consumed")
-                                                        :  50 @Messages("week-first-letter")</p>
+                                                        :  @projet.chargeConsommee @Messages("week-first-letter")</p>
                                                 </td>
                                             }
                                         }
@@ -165,9 +165,7 @@
                                         <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>@Messages("projectDeleteMessage") : </p>
-                                        <p id="modal-projet-admin-nom-projet">  </p>
-                                        <p> ? </p>
+                                        <p style="display:inline;">@Messages("projectDeleteMessage") :</p><p id="modal-projet-admin-nom-projet" style="display:inline;"></p>
                                     </div>
                                     <div class="modal-footer">
                                         <button id="button-admin-projet" onclick="supprimerProjet()" type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
@@ -190,104 +188,106 @@
                                 <h4 class="modal-title">@Messages("addProject")</h4>
                             </div>
                             <div class="modal-body" style="padding-top:0px;">
-                                <form id="addProjectForm-projet" role="form" method="POST">
+                                <form id="addProjectForm" role="form" method="POST">
                                     <div class="ibox-content">
                                         <div class="row">
-                                            <label class="label_form" for="projet">@Messages("project")</label>
+                                            <div class="col-sm-offset-2 col-sm-8">
+                                                <label class="label_form" for="projet">@Messages("project")</label>
+                                            </div>
                                         </div>
                                         <div class="row">
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <input name="projet" required="true" placeholder="" class="form-control"/>
+                                            <div class="col-sm-offset-2 col-sm-8">
+                                                <div id="successCreerProjet" class="alert alert-success alert-dismissable" style="display: none;">
+                                                    <button class="close" type="button">×</button>
+                                                    <p id="successCreerProjetP"><p>
                                                 </div>
-                                                <div class="col-sm-6">@Messages("priority")
-                                                    <div class="btn-group" style="display: inline-block ;">
-                                                        <button class="btn" type="button" value="1" >1</button>
-                                                        <button class="btn  btn-active" value="2" type="button">2</button>
-                                                        <button class="btn" type="button" value="3">3</button>
+                                                <div id="errorCreerProjet" class="alert alert-danger alert-dismissable" style="display: none;">
+                                                    <button class="close" type="button">×</button>
+                                                    <p id="errorCreerProjetP"><p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <input name="nom" required="true" placeholder="" class="form-control"/>
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="label_form" for="responsableProjet-projet">@Messages("projectPersonResponsible")</label>
-                                                        <div>
-                                                            <select id="responsableProjet-projet" name="responsableProjet-projet" required="true" style="width:100% ;" class="form-control">
-                                                                <option value="1">Option 1</option>
-                                                                <option value="2">Option 2</option>
-                                                                <option value="3">Option 3</option>
-                                                                <option value="4">Option 4</option>
-                                                                <option value="5">Option 5</option>
-                                                            </select>
+                                                    <div class="col-sm-6">@Messages("priority")
+                                                        <div class="btn-group" style="display: inline-block ;">
+                                                            <button class="btn" type="button" value="1" >1</button>
+                                                            <button class="btn  btn-active" value="2" type="button">2</button>
+                                                            <button class="btn" type="button" value="3">3</button>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-6">
-                                                    <div class='form-group'>
-                                                        <label class="label_form" for="client-projet">@Messages("client")</label>
-                                                        <div>
-                                                            <select id="client-projet" name="client-projet" required="true" style="width:100% ;" class="form-control">
-                                                                <option value="1">Option 1</option>
-                                                                <option value="2">Option 2</option>
-                                                                <option value="3">Option 3</option>
-                                                                <option value="4">Option 4</option>
-                                                                <option value="5">Option 5</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label for="description" class="label_form">@Messages("description")</label>
-                                                </div>
-
-                                                <div class="col-sm-12">
-                                                    <textarea name="description" style="height: 150px ; width:100% ;"></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="label_form">@Messages("theoreticalDate")</label>
-                                                        <div class="row margin-form">
-                                                            <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_debut-projet" style="text-align: left">@Messages("startDate")</label>
-                                                            <div class="form-group col-sm-8" id="datepicker_projet_th_debut-projet">
-                                                                <div class="input-group date">
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
-                                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
+                                                            <div>
+                                                                <select id="responsableProjet" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
+                                                                </select>
                                                             </div>
                                                         </div>
-                                                        <div class="row margin-form">
-                                                            <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_fin-projet" style="text-align: left">@Messages("endDate")</label>
-                                                            <div class="form-group col-sm-8" id="datepicker_projet_th_fin-projet">
-                                                                <div class="input-group date">
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
-                                                                </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class='form-group'>
+                                                            <label class="label_form" for="client">@Messages("client")</label>
+                                                            <div>
+                                                                <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <div class="form-group">
-                                                        <label class="label_form" for="unite-projet">@Messages("unit")</label>
-                                                        <div>
-                                                            <select id="unite-projet" name="unite-projet" required="true" style="width:100% ;" class="form-control">
-                                                                <option value="1">@Messages("day")</option>
-                                                                <option value="2">@Messages("week")</option>
-                                                            </select>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label for="description" class="label_form">@Messages("description")</label>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+                                                        <textarea name="description" style="height: 150px ; width:100% ;"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="label_form">@Messages("theoreticalDate")</label>
+                                                            <div class="row margin-form">
+                                                                <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_debut" style="text-align: left">@Messages("startDate")</label>
+                                                                <div class="form-group col-sm-8" id="datepicker_projet_th_debut">
+                                                                    <div class="input-group date">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="dateDebutTheorique" type="text" class="form-control" value="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row margin-form">
+                                                                <label class="col-sm-4 control-label font-noraml" for="datepicker_projet_th_fin" style="text-align: left">@Messages("endDate")</label>
+                                                                <div class="form-group col-sm-8" id="datepicker_projet_th_fin">
+                                                                    <div class="input-group date">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="dateFinTheorique" type="text" class="form-control" value="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="label_form" for="unite">@Messages("unit")</label>
+                                                            <div>
+                                                                <select id="unite" name="unite" required="true" style="width:100% ;" class="form-control">
+                                                                    <option value="JOUR">@Messages("day")</option>
+                                                                    <option value="SEMAINE">@Messages("week")</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="submitButton-projet" class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; cursor: pointer ;">
+                                    <div id="submitButton" class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; cursor: pointer ;">
                                         <h3 style="margin:0px ;">@Messages("saveProject")</h3>
                                     </div>
                                 </form>

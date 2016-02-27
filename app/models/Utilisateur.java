@@ -45,11 +45,11 @@ public class Utilisateur extends Personne {
     // liste des utilisateurs où je souhaite recevoir une notification
 
     @ManyToMany
-    @JoinTable(name="tbl_follow_user", joinColumns=@JoinColumn(name="suivant"), inverseJoinColumns=@JoinColumn(name="suivi"))
+    @JoinTable(name = "tbl_follow_user", joinColumns = @JoinColumn(name = "suivant"), inverseJoinColumns = @JoinColumn(name = "suivi"))
     List<Utilisateur> utilisateursSuivis;
     // liste des utilisateurs qui me suivent
     @ManyToMany
-    @JoinTable(name="tbl_follow_user", joinColumns=@JoinColumn(name="suivi"), inverseJoinColumns=@JoinColumn(name="suivant"))
+    @JoinTable(name = "tbl_follow_user", joinColumns = @JoinColumn(name = "suivi"), inverseJoinColumns = @JoinColumn(name = "suivant"))
     List<Utilisateur> utilisateursMeSuivant;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -66,18 +66,18 @@ public class Utilisateur extends Personne {
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
-    public Utilisateur(String nom, String prenom, String email, String telephone,boolean archive, String password,List<Tache> listTaches,
-                       List<Tache> listTachesNotifications,List<Utilisateur> utilisateursSuivis,List<Utilisateur> utilisateursMeSuivant) {
-        super(nom, prenom, email, telephone,archive);
+    public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
+                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, List<Utilisateur> utilisateursMeSuivant) {
+        super(nom, prenom, email, telephone, archive);
         setPassword(password);
-        this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
-        this.listTachesNotifications = (listTachesNotifications == null)?new BeanList<>(): listTachesNotifications;
-        this.utilisateursSuivis = (utilisateursSuivis == null)?new BeanList<>(): utilisateursSuivis;
-        this.utilisateursMeSuivant = (utilisateursMeSuivant == null)?new BeanList<>(): utilisateursMeSuivant;
+        this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
+        this.listTachesNotifications = (listTachesNotifications == null) ? new BeanList<>() : listTachesNotifications;
+        this.utilisateursSuivis = (utilisateursSuivis == null) ? new BeanList<>() : utilisateursSuivis;
+        this.utilisateursMeSuivant = (utilisateursMeSuivant == null) ? new BeanList<>() : utilisateursMeSuivant;
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone,archive,password,null, null, null, null);
+        this(nom, prenom, email, telephone, archive, password, null, null, null, null);
     }
 
     public Utilisateur() {
@@ -87,14 +87,29 @@ public class Utilisateur extends Personne {
         this.utilisateursMeSuivant = new BeanList<>();
     }
 
-    public void setFirstName(String firstName) {this.prenom = firstName;}
-    public String getFirstname() { return this.prenom; }
+    public void setFirstName(String firstName) {
+        this.prenom = firstName;
+    }
 
-    public void setLastName(String lastName) {this.nom = lastName;}
-    public String getLastname() { return this.nom; }
+    public String getFirstname() {
+        return this.prenom;
+    }
 
-    public void setTelephone(String tel) {this.telephone = tel;}
-    public String getTelephone() { return this.telephone; }
+    public void setLastName(String lastName) {
+        this.nom = lastName;
+    }
+
+    public String getLastname() {
+        return this.nom;
+    }
+
+    public void setTelephone(String tel) {
+        this.telephone = tel;
+    }
+
+    public String getTelephone() {
+        return this.telephone;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -104,12 +119,12 @@ public class Utilisateur extends Personne {
         return email;
     }
 
-    public void setPassword(String password) throws IllegalArgumentException{
+    public void setPassword(String password) throws IllegalArgumentException {
         this.save();
-        if(!validatePassword(password)){
-            throw new IllegalArgumentException("Mot de passe : "+password+" incorrect, veuillez mettre au moins 1 Maj, 1 min, 1 chiffre et 6 caracteres minimum");
+        if (!validatePassword(password)) {
+            throw new IllegalArgumentException("Mot de passe : " + password + " incorrect, veuillez mettre au moins 1 Maj, 1 min, 1 chiffre et 6 caracteres minimum");
         }
-        this.password = hachage(this.id,password);
+        this.password = hachage(this.id, password);
     }
 
     public String getPassword() {
@@ -134,34 +149,37 @@ public class Utilisateur extends Personne {
 
     @Override
     public String toString() {
-        return "[Utilisateur : "+super.toString() +", Password :" + password + ")";
+        return "[Utilisateur : " + super.toString() + ", Password :" + password + ")";
     }
 
     /**
      * FIXME rustine car le champ ne contient pas la liste des projets
+     *
      * @return list des projets du responsable
      */
-    public List<Projet> listProjetsResponsable(){
-        List<Projet> listProjet = Projet.find.where().eq("responsableProjet",this).findList();
+    public List<Projet> listProjetsResponsable() {
+        List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).findList();
         /** TODO : obliger de faire ça car pas présent en BDD **/
-        for(Projet projet : listProjet){
+        for (Projet projet : listProjet) {
             projet.updateAvancementGlobal();
         }
         return listProjet;
     }
 
     @JsonSerialize
-    public int listProjetsResponsableSize(){
+    public int listProjetsResponsableSize() {
         return listProjetsResponsable().size();
     }
+
     /**
      * Affecte la tache en parametre a l'utilisateur courant
+     *
      * @param tache
      */
     @Transient
-    public void affectTache(Tache tache){
-        if(listTaches.contains(tache)){
-            throw new IllegalArgumentException("L'utilisateur "+nom+", possede deja la tache "+ tache.nom);
+    public void affectTache(Tache tache) {
+        if (listTaches.contains(tache)) {
+            throw new IllegalArgumentException("L'utilisateur " + nom + ", possede deja la tache " + tache.nom);
         }
         tache.responsableTache = this;
         listTaches.add(tache);
@@ -169,51 +187,46 @@ public class Utilisateur extends Personne {
         save();
     }
 
-    public List<Tache> listTachesDansProjet(Projet projet){
-        if(projet.responsableProjet.equals(this))
-            return projet.listTachesAAfficher();
-        return listTachesDansProjetNonResponsable(projet);
-    }
-
     /**
      * FIXME rustine car le champ ne contient pas la liste des taches
+     *
      * @return list des taches du responsable
      */
-    public List<Tache> listTaches(){
-        listTaches = Tache.find.where().eq("responsableTache",this).findList();
+    public List<Tache> listTaches() {
+        listTaches = Tache.find.where().eq("responsableTache", this).findList();
         return listTaches;
     }
 
-    private List<Tache> listTachesDansProjetNonResponsable(Projet projet){
-        List<Tache> taches = Tache.find.where().eq("responsableTache",this).eq("projet", projet).findList();
+    public List<Tache> listTachesDansProjetNonResponsable(Projet projet) {
+        List<Tache> taches = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
         // Ajout des taches meres et filles
-        for(Tache tache : taches){
+        for (Tache tache : taches) {
             ajoutDesTachesParents(taches, tache);
             ajoutDesTachesEnfants(taches, tache);
         }
 
         // Tri en fonction des id
-        Collections.sort(listTaches, new Comparator<Tache>(){
+        Collections.sort(listTaches, new Comparator<Tache>() {
             @Override
             public int compare(Tache t1, Tache t2) {
                 String[] idT1Parse = t1.idTache.split("\\.");
                 String[] idT2Parse = t2.idTache.split("\\.");
                 Integer[] idT1Integer = new Integer[idT1Parse.length];
                 Integer[] idT2Integer = new Integer[idT2Parse.length];
-                for(int i=0; i<idT1Parse.length; i++){
+                for (int i = 0; i < idT1Parse.length; i++) {
                     idT1Integer[i] = Integer.parseInt(idT1Parse[i]);
                 }
-                for(int i=0; i<idT2Parse.length; i++){
+                for (int i = 0; i < idT2Parse.length; i++) {
                     idT2Integer[i] = Integer.parseInt(idT2Parse[i]);
                 }
-                for(int i=0; i<idT1Integer.length || i<idT2Integer.length; i++){
-                    if(i >= idT1Integer.length)
+                for (int i = 0; i < idT1Integer.length || i < idT2Integer.length; i++) {
+                    if (i >= idT1Integer.length)
                         return -1;
-                    if(i >= idT2Integer.length)
+                    if (i >= idT2Integer.length)
                         return 1;
-                    if(idT1Integer[i] < idT2Integer[i])
+                    if (idT1Integer[i] < idT2Integer[i])
                         return -1;
-                    if(idT1Integer[i] > idT2Integer[i])
+                    if (idT1Integer[i] > idT2Integer[i])
                         return 1;
                 }
                 return 0;
@@ -221,6 +234,38 @@ public class Utilisateur extends Personne {
         });
         return taches;
     }
+
+    /** TODO A TESTER **/
+    public List<Tache> listTachesDansProjetNonResponsableAAfficher(Projet projet){
+        List<Tache> taches = listTachesDansProjetNonResponsable(projet);
+        for(Tache tache : taches){
+            if(enfantIsPresent(tache.enfants(), taches)){
+                removeEnfants(tache, taches);
+            }
+        }
+        return taches;
+    }
+
+    public boolean enfantIsPresent(List<Tache> enfants, List<Tache> taches){
+        for(Tache enfant : enfants){
+            if(taches.contains(enfant))
+                return true;
+        }
+        return false;
+    }
+
+    private void removeEnfants(Tache tache, List<Tache> taches){
+        if(tache.hasEnfant()){
+            for(Tache enfant : tache.enfants()){
+                if(taches.contains(enfant)){
+                    taches.remove(enfant);
+                    removeEnfants(enfant, taches);
+                }
+            }
+        }
+    }
+
+
 
     private void ajoutDesTachesParents(List<Tache> taches, Tache tache){
         if(tache.hasParent()){
@@ -624,7 +669,9 @@ public class Utilisateur extends Personne {
     public int nbDeProjetsResponsableRetardes(){
         int cpt = 0;
         for(Projet projet : listProjetsResponsable()){
-            if(projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+            if(projet.dateFinReelTard!=null) {
+                if (projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+            }
         }
         return cpt;
     }

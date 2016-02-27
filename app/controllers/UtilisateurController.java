@@ -22,7 +22,6 @@ public class UtilisateurController extends Controller {
     public Error isFormulaireCorrect(Map<String, String[]> map,String preName)
     {
         System.out.println("map = "+map);
-        Json errorJson = new Json();
         Error error = new Error();
 
         Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");

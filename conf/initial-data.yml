@@ -271,8 +271,10 @@ projets:
     dateFinReelTard:    2016-02-27
     chargeInitiale:     2
     avancementGlobal:   0
+    chargeConsommee :   0
+    chargeRestante :    2
     enCours:            true
-    archive:            false
+    archive:            true
     client:             *client1
     priorite:           2
     unite:              JOUR
@@ -288,6 +290,8 @@ projets:
     dateFinReelTot:        2016-05-25
     dateFinReelTard:        2016-05-26
     chargeInitiale:     15
+    chargeConsommee :   0
+    chargeRestante :    15
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -306,6 +310,8 @@ projets:
     dateFinReelTot:     2016-05-23
     dateFinReelTard:    2016-05-24
     chargeInitiale:     3
+    chargeConsommee :   0
+    chargeRestante :    3
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -324,6 +330,8 @@ projets:
     dateFinReelTot:     2016-01-25
     dateFinReelTard:    2016-01-26
     chargeInitiale:     13
+    chargeConsommee :   0
+    chargeRestante :    13
     avancementGlobal:   0
     enCours:            true
     archive:            false
@@ -466,7 +474,7 @@ taches:
     parent :            *tache7
     idTache :             5.1
 
-- &tache8 !!models.Tache
+- &tache17 !!models.Tache
     id:                 27
     nom:                Diagramme UML u3
     description:        Diagramme de classe v2
@@ -480,10 +488,10 @@ taches:
     chargeRestante:       2
     projet:             *projet2
     responsableTache:   *utilisateur3
-    parent :            *tache7
+    parent :            *tache8
     idTache :             5.2
 
-- &tache8 !!models.Tache
+- &tache18 !!models.Tache
     id:                 28
     nom:                Diagramme UML u4
     description:        Diagramme de classe v3
@@ -497,7 +505,7 @@ taches:
     chargeRestante:       2
     projet:             *projet2
     responsableTache:   *utilisateur3
-    parent :            *tache7
+    parent :            *tache17
     idTache :            5.3
 
 - &tache9 !!models.Tache

@@ -52,9 +52,10 @@ GET         /adminUtilisateurId        controllers.AdminController.afficherModal
 GET         /adminClientId             controllers.AdminController.afficherModalClient(id: Long)
 GET         /adminProjetsClient        controllers.ProjetController.afficherProjetsClient(id: Long)
 GET         /adminContactsClient       controllers.ContactController.afficherContactsClient(id: Long)
+
+POST        /ajouterProjet             controllers.ProjetController.creerProjet
 GET         /listProjetsUtilisateur    controllers.UtilisateurController.listProjetsUtilisateur(id: Long)
 GET         /listTachesUtilisateur     controllers.UtilisateurController.listTachesUtilisateur(id: Long)
-POST        /ajouterProjet             controllers.ProjetController.ajouterProjet
 
 #view notification
 GET         /notifications             controllers.NotificationController.afficherNotifications
@@ -63,6 +64,11 @@ POST        /adminProjetSelect         controllers.AdminController.afficherAdmin
 POST        /adminProjetTermine        controllers.AdminController.afficherProjetsTermines(check:Boolean)
 POST        /adminProjetArchives       controllers.AdminController.afficherProjetsArchives(check:Boolean)
 POST        /adminProjetSupprimer      controllers.AdminController.supprimerProjet(idProjet:Long)
-
+POST        /checkContact              controllers.ClientController.contactCheck
 POST        /ajouterUtilisateur        controllers.UtilisateurController.creerUtilisateur
-POST        /modifierUtilisateur        controllers.UtilisateurController.modifierUtilisateur(id: Long)
+POST        /modifierUtilisateur       controllers.UtilisateurController.modifierUtilisateur(id: Long)
+POST        /ajouterClient             controllers.ClientController.creerClient
+POST        /afficherModalProjetAdmin  controllers.AdminController.afficherModalProjet(idP: Long)
+POST        /initModalAdminProjetRespo   controllers.AdminController.afficherModalCreerProjetResponsable
+POST        /initModalAdminProjetClient   controllers.AdminController.afficherModalCreerProjetClient
+POST        /adminClientSupprimer            controllers.AdminController.supprimerClient(idC : Long)

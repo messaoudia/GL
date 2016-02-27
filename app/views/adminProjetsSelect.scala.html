@@ -90,7 +90,7 @@
                                         @if(projet.hasUniteJour) {
                                             <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
                                             <!-- TODO : restante et consomme  -->
-                                            <div class="row-restante">@Messages("remaining") : 30  @Messages("day-first-letter")</div>
+                                            <div class="row-restante">@Messages("remaining") : @projet.chargeRestante  @Messages("day-first-letter")</div>
                                             <div class="progress progress-bar-default">
                                                     <!-- si 0% : color:black; -->
                                                 @if(projet.avancementGlobal == 0){
@@ -103,11 +103,11 @@
                                                     </div>
                                                 }
                                             </div>
-                                            <p class="row-consommee">@Messages("consumed") : 30  @Messages("day-first-letter")</p>
+                                            <p class="row-consommee">@Messages("consumed") : @projet.chargeConsommee  @Messages("day-first-letter")</p>
                                         }else{
                                             <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
                                                 <!-- TODO : restante et consomme  -->
-                                            <div class="row-restante">@Messages("remaining") : 30  @Messages("week-first-letter")</div>
+                                            <div class="row-restante">@Messages("remaining") : @projet.chargeRestante  @Messages("week-first-letter")</div>
                                             <div class="progress progress-bar-default">
                                                     <!-- si 0% : color:black; -->
                                                 @if(projet.avancementGlobal == 0){
@@ -120,7 +120,7 @@
                                                     </div>
                                                 }
                                             </div>
-                                            <p class="row-consommee">Consommée : 30  @Messages("week-first-letter")</p>
+                                            <p class="row-consommee">@Messages("consumed") : @projet.chargeConsommee  @Messages("week-first-letter")</p>
                                         }
                                     </div>
 
@@ -202,29 +202,33 @@
                                             <div class="div-center">
                                                 <h3>@projet.client.nom</h3>
                                                 <h5>@projet.client.adresseClient</h5>
-                                                <div class="table-responsive table-responsive-client">
-                                                    <table class="datatable-consulterClient table table-striped table-bordered table-hover">
-                                                        <thead>
-                                                            <tr class="table-center">
-                                                                <th style="vertical-align:middle ;">@Messages("formLastName")</th>
-                                                                <th style="vertical-align:middle ;">@Messages("formFirstName")</th>
-                                                                <th style="vertical-align:middle ;">@Messages("formEmail")</th>
-                                                                <th style="vertical-align:middle ;">@Messages("formTel")</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                @if(!projet.client.listContacts().isEmpty) {
+                                                    <div class="table-responsive table-responsive-client">
+                                                        <table class="datatable-consulterClient table table-striped table-bordered table-hover">
+                                                            <thead>
+                                                                <tr class="table-center">
+                                                                    <th style="vertical-align:middle ;">@Messages("formLastName")</th>
+                                                                    <th style="vertical-align:middle ;">@Messages("formFirstName")</th>
+                                                                    <th style="vertical-align:middle ;">@Messages("formEmail")</th>
+                                                                    <th style="vertical-align:middle ;">@Messages("formTel")</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
-                                                            <tr class="table-center">
-                                                                <td style="vertical-align:middle ;">Bite</td>
-                                                                <td style="vertical-align:middle ;">Valérie</td>
-                                                                <td style="vertical-align:middle ;">valérie.guimard&commat;
-                                                                    u-psud.fr</td>
-                                                                <td style="vertical-align:middle ;">0123456789</td>
-                                                            </tr>
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                            @for( contact <- projet.client.listContacts()) {
+                                                                <tr class="table-center">
+                                                                    <td style="vertical-align:middle ;">@contact.nom</td>
+                                                                    <td style="vertical-align:middle ;">@contact.prenom</td>
+                                                                    <td style="vertical-align:middle ;">@contact.email</td>
+                                                                    <td style="vertical-align:middle ;">@contact.telephone</td>
+                                                                </tr>
+                                                            }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                }else{
+                                                    <h5>@Messages("noContact")</h5>
+                                                }
                                             </div>
                                         </div>
                                     </div>

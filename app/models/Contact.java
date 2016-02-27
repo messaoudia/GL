@@ -23,6 +23,7 @@ public class Contact extends Personne {
 
     public static Model.Finder<Long, Contact> find = new Model.Finder<>(Contact.class);
 
+    /* TODO: check si null ? et faire beanlist ? */
     public Contact(String nom, String prenom, String email, String telephone, List<Tache> listTachesCorrespondant) {
         super(nom, prenom, email, telephone,false);
         this.listTachesCorrespondant = listTachesCorrespondant;

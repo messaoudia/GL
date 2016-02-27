@@ -3,6 +3,7 @@ package controllers.Global;
 import com.avaje.ebean.Ebean;
 import models.Client;
 import models.EntiteGenerique;
+import models.Projet;
 import models.Securite.Autorisation;
 import models.Securite.Role;
 import models.Utilisateur;
@@ -45,6 +46,12 @@ public class Global extends GlobalSettings {
                 client.listeContacts.forEach(contact -> {
                     Logger.debug("- contact:" + contact);
                 });
+            });
+
+            Projet.find.all().stream().forEach(projet -> {
+                Logger.debug("Projet:" + projet.chargeRestante);
+                Logger.debug("Projet:" + projet.chargeConsommee);
+
             });
 
             Role.find.all().stream().forEach(role -> {

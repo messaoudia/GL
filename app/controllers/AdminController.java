@@ -70,7 +70,39 @@ public class AdminController extends Controller{
     }
 
     public Result supprimerProjet(Long idProjet){
-        Projet.supprimerPorjet(idProjet);
+        Projet.supprimerProjet(idProjet);
+
+        return ok();
+    }
+
+    public Result afficherModalProjet(Long idProjet){
+        return ok(Json.toJson(Projet.find.byId(idProjet)));
+    }
+
+    public Result afficherModalCreerProjetResponsable(){
+        return ok(Json.toJson(Utilisateur.getAllNonArchives()));
+    }
+
+    public Result afficherModalCreerProjetClient(){
+        return ok(Json.toJson(Client.getAllNonArchives()));
+    }
+
+    public Result supprimerClient(Long id){
+        Client client = Client.find.byId(id);
+        client.archiver = true;
+        for(Projet p : client.listeProjets){
+            System.out.println(p.nom);
+            p.archive = true;
+            p.save();
+        }
+
+        for(Contact c : client.listContacts()){
+            c.archive = true;
+            c.save();
+        }
+        client.save();
+        System.out.println(client.listeProjets.size());
+
         return ok();
     }
 }

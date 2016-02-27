@@ -100,7 +100,16 @@ public class Projet extends EntiteSecurise {
         this.archive = archive;
         this.client = client;
         this.priorite = priorite;
-        this.listTaches = (listTaches == null)?new BeanList<>():listTaches;
+        if(listTaches == null){
+            this.listTaches = new BeanList<>();
+            this.chargeConsommee = 0.0;
+            this.chargeRestante = chargeInitiale;
+        }else{
+            this.listTaches = listTaches;
+            System.out.println(listTaches);
+            updateAvancementGlobal();
+        }
+
         if(utilisateursNotifications == null ||utilisateursNotifications.isEmpty()){
             initUtilisateursNotifications();
         }
@@ -151,6 +160,9 @@ public class Projet extends EntiteSecurise {
         }
     }
 
+    public Projet(String nom,String description,Utilisateur responsableProjet,Date dateDebutTheorique,Date dateFinTheorique,UniteProjetEnum unite,Client client, Integer priorite){
+        this(nom,description,responsableProjet,dateDebutTheorique,dateFinTheorique, null, null, null, 0.0,unite , (byte)0, true, false,client,priorite ,null,null);
+    }
 
     public Projet() {
         this.listTaches = new BeanList<>();
@@ -273,7 +285,7 @@ public class Projet extends EntiteSecurise {
         tache.save();
         listTaches.add(tache);
         // TODO : mettre a jour les charges des taches meres -> a checker
-        tache.modifierCharge(0.0, tache.chargeInitiale);
+        tache.initCharge(0.0, tache.chargeInitiale);
         // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
         updateAvancementGlobal();
         calculeCheminCritique();
@@ -734,36 +746,19 @@ public class Projet extends EntiteSecurise {
     }
 
     public String formateDate(Date d){
-        return dateFormat.format(d);
+        if(d!=null){
+        return dateFormat.format(d);}else{
+            return "";
+        }
     }
 
     public String formateDateTri(Date d){
-        return dateFormatTri.format(d);
-    }
-
-    /**
-     * TODO: TEST ME
-     * @return
-     */
-    public HashMap<String,Double> chargeConsommeEtRestante(){
-        Double chargeConsommeeGlobal = 0.0;
-        Double chargeRestanteGlobal = 0.0;
-        HashMap<String,Double> map = new HashMap<String, Double>();
-        if(!listTaches.isEmpty()) {
-            for (Tache tache : listTaches) {
-                if (!tache.hasParent()) {
-                    chargeConsommeeGlobal += tache.getChargeConsommee();
-                    chargeRestanteGlobal+= tache.getChargeRestante();
-                }
-            }
-            map.put("restante",chargeRestanteGlobal);
+        if(d!=null) {
+            return dateFormatTri.format(d);
         }else{
-            map.put("restante",this.chargeInitiale);
+            return "";
         }
-        map.put("consommee", chargeConsommeeGlobal);
-        return map;
     }
-
 
     public static List<Projet> getAll() {
         return find.all();
@@ -792,16 +787,27 @@ public class Projet extends EntiteSecurise {
         }
     }
 
-    public static void supprimerPorjet(Long idProjet){
+    public static void supprimerProjet(Long idProjet){
          Projet p = find.byId(idProjet);
          p.archive = true;
          p.save();
+        System.out.println("P"+p.nom);
+         for(int i=0; i<p.client.listeProjets.size();i++){
+             System.out.println(p.client.listeProjets.get(i).nom);
+             System.out.println(p.client.listeProjets.get(i).archive);
+         }
     }
 
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
     public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
 
-    public boolean estRetarde(){ return dateFinReelTard.after(Calendar.getInstance().getTime());}
+    public boolean estRetarde(){
+        if(dateFinReelTard!=null){
+            return dateFinReelTard.after(Calendar.getInstance().getTime());
+        }else{
+            return false;
+        }
+    }
     public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
     public boolean estTermine(){ return avancementGlobal == 100; }
 
