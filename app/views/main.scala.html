@@ -239,6 +239,8 @@
                         success: function(u){
                             $("#delete-utilisateur-name").empty();
                             $("#delete-utilisateur-name").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
+                            $("#delete-utilisateur-name-confirm").empty();
+                            $("#delete-utilisateur-name-confirm").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                                success: function(utilisateurs){
                                  console.log(utilisateurs);
@@ -255,7 +257,7 @@
                                                    p+=('<tr>');
                                                    p+=('<td>'+projet.nom+'</td>');
                                                    if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="multiple">');
+                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
                                                        $(utilisateurs).each(function(index,u){
                                                            p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
                                                            //console.log(u.nom);
@@ -284,7 +286,7 @@
                                                    p+=('<td>'+tache.nom+'</td>');
                                                    p+=('<td>'+tache.projet.nom+'</td>');
                                                    if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="multiple">');
+                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
                                                        $(utilisateurs).each(function(index,u){
                                                            p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
                                                            //console.log(u.nom);
@@ -404,19 +406,26 @@
                 }
 
                 var supprimerClient = function(){
-                    var $value = $tmpTrAdminClient.attr('value');;
+                    var $value = $tmpTrAdminClient.attr('value');
                     console.log($value);
                     jsRoutes.controllers.AdminController.supprimerClient($value).ajax({
                         success: function(html) {
                             $('#dataTables-admin-client').dataTable().fnDestroy();
-                            $tmpTrAdminClient.remove();
+                            if( $('#checkBoxClientsArchived').is(":checked")) {
+                                $tmpTrAdminClient.addClass("archived");
+                                $tmpTrAdminClient.children('td').eq(6).empty();
+                                $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
+                                $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal')
+                                $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable')
+                            }else{
+                                $tmpTrAdminClient.remove();
+                            }
                         },
                         error: function(errorMessage){
                             alert(errorMessage);
                         }
                     });
                 }
-
 
                 var afficherNotifications = function () {
                     //e.preventDefault();
@@ -1538,12 +1547,16 @@
                         jQuery.fx.off = false;
                     });
 
+
                     $( "#btn-cancel-modifierProjet-client" ).click(function() {
                         jQuery.fx.off = true;
-                        $("#div-modifierProjet-client").hide();
-                        $("#div-consulterProjet-client").show();
+                        var idProjet = $("#btn-cancel-modifierProjet-client").attr("name");
+                        $("#div-modifierProjet-client-" + idProjet).hide();
+                        $("#div-consulterProjet-client-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
+
+
 
                     $( "#btn-modifierProjet" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
@@ -1554,11 +1567,20 @@
                         jQuery.fx.off = false;
                     });
 
+                    $( "#btn-modifierProjet-client" ).click(function() {
+                        //$("#div-consulterProjet").css("display","none");
+                        var idProjet = $( "#btn-modifierProjet-client" ).attr("name");
+                        jQuery.fx.off = true;
+                        $("#div-consulterProjet-client-" + idProjet).hide();
+                        $("#div-modifierProjet-client-" + idProjet).show();
+                        jQuery.fx.off = false;
+                    });
+
                     $( "#btn-cancel-modifierProjet" ).click(function() {
                         jQuery.fx.off = true;
                         var idProjet = $("#btn-cancel-modifierProjet").attr("name");
                         $("#div-modifierProjet-" + idProjet).hide();
-                        $("#div-consulterProjet" + idProjet).show();
+                        $("#div-consulterProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
@@ -2092,6 +2114,7 @@
                         }
                     });
                 });
+
                 /* Afficher les Clients archivés */
                 function clientsArchived(){
                     $('#checkBoxClientsArchived').change(function() {

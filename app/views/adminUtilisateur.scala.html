@@ -189,7 +189,7 @@
                                                             <tr>
                                                                 <td>Projet 1</td>
                                                                 <td>
-                                                                    <select class="form-control select2-respo-projet" style="width:100%;" multiple="multiple">
+                                                                    <select class="form-control select2-respo-projet" style="width:100%;" multiple="single">
                                                                         <option value="Mayotte">Mayotte</option>
                                                                         <option value="Mexico">Mexico</option>
                                                                         <option value="Nicaragua">Nicaragua</option>
@@ -216,7 +216,7 @@
                                                                 <td>Créer la base de données</td>
                                                                 <td>Projet 1</td>
                                                                 <td>
-                                                                    <select class="form-control select2-respo-tache" style="width:100%;" multiple="multiple">
+                                                                    <select class="form-control select2-respo-tache" style="width:100%;" multiple="single">
                                                                         <option value="Mayotte">Mayotte</option>
                                                                         <option value="Mexico">Mexico</option>
                                                                         <option value="Nicaragua">Nicaragua</option>
@@ -247,7 +247,7 @@
                                         <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <p>@Messages("userDeleteMessage") : (nom de l'utilisateur) ?</p>
+                                        <p style="display:inline;">@Messages("userDeleteMessage") :</p><p id="delete-utilisateur-name-confirm" style="display:inline;"></p><p> ?</p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
