@@ -166,6 +166,7 @@
                 $requestProjetsArchives = false;
                 var $tmpTr;
                 var $tmpTrAdminClient;
+                var $tmpTrAdminUser;
 
                 $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
                     var id = $(this).parent('tr').attr('value');
@@ -234,7 +235,9 @@
                 });
 
                 $(document).on('click','#dataTables-admin-user tr td:last-child', function(){
-                    var idU = $(this).parent('tr').attr('value');
+                    $tmpTrAdminUser = $(this).parent('tr');
+
+                    var idU = $tmpTrAdminUser.attr('value');
                     jsRoutes.controllers.AdminController.afficherModalUtilisateur(idU).ajax({
                         success: function(u){
                             $("#delete-utilisateur-name").empty();
@@ -254,13 +257,15 @@
                                            var p ="";
                                            if(listProjets.length != 0){
                                                $(listProjets).each(function(index, projet) {
-                                                   p+=('<tr>');
+                                                   p+=('<tr value="'+projet.id+'">');
                                                    p+=('<td>'+projet.nom+'</td>');
                                                    if(utilisateurs.length != 0){
                                                        p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
                                                        $(utilisateurs).each(function(index,u){
-                                                           p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           //console.log(u.nom);
+                                                           // lister tous les utilisaturs en cours sauf l'user courant
+                                                           if(u.id != idU){
+                                                               p+=('<option value="'+u.id'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                           }//console.log(u.nom);
                                                        });
                                                        p+=('</select></td>');
                                                    }
@@ -282,14 +287,16 @@
                                            var p="";
                                            if(listTaches.length != 0){
                                                $(listTaches).each(function(index, tache) {
-                                                   p+=('<tr>');
+                                                   p+=('<tr value="'+tache.id+'">');
                                                    p+=('<td>'+tache.nom+'</td>');
                                                    p+=('<td>'+tache.projet.nom+'</td>');
                                                    if(utilisateurs.length != 0){
                                                        p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
                                                        $(utilisateurs).each(function(index,u){
-                                                           p+=('<option value="'+u.nom+' '+u.prenom+' ('+u.email+')">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           //console.log(u.nom);
+                                                           // lister tous les utilisaturs en cours sauf l'user courant
+                                                           if(u.id != idU){
+                                                               p+=('<option value="'+u.id'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                           }//console.log(u.nom);
                                                        });
                                                        p+=('</select></td>');
                                                    }
@@ -303,8 +310,6 @@
                                    });
                                }
                             });
-                            // lister tous les utilisaturs en cours sauf l'utilisatuer courant
-
                         }
                     });
                 });
@@ -425,6 +430,12 @@
                             alert(errorMessage);
                         }
                     });
+                }
+
+                var supprimerUtilisateur = function(){
+                    var idUtilisateur = $tmpTrAdminUser.attr('value');
+                    console.log(idUtilisateur);
+
                 }
 
                 var afficherNotifications = function () {
