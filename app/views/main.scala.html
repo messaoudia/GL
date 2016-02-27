@@ -434,8 +434,26 @@
 
                 var supprimerUtilisateur = function(){
                     var idUtilisateur = $tmpTrAdminUser.attr('value');
-                    console.log(idUtilisateur);
+                    console.log('Utilisateur a supprimer : '+idUtilisateur);
+                    var mapProjet = {};
+                    var mapTache = {};
 
+                    /* tester si ils sont tous remplis */
+
+                    $("#table-modal-suppr-user-projet-body > tr").each(function() {
+                        var projectID = $(this).attr('value');
+                        var idUserSelected = $(this).children('td').eq(1).children('select').select2().val()[0];
+                        mapProjet[projectID] = idUserSelected;
+                    });
+
+                    $("#table-modal-suppr-user-tache-body > tr").each(function() {
+                        var tacheID = $(this).attr('value');
+                        var idUserSelected = $(this).children('td').eq(2).children('select').select2().val()[0];
+                        mapTache[tacheID] = idUserSelected;
+                    });
+
+                    console.log(mapProjet);
+                    console.log(mapTache);
                 }
 
                 var afficherNotifications = function () {
