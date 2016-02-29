@@ -73,7 +73,11 @@
                             <tbody id="dataTables-admin-user-body">
                                 <!-- Boucle sur la liste des utilisateurs -->
                                 @for(utilisateur <- utilisateurs) {
-                                    <tr value="@utilisateur.id">
+                                    @if(utilisateur.archive) {
+                                        <tr class="user-archived" value="@utilisateur.id">
+                                    }else {
+                                        <tr value="@utilisateur.id">
+                                    }
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
                                         <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>

@@ -7,6 +7,33 @@
  *
 */
 
+.client-archived {
+    display: none;
+    background-color: indianred !important;
+}
+
+
+.user-archived {
+    display: none;
+    background-color: indianred !important;
+}
+
+.projet-archived {
+    display: none;
+    background-color: indianred !important;
+}
+
+.projet-finished {
+    display: none;
+    background-color: cornflowerblue !important;
+}
+
+.projet-archived-finished
+{
+    display: none;
+    background-color: mediumpurple !important;
+}
+
 .select2-search {
     width: 100%;
 }
