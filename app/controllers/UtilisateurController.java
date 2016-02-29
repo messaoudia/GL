@@ -1,14 +1,12 @@
 package controllers;
 
-import models.Projet;
-import models.Tache;
-import models.Utilisateur;
+import models.*;
+import models.Error;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.creerUtilisateur;
-import models.Error;
 
 import java.util.HashMap;
 import java.util.List;
@@ -206,21 +204,29 @@ public class UtilisateurController extends Controller {
 
         Logger.debug(mapProjet.toString());
         Logger.debug(mapTache.toString());
+
+        Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
+
         //Projets
         // <idProjet,idUtilisateur>
         for (Map.Entry<String, String> entry : mapProjet.entrySet()){
-            Projet p = Projet.find.byId(Long.valueOf(entry.getKey()));
-            Utilisateur u = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
-            p.modifierResponsable(u);
+            Projet projet = Projet.find.byId(Long.valueOf(entry.getKey()));
+            Utilisateur utilisateur = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
+            projet.modifierResponsable(utilisateur);
+            Notification.notificationSuppressionUtilisateurProjet(mapNotifications, utilisateur, projet);
         }
 
         //Taches
         //<idTache,idUtilisateur>
         for (Map.Entry<String, String> entry : mapTache.entrySet()){
-            Tache t = Tache.find.byId(Long.valueOf(entry.getKey()));
-            Utilisateur u = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
-            u.affectTache(t);
+            Tache tache = Tache.find.byId(Long.valueOf(entry.getKey()));
+            Utilisateur utilisateur = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
+            utilisateur.affectTache(tache);
+            Notification.notificationSuppressionUtilisateurTache(mapNotifications, utilisateur, tache);
         }
+
+        // Envoie des notifications
+        Notification.sendNotifications(mapNotifications);
 
         //Delete Utilisateur
         Utilisateur u = Utilisateur.find.byId(idUtilisateur);

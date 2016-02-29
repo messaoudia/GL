@@ -576,7 +576,7 @@ public class Projet extends EntiteSecurise {
         calculeCheminCritique();
 
         // Suppression ou archivage
-        if (tache.getChargeConsommee() == 0.0) {
+        if (tache.chargeConsommee == 0.0) {
             tache.removeUtilisateurNotification(tache.responsableTache);
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
@@ -723,8 +723,8 @@ public class Projet extends EntiteSecurise {
         Double chargeRestanteGlobal = 0.0;
         for(Tache tache : listTaches){
             if(!tache.hasParent()) {
-                chargeConsommeeGlobal += tache.getChargeConsommee();
-                chargeRestanteGlobal += tache.getChargeRestante();
+                chargeConsommeeGlobal += tache.chargeConsommee;
+                chargeRestanteGlobal += tache.chargeRestante;
             }
         }
         if(listTaches.size() != 0){
