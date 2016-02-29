@@ -52,8 +52,6 @@
                                                     <tr>
                                                         <th></th>
                                                         <th>@Messages("from")</th>
-                                                        <th>@Messages("project")</th>
-                                                        <th>@Messages("client")</th>
                                                         <th>@Messages("object")</th>
                                                         <th>@Messages("date")</th>
                                                         <th data-hide="all">@Messages("state")</th>
@@ -74,15 +72,6 @@
                                                             <label for="checkbox-notif-@notification.id"></label>
                                                         </div>
                                                     </td>
-                                                    @if(notification.concerneTache) {
-                                                        <td>@notification.tache.nom</td>
-                                                        <td>@notification.tache.projet.nom</td>
-                                                        <td>@notification.tache.projet.client.nom</td>
-                                                    } else {
-                                                        <td></td>
-                                                        <td>@notification.projet.nom</td>
-                                                        <td>@notification.projet.client.nom</td>
-                                                    }
 
                                                     <td>@notification.title</td>
                                                     <td>06/02/2016 (15:15) (TODO)</td>

@@ -742,6 +742,7 @@ public class Projet extends EntiteSecurise {
                 this.avancementGlobal = new Byte(result.substring(2,4));
             }
         }
+        save();
     }
 
     public String formateDate(Date d){

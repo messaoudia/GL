@@ -1122,6 +1122,7 @@
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
                         type: 'POST',
                         dataType: 'json',
+                        contentType: "application/json",
                         success: function(tache) {
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
@@ -1188,6 +1189,7 @@
                             {
                                 unite = '@Messages("week-first-letter")';
                             }
+                            console.log(JSON.stringify(tache));
                             $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
                             $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
