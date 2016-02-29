@@ -509,7 +509,12 @@
                                                                             }
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                    @if(utilisateur.hasActiverNotification(tacheMere)){
+                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell"></i></a></div>
+
+                                                                    } else {
+                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                    }
                                                                     <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
                                                                 </div>
                                                                 <div class="row row-nestable dd-nodrag" style="text-align:center ;">
@@ -615,7 +620,12 @@
                                                                                         }
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                @if(utilisateur.hasActiverNotification(sousTache1)){
+                                                                                    <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell"></i></a></div>
+
+                                                                                } else {
+                                                                                    <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                                }
                                                                                 <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                                                             </div>
@@ -724,7 +734,12 @@
                                                                                                     }
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                            @if(utilisateur.hasActiverNotification(sousTache2)){
+                                                                                                <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell"></i></a></div>
+
+                                                                                            } else {
+                                                                                                <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                                            }
                                                                                             <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                                                                         </div>
@@ -832,8 +847,12 @@
                                                                                                                 }
                                                                                                             </div>
                                                                                                         </div>
+                                                                                                        @if(utilisateur.hasActiverNotification(sousTache3)){
+                                                                                                            <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell"></i></a></div>
 
-                                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                                        } else {
+                                                                                                            <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                                                        }
                                                                                                         <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                                                                                     </div>
@@ -955,7 +974,12 @@
                                                                             }
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-middle dd-nodrag" style="width:5% ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                    @if(utilisateur.hasActiverNotification(tacheMere)){
+                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell"></i></a></div>
+
+                                                                    } else {
+                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                    }
                                                                 </div>
                                                             </div>
                                                             @if(tacheMere.hasEnfant() && utilisateur.enfantIsPresent(tacheMere.enfants(), utilisateur.listTachesDansProjetNonResponsable(projet))) {
@@ -1045,7 +1069,12 @@
                                                                                             }
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-middle dd-nodrag" style="width:5% ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                    @if(utilisateur.hasActiverNotification(sousTache1)){
+                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell"></i></a></div>
+
+                                                                                    } else {
+                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                                    }
                                                                                 </div>
                                                                             </div>
 
@@ -1137,7 +1166,12 @@
                                                                                                             }
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div class="col-middle dd-nodrag" style="width:5% ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                                    @if(utilisateur.hasActiverNotification(sousTache2)){
+                                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell"></i></a></div>
+
+                                                                                                    } else {
+                                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                                                    }
                                                                                                 </div>
                                                                                             </div>
                                                                                             @if(sousTache2.hasEnfant() && utilisateur.enfantIsPresent(sousTache2.enfants(), utilisateur.listTachesDansProjetNonResponsable(projet))) {
@@ -1228,8 +1262,12 @@
                                                                                                                             }
                                                                                                                         </div>
                                                                                                                     </div>
+                                                                                                                    @if(utilisateur.hasActiverNotification(sousTache3)){
+                                                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell"></i></a></div>
 
-                                                                                                                    <div class="col-middle dd-nodrag" style="width:5% ;"><i class="fa fa-bell-slash-o"></i></div>
+                                                                                                                    } else {
+                                                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                                                                    }
                                                                                                                 </div>
                                                                                                             </div>
 
