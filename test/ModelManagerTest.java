@@ -269,32 +269,41 @@ public class ModelManagerTest {
                 */
 
                 projet.creerTacheInitialisationProjet(tacheA);
+                /*
                 System.out.println("------ L1 -------");
                 System.out.println(tacheA.nom + " " + tacheA.idTache);
                 System.out.println("------ Fin - L1 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheB,tacheA);
+                /*
                 System.out.println("------ L2 -------");
                 System.out.println(tacheA.nom + " " + tacheA.idTache);
                 System.out.println(tacheB.nom + " " + tacheB.idTache);
                 System.out.println("------ Fin - L2 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheC,tacheB);
+                /*
                 System.out.println("------ L3 -------");
                 System.out.println(tacheA.nom + " " + tacheA.idTache);
                 System.out.println(tacheB.nom + " " + tacheB.idTache);
                 System.out.println(tacheC.nom + " " + tacheC.idTache);
                 System.out.println("------ Fin - L3 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheD,tacheC);
+                /*
                 System.out.println("------ L4 -------");
                 System.out.println(tacheA.nom + " " + tacheA.idTache);
                 System.out.println(tacheB.nom + " " + tacheB.idTache);
                 System.out.println(tacheC.nom + " " + tacheC.idTache);
                 System.out.println(tacheD.nom + " " + tacheD.idTache);
                 System.out.println("------ Fin - L4 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheE,tacheB);
+                /*
                 System.out.println("------ L5 -------");
                 System.out.println(tacheA.nom + " " + tacheA.idTache);
                 System.out.println(tacheB.nom + " " + tacheB.idTache);
@@ -302,8 +311,10 @@ public class ModelManagerTest {
                 System.out.println(tacheC.nom + " " + tacheC.idTache);
                 System.out.println(tacheD.nom + " " + tacheD.idTache);
                 System.out.println("------ Fin - L5 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheF,tacheA);
+                /*
                 System.out.println("------ L6 -------");
                 System.out.println(tacheA.nom + " " + tacheA.idTache);
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
@@ -312,8 +323,10 @@ public class ModelManagerTest {
                 System.out.println(tacheC.nom + " " + tacheC.idTache);
                 System.out.println(tacheD.nom + " " + tacheD.idTache);
                 System.out.println("------ Fin - L6 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheG,tacheF);
+                /*
                 System.out.println("------ L7 -------");
                 System.out.println(tacheA.nom + " " + tacheA.idTache);
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
@@ -323,29 +336,37 @@ public class ModelManagerTest {
                 System.out.println(tacheC.nom + " " + tacheC.idTache);
                 System.out.println(tacheD.nom + " " + tacheD.idTache);
                 System.out.println("------ Fin - L7 -------");
+                */
 
                 projet.creerSousTache(tacheH,tacheF);
+                /*
                 System.out.println("------ L8 -------");
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
                 System.out.println(tacheH.nom + " " + tacheH.idTache);
                 System.out.println("------ Fin - L8 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheI,tacheH);
+                /*
                 System.out.println("------ L9 -------");
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
                 System.out.println(tacheH.nom + " " + tacheH.idTache);
                 System.out.println(tacheI.nom + " " + tacheI.idTache);
                 System.out.println("------ Fin - L9 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheJ,tacheI);
+                /*
                 System.out.println("------ L10 -------");
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
                 System.out.println(tacheH.nom + " " + tacheH.idTache);
                 System.out.println(tacheI.nom + " " + tacheI.idTache);
                 System.out.println(tacheJ.nom + " " + tacheJ.idTache);
                 System.out.println("------ Fin - L10 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheK,tacheJ);
+                /*
                 System.out.println("------ L11 -------");
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
                 System.out.println(tacheH.nom + " " + tacheH.idTache);
@@ -353,8 +374,10 @@ public class ModelManagerTest {
                 System.out.println(tacheJ.nom + " " + tacheJ.idTache);
                 System.out.println(tacheK.nom + " " + tacheK.idTache);
                 System.out.println("------ Fin - L11 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheL,tacheH);
+                /*
                 System.out.println("------ L12 -------");
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
                 System.out.println(tacheH.nom + " " + tacheH.idTache);
@@ -363,8 +386,10 @@ public class ModelManagerTest {
                 System.out.println(tacheJ.nom + " " + tacheJ.idTache);
                 System.out.println(tacheK.nom + " " + tacheK.idTache);
                 System.out.println("------ Fin - L12 -------");
+                */
 
                 projet.creerTacheEnDessous(tacheM,tacheL);
+                /*
                 System.out.println("------ L13 -------");
                 System.out.println(tacheF.nom + " " + tacheF.idTache);
                 System.out.println(tacheH.nom + " " + tacheH.idTache);
@@ -374,6 +399,7 @@ public class ModelManagerTest {
                 System.out.println(tacheJ.nom + " " + tacheJ.idTache);
                 System.out.println(tacheK.nom + " " + tacheK.idTache);
                 System.out.println("------ Fin - L13 -------");
+                */
 
                 Projet projetSelected = Projet.find.byId(projet.id);
                 Tache tacheASelected = Tache.find.byId(tacheA.id);
@@ -576,6 +602,7 @@ public class ModelManagerTest {
                 assertTrue(tacheLSelected.getSuccesseurs().contains(tacheMSelected));
 
                 // Afficher l'attribut critique de chaque tache
+                /*
                 Logger.debug("CRITIQUE");
                 Logger.debug(tacheASelected.critique.toString());
                 Logger.debug(tacheBSelected.critique.toString());
@@ -590,6 +617,7 @@ public class ModelManagerTest {
                 Logger.debug(tacheKSelected.critique.toString());
                 Logger.debug(tacheLSelected.critique.toString());
                 Logger.debug(tacheMSelected.critique.toString());
+                */
 
                 // Verifier le chemin critique
                 assertTrue(tacheASelected.critique);
@@ -632,32 +660,32 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheB = new Tache("TacheB","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null);
             tacheB.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheC = new Tache("TacheC","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null);
             tacheC.save();
 
             //tache dateDebut: (2016,2,28), dateFinTot: (2016,3,3), dateFinTard: (2016,3,3)
             Tache tacheD = new Tache("TacheD","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,28),
-                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,tacheC,null,null);
             tacheD.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheE = new Tache("TacheE","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheB,null,null);
             tacheE.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheF = new Tache("TacheF","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheA,null,null);
             tacheF.save();
 
             //tache dateDebut: (2016,2,20), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheG = new Tache("TacheG","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,20),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheF,null,null);
             tacheG.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,5), dateFinTard: (2016,2,5)
@@ -667,45 +695,30 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
             Tache tacheI = new Tache("TacheI","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,tacheH,null,null);
             tacheI.save();
 
             //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,13), dateFinTard: (2016,2,13)
             Tache tacheJ = new Tache("TacheJ","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,10),
-                    Utils.getDateFrom(2016,2,13),Utils.getDateFrom(2016,2,13),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,13),Utils.getDateFrom(2016,2,13),20D,0D,20D,null,null,tacheI,null,null);
             tacheJ.save();
 
             //tache dateDebut: (2016,2,13), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheK = new Tache("TacheK","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,13),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheJ,null,null);
             tacheK.save();
 
             //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
             Tache tacheL = new Tache("TacheL","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,tacheH,null,null);
             tacheL.save();
 
-            //TODO: chargeConsomee has been changed
             //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheM = new Tache("TacheM","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,10),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,10D,20D,null,null,null,null,null);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheL,null,null);
             tacheM.save();
 
             try {
-                /* TODO: delete
-                tacheA.associerSuccesseur(tacheB);
-                tacheB.associerSuccesseur(tacheC);
-                tacheC.associerSuccesseur(tacheD);
-                tacheB.associerSuccesseur(tacheE);
-                tacheA.associerSuccesseur(tacheF);
-                tacheF.associerSuccesseur(tacheG);
-                tacheH.associerSuccesseur(tacheI);
-                tacheI.associerSuccesseur(tacheJ);
-                tacheJ.associerSuccesseur(tacheK);
-                tacheH.associerSuccesseur(tacheL);
-                tacheL.associerSuccesseur(tacheM);
-                */
-
                 projet.creerTacheInitialisationProjet(tacheA);
                 projet.creerTacheEnDessous(tacheB,tacheA);
                 projet.creerTacheEnDessous(tacheC,tacheB);
@@ -737,7 +750,7 @@ public class ModelManagerTest {
                 Tache tacheLSelected = Tache.find.byId(tacheL.id);
                 Tache tacheMSelected = Tache.find.byId(tacheM.id);
 
-                // Afficher la chargeConsommee
+                /*
                 Logger.debug("CHARGE CONSOMMEE");
                 Logger.debug(tacheASelected.chargeConsommee.toString());
                 Logger.debug(tacheBSelected.chargeConsommee.toString());
@@ -767,6 +780,70 @@ public class ModelManagerTest {
                 Logger.debug(tacheKSelected.chargeRestante.toString());
                 Logger.debug(tacheLSelected.chargeRestante.toString());
                 Logger.debug(tacheMSelected.chargeRestante.toString());
+                */
+
+                // 1er test
+                assertEquals(tacheASelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheBSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheCSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheDSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheESelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheFSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheGSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheHSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheISelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheJSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheKSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheLSelected.chargeConsommee, Double.valueOf(0));
+                assertEquals(tacheMSelected.chargeConsommee, Double.valueOf(0));
+
+                assertEquals(tacheASelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheBSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheCSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheDSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheESelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheFSelected.chargeRestante, Double.valueOf(120));
+                assertEquals(tacheGSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheHSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheISelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheJSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheKSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheLSelected.chargeRestante, Double.valueOf(20));
+                assertEquals(tacheMSelected.chargeRestante, Double.valueOf(20));
+
+                assertEquals(projetSelected.avancementGlobal.toString(), "0");
+
+                // 2ème test
+                // Modifier la charge consommee de tacheC à 10D => tacheC: chargeConsommee=10D, chargeRestante=20D
+                tacheC.setChargeConsommee(10D);
+                assertEquals(Tache.find.byId(tacheC.id).chargeConsommee, Double.valueOf(10));
+                // Attention
+                projet.updateAvancementGlobal();
+                // Après MAJ, l'avancement = (0+10)/((20+20+20+20+20+(20+20+20+20+20+20)+20)+(0+10)) = 0.04 => "4"
+                assertEquals(Projet.find.byId(projet.id).avancementGlobal.toString(), "4");
+
+                // 3ème test
+                // Modifier la charge restante de tacheG à 45D => tacheG: chargeConsommee=0D, chargeRestante=45D
+                tacheG.setChargeRestante(65D);
+                assertEquals(Tache.find.byId(tacheG.id).chargeRestante, Double.valueOf(65));
+                projet.updateAvancementGlobal();
+                // Après MAJ, l'avancement = (0+10)/((20+20+20+20+20+(20+20+20+20+20+20)+65)+(0+10)) = 0.03 => "3"
+                assertEquals(Projet.find.byId(projet.id).avancementGlobal.toString(), "3");
+
+                // 4ème test
+                // Modifier la charge consommee de tacheJ(sous tache de tacheF) à 15D => tacheJ: chargeConsommee=15D, chargeRestante=20D
+                //                                                                    => tacheF: chargeConsommee=15D, chargeRestante=120D
+                tacheJ.setChargeConsommee(15D);
+                assertEquals(Tache.find.byId(tacheJ.id).chargeConsommee, Double.valueOf(15));
+                assertEquals(Tache.find.byId(tacheF.id).chargeConsommee, Double.valueOf(15));
+                // Modifier la charge restante de tacheJ(sous tache de tacheF) à 45D => tacheJ: chargeConsommee=15D, chargeRestante=45D
+                //                                                                   => tacheF: chargeConsommee=15D, chargeRestante=145D
+                tacheJ.setChargeRestante(45D);
+                assertEquals(Tache.find.byId(tacheJ.id).chargeRestante, Double.valueOf(45));
+                assertEquals(Tache.find.byId(tacheF.id).chargeRestante, Double.valueOf(145));
+                projet.updateAvancementGlobal();
+                // Après MAJ, l'avancement = (0+10+15)/((20+20+20+20+20+(20+20+45+20+20+20)+65)+(0+10+15)) = 0.07 => "7"
+                assertEquals(Projet.find.byId(projet.id).avancementGlobal.toString(), "7");
 
             } catch (Exception e) {
                 e.printStackTrace();
