@@ -461,14 +461,13 @@
                     jsRoutes.controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur,mapProjet,mapTache).ajax({
                         success: function() {
                             $('#modal-suppr-user').modal('hide');
-                            if( $('#checkboxUsersArchived').is(":checked")) {
-                                $tmpTrAdminUser.addClass("archived");
-                                $tmpTrAdminUser.children('td').eq(6).empty();
-                                $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
-                                $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal')
-                                $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable')
-                            }else{
-                                $tmpTrAdminUser.remove();
+                            $tmpTrAdminUser.addClass("archived");
+                            $tmpTrAdminUser.children('td').eq(6).empty();
+                            $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
+                            $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal')
+                            $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable')
+                            if(! $('#checkboxUsersArchived').is(":checked")) {
+                                $tmpTrAdminUser.hide();
                             }
                         },
                         //Case we have a problem
