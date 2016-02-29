@@ -84,7 +84,21 @@
                                 </thead>
                                 <tbody id="dataTables-admin-projet-body">
                                 @for(projet <- projets) {
-                                    <tr class="table-center cursor-pointer" value="@projet.id">
+                                    @if(projet.archive && projet.estTermine()) {
+                                        <tr class="table-center cursor-pointer projet-archived-finished" value="@projet.id">
+                                    } else {
+                                        @if(projet.archive){
+                                            <tr class="table-center cursor-pointer projet-archived" value="@projet.id">
+                                        }else{
+                                            @if(projet.estTermine()){
+                                                <tr class="table-center cursor-pointer projet-finished" value="@projet.id">
+                                            }else {
+                                                <tr class="table-center cursor-pointer" value="@projet.id">
+                                            }
+
+                                        }
+
+                                    }
                                         <td style="vertical-align:middle ;">
                                         @projet.nom
                                         </td>

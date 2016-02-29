@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table
@@ -50,18 +51,10 @@ public class Utilisateur extends Personne {
 
     @ManyToMany
     @JoinTable(name = "tbl_follow_user",
-            joinColumns = @JoinColumn(name = "utilisateursSuivis",referencedColumnName="id"),
+            joinColumns = @JoinColumn(name = "utilisateursSuivis", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "utilisateursMeSuivant", referencedColumnName = "id")
     )
     public List<Utilisateur> utilisateursSuivis;
-
-    // liste des utilisateurs qui me suivent
-    @ManyToMany
-    @JoinTable(name = "tbl_follower_user",
-            joinColumns = @JoinColumn(name = "utilisateursMeSuivant",referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateursSuivis", referencedColumnName = "id")
-    )
-    public List<Utilisateur> utilisateursMeSuivant;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "utilisateursNotifications")
     @JsonIgnore
@@ -80,15 +73,14 @@ public class Utilisateur extends Personne {
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
-                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, List<Utilisateur> utilisateursMeSuivant, String langue) {
+                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue) {
         super(nom, prenom, email, telephone, archive);
         setPassword(password);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
         this.listTachesNotifications = (listTachesNotifications == null) ? new BeanList<>() : listTachesNotifications;
         this.utilisateursSuivis = (utilisateursSuivis == null) ? new BeanList<>() : utilisateursSuivis;
-        this.utilisateursMeSuivant = (utilisateursMeSuivant == null) ? new BeanList<>() : utilisateursMeSuivant;
-        if(langue != LANGUE_FR && langue != LANGUE_EN){
-            System.err.println("La langue passée en paramètre est incorrecte : " + langue + ". Seuls les paramètres ["+ LANGUE_FR+"] et ["+ LANGUE_EN+"] sont acceptés. Langue choisie par défaut : [ "+ LANGUE_FR+"]");
+        if (langue != LANGUE_FR && langue != LANGUE_EN) {
+            System.err.println("La langue passée en paramètre est incorrecte : " + langue + ". Seuls les paramètres [" + LANGUE_FR + "] et [" + LANGUE_EN + "] sont acceptés. Langue choisie par défaut : [ " + LANGUE_FR + "]");
             this.langue = LANGUE_FR;
         } else {
             this.langue = langue;
@@ -96,14 +88,13 @@ public class Utilisateur extends Personne {
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone, archive, password, null, null, null, null, LANGUE_FR);
+        this(nom, prenom, email, telephone, archive, password, null, null, null, LANGUE_FR);
     }
 
     public Utilisateur() {
         this.listTaches = new BeanList<>();
         this.listTachesNotifications = new BeanList<>();
         this.utilisateursSuivis = new BeanList<>();
-        this.utilisateursMeSuivant = new BeanList<>();
         this.langue = "FR";
     }
 
@@ -255,29 +246,31 @@ public class Utilisateur extends Personne {
         return taches;
     }
 
-    /** TODO A TESTER **/
-    public List<Tache> listTachesDansProjetNonResponsableAAfficher(Projet projet){
+    /**
+     * TODO A TESTER
+     **/
+    public List<Tache> listTachesDansProjetNonResponsableAAfficher(Projet projet) {
         List<Tache> taches = listTachesDansProjetNonResponsable(projet);
-        for(Tache tache : taches){
-            if(enfantIsPresent(tache.enfants(), taches)){
+        for (Tache tache : taches) {
+            if (enfantIsPresent(tache.enfants(), taches)) {
                 removeEnfants(tache, taches);
             }
         }
         return taches;
     }
 
-    public boolean enfantIsPresent(List<Tache> enfants, List<Tache> taches){
-        for(Tache enfant : enfants){
-            if(taches.contains(enfant))
+    public boolean enfantIsPresent(List<Tache> enfants, List<Tache> taches) {
+        for (Tache enfant : enfants) {
+            if (taches.contains(enfant))
                 return true;
         }
         return false;
     }
 
-    private void removeEnfants(Tache tache, List<Tache> taches){
-        if(tache.hasEnfant()){
-            for(Tache enfant : tache.enfants()){
-                if(taches.contains(enfant)){
+    private void removeEnfants(Tache tache, List<Tache> taches) {
+        if (tache.hasEnfant()) {
+            for (Tache enfant : tache.enfants()) {
+                if (taches.contains(enfant)) {
                     taches.remove(enfant);
                     removeEnfants(enfant, taches);
                 }
@@ -286,18 +279,18 @@ public class Utilisateur extends Personne {
     }
 
 
-
-    private void ajoutDesTachesParents(List<Tache> taches, Tache tache){
-        if(tache.hasParent()){
-            if(!taches.contains(tache.parent))
+    private void ajoutDesTachesParents(List<Tache> taches, Tache tache) {
+        if (tache.hasParent()) {
+            if (!taches.contains(tache.parent))
                 taches.add(tache.parent);
             ajoutDesTachesParents(taches, tache.parent);
         }
     }
-    private void ajoutDesTachesEnfants(List<Tache> taches, Tache tache){
-        if(tache.hasEnfant()){
-            for(Tache enfant : tache.enfants()){
-                if(!taches.contains(enfant))
+
+    private void ajoutDesTachesEnfants(List<Tache> taches, Tache tache) {
+        if (tache.hasEnfant()) {
+            for (Tache enfant : tache.enfants()) {
+                if (!taches.contains(enfant))
                     taches.add(enfant);
                 ajoutDesTachesParents(taches, enfant);
             }
@@ -305,19 +298,19 @@ public class Utilisateur extends Personne {
     }
 
     @JsonSerialize
-    public int listTachesSize(){
+    public int listTachesSize() {
         return listTaches().size();
     }
 
-    public List<Notification> listNotifications(){
-        return Notification.find.where().eq("utilisateur",this).findList();
+    public List<Notification> listNotifications() {
+        return Notification.find.where().eq("utilisateur", this).findList();
     }
 
-    public int nbNotificationsNonLues(){
+    public int nbNotificationsNonLues() {
         listNotifications = listNotifications();
         int cpt = 0;
-        for(Notification notif : listNotifications){
-            if(!notif.etatLecture) cpt++;
+        for (Notification notif : listNotifications) {
+            if (!notif.etatLecture) cpt++;
         }
         return cpt;
     }
@@ -326,22 +319,24 @@ public class Utilisateur extends Personne {
 
     /**
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur
+     *
      * @param passwordAttempt
      * @return
      */
-    public boolean checkPassword(String passwordAttempt){
-        return hachage(this.id,passwordAttempt).equals(this.password);
+    public boolean checkPassword(String passwordAttempt) {
+        return hachage(this.id, passwordAttempt).equals(this.password);
     }
 
     /**
      * Donne la liste des projets où participe l'utilisateur
+     *
      * @return
      */
-    public List<Projet> listProjets(){
+    public List<Projet> listProjets() {
         List<Projet> listProjet = listProjetsResponsable();
-        if(listProjet == null)  listProjet = new BeanList<>();
-        for(Tache tache : listTaches()){
-            if(!listProjet.contains(tache.projet)){
+        if (listProjet == null) listProjet = new BeanList<>();
+        for (Tache tache : listTaches()) {
+            if (!listProjet.contains(tache.projet)) {
                 listProjet.add(tache.projet);
             }
         }
@@ -350,13 +345,14 @@ public class Utilisateur extends Personne {
 
     /**
      * TODO : peut etre faire une requete uniquement
+     *
      * @return
      */
-    public List<Client> listClients(){
+    public List<Client> listClients() {
         List<Projet> listProjets = listProjets();
         List<Client> listClients = new BeanList<>();
-        for(Projet projet : listProjets){
-            if(!listClients.contains(projet.client)){
+        for (Projet projet : listProjets) {
+            if (!listClients.contains(projet.client)) {
                 listClients.add(projet.client);
             }
         }
@@ -365,14 +361,15 @@ public class Utilisateur extends Personne {
 
     /**
      * TODO : peut etre faire une requete uniquement
+     *
      * @param client
      * @return
      */
-    public List<Projet> listProjetsDuClient(Client client){
+    public List<Projet> listProjetsDuClient(Client client) {
         List<Projet> listProjets = listProjets();
         List<Projet> listToReturn = new BeanList<>();
-        for(Projet projet : listProjets){
-            if(projet.client.equals(client)){
+        for (Projet projet : listProjets) {
+            if (projet.client.equals(client)) {
                 listToReturn.add(projet);
             }
         }
@@ -380,7 +377,8 @@ public class Utilisateur extends Personne {
     }
 
     /**
-     *  Méthode de hachage du mot de passe avec l'objet digest
+     * Méthode de hachage du mot de passe avec l'objet digest
+     *
      * @param numClient
      * @param password
      * @return
@@ -416,22 +414,24 @@ public class Utilisateur extends Personne {
 
     /**
      * Verifie que le mot de passe contient bien une Maj, une minuscule , un chiffre et a une taille >= 6
+     *
      * @param password
      * @return
      */
-    public boolean validatePassword(String password){
+    public boolean validatePassword(String password) {
         boolean hasUppercase = !password.equals(password.toLowerCase());
         boolean hasLowercase = !password.equals(password.toUpperCase());
         boolean hasnumber = password.matches(".*\\d+.*");
 
-        return (password.length()>=6 && hasUppercase && hasLowercase && hasnumber);
+        return (password.length() >= 6 && hasUppercase && hasLowercase && hasnumber);
     }
 
     /**
      * Genere un nouveau mot de passe pour l'utilisateur (de taille 6, un chiffre, une majuscule, une minuscule au moins)
+     *
      * @return
      */
-    public static String genererPassword(){
+    public static String genererPassword() {
 
         String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
@@ -440,7 +440,7 @@ public class Utilisateur extends Personne {
         char password[] = new char[passwordLength];
 
         List<Integer> positions = new ArrayList<Integer>();
-        for(int i=0; i<passwordLength; i++){
+        for (int i = 0; i < passwordLength; i++) {
             positions.add(i);
         }
 
@@ -462,7 +462,7 @@ public class Utilisateur extends Personne {
         positions.remove(index_position);
 
         // Autres caractères
-        for(int pos : positions){
+        for (int pos : positions) {
             password[pos] = getRandomChar(upperCaseLetters, lowerCaseLetters, numbers);
         }
 
@@ -470,17 +470,16 @@ public class Utilisateur extends Personne {
 
     }
 
-    private static int getRandomInt(int deb, int fin){
+    private static int getRandomInt(int deb, int fin) {
         Random rand = new Random();
-        return rand.nextInt(fin-deb) + deb;
+        return rand.nextInt(fin - deb) + deb;
     }
 
-    private static char getRandomChar(String... strings){
+    private static char getRandomChar(String... strings) {
         String str;
-        if(strings.length == 0){
+        if (strings.length == 0) {
             str = strings[0];
-        }
-        else{
+        } else {
             str = strings[getRandomInt(0, strings.length)];
         }
         return str.charAt(getRandomInt(0, str.length()));
@@ -492,7 +491,7 @@ public class Utilisateur extends Personne {
         if (listTaches.isEmpty())
             return listTachesProposees;
 
-        if(listTaches.size() == 1){
+        if (listTaches.size() == 1) {
             listTachesProposees.add(listTaches.get(0));
             return listTachesProposees;
         }
@@ -502,16 +501,15 @@ public class Utilisateur extends Personne {
         setPrioriteTache(listTaches.get(0));
         setPrioriteTache(listTaches.get(1));
 
-        if(listTaches.get(0).priorite > listTaches.get(1).priorite){
+        if (listTaches.get(0).priorite > listTaches.get(1).priorite) {
             pos_tache_1 = 0;
             pos_tache_2 = 1;
-        }
-        else{
+        } else {
             pos_tache_1 = 1;
             pos_tache_2 = 0;
         }
 
-        if(listTaches.size() == 2){
+        if (listTaches.size() == 2) {
             listTachesProposees.add(listTaches.get(pos_tache_1));
             listTachesProposees.add(listTaches.get(pos_tache_2));
             return listTachesProposees;
@@ -519,14 +517,14 @@ public class Utilisateur extends Personne {
 
         int pos_tache_3;
         setPrioriteTache(listTaches.get(2));
-        if(listTaches.get(2).priorite > listTaches.get(pos_tache_1).priorite){
+        if (listTaches.get(2).priorite > listTaches.get(pos_tache_1).priorite) {
             pos_tache_3 = pos_tache_2;
             pos_tache_2 = pos_tache_1;
             pos_tache_1 = 2;
-        } else if(listTaches.get(2).priorite > listTaches.get(pos_tache_2).priorite){
+        } else if (listTaches.get(2).priorite > listTaches.get(pos_tache_2).priorite) {
             pos_tache_3 = pos_tache_2;
             pos_tache_2 = 2;
-        } else{
+        } else {
             pos_tache_3 = 2;
         }
 
@@ -561,135 +559,127 @@ public class Utilisateur extends Personne {
         return listTachesProposees;
     }
 
-    private void setPrioriteTache(Tache t){
-        try{
-            t.priorite = COEFFICIENT_CRITERE_1*critere1(t)
-                    + COEFFICIENT_CRITERE_2*critere2(t)
-                    + COEFFICIENT_CRITERE_3*critere3(t)
-                    + COEFFICIENT_CRITERE_4*critere4(t);
-        }
-        catch(Exception e){
+    private void setPrioriteTache(Tache t) {
+        try {
+            t.priorite = COEFFICIENT_CRITERE_1 * critere1(t)
+                    + COEFFICIENT_CRITERE_2 * critere2(t)
+                    + COEFFICIENT_CRITERE_3 * critere3(t)
+                    + COEFFICIENT_CRITERE_4 * critere4(t);
+        } catch (Exception e) {
             t.priorite = 0;
-            Logger.warn("Priorite de la tache [" + t.nom + "] = 0 car : "+ e.getMessage());
+            Logger.warn("Priorite de la tache [" + t.nom + "] = 0 car : " + e.getMessage());
         }
     }
 
-    private int critere1(Tache t){
-        if(t.critique)
+    private int critere1(Tache t) {
+        if (t.critique)
             return 5;
         return 1;
     }
 
-    private int critere2(Tache t){
+    private int critere2(Tache t) {
         Calendar cal = Calendar.getInstance();
         Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
         long nbJoursRestants = Utils.differenceNbJours(today.getTime(), t.dateFinTard);
 
-        if(nbJoursRestants >= 51){
+        if (nbJoursRestants >= 51) {
             return 1;
-        }
-        else if(26 <= nbJoursRestants && nbJoursRestants <= 50){
+        } else if (26 <= nbJoursRestants && nbJoursRestants <= 50) {
             return 2;
-        }
-        else if(11 <= nbJoursRestants && nbJoursRestants <= 25){
+        } else if (11 <= nbJoursRestants && nbJoursRestants <= 25) {
             return 3;
-        }
-        else if(6 <= nbJoursRestants && nbJoursRestants <= 10){
+        } else if (6 <= nbJoursRestants && nbJoursRestants <= 10) {
             return 4;
-        }
-        else{
-            if(nbJoursRestants < 0){
+        } else {
+            if (nbJoursRestants < 0) {
                 nbJoursRestants = 0;
             }
             return 10 - (int) nbJoursRestants;
         }
     }
 
-    private int critere3(Tache t) throws Exception{
-        if(t.projet.unite == UniteProjetEnum.JOUR){
+    private int critere3(Tache t) throws Exception {
+        if (t.projet.unite == UniteProjetEnum.JOUR) {
             return critere3Jour(t);
-        }
-        else if(t.projet.unite == UniteProjetEnum.SEMAINE){
+        } else if (t.projet.unite == UniteProjetEnum.SEMAINE) {
             return critere3Semaine(t);
-        }
-        else{
+        } else {
             // PB
-            throw new Exception("Pas d'unité pour le projet ["+ t.projet.nom +"] concernant la tache ["+ t.nom +"]");
+            throw new Exception("Pas d'unité pour le projet [" + t.projet.nom + "] concernant la tache [" + t.nom + "]");
         }
     }
 
-    private int critere3Jour(Tache t){
-        double chargeRestante =  t.chargeRestante;
-        if(chargeRestante >= 51){
+    private int critere3Jour(Tache t) {
+        double chargeRestante = t.chargeRestante;
+        if (chargeRestante >= 51) {
             return 1;
-        }
-        else if(26 <= chargeRestante && chargeRestante <= 50){
+        } else if (26 <= chargeRestante && chargeRestante <= 50) {
             return 2;
-        }
-        else if(11 <= chargeRestante && chargeRestante <= 25){
+        } else if (11 <= chargeRestante && chargeRestante <= 25) {
             return 3;
-        }
-        else if(6 <= chargeRestante && chargeRestante <= 10){
+        } else if (6 <= chargeRestante && chargeRestante <= 10) {
             return 4;
-        }
-        else{
+        } else {
             return 5;
         }
     }
 
-    private int critere3Semaine(Tache t){
-        double chargeRestante =  t.chargeRestante;
+    private int critere3Semaine(Tache t) {
+        double chargeRestante = t.chargeRestante;
 
-        if(chargeRestante >= 7){
+        if (chargeRestante >= 7) {
             return 1;
-        }
-        else if(4 <= chargeRestante && chargeRestante <= 6){
+        } else if (4 <= chargeRestante && chargeRestante <= 6) {
             return 2;
-        }
-        else if(chargeRestante == 3){
+        } else if (chargeRestante == 3) {
             return 3;
-        }
-        else if(chargeRestante == 2){
+        } else if (chargeRestante == 2) {
             return 4;
-        }
-        else{
+        } else {
             return 5;
         }
     }
 
-    private int critere4(Tache t){
+    private int critere4(Tache t) {
         return 7 - (t.projet.priorite + t.projet.client.priorite);
     }
 
-    /** TODO TESTME **/
-    public int nbDeProjetsResponsableActuel(){
+    /**
+     * TODO TESTME
+     **/
+    public int nbDeProjetsResponsableActuel() {
         int cpt = 0;
-        for(Projet projet : listProjetsResponsable()){
-            if(projet.enCours)  cpt++;
+        for (Projet projet : listProjetsResponsable()) {
+            if (projet.enCours) cpt++;
         }
         return cpt;
     }
 
-    /**TODO TESTME
+    /**
+     * TODO TESTME
      * TODO voir byte vs double
+     *
      * @return
      */
-    public int nbDeProjetsResponsablePresqueFinis(){
+    public int nbDeProjetsResponsablePresqueFinis() {
         int cpt = 0;
-        for(Projet projet : listProjetsResponsable()){
-            if(projet.enCours && projet.avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && projet.avancementGlobal < 100)  cpt++;
+        for (Projet projet : listProjetsResponsable()) {
+            if (projet.enCours && projet.avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && projet.avancementGlobal < 100)
+                cpt++;
         }
         return cpt;
     }
 
-    /**TODO TESTME
+    /**
+     * TODO TESTME
      * TODO : Remplacer dateFinReel par dateFinReelTard
+     *
      * @return
      */
-    public int nbDeProjetsResponsableRetardes(){
+    public int nbDeProjetsResponsableRetardes() {
         int cpt = 0;
-        for(Projet projet : listProjetsResponsable()){
-            if(projet.dateFinReelTard!=null) {
+        for (Projet projet : listProjetsResponsable()) {
+            if (projet.dateFinReelTard != null) {
                 if (projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
             }
         }
@@ -698,155 +688,188 @@ public class Utilisateur extends Personne {
 
     /**
      * TODO TEST ME
+     *
      * @return
      */
-    public int nbTachesActuelles(){
+    public int nbTachesActuelles() {
         int cpt = 0;
-        for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() < 100.0) cpt++;
+        for (Tache tache : listTaches()) {
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() < 100.0) cpt++;
         }
         return cpt;
     }
 
     /**
      * TODO TEST ME
+     *
      * @return
      */
-    public int nbTachesNonCommencees(){
+    public int nbTachesNonCommencees() {
         int cpt = 0;
-        for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() == 0.0) cpt++;
+        for (Tache tache : listTaches()) {
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() == 0.0) cpt++;
         }
         return cpt;
     }
 
     /**
      * TODO TEST ME
+     *
      * @return
      */
-    public int nbTachesCommencees(){
+    public int nbTachesCommencees() {
         int cpt = 0;
-        for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() > 0.0 && tache.getAvancementTache() < 100.0) cpt++;
+        for (Tache tache : listTaches()) {
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() > 0.0 && tache.getAvancementTache() < 100.0)
+                cpt++;
         }
         return cpt;
     }
 
     /**
      * TODO TEST ME
+     *
      * @return
      */
-    public int nbTachesPresquesFinies(){
+    public int nbTachesPresquesFinies() {
         int cpt = 0;
-        for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0) cpt++;
+        for (Tache tache : listTaches()) {
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0)
+                cpt++;
         }
         return cpt;
     }
 
     /**
      * TODO TEST ME
+     *
      * @return
      */
-    public int nbTachesRetardees(){
+    public int nbTachesRetardees() {
         int cpt = 0;
-        for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime())) cpt++;
+        for (Tache tache : listTaches()) {
+            if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+                cpt++;
         }
         return cpt;
     }
 
-    /** TODO TEST ME **/
-    public boolean hasProjetsResponsable(){
+    /**
+     * TODO TEST ME
+     **/
+    public boolean hasProjetsResponsable() {
         return !listProjetsResponsable().isEmpty();
     }
 
     /**
      * TODO TEST ME
+     *
      * @return
      */
-    public List<Tache> tachesPresquesFinies(){
+    public List<Tache> tachesPresquesFinies() {
         List<Tache> res = new ArrayList<>();
-        for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0) res.add(tache);
+        for (Tache tache : listTaches()) {
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0)
+                res.add(tache);
         }
         return res;
     }
 
     /**
      * TODO TEST ME
+     *
      * @return
      */
-    public List<Tache> tachesRetardees(){
+    public List<Tache> tachesRetardees() {
         List<Tache> res = new ArrayList<>();
-        for(Tache tache : listTaches()){
-            if(!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime())) res.add(tache);
+        for (Tache tache : listTaches()) {
+            if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+                res.add(tache);
         }
         return res;
     }
-
-    public static List<Utilisateur> getAllArchives(){
-        return find.where().eq("archive",true).findList();
+    /**
+     * Calcule le nombre de jours entre date1 et date2 : date2-date1
+     *
+     * @param date1
+     * @param date2
+     * @return
+     */
+    private static long differenceNbJours(Date date1, Date date2) {
+        return ((date2.getTime() - date1.getTime()) / 86400000);
     }
 
-    public static List<Utilisateur> getAllNonArchives(){
+    public static List<Utilisateur> getAllArchives() {
+        return find.where().eq("archive", true).findList();
+    }
+
+    public static List<Utilisateur> getAllNonArchives() {
         //Logger.debug(find.where().eq("archive",false).findList().toString());
-        return find.where().eq("archive",false).findList();
+        return find.where().eq("archive", false).findList();
     }
 
-    public Boolean checkAdmin(){
+    public Boolean checkAdmin() {
         return StaticEntite.getSystem().haveRole(this, Role.getRole("Administrateur"));
     }
 
-    public void suivreUnUtilisateur(Utilisateur user){
-        if(!utilisateursSuivis.contains(user)){
+    public void suivreUnUtilisateur(Utilisateur user) {
+        if (!utilisateursSuivis.contains(user)) {
             utilisateursSuivis.add(user);
             save();
         }
-        if(!user.utilisateursMeSuivant.contains(this)){
-            user.utilisateursMeSuivant.add(this);
-            user.save();
-        }
     }
 
-    public boolean hasActiverNotification(Tache tache){
+    public boolean hasActiverNotification(Tache tache) {
         return listTachesNotifications.contains(tache);
     }
 
-    public void activerNotification(Tache tache){
+    public void activerNotification(Tache tache) {
         // TODO : Rajouter un test de permission?
-        if(!listTachesNotifications.contains(tache)){
+        if (!listTachesNotifications.contains(tache)) {
             listTachesNotifications.add(tache);
             save();
         }
-        if(!tache.utilisateursNotifications.contains(this)){
+        if (!tache.utilisateursNotifications.contains(this)) {
             tache.utilisateursNotifications.add(this);
             tache.save();
         }
     }
 
-    public void desactiverNotification(Tache tache){
+    public void desactiverNotification(Tache tache) {
         // TODO : Rajouter un test de permission?
-        if(listTachesNotifications.contains(tache)){
+        if (listTachesNotifications.contains(tache)) {
             listTachesNotifications.remove(tache);
             save();
         }
-        if(tache.utilisateursNotifications.contains(this)){
+        if (tache.utilisateursNotifications.contains(this)) {
             tache.utilisateursNotifications.remove(this);
             tache.save();
         }
     }
 
-    public void addNotification(Notification notification){
-        if(!listNotifications.contains(notification)){
+    public void addNotification(Notification notification) {
+        if (!listNotifications.contains(notification)) {
             listNotifications.add(notification);
             save();
         }
     }
 
-    public static void supprimer(Long idUtilisateur){
+    public static void supprimer(Long idUtilisateur) {
         Utilisateur u = find.byId(idUtilisateur);
         u.archive = true;
         u.save();
+    }
+
+    public List<Utilisateur> utilisateursMeSuivant() {
+        return Utilisateur.find
+                .all()
+                .parallelStream()
+                .filter(utilisateur ->
+                        utilisateur.utilisateursSuivis
+                                .stream()
+                                .filter(u -> u.id.equals(this.id))
+                                .findFirst()
+                                .isPresent()
+                ).collect(Collectors.toList());
     }
 }

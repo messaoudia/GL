@@ -7,6 +7,29 @@
  *
 */
 
+.client-archived {
+    display: none;
+
+}
+
+
+.user-archived {
+    display: none;
+}
+
+.projet-archived {
+    display: none;
+}
+
+.projet-finished {
+    display: none;
+}
+
+.projet-archived-finished
+{
+    display: none;
+}
+
 .select2-search {
     width: 100%;
 }
@@ -570,7 +593,7 @@ INDEX FIN
 }
 
 a > .fa-bell {
-    color:#676A6C;
+    color:#FFF;
 }
 
 .fa-reply,

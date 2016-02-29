@@ -742,6 +742,7 @@ public class Projet extends EntiteSecurise {
                 this.avancementGlobal = new Byte(result.substring(2,4));
             }
         }
+        save();
     }
 
     public String formateDate(Date d){
@@ -786,7 +787,7 @@ public class Projet extends EntiteSecurise {
         }
     }
 
-    public static void supprimerProjet(Long idProjet){
+    public static Projet supprimerProjet(Long idProjet){
          Projet p = find.byId(idProjet);
          p.archive = true;
          p.save();
@@ -795,6 +796,7 @@ public class Projet extends EntiteSecurise {
              System.out.println(p.client.listeProjets.get(i).nom);
              System.out.println(p.client.listeProjets.get(i).archive);
          }
+        return p;
     }
 
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }

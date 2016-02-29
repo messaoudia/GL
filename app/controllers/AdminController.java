@@ -21,7 +21,7 @@ import java.util.List;
 public class AdminController extends Controller{
 
     public Result afficherAdminClients() {
-        return ok(adminClients.render("Admin Clients", Client.getAllNonArchives()));
+        return ok(adminClients.render("Admin Clients", Client.find.all()));
     }
 
     public Result afficherClientsArchives() {
@@ -29,11 +29,11 @@ public class AdminController extends Controller{
     }
 
     public Result afficherAdminProjets() {
-        return ok(adminProjets.render("Admin Projets", models.Projet.getAllNonArchivesNonTermines()));
+        return ok(adminProjets.render("Admin Projets", Projet.find.all()));
     }
 
     public Result afficherAdminUtilisateur() {
-        return ok(adminUtilisateur.render("Admin Utilisateur", Utilisateur.getAllNonArchives()));
+        return ok(adminUtilisateur.render("Admin Utilisateur", Utilisateur.find.all()));
     }
 
     public Result afficherUtilisateursArchives() {
@@ -70,9 +70,9 @@ public class AdminController extends Controller{
     }
 
     public Result supprimerProjet(Long idProjet){
-        Projet.supprimerProjet(idProjet);
+        Projet archive = Projet.supprimerProjet(idProjet);
 
-        return ok();
+        return ok(Json.toJson(archive));
     }
 
     public Result afficherModalProjet(Long idProjet){
