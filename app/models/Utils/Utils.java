@@ -40,4 +40,15 @@ public class Utils {
 
         return cal.getTime();
     }
+
+    /**
+     * Calcule le nombre de jours entre date1 et date2 : date2-date1
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static long differenceNbJours(Date date1, Date date2) {
+        return ((date2.getTime() - date1.getTime()) / 86400000);
+    }
+
 }
