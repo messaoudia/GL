@@ -334,17 +334,23 @@
                             //console.log(client);
                             console.log("client : "+client)
                             $("#dataTables-admin-client").dataTable().fnDestroy();
+                            var d="";
+                            if(client.archiver)
+                            {
+                                d="D";
+                            }
 
-                            $('#formClientName').val(client.nom);
-                            $('#formClientAdress').val(client.adresseClient.adresse);
-                            $('#formZipCode').val(client.adresseClient.zipCode);
-                            $('#formCity').val(client.adresseClient.ville);
-                            $('#formCountry').val(client.adresseClient.pays);
+                            $('#formClientName'+d).val(client.nom);
+                            $('#formClientAdress'+d).val(client.adresseClient.adresse);
+                            $('#formZipCode'+d).val(client.adresseClient.zipCode);
+                            $('#formCity'+d).val(client.adresseClient.ville);
+                            $('#formCountry'+d).val(client.adresseClient.pays);
 
-                            $('#client-priority-1').removeClass("btn-active");
-                            $('#client-priority-2').removeClass("btn-active");
-                            $('#client-priority-3').removeClass("btn-active");
-                            $('#client-priority-'+client.priorite).addClass("btn-active");
+                            $('#client-priority-1'+d).removeClass("btn-active");
+                            $('#client-priority-2'+d).removeClass("btn-active");
+                            $('#client-priority-3'+d).removeClass("btn-active");
+                            $('#client-priority-'+client.priorite+d).addClass("btn-active");
+
                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
                                 success: function(listProjets) {
                                     console.log("sucess -----");
@@ -503,11 +509,13 @@
                         success: function() {
                             $('#modal-suppr-user').modal('hide');
                             $tmpTrAdminUser.addClass("archived");
-                            $tmpTrAdminUser.children('td').eq(6).empty();
+
                             $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
                             $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal');
                             $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable');
-                            if(! $('#checkboxUsersArchived').is(":checked")) {
+                            $tmpTrAdminUser.children('td').attr("data-target","#modal-modif-user-disable");
+                            if(!$('#checkboxUsersArchived').is(':checked'))
+                            {
                                 $tmpTrAdminUser.hide();
                             }
                         },
