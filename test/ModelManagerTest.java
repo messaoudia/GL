@@ -845,6 +845,7 @@ public class ModelManagerTest {
                 // Après MAJ, l'avancement = (0+10+15)/((20+20+20+20+20+(20+20+45+20+20+20)+65)+(0+10+15)) = 0.07 => "7"
                 assertEquals(Projet.find.byId(projet.id).avancementGlobal.toString(), "7");
 
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }
