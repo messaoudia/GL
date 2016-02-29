@@ -54,10 +54,10 @@ public class Tache extends EntiteSecurise {
     public Projet projet;
 
     @ManyToOne
+    @JsonIgnore
     public Tache predecesseur;
 
     @OneToMany(mappedBy = "predecesseur")
-    @JsonIgnore
     public List<Tache> successeurs;
 
     @ManyToOne

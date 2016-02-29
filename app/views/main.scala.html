@@ -482,14 +482,13 @@
                     jsRoutes.controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur,mapProjet,mapTache).ajax({
                         success: function() {
                             $('#modal-suppr-user').modal('hide');
-                            if( $('#checkboxUsersArchived').is(":checked")) {
-                                $tmpTrAdminUser.addClass("archived");
-                                $tmpTrAdminUser.children('td').eq(6).empty();
-                                $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
-                                $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal')
-                                $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable')
-                            }else{
-                                $tmpTrAdminUser.remove();
+                            $tmpTrAdminUser.addClass("archived");
+                            $tmpTrAdminUser.children('td').eq(6).empty();
+                            $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
+                            $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal')
+                            $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable')
+                            if(! $('#checkboxUsersArchived').is(":checked")) {
+                                $tmpTrAdminUser.hide();
                             }
                         },
                         //Case we have a problem
@@ -1061,11 +1060,27 @@
                     });
                 }
 
+                function notifPopupTache(fa)
+                {
+                    //TODO traitement des notifs
+                    if($(fa).hasClass('fa-bell-slash'))
+                    {
+                        $(fa).removeClass('fa-bell-slash');
+                        $(fa).addClass('fa-bell');
+                    }
+                    else {
+                        $(fa).addClass('fa-bell-slash');
+                        $(fa).removeClass('fa-bell');
+                    }
+
+                }
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
 
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
+                        type: 'POST',
+                        dataType: 'json',
                         success: function(tache) {
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
@@ -1093,6 +1108,10 @@
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseur.idTache);
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseur.nom);
                             }
+                            console.log("tache = "+JSON.stringify(tache))
+                            console.log("predecesseurNom : "+tache.predecesseurNom);
+                            console.log("predecesseurId : "+tache.predecesseurId);
+                            console.log("Successeurs : "+tache.successeurs);
 
                             // TODO : Successeurs
 
@@ -1100,7 +1119,37 @@
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
                             $('#nomRespTache-consulter-tdb').html(tache.responsableTache.prenom + " " + tache.responsableTache.nom);
-
+                            $('#avancementTache').html(tache.avancementTache+"%");
+                            $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
+                            $('#avancementTache').css("width",tache.avancementTache+"%");
+                            if(parseInt(tache.avancementTache)<7)
+                            {
+                                $('#avancementTache').css("color","#000");
+                            }
+                            else
+                            {
+                                $('#avancementTache').css("color","#FFF");
+                            }
+                            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                            d.setUTCSeconds(parseInt(tache.dateDebut));
+                            console.log("date = "+d+" ---- "+  " nnnnn " + d.day + "----" +tache.dateDebut);
+                            $('#dateDebutTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+                            d.setUTCSeconds(parseInt(tache.dateFinTot));
+                            $('#dateFinTotTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+                            d.setUTCSeconds(parseInt(tache.dateFinTard));
+                            $('#dateFinTardTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+                            var unite = tache.projet.unite;
+                            if(unite=="JOUR")
+                            {
+                                unite = '@Messages("day-first-letter")';
+                            }
+                            else
+                            {
+                                unite = '@Messages("week-first-letter")';
+                            }
+                            $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
+                            $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
+                            $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
 
                             // div-modifier-tache
 

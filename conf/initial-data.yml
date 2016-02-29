@@ -572,6 +572,7 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            2
+    predecesseur:       *tache11
 
 - &tache13 !!models.Tache
     id:                 33
@@ -588,6 +589,7 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            3
+    predecesseur:       *tache12
 
 - &tache14 !!models.Tache
     id:                 34
