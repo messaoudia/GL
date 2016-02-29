@@ -325,7 +325,7 @@
                 });
 
 
-
+                var d ="";
                 $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
                     var idC = $(this).parent('tr').attr('value');
 
@@ -334,7 +334,6 @@
                             //console.log(client);
                             console.log("client : "+client)
                             $("#dataTables-admin-client").dataTable().fnDestroy();
-                            var d="";
                             if(client.archiver)
                             {
                                 d="D";
@@ -354,16 +353,23 @@
                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
                                 success: function(listProjets) {
                                     console.log("sucess -----");
-                                    var projetTableBody = $('#table-modal-client-projets-body');
+                                    var projetTableBody = $('#table-modal-client-projets-body'+d);
                                     projetTableBody.empty();
                                     console.log(listProjets);
-                                    $("#dataTables-admin-client").dataTable().fnDestroy();
+                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
                                     if(listProjets.length != 0){
                                         $(listProjets).each(function(index, projet) {
                                             var p ="";
                                             p+=('<tr>');
                                             p+=('<td class="first-td">'+projet.nom+'</td>');
-                                            p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            if(d=="D")
+                                            {
+                                                p+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
+                                            else
+                                            {
+                                                p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
                                             p+=('</tr>');
 
                                             projetTableBody.append(p);
@@ -376,16 +382,23 @@
                             });
                             jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
                                 success: function(listContacts) {
-                                    var contactsTableBody = $('#table-modal-client-contacts-body');
+                                    var contactsTableBody = $('#table-modal-client-contacts-body'+d);
                                     contactsTableBody.empty();
                                     console.log(listContacts);
-                                    $("#dataTables-admin-client").dataTable().fnDestroy();
+                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
                                     if(listContacts.length != 0){
                                         $(listContacts).each(function(index, contact) {
                                             var c ="";
                                             c+=('<tr>');
                                             c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                                            c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            if(d=="D")
+                                            {
+                                                c+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
+                                            else
+                                            {
+                                                c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
                                             c+=('</tr>');
 
                                             contactsTableBody.append(c);
@@ -443,11 +456,11 @@
                     jsRoutes.controllers.AdminController.supprimerClient($value).ajax({
                         success: function(html) {
                             $tmpTrAdminClient.addClass("client-archived");
-                            $tmpTrAdminClient.children('td').eq(6).empty();
                             $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
                             $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal');
                             $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable');
                             $tmpTrAdminClient.children('td').eq(7).attr("data-target","");
+                            $tmpTrAdminClient.children('td').attr("data-target","#modal-modif-client-disable");
                             if(!$('#checkBoxClientsArchived').is(":checked")) {
                                 $tmpTrAdminClient.hide();
                             }
@@ -508,7 +521,7 @@
                     jsRoutes.controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur,mapProjet,mapTache).ajax({
                         success: function() {
                             $('#modal-suppr-user').modal('hide');
-                            $tmpTrAdminUser.addClass("archived");
+                            $tmpTrAdminUser.addClass("user-archived");
 
                             $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
                             $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal');
