@@ -1172,14 +1172,10 @@
                             {
                                 $('#avancementTache').css("color","#FFF");
                             }
-                            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                            d.setUTCSeconds(parseInt(tache.dateDebut));
-                            console.log("date = "+d+" ---- "+  " nnnnn " + d.day + "----" +tache.dateDebut);
-                            $('#dateDebutTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
-                            d.setUTCSeconds(parseInt(tache.dateFinTot));
-                            $('#dateFinTotTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
-                            d.setUTCSeconds(parseInt(tache.dateFinTard));
-                            $('#dateFinTardTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+
+                            $('#dateDebutTache').html(tache.dateDebut);
+                            $('#dateFinTotTache').html(tache.dateFinTot);
+                            $('#dateFinTardTache').html(tache.dateFinTard);
                             var unite = tache.projet.unite;
                             if(unite=="JOUR")
                             {

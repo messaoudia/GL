@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
@@ -31,10 +32,13 @@ public class Tache extends EntiteSecurise {
     @Constraints.Max(3)
     public Integer niveau;
     public Boolean critique;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebut;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinTot;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinTard;
     @Constraints.Min(0)
