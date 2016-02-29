@@ -231,14 +231,6 @@ public class Tache extends EntiteSecurise {
         return sb.toString();
     }
 
-    public double getChargeConsommee() {
-        return this.chargeConsommee;
-    }
-
-    public Double getChargeRestante() {
-        return this.chargeRestante;
-    }
-
     public void setChargeConsommee(Double chargeConsommee) throws NotAvailableTask{
         if (enfants.size() != 0) {
             throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
