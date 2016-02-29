@@ -45,14 +45,21 @@ public class Utilisateur extends Personne {
     // liste des utilisateurs où je souhaite recevoir une notification
 
     @ManyToMany
-    @JoinTable(name = "tbl_follow_user", joinColumns = @JoinColumn(name = "suivant"), inverseJoinColumns = @JoinColumn(name = "suivi"))
-    List<Utilisateur> utilisateursSuivis;
+    @JoinTable(name = "tbl_follow_user",
+            joinColumns = @JoinColumn(name = "utilisateursSuivis",referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name = "utilisateursMeSuivant", referencedColumnName = "id")
+    )
+    public List<Utilisateur> utilisateursSuivis;
+
     // liste des utilisateurs qui me suivent
     @ManyToMany
-    @JoinTable(name = "tbl_follow_user", joinColumns = @JoinColumn(name = "suivi"), inverseJoinColumns = @JoinColumn(name = "suivant"))
-    List<Utilisateur> utilisateursMeSuivant;
+    @JoinTable(name = "tbl_follower_user",
+            joinColumns = @JoinColumn(name = "utilisateursMeSuivant",referencedColumnName="id"),
+            inverseJoinColumns = @JoinColumn(name = "utilisateursSuivis", referencedColumnName = "id")
+    )
+    public List<Utilisateur> utilisateursMeSuivant;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "utilisateursNotifications")
     @JsonIgnore
     public List<Projet> projetsNotifications;
 
@@ -799,6 +806,10 @@ public class Utilisateur extends Personne {
         }
     }
 
+    public boolean hasActiverNotification(Tache tache){
+        return listTachesNotifications.contains(tache);
+    }
+
     public void activerNotification(Tache tache){
         // TODO : Rajouter un test de permission?
         if(!listTachesNotifications.contains(tache)){
@@ -813,11 +824,11 @@ public class Utilisateur extends Personne {
 
     public void desactiverNotification(Tache tache){
         // TODO : Rajouter un test de permission?
-        if(!listTachesNotifications.contains(tache)){
+        if(listTachesNotifications.contains(tache)){
             listTachesNotifications.remove(tache);
             save();
         }
-        if(!tache.utilisateursNotifications.contains(this)){
+        if(tache.utilisateursNotifications.contains(this)){
             tache.utilisateursNotifications.remove(this);
             tache.save();
         }

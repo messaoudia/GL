@@ -78,22 +78,32 @@
                                     }else {
                                         <tr value="@utilisateur.id">
                                     }
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.telephone</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listProjetsResponsableSize</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listTachesSize</td>
+
                                         @if(utilisateur.archive){
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.nom</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.prenom</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.email</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.telephone</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.listProjetsResponsableSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.listTachesSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">
                                             @Messages("yes")
                                             </td>
+                                            <td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+
                                         } else {
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.telephone</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listProjetsResponsableSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listTachesSize</td>
                                             <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">
                                             @Messages("no")
                                             </td>
+                                            <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
+
                                         }
-                                        <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
                                     </tr>
                                 }
                             </tbody>
@@ -121,19 +131,19 @@
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formLastName">@Messages("formLastName")</label>
-                                            <div><input type="text" name="modify-formLastName" id="formLastName" class="form-control"></div>
+                                            <div><input type="text" name="modify-formLastName" id="formLastName" class="form-control formLastName"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
-                                            <div><input type="text" name="modify-formFirstName" id="formFirstName" class="form-control"></div>
+                                            <div><input type="text" name="modify-formFirstName" id="formFirstName" class="form-control formLastName"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formEmail">@Messages("formEmail")</label>
-                                            <div><input type="text" name="modify-formEmail" id="formEmail" class="form-control"></div>
+                                            <div><input type="text" name="modify-formEmail" id="formEmail" class="form-control formLastName"></div>
                                         </div>
                                         <div class="row form-group form-group-user">
                                             <label class="control-label" for="formTel">@Messages("formTel")</label>
-                                            <div><input type="text" name="modify-formTel" id="formTel" class="form-control"></div>
+                                            <div><input type="text" name="modify-formTel" id="formTel" class="form-control formLastName"></div>
                                         </div>
 
 
@@ -155,6 +165,50 @@
                                                 <button onclick="modifierUtilisateur(this); return false;" class="btn btn-admin" type="submit" form="modifierUserForm">
                                                     <i class="fa fa-check-square"></i> @Messages("validate")
                                                 </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="modal-modif-user-disable" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="ibox-title background_admin div-center">
+                                    <h5 class="text-white inline">@Messages("setUser")</h5>
+                                    <div class="ibox-tools">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <form class="form-horizontal" id="modifierUserForm">
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formLastName">@Messages("formLastName")</label>
+                                            <div><input disabled="" type="text" name="modify-formLastName" id="formLastNameD" class="form-control formLastName"></div>
+                                        </div>
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formFirstName">@Messages("formFirstName")</label>
+                                            <div><input disabled="" type="text" name="modify-formFirstName" id="formFirstNameD" class="form-control formLastName"></div>
+                                        </div>
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formEmail">@Messages("formEmail")</label>
+                                            <div><input disabled="" type="text" name="modify-formEmail" id="formEmailD" class="form-control formLastName"></div>
+                                        </div>
+                                        <div class="row form-group form-group-user">
+                                            <label class="control-label" for="formTel">@Messages("formTel")</label>
+                                            <div><input disabled="" type="text" name="modify-formTel" id="formTelD" class="form-control formLastName"></div>
+                                        </div>
+
+
+                                        <div class="row form-group form-group-user">
+                                            <div class="" style="font-weight: 700;">@Messages("administrator")
+                                                <div class="btn-group" style="display: inline-block ;">
+                                                    <button disabled="" id="btnAdminOuiModifier" class="btn" type="button" name="buttonAdminOui" value="Oui" style="color:#FFF;">@Messages("yes")</button>
+                                                    <button disabled="" id="btnAdminNonModifier" class="btn  btn-active" value="Non" name="buttonAdminNon" type="button" style="color:#FFF;">@Messages("no")</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>

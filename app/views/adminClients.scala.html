@@ -83,22 +83,32 @@
                                     }else {
                                         <tr value="@client.id">
                                         }
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listContactsSize</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listProjetsSize</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listTachesSize</td>
-                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.priorite</td>
+
                                         @if(client.archiver) {
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">
+                                            <td class="td-modal" style="cursor: no-drop;">@client.nom</td>
+                                            <td class="td-modal" style="cursor: no-drop;">@client.adresseClient</td>
+                                            <td class="td-modal" style="cursor: no-drop;">@client.listContactsSize</td>
+                                            <td class="td-modal" style="cursor: no-drop;">@client.listProjetsSize</td>
+                                            <td class="td-modal" style="cursor: no-drop;">@client.listTachesSize</td>
+                                            <td class="td-modal" style="cursor: no-drop;">@client.priorite</td>
+                                            <td class="td-modal" style="cursor: no-drop;">
                                             @Messages("yes")
                                             </td>
+                                            <td class="td-btn-suppr-disable" style="vertical-align:middle ;" ><i class="fa fa-times"></i></td>
+
                                         } else {
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listContactsSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listProjetsSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listTachesSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.priorite</td>
                                             <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">
                                             @Messages("no")
                                             </td>
+                                            <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
+
                                         }
-                                        <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
                                     </tr>
                                 }
                             </tbody>

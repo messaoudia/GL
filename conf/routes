@@ -58,18 +58,19 @@ GET         /listProjetsUtilisateur    controllers.UtilisateurController.listPro
 GET         /listTachesUtilisateur     controllers.UtilisateurController.listTachesUtilisateur(id: Long)
 
 #view notification
-GET         /notifications             controllers.NotificationController.afficherNotifications
+GET         /notifications                      controllers.NotificationController.afficherNotifications
 
-POST        /adminProjetSelect         controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
-POST        /adminProjetTermine        controllers.AdminController.afficherProjetsTermines(check:Boolean)
-POST        /adminProjetArchives       controllers.AdminController.afficherProjetsArchives(check:Boolean)
-POST        /adminProjetSupprimer      controllers.AdminController.supprimerProjet(idProjet:Long)
-POST        /checkContact              controllers.ClientController.contactCheck
-POST        /ajouterUtilisateur        controllers.UtilisateurController.creerUtilisateur
-POST        /modifierUtilisateur       controllers.UtilisateurController.modifierUtilisateur(id: Long)
-POST        /ajouterClient             controllers.ClientController.creerClient
-POST        /afficherModalProjetAdmin  controllers.AdminController.afficherModalProjet(idP: Long)
-POST        /initModalAdminProjetRespo   controllers.AdminController.afficherModalCreerProjetResponsable
-POST        /initModalAdminProjetClient   controllers.AdminController.afficherModalCreerProjetClient
-POST        /adminClientSupprimer            controllers.AdminController.supprimerClient(idC : Long)
-POST        /supprimerUtilisateur       controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur: Long ,strProjet: String ,strTache: String)
+POST        /adminProjetSelect                  controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
+POST        /adminProjetTermine                 controllers.AdminController.afficherProjetsTermines(check:Boolean)
+POST        /adminProjetArchives                controllers.AdminController.afficherProjetsArchives(check:Boolean)
+POST        /adminProjetSupprimer               controllers.AdminController.supprimerProjet(idProjet:Long)
+POST        /checkContact                       controllers.ClientController.contactCheck
+POST        /ajouterUtilisateur                 controllers.UtilisateurController.creerUtilisateur
+POST        /modifierUtilisateur                controllers.UtilisateurController.modifierUtilisateur(id: Long)
+POST        /ajouterClient                      controllers.ClientController.creerClient
+POST        /afficherModalProjetAdmin           controllers.AdminController.afficherModalProjet(idP: Long)
+POST        /initModalAdminProjetRespo          controllers.AdminController.afficherModalCreerProjetResponsable
+POST        /initModalAdminProjetClient         controllers.AdminController.afficherModalCreerProjetClient
+POST        /adminClientSupprimer               controllers.AdminController.supprimerClient(idC : Long)
+POST        /supprimerUtilisateur               controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur: Long ,strProjet: String ,strTache: String)
+POST        /activeOuDesactiveNotification      controllers.NotificationController.activerOuDesactiverNotificationTache(idTache:Long, idUser:Long)

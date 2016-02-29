@@ -176,10 +176,20 @@
                         success: function(utilisateur) {
                             //console.log(utilisateur);
                             /* fill modal values*/
-                            $('#formLastName').val(utilisateur.nom);
-                            $('#formFirstName').val(utilisateur.prenom);
-                            $('#formEmail').val(utilisateur.email);
-                            $('#formTel').val(utilisateur.telephone);
+                            if(utilisateur.archive)
+                            {
+                                $('#formLastNameD').val(utilisateur.nom);
+                                $('#formFirstNameD').val(utilisateur.prenom);
+                                $('#formEmailD').val(utilisateur.email);
+                                $('#formTelD').val(utilisateur.telephone);
+                            }
+                            else {
+                                $('#formLastName').val(utilisateur.nom);
+                                $('#formFirstName').val(utilisateur.prenom);
+                                $('#formEmail').val(utilisateur.email);
+                                $('#formTel').val(utilisateur.telephone);
+                            }
+
 
                             //TODO mettre la condition si !admin sinon
                             if(true)
@@ -426,20 +436,39 @@
                     console.log($value);
                     jsRoutes.controllers.AdminController.supprimerClient($value).ajax({
                         success: function(html) {
-                            if( $('#checkBoxClientsArchived').is(":checked")) {
-                                $tmpTrAdminClient.addClass("client-archived");
-                                $tmpTrAdminClient.children('td').eq(6).empty();
-                                $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
-                                $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal')
-                                $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable')
-                            }else{
-                                $tmpTrAdminClient.addClass("client-archived");
+                            $tmpTrAdminClient.addClass("client-archived");
+                            $tmpTrAdminClient.children('td').eq(6).empty();
+                            $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
+                            $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal');
+                            $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable');
+                            $tmpTrAdminClient.children('td').eq(7).attr("data-target","");
+                            if(!$('#checkBoxClientsArchived').is(":checked")) {
                                 $tmpTrAdminClient.hide();
-
                             }
                         },
                         error: function(errorMessage){
                             alert(errorMessage);
+                        }
+                    });
+                }
+
+                var activerOuDesactiverNotification = function(idTache, idUser){
+
+                    jsRoutes.controllers.NotificationController.activerOuDesactiverNotificationTache(idTache, idUser).ajax({
+                        success: function() {
+                            var iconeToChange = $('#notif-icon-tache-' + idTache);
+                            if(iconeToChange.hasClass('fa-bell')){
+                                iconeToChange.removeClass('fa-bell');
+                                iconeToChange.addClass('fa-bell-slash-o');
+                            }
+                            else if(iconeToChange.hasClass('fa-bell-slash-o')){
+                                iconeToChange.removeClass('fa-bell-slash-o');
+                                iconeToChange.addClass('fa-bell');
+                            }
+
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
                         }
                     });
                 }
@@ -473,15 +502,12 @@
                     jsRoutes.controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur,mapProjet,mapTache).ajax({
                         success: function() {
                             $('#modal-suppr-user').modal('hide');
-                            if( $('#checkboxUsersArchived').is(":checked")) {
-                                $tmpTrAdminUser.addClass("user-archived");
-                                $tmpTrAdminUser.hide();
-                                $tmpTrAdminUser.children('td').eq(6).empty();
-                                $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
-                                $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal')
-                                $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable')
-                            }else{
-                                $tmpTrAdminUser.addClass("user-archived");
+                            $tmpTrAdminUser.addClass("archived");
+                            $tmpTrAdminUser.children('td').eq(6).empty();
+                            $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
+                            $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal');
+                            $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable');
+                            if(! $('#checkboxUsersArchived').is(":checked")) {
                                 $tmpTrAdminUser.hide();
                             }
                         },
@@ -520,10 +546,10 @@
                             //console.log(utilisateur);
                             $("#dataTables-admin-user").dataTable().fnDestroy();
                             /* fill modal values*/
-                            $('#formLastName').val(utilisateur.nom);
-                            $('#formFirstName').val(utilisateur.prenom);
-                            $('#formEmail').val(utilisateur.email);
-                            $('#formTel').val(utilisateur.telephone);
+                            $('.formLastName').val(utilisateur.nom);
+                            $('.formFirstName').val(utilisateur.prenom);
+                            $('.formEmail').val(utilisateur.email);
+                            $('.formTel').val(utilisateur.telephone);
                         },
                         //Case we have a problem
                         error: function(errorMessage){
@@ -1054,11 +1080,27 @@
                     });
                 }
 
+                function notifPopupTache(fa)
+                {
+                    //TODO traitement des notifs
+                    if($(fa).hasClass('fa-bell-slash'))
+                    {
+                        $(fa).removeClass('fa-bell-slash');
+                        $(fa).addClass('fa-bell');
+                    }
+                    else {
+                        $(fa).addClass('fa-bell-slash');
+                        $(fa).removeClass('fa-bell');
+                    }
+
+                }
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
 
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
+                        type: 'POST',
+                        dataType: 'json',
                         success: function(tache) {
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
@@ -1086,6 +1128,10 @@
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseur.idTache);
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseur.nom);
                             }
+                            console.log("tache = "+JSON.stringify(tache))
+                            console.log("predecesseurNom : "+tache.predecesseurNom);
+                            console.log("predecesseurId : "+tache.predecesseurId);
+                            console.log("Successeurs : "+tache.successeurs);
 
                             // TODO : Successeurs
 
@@ -1093,7 +1139,37 @@
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
                             $('#nomRespTache-consulter-tdb').html(tache.responsableTache.prenom + " " + tache.responsableTache.nom);
-
+                            $('#avancementTache').html(tache.avancementTache+"%");
+                            $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
+                            $('#avancementTache').css("width",tache.avancementTache+"%");
+                            if(parseInt(tache.avancementTache)<7)
+                            {
+                                $('#avancementTache').css("color","#000");
+                            }
+                            else
+                            {
+                                $('#avancementTache').css("color","#FFF");
+                            }
+                            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                            d.setUTCSeconds(parseInt(tache.dateDebut));
+                            console.log("date = "+d+" ---- "+  " nnnnn " + d.day + "----" +tache.dateDebut);
+                            $('#dateDebutTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+                            d.setUTCSeconds(parseInt(tache.dateFinTot));
+                            $('#dateFinTotTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+                            d.setUTCSeconds(parseInt(tache.dateFinTard));
+                            $('#dateFinTardTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+                            var unite = tache.projet.unite;
+                            if(unite=="JOUR")
+                            {
+                                unite = '@Messages("day-first-letter")';
+                            }
+                            else
+                            {
+                                unite = '@Messages("week-first-letter")';
+                            }
+                            $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
+                            $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
+                            $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
 
                             // div-modifier-tache
 

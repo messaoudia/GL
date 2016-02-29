@@ -9,29 +9,25 @@
 
 .client-archived {
     display: none;
-    background-color: indianred !important;
+
 }
 
 
 .user-archived {
     display: none;
-    background-color: indianred !important;
 }
 
 .projet-archived {
     display: none;
-    background-color: indianred !important;
 }
 
 .projet-finished {
     display: none;
-    background-color: cornflowerblue !important;
 }
 
 .projet-archived-finished
 {
     display: none;
-    background-color: mediumpurple !important;
 }
 
 .select2-search {
@@ -596,23 +592,18 @@ INDEX FIN
     color: #05997f;
 }
 
-
-.id-tache-modal > a > .fa-bell,
-.icon-notif-tdb > a > .fa-bell {
-    color:#676A6C;
+a > .fa-bell {
+    color:#FFF;
 }
 
-#btn-modifierTache-active > .fa-reply,
-.id-tache-modal > a > .fa-bell-slash,
-.icon-notif-tdb > a > .fa-bell-slash {
+.fa-reply,
+a > .fa-bell-slash-o {
     color : #bdc3c7;
 }
 
 #btn-modifierTache-active > .fa-reply:hover,
-.id-tache-modal > a > .fa-bell:hover,
-.id-tache-modal > a > .fa-bell-slash:hover,
-.icon-notif-tdb > a > .fa-bell:hover,
-.icon-notif-tdb > a > .fa-bell-slash:hover {
+a > .fa-bell:hover,
+a > .fa-bell-slash-o:hover {
     color : #95a5a6;
 }
 
