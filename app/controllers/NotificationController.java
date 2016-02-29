@@ -23,10 +23,8 @@ public class NotificationController extends Controller {
         Utilisateur user = Utilisateur.find.byId((idUser));
 
         if(user.hasActiverNotification(tache)){
-            System.out.println("On desactive");
             user.desactiverNotification(tache);
         } else {
-            System.out.println("On active");
             user.activerNotification(tache);
         }
         return ok();
