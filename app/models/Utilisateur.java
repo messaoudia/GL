@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import controllers.Global.StaticEntite;
 import models.Securite.Role;
+import models.Utils.Utils;
 import play.Logger;
 import play.data.validation.Constraints;
 
@@ -578,8 +579,8 @@ public class Utilisateur extends Personne {
 
     private int critere2(Tache t) {
         Calendar cal = Calendar.getInstance();
-        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE));
-        long nbJoursRestants = differenceNbJours(today.getTime(), t.dateFinTard);
+        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
+        long nbJoursRestants = Utils.differenceNbJours(today.getTime(), t.dateFinTard);
 
         if (nbJoursRestants >= 51) {
             return 1;
@@ -787,7 +788,6 @@ public class Utilisateur extends Personne {
         }
         return res;
     }
-
     /**
      * Calcule le nombre de jours entre date1 et date2 : date2-date1
      *
