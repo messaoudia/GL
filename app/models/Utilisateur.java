@@ -29,6 +29,9 @@ public class Utilisateur extends Personne {
     private static int LIMITE_PROJET_PRESQUE_FINI = 80;
     private static int LIMITE_TACHE_PRESQUE_FINI = 80;
 
+    public static String LANGUE_FR = "FR";
+    public static String LANGUE_EN = "EN";
+
     @Constraints.Required
     protected String password;
 
@@ -63,6 +66,8 @@ public class Utilisateur extends Personne {
     @JsonIgnore
     public List<Projet> projetsNotifications;
 
+    public String langue;
+
     //TODO Make connection to the database to check the authentication
     public String validate() {
         if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
@@ -74,17 +79,23 @@ public class Utilisateur extends Personne {
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
-                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, List<Utilisateur> utilisateursMeSuivant) {
+                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, List<Utilisateur> utilisateursMeSuivant, String langue) {
         super(nom, prenom, email, telephone, archive);
         setPassword(password);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
         this.listTachesNotifications = (listTachesNotifications == null) ? new BeanList<>() : listTachesNotifications;
         this.utilisateursSuivis = (utilisateursSuivis == null) ? new BeanList<>() : utilisateursSuivis;
         this.utilisateursMeSuivant = (utilisateursMeSuivant == null) ? new BeanList<>() : utilisateursMeSuivant;
+        if(langue != LANGUE_FR && langue != LANGUE_EN){
+            System.err.println("La langue passée en paramètre est incorrecte : " + langue + ". Seuls les paramètres ["+ LANGUE_FR+"] et ["+ LANGUE_EN+"] sont acceptés. Langue choisie par défaut : [ "+ LANGUE_FR+"]");
+            this.langue = LANGUE_FR;
+        } else {
+            this.langue = langue;
+        }
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone, archive, password, null, null, null, null);
+        this(nom, prenom, email, telephone, archive, password, null, null, null, null, LANGUE_FR);
     }
 
     public Utilisateur() {
@@ -92,6 +103,7 @@ public class Utilisateur extends Personne {
         this.listTachesNotifications = new BeanList<>();
         this.utilisateursSuivis = new BeanList<>();
         this.utilisateursMeSuivant = new BeanList<>();
+        this.langue = "FR";
     }
 
     public void setFirstName(String firstName) {
@@ -831,6 +843,13 @@ public class Utilisateur extends Personne {
         if(tache.utilisateursNotifications.contains(this)){
             tache.utilisateursNotifications.remove(this);
             tache.save();
+        }
+    }
+
+    public void addNotification(Notification notification){
+        if(!listNotifications.contains(notification)){
+            listNotifications.add(notification);
+            save();
         }
     }
 
