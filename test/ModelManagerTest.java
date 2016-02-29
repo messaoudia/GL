@@ -817,7 +817,7 @@ public class ModelManagerTest {
                 // Modifier la charge consommee de tacheC à 10D => tacheC: chargeConsommee=10D, chargeRestante=20D
                 tacheC.setChargeConsommee(10D);
                 assertEquals(Tache.find.byId(tacheC.id).chargeConsommee, Double.valueOf(10));
-                // Attention
+                // Attention C'est obligé 
                 projet.updateAvancementGlobal();
                 // Après MAJ, l'avancement = (0+10)/((20+20+20+20+20+(20+20+20+20+20+20)+20)+(0+10)) = 0.04 => "4"
                 assertEquals(Projet.find.byId(projet.id).avancementGlobal.toString(), "4");
