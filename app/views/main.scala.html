@@ -432,6 +432,27 @@
                     });
                 }
 
+                var activerOuDesactiverNotification = function(idTache, idUser){
+
+                    jsRoutes.controllers.DashboardController.activerOuDesactiverNotificationTache(idTache, idUser).ajax({
+                        success: function() {
+                            var iconeToChange = $('#notif-icon-tache-' + idTache);
+                            if(iconeToChange.hasClass('fa-bell')){
+                                iconeToChange.removeClass('fa-bell');
+                                iconeToChange.addClass('fa-bell-slash');
+                            }
+                            else if(iconeToChange.hasClass('fa-bell-slash')){
+                                iconeToChange.removeClass('fa-bell-slash');
+                                iconeToChange.addClass('fa-bell');
+                            }
+
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                        }
+                    });
+                }
+
                 var supprimerUtilisateur = function(){
                     var idUtilisateur = $tmpTrAdminUser.attr('value');
                     console.log('Utilisateur a supprimer : '+idUtilisateur);

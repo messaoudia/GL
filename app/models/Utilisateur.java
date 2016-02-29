@@ -799,6 +799,10 @@ public class Utilisateur extends Personne {
         }
     }
 
+    public boolean hasActiverNotification(Tache tache){
+        return listTachesNotifications.contains(tache);
+    }
+
     public void activerNotification(Tache tache){
         // TODO : Rajouter un test de permission?
         if(!listTachesNotifications.contains(tache)){
@@ -813,11 +817,11 @@ public class Utilisateur extends Personne {
 
     public void desactiverNotification(Tache tache){
         // TODO : Rajouter un test de permission?
-        if(!listTachesNotifications.contains(tache)){
+        if(listTachesNotifications.contains(tache)){
             listTachesNotifications.remove(tache);
             save();
         }
-        if(!tache.utilisateursNotifications.contains(this)){
+        if(tache.utilisateursNotifications.contains(this)){
             tache.utilisateursNotifications.remove(this);
             tache.save();
         }

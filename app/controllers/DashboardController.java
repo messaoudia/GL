@@ -19,4 +19,16 @@ public class DashboardController extends Controller{
         return ok(Json.toJson(Tache.find.byId(idTache)));
     }
 
+    public Result activerOuDesactiverNotificationTache(long idTache, long idUser){
+        Tache tache = Tache.find.byId((idTache));
+        Utilisateur user = Utilisateur.find.byId((idUser));
+
+        if(user.hasActiverNotification(tache)){
+            user.desactiverNotification(tache);
+        } else {
+            user.activerNotification(tache);
+        }
+        return ok();
+    }
+
 }
