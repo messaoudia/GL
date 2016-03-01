@@ -190,4 +190,5 @@ errorMessageSupprUserTache = Veuillez choisir un nouvel utilisateur pour toutes 
 mailOrPasswordInvalid= Email ou mot de passe incorrect
 messageWelcomeLogin = Bienvenue sur myProjects
 messageWelcomeDescription = myProjects, solution de gestion et de suivi de projets
-forgottenPassword = messageWelcomeDescription
+forgottenPassword = Mot de passe oublié
+getEmail = Veuillez saisir votre adresse email
