@@ -3,6 +3,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import play.test.FakeApplication;
 import play.test.Helpers;
 
@@ -42,5 +43,15 @@ public class MailTest {
         Helpers.stop(app);
     }
 
+
+    @Test
+    public void sendMail(){
+        SimpleEmail email = new SimpleEmail();
+        email.setFrom("sender@zenexity.fr");
+        email.addTo("recipient@zenexity.fr");
+        email.setSubject("subject");
+        email.setMsg("Message");
+        Mail.send(email);
+    }
 
 }
