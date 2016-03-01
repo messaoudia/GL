@@ -276,6 +276,8 @@ public class Projet extends EntiteSecurise {
                 successeur.save();
             }
         }
+
+
         // Initialisation des personnes a notifié par défaut à la création de la tache
         tache.addUtilisateurNotification(tache.responsableTache);
         tache.initUtilisateursNotificationsEnfants();
@@ -284,6 +286,7 @@ public class Projet extends EntiteSecurise {
         tache.projet = this;
         tache.save();
         listTaches.add(tache);
+        updateDatesProjet(tache);
         // TODO : mettre a jour les charges des taches meres -> a checker
         tache.initCharge(0.0, tache.chargeInitiale);
         // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
@@ -291,6 +294,23 @@ public class Projet extends EntiteSecurise {
         calculeCheminCritique();
 
         save();
+    }
+
+    private void updateDatesProjet(Tache tache){
+        // Mise a jour date de début
+        if(dateDebutReel == null || tache.dateDebut.before(dateDebutReel)){
+            dateDebutReel = tache.dateDebut;
+        }
+
+        // Mise a jour date de fin au + tot
+        if(dateFinReelTot == null || tache.dateFinTot.after(dateFinReelTot)){
+            dateFinReelTot = tache.dateFinTot;
+        }
+
+        // Mise a jour date de fin au + tard
+        if(dateFinReelTard == null || tache.dateFinTard.after(dateFinReelTard)){
+            dateFinReelTard = tache.dateFinTard;
+        }
     }
 
     /**
@@ -576,7 +596,7 @@ public class Projet extends EntiteSecurise {
         calculeCheminCritique();
 
         // Suppression ou archivage
-        if (tache.getChargeConsommee() == 0.0) {
+        if (tache.chargeConsommee == 0.0) {
             tache.removeUtilisateurNotification(tache.responsableTache);
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
@@ -638,15 +658,18 @@ public class Projet extends EntiteSecurise {
         this.client = client;
     }
 
-    private void calculeCheminCritique(){
-        // Récupération des tâches qui sont à la toute fin
+    private void calculeCheminCritique() throws Exception{
+        // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
         List<Tache> listTachesFin = new ArrayList<Tache>();
         for(Tache tache : listTaches){
             tache.critique = false; // on réinitialise tous les champs 'critique'
-            if(!tache.hasSuccesseur()){
+            if(tache.dateFinTard.equals(dateFinReelTard) && !tache.hasSuccesseur() && !tache.hasEnfant()){
                 listTachesFin.add(tache);
             }
         }
+        if(listTachesFin.isEmpty())
+            throw new Exception("Le projet [" + nom + "] n'a pas de chemin critique car aucune tache ne termine à la date de fin au plus" +
+                    " tard du projet (" + formateDate(dateFinReelTard) + ")");
 
         // Récupération de la tâche ayant le moins de marge
         Tache tacheAvecMoinsMarge = listTachesFin.get(0);
@@ -723,8 +746,8 @@ public class Projet extends EntiteSecurise {
         Double chargeRestanteGlobal = 0.0;
         for(Tache tache : listTaches){
             if(!tache.hasParent()) {
-                chargeConsommeeGlobal += tache.getChargeConsommee();
-                chargeRestanteGlobal += tache.getChargeRestante();
+                chargeConsommeeGlobal += tache.chargeConsommee;
+                chargeRestanteGlobal += tache.chargeRestante;
             }
         }
         if(listTaches.size() != 0){
@@ -742,6 +765,7 @@ public class Projet extends EntiteSecurise {
                 this.avancementGlobal = new Byte(result.substring(2,4));
             }
         }
+        save();
     }
 
     public String formateDate(Date d){

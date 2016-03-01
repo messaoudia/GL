@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.common.BeanList;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
@@ -31,10 +32,13 @@ public class Tache extends EntiteSecurise {
     @Constraints.Max(3)
     public Integer niveau;
     public Boolean critique;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebut;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinTot;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinTard;
     @Constraints.Min(0)
@@ -75,13 +79,16 @@ public class Tache extends EntiteSecurise {
     @JoinColumn
     public Utilisateur responsableTache;
 
+    public boolean disponible;
+
     // TODO @qqch?
     @ManyToMany(cascade = CascadeType.ALL)
     public List<Utilisateur> utilisateursNotifications;
 
     public Tache(String nom, String description, Utilisateur responsableTache, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
-                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, Tache predecesseur, List<Tache> successeurs, List<Utilisateur> utilisateursNotifications) {
+                 Double chargeRestante, List<Contact> interlocuteurs, Projet projet, Tache predecesseur,
+                 List<Tache> successeurs, List<Utilisateur> utilisateursNotifications, boolean disponible) {
         this.nom = nom;
         this.description = description;
         this.responsableTache = responsableTache;
@@ -100,6 +107,7 @@ public class Tache extends EntiteSecurise {
         this.projet = projet;
         this.archive = false;
         this.utilisateursNotifications = (utilisateursNotifications == null) ? new BeanList<>() : utilisateursNotifications;
+        this.disponible = disponible;
     }
 
     public Tache() {
@@ -227,16 +235,6 @@ public class Tache extends EntiteSecurise {
         return sb.toString();
     }
 
-    @JsonIgnore
-    public double getChargeConsommee() {
-        return this.chargeConsommee;
-    }
-
-    @JsonIgnore
-    public Double getChargeRestante() {
-        return this.chargeRestante;
-    }
-
     public void setChargeConsommee(Double chargeConsommee) throws NotAvailableTask{
         if (enfants.size() != 0) {
             throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
@@ -244,7 +242,6 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         updateChargeConsommeeTacheRecursive(this);
         updateChargeRestanteTacheRecursive(this);
-        updateAvancementTache();
         save();
     }
 
@@ -253,10 +250,20 @@ public class Tache extends EntiteSecurise {
             throw new NotAvailableTask("Tache " + nom + " non terminale, modification de ses filles uniquement");
         }
         this.chargeRestante = chargeRestante;
+        updateEtatDisponibleSuccesseurs();
         updateChargeConsommeeTacheRecursive(this);
         updateChargeRestanteTacheRecursive(this);
-        updateAvancementTache();
         save();
+    }
+
+    private void updateEtatDisponibleSuccesseurs(){
+        if(this.chargeRestante == 0.0 && hasSuccesseur()){
+            for(Tache successeur : successeurs){
+                successeur.disponible = true;
+                successeur.save();
+            }
+            save();
+        }
     }
 
     /**
@@ -270,6 +277,7 @@ public class Tache extends EntiteSecurise {
     public void initCharge(Double chargeConsommee, Double chargeRestante){
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
+        updateEtatDisponibleSuccesseurs();
         updateChargesTachesMeresEtProjet();
     }
     public void modifierCharge(Double chargeConsommee, Double chargeRestante) throws NotAvailableTask {
@@ -281,6 +289,7 @@ public class Tache extends EntiteSecurise {
         }
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
+        updateEtatDisponibleSuccesseurs();
         updateChargesTachesMeresEtProjet();
     }
 
@@ -290,15 +299,6 @@ public class Tache extends EntiteSecurise {
         projet.updateAvancementGlobal(); // met a jour les charges du projet
         save();
         projet.save();
-    }
-
-    /**
-     * TODO testme
-     * TODO REMARQUE JULIEN : PAS BESOIN DE LA FAIRE CAR LA METHODE GETAVANCEMENTTACHE EST LA
-     * Mets a jour l'avancement de la tâche éventuellement composée de sous-tâches
-     */
-    private void updateAvancementTache() {
-        //TODO set avancement en fonction des tâches filles (récursivement)
     }
 
     /**
@@ -432,7 +432,7 @@ public class Tache extends EntiteSecurise {
      * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
      */
     public boolean estDisponible() {
-        return (predecesseur == null || predecesseur.chargeRestante == 0.0);
+        return disponible;
     }
 
     public boolean hasPredecesseur() {
@@ -517,6 +517,7 @@ public class Tache extends EntiteSecurise {
             }
             tache.parent.chargeRestante = chargeRestanteNouvel;
             tache.parent.save();
+            tache.parent.updateEtatDisponibleSuccesseurs();
             updateChargeRestanteTacheRecursive(tache.parent);
         }
     }
