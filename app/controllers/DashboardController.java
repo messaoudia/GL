@@ -2,6 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Contact;
+import models.Projet;
 import models.Tache;
 import models.Utilisateur;
 import play.libs.Json;
