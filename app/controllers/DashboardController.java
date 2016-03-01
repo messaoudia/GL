@@ -11,6 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,20 +44,26 @@ public class DashboardController extends Controller{
 
     public Result getAllInterlocuteur(Long idProjet)
     {
+        System.out.println("idProjet = [" + idProjet + "]");
         Projet p = Projet.find.byId(idProjet);
+        System.out.println("DashboardController.getAllInterlocuteur");
         List<Contact> lC = p.client.listContacts();
         return ok(Json.toJson(lC));
     }
 
     public Result getAllSucesseursPossible(Long idTache)
     {
-        return ok();
+        Tache tache = Tache.find.byId(idTache);
+        List<Tache> listSuccesseur = Tache.find.where().le("dateDebut",tache.dateFinTard).findList();
+        //parents direct à supprimmer
+        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listSuccesseur)));
     }
 
     public Result getAllPredecesseursPossible(Long idTache)
     {
-        return ok();
+        Tache tache = Tache.find.byId(idTache);
+        List<Tache> listPredecesseurs = Tache.find.where().ge("dateFinTard",tache.dateDebut).findList();
+
+        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listPredecesseurs)));
     }
-
-
 }

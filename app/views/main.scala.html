@@ -168,6 +168,10 @@
                 var $tmpTrAdminClient;
                 var $tmpTrAdminUser;
 
+                $(document).on('click','#interlocuteurs-modifier', function(event){
+                    event.stopPropagation();
+
+                });
                 $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
                     var id = $(this).parent('tr').attr('value');
                     userRow = $(this).parent('tr');
@@ -1176,6 +1180,28 @@
                     }
 
                 }
+
+                function listContains(list,obj) {
+                    for(var i in list)
+                    {
+                        if(list[i].email==obj.email)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                var compareJSON = function(obj1, obj2) {
+                    var ret = {};
+                    var k = 0;
+                    for(var i in obj1) {
+                        if(!listContains(obj2,obj1[i])) {
+                            ret[k] = obj1[i];
+                            k++;
+                        }
+                    }
+                    return ret;
+                };
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
@@ -1201,6 +1227,25 @@
                             $('#formModifierNomTache-tdb').val(tache.nom);
                             $('#descriptionTache-consulter-tdb').html(tache.description);
                             $('#formModifierDescriptionTache-tdb').val(tache.description);
+                            jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
+                                success: function(utilisateurs){
+                                    var list = "";
+                                    for(var key in utilisateurs){
+                                        if(utilisateurs[key].email==tache.responsableTache.email)
+                                        {
+                                            list+='<option value="'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'" selected>'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'</option>';
+                                        }
+                                        else {
+                                            list+='<option value="'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'">'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'</option>';
+                                        }
+                                    }
+
+                                    $('#responsableTacheModifier').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
                             if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
@@ -1253,8 +1298,30 @@
                                 }
 
                                 jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
-                                    success: function(interlocuteurs) {
-                                        console.log(JSON.stringify(interlocuteurs));
+                                    success: function(interlocuteursClient){
+                                        console.log(JSON.stringify(interlocuteursClient));
+                                        console.log(JSON.stringify(tache.interlocuteurs));
+                                        console.log("diff = "+JSON.stringify(compareJSON(interlocuteursClient,tache.interlocuteurs)));
+                                        var i = 0;
+                                        for(var key in tache.interlocuteurs) {
+                                            listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox" checked>';
+                                            listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
+                                            listModifier+=tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom+'</label></div></li>';
+                                            i++;
+                                        }
+                                        var interlocuteurNonCoche = compareJSON(interlocuteursClient,tache.interlocuteurs);
+                                        for(var key in interlocuteurNonCoche) {
+                                            listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox">';
+                                            listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
+                                            listModifier+=interlocuteurNonCoche[key].nom+' '+ interlocuteurNonCoche[key].prenom+'</label></div></li>';
+                                            i++;
+                                            console.log("key "+key)
+                                        }
+                                        $('#nbInterlocuteurModifier').html(interlocuteursClient.length);
+                                        $('#interlocuteurs-modifier').html(listModifier);
+
                                     },
                                     error: function(errorMessage){
                                         alert(errorMessage);
@@ -1263,15 +1330,14 @@
 
 
                                 $('#nbInterlocuteur').html(tache.interlocuteurs.length);
-                                $('#nbInterlocuteurModifier').html(tache.interlocuteurs.length);
+
                             }
 
                             $('#interlocuteurs-consulter').html(list);
-                            $('#interlocuteurs-modifier').html(listModifier);
 
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
-                            $('#nomRespTache-consulter-tdb').html(tache.responsableTache.prenom + " " + tache.responsableTache.nom);
+                            $('#nomRespTache-consulter-tdb').html(tache.responsableTache.nom + " " + tache.responsableTache.prenom);
                             $('#avancementTache').html(tache.avancementTache+"%");
                             $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
                             $('#avancementTache').css("width",tache.avancementTache+"%");
@@ -1287,6 +1353,9 @@
                             $('#dateDebutTache').html(tache.dateDebut);
                             $('#dateFinTotTache').html(tache.dateFinTot);
                             $('#dateFinTardTache').html(tache.dateFinTard);
+                            $('#DD-modifier').attr("value",tache.dateDebut);
+                            $('#DFTO-modifier').attr("value",tache.dateFinTot);
+                            $('#DFTA-modifier').attr("value",tache.dateFinTard);
                             var unite = tache.projet.unite;
                             if(unite=="JOUR")
                             {
@@ -1300,7 +1369,12 @@
                             $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
                             $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
-
+                            $('#formModifierChargeInitiale').attr("value",tache.chargeInitiale);
+                            $('#formModifierChargeInitiale').nextAll('span').html(unite);
+                            $('#formModifierChargeRestante').attr("value",tache.chargeRestante);
+                            $('#formModifierChargeRestante span').nextAll('span').html(unite);
+                            $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
+                            $('#formModifierChargeConsommee span').nextAll('span').html(unite);
                             // div-modifier-tache
 
 

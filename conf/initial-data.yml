@@ -129,6 +129,24 @@ contacts:
     archive:     true
     client:      *client1
 
+- &contact7 !!models.Contact
+    id:          79
+    nom:         Sazio
+    prenom:      Mauro
+    email:       mauro.sazio@telecom
+    telephone:   0143154717
+    archive:     true
+    client:      *client2
+
+- &contact8 !!models.Contact
+    id:          80
+    nom:         Sazio
+    prenom:      Mauro
+    email:       mauro.sazio@telecom
+    telephone:   0143154717
+    archive:     true
+    client:      *client2
+
 utilisateurs:
 
 - &utilisateur1 !!models.Utilisateur
@@ -557,8 +575,7 @@ taches:
     responsableTache:   *utilisateur1
     idTache :            1
     interlocuteurs:
-             - *contact4
-             - *contact3
+             - *contact2
 
 - &tache12 !!models.Tache
     id:                 32

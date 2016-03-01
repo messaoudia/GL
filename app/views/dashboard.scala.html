@@ -684,7 +684,7 @@
                                                                     : PoPS5I Inc.</p>
 
                                                                     <!-- Form responsable tache -->
-                                                                <select class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple">
+                                                                <select id="responsableTacheModifier" class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple">
                                                                     <option value="Mayotte">Mayotte</option>
                                                                     <option value="Mexico">Mexico</option>
                                                                     <option value="Nicaragua">Nicaragua</option>
@@ -746,7 +746,7 @@
                                                                     <label class="col-sm-4 control-label font-noraml" for="datepicker_date_debut" style="text-align: left">@Messages("startDate")</label>
                                                                     <div class="form-group col-sm-8" id="datepicker_date_debut">
                                                                         <div class="input-group date">
-                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DD-modifier" id="DD-modifier" type="text" class="form-control" value="">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -756,7 +756,7 @@
                                                                     <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tot" style="text-align: left">@Messages("earliestEndDate")</label>
                                                                     <div class="form-group col-sm-8" id="datepicker_date_fin_tot">
                                                                         <div class="input-group date">
-                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTO-modifier" id="DFTO-modifier" type="text" class="form-control" value="">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -766,7 +766,7 @@
                                                                     <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tard" style="text-align: left">@Messages("latestEndDate")</label>
                                                                     <div class="form-group col-sm-8" id="datepicker_date_fin_tard">
                                                                         <div class="input-group date">
-                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="">
+                                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTA-modifier" id="DFTA-modifier" type="text" class="form-control" value="">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -777,8 +777,7 @@
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
                                                                             <input type="number" id="formModifierChargeInitiale" class="form-control" value="0" min="0" step="0.5">
-                                                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">
-                                                                                J</span>
+                                                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;"></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>

@@ -559,5 +559,48 @@ public class Tache extends EntiteSecurise {
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
+    public List<Tache> getAllTacheNonParentsDirects(List<Tache> listTache){
+        List<Tache> listResult = new ArrayList<>();
+        for(Tache t : listTache){
+            switch (t.niveau){
+                case 0 :
+                    if(t.successeurs != null && !t.successeurs.contains(this)){
+                        for (Tache tSucc : t.successeurs) {
+                            if (tSucc.successeurs != null && !tSucc.successeurs.contains(this)) {
+                                break;
+                            }
+                        }
 
+                        listResult.add(t);
+                    }
+                    break;
+                case 1 :
+                    if(!t.predecesseur.equals(this) && !t.successeurs.contains(this)){
+                        if(t.successeurs != null) {
+                            for (Tache tSucc : t.successeurs) {
+                                if (tSucc.successeurs != null && tSucc.successeurs.contains(this)) {
+                                    break;
+                                }
+                            }
+                        }
+                        listResult.add(t);
+                    }
+                    break;
+                case 2 :
+                    if(!t.predecesseur.equals(this) && !t.predecesseur.predecesseur.equals(this) &&
+                            t.successeurs != null && !t.successeurs.contains(this)){
+                        listResult.add(t);
+                    }
+                    break;
+                case 3 :
+                    if(!t.predecesseur.equals(this) && !t.predecesseur.predecesseur.equals(this) &&
+                            !t.predecesseur.predecesseur.predecesseur.equals(this)){
+                        listResult.add(t);
+                    }
+                    break;
+                default : break;
+            }
+        }
+        return listResult;
+    }
 }
