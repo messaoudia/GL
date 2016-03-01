@@ -638,15 +638,18 @@ public class Projet extends EntiteSecurise {
         this.client = client;
     }
 
-    private void calculeCheminCritique(){
-        // Récupération des tâches qui sont à la toute fin
+    private void calculeCheminCritique() throws Exception{
+        // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
         List<Tache> listTachesFin = new ArrayList<Tache>();
         for(Tache tache : listTaches){
             tache.critique = false; // on réinitialise tous les champs 'critique'
-            if(!tache.hasSuccesseur()){
+            if(tache.dateFinTard.equals(dateFinReelTard) && !tache.hasSuccesseur() && !tache.hasEnfant()){
                 listTachesFin.add(tache);
             }
         }
+        if(listTachesFin.isEmpty())
+            throw new Exception("Le projet [" + nom + "] n'a pas de chemin critique car aucune tache ne termine à la date de fin au plus" +
+                    " tard du projet (" + formateDate(dateFinReelTard) + ")");
 
         // Récupération de la tâche ayant le moins de marge
         Tache tacheAvecMoinsMarge = listTachesFin.get(0);
