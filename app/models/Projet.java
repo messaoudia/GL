@@ -315,8 +315,8 @@ public class Projet extends EntiteSecurise {
         tache.initCharge(0.0, tache.chargeInitiale);
         // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
         updateAvancementGlobal();
+        save();
         calculeCheminCritique();
-
         save();
     }
 
@@ -756,7 +756,7 @@ public class Projet extends EntiteSecurise {
         List<Tache> listTachesFin = new ArrayList<Tache>();
         for(Tache tache : listTaches){
             tache.critique = false; // on réinitialise tous les champs 'critique'
-            if(tache.dateFinTard.equals(dateFinReelTard) && !tache.hasSuccesseur() && !tache.hasEnfant()){
+            if(tache.dateFinTard.equals(dateFinReelTard) && !tache.hasSuccesseur() && tache.enfants().isEmpty()){
                 listTachesFin.add(tache);
             }
         }
