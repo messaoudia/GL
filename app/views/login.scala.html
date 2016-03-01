@@ -18,7 +18,7 @@
     </head>
 
     <body class="gray-bg">
-        <!--<div class="middle-box text-center loginscreen animated fadeInDown">-->
+            <!--<div class="middle-box text-center loginscreen animated fadeInDown">-->
         <div class="middle-box text-center loginscreen animated fadeInDown">
             <div style="padding-bottom:23px;">
                 <h2>@Messages("messageWelcomeLogin")</h2>
@@ -26,25 +26,24 @@
             <div>
                 <p>@Messages("messageWelcomeDescription")</p>
                 <form class="m-t" role="form" method="POST" action="@routes.Login.authenticate()">
-                    @if(form.hasGlobalErrors) {
-                        <p class="error">
-                        @form.globalError.message
-                        </p>
-                    }
+
+                    <p style="color:red">
+                    @error
+                    </p>
 
                     @if(flash.contains("success")) {
                         <p class="success">
                         @flash.get("success")
                         </p>
                     }
-                <div class="form-group">
-                    <input name="email" type="email" class="form-control" placeholder="Login" required="" value="@form("email").value">
-                </div>
-                <div class="form-group">
-                    <input name="password" type="password" class="form-control" placeholder="Password" required="">
-                </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Connexion</button>
-                <a href="#"><small>@Messages("forgottenPassword")</small></a>
+                    <div class="form-group">
+                        <input name="email" type="email" class="form-control" placeholder="Login" required="" value="@form("email").value">
+                    </div>
+                    <div class="form-group">
+                        <input name="password" type="password" class="form-control" placeholder="Password" required="">
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">Connexion</button>
+                    <a href="#"><small>Mot de passe oublié?</small></a>
                 </form>
 
                 <p class="m-t"> <small>Pear Corporation &copy; 2016</small> </p>
