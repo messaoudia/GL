@@ -43,7 +43,9 @@ public class DashboardController extends Controller{
 
     public Result getAllInterlocuteur(Long idProjet)
     {
+        System.out.println("idProjet = [" + idProjet + "]");
         Projet p = Projet.find.byId(idProjet);
+        System.out.println("DashboardController.getAllInterlocuteur");
         List<Contact> lC = p.client.listContacts();
         return ok(Json.toJson(lC));
     }
@@ -57,6 +59,8 @@ public class DashboardController extends Controller{
     {
         return ok();
     }
+
+
 
 
 }
