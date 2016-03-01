@@ -62,6 +62,10 @@ public class Utilisateur extends Personne {
 
     public String langue;
 
+    public boolean recevoirNotifPourMesActions;
+    public boolean recevoirNotifPourMesTachesPresqueFinies;
+    public boolean recevoirNotifPourMesTachesRetardees;
+
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
     public static Utilisateur authenticate(String email, String password) {
@@ -86,7 +90,9 @@ public class Utilisateur extends Personne {
     //}
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
-                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue) {
+                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue,
+                       boolean recevoirNotifPourMesActions, boolean recevoirNotifPourMesTachesPresqueFinies,
+                       boolean recevoirNotifPourMesTachesRetardees) {
         super(nom, prenom, email, telephone, archive);
         setPassword(password);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
@@ -98,10 +104,13 @@ public class Utilisateur extends Personne {
         } else {
             this.langue = langue;
         }
+        this.recevoirNotifPourMesActions = recevoirNotifPourMesActions;
+        this.recevoirNotifPourMesTachesPresqueFinies = recevoirNotifPourMesTachesPresqueFinies;
+        this.recevoirNotifPourMesTachesRetardees = recevoirNotifPourMesTachesRetardees;
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone, archive, password, null, null, null, LANGUE_FR);
+        this(nom, prenom, email, telephone, archive, password, null, null, null, LANGUE_FR, false, false, false);
     }
 
     public Utilisateur() {
@@ -820,6 +829,17 @@ public class Utilisateur extends Personne {
             utilisateursSuivis.add(user);
             save();
         }
+    }
+
+    public List<Utilisateur> utilisateursPouvantEtreSuivis(){
+        List<Utilisateur> result = new ArrayList<>();
+        for(Projet projet : listProjetsResponsable()){
+            for(Tache tache : projet.listTaches()){
+                if(!result.contains(tache.responsableTache))
+                    result.add(tache.responsableTache);
+            }
+        }
+        return result;
     }
 
     public boolean hasActiverNotification(Tache tache) {
