@@ -85,16 +85,16 @@
                                         }
 
                                         @if(client.archiver) {
-                                            <td class="td-modal" style="cursor: no-drop;">@client.nom</td>
-                                            <td class="td-modal" style="cursor: no-drop;">@client.adresseClient</td>
-                                            <td class="td-modal" style="cursor: no-drop;">@client.listContactsSize</td>
-                                            <td class="td-modal" style="cursor: no-drop;">@client.listProjetsSize</td>
-                                            <td class="td-modal" style="cursor: no-drop;">@client.listTachesSize</td>
-                                            <td class="td-modal" style="cursor: no-drop;">@client.priorite</td>
-                                            <td class="td-modal" style="cursor: no-drop;">
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.nom</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.adresseClient</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listContactsSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listProjetsSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listTachesSize</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.priorite</td>
+                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">
                                             @Messages("yes")
                                             </td>
-                                            <td class="td-btn-suppr-disable" style="vertical-align:middle ;" ><i class="fa fa-times"></i></td>
+                                            <td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
 
                                         } else {
                                             <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
@@ -285,6 +285,93 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal fade" id="modal-modif-client-disable" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="ibox-title background_admin div-center">
+                                    <h5 class="text-white inline">@Messages("setClient")</h5>
+                                    <div class="ibox-tools">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-sm-offset-2 col-sm-8">
+                                            <form class="form-horizontal" id="clientForm">
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formClientName">@Messages("formClientName")</label>
+                                                    <div class="col-sm-7"><input disabled="" type="text" id="formClientNameD" class="form-control"></div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formClientAdress">@Messages("adress")</label>
+                                                    <div class="col-sm-7"><input disabled="" type="text" id="formClientAdressD" class="form-control"></div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formZipCode">@Messages("formZipCode")</label>
+                                                    <div class="col-sm-7"><input disabled="" type="text" id="formZipCodeD" class="form-control"></div>
+                                                </div>
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formCity">@Messages("formCity")</label>
+                                                    <div class="col-sm-7"><input disabled="" type="text" id="formCityD" class="form-control"></div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label" for="formCountry">@Messages("formCountry")</label>
+                                                    <div class="col-sm-7"><input disabled="" type="text" id="formCountryD" class="form-control"></div>
+                                                </div>
+
+                                                <div class="row form-group">
+                                                    <label class="col-sm-5 control-label">@Messages("priority")</label>
+                                                    <div class="col-sm-7">
+                                                        <div class="btn-group">
+                                                            <button disabled="" id="client-priority-1D" class="btn" type="button" value="1" >
+                                                                1</button>
+                                                            <button disabled="" id="client-priority-2D" class="btn btn-active" value="2" type="button">
+                                                                2</button>
+                                                            <button disabled="" id="client-priority-3D" class="btn" type="button" value="3">
+                                                                3</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h3 style="text-align:center ;">@Messages("projects")</h3>
+                                            <div class="list-modif-client">
+                                                <table id="table-modal-client-projetsD" class="table-bordered">
+                                                    <thead>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </thead>
+                                                    <tbody id="table-modal-client-projets-bodyD">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h3 style="text-align:center ;">@Messages("contacts")</h3>
+                                            <div class="list-modif-client">
+                                                <table id="table-modal-client-contactsD" class="table-bordered">
+                                                    <thead>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </thead>
+                                                    <tbody id="table-modal-client-contacts-bodyD">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="modal fade" id="modal-confirmation-suppr-projet-client" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-sm">
                                 <div class="modal-content">
@@ -394,7 +481,7 @@
                                     </div>
                                 </div>
                                 <div id="listContactAjout" class="row" style="display:none ;">
-                                    <div class="col-sm-offset-3 col-sm-6">
+                                    <div class="col-xs-12">
                                         <h3 style="text-align:center ;">@Messages("contacts")</h3>
                                         <div class="list-modif-client">
                                             <div class="table-responsive">

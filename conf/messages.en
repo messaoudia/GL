@@ -184,4 +184,6 @@ incoherentDate = Dates are incoherent
 parseError = Error parsing the dates
 noContact = No contact
 exportClients = Export clients
+errorMessageSupprUserProjet = Please choose a new user for all projects below
+errorMessageSupprUserTache = Please choose a new user for all tasks below
 mailOrPasswordInvalid=Wrong email or password

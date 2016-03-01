@@ -325,7 +325,7 @@
                 });
 
 
-
+                var d ="";
                 $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
                     var idC = $(this).parent('tr').attr('value');
 
@@ -334,30 +334,42 @@
                             //console.log(client);
                             console.log("client : "+client)
                             $("#dataTables-admin-client").dataTable().fnDestroy();
+                            if(client.archiver)
+                            {
+                                d="D";
+                            }
 
-                            $('#formClientName').val(client.nom);
-                            $('#formClientAdress').val(client.adresseClient.adresse);
-                            $('#formZipCode').val(client.adresseClient.zipCode);
-                            $('#formCity').val(client.adresseClient.ville);
-                            $('#formCountry').val(client.adresseClient.pays);
+                            $('#formClientName'+d).val(client.nom);
+                            $('#formClientAdress'+d).val(client.adresseClient.adresse);
+                            $('#formZipCode'+d).val(client.adresseClient.zipCode);
+                            $('#formCity'+d).val(client.adresseClient.ville);
+                            $('#formCountry'+d).val(client.adresseClient.pays);
 
-                            $('#client-priority-1').removeClass("btn-active");
-                            $('#client-priority-2').removeClass("btn-active");
-                            $('#client-priority-3').removeClass("btn-active");
-                            $('#client-priority-'+client.priorite).addClass("btn-active");
+                            $('#client-priority-1'+d).removeClass("btn-active");
+                            $('#client-priority-2'+d).removeClass("btn-active");
+                            $('#client-priority-3'+d).removeClass("btn-active");
+                            $('#client-priority-'+client.priorite+d).addClass("btn-active");
+
                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
                                 success: function(listProjets) {
                                     console.log("sucess -----");
-                                    var projetTableBody = $('#table-modal-client-projets-body');
+                                    var projetTableBody = $('#table-modal-client-projets-body'+d);
                                     projetTableBody.empty();
                                     console.log(listProjets);
-                                    $("#dataTables-admin-client").dataTable().fnDestroy();
+                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
                                     if(listProjets.length != 0){
                                         $(listProjets).each(function(index, projet) {
                                             var p ="";
                                             p+=('<tr>');
                                             p+=('<td class="first-td">'+projet.nom+'</td>');
-                                            p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            if(d=="D")
+                                            {
+                                                p+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
+                                            else
+                                            {
+                                                p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
                                             p+=('</tr>');
 
                                             projetTableBody.append(p);
@@ -370,16 +382,23 @@
                             });
                             jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
                                 success: function(listContacts) {
-                                    var contactsTableBody = $('#table-modal-client-contacts-body');
+                                    var contactsTableBody = $('#table-modal-client-contacts-body'+d);
                                     contactsTableBody.empty();
                                     console.log(listContacts);
-                                    $("#dataTables-admin-client").dataTable().fnDestroy();
+                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
                                     if(listContacts.length != 0){
                                         $(listContacts).each(function(index, contact) {
                                             var c ="";
                                             c+=('<tr>');
                                             c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                                            c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            if(d=="D")
+                                            {
+                                                c+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
+                                            else
+                                            {
+                                                c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                            }
                                             c+=('</tr>');
 
                                             contactsTableBody.append(c);
@@ -437,11 +456,11 @@
                     jsRoutes.controllers.AdminController.supprimerClient($value).ajax({
                         success: function(html) {
                             $tmpTrAdminClient.addClass("client-archived");
-                            $tmpTrAdminClient.children('td').eq(6).empty();
                             $tmpTrAdminClient.children('td').eq(6).html('@Messages("yes")');
                             $tmpTrAdminClient.children('td').eq(7).removeClass('td-modal');
                             $tmpTrAdminClient.children('td').eq(7).addClass('td-btn-suppr-disable');
                             $tmpTrAdminClient.children('td').eq(7).attr("data-target","");
+                            $tmpTrAdminClient.children('td').attr("data-target","#modal-modif-client-disable");
                             if(!$('#checkBoxClientsArchived').is(":checked")) {
                                 $tmpTrAdminClient.hide();
                             }
@@ -474,6 +493,9 @@
                 }
 
                 var supprimerUtilisateur = function(){
+                    $("#error-message-suppr-user-projet").hide();
+                    $("#error-message-suppr-user-tache").hide();
+
                     var idUtilisateur = $tmpTrAdminUser.attr('value');
                     console.log('Utilisateur a supprimer : '+idUtilisateur);
                     //<idProjet,idUtilisateur>
@@ -481,20 +503,34 @@
                     //<idTache; idUtilisateur>
                     var mapTache = "";
 
-                    /* tester si ils sont tous remplis */
-
-                    $("#table-modal-suppr-user-projet-body > tr").each(function() {
+                    /* tester si ils sont tous remplis  exit = return; */
+                    var error = false;
+                    $("#table-modal-suppr-user-projet-body > tr").each(function(){
                         var projectID = $(this).attr('value');
-                        var idUserSelected = $(this).children('td').eq(1).children('select').select2().val()[0];
+                        try{
+                            var idUserSelected = $(this).children('td').eq(1).children('select').select2().val()[0];
+                        }catch(e){
+                            $("#error-message-suppr-user-projet").show();
+                            error = true;
+                        }
                         mapProjet+=projectID+","+idUserSelected+";";
                     });
 
-                    $("#table-modal-suppr-user-tache-body > tr").each(function() {
+                    $("#table-modal-suppr-user-tache-body > tr").each(function(){
                         var tacheID = $(this).attr('value');
-                        var idUserSelected = $(this).children('td').eq(2).children('select').select2().val()[0];
+                        try{
+                            var idUserSelected = $(this).children('td').eq(2).children('select').select2().val()[0];
+                        }catch(e){
+                            $("#error-message-suppr-user-tache").show();
+                            error = true;
+                        }
                         mapTache+=tacheID+","+idUserSelected+";";
 
                     });
+
+                    if(error){
+                        return;
+                    }
 
                     console.log(mapProjet);
                     console.log(mapTache);
@@ -502,14 +538,59 @@
                     jsRoutes.controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur,mapProjet,mapTache).ajax({
                         success: function() {
                             $('#modal-suppr-user').modal('hide');
-                            $tmpTrAdminUser.addClass("archived");
-                            $tmpTrAdminUser.children('td').eq(6).empty();
+                            $tmpTrAdminUser.addClass("user-archived");
+
                             $tmpTrAdminUser.children('td').eq(6).html('@Messages("yes")');
                             $tmpTrAdminUser.children('td').eq(7).removeClass('td-modal');
                             $tmpTrAdminUser.children('td').eq(7).addClass('td-btn-suppr-disable');
-                            if(! $('#checkboxUsersArchived').is(":checked")) {
+                            $tmpTrAdminUser.children('td').attr("data-target","#modal-modif-user-disable");
+                            if(!$('#checkboxUsersArchived').is(':checked'))
+                            {
                                 $tmpTrAdminUser.hide();
                             }
+
+                            jsRoutes.controllers.UtilisateurController.allUsers().ajax({
+                                success: function(users) {
+                                    //console.log(users);
+                                    var userContent = "";
+                                    $("#dataTables-admin-user").dataTable().fnDestroy();
+
+                                    var userTableBody = $('#dataTables-admin-user-body');
+                                    userTableBody.empty();
+                                    $.each(users, function(i, utilisateur) {
+                                        console.log(utilisateur);
+                                        var archive;
+                                        if(utilisateur.archive){
+                                            userContent += ('<tr class="user-archived" value="'+utilisateur.id+'">');
+                                            archive = "-disabled";
+                                        }else{
+                                            userContent += ('<tr value="'+utilisateur.id+'">');
+                                            archive = "";
+                                        }
+
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.nom+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.prenom+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.email+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.telephone+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.listProjetsResponsableSize+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.listTachesSize+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">');
+                                        if(archive == "-disabled"){
+                                            userContent += ('@Messages("yes")</td>');
+                                            userContent += ('<td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td></tr>');
+                                        }else{
+                                            userContent += ('@Messages("no")</td>');
+                                            userContent += ('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td></tr>');
+                                        }
+                                    });
+
+                                    console.log(userContent);
+                                    //table.clear();
+                                    userTableBody.append(userContent);
+                                }
+                            });
+
+
                         },
                         //Case we have a problem
                         error: function(errorMessage){
@@ -1101,6 +1182,7 @@
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
                         type: 'POST',
                         dataType: 'json',
+                        contentType: "application/json",
                         success: function(tache) {
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
@@ -1150,14 +1232,10 @@
                             {
                                 $('#avancementTache').css("color","#FFF");
                             }
-                            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                            d.setUTCSeconds(parseInt(tache.dateDebut));
-                            console.log("date = "+d+" ---- "+  " nnnnn " + d.day + "----" +tache.dateDebut);
-                            $('#dateDebutTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
-                            d.setUTCSeconds(parseInt(tache.dateFinTot));
-                            $('#dateFinTotTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
-                            d.setUTCSeconds(parseInt(tache.dateFinTard));
-                            $('#dateFinTardTache').html(d.getDate()+"/"+d.getMonth()+"/"+d.getYear());
+
+                            $('#dateDebutTache').html(tache.dateDebut);
+                            $('#dateFinTotTache').html(tache.dateFinTot);
+                            $('#dateFinTardTache').html(tache.dateFinTard);
                             var unite = tache.projet.unite;
                             if(unite=="JOUR")
                             {
@@ -1167,6 +1245,7 @@
                             {
                                 unite = '@Messages("week-first-letter")';
                             }
+                            console.log(JSON.stringify(tache));
                             $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
                             $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);

@@ -249,7 +249,7 @@ public class ModelBeanTest {
                     20D,
                     0D,
                     20D,
-                    contactList,pr,null,null,null);
+                    contactList,pr,null,null,null,false);
             //tache.responsableTache = u1;
             tache.idTache = "1";
 
@@ -265,7 +265,7 @@ public class ModelBeanTest {
             Logger.debug(t2.nom);
             Logger.debug(t2.description);
             Logger.debug(t2.critique.toString());
-            Logger.debug(Double.toString(t2.getChargeConsommee()));
+            //Logger.debug(Double.toString(t2.getChargeConsommee()));
             Logger.debug(t2.chargeInitiale.toString());
             Logger.debug(t2.dateDebut.toString());
             Logger.debug(t2.dateFinTard.toString());
