@@ -5,15 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
+import models.Utils.Utils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table
@@ -50,7 +48,6 @@ public class Tache extends EntiteSecurise {
     public Integer priorite = 0;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
-    @JsonIgnore
     public List<Contact> interlocuteurs;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -551,6 +548,14 @@ public class Tache extends EntiteSecurise {
 
     public boolean estTerminee(){ return getAvancementTache() == 100.0; }
 
+    public long nbJourRestant() {
+        Calendar cal = Calendar.getInstance();
+        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
+        long diff = Utils.differenceNbJours(today.getTime(), dateFinTard);
+        if(diff<0)
+            diff=0;
+        return diff;
+    }
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
