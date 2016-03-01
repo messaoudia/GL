@@ -186,3 +186,6 @@ noContact = No contact
 exportClients = Export clients
 errorMessageSupprUserProjet = Please choose a new user for all projects below
 errorMessageSupprUserTache = Please choose a new user for all tasks below
+messageWelcomeLogin = Welcome on myProjects
+messageWelcomeDescription = myProjects, management website and monitoring project
+forgottenPassword = Forgotten password ?

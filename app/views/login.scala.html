@@ -21,12 +21,10 @@
         <!--<div class="middle-box text-center loginscreen animated fadeInDown">-->
         <div class="middle-box text-center loginscreen animated fadeInDown">
             <div style="padding-bottom:23px;">
-                <h2>Bienvenue sur myProjects</h2>
+                <h2>@Messages("messageWelcomeLogin")</h2>
             </div>
             <div>
-                <p>
-                    myProjects, solution de gestion et de suivi de projets
-                </p>
+                <p>@Messages("messageWelcomeDescription")</p>
                 <form class="m-t" role="form" method="POST" action="@routes.Login.authenticate()">
                     @if(form.hasGlobalErrors) {
                         <p class="error">
@@ -46,7 +44,7 @@
                     <input name="password" type="password" class="form-control" placeholder="Password" required="">
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">Connexion</button>
-                <a href="#"><small>Mot de passe oublié?</small></a>
+                <a href="#"><small>@Messages("forgottenPassword")</small></a>
                 </form>
 
                 <p class="m-t"> <small>Pear Corporation &copy; 2016</small> </p>
