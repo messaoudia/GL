@@ -185,3 +185,6 @@ incoherentDate = Les dates sont incohérente
 parseError = Erreur au niveau du traitement des dates
 noContact = Pas de contact
 exportClients = Exporter clients
+errorMessageSupprUserProjet = Veuillez choisir un nouvel utilisateur pour tous les projets ci-dessous
+errorMessageSupprUserTache = Veuillez choisir un nouvel utilisateur pour toutes les tâches ci-dessous
+mailOrPasswordInvalid= Email ou mot de passe incorrect

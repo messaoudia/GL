@@ -7,7 +7,7 @@ POST        /changeLanguage            controllers.Application.changeLanguage()
 GET         /changerLangue             controllers.Application.changeLangue(lang: String)
 
 # Home page
-GET         /                          controllers.Application.index()
+GET         /                          controllers.DashboardController.afficherDashboard
 
 # Login page
 GET         /login                     controllers.Login.index()
@@ -52,6 +52,7 @@ GET         /adminUtilisateurId        controllers.AdminController.afficherModal
 GET         /adminClientId             controllers.AdminController.afficherModalClient(id: Long)
 GET         /adminProjetsClient        controllers.ProjetController.afficherProjetsClient(id: Long)
 GET         /adminContactsClient       controllers.ContactController.afficherContactsClient(id: Long)
+GET         /allUsers                  controllers.UtilisateurController.allUsers()
 
 POST        /ajouterProjet             controllers.ProjetController.creerProjet
 GET         /listProjetsUtilisateur    controllers.UtilisateurController.listProjetsUtilisateur(id: Long)

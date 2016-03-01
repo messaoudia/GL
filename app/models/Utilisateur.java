@@ -62,15 +62,28 @@ public class Utilisateur extends Personne {
 
     public String langue;
 
-    //TODO Make connection to the database to check the authentication
-    public String validate() {
-        if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
-            return "Invalid email or password";
+    public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
+
+    public static Utilisateur authenticate(String email, String password) {
+        Utilisateur utilisateur = Utilisateur.find.where().eq("email", email).findUnique();
+        if (utilisateur != null && utilisateur.checkPassword(password)) {
+            return utilisateur;
+        } else {
+            return null;
         }
-        return null;
     }
 
-    public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
+    ////TODO Make connection to the database to check the authentication
+    //public String validate() {
+    //    //if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
+    //    //    return "Invalid email or password";
+    //    //}
+    //    Utilisateur utilisateurAuthentifie = Utilisateur.authenticate(email, password);
+    //    if (utilisateurAuthentifie == null) {
+    //        return "Invalid email or password";
+    //    }
+    //    return null;
+    //}
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
                        List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue) {
@@ -787,16 +800,6 @@ public class Utilisateur extends Personne {
                 res.add(tache);
         }
         return res;
-    }
-    /**
-     * Calcule le nombre de jours entre date1 et date2 : date2-date1
-     *
-     * @param date1
-     * @param date2
-     * @return
-     */
-    private static long differenceNbJours(Date date1, Date date2) {
-        return ((date2.getTime() - date1.getTime()) / 86400000);
     }
 
     public static List<Utilisateur> getAllArchives() {

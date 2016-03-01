@@ -183,7 +183,6 @@ public class UtilisateurController extends Controller {
     }
 
     public Result supprimerUtilisateur(Long idUtilisateur,String strProjet,String strTache){
-
         String[] arrayProjets = strProjet.split(";");
         String[] arrayTaches = strTache.split(";");
 
@@ -233,5 +232,9 @@ public class UtilisateurController extends Controller {
         u.archive = true;
         u.save();
         return ok();
+    }
+
+    public Result allUsers(){
+        return ok(Json.toJson(Utilisateur.find.all()));
     }
 }

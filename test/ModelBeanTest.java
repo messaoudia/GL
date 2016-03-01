@@ -6,8 +6,7 @@ import play.Logger;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
@@ -250,7 +249,7 @@ public class ModelBeanTest {
                     20D,
                     0D,
                     20D,
-                    contactList,pr,null,null,null);
+                    contactList,pr,null,null,null,false);
             //tache.responsableTache = u1;
             tache.idTache = "1";
 
@@ -266,7 +265,7 @@ public class ModelBeanTest {
             Logger.debug(t2.nom);
             Logger.debug(t2.description);
             Logger.debug(t2.critique.toString());
-            Logger.debug(Double.toString(t2.getChargeConsommee()));
+            //Logger.debug(Double.toString(t2.getChargeConsommee()));
             Logger.debug(t2.chargeInitiale.toString());
             Logger.debug(t2.dateDebut.toString());
             Logger.debug(t2.dateFinTard.toString());
@@ -294,6 +293,8 @@ public class ModelBeanTest {
             assertNotNull(u1.id);
             Utilisateur u2 = Utilisateur.find.byId(u1.id);
             assertEquals(u1,u2);
+            assertTrue(u2.checkPassword("azertY1"));
+            assertFalse(u2.checkPassword("FALSE_PASSWORD"));
         });
     }
 

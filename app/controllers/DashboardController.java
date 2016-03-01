@@ -2,11 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Contact;
-import models.Projet;
 import models.Tache;
 import models.Utilisateur;
-import play.api.libs.iteratee.Cont;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -19,7 +16,11 @@ import java.util.List;
  */
 public class DashboardController extends Controller{
     public Result afficherDashboard() {
-        return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));   // provisoir en attendant login
+        if (Login.isUtilisateurConnecte()) {
+            return ok(dashboard.render("Dashboard", Login.getUtilisateurConnecte()));   // provisoir en attendant login
+        } else {
+            return redirect(routes.Login.index());
+        }
     }
 
     public Result afficherModalTache(long idTache) {

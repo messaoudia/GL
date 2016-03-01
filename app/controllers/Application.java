@@ -1,7 +1,6 @@
 package controllers;
 
 import models.Utilisateur;
-import play.Logger;
 import play.Routes;
 import play.api.i18n.Lang;
 import play.mvc.Controller;
@@ -31,13 +30,13 @@ public class Application extends Controller {
      */
     public Result index() {
         /* TODO mettre utilisateur connecté" */
-        return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
-        /*String user = session("connected");
-        if (user != null) {
-            return ok(index.render("Pear project manager"));
+        // return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
+        //  String user = session("connected");
+        if (Login.isUtilisateurConnecte()) {
+            return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
         } else {
             return redirect(routes.Login.index());
-        }*/
+        }
     }
 
 
