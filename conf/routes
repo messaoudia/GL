@@ -74,3 +74,4 @@ POST        /initModalAdminProjetClient         controllers.AdminController.affi
 POST        /adminClientSupprimer               controllers.AdminController.supprimerClient(idC : Long)
 POST        /supprimerUtilisateur               controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur: Long ,strProjet: String ,strTache: String)
 POST        /activeOuDesactiveNotification      controllers.NotificationController.activerOuDesactiverNotificationTache(idTache:Long, idUser:Long)
+POST        /getAllInterlocuteur                controllers.DashboardController.getAllInterlocuteur(idProjet:Long)

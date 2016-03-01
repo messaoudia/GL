@@ -516,8 +516,8 @@
                                                                 : </p>
                                                             <div id="table-successeursTache-consulter-tdb" class="list-task">
                                                                 <table class="table-bordered">
-                                                                    <tbody>
-                                                                        <tr>
+                                                                    <tbody id="table-successeursTache-consulter-tdb-body">
+                                                                        <!--<tr>
                                                                             <td class="id-task">18</td>
                                                                             <td class="name-task">
                                                                                 Créer la base de données</td>
@@ -536,7 +536,7 @@
                                                                             <td class="id-task">8</td>
                                                                             <td class="name-task">
                                                                                 Créer la base de données</td>
-                                                                        </tr>
+                                                                        </tr>-->
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -561,17 +561,17 @@
                                                                 <a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a>
                                                                 <div class="btn-group">
                                                                     <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                        3 @Messages("externalInterlocutors") <span class="caret"></span>
+                                                                        <div id="nbInterlocuteur" style="display:inline-block;"></div> @Messages("externalInterlocutors") <span class="caret"></span>
                                                                     </button>
-                                                                    <ul class="dropdown-menu dropdown-menu-pert">
-                                                                        <li>Lassana Diarra</li>
+                                                                    <ul id="interlocuteurs-consulter" class="dropdown-menu dropdown-menu-pert">
+                                                                        <!--<li>Lassana Diaree</li>
                                                                         <li>Steve Mandanda</li>
-                                                                        <li>Didier Drogba</li>
+                                                                        <li>Didier Drogba</li>-->
                                                                     </ul>
                                                                 </div>
                                                             </div>
 
-                                                            <p style="margin-top:12px ;">@Messages("remainingTime")
+                                                            <p id="nbJourRestant" style="margin-top:12px ;">@Messages("remainingTime")
                                                                 : 10@Messages("day-first-letter")</p>
                                                             <div class="row row-date-tache-modal">
                                                                 <div class="col-sm-7">
@@ -638,10 +638,21 @@
                                                                 <p style="margin-top:7px ;">@Messages("predecessor")
                                                                     : </p>
                                                                 <select class="form-control select2-predecesseur" style="width:100% ;" multiple="multiple">
-                                                                    <option value="Mayotte">Mayotte</option>
+                                                                    <!--<option value="Mayotte">Mayotte</option>
                                                                     <option value="Mexico">Mexico</option>
-                                                                    <option value="Nicaragua">Nicaragua</option>
+                                                                    <option value="Nicaragua">Nicaragua</option>-->
                                                                 </select>
+                                                                <div id="table-predecesseurTache-modifier-tdb" class="list-task">
+                                                                    <table class="table-bordered">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td class="id-task"></td>
+                                                                                <td class="name-task"></td>
+                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
 
                                                                     <!-- Modifier successeurs -->
                                                                 <p style="margin-top:7px ;">@Messages("successors")
@@ -651,6 +662,17 @@
                                                                     <option value="Mexico">Mexico</option>
                                                                     <option value="Nicaragua">Nicaragua</option>
                                                                 </select>
+                                                                <div id="table-successeursTache-modifier-tdb" class="list-task">
+                                                                    <table class="table-bordered">
+                                                                        <tbody id="table-successeursTache-modifier-tdb-body">
+                                                                           <!-- <tr>
+                                                                                <td class="id-task"></td>
+                                                                                <td class="name-task"></td>
+                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
+                                                                            </tr>-->
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
                                                             </div>
 
                                                                 <!-- 2eme colonne -->
@@ -672,10 +694,10 @@
                                                                 <div class="row margin-form" style="margin:10px 0px ;">
                                                                     <div class="btn-group">
                                                                         <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                                            3 @Messages("externalInterlocutors") <span class="caret"></span>
+                                                                            <div id="nbInterlocuteurModifier" style="display: inline-block;"></div> @Messages("externalInterlocutors") <span class="caret"></span>
                                                                         </button>
-                                                                        <ul class="dropdown-menu dropdown-menu-pert">
-                                                                            <li>
+                                                                        <ul id="interlocuteurs-modifier" class="dropdown-menu dropdown-menu-pert">
+                                                                            <!--<li>
                                                                                 <div class="checkbox checkbox-success checkbox-dropdown">
                                                                                     <input id="checkbox-interlocuteur-1" type="checkbox">
                                                                                     <label for="checkbox-interlocuteur-1">
@@ -714,7 +736,7 @@
                                                                                         Didier Drogba
                                                                                     </label>
                                                                                 </div>
-                                                                            </li>
+                                                                            </li>-->
                                                                         </ul>
                                                                     </div>
                                                                 </div>

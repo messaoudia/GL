@@ -1140,23 +1140,73 @@
                             $('#formModifierNomTache-tdb').val(tache.nom);
                             $('#descriptionTache-consulter-tdb').html(tache.description);
                             $('#formModifierDescriptionTache-tdb').val(tache.description);
-                            if(tache.predecesseur == null){
+                            if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
+                                $('#table-predecesseurTache-modifier-tdb').hide();
                             }
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
                                 $('#table-predecesseurTache-consulter-tdb').show();
-                                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseur.idTache);
-                                $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseur.nom);
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurId);
+                                $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseurNom);
+
+                                $('#table-predecesseurTache-modifier-tdb').show();
+                                $('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
+                                $('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
+
                             }
                             console.log("tache = "+JSON.stringify(tache))
                             console.log("predecesseurNom : "+tache.predecesseurNom);
                             console.log("predecesseurId : "+tache.predecesseurId);
                             console.log("Successeurs : "+tache.successeurs);
 
+                            //TODO
                             // TODO : Successeurs
+                            var list = "";
+                            var listModifier = "";
+                            if(tache.successeurs)
+                            {
+                                for(var key in tache.successeurs) {
 
+                                    list+='<tr>';
+                                    list+='<td class="id-task">'+tache.successeurs[key].id+'</td>';
+                                    list+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
+                                    list+='</tr>';
+
+                                    listModifier+='<tr><td class="id-task">'+tache.successeurs[key].id+'</td>';
+                                    listModifier+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
+                                    listModifier+='<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td></tr>';
+                                }
+                            }
+                            $('#table-successeursTache-consulter-tdb-body').html(list);
+                            $('#table-successeursTache-modifier-tdb-body').html(listModifier);
+
+                            list = "";
+                            listModifier = "";
+                            if(tache.interlocuteurs)
+                            {
+                                for(var key in tache.interlocuteurs) {
+                                    list+='<li>'+tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom +'</li>';
+
+                                }
+
+                                jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
+                                    success: function(interlocuteurs) {
+                                        console.log(JSON.stringify(interlocuteurs));
+                                    },
+                                    error: function(errorMessage){
+                                        alert(errorMessage);
+                                    }
+                                });
+
+
+                                $('#nbInterlocuteur').html(tache.interlocuteurs.length);
+                                $('#nbInterlocuteurModifier').html(tache.interlocuteurs.length);
+                            }
+
+                            $('#interlocuteurs-consulter').html(list);
+                            $('#interlocuteurs-modifier').html(listModifier);
 
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
@@ -1172,7 +1222,7 @@
                             {
                                 $('#avancementTache').css("color","#FFF");
                             }
-
+                            $('#nbJourRestant').html(tache.nbJourRestant+'@Messages("day-first-letter")');
                             $('#dateDebutTache').html(tache.dateDebut);
                             $('#dateFinTotTache').html(tache.dateFinTot);
                             $('#dateFinTardTache').html(tache.dateFinTard);

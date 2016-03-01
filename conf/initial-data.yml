@@ -556,6 +556,9 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            1
+    interlocuteurs:
+             - *contact4
+             - *contact3
 
 - &tache12 !!models.Tache
     id:                 32
@@ -606,6 +609,8 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            4
+    predecesseur:       *tache12
+
 
 - &tache15 !!models.Tache
     id:                 35

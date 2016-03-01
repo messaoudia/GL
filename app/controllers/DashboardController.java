@@ -2,12 +2,17 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Contact;
+import models.Projet;
 import models.Tache;
 import models.Utilisateur;
+import play.api.libs.iteratee.Cont;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
+
+import java.util.List;
 
 /**
  * Created by Gishan on 08/01/2016.
@@ -28,7 +33,27 @@ public class DashboardController extends Controller{
             o.put("predecesseurNom",t.predecesseur.nom);
             o.put("predecesseurId",t.predecesseur.id);
         }
+        o.put("nbJourRestant",t.nbJourRestant());
         return ok(o);
     }
+
+
+    public Result getAllInterlocuteur(Long idProjet)
+    {
+        Projet p = Projet.find.byId(idProjet);
+        List<Contact> lC = p.client.listContacts();
+        return ok(Json.toJson(lC));
+    }
+
+    public Result getAllSucesseursPossible(Long idTache)
+    {
+        return ok();
+    }
+
+    public Result getAllPredecesseursPossible(Long idTache)
+    {
+        return ok();
+    }
+
 
 }
