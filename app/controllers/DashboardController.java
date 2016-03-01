@@ -2,11 +2,17 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Contact;
+import models.Projet;
 import models.Tache;
+import models.Utilisateur;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Gishan on 08/01/2016.
@@ -31,7 +37,31 @@ public class DashboardController extends Controller{
             o.put("predecesseurNom",t.predecesseur.nom);
             o.put("predecesseurId",t.predecesseur.id);
         }
+        o.put("nbJourRestant",t.nbJourRestant());
         return ok(o);
     }
 
+
+    public Result getAllInterlocuteur(Long idProjet)
+    {
+        Projet p = Projet.find.byId(idProjet);
+        List<Contact> lC = p.client.listContacts();
+        return ok(Json.toJson(lC));
+    }
+
+    public Result getAllSucesseursPossible(Long idTache)
+    {
+        Tache tache = Tache.find.byId(idTache);
+        List<Tache> listSuccesseur = Tache.find.where().le("dateDebut",tache.dateFinTard).findList();
+        //parents direct à supprimmer
+        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listSuccesseur)));
+    }
+
+    public Result getAllPredecesseursPossible(Long idTache)
+    {
+        Tache tache = Tache.find.byId(idTache);
+        List<Tache> listPredecesseurs = Tache.find.where().ge("dateFinTard",tache.dateDebut).findList();
+
+        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listPredecesseurs)));
+    }
 }
