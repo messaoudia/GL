@@ -1,9 +1,11 @@
 import com.avaje.ebean.Ebean;
+import controllers.Global.Mail;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import play.libs.mailer.Email;
 import play.test.FakeApplication;
 import play.test.Helpers;
 
@@ -45,13 +47,23 @@ public class MailTest {
 
 
     @Test
-    public void sendMail(){
-        SimpleEmail email = new SimpleEmail();
-        email.setFrom("sender@zenexity.fr");
-        email.addTo("recipient@zenexity.fr");
-        email.setSubject("subject");
-        email.setMsg("Message");
-        Mail.send(email);
+    public void sendMail() {
+        final Email email = new Email();
+        email.setSubject("[ My Project - Polytech ] Test 2 ");
+        email.setFrom("NE-PAS-REPONDRE <myproject.polytechparissud@gmail.com>");
+        email.addTo("Yasser RABI <yasser.rabi@gmail.com>");
+        // adds attachment
+        //email.addAttachment("attachment.pdf", new File("/some/path/attachment.pdf"));
+        // adds inline attachment from byte array
+        // email.addAttachment("data.txt", "data".getBytes(), "text/plain", "Simple data", EmailAttachment.INLINE);
+        // sends text, HTML or both...
+        //email.setBodyText("Hi Yasser");
+        email.setBodyHtml("<html><body><p>Bonjour Yasser,<br>Ceci est un test<br>Cordialement,</body></html>");
+
+
+        Mail.sendEmail(email);
+
+
     }
 
 }
