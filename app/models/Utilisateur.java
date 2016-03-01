@@ -788,16 +788,6 @@ public class Utilisateur extends Personne {
         }
         return res;
     }
-    /**
-     * Calcule le nombre de jours entre date1 et date2 : date2-date1
-     *
-     * @param date1
-     * @param date2
-     * @return
-     */
-    private static long differenceNbJours(Date date1, Date date2) {
-        return ((date2.getTime() - date1.getTime()) / 86400000);
-    }
 
     public static List<Utilisateur> getAllArchives() {
         return find.where().eq("archive", true).findList();

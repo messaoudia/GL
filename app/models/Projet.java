@@ -233,6 +233,15 @@ public class Projet extends EntiteSecurise {
             if(tache.parent.equals(tache))
                 throw new IllegalArgumentException("Le parent de la tache " + tache.nom + " est lui-même!");
 
+            if(tache.parent.dateDebut.after(tache.dateDebut))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de début ("+ formateDate(tache.parent.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+
+            if(tache.parent.dateFinTot.before(tache.dateFinTot))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tot ("+ formateDate(tache.parent.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+
+            if(tache.parent.dateFinTard.before(tache.dateFinTard))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tard ("+ formateDate(tache.parent.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+
             if(tache.parent.enfants == null)
                 tache.parent.enfants = new BeanList<>();
 
@@ -243,11 +252,20 @@ public class Projet extends EntiteSecurise {
         }
 
         // Met a jour les enfants
-        if(tache.enfants != null){
+        if(tache.hasEnfant()){
             if(tache.enfants.contains(tache))
                 throw new IllegalArgumentException("Un des enfants de la tache " + tache.nom + " est lui-même!");
 
             for(Tache enfant : tache.enfants){
+                if(tache.dateDebut.after(enfant.dateDebut))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de début ("+ formateDate(enfant.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+
+                if(tache.dateFinTot.before(enfant.dateFinTot))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tot ("+ formateDate(enfant.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+
+                if(tache.dateFinTard.before(enfant.dateFinTard))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(enfant.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+
                 enfant.parent = tache;
                 enfant.save();
             }
@@ -261,6 +279,9 @@ public class Projet extends EntiteSecurise {
             if(tache.predecesseur.successeurs == null)
                 tache.predecesseur.successeurs = new BeanList<>();
 
+            if(tache.dateDebut.before(tache.predecesseur.dateFinTard))
+                throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de debut ("+ formateDate(tache.dateDebut)+") avant la date de fin au plus tard ("+ formateDate(tache.predecesseur.dateFinTard)+") de son predecesseur [" + tache.predecesseur.nom + "]");
+
             if(!tache.predecesseur.successeurs.contains(tache)){
                 tache.predecesseur.successeurs.add(tache);
                 tache.predecesseur.save();
@@ -272,6 +293,9 @@ public class Projet extends EntiteSecurise {
                 throw new IllegalArgumentException("Un des successeurs de la tache " + tache.nom + " est lui-même!");
 
             for(Tache successeur : tache.successeurs){
+                if(tache.dateFinTard.after(successeur.dateDebut))
+                    throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") après la date de début ("+ formateDate(successeur.dateDebut)+") de son successeur [" + successeur.nom + "]");
+
                 successeur.predecesseur = tache;
                 successeur.save();
             }
@@ -524,8 +548,69 @@ public class Projet extends EntiteSecurise {
                     ", modification impossible");
         }
 
+        // Met a jour le parent
+        if(tache.hasParent()){
+            if(tache.parent.equals(tache))
+                throw new IllegalArgumentException("Le parent de la tache " + tache.nom + " est lui-même!");
+
+            if(tache.parent.dateDebut.after(tache.dateDebut))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de début ("+ formateDate(tache.parent.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+
+            if(tache.parent.dateFinTot.before(tache.dateFinTot))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tot ("+ formateDate(tache.parent.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+
+            if(tache.parent.dateFinTard.before(tache.dateFinTard))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tard ("+ formateDate(tache.parent.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+        }
+
+        // Met a jour les enfants
+        if(tache.hasEnfant()){
+            if(tache.enfants.contains(tache))
+                throw new IllegalArgumentException("Un des enfants de la tache " + tache.nom + " est lui-même!");
+
+            for(Tache enfant : tache.enfants){
+                if(tache.dateDebut.after(enfant.dateDebut))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de début ("+ formateDate(enfant.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+
+                if(tache.dateFinTot.before(enfant.dateFinTot))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tot ("+ formateDate(enfant.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+
+                if(tache.dateFinTard.before(enfant.dateFinTard))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(enfant.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+
+                enfant.parent = tache;
+                enfant.save();
+            }
+        }
+
+        // Met a jour le prédécesseur
+        if(tache.hasPredecesseur()){
+            if(tache.predecesseur.equals(tache))
+                throw new IllegalArgumentException("Le predecesseur de la tache " + tache.nom + " est lui-même!");
+
+            if(tache.predecesseur.successeurs == null)
+                tache.predecesseur.successeurs = new BeanList<>();
+
+            if(tache.dateDebut.before(tache.predecesseur.dateFinTard))
+                throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de debut ("+ formateDate(tache.dateDebut)+") avant la date de fin au plus tard ("+ formateDate(tache.predecesseur.dateFinTard)+") de son predecesseur [" + tache.predecesseur.nom + "]");
+        }
+        // Met a jour les successeur
+        if(tache.hasSuccesseur()){
+            if(tache.successeurs.contains(tache))
+                throw new IllegalArgumentException("Un des successeurs de la tache " + tache.nom + " est lui-même!");
+
+            for(Tache successeur : tache.successeurs){
+                if(tache.dateFinTard.after(successeur.dateDebut))
+                    throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") après la date de début ("+ formateDate(successeur.dateDebut)+") de son successeur [" + successeur.nom + "]");
+            }
+        }
+
+
         //TODO modifier tâche
         tache.update();
+        updateDatesProjet(tache);
+        updateAvancementGlobal();
+        update();
     }
 
     /**
@@ -561,6 +646,13 @@ public class Projet extends EntiteSecurise {
             tache.getSuccesseurs().forEach(t -> t.predecesseur = null);
         }
 
+        /** TODO A VERIFIER **/
+        if(tache.hasEnfant()){
+            for(Tache enfant : tache.enfants){
+                supprimerTache(enfant);
+            }
+        }
+
         // Modification des idTache
         String[] idTacheParse = tache.idTache.split("\\.");
         int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
@@ -590,6 +682,7 @@ public class Projet extends EntiteSecurise {
 
         // TODO Mettre a jour les charges des taches filles -> a checker
         tache.updateChargesTachesMeresEtProjet();
+        updateDatesProjet(tache);
 
         // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
         updateAvancementGlobal();
@@ -700,31 +793,6 @@ public class Projet extends EntiteSecurise {
         if(t.parent != null)
             calculeCheminCritiqueTacheMere(t.parent);
     }
-
-
-
-    /*
-    private List<Tache> getTachesFins(){
-        List<Tache> listTachesFin = new ArrayList<Tache>();
-        for(Tache tache : listTaches){
-            if(!tache.hasPredecesseur()) {
-                getTachesFinsRecursive(tache, listTachesFin);
-            }
-        }
-        return listTachesFin;
-    }
-
-    private void getTachesFinsRecursive(Tache tache, List<Tache> result){
-        if(tache.hasSuccesseur()){
-            result.add(tache);
-        }
-        else{
-            for(Tache successeur : tache.successeurs){
-                getTachesFinsRecursive(successeur, result);
-            }
-        }
-    }
-    */
 
     /**
      * TODO testme : A CHANGER CAR AJOUT DE DEUX DATES
