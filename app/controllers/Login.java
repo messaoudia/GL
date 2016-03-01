@@ -54,7 +54,7 @@ public class Login extends Controller {
             String jsonStringUtilisateur = Json.toJson(sessionCredential).toString();
             session("sessionCredential", crypto.encryptAES(jsonStringUtilisateur));
             Logger.debug("Utilisateur authentifie: " + utilisateurAuthentifie);
-            return redirect(routes.Application.index());
+            return redirect(routes.DashboardController.afficherDashboard());
         }
     }
 
