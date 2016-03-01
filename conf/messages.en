@@ -184,3 +184,4 @@ incoherentDate = Dates are incoherent
 parseError = Error parsing the dates
 noContact = No contact
 exportClients = Export clients
+mailOrPasswordInvalid=Wrong email or password

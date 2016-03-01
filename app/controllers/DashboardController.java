@@ -14,7 +14,11 @@ import views.html.dashboard;
  */
 public class DashboardController extends Controller{
     public Result afficherDashboard() {
-        return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));   // provisoir en attendant login
+        if (Login.isUtilisateurConnecte()) {
+            return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));   // provisoir en attendant login
+        } else {
+            return redirect(routes.Login.index());
+        }
     }
 
     public Result afficherModalTache(long idTache) {

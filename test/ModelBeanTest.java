@@ -6,8 +6,7 @@ import play.Logger;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
@@ -294,6 +293,8 @@ public class ModelBeanTest {
             assertNotNull(u1.id);
             Utilisateur u2 = Utilisateur.find.byId(u1.id);
             assertEquals(u1,u2);
+            assertTrue(u2.checkPassword("azertY1"));
+            assertFalse(u2.checkPassword("FALSE_PASSWORD"));
         });
     }
 

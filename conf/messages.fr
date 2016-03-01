@@ -185,3 +185,4 @@ incoherentDate = Les dates sont incohérente
 parseError = Erreur au niveau du traitement des dates
 noContact = Pas de contact
 exportClients = Exporter clients
+mailOrPasswordInvalid= Email ou mot de passe incorrect
