@@ -276,6 +276,8 @@ public class Projet extends EntiteSecurise {
                 successeur.save();
             }
         }
+
+
         // Initialisation des personnes a notifié par défaut à la création de la tache
         tache.addUtilisateurNotification(tache.responsableTache);
         tache.initUtilisateursNotificationsEnfants();
@@ -284,6 +286,7 @@ public class Projet extends EntiteSecurise {
         tache.projet = this;
         tache.save();
         listTaches.add(tache);
+        updateDatesProjet(tache);
         // TODO : mettre a jour les charges des taches meres -> a checker
         tache.initCharge(0.0, tache.chargeInitiale);
         // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
@@ -291,6 +294,23 @@ public class Projet extends EntiteSecurise {
         calculeCheminCritique();
 
         save();
+    }
+
+    private void updateDatesProjet(Tache tache){
+        // Mise a jour date de début
+        if(dateDebutReel == null || tache.dateDebut.before(dateDebutReel)){
+            dateDebutReel = tache.dateDebut;
+        }
+
+        // Mise a jour date de fin au + tot
+        if(dateFinReelTot == null || tache.dateFinTot.after(dateFinReelTot)){
+            dateFinReelTot = tache.dateFinTot;
+        }
+
+        // Mise a jour date de fin au + tard
+        if(dateFinReelTard == null || tache.dateFinTard.after(dateFinReelTard)){
+            dateFinReelTard = tache.dateFinTard;
+        }
     }
 
     /**
