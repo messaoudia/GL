@@ -73,37 +73,33 @@
                             <tbody id="dataTables-admin-user-body">
                                 <!-- Boucle sur la liste des utilisateurs -->
                                 @for(utilisateur <- utilisateurs) {
-                                    @if(utilisateur.archive) {
+                                    @if(utilisateur.archive){
                                         <tr class="user-archived" value="@utilisateur.id">
-                                    }else {
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.nom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.prenom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.email</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.telephone</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.listProjetsResponsableSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.listTachesSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">
+                                        @Messages("yes")
+                                        </td>
+                                        <td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+
+                                    } else {
                                         <tr value="@utilisateur.id">
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.telephone</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listProjetsResponsableSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listTachesSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">
+                                        @Messages("no")
+                                        </td>
+                                        <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
+
                                     }
-
-                                        @if(utilisateur.archive){
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.nom</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.prenom</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.email</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.telephone</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.listProjetsResponsableSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">@utilisateur.listTachesSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user-disable">
-                                            @Messages("yes")
-                                            </td>
-                                            <td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
-
-                                        } else {
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.nom</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.prenom</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.email</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.telephone</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listProjetsResponsableSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">@utilisateur.listTachesSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-user">
-                                            @Messages("no")
-                                            </td>
-                                            <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td>
-
-                                        }
                                     </tr>
                                 }
                             </tbody>
@@ -236,6 +232,9 @@
                                             <div class="col-md-6">
                                                 <p>@Messages("projectManagerChange") :</p>
                                                 <div class="table-responsive">
+                                                    <div id="error-message-suppr-user-projet" class="alert alert-danger alert-dismissable" style="display: none;">
+                                                        <p id="error-message-suppr-user-ProjetP">*@Messages("errorMessageSupprUserProjet")<p>
+                                                    </div>
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr>
@@ -244,7 +243,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="table-modal-suppr-user-projet-body" class="table-suppr-user">
-                                                            <tr>
+                                                            <!--<tr>
                                                                 <td>Projet 1</td>
                                                                 <td>
                                                                     <select class="form-control select2-respo-projet" style="width:100%;" multiple="single">
@@ -253,7 +252,7 @@
                                                                         <option value="Nicaragua">Nicaragua</option>
                                                                     </select>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>-->
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -261,6 +260,9 @@
                                             <div class="col-md-6">
                                                 <p>@Messages("changeResponsableTask")</p>
                                                 <div class="table-responsive">
+                                                    <div id="error-message-suppr-user-tache" class="alert alert-danger alert-dismissable" style="display: none;">
+                                                        <p id="error-message-suppr-user-tacheP">*@Messages("errorMessageSupprUserTache")<p>
+                                                    </div>
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr>
@@ -270,7 +272,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="table-modal-suppr-user-tache-body" class="table-suppr-user">
-                                                            <tr>
+                                                            <!--<tr>
                                                                 <td>Créer la base de données</td>
                                                                 <td>Projet 1</td>
                                                                 <td>
@@ -280,7 +282,7 @@
                                                                         <option value="Nicaragua">Nicaragua</option>
                                                                     </select>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>-->
                                                         </tbody>
                                                     </table>
                                                 </div>

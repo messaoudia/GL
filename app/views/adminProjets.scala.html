@@ -164,7 +164,11 @@
                                             }
                                         }
 
-                                        <td id=25" class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                                    @if(projet.archive) {
+                                        <td class="td-btn-suppr-disable"style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                                    }else{
+                                        <td class="td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-projet-admin" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                                    }
                                     </tr>
                                 }
                                 </tbody>

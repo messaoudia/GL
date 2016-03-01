@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.Utils.Utils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
@@ -28,6 +29,7 @@ public class Notification extends Model {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
+    @JsonIgnore
     public Utilisateur utilisateur;
 
     public static Model.Finder<Long, Notification> find = new Model.Finder<>(Notification.class);
