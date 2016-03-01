@@ -192,3 +192,4 @@ messageWelcomeLogin = Bienvenue sur myProjects
 messageWelcomeDescription = myProjects, solution de gestion et de suivi de projets
 forgottenPassword = Mot de passe oublié
 getEmail = Veuillez saisir votre adresse email
+connexion = Connexion
