@@ -474,6 +474,9 @@
                 }
 
                 var supprimerUtilisateur = function(){
+                    $("#error-message-suppr-user-projet").hide();
+                    $("#error-message-suppr-user-tache").hide();
+
                     var idUtilisateur = $tmpTrAdminUser.attr('value');
                     console.log('Utilisateur a supprimer : '+idUtilisateur);
                     //<idProjet,idUtilisateur>
@@ -481,20 +484,34 @@
                     //<idTache; idUtilisateur>
                     var mapTache = "";
 
-                    /* tester si ils sont tous remplis */
-
-                    $("#table-modal-suppr-user-projet-body > tr").each(function() {
+                    /* tester si ils sont tous remplis  exit = return; */
+                    var error = false;
+                    $("#table-modal-suppr-user-projet-body > tr").each(function(){
                         var projectID = $(this).attr('value');
-                        var idUserSelected = $(this).children('td').eq(1).children('select').select2().val()[0];
+                        try{
+                            var idUserSelected = $(this).children('td').eq(1).children('select').select2().val()[0];
+                        }catch(e){
+                            $("#error-message-suppr-user-projet").show();
+                            error = true;
+                        }
                         mapProjet+=projectID+","+idUserSelected+";";
                     });
 
-                    $("#table-modal-suppr-user-tache-body > tr").each(function() {
+                    $("#table-modal-suppr-user-tache-body > tr").each(function(){
                         var tacheID = $(this).attr('value');
-                        var idUserSelected = $(this).children('td').eq(2).children('select').select2().val()[0];
+                        try{
+                            var idUserSelected = $(this).children('td').eq(2).children('select').select2().val()[0];
+                        }catch(e){
+                            $("#error-message-suppr-user-tache").show();
+                            error = true;
+                        }
                         mapTache+=tacheID+","+idUserSelected+";";
 
                     });
+
+                    if(error){
+                        return;
+                    }
 
                     console.log(mapProjet);
                     console.log(mapTache);
@@ -510,6 +527,49 @@
                             if(! $('#checkboxUsersArchived').is(":checked")) {
                                 $tmpTrAdminUser.hide();
                             }
+
+                            jsRoutes.controllers.UtilisateurController.allUsers().ajax({
+                                success: function(users) {
+                                    //console.log(users);
+                                    var userContent = "";
+                                    $("#dataTables-admin-user").dataTable().fnDestroy();
+
+                                    var userTableBody = $('#dataTables-admin-user-body');
+                                    userTableBody.empty();
+                                    $.each(users, function(i, utilisateur) {
+                                        console.log(utilisateur);
+                                        var archive;
+                                        if(utilisateur.archive){
+                                            userContent += ('<tr class="user-archived" value="'+utilisateur.id+'">');
+                                            archive = "-disabled";
+                                        }else{
+                                            userContent += ('<tr value="'+utilisateur.id+'">');
+                                            archive = "";
+                                        }
+
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.nom+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.prenom+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.email+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.telephone+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.listProjetsResponsableSize+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">'+utilisateur.listTachesSize+'</td>');
+                                        userContent += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-user'+archive+'">');
+                                        if(archive == "-disabled"){
+                                            userContent += ('@Messages("yes")</td>');
+                                            userContent += ('<td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td></tr>');
+                                        }else{
+                                            userContent += ('@Messages("no")</td>');
+                                            userContent += ('<td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-user"><i class="fa fa-times"></i></td></tr>');
+                                        }
+                                    });
+
+                                    console.log(userContent);
+                                    //table.clear();
+                                    userTableBody.append(userContent);
+                                }
+                            });
+
+
                         },
                         //Case we have a problem
                         error: function(errorMessage){
