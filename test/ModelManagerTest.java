@@ -1187,5 +1187,6 @@ public class ModelManagerTest {
             assertEquals(Tache.find.byId(tacheC.id).predecesseur,Tache.find.byId(tacheA.id));
             assertEquals(Tache.find.byId(tacheA.id).getSuccesseurs().get(0),Tache.find.byId(tacheC.id));
         });
+
     }
 }
