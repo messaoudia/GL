@@ -1523,11 +1523,24 @@
                     }
 
                     var dataToSend = serialize+"&predecesseur="+idPredecesseur;
+                    dataToSend += "&successeurs=";
+
+                    for (var i = 0; i < tabSuccesseurs.length; i++){
+                        dataToSend += tabSuccesseurs[i]+",";
+                    }
+
+                    dataToSend += "&responsable="+idResponsableTache;
+
+                    dataToSend += "&interlocuteurs=";
+
+                    for (var i = 0; i < tabInterlocuteurs.length; i++){
+                        dataToSend += tabInterlocuteurs[i]+",";
+                    }
 
                     console.log("Data SEND : "+dataToSend);
                     //Ajax call submit form
                     jsRoutes.controllers.DashboardController.modifierTache().ajax({
-                        data: serialize,
+                        data: dataToSend,
                         success : function(data) {
                             console.log("SUCCESS");
                         },
