@@ -1417,16 +1417,19 @@
                     form = "#"+form;
                     var serialize = $(form).serialize();
                     console.log(serialize);
-                    //SUCCESSEUR
-                    $("#form-tache-successeur option").each(function() {
-                        if($(this).is(':selected')){
-                            console.log("selected : "+$(this).val());
-                        }
-                    });
 
                     //PREDECESSEUR
                     var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
                     console.log("idPredecesseur"+idPredecesseur);
+
+                    var tabSuccesseurs = [];
+                    //SUCCESSEUR
+                    $("#form-tache-successeur option").each(function() {
+                        if($(this).is(':selected')){
+                            console.log("selected : "+$(this).val());
+                            tabSuccesseurs.push($(this).val());
+                        }
+                    });
 
                     //RESPONSABLE DE TACHE
                     var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
@@ -1434,23 +1437,35 @@
 
                     //INTERLOCUTEURS EXTERNES
                     var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+                    var tabInterlocuteurs = [];
 
                     for (i = 0; i < nbInterlocuteurs; i++) {
                         if($("#checkbox-interlocuteur-"+i).is(':checked')){
-                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'))
+                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
+                            tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
                         }
                     }
 
-                    $("#interlocuteurs-modifier li").each(function() {
-                        if($(this).is(':selected')){
-                            console.log("selected : "+$(this).id);
+                    var dataToSend = serialize+"&predecesseur="+idPredecesseur;
+
+                    console.log("Data SEND : "+dataToSend);
+                    //Ajax call submit form
+                    jsRoutes.controllers.DashboardController.modifierTache().ajax({
+                        data: serialize,
+                        success : function(data) {
+                            console.log("SUCCESS");
+                        },
+                        error: function(errorMessage,codeErreur){
+                            console.log(codeErreur+" "+errorMessage);
                         }
+
                     });
+
+
                 }
 
 
                 $(document).ready(function () {
-
 
                     $('#dataTables-admin-user').DataTable({
                         destroy:true,

@@ -6,6 +6,7 @@ import models.Contact;
 import models.Projet;
 import models.Tache;
 import models.Utilisateur;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,6 +14,7 @@ import views.html.dashboard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Gishan on 08/01/2016.
@@ -65,6 +67,12 @@ public class DashboardController extends Controller{
         List<Tache> listSuccesseur = Tache.find.where().eq("projet",tache.projet).ge("dateDebut",tache.dateFinTard).findList();
         //parents direct à supprimmer
         return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listSuccesseur)));
+    }
+
+    public Result modifierTache(){
+        Map<String, String[]> map = request().body().asFormUrlEncoded();
+        Logger.debug(map.toString());
+        return ok();
     }
 
 }

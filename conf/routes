@@ -59,6 +59,7 @@ GET         /AllPredecesseursPossible  controllers.DashboardController.getAllPre
 POST        /ajouterProjet             controllers.ProjetController.creerProjet
 GET         /listProjetsUtilisateur    controllers.UtilisateurController.listProjetsUtilisateur(id: Long)
 GET         /listTachesUtilisateur     controllers.UtilisateurController.listTachesUtilisateur(id: Long)
+POST        /modifierTache             controllers.DashboardController.modifierTache()
 
 #view notification
 GET         /notifications                      controllers.NotificationController.afficherNotifications
