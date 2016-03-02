@@ -1,10 +1,25 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import models.Utilisateur;
+import play.Logger;
+import play.api.i18n.Lang;
 import play.data.Form;
+import play.i18n.Messages;
+import play.libs.Crypto;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.login;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 /**
  * This class is for tests purpose only !!!
@@ -12,6 +27,8 @@ import views.html.login;
 public class Login extends Controller {
 
     private final static Form<Utilisateur> loginForm = new Form<Utilisateur>(Utilisateur.class);
+    private static Crypto crypto = play.Play.application().injector().instanceOf(Crypto.class);
+
 
     /**
      * This method receive an implicit POST requests, treat them by validating
@@ -22,15 +39,33 @@ public class Login extends Controller {
      *
      * @return
      */
-    public Result authenticate() {
-        Form<Utilisateur> form = loginForm.bindFromRequest();
-        if (form.hasErrors()) {
-            return badRequest(login.render(form));
+    public Result authenticate() throws NoSuchPaddingException, UnsupportedEncodingException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+        final String email = request().body().asFormUrlEncoded().get("email")[0];
+        final String password = request().body().asFormUrlEncoded().get("password")[0];
+        final Utilisateur utilisateurAuthentifie = Utilisateur.authenticate(email, password);
+
+        final Map<String, String> sessionCredential = ImmutableMap.of("email", email, "password", password);
+
+        if (utilisateurAuthentifie == null) {
+            final Utilisateur utilisateur = new Utilisateur();
+            utilisateur.email = email;
+            return badRequest(views.html.login.render(loginForm.fill(utilisateur), Messages.get("mailOrPasswordInvalid")));
         } else {
             session().clear();
-            session("email", form.get().getEmail());
-            System.out.println(form.get().getEmail() + " -> " + form.get().getPassword());
-            return redirect(routes.Application.index());
+            changeLanguage(utilisateurAuthentifie.langue);
+            String jsonStringUtilisateur = Json.toJson(sessionCredential).toString();
+            session("sessionCredential", crypto.encryptAES(jsonStringUtilisateur));
+            Logger.debug("Utilisateur authentifie: " + utilisateurAuthentifie);
+            return redirect(routes.DashboardController.afficherDashboard());
+        }
+    }
+
+    private static void changeLanguage(String language) {
+        if (language != null && !language.isEmpty()) {
+            ctx().changeLang(language);
+        } else {
+            ctx().changeLang(Lang.apply$default$2());
+            Logger.error("Language set to default, language not found: " + language);
         }
     }
 
@@ -41,6 +76,28 @@ public class Login extends Controller {
      * @return The login.scala.html rendered
      */
     public Result index() {
-        return ok(views.html.login.render(loginForm));
+        return ok(views.html.login.render(loginForm, null));
+    }
+
+    public static Utilisateur getUtilisateurConnecte() {
+        final String encryptedCredentials = session().get("sessionCredential");
+        final String decryptedCredentials = crypto.decryptAES(encryptedCredentials);
+        final JsonNode jsonSessionCredential = Json.parse(decryptedCredentials);
+        return Utilisateur.authenticate(jsonSessionCredential.get("email").asText(), jsonSessionCredential.get("password").asText());
+    }
+
+    public static boolean isUtilisateurConnecte() {
+        if (session().containsKey("sessionCredential")) {
+            final String encryptedCredentials = session().get("sessionCredential");
+            final String decryptedCredentials = crypto.decryptAES(encryptedCredentials);
+            final JsonNode jsonSessionCredential = Json.parse(decryptedCredentials);
+            if (Utilisateur.authenticate(jsonSessionCredential.get("email").asText(), jsonSessionCredential.get("password").asText()) != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

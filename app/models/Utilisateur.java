@@ -62,18 +62,39 @@ public class Utilisateur extends Personne {
 
     public String langue;
 
-    //TODO Make connection to the database to check the authentication
-    public String validate() {
-        if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
-            return "Invalid email or password";
-        }
-        return null;
-    }
+    public boolean recevoirNotifPourMesActions;
+    public boolean recevoirNotifPourMesTachesPresqueFinies;
+    public boolean recevoirNotifPourMesTachesRetardees;
+
+    public String bloc_note;
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
+    public static Utilisateur authenticate(String email, String password) {
+        Utilisateur utilisateur = Utilisateur.find.where().eq("email", email).findUnique();
+        if (utilisateur != null && utilisateur.checkPassword(password)) {
+            return utilisateur;
+        } else {
+            return null;
+        }
+    }
+
+    ////TODO Make connection to the database to check the authentication
+    //public String validate() {
+    //    //if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
+    //    //    return "Invalid email or password";
+    //    //}
+    //    Utilisateur utilisateurAuthentifie = Utilisateur.authenticate(email, password);
+    //    if (utilisateurAuthentifie == null) {
+    //        return "Invalid email or password";
+    //    }
+    //    return null;
+    //}
+
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
-                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue) {
+                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue,
+                       boolean recevoirNotifPourMesActions, boolean recevoirNotifPourMesTachesPresqueFinies,
+                       boolean recevoirNotifPourMesTachesRetardees, String bloc_note) {
         super(nom, prenom, email, telephone, archive);
         setPassword(password);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
@@ -85,10 +106,14 @@ public class Utilisateur extends Personne {
         } else {
             this.langue = langue;
         }
+        this.recevoirNotifPourMesActions = recevoirNotifPourMesActions;
+        this.recevoirNotifPourMesTachesPresqueFinies = recevoirNotifPourMesTachesPresqueFinies;
+        this.recevoirNotifPourMesTachesRetardees = recevoirNotifPourMesTachesRetardees;
+        this.bloc_note = (bloc_note == null) ? "" : bloc_note;
     }
 
     public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone, archive, password, null, null, null, LANGUE_FR);
+        this(nom, prenom, email, telephone, archive, password, null, null, null, LANGUE_FR, false, false, false, null);
     }
 
     public Utilisateur() {
@@ -131,11 +156,11 @@ public class Utilisateur extends Personne {
     }
 
     public void setPassword(String password) throws IllegalArgumentException {
-        this.save();
         if (!validatePassword(password)) {
             throw new IllegalArgumentException("Mot de passe : " + password + " incorrect, veuillez mettre au moins 1 Maj, 1 min, 1 chiffre et 6 caracteres minimum");
         }
         this.password = hachage(this.id, password);
+        this.save();
     }
 
     public String getPassword() {
@@ -805,8 +830,19 @@ public class Utilisateur extends Personne {
     public void suivreUnUtilisateur(Utilisateur user) {
         if (!utilisateursSuivis.contains(user)) {
             utilisateursSuivis.add(user);
-            save();
+            update();
         }
+    }
+
+    public List<Utilisateur> utilisateursPouvantEtreSuivis(){
+        List<Utilisateur> result = new ArrayList<>();
+        for(Projet projet : listProjetsResponsable()){
+            for(Tache tache : projet.listTaches()){
+                if(!result.contains(tache.responsableTache))
+                    result.add(tache.responsableTache);
+            }
+        }
+        return result;
     }
 
     public boolean hasActiverNotification(Tache tache) {

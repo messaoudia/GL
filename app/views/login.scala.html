@@ -1,4 +1,4 @@
-@(form: Form[Utilisateur])
+@(form: Form[Utilisateur], error: String)
 <!DOCTYPE html>
 <html>
 
@@ -18,42 +18,67 @@
     </head>
 
     <body class="gray-bg">
-        <!--<div class="middle-box text-center loginscreen animated fadeInDown">-->
+            <!--<div class="middle-box text-center loginscreen animated fadeInDown">-->
         <div class="middle-box text-center loginscreen animated fadeInDown">
             <div style="padding-bottom:23px;">
-                <h2>Bienvenue sur myProjects</h2>
+                <h2>@Messages("messageWelcomeLogin")</h2>
             </div>
             <div>
-                <p>
-                    myProjects, solution de gestion et de suivi de projets
-                </p>
+                <p>@Messages("messageWelcomeDescription")</p>
                 <form class="m-t" role="form" method="POST" action="@routes.Login.authenticate()">
-                    @if(form.hasGlobalErrors) {
-                        <p class="error">
-                        @form.globalError.message
-                        </p>
-                    }
+
+                    <p style="color:#0d1dff ;">
+                    @error
+                    </p>
 
                     @if(flash.contains("success")) {
                         <p class="success">
                         @flash.get("success")
                         </p>
                     }
-                <div class="form-group">
-                    <input name="email" type="email" class="form-control" placeholder="Login" required="" value="@form("email").value">
-                </div>
-                <div class="form-group">
-                    <input name="password" type="password" class="form-control" placeholder="Password" required="">
-                </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Connexion</button>
-                <a href="#"><small>Mot de passe oublié?</small></a>
+                    <div class="form-group">
+                        <input name="email" type="email" class="form-control" placeholder="Login" required="" value="@form("email").value">
+                    </div>
+                    <div class="form-group">
+                        <input name="password" type="password" class="form-control" placeholder="Password" required="">
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">@Messages("connexion")</button>
+                    <a data-toggle="modal" data-target="#modal-mdp-forgot"><small>@Messages("forgottenPassword")?</small></a>
                 </form>
 
                 <p class="m-t"> <small>Pear Corporation &copy; 2016</small> </p>
             </div>
         </div>
 
-            <!-- Mainly scripts -->
+
+
+
+        <div class="modal fade" id="modal-mdp-forgot" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
+                            ×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">@Messages("forgottenPassword")</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <p>@Messages("getEmail")</p>
+                        <input name="email" type="email" class="form-control" placeholder="Email" required="true" value="@form("email").value">                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("cancel")</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">@Messages("submit")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- Mainly scripts -->
         <script src="js/jquery-2.1.1.js"></script>
         <script src="js/bootstrap.min.js"></script>
 

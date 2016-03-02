@@ -31,13 +31,13 @@ public class Application extends Controller {
      */
     public Result index() {
         /* TODO mettre utilisateur connecté" */
-        return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
-        /*String user = session("connected");
-        if (user != null) {
-            return ok(index.render("Pear project manager"));
+        // return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
+        //  String user = session("connected");
+        if (Login.isUtilisateurConnecte()) {
+            return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
         } else {
             return redirect(routes.Login.index());
-        }*/
+        }
     }
 
 
@@ -81,7 +81,11 @@ public class Application extends Controller {
     }
 
     public Result changeLangue(String lang) {
+        Utilisateur utilisateurConnecte = Login.getUtilisateurConnecte();
+        utilisateurConnecte.langue = lang;
+        utilisateurConnecte.update();
         Controller.changeLang(lang);
+        Logger.debug("Language changed to: " + lang);
         return redirect(request().getHeader("referer"));
     }
 
