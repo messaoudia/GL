@@ -82,3 +82,4 @@ POST        /modifierUtilisateursASuivre                    controllers.Utilisat
 POST        /modifierNotificationMesActions                 controllers.UtilisateurController.modifierNotificationMesActions(idUtilisateurConnecte: Long, checkbox: Boolean)
 POST        /modifierNotificationTachesPresqueFinies        controllers.UtilisateurController.modifierNotificationTachesPresqueFinies(idUtilisateurConnecte: Long, checkbox: Boolean)
 POST        /modifierNotificationTachesRetardees            controllers.UtilisateurController.modifierNotificationTachesRetardees(idUtilisateurConnecte: Long, checkbox: Boolean)
+POST        /changePassword                                 controllers.UtilisateurController.changePassword(idUser: Long, previousPassword: String, newPassword: String,confirmNewPassword: String)

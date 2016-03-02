@@ -1,5 +1,7 @@
 package controllers;
 
+import com.google.common.collect.ImmutableMap;
+import jdk.nashorn.internal.ir.annotations.Immutable;
 import models.*;
 import models.Error;
 import play.Logger;
@@ -300,5 +302,37 @@ public class UtilisateurController extends Controller {
             utilisateur.update();
         }
         return ok();
+    }
+
+    public Result changePassword(Long idUser, String previousPassword, String newPassword, String confirmNewPassword){
+        Utilisateur user = Utilisateur.find.byId(idUser);
+        boolean previousPasswordCorrect = user.checkPassword(previousPassword);
+        boolean newPasswordCorrect;
+        if(newPassword.length() < 6){
+            newPasswordCorrect = false;
+        } else {
+            boolean hasMajuscule = false;
+            boolean hasMinuscule = false;
+            boolean hasChiffre = false;
+            for(int i=0; i<newPassword.length(); i++){
+                char caractere = newPassword.charAt(i);
+                if(caractere >= 'A' && caractere <= 'Z'){
+                    hasMajuscule = true;
+                } else if(caractere >= 'a' && caractere <= 'z'){
+                    hasMinuscule = true;
+                } else if(caractere >= '0' && caractere <= '9'){
+                    hasChiffre = true;
+                }
+            }
+            newPasswordCorrect = hasMajuscule && hasMinuscule && hasChiffre;
+        }
+
+        boolean confirmNewPasswordCorrect = newPassword.equals(confirmNewPassword);
+        if(previousPasswordCorrect && newPasswordCorrect && confirmNewPasswordCorrect){
+            user.setPassword(newPassword);
+            return ok();
+        }
+        return badRequest(Json.toJson(ImmutableMap.of("previousPasswordCorrect", previousPasswordCorrect, "newPasswordCorrect", newPasswordCorrect,
+                "confirmNewPasswordCorrect",confirmNewPasswordCorrect)));
     }
 }

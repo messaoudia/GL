@@ -38,19 +38,23 @@
             <form role="form">
                 <div class="form-group previousPassword">
                     <label for="previousPassword">@Messages("previousPassword")</label>
-                    <input type="password" id="previousPassword" name="previousPassword" class="form-control">
+                    <input type="password" value="" id="previousPassword" name="previousPassword" class="form-control">
+                    <p id="errorMessagePreviousPassword" style="color:red;display:none;">@Messages("badPassword")</p>
                 </div>
                 <div class="form-group newPassword">
                     <label for="newPassword">@Messages("newPassword")</label>
-                    <input type="password" id="newPassword" name="newPassword" class="form-control">
+                    <input type="password" value="" id="newPassword" name="newPassword" class="form-control">
+                    <p id="errorMessageNewPassword" style="color:red;display:none">@Messages("improperPassword")</p>
                 </div>
                 <div class="form-group newPasswordConfirm">
                     <label for="newPasswordConfirm">@Messages("newPasswordConfirm")</label>
-                    <input type="password" id="newPasswordConfirm" name="newPasswordConfirm"  class="form-control">
+                    <input type="password" value="" id="newPasswordConfirm" name="newPasswordConfirm"  class="form-control">
+                    <p id="errorMessageNewPasswordConfirm" style="color:red;display:none">@Messages("badConfirmPassword")</p>
                 </div>
                 <div class="validateForm">
-                    <button class="btn btn-user btn-block" type="submit" onclick>@Messages("validateForm") <i class="fa fa-check"></i></button>
+                    <a class="btn btn-user btn-block" onclick="changePassword(@Login.getUtilisateurConnecte().id)">@Messages("validateForm") <i class="fa fa-check"></i></a>
                 </div>
+                <p id="successChangePassword" style="display:none;color:green;">@Messages("successChangePassword")</p>
             </form>
         </div>
 

@@ -523,6 +523,50 @@
                     jsRoutes.controllers.UtilisateurController.modifierNotificationTachesRetardees(idUserConnecte, isChecked).ajax();
                 }
 
+                var changePassword = function(idUser){
+                    var previousPassword = $('#previousPassword').val();
+                    var newPassword = $('#newPassword').val();
+                    var confirmNewPassword = $('#newPasswordConfirm').val();
+                    jsRoutes.controllers.UtilisateurController.changePassword(idUser, previousPassword, newPassword, confirmNewPassword).ajax({
+                        success: function(){
+                            console.log("Modification password ok");
+                            $('#previousPassword').val('');
+                            $('#newPassword').val('');
+                            $('#newPasswordConfirm').val('');
+                            $('#errorMessagePreviousPassword').hide();
+                            $('#errorMessageNewPassword').hide();
+                            $('#errorMessageNewPasswordConfirm').hide();
+                            $("#successChangePassword").show();
+                            setTimeout(function(){
+                                $("#successChangePassword").hide();
+                            },2000);
+                        },
+                        error: function(errorMessage){
+                            console.log("Modification password ko");
+                            console.log(errorMessage.responseJSON);
+                            console.log(errorMessage.responseJSON.previousPasswordCorrect);
+                            console.log(errorMessage.responseJSON.newPasswordCorrect);
+                            console.log(errorMessage.responseJSON.newPasswordCorrect);
+
+                            if(errorMessage.responseJSON.previousPasswordCorrect==false){
+                                $('#errorMessagePreviousPassword').show();
+                            } else {
+                                $('#errorMessagePreviousPassword').hide();
+                            }
+                            if(errorMessage.responseJSON.newPasswordCorrect==false){
+                                $('#errorMessageNewPassword').show();
+                            } else {
+                                $('#errorMessageNewPassword').hide();
+                            }
+                            if(errorMessage.responseJSON.confirmNewPasswordCorrect==false){
+                                $('#errorMessageNewPasswordConfirm').show();
+                            } else {
+                                $('#errorMessageNewPasswordConfirm').hide();
+                            }
+                        }
+                    });
+                }
+
                 var supprimerUtilisateur = function(){
                     $("#error-message-suppr-user-projet").hide();
                     $("#error-message-suppr-user-tache").hide();
