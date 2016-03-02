@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <textarea id="bloc-notes-tdb" class="textarea-perso" placeholder='@Messages("notes")...'></textarea>
+                                <textarea id="bloc-notes-tdb" class="textarea-perso" placeholder='@Messages("notes")...' onchange="saveBlocNote(@utilisateur.id)">@utilisateur.bloc_note</textarea>
                             </div>
                         </div>
                     </div>
@@ -629,10 +629,11 @@
                                                                     <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
                                                                 </div>
                                                                     <!-- Form nom tache -->
-                                                                <input type="text" id="formModifierNomTache-tdb" name="formModifierNomTache-tdb" class="form-control margin-form" placeholder='@Messages("taskName")...'>
+
+                                                                <input type="text" id="formModifierNomTache-tdb" name="form-modif-tache-nom" class="form-control margin-form" placeholder='@Messages("taskName")...'>
 
                                                                     <!-- Form description tache -->
-                                                                <textarea id="formModifierDescriptionTache-tdb" name="formModifierDescriptionTache-tdb" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
+                                                                <textarea id="formModifierDescriptionTache-tdb" name="form-modif-tache-desc" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
 
                                                                     <!-- Modifier predecesseur -->
                                                                 <p style="margin-top:7px ;">@Messages("predecessor")
@@ -644,17 +645,6 @@
                                                                     <!-- TODO Faire en JS la concaté,ation avec le JS
                                                                      du formulaire serialize()-->
                                                                 </select>
-                                                               <!-- <div id="table-predecesseurTache-modifier-tdb" class="list-task">
-                                                                    <table class="table-bordered">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td class="id-task"></td>
-                                                                                <td class="name-task"></td>
-                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>-->
 
                                                                     <!-- Modifier successeurs -->
                                                                 <p style="margin-top:7px ;">@Messages("successors")
@@ -664,17 +654,6 @@
                                                                     <option value="Mexico">Mexico</option>
                                                                     <option value="Nicaragua">Nicaragua</option>-->
                                                                 </select>
-                                                                    <!--  <div id="table-successeursTache-modifier-tdb" class="list-task">
-                                                                    <table class="table-bordered">
-                                                                        <tbody id="table-successeursTache-modifier-tdb-body">
-                                                                           <tr>
-                                                                                <td class="id-task"></td>
-                                                                                <td class="name-task"></td>
-                                                                                <td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>-->
                                                             </div>
 
                                                                 <!-- 2eme colonne -->
@@ -687,9 +666,9 @@
 
                                                                     <!-- Form responsable tache -->
                                                                 <select id="responsableTacheModifier" class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple">
-                                                                    <option value="Mayotte">Mayotte</option>
+                                                                    <!--<option value="Mayotte">Mayotte</option>
                                                                     <option value="Mexico">Mexico</option>
-                                                                    <option value="Nicaragua">Nicaragua</option>
+                                                                    <option value="Nicaragua">Nicaragua</option>-->
                                                                 </select>
 
                                                                     <!-- Liste interlocuteurs externes -->
@@ -712,30 +691,6 @@
                                                                                     <input id="checkbox-interlocuteur-2" type="checkbox" checked>
                                                                                     <label for="checkbox-interlocuteur-2">
                                                                                         Lassana Diarra
-                                                                                    </label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                                    <input id="checkbox-interlocuteur-3" type="checkbox" checked>
-                                                                                    <label for="checkbox-interlocuteur-3">
-                                                                                        Steve Mandanda
-                                                                                    </label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                                    <input id="checkbox-interlocuteur-4" type="checkbox">
-                                                                                    <label for="checkbox-interlocuteur-4">
-                                                                                        Frédéric Voisin
-                                                                                    </label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li>
-                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                                    <input id="checkbox-interlocuteur-5" type="checkbox" checked>
-                                                                                    <label for="checkbox-interlocuteur-5">
-                                                                                        Didier Drogba
                                                                                     </label>
                                                                                 </div>
                                                                             </li>-->
@@ -778,7 +733,7 @@
                                                                     <label class="col-sm-6 control-label font-noraml" for="formModifierChargeInitiale" style="text-align: left">@Messages("initialWorload")</label>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
-                                                                            <input type="number" id="formModifierChargeInitiale" class="form-control" value="0" min="0" step="0.5">
+                                                                            <input type="number" id="formModifierChargeInitiale" name="form-modif-tache-ch-init" class="form-control" value="0" min="0" step="0.5">
                                                                             <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;"></span>
                                                                         </div>
                                                                     </div>
@@ -789,7 +744,7 @@
                                                                     <label class="col-sm-6 control-label font-noraml" for="formModifierChargeConsommee" style="text-align: left">@Messages("consumedWorkload")</label>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
-                                                                            <input type="number" id="formModifierChargeConsommee" class="form-control" value="0" min="0" step="0.5">
+                                                                            <input type="number" id="formModifierChargeConsommee" name="form-modif-tache-ch-cons" class="form-control" value="0" min="0" step="0.5">
                                                                             <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
                                                                         </div>
                                                                     </div>
@@ -800,7 +755,7 @@
                                                                     <label class="col-sm-6 control-label font-noraml" for="formModifierChargeRestante" style="text-align: left">@Messages("remainingWorkload")</label>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
-                                                                            <input type="number" id="formModifierChargeRestante" class="form-control" value="0" min="0" step="0.5">
+                                                                            <input type="number" id="formModifierChargeRestante" name="form-modif-tache-ch-rest" class="form-control" value="0" min="0" step="0.5">
                                                                             <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
                                                                         </div>
                                                                     </div>
@@ -810,7 +765,8 @@
                                                             <!-- bouton valider -->
                                                         <div class="row" style="margin-top:15px ;">
                                                             <div class="div-center">
-                                                                <button id="btn-valider-modifierTache" class="btn btn-primary" type="submit" form="formModifierTache">
+                                                                <!-- on click return false pour permettre de rester sur la même page-->
+                                                                <button id="btn-valider-modifierTache" onclick="modifierTache(this); return false;" class="btn btn-primary" type="submit" form="formModifierTache">
                                                                     <i class="fa fa-check-square"></i> @Messages("validate")
                                                                 </button>
                                                             </div>

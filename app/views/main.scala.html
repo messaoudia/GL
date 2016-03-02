@@ -147,7 +147,7 @@
             <!-- Select2 -->
         <script src="/js/plugins/select2/select2.full.min.js"></script>
 
-            <!-- Nestable -->
+            <!-- Nestable -->a
         <script src="/js/plugins/nestable/jquery.nestable.js"></script>
 
             <!-- Projet -->
@@ -422,11 +422,6 @@
                         }
                     });
                 });
-                //dataTables-admin-client
-
-
-
-
 
                 var supprimerProjet = function(){
                     var $value = $tmpTr.attr('value');
@@ -521,6 +516,11 @@
                     var isChecked = $('#checkbox-tasks-late').is(':checked');
                     console.log("activeOuDesactiveNotifTachesRetardees : " + isChecked);
                     jsRoutes.controllers.UtilisateurController.modifierNotificationTachesRetardees(idUserConnecte, isChecked).ajax();
+                }
+
+                var saveBlocNote = function(idUser){
+                    console.log("Bloc note : " + $('#bloc-notes-tdb').val());
+                    jsRoutes.controllers.DashboardController.saveBlocNote(idUser, $('#bloc-notes-tdb').val()).ajax();
                 }
 
                 var changePassword = function(idUser){
@@ -672,7 +672,6 @@
                             alert(errorMessage);
                         }
                     });
-
                 }
 
                 var afficherNotifications = function () {
@@ -839,8 +838,6 @@
 
                     return list;
                 }
-
-
 
                 var modifierUtilisateur = function(btn)
                 {
@@ -1273,6 +1270,7 @@
                     }
                     return ret;
                 };
+
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
@@ -1303,10 +1301,10 @@
                                     var list = "";
                                     $(utilisateurs).each(function(index, u) {
                                         if(u.email==tache.responsableTache.email){
-                                            list+='<option value="'+u.nom+' '+u.prenom+'" selected>'+u.nom+' '+u.prenom+'</option>';
+                                            list+='<option value="'+u.id+'" selected>'+u.nom+' '+u.prenom+'</option>';
                                         }
                                         else {
-                                            list+='<option value="'+u.nom+' '+u.prenom+'">'+u.nom+' '+u.prenom+'</option>';
+                                            list+='<option value="'+u.id+'">'+u.nom+' '+u.prenom+'</option>';
                                         }
                                     });
 
@@ -1324,10 +1322,10 @@
 
                                     $(taches).each(function(index, t) {
                                         if(t.id==tache.predecesseurId){
-                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
                                         }
                                         else {
-                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
                                         }
                                     });
 
@@ -1352,9 +1350,9 @@
                                            }
                                         });
                                         if(isSuccesseur){
-                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
                                         }else{
-                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
                                         }
                                     });
 
@@ -1368,17 +1366,12 @@
                             if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
-                                //$('#table-predecesseurTache-modifier-tdb').hide();
                             }
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
                                 $('#table-predecesseurTache-consulter-tdb').show();
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurId);
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseurNom);
-
-                                //$('#table-predecesseurTache-modifier-tdb').show();
-                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
-                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
 
                                 console.log('#predecesseurTache-'+tache.predecesseurId);
 
@@ -1388,8 +1381,6 @@
                             console.log("predecesseurId : "+tache.predecesseurId);
                             console.log("Successeurs : "+tache.successeurs);*/
 
-                            //TODO
-                            // TODO : Successeurs
                             var list = "";
                             var listModifier = "";
                             if(tache.successeurs){
@@ -1406,10 +1397,9 @@
                             listModifier = "";
                             if(tache.interlocuteurs)
                             {
-                                for(var key in tache.interlocuteurs) {
-                                    list+='<li>'+tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom +'</li>';
-
-                                }
+                                $(tache.interlocuteurs).each(function(index,contact) {
+                                    list+='<li id="'+contact.id+'">'+contact.nom+' '+ contact.prenom +'</li>';
+                                });
 
                                 jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
                                     success: function(interlocuteursClient){
@@ -1419,7 +1409,7 @@
                                         var i = 0;
                                         for(var key in tache.interlocuteurs) {
                                             listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
-                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox" checked>';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox"  value="'+tache.interlocuteurs.id+'" checked>';
                                             listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
                                             listModifier+=tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom+'</label></div></li>';
                                             i++;
@@ -1427,7 +1417,7 @@
                                         var interlocuteurNonCoche = compareJSON(interlocuteursClient,tache.interlocuteurs);
                                         for(var key in interlocuteurNonCoche) {
                                             listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
-                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox">';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox" value="'+interlocuteurNonCoche[key].id+'">';
                                             listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
                                             listModifier+=interlocuteurNonCoche[key].nom+' '+ interlocuteurNonCoche[key].prenom+'</label></div></li>';
                                             i++;
@@ -1463,7 +1453,7 @@
                             {
                                 $('#avancementTache').css("color","#FFF");
                             }
-                            $('#nbJourRestant').html(tache.nbJourRestant+'@Messages("day-first-letter")');
+                            $('#nbJourRestant').html('@Messages("remainingTime")'+tache.nbJourRestant+'@Messages("day-first-letter")');
                             $('#dateDebutTache').html(tache.dateDebut);
                             $('#dateFinTotTache').html(tache.dateFinTot);
                             $('#dateFinTardTache').html(tache.dateFinTard);
@@ -1489,53 +1479,6 @@
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
                             $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
                             $('#formModifierChargeConsommee span').nextAll('span').html(unite);
-                            // div-modifier-tache
-
-
-                            /* Look for Projects and contacts
-                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idTache).ajax({
-                             success: function(listProjets) {
-                             console.log("sucess -----");
-                             var projetTableBody = $('#table-modal-client-projets-body');
-                             projetTableBody.empty();
-                             console.log(listProjets);
-                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                             if(listProjets.length != 0){
-                             $(listProjets).each(function(index, projet) {
-                             var p ="";
-                             p+=('<tr>');
-                             p+=('<td class="first-td">'+projet.nom+'</td>');
-                             p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                             p+=('</tr>');
-
-                             projetTableBody.append(p);
-                             });
-                             }
-                             },
-                             error: function(errorMessage){
-                             console.log("error : "+errorMessage)
-                             }
-                             });
-                             jsRoutes.controllers.ContactController.afficherContactsClient(idTache).ajax({
-                             success: function(listContacts) {
-                             var contactsTableBody = $('#table-modal-client-contacts-body');
-                             contactsTableBody.empty();
-                             //console.log(listContacts);
-                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                             if(listContacts.length != 0){
-                             $(listContacts).each(function(index, contact) {
-                             var c ="";
-                             c+=('<tr>');
-                             c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                             c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                             c+=('</tr>');
-
-                             contactsTableBody.append(c);
-                             });
-                             }
-                             }
-                             });*/
-
 
                         },
                         //Case we have a problem
@@ -1545,9 +1488,73 @@
                     });
                 }
 
+                var modifierTache = function (btn) {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    console.log(serialize);
+
+                    //PREDECESSEUR
+                    var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                    console.log("idPredecesseur"+idPredecesseur);
+
+                    var tabSuccesseurs = [];
+                    //SUCCESSEUR
+                    $("#form-tache-successeur option").each(function() {
+                        if($(this).is(':selected')){
+                            console.log("selected : "+$(this).val());
+                            tabSuccesseurs.push($(this).val());
+                        }
+                    });
+
+                    //RESPONSABLE DE TACHE
+                    var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
+                    console.log("idReponsableTache"+idResponsableTache);
+
+                    //INTERLOCUTEURS EXTERNES
+                    var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+                    var tabInterlocuteurs = [];
+
+                    for (i = 0; i < nbInterlocuteurs; i++) {
+                        if($("#checkbox-interlocuteur-"+i).is(':checked')){
+                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
+                            tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
+                        }
+                    }
+
+                    var dataToSend = serialize+"&predecesseur="+idPredecesseur;
+                    dataToSend += "&successeurs=";
+
+                    for (var i = 0; i < tabSuccesseurs.length; i++){
+                        dataToSend += tabSuccesseurs[i]+",";
+                    }
+
+                    dataToSend += "&responsable="+idResponsableTache;
+
+                    dataToSend += "&interlocuteurs=";
+
+                    for (var i = 0; i < tabInterlocuteurs.length; i++){
+                        dataToSend += tabInterlocuteurs[i]+",";
+                    }
+
+                    console.log("Data SEND : "+dataToSend);
+                    //Ajax call submit form
+                    jsRoutes.controllers.DashboardController.modifierTache().ajax({
+                        data: dataToSend,
+                        success : function(data) {
+                            console.log("SUCCESS");
+                        },
+                        error: function(errorMessage,codeErreur){
+                            console.log(codeErreur+" "+errorMessage);
+                        }
+
+                    });
+
+
+                }
+
 
                 $(document).ready(function () {
-
 
                     $('#dataTables-admin-user').DataTable({
                         destroy:true,
