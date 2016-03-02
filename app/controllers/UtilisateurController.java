@@ -237,4 +237,68 @@ public class UtilisateurController extends Controller {
     public Result allUsers(){
         return ok(Json.toJson(Utilisateur.find.all()));
     }
+
+    /**
+     * Modifie la liste des utilisateurs suivis de idUtilisateurConnecte
+     * @param idUtilisateurConnecte
+     * @param listUtilisateurs
+     * @return
+     */
+    public Result modifierUtilisateursASuivre(Long idUtilisateurConnecte, String listUtilisateurs){
+        Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
+        utilisateur.utilisateursSuivis.clear();
+        String[] listUtilisateursParse = listUtilisateurs.split(",");
+        for(String emailUtilisateur : listUtilisateursParse){
+            Utilisateur utilisateurASuivre = Utilisateur.find.where().eq("email", emailUtilisateur.trim()).findUnique();
+            if(utilisateurASuivre != null){
+                utilisateur.suivreUnUtilisateur(utilisateurASuivre);
+            }
+        }
+        return ok();
+    }
+
+    /**
+     * Active ou désactive le parametre 'Recevoir une notification si j'effectue une action'
+     * @param idUtilisateurConnecte
+     * @param checkbox
+     * @return
+     */
+    public Result modifierNotificationMesActions(Long idUtilisateurConnecte, boolean checkbox) {
+        Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
+        if (utilisateur != null){
+            utilisateur.recevoirNotifPourMesActions = checkbox;
+            utilisateur.update();
+        }
+        return ok();
+    }
+
+    /**
+     * Active ou désactive le parametre 'Recevoir une notification pour mes taches presque finies'
+     * @param idUtilisateurConnecte
+     * @param checkbox
+     * @return
+     */
+    public Result modifierNotificationTachesPresqueFinies(Long idUtilisateurConnecte, boolean checkbox){
+        Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
+        if(utilisateur != null) {
+            utilisateur.recevoirNotifPourMesTachesPresqueFinies = checkbox;
+            utilisateur.update();
+        }
+        return ok();
+    }
+
+    /**
+     * Active ou désactive le parametre 'Recevoir une notification pour mes taches retardees'
+     * @param idUtilisateurConnecte
+     * @param checkbox
+     * @return
+     */
+    public Result modifierNotificationTachesRetardees(Long idUtilisateurConnecte, boolean checkbox){
+        Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
+        if(utilisateur != null) {
+            utilisateur.recevoirNotifPourMesTachesRetardees = checkbox;
+            utilisateur.update();
+        }
+        return ok();
+    }
 }

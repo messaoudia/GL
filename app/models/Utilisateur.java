@@ -827,7 +827,7 @@ public class Utilisateur extends Personne {
     public void suivreUnUtilisateur(Utilisateur user) {
         if (!utilisateursSuivis.contains(user)) {
             utilisateursSuivis.add(user);
-            save();
+            update();
         }
     }
 

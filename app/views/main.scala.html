@@ -496,6 +496,33 @@
                     });
                 }
 
+                var selectUtilisateursASuivre = function(idUserConnecte){
+                    var listUtilisateurs = $('#searchContact-select2').val();
+                    //console.log("List User : " + listUtilisateurs);
+                    if(listUtilisateurs == null){
+                        listUtilisateurs = "";
+                    }
+                    jsRoutes.controllers.UtilisateurController.modifierUtilisateursASuivre(idUserConnecte, listUtilisateurs).ajax();
+                }
+
+                var activeOuDesactiveNotifMesActions = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-changes').is(':checked');
+                    console.log("activeOuDesactiveNotifMesActions : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationMesActions(idUserConnecte, isChecked).ajax();
+                }
+
+                var activeOuDesactiveNotifTachesPresqueTerminees = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-tasks-almost-finish').is(':checked');
+                    console.log("activeOuDesactiveNotifTachesPresqueTerminees : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationTachesPresqueFinies(idUserConnecte, isChecked).ajax();
+                }
+
+                var activeOuDesactiveNotifTachesRetardees = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-tasks-late').is(':checked');
+                    console.log("activeOuDesactiveNotifTachesRetardees : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationTachesRetardees(idUserConnecte, isChecked).ajax();
+                }
+
                 var supprimerUtilisateur = function(){
                     $("#error-message-suppr-user-projet").hide();
                     $("#error-message-suppr-user-tache").hide();
