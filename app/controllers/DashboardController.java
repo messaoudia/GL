@@ -69,6 +69,13 @@ public class DashboardController extends Controller{
         return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listSuccesseur)));
     }
 
+    public Result saveBlocNote(Long idUser, String note){
+        Utilisateur user = Utilisateur.find.byId(idUser);
+        user.bloc_note = note;
+        user.update();
+        return ok();
+    }
+
     public Result modifierTache(){
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         Logger.debug(map.toString());

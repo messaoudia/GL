@@ -137,7 +137,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <textarea id="bloc-notes-tdb" class="textarea-perso" placeholder='@Messages("notes")...'></textarea>
+                                <textarea id="bloc-notes-tdb" class="textarea-perso" placeholder='@Messages("notes")...' onchange="saveBlocNote(@utilisateur.id)">@utilisateur.bloc_note</textarea>
                             </div>
                         </div>
                     </div>
