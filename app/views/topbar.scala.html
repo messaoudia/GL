@@ -58,7 +58,6 @@
             <p>@Messages("titleNotificationFrom")</p>
             <div>
                     <!--TODO : voir si utilisateursSuivis ou utilisateursSuivis() -->
-                <input type="text"  class="form-control z-index-3"/>
                 <select id="searchContact-select2" class="form-control select2-respo-projet" style="width:100%;" multiple>
                     @for(user <- Login.getUtilisateurConnecte.utilisateursPouvantEtreSuivis()){
                         @if(Login.getUtilisateurConnecte.utilisateursSuivis.contains(user)){
@@ -68,19 +67,6 @@
                         }
                     }
                 </select>
-            </div>
-
-            <div class="list-personnes-notifiees">
-                <table class="table-bordered">
-                    <tbody>
-                        @for(userSuivi <- Login.getUtilisateurConnecte.utilisateursSuivis){
-                            <tr>
-                                <td class="first-td">userSuivi.prenom userSuivi.nom - userSuivi.email</td>
-                                <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
             </div>
         </div>
 
