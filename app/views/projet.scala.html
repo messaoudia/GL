@@ -70,7 +70,11 @@
 
                             @for( projet <- utilisateur.listProjets()) {
                                 <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
-                                    <div name="projet-@projet.id" class="sidebar-projet">
+                                    @if(projet.estTermine()){
+                                        <div name="projet-@projet.id" class="sidebar-projet projet-finished-sidebar" style="background-color: #0d8ddb;">
+                                    } else {
+                                        <div name="projet-@projet.id" class="sidebar-projet">
+                                    }
                                         <div class="content">
                                             <div class="sidebar-projet-nom">@projet.nom</div>
                                             <div class="sidebar-client-nom">@projet.client.nom</div>
@@ -84,7 +88,7 @@
                             <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute ; bottom: 51px ; background-color: #FFF ;">
                                 <div class="sidebar-footer">
                                     <div class="checkbox checkbox-success checkbox-circle">
-                                        <input id="checkbox-tache-termines" type="checkbox">
+                                        <input onclick="updateSideBarClientArchive(this);" id="checkbox-tache-termines" type="checkbox">
                                         <label for="checkbox-tache-termines">
                                         @Messages("displayFinishProjects")
                                         </label>
@@ -95,7 +99,7 @@
                     </div>
 
                     @for( projet <- utilisateur.listProjets()) {
-                        <div id="projet-@projet.id" class="col-md-10" style="display:none ;">
+                        <div id="projet-@projet.id" class="col-consulterProjet col-md-10" style="display:none ;">
 
                             <div id="div-consulterProjet-@projet.id">
                                 <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
@@ -503,14 +507,14 @@
                                                                         <div class="normal boutonPlusCreerTache">
                                                                             <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                         </div>
-                                                                        <div data-toggle="modal" data-target="#modal-creer-tache">
+                                                                        <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
                                                                             <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                    <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
                                                                         <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                     </div>
-                                                                    <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
                                                                         <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                     </div>
                                                                 </div>
@@ -615,14 +619,14 @@
                                                                                     <div class="normal boutonPlusCreerTache">
                                                                                         <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                     </div>
-                                                                                    <div data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                    <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
                                                                                         <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
                                                                                     <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                                 </div>
-                                                                                <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
                                                                                     <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                 </div>
                                                                             </div>
@@ -729,14 +733,14 @@
                                                                                                 <div class="normal boutonPlusCreerTache">
                                                                                                     <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                                 </div>
-                                                                                                <div data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
                                                                                                     <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
-                                                                                                <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                                                            <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
+                                                                                                <i class="fa fa-arrow-up "> @Messages("createTask")</i>
                                                                                             </div>
-                                                                                            <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
                                                                                                 <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                             </div>
                                                                                         </div>
@@ -843,14 +847,14 @@
                                                                                                             <div class="normal boutonPlusCreerTache">
                                                                                                                 <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                                             </div>
-                                                                                                            <div data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
                                                                                                                 <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
                                                                                                             <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                                                         </div>
-                                                                                                        <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
                                                                                                             <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                                         </div>
                                                                                                     </div>
