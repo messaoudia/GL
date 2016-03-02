@@ -367,8 +367,8 @@
                                         <div class="row">
                                             <div class="switch" style="display:inline-block ; float:right ;">
                                                 <div class="onoffswitch">
-                                                    <input class="onoffswitch-checkbox" id="checkbox-draft-client" type="checkbox">
-                                                    <label class="onoffswitch-label" for="checkbox-draft-client">
+                                                    <input class="onoffswitch-checkbox" id="checkbox-draft-client-@projet.id" type="checkbox" onclick="changeModeDraftClient(@projet.id)">
+                                                    <label class="onoffswitch-label" for="checkbox-draft-client-@projet.id">
                                                         <span class="onoffswitch-inner"></span>
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
@@ -395,10 +395,10 @@
                                             </div>
                                         </div>
                                         <div id="mode-draft" class="table-responsive" style="">
-                                            <div class="dd" id="nestable-projet">
+                                            <div class="nestable dd dd-nodrag" id="nestable-client-projet-@projet.id">
                                                 <ol class="dd-list">
                                                         <!-- En-tete -->
-                                                    <li class="dd-item dd-item-min-width" data-id="0">
+                                                    <li class="dd-item dd-item-min-width">
                                                         <div style="padding:0px ; background-color:#f5f5f5 ; border:1px solid #EBEBEB ; font-weight:bold ;">
                                                             <div class="row row-nestable dd-nodrag">
                                                             @if(projet.responsableProjet.equals(utilisateur)) {

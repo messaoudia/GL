@@ -158,6 +158,34 @@
 
         @scripts
         <script>
+                var changeModeDraftProjet = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+                    }
+                }
+
+                var changeModeDraftClient = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-client-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-client-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        $('#nestable-client-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+                    }
+                }
+
 
                 var userRow;
                 $requestUtilisateursArchives = false;
@@ -1608,22 +1636,6 @@
                         jQuery.fx.off = false;
                     });
 
-                    function modeDraftProjet()
-                    {
-                        if($('#checkbox-draft-projet').is(':checked')){
-                            $('#nestable-projet').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-projet').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftProjet();
-                    $('#checkbox-draft-projet').click(function() {
-                        modeDraftProjet();
-                    });
-
                     function modeDraftClient()
                     {
                         if($('#checkbox-draft-client').is(':checked')){
@@ -1717,11 +1729,7 @@
 
 
 
-                    $('#nestable-projet').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-                    $('#nestable-client').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
@@ -2220,16 +2228,10 @@
                     $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
 
-                    $('#nestable-projet').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
-                    $('#nestable-client').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-
-
 
                     $('.datatable-consulterClient').DataTable();
                     $('#dataTables-tdb-projet').DataTable();
