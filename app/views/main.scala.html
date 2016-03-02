@@ -1225,10 +1225,10 @@
                                     var list = "";
                                     $(utilisateurs).each(function(index, u) {
                                         if(u.email==tache.responsableTache.email){
-                                            list+='<option value="'+u.nom+' '+u.prenom+'" selected>'+u.nom+' '+u.prenom+'</option>';
+                                            list+='<option value="'+u.id+'" selected>'+u.nom+' '+u.prenom+'</option>';
                                         }
                                         else {
-                                            list+='<option value="'+u.nom+' '+u.prenom+'">'+u.nom+' '+u.prenom+'</option>';
+                                            list+='<option value="'+u.id+'">'+u.nom+' '+u.prenom+'</option>';
                                         }
                                     });
 
@@ -1246,10 +1246,10 @@
 
                                     $(taches).each(function(index, t) {
                                         if(t.id==tache.predecesseurId){
-                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
                                         }
                                         else {
-                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
                                         }
                                     });
 
@@ -1274,9 +1274,9 @@
                                            }
                                         });
                                         if(isSuccesseur){
-                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
                                         }else{
-                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
                                         }
                                     });
 
@@ -1321,10 +1321,9 @@
                             listModifier = "";
                             if(tache.interlocuteurs)
                             {
-                                for(var key in tache.interlocuteurs) {
-                                    list+='<li>'+tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom +'</li>';
-
-                                }
+                                $(tache.interlocuteurs).each(function(index,contact) {
+                                    list+='<li id="'+contact.id+'">'+contact.nom+' '+ contact.prenom +'</li>';
+                                });
 
                                 jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
                                     success: function(interlocuteursClient){
@@ -1334,7 +1333,7 @@
                                         var i = 0;
                                         for(var key in tache.interlocuteurs) {
                                             listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
-                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox" checked>';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox"  value="'+tache.interlocuteurs.id+'" checked>';
                                             listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
                                             listModifier+=tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom+'</label></div></li>';
                                             i++;
@@ -1342,7 +1341,7 @@
                                         var interlocuteurNonCoche = compareJSON(interlocuteursClient,tache.interlocuteurs);
                                         for(var key in interlocuteurNonCoche) {
                                             listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
-                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox">';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox" value="'+interlocuteurNonCoche[key].id+'">';
                                             listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
                                             listModifier+=interlocuteurNonCoche[key].nom+' '+ interlocuteurNonCoche[key].prenom+'</label></div></li>';
                                             i++;
@@ -1418,6 +1417,35 @@
                     form = "#"+form;
                     var serialize = $(form).serialize();
                     console.log(serialize);
+                    //SUCCESSEUR
+                    $("#form-tache-successeur option").each(function() {
+                        if($(this).is(':selected')){
+                            console.log("selected : "+$(this).val());
+                        }
+                    });
+
+                    //PREDECESSEUR
+                    var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                    console.log("idPredecesseur"+idPredecesseur);
+
+                    //RESPONSABLE DE TACHE
+                    var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
+                    console.log("idReponsableTache"+idResponsableTache);
+
+                    //INTERLOCUTEURS EXTERNES
+                    var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+
+                    for (i = 0; i < nbInterlocuteurs; i++) {
+                        if($("#checkbox-interlocuteur-"+i).is(':checked')){
+                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'))
+                        }
+                    }
+
+                    $("#interlocuteurs-modifier li").each(function() {
+                        if($(this).is(':selected')){
+                            console.log("selected : "+$(this).id);
+                        }
+                    });
                 }
 
 
