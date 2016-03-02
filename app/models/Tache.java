@@ -590,9 +590,8 @@ public class Tache extends EntiteSecurise {
                                 break;
                             }
                         }
-
-                        listResult.add(t);
                     }
+                    listResult.add(t);
                     break;
                 case 1 :
                     if(t.predecesseur != null && !t.predecesseur.equals(this) && t.successeurs != null && !t.successeurs.contains(this)){
