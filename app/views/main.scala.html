@@ -523,6 +523,11 @@
                     jsRoutes.controllers.UtilisateurController.modifierNotificationTachesRetardees(idUserConnecte, isChecked).ajax();
                 }
 
+                var saveBlocNote = function(idUser){
+                    console.log("Bloc note : " + $('#bloc-notes-tdb').val());
+                    jsRoutes.controllers.DashboardController.saveBlocNote(idUser, $('#bloc-notes-tdb').val()).ajax();
+                }
+
                 var changePassword = function(idUser){
                     var previousPassword = $('#previousPassword').val();
                     var newPassword = $('#newPassword').val();
