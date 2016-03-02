@@ -45,7 +45,7 @@ POST        /adminClientsArchive       controllers.AdminController.afficherClien
 GET         /adminProjets              controllers.AdminController.afficherAdminProjets
 GET         /adminUtilisateur          controllers.AdminController.afficherAdminUtilisateur
 POST        /adminUtilisateurArchive   controllers.AdminController.afficherUtilisateursArchives
-GET        /adminUtilisateurNonArchive controllers.UtilisateurController.afficherUtilisateursNonArchives
+GET         /adminUtilisateurNonArchive controllers.UtilisateurController.afficherUtilisateursNonArchives
 GET         /dashboard                 controllers.DashboardController.afficherDashboard
 GET         /dashboardTacheId          controllers.DashboardController.afficherModalTache(id: Long)
 GET         /adminUtilisateurId        controllers.AdminController.afficherModalUtilisateur(id: Long)
@@ -53,6 +53,8 @@ GET         /adminClientId             controllers.AdminController.afficherModal
 GET         /adminProjetsClient        controllers.ProjetController.afficherProjetsClient(id: Long)
 GET         /adminContactsClient       controllers.ContactController.afficherContactsClient(id: Long)
 GET         /allUsers                  controllers.UtilisateurController.allUsers()
+GET         /allSucesseursPossible     controllers.DashboardController.getAllSucesseursPossible(idTache: Long)
+GET         /AllPredecesseursPossible  controllers.DashboardController.getAllPredecesseursPossible(idTache: Long)
 
 POST        /ajouterProjet             controllers.ProjetController.creerProjet
 GET         /listProjetsUtilisateur    controllers.UtilisateurController.listProjetsUtilisateur(id: Long)

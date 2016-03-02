@@ -26,7 +26,7 @@ public class DashboardController extends Controller{
         }
     }
 
-    public Result afficherModalTache(long idTache) {
+    public Result afficherModalTache(Long idTache) {
         Tache t = Tache.find.byId(idTache);
         //Logger.debug(t.toString());
         JsonNode node = Json.toJson(t);
@@ -51,19 +51,20 @@ public class DashboardController extends Controller{
         return ok(Json.toJson(lC));
     }
 
+    public Result getAllPredecesseursPossible(Long idTache)
+    {
+        Tache tache = Tache.find.byId(idTache);
+        List<Tache> listPredecesseurs = Tache.find.where().eq("projet",tache.projet).le("dateFinTard",tache.dateDebut).findList();
+
+        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listPredecesseurs)));
+    }
+
     public Result getAllSucesseursPossible(Long idTache)
     {
         Tache tache = Tache.find.byId(idTache);
-        List<Tache> listSuccesseur = Tache.find.where().le("dateDebut",tache.dateFinTard).findList();
+        List<Tache> listSuccesseur = Tache.find.where().eq("projet",tache.projet).ge("dateDebut",tache.dateFinTard).findList();
         //parents direct à supprimmer
         return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listSuccesseur)));
     }
 
-    public Result getAllPredecesseursPossible(Long idTache)
-    {
-        Tache tache = Tache.find.byId(idTache);
-        List<Tache> listPredecesseurs = Tache.find.where().ge("dateFinTard",tache.dateDebut).findList();
-
-        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listPredecesseurs)));
-    }
 }

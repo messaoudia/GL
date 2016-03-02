@@ -1246,6 +1246,39 @@
                                     alert(errorMessage);
                                 }
                             });
+
+                            jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
+                                success: function(taches){
+                                    console.log(taches);
+                                    var list = "";
+
+                                    $(taches).each(function(index, tache) {
+                                        list+='<option value="'+tache.id+' - '+tache.nom+'">'+tache.id+' - '+tache.nom+'</option>';
+                                    });
+
+                                    $('#form-tache-predecesseur').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+
+                            jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
+                                success: function(taches){
+                                    console.log(taches);
+                                    var list = "";
+
+                                    $(taches).each(function(index, tache) {
+                                        list+='<option value="'+tache.id+' - '+tache.nom+'">'+tache.id+' - '+tache.nom+'</option>';
+                                    });
+
+                                    $('#form-tache-successeur').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+
                             if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
