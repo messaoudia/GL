@@ -259,70 +259,70 @@
                             $("#delete-utilisateur-name-confirm").empty();
                             $("#delete-utilisateur-name-confirm").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
-                               success: function(utilisateurs){
-                                 console.log(utilisateurs);
-                                   jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
-                                       success: function(listProjets){
-                                           console.log(listProjets);
-                                           //listProjets
-                                           var projetTableBody = $('#table-modal-suppr-user-projet-body');
-                                           projetTableBody.empty();
+                                success: function(utilisateurs){
+                                    console.log(utilisateurs);
+                                    jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
+                                        success: function(listProjets){
+                                            console.log(listProjets);
+                                            //listProjets
+                                            var projetTableBody = $('#table-modal-suppr-user-projet-body');
+                                            projetTableBody.empty();
 
-                                           var p ="";
-                                           if(listProjets.length != 0){
-                                               $(listProjets).each(function(index, projet) {
-                                                   p+=('<tr value="'+projet.id+'">');
-                                                   p+=('<td>'+projet.nom+'</td>');
-                                                   if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
-                                                       $(utilisateurs).each(function(index,u){
-                                                           // lister tous les utilisaturs en cours sauf l'user courant
-                                                           if(u.id != idU){
-                                                               p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           }//console.log(u.nom);
-                                                       });
-                                                       p+=('</select></td>');
-                                                   }
-                                                   p+=('</tr>');
+                                            var p ="";
+                                            if(listProjets.length != 0){
+                                                $(listProjets).each(function(index, projet) {
+                                                    p+=('<tr value="'+projet.id+'">');
+                                                    p+=('<td>'+projet.nom+'</td>');
+                                                    if(utilisateurs.length != 0){
+                                                        p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
+                                                        $(utilisateurs).each(function(index,u){
+                                                            // lister tous les utilisaturs en cours sauf l'user courant
+                                                            if(u.id != idU){
+                                                                p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                            }//console.log(u.nom);
+                                                        });
+                                                        p+=('</select></td>');
+                                                    }
+                                                    p+=('</tr>');
 
-                                               });
-                                               projetTableBody.append(p);
-                                               p = "";
-                                           }
-                                       }
-                                   });
+                                                });
+                                                projetTableBody.append(p);
+                                                p = "";
+                                            }
+                                        }
+                                    });
 
-                                   jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
-                                       success: function(listTaches){
-                                           console.log(listTaches);
-                                           var tacheeBody = $('#table-modal-suppr-user-tache-body');
-                                           tacheeBody.empty();
+                                    jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
+                                        success: function(listTaches){
+                                            console.log(listTaches);
+                                            var tacheeBody = $('#table-modal-suppr-user-tache-body');
+                                            tacheeBody.empty();
 
-                                           var p="";
-                                           if(listTaches.length != 0){
-                                               $(listTaches).each(function(index, tache) {
-                                                   p+=('<tr value="'+tache.id+'">');
-                                                   p+=('<td>'+tache.nom+'</td>');
-                                                   p+=('<td>'+tache.projet.nom+'</td>');
-                                                   if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
-                                                       $(utilisateurs).each(function(index,u){
-                                                           // lister tous les utilisaturs en cours sauf l'user courant
-                                                           if(u.id != idU){
-                                                               p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           }//console.log(u.nom);
-                                                       });
-                                                       p+=('</select></td>');
-                                                   }
-                                                   p+=('</tr>');
+                                            var p="";
+                                            if(listTaches.length != 0){
+                                                $(listTaches).each(function(index, tache) {
+                                                    p+=('<tr value="'+tache.id+'">');
+                                                    p+=('<td>'+tache.nom+'</td>');
+                                                    p+=('<td>'+tache.projet.nom+'</td>');
+                                                    if(utilisateurs.length != 0){
+                                                        p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
+                                                        $(utilisateurs).each(function(index,u){
+                                                            // lister tous les utilisaturs en cours sauf l'user courant
+                                                            if(u.id != idU){
+                                                                p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                            }//console.log(u.nom);
+                                                        });
+                                                        p+=('</select></td>');
+                                                    }
+                                                    p+=('</tr>');
 
-                                               });
-                                               tacheeBody.append(p);
-                                               p = "";
-                                           }
-                                       }
-                                   });
-                               }
+                                                });
+                                                tacheeBody.append(p);
+                                                p = "";
+                                            }
+                                        }
+                                    });
+                                }
                             });
                         }
                     });
@@ -492,6 +492,77 @@
                         },
                         //Case we have a problem
                         error: function(errorMessage){
+                        }
+                    });
+                }
+
+                var selectUtilisateursASuivre = function(idUserConnecte){
+                    var listUtilisateurs = $('#searchContact-select2').val();
+                    //console.log("List User : " + listUtilisateurs);
+                    if(listUtilisateurs == null){
+                        listUtilisateurs = "";
+                    }
+                    jsRoutes.controllers.UtilisateurController.modifierUtilisateursASuivre(idUserConnecte, listUtilisateurs).ajax();
+                }
+
+                var activeOuDesactiveNotifMesActions = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-changes').is(':checked');
+                    console.log("activeOuDesactiveNotifMesActions : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationMesActions(idUserConnecte, isChecked).ajax();
+                }
+
+                var activeOuDesactiveNotifTachesPresqueTerminees = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-tasks-almost-finish').is(':checked');
+                    console.log("activeOuDesactiveNotifTachesPresqueTerminees : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationTachesPresqueFinies(idUserConnecte, isChecked).ajax();
+                }
+
+                var activeOuDesactiveNotifTachesRetardees = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-tasks-late').is(':checked');
+                    console.log("activeOuDesactiveNotifTachesRetardees : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationTachesRetardees(idUserConnecte, isChecked).ajax();
+                }
+
+                var changePassword = function(idUser){
+                    var previousPassword = $('#previousPassword').val();
+                    var newPassword = $('#newPassword').val();
+                    var confirmNewPassword = $('#newPasswordConfirm').val();
+                    jsRoutes.controllers.UtilisateurController.changePassword(idUser, previousPassword, newPassword, confirmNewPassword).ajax({
+                        success: function(){
+                            console.log("Modification password ok");
+                            $('#previousPassword').val('');
+                            $('#newPassword').val('');
+                            $('#newPasswordConfirm').val('');
+                            $('#errorMessagePreviousPassword').hide();
+                            $('#errorMessageNewPassword').hide();
+                            $('#errorMessageNewPasswordConfirm').hide();
+                            $("#successChangePassword").show();
+                            setTimeout(function(){
+                                $("#successChangePassword").hide();
+                            },2000);
+                        },
+                        error: function(errorMessage){
+                            console.log("Modification password ko");
+                            console.log(errorMessage.responseJSON);
+                            console.log(errorMessage.responseJSON.previousPasswordCorrect);
+                            console.log(errorMessage.responseJSON.newPasswordCorrect);
+                            console.log(errorMessage.responseJSON.newPasswordCorrect);
+
+                            if(errorMessage.responseJSON.previousPasswordCorrect==false){
+                                $('#errorMessagePreviousPassword').show();
+                            } else {
+                                $('#errorMessagePreviousPassword').hide();
+                            }
+                            if(errorMessage.responseJSON.newPasswordCorrect==false){
+                                $('#errorMessageNewPassword').show();
+                            } else {
+                                $('#errorMessageNewPassword').hide();
+                            }
+                            if(errorMessage.responseJSON.confirmNewPasswordCorrect==false){
+                                $('#errorMessageNewPasswordConfirm').show();
+                            } else {
+                                $('#errorMessageNewPasswordConfirm').hide();
+                            }
                         }
                     });
                 }
@@ -1230,15 +1301,14 @@
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                                 success: function(utilisateurs){
                                     var list = "";
-                                    for(var key in utilisateurs){
-                                        if(utilisateurs[key].email==tache.responsableTache.email)
-                                        {
-                                            list+='<option value="'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'" selected>'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'</option>';
+                                    $(utilisateurs).each(function(index, u) {
+                                        if(u.email==tache.responsableTache.email){
+                                            list+='<option value="'+u.nom+' '+u.prenom+'" selected>'+u.nom+' '+u.prenom+'</option>';
                                         }
                                         else {
-                                            list+='<option value="'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'">'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'</option>';
+                                            list+='<option value="'+u.nom+' '+u.prenom+'">'+u.nom+' '+u.prenom+'</option>';
                                         }
-                                    }
+                                    });
 
                                     $('#responsableTacheModifier').html(list);
                                 },
@@ -1252,8 +1322,13 @@
                                     //console.log(taches);
                                     var list = "";
 
-                                    $(taches).each(function(index, tache) {
-                                        list+='<option value="'+tache.id+' - '+tache.nom+'">'+tache.id+' - '+tache.nom+'</option>';
+                                    $(taches).each(function(index, t) {
+                                        if(t.id==tache.predecesseurId){
+                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                        else {
+                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
                                     });
 
                                     $('#form-tache-predecesseur').html(list);
@@ -1268,8 +1343,19 @@
                                     //console.log(taches);
                                     var list = "";
 
-                                    $(taches).each(function(index, tache) {
-                                        list+='<option value="'+tache.id+' - '+tache.nom+'">'+tache.id+' - '+tache.nom+'</option>';
+                                    $(taches).each(function(index, t) {
+                                        var isSuccesseur = false;
+                                        $(tache.successeurs).each(function(index,s){
+                                           if(t.id == s.id){
+                                               isSuccesseur = true;
+                                               return;
+                                           }
+                                        });
+                                        if(isSuccesseur){
+                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }else{
+                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
                                     });
 
                                     $('#form-tache-successeur').html(list);
@@ -1282,7 +1368,7 @@
                             if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
-                                $('#table-predecesseurTache-modifier-tdb').hide();
+                                //$('#table-predecesseurTache-modifier-tdb').hide();
                             }
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
@@ -1290,9 +1376,11 @@
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurId);
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseurNom);
 
-                                $('#table-predecesseurTache-modifier-tdb').show();
-                                $('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
-                                $('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
+                                //$('#table-predecesseurTache-modifier-tdb').show();
+                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
+                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
+
+                                console.log('#predecesseurTache-'+tache.predecesseurId);
 
                             }
                             /*console.log("tache = "+JSON.stringify(tache))
@@ -1304,22 +1392,15 @@
                             // TODO : Successeurs
                             var list = "";
                             var listModifier = "";
-                            if(tache.successeurs)
-                            {
-                                for(var key in tache.successeurs) {
-
+                            if(tache.successeurs){
+                                $(tache.successeurs).each(function(index, tache) {
                                     list+='<tr>';
-                                    list+='<td class="id-task">'+tache.successeurs[key].id+'</td>';
-                                    list+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
+                                    list+='<td class="id-task">'+tache.id+'</td>';
+                                    list+='<td class="name-task">'+tache.nom+'</td>';
                                     list+='</tr>';
-
-                                    listModifier+='<tr><td class="id-task">'+tache.successeurs[key].id+'</td>';
-                                    listModifier+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
-                                    listModifier+='<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td></tr>';
-                                }
+                                });
                             }
                             $('#table-successeursTache-consulter-tdb-body').html(list);
-                            $('#table-successeursTache-modifier-tdb-body').html(listModifier);
 
                             list = "";
                             listModifier = "";
@@ -2178,6 +2259,7 @@
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Projet').dataTable( {
+                        destroy: true,
                         "ordering": false
                     } );
 
@@ -2568,6 +2650,11 @@
                         $('.projet-archived').hide();
                     }
                 }
+
+                $(document).on("click","#exporter-client", function(event){
+                    window.open("@routes.ClientController.getClientsAsCSV");
+                });
+
         </script>
     </body>
 </html>

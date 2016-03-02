@@ -192,3 +192,7 @@ messageWelcomeDescription = myProjects, management website and monitoring projec
 forgottenPassword = Forgotten password
 getEmail = Please enter your email
 connexion = Log in
+badPassword = This is not your current password
+improperPassword = Password must have a minimum size of 6 characters and must contain at least one lowercase, one uppercase and one number
+badConfirmPassword = Password and password confirmation are not identical
+successChangePassword = Password changed

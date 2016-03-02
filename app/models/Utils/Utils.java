@@ -3,13 +3,12 @@ package models.Utils;
 import models.Adresse;
 import models.Client;
 import models.Contact;
+import play.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by Guillaume on 10/02/2016.
@@ -18,38 +17,41 @@ public class Utils {
 
     /**
      * Teste si les deux listes passées en parametre sont égales
+     *
      * @param l1
      * @param l2
      * @param <T>
      * @return
      */
-    public static <T> boolean isEqualList(List<T> l1, List<T> l2){
-        return (l1!=null && l2!= null && l1.containsAll(l2)
-                && l2.containsAll(l1) && l1.size()==l2.size());
+    public static <T> boolean isEqualList(List<T> l1, List<T> l2) {
+        return (l1 != null && l2 != null && l1.containsAll(l2)
+                && l2.containsAll(l1) && l1.size() == l2.size());
     }
 
     /**
      * Retourne un objet java.util.Date, avec l'année, le mois et le jour passé en parametre
      * heure =0 ,minutes =0 et secondes = 0
+     *
      * @param year
      * @param month
      * @param day
      * @return
      */
-    public static Date getDateFrom(int year, int month, int day){
+    public static Date getDateFrom(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month-1);
+        cal.set(Calendar.MONTH, month - 1);
         cal.set(Calendar.DAY_OF_MONTH, day);
-        cal.set(Calendar.HOUR,0);
-        cal.set(Calendar.MINUTE,0);
-        cal.set(Calendar.SECOND,0);
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
 
         return cal.getTime();
     }
 
     /**
      * Calcule le nombre de jours entre date1 et date2 : date2-date1
+     *
      * @param date1
      * @param date2
      * @return
@@ -60,101 +62,99 @@ public class Utils {
 
     /**
      * Exporte la liste des clients et des contacts au format CSV, dans le dossier directory
-     * @param directory
+     *
      * @throws Exception
      */
-    public static void exportAllClientsCSV(String directory) throws Exception{
+    public static Map<String, String> exportAllClientsCSV() {
+        final String CSVseparator = ",";
+        Map<String, String> result = new HashMap<>();
         String fileNameClients = "clientsExported-PearCorporation.csv";
         String fileNameContacts = "contactsExported-PearCorporation.csv";
-        String CSVseparator = ",";
-        exportClients(fileNameClients, CSVseparator);
-        exportContacts(fileNameContacts, CSVseparator);
+
+
+        result.put(fileNameClients, exportClients(fileNameClients, CSVseparator));
+        result.put(fileNameContacts, exportContacts(fileNameContacts, CSVseparator));
+        return result;
     }
 
 
     /**
      * Exporte la liste des clients dans le fichier fileName
+     *
      * @param fileName
      * @param CSVseparator
      * @throws Exception
      */
-    private static void exportClients(String fileName, String CSVseparator) throws Exception {
-        try {
-            List<Client> listClients = Client.find.all();
-            Writer writer = new FileWriter(fileName);
-            writer.append("Nom");
-            writer.append(CSVseparator);
-            writer.append("Adresse");
-            writer.append(CSVseparator);
-            writer.append("Zip Code");
-            writer.append(CSVseparator);
-            writer.append("Ville");
-            writer.append(CSVseparator);
-            writer.append("Pays");
-            writer.append('\n');
+    private static String exportClients(String fileName, String CSVseparator) {
+        final StringBuffer sbResult = new StringBuffer();
 
-            for(Client client : listClients) {
-                writer.append(client.nom);
-                writer.append(CSVseparator);
-                writer.append(client.adresseClient.adresse);
-                writer.append(CSVseparator);
-                writer.append(client.adresseClient.zipCode);
-                writer.append(CSVseparator);
-                writer.append(client.adresseClient.ville);
-                writer.append(CSVseparator);
-                writer.append(client.adresseClient.pays);
-                writer.append('\n');
-            }
-            writer.flush();
-            writer.close();
+        List<Client> listClients = Client.find.all();
+        sbResult.append("Nom");
+        sbResult.append(CSVseparator);
+        sbResult.append("Adresse");
+        sbResult.append(CSVseparator);
+        sbResult.append("Zip Code");
+        sbResult.append(CSVseparator);
+        sbResult.append("Ville");
+        sbResult.append(CSVseparator);
+        sbResult.append("Pays");
+        sbResult.append('\n');
+
+        for (Client client : listClients) {
+            sbResult.append(client.nom);
+            sbResult.append(CSVseparator);
+            sbResult.append(client.adresseClient.adresse);
+            sbResult.append(CSVseparator);
+            sbResult.append(client.adresseClient.zipCode);
+            sbResult.append(CSVseparator);
+            sbResult.append(client.adresseClient.ville);
+            sbResult.append(CSVseparator);
+            sbResult.append(client.adresseClient.pays);
+            sbResult.append('\n');
         }
-        catch(Exception e) {
-            throw new Exception("Impossible d'exporter les clients dans le fichier ["+ fileName +"] : " + e.getMessage());
-        }
+
+        return sbResult.toString();
     }
 
     /**
      * Exporte la liste des contacts dans le fichier fileName
+     *
      * @param fileName
      * @param CSVseparator
      * @throws Exception
      */
-    private static void exportContacts(String fileName, String CSVseparator) throws Exception {
-        try {
-            List<Contact> listContacts = Contact.find.all();
-            Writer writer = new FileWriter(fileName);
-            writer.append("Nom");
-            writer.append(CSVseparator);
-            writer.append("Prenom");
-            writer.append(CSVseparator);
-            writer.append("Email");
-            writer.append(CSVseparator);
-            writer.append("Telephone");
-            writer.append(CSVseparator);
-            writer.append("Client");
-            writer.append('\n');
+    private static String exportContacts(String fileName, String CSVseparator) {
+        final StringBuffer sbResult = new StringBuffer();
 
-            for(Contact contact: listContacts) {
-                writer.append(contact.nom);
-                writer.append(CSVseparator);
-                writer.append(contact.prenom);
-                writer.append(CSVseparator);
-                writer.append(contact.email);
-                writer.append(CSVseparator);
-                writer.append(contact.telephone);
-                writer.append(CSVseparator);
-                writer.append(contact.client.nom);
-                writer.append('\n');
-            }
-            writer.flush();
-            writer.close();
+        List<Contact> listContacts = Contact.find.all();
+        sbResult.append("Nom");
+        sbResult.append(CSVseparator);
+        sbResult.append("Prenom");
+        sbResult.append(CSVseparator);
+        sbResult.append("Email");
+        sbResult.append(CSVseparator);
+        sbResult.append("Telephone");
+        sbResult.append(CSVseparator);
+        sbResult.append("Client");
+        sbResult.append('\n');
+
+        for (Contact contact : listContacts) {
+            sbResult.append(contact.nom);
+            sbResult.append(CSVseparator);
+            sbResult.append(contact.prenom);
+            sbResult.append(CSVseparator);
+            sbResult.append(contact.email);
+            sbResult.append(CSVseparator);
+            sbResult.append(contact.telephone);
+            sbResult.append(CSVseparator);
+            sbResult.append(contact.client.nom);
+            sbResult.append('\n');
         }
-        catch(Exception e) {
-            throw new Exception("Impossible d'exporter les contacts dans le fichier ["+ fileName +"] : " + e.getMessage());
-        }
+
+        return sbResult.toString();
     }
 
-    public static void importAllClientsCSV(String fileNameClient, String fileNameContact){
+    public static void importAllClientsCSV(String fileNameClient, String fileNameContact) {
         String lineClient = "";
         String lineContact = "";
 
@@ -167,7 +167,7 @@ public class Utils {
             BufferedReader readerContacts = new BufferedReader(new FileReader(fileNameContact));
 
             while ((lineClient = readerClients.readLine()) != null) {
-                if(!firstLine){
+                if (!firstLine) {
                     String[] read = lineClient.split(CSVseparator);
                     Client client = new Client(read[0], prioriteDefault, false, new Adresse(read[1], read[2], read[3], read[4]), null, null);
                     client.save();
@@ -179,7 +179,7 @@ public class Utils {
             firstLine = true;
 
             while ((lineContact = readerContacts.readLine()) != null) {
-                if(!firstLine){
+                if (!firstLine) {
                     String[] read = lineContact.split(CSVseparator);
                     Contact contact = new Contact(read[0], read[1], read[2], read[3]);
                     String nomClient = read[4];
@@ -193,10 +193,67 @@ public class Utils {
             }
             readerContacts.close();
 
+        } catch (Exception e) {
+            System.err.println("Impossible d'importer la liste des clients [" + fileNameClient + "] et des contacts [" + fileNameContact + "]: " + e.getMessage());
         }
-        catch (Exception e) {
-            System.err.println("Impossible d'importer la liste des clients ["+fileNameClient +"] et des contacts ["+fileNameContact+"]: " + e.getMessage());
+    }
+
+    public static File fileFromString(String fileContent, String prefix, String suffix) {
+        File file = null;
+        try {
+            file = File.createTempFile(prefix, suffix);
+            file.deleteOnExit();
+
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.flush();
+                fileWriter.write(fileContent);
+            } catch (IOException e) {
+                Logger.error("File writing error", e);
+            }
+
+        } catch (IOException e) {
+            Logger.error("Error creating file from content: ", e);
         }
+        Logger.debug(file.getAbsolutePath());
+        return file;
+    }
+
+    /**
+     * Zip a list of file into one zip file.
+     *
+     * @param files         files to zip
+     * @param targetZipFile target zip file
+     * @throws IOException IO error exception can be thrown when copying ...
+     */
+    public static void zipFile(final List<File> files, final File targetZipFile) throws IOException {
+        try {
+            FileOutputStream fos = new FileOutputStream(targetZipFile);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            byte[] buffer = new byte[128];
+            for (int i = 0; i < files.size(); i++) {
+                File currentFile = files.get(i);
+                if (!currentFile.isDirectory()) {
+                    ZipEntry entry = new ZipEntry(trimTmpFileName(currentFile.getName()));
+                    FileInputStream fis = new FileInputStream(currentFile);
+                    zos.putNextEntry(entry);
+                    int read = 0;
+                    while ((read = fis.read(buffer)) != -1) {
+                        zos.write(buffer, 0, read);
+                    }
+                    zos.closeEntry();
+                    fis.close();
+                }
+            }
+            zos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found : " + e);
+        }
+
+    }
+
+    private static String trimTmpFileName(String name) {
+        return name.replaceAll("[0-9]", "");
     }
 
 }
