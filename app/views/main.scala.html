@@ -259,70 +259,70 @@
                             $("#delete-utilisateur-name-confirm").empty();
                             $("#delete-utilisateur-name-confirm").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
-                               success: function(utilisateurs){
-                                 console.log(utilisateurs);
-                                   jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
-                                       success: function(listProjets){
-                                           console.log(listProjets);
-                                           //listProjets
-                                           var projetTableBody = $('#table-modal-suppr-user-projet-body');
-                                           projetTableBody.empty();
+                                success: function(utilisateurs){
+                                    console.log(utilisateurs);
+                                    jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
+                                        success: function(listProjets){
+                                            console.log(listProjets);
+                                            //listProjets
+                                            var projetTableBody = $('#table-modal-suppr-user-projet-body');
+                                            projetTableBody.empty();
 
-                                           var p ="";
-                                           if(listProjets.length != 0){
-                                               $(listProjets).each(function(index, projet) {
-                                                   p+=('<tr value="'+projet.id+'">');
-                                                   p+=('<td>'+projet.nom+'</td>');
-                                                   if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
-                                                       $(utilisateurs).each(function(index,u){
-                                                           // lister tous les utilisaturs en cours sauf l'user courant
-                                                           if(u.id != idU){
-                                                               p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           }//console.log(u.nom);
-                                                       });
-                                                       p+=('</select></td>');
-                                                   }
-                                                   p+=('</tr>');
+                                            var p ="";
+                                            if(listProjets.length != 0){
+                                                $(listProjets).each(function(index, projet) {
+                                                    p+=('<tr value="'+projet.id+'">');
+                                                    p+=('<td>'+projet.nom+'</td>');
+                                                    if(utilisateurs.length != 0){
+                                                        p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
+                                                        $(utilisateurs).each(function(index,u){
+                                                            // lister tous les utilisaturs en cours sauf l'user courant
+                                                            if(u.id != idU){
+                                                                p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                            }//console.log(u.nom);
+                                                        });
+                                                        p+=('</select></td>');
+                                                    }
+                                                    p+=('</tr>');
 
-                                               });
-                                               projetTableBody.append(p);
-                                               p = "";
-                                           }
-                                       }
-                                   });
+                                                });
+                                                projetTableBody.append(p);
+                                                p = "";
+                                            }
+                                        }
+                                    });
 
-                                   jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
-                                       success: function(listTaches){
-                                           console.log(listTaches);
-                                           var tacheeBody = $('#table-modal-suppr-user-tache-body');
-                                           tacheeBody.empty();
+                                    jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
+                                        success: function(listTaches){
+                                            console.log(listTaches);
+                                            var tacheeBody = $('#table-modal-suppr-user-tache-body');
+                                            tacheeBody.empty();
 
-                                           var p="";
-                                           if(listTaches.length != 0){
-                                               $(listTaches).each(function(index, tache) {
-                                                   p+=('<tr value="'+tache.id+'">');
-                                                   p+=('<td>'+tache.nom+'</td>');
-                                                   p+=('<td>'+tache.projet.nom+'</td>');
-                                                   if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
-                                                       $(utilisateurs).each(function(index,u){
-                                                           // lister tous les utilisaturs en cours sauf l'user courant
-                                                           if(u.id != idU){
-                                                               p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           }//console.log(u.nom);
-                                                       });
-                                                       p+=('</select></td>');
-                                                   }
-                                                   p+=('</tr>');
+                                            var p="";
+                                            if(listTaches.length != 0){
+                                                $(listTaches).each(function(index, tache) {
+                                                    p+=('<tr value="'+tache.id+'">');
+                                                    p+=('<td>'+tache.nom+'</td>');
+                                                    p+=('<td>'+tache.projet.nom+'</td>');
+                                                    if(utilisateurs.length != 0){
+                                                        p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
+                                                        $(utilisateurs).each(function(index,u){
+                                                            // lister tous les utilisaturs en cours sauf l'user courant
+                                                            if(u.id != idU){
+                                                                p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                            }//console.log(u.nom);
+                                                        });
+                                                        p+=('</select></td>');
+                                                    }
+                                                    p+=('</tr>');
 
-                                               });
-                                               tacheeBody.append(p);
-                                               p = "";
-                                           }
-                                       }
-                                   });
-                               }
+                                                });
+                                                tacheeBody.append(p);
+                                                p = "";
+                                            }
+                                        }
+                                    });
+                                }
                             });
                         }
                     });
@@ -2259,6 +2259,7 @@
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Projet').dataTable( {
+                        destroy: true,
                         "ordering": false
                     } );
 
@@ -2649,6 +2650,11 @@
                         $('.projet-archived').hide();
                     }
                 }
+
+                $(document).on("click","#exporter-client", function(event){
+                    window.open("@routes.ClientController.getClientsAsCSV");
+                });
+
         </script>
     </body>
 </html>
