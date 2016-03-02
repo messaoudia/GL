@@ -84,7 +84,12 @@
                                         <div class="sidebar-client-nom" style="color:#FFF ; line-height: 30px ;">@client.nom</div>
                                     </div>
                                     @for( projet <- utilisateur.listProjetsDuClient(client)) {
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
+                                        @if(projet.estTermine()){
+                                            <div class="row client-project projet-finished-sidebar" style="margin-left: 0px ; margin-right: 0px ;">
+                                        } else {
+                                            <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
+                                        }
+
                                             <div name="client-projet-@projet.id" class="sidebar-projet">
                                                 <div class="content">
                                                     <div class="sidebar-projet-nom">@projet.nom</div>
@@ -100,7 +105,7 @@
                             <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute ; bottom: 51px ; background-color: #FFF ; width: 100% ;">
                                 <div class="sidebar-footer" style="height: 110px ;">
                                     <div class="checkbox checkbox-success checkbox-circle">
-                                        <input id="checkbox-projet-termines" type="checkbox">
+                                        <input onclick="updateSideBarClientArchive(this);" id="checkbox-projet-termines" type="checkbox">
                                         <label for="checkbox-projet-termines">
                                         @Messages("displayFinishProjects")
                                         </label>
@@ -114,7 +119,7 @@
                         </div>
                     </div>
                     @for( projet <- utilisateur.listProjets()) {
-                        <div id="client-projet-@projet.id" class="col-md-10" style="display:none ;">
+                        <div id="client-projet-@projet.id" class="col-md-10 col-consulterProjet" style="display:none ;">
                             <div id="div-consulterProjet-client-@projet.id">
                                 <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
                                     <div class="col-sm-4">

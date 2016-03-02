@@ -168,6 +168,35 @@
                 var $tmpTrAdminClient;
                 var $tmpTrAdminUser;
 
+                function updateSideBarClientArchive(checkbox)
+                {
+                    if($(checkbox).is(":checked")) {
+                        $(".projet-finished-sidebar").show();
+                        console.log("TODO check si ok : j'affiche projet termine");
+                    }
+                    else {
+                        $(".projet-finished-sidebar").hide();
+                        console.log("TODO check si ok : je cache projet termine");
+
+                    }
+                }
+
+                $(document).on('click','.createSubTask', function(event){
+                    var btn = $(this);
+                    console.log("creer sous tache de "+btn.attr("data"));
+                });
+
+                $(document).on('click','.createTaskHaut', function(event){
+                    var btn = $(this);
+                    console.log("creer tache haut de "+btn.attr("data"));
+                });
+
+                $(document).on('click','.createTaskBas', function(event){
+                    var btn = $(this);
+                    console.log("creer tache bas de "+btn.attr("data"));
+                });
+
+
                 $(document).on('click','#interlocuteurs-modifier', function(event){
                     event.stopPropagation();
 
@@ -2127,32 +2156,74 @@
                         height = parseInt(height);
                         height -= 150;
                         $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
 
-                        /*if($(window).width()<1050){
-                         hideSideBarProjet();
-                         }
-                         else {
-                         showSideBarProjet();
-                         }*/
+
+                        if($(window).width()<750){
+
+                            hideSideBarProjet();
+                            $('.liste-projet-client').css('height',"100%");
+                            height = $('.liste-projet-client').css('height');
+                            height = parseInt(height);
+                            height -= 200;
+                            $('.liste-projet-client').css('height',height);
+
+                        }
+                        else {
+
+                            showSideBarProjet();
+                            $('.liste-projet-client').css('height',"100%");
+                            height = $('.liste-projet-client').css('height');
+                            height = parseInt(height);
+                            height -= 200;
+                            $('.liste-projet-client').css('height',height);
+
+                        }
                     });
 
                     function hideSideBarProjet()
                     {
                         $('#col-sidebar-liste-projet').hide();
                         $('#afficheListeProjet').css("width","25px");
-                        $("#col-consulterProjet").removeClass("col-md-10");
-                        $("#col-consulterProjet").addClass("col-md-12");
+                        $(".col-consulterProjet").removeClass("col-md-10");
+                        $(".col-consulterProjet").addClass("col-md-12");
                         $("#icon-show-liste-projet").removeClass("fa-outdent");
                         $("#icon-show-liste-projet").addClass("fa-indent");
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
+
                     }
                     function showSideBarProjet()
                     {
                         $('#col-sidebar-liste-projet').show();
                         $('#afficheListeProjet').css("width","170px");
-                        $("#col-consulterProjet").removeClass("col-md-12");
-                        $("#col-consulterProjet").addClass("col-md-10");
+                        $(".col-consulterProjet").removeClass("col-md-12");
+                        $(".col-consulterProjet").addClass("col-md-10");
                         $("#icon-show-liste-projet").removeClass("fa-indent");
                         $("#icon-show-liste-projet").addClass("fa-outdent");
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
+
                     }
 
                     function hideSideBarRetour()
