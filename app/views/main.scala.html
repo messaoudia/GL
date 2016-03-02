@@ -1249,7 +1249,7 @@
 
                             jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
                                 success: function(taches){
-                                    console.log(taches);
+                                    //console.log(taches);
                                     var list = "";
 
                                     $(taches).each(function(index, tache) {
@@ -1265,7 +1265,7 @@
 
                             jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
                                 success: function(taches){
-                                    console.log(taches);
+                                    //console.log(taches);
                                     var list = "";
 
                                     $(taches).each(function(index, tache) {
@@ -1295,10 +1295,10 @@
                                 $('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
 
                             }
-                            console.log("tache = "+JSON.stringify(tache))
+                            /*console.log("tache = "+JSON.stringify(tache))
                             console.log("predecesseurNom : "+tache.predecesseurNom);
                             console.log("predecesseurId : "+tache.predecesseurId);
-                            console.log("Successeurs : "+tache.successeurs);
+                            console.log("Successeurs : "+tache.successeurs);*/
 
                             //TODO
                             // TODO : Successeurs
@@ -1332,9 +1332,9 @@
 
                                 jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
                                     success: function(interlocuteursClient){
-                                        console.log(JSON.stringify(interlocuteursClient));
-                                        console.log(JSON.stringify(tache.interlocuteurs));
-                                        console.log("diff = "+JSON.stringify(compareJSON(interlocuteursClient,tache.interlocuteurs)));
+                                        //console.log(JSON.stringify(interlocuteursClient));
+                                        //console.log(JSON.stringify(tache.interlocuteurs));
+                                        //console.log("diff = "+JSON.stringify(compareJSON(interlocuteursClient,tache.interlocuteurs)));
                                         var i = 0;
                                         for(var key in tache.interlocuteurs) {
                                             listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
@@ -1398,7 +1398,7 @@
                             {
                                 unite = '@Messages("week-first-letter")';
                             }
-                            console.log(JSON.stringify(tache));
+                            //console.log(JSON.stringify(tache));
                             $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
                             $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);

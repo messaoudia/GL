@@ -223,7 +223,7 @@
                                                                 <tr class="table-center projet-presque-fini">
                                                             } else{
                                                                 @if(projet.estTermine()){
-                                                                    <tr class="table-center projet-termine">
+                                                                    <tr class="table-center projet-termine projet-finished">
                                                                 } else{
                                                                     <tr class="table-center">
                                                                 }
@@ -629,10 +629,10 @@
                                                                     <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
                                                                 </div>
                                                                     <!-- Form nom tache -->
-                                                                <input type="text" id="formModifierNomTache-tdb" class="form-control margin-form" placeholder='@Messages("taskName")...'>
+                                                                <input type="text" id="formModifierNomTache-tdb" name="formModifierNomTache-tdb" class="form-control margin-form" placeholder='@Messages("taskName")...'>
 
                                                                     <!-- Form description tache -->
-                                                                <textarea id="formModifierDescriptionTache-tdb" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
+                                                                <textarea id="formModifierDescriptionTache-tdb" name="formModifierDescriptionTache-tdb" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
 
                                                                     <!-- Modifier predecesseur -->
                                                                 <p style="margin-top:7px ;">@Messages("predecessor")
@@ -641,6 +641,8 @@
                                                                     <!--<option value="Mayotte">Mayotte</option>
                                                                     <option value="Mexico">Mexico</option>
                                                                     <option value="Nicaragua">Nicaragua</option>-->
+                                                                    <!-- TODO Faire en JS la concaté,ation avec le JS
+                                                                     du formulaire serialize()-->
                                                                 </select>
                                                                 <div id="table-predecesseurTache-modifier-tdb" class="list-task">
                                                                     <table class="table-bordered">
