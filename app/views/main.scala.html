@@ -422,11 +422,6 @@
                         }
                     });
                 });
-                //dataTables-admin-client
-
-
-
-
 
                 var supprimerProjet = function(){
                     var $value = $tmpTr.attr('value');
@@ -601,7 +596,6 @@
                             alert(errorMessage);
                         }
                     });
-
                 }
 
                 var afficherNotifications = function () {
@@ -768,8 +762,6 @@
 
                     return list;
                 }
-
-
 
                 var modifierUtilisateur = function(btn)
                 {
@@ -1202,6 +1194,7 @@
                     }
                     return ret;
                 };
+
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
@@ -1297,17 +1290,12 @@
                             if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
-                                //$('#table-predecesseurTache-modifier-tdb').hide();
                             }
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
                                 $('#table-predecesseurTache-consulter-tdb').show();
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurId);
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseurNom);
-
-                                //$('#table-predecesseurTache-modifier-tdb').show();
-                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
-                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
 
                                 console.log('#predecesseurTache-'+tache.predecesseurId);
 
@@ -1317,8 +1305,6 @@
                             console.log("predecesseurId : "+tache.predecesseurId);
                             console.log("Successeurs : "+tache.successeurs);
 
-                            //TODO
-                            // TODO : Successeurs
                             var list = "";
                             var listModifier = "";
                             if(tache.successeurs){
@@ -1392,7 +1378,7 @@
                             {
                                 $('#avancementTache').css("color","#FFF");
                             }
-                            $('#nbJourRestant').html(tache.nbJourRestant+'@Messages("day-first-letter")');
+                            $('#nbJourRestant').html('@Messages("remainingTime")'+tache.nbJourRestant+'@Messages("day-first-letter")');
                             $('#dateDebutTache').html(tache.dateDebut);
                             $('#dateFinTotTache').html(tache.dateFinTot);
                             $('#dateFinTardTache').html(tache.dateFinTard);
@@ -1418,53 +1404,6 @@
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
                             $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
                             $('#formModifierChargeConsommee span').nextAll('span').html(unite);
-                            // div-modifier-tache
-
-
-                            /* Look for Projects and contacts
-                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idTache).ajax({
-                             success: function(listProjets) {
-                             console.log("sucess -----");
-                             var projetTableBody = $('#table-modal-client-projets-body');
-                             projetTableBody.empty();
-                             console.log(listProjets);
-                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                             if(listProjets.length != 0){
-                             $(listProjets).each(function(index, projet) {
-                             var p ="";
-                             p+=('<tr>');
-                             p+=('<td class="first-td">'+projet.nom+'</td>');
-                             p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                             p+=('</tr>');
-
-                             projetTableBody.append(p);
-                             });
-                             }
-                             },
-                             error: function(errorMessage){
-                             console.log("error : "+errorMessage)
-                             }
-                             });
-                             jsRoutes.controllers.ContactController.afficherContactsClient(idTache).ajax({
-                             success: function(listContacts) {
-                             var contactsTableBody = $('#table-modal-client-contacts-body');
-                             contactsTableBody.empty();
-                             //console.log(listContacts);
-                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                             if(listContacts.length != 0){
-                             $(listContacts).each(function(index, contact) {
-                             var c ="";
-                             c+=('<tr>');
-                             c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                             c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                             c+=('</tr>');
-
-                             contactsTableBody.append(c);
-                             });
-                             }
-                             }
-                             });*/
-
 
                         },
                         //Case we have a problem
@@ -1472,6 +1411,13 @@
                             alert(errorMessage);
                         }
                     });
+                }
+
+                var modifierTache = function (btn) {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    console.log(serialize);
                 }
 
 
