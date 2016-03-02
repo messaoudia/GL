@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Utilisateur;
+import play.Logger;
 import play.Routes;
 import play.api.i18n.Lang;
 import play.mvc.Controller;
@@ -80,7 +81,11 @@ public class Application extends Controller {
     }
 
     public Result changeLangue(String lang) {
+        Utilisateur utilisateurConnecte = Login.getUtilisateurConnecte();
+        utilisateurConnecte.langue = lang;
+        utilisateurConnecte.update();
         Controller.changeLang(lang);
+        Logger.debug("Language changed to: " + lang);
         return redirect(request().getHeader("referer"));
     }
 

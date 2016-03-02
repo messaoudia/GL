@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import models.Utilisateur;
 import play.Logger;
+import play.api.i18n.Lang;
 import play.data.Form;
 import play.i18n.Messages;
 import play.libs.Crypto;
@@ -51,10 +52,20 @@ public class Login extends Controller {
             return badRequest(views.html.login.render(loginForm.fill(utilisateur), Messages.get("mailOrPasswordInvalid")));
         } else {
             session().clear();
+            changeLanguage(utilisateurAuthentifie.langue);
             String jsonStringUtilisateur = Json.toJson(sessionCredential).toString();
             session("sessionCredential", crypto.encryptAES(jsonStringUtilisateur));
             Logger.debug("Utilisateur authentifie: " + utilisateurAuthentifie);
             return redirect(routes.DashboardController.afficherDashboard());
+        }
+    }
+
+    private static void changeLanguage(String language) {
+        if (language != null && !language.isEmpty()) {
+            ctx().changeLang(language);
+        } else {
+            ctx().changeLang(Lang.apply$default$2());
+            Logger.error("Language set to default, language not found: " + language);
         }
     }
 

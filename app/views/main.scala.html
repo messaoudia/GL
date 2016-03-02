@@ -1257,15 +1257,14 @@
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                                 success: function(utilisateurs){
                                     var list = "";
-                                    for(var key in utilisateurs){
-                                        if(utilisateurs[key].email==tache.responsableTache.email)
-                                        {
-                                            list+='<option value="'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'" selected>'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'</option>';
+                                    $(utilisateurs).each(function(index, u) {
+                                        if(u.email==tache.responsableTache.email){
+                                            list+='<option value="'+u.nom+' '+u.prenom+'" selected>'+u.nom+' '+u.prenom+'</option>';
                                         }
                                         else {
-                                            list+='<option value="'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'">'+utilisateurs[key].nom+' '+utilisateurs[key].prenom+'</option>';
+                                            list+='<option value="'+u.nom+' '+u.prenom+'">'+u.nom+' '+u.prenom+'</option>';
                                         }
-                                    }
+                                    });
 
                                     $('#responsableTacheModifier').html(list);
                                 },
@@ -1279,8 +1278,13 @@
                                     console.log(taches);
                                     var list = "";
 
-                                    $(taches).each(function(index, tache) {
-                                        list+='<option value="'+tache.id+' - '+tache.nom+'">'+tache.id+' - '+tache.nom+'</option>';
+                                    $(taches).each(function(index, t) {
+                                        if(t.id==tache.predecesseurId){
+                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                        else {
+                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
                                     });
 
                                     $('#form-tache-predecesseur').html(list);
@@ -1295,8 +1299,19 @@
                                     console.log(taches);
                                     var list = "";
 
-                                    $(taches).each(function(index, tache) {
-                                        list+='<option value="'+tache.id+' - '+tache.nom+'">'+tache.id+' - '+tache.nom+'</option>';
+                                    $(taches).each(function(index, t) {
+                                        var isSuccesseur = false;
+                                        $(tache.successeurs).each(function(index,s){
+                                           if(t.id == s.id){
+                                               isSuccesseur = true;
+                                               return;
+                                           }
+                                        });
+                                        if(isSuccesseur){
+                                            list+='<option value="'+t.id+' - '+t.nom+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }else{
+                                            list+='<option value="'+t.id+' - '+t.nom+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
                                     });
 
                                     $('#form-tache-successeur').html(list);
@@ -1309,7 +1324,7 @@
                             if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
-                                $('#table-predecesseurTache-modifier-tdb').hide();
+                                //$('#table-predecesseurTache-modifier-tdb').hide();
                             }
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
@@ -1317,9 +1332,11 @@
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurId);
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseurNom);
 
-                                $('#table-predecesseurTache-modifier-tdb').show();
-                                $('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
-                                $('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
+                                //$('#table-predecesseurTache-modifier-tdb').show();
+                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
+                                //$('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
+
+                                console.log('#predecesseurTache-'+tache.predecesseurId);
 
                             }
                             console.log("tache = "+JSON.stringify(tache))
@@ -1331,22 +1348,15 @@
                             // TODO : Successeurs
                             var list = "";
                             var listModifier = "";
-                            if(tache.successeurs)
-                            {
-                                for(var key in tache.successeurs) {
-
+                            if(tache.successeurs){
+                                $(tache.successeurs).each(function(index, tache) {
                                     list+='<tr>';
-                                    list+='<td class="id-task">'+tache.successeurs[key].id+'</td>';
-                                    list+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
+                                    list+='<td class="id-task">'+tache.id+'</td>';
+                                    list+='<td class="name-task">'+tache.nom+'</td>';
                                     list+='</tr>';
-
-                                    listModifier+='<tr><td class="id-task">'+tache.successeurs[key].id+'</td>';
-                                    listModifier+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
-                                    listModifier+='<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td></tr>';
-                                }
+                                });
                             }
                             $('#table-successeursTache-consulter-tdb-body').html(list);
-                            $('#table-successeursTache-modifier-tdb-body').html(listModifier);
 
                             list = "";
                             listModifier = "";
