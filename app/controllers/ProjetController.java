@@ -1,14 +1,13 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Error;
 import models.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.creerClient;
 import views.html.creerProjet;
 import views.html.projet;
 
@@ -16,8 +15,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
-import static play.data.Form.form;
 
 public class ProjetController extends Controller{
 
@@ -99,6 +96,13 @@ public class ProjetController extends Controller{
             }
             return badRequest(Json.toJson(error));
         }
+    }
+
+    public Result sendDraf() {
+        JsonNode json = request().body().asJson();
+
+        Logger.debug(json.toString());
+        return ok(json.toString());
     }
 
 }

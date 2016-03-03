@@ -56,10 +56,10 @@ GET         /allUsers                                       controllers.Utilisat
 GET         /allSucesseursPossible                          controllers.DashboardController.getAllSucesseursPossible(idTache: Long)
 GET         /AllPredecesseursPossible                       controllers.DashboardController.getAllPredecesseursPossible(idTache: Long)
 
-POST        /modifierTache                        controllers.DashboardController.modifierTache()
-POST        /ajouterProjet                        controllers.ProjetController.creerProjet
-GET         /listProjetsUtilisateur               controllers.UtilisateurController.listProjetsUtilisateur(id: Long)
-GET         /listTachesUtilisateur                controllers.UtilisateurController.listTachesUtilisateur(id: Long)
+POST        /modifierTache                                  controllers.DashboardController.modifierTache()
+POST        /ajouterProjet                                  controllers.ProjetController.creerProjet
+GET         /listProjetsUtilisateur                         controllers.UtilisateurController.listProjetsUtilisateur(id: Long)
+GET         /listTachesUtilisateur                          controllers.UtilisateurController.listTachesUtilisateur(id: Long)
 
 #view notification
 GET         /notifications                                  controllers.NotificationController.afficherNotifications
@@ -90,4 +90,7 @@ POST        /saveBlocNote                                   controllers.Dashboar
 GET         /getClientsAsCSV                                controllers.ClientController.getClientsAsCSV
 GET         /draft                                          controllers.Application.getDraft
 
-POST        /modifClient                        controllers.ClientController.modifierClient(idClient : Long)
+POST        /modifClient                                    controllers.ClientController.modifierClient(idClient : Long)
+
+# Draft parsed
+POST        /sendDraf                                       controllers.ProjetController.sendDraf
