@@ -21,7 +21,7 @@
                     });
                 });
                 $("body").load(function(){
-                    updateMenu();
+                    if(controler.substring(0,15) === 'AdminController')();
                 });
                 function updateMenu()
                 {

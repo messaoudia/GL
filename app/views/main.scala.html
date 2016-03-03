@@ -842,6 +842,7 @@
 
                             $("#errorCreerUserP").html(messageDiv);
                             $("#errorCreerUser").show();
+
                         }
                     })
                 }
@@ -2002,7 +2003,6 @@
                     });
 
 
-
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
 
@@ -2870,6 +2870,62 @@
 
                  //####################################################################
 
+                //######### Modifier projet ##########
+
+                 var modifierProjet = function(div) {
+                     var id = $(div).attr("value");
+                     var form = "#" + $(div).attr("form");
+                     var serialize = $(form).serialize();
+                     var priorite = $(".btn-active").attr('value');
+                     jsRoutes.controllers.ProjetController.modifierProjet(id).ajax({
+                         data: serialize+ '&priorite='+priorite,
+                         success : function(data) {
+                             $("#errorModifierProjetP").empty();
+                             $("#errorModifierProjet").hide();
+
+                             $("#successModifierProjetP").html('@Messages("client") '+data.nom+' @Messages("modified")');
+                             $("#successModifierProjet").show();
+                             setTimeout(function(){
+                                 $("#successModifierProjet").hide();
+                             },4000);
+                             //modif des valeurs de la dif
+
+
+
+
+
+                         },
+                         error: function(error){
+                             $("#successModifierProjet").hide();
+                             $("#successModifierProjetP").empty();
+
+                             var messageDiv = generateErrorModifierProjet(errorMessage);
+
+                             $("#errorModifierProjetP").html(messageDiv);
+                             $("#errorModifierProjet").show();
+                         }
+                     });
+                 }
+
+                 function generateErrorModifierProjet(errorMessage)
+                 {
+                     var messageDiv = '@Messages("errors") : ';
+
+                     if(errorMessage.responseJSON.nomProjetVide==true)
+                     {
+                         messageDiv += '<br> - @Messages("nameProjetEmptyError")';
+                     }
+                     else if(errorMessage.responseJSON.nomProjetTropLong==true)
+                     {
+                         messageDiv += '<br> - @Messages("nameProjetTooLongError")';
+                     }
+
+                     if(errorMessage.responseJSON.descriptionTropLong==true)
+                     {
+                         messageDiv += '<br> - @Messages("descriptionTooLongError")';
+                     }
+                     return messageDiv;
+                 }
         </script>
     </body>
 </html>

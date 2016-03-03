@@ -1,15 +1,114 @@
 /**
  * Created by Amin on 17/02/2016.
  */
-$(function(){
+var needClick=true;
+var special = false;
+var selfBis;
+var controlerBis;
 
-    $(".sidebar-btn-red").click(function() {
+$(document).on("click",".sidebar-btn-red", function(){
+    var self = $(this),
+        controler = self.data('infos') || self.attr('data-infos');
+    // verif mot de passe
+    if(!needClick){
         changeTopBarRed();
-    });
+        changePage(self,controler);
+        $("#modal-check-mdp").removeAttr('data-backdrop');
+        $("#modal-check-mdp").removeAttr('data-keyboard');
+    }else{
+        selfBis = self;
+        controlerBis = controler;
+    }
+    // on click sur le bouton obligatoire
+});
 
-    $(".sidebar-btn-green").click(function() {
-        changeTopBarGreen();
+$(document).on("click",".sidebar-btn-green", function(){
+    changeTopBarGreen();
+    var self = $(this),
+        controler = self.data('infos') || self.attr('data-infos');
+    changePage(self,controler);
+});
+
+
+$(document).on("click",".close", function(event){
+    var attr = $("#modal-check-mdp").attr('data-backdrop');
+    if (typeof attr !== typeof undefined && attr !== false) {
+        // return sur dashboard
+        //DashboardController.afficherDashboard()
+    }
+
+
+});
+    $(document).on("click","#adminBtn", function(event){
+        var pswd = $("#passwordAdmin").val();
+
+        jsRoutes.controllers.AdminController.checkMdpAdmin(pswd).ajax({
+            success: function() {
+                $("#errorMdpAdminP").html("");
+                $("#errorMdpAdmin").hide();
+                needClick = false;
+                changeTopBarRed();
+                changePage(selfBis,controlerBis);
+                $(".sidebar-btn-red").removeAttr("data-target");
+                $(".sidebar-btn-red").removeAttr("data-toggle");
+                setTimeout(function(){
+                    needClick = true;
+                    $("#modal-check-mdp").attr('data-backdrop', 'static');
+                    $("#modal-check-mdp").attr('data-keyboard','false');
+                    // Si on est sur une page admin
+                    if( $(".active").hasClass('sidebar-btn-red')){
+                        $("#modal-check-mdp").modal('show');
+                    }
+                },10000);
+                $('#modal-check-mdp').modal('toggle');
+            },
+            //Case we have a problem
+            error: function(error){
+                var messageDiv = "";
+                messageDiv += '@Messages("errors") : ';
+                if(error.responseJSON.mdpVide==true)
+                {
+                    messageDiv += '<br> - @Messages("mdpEmptyError")';
+                }else if(error.responseJSON.mdpIncorrecte == true){
+                    messageDiv += '<br> - @Messages("mdpIncorrecteError")';
+                }
+                $("#errorMdpAdminP").html(messageDiv);
+                $("#errorMdpAdmin").show();
+            }
+        });
+
+
+
+
+
+
+
+        /*jsRoutes.controllers.UtilisateurController.checkMdpAdmin(pswd).ajax({
+            success: function(html) {
+
+            },
+            //Case we have a problem
+            error: function(errorMessage){
+                alert(errorMessage);
+            }
+        });*/
     });
+    function changePage(objet,controler){
+        $('#sidebar ul li').removeClass('active');
+        objet.addClass('active');
+        eval("jsRoutes.controllers."+controler).ajax({
+            success: function(html) {
+                var result = $('#refresh',html);
+                $('#refresh').empty().html(result);
+            },
+            //Case we have a problem
+            error: function(errorMessage){
+                alert(errorMessage);
+            }
+        });
+    }
+
+
 
     function changeTopBarRed()
     {
@@ -26,4 +125,3 @@ $(function(){
         var navHeader = document.getElementById('nav-header');
         $(navHeader).removeClass('nav-header-admin');
     }
-});

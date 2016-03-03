@@ -1,28 +1,7 @@
 @(pageTitle: String, utilisateur: models.Utilisateur)
 
 @scripts = {
-    <script>
-            $(document).ready(function() {
-                $('.liclickable').click(function (e) {
-                    e.preventDefault();
-                    var self = $(this),
-                            controler = self.data('infos') || self.attr('data-infos');
-                    $('#sidebar ul li').removeClass('active');
-                    $(this).addClass('active');
 
-                    eval("jsRoutes.controllers."+controler).ajax({
-                        success: function(html) {
-                            var result = $('#refresh',html);
-                            $('#refresh').empty().html(result);
-                        },
-                        //Case we have a problem
-                        error: function(errorMessage){
-                            alert(errorMessage);
-                        }
-                    });
-                });
-            });
-    </script>
 }
 
 

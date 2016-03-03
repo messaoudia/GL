@@ -94,3 +94,7 @@ POST        /modifClient                                    controllers.ClientCo
 
 # Draft parsed
 POST        /sendDraf                                       controllers.ProjetController.sendDraf
+
+POST        /checkMpdAdmin                                  controllers.AdminController.checkMdpAdmin(pswd : String)
+
+POST        /modifProjet                                    controllers.ProjetController.modifierProjet(id : Long)

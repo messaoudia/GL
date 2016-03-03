@@ -98,6 +98,48 @@ public class ProjetController extends Controller{
         }
     }
 
+    public Result modifierProjet(Long id){
+        Projet p = Projet.find.byId(id);
+        //check projet  -- nom + description
+        Map<String, String[]> map = request().body().asFormUrlEncoded();
+        Error error = new Error();
+        String nom = map.get("projet")[0];
+        if (nom.isEmpty()) {
+            error.nomProjetVide = true;
+        } else if (nom.length() > 30) {
+            error.nomProjetTropLong= true;
+        }
+        String description = map.get("description")[0];
+        if(description.length() > 65536) {
+            error.descriptionTropLong = true;
+        }
+        Logger.debug(p.responsableProjet.nom + p.responsableProjet.prenom);
+        if(error.hasErrorProjet()){
+            return badRequest(Json.toJson(error));
+        }else{
+            //modification des info si besoin
+            int priorite = Integer.parseInt(map.get("priorite")[0]);
+            Utilisateur responsableProjet = Utilisateur.find.byId(Long.valueOf(map.get("responsableProjet")[0]));
+            if(!p.responsableProjet.equals(responsableProjet)){
+                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
+                p.responsableProjet = responsableProjet;
+                Logger.debug(responsableProjet.nom + responsableProjet.prenom);
+            }
+            //check priorite
+            if(!p.priorite.equals(priorite)){
+                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
+                p.priorite = priorite;
+            }
+            //description
+            if(!p.description.equals(description)){
+                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
+                p.description = description;
+            }
+            return ok(Json.toJson(p));
+        }
+    }
+
+
     public Result sendDraf() {
         JsonNode json = request().body().asJson();
 
