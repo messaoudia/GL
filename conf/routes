@@ -87,6 +87,9 @@ POST        /changePassword                                 controllers.Utilisat
 POST        /saveBlocNote                                   controllers.DashboardController.saveBlocNote(idUser: Long, note: String)
 POST        /clickNotificationsLues                         controllers.NotificationController.clickNotificationsLues(idUser: Long, listIdNotif: String)
 POST        /clickNotificationsSupprimer                    controllers.NotificationController.clickNotificationsSupprimer(idUser: Long, listIdNotif: String)
+POST        /updateTacheToIndisponible                      controllers.ProjetController.updateTacheToIndisponible(idTache: Long)
+POST        /updateTacheToDisponible                        controllers.ProjetController.updateTacheToDisponible(idTache: Long)
+
 
 #Ajax export clients
 GET         /getClientsAsCSV                                controllers.ClientController.getClientsAsCSV

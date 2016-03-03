@@ -1430,6 +1430,99 @@
                     return ret;
                 };
 
+                var updateIndisponibleTache = function() {
+                    if($('#btn-indisponibleTache i').hasClass("fa-lock"))
+                    {
+
+                        var idTache = $('#btn-indisponibleTache').attr("data");
+                        jsRoutes.controllers.ProjetController.updateTacheToDisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache i').addClass("fa-unlock")
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
+
+                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeRestante').removeAttr("disabled");
+                                $('#formModifierChargeConsommee').removeAttr("disabled");
+
+                                console.log("la tache "+$('#btn-indisponibleTache').attr("data")+" devient disponible");
+
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    }
+                    else {
+
+                        var idTache = $('#btn-indisponibleTache').attr("data");
+
+                        jsRoutes.controllers.ProjetController.updateTacheToIndisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache i').addClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
+                                console.log("la tache "+$('#btn-indisponibleTache').attr("data")+" devient indisponible");
+                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeRestante').attr("disabled","");
+                                $('#formModifierChargeConsommee').attr("disabled","");
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+
+                    }
+                }
+
+
+                var updateIndisponibleTacheModifier = function() {
+                    if($('#btn-indisponibleTache-modifier i').hasClass("fa-lock"))
+                    {
+
+                        var idTache = $('#btn-indisponibleTache-modifier').attr("data");
+                        jsRoutes.controllers.ProjetController.updateTacheToDisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache i').addClass("fa-unlock")
+                                console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient disponible");
+                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeRestante').removeAttr("disabled");
+                                $('#formModifierChargeConsommee').removeAttr("disabled");
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    }
+                    else {
+
+                        var idTache = $('#btn-indisponibleTache-modifier').attr("data");
+
+                        jsRoutes.controllers.ProjetController.updateTacheToIndisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache i').addClass("fa-lock");
+                                console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient indisponible");
+                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeRestante').attr("disabled","");
+                                $('#formModifierChargeConsommee').attr("disabled","");
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+
+                    }
+                }
+
+
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
@@ -1439,6 +1532,7 @@
                         dataType: 'json',
                         contentType: "application/json",
                         success: function(tache) {
+                            console.log(JSON.stringify(tache));
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
                             // div-consulter-tache
@@ -1457,6 +1551,35 @@
                             $('#formModifierNomTache-tdb').val(tache.nom);
                             $('#descriptionTache-consulter-tdb').html(tache.description);
                             $('#formModifierDescriptionTache-tdb').val(tache.description);
+                            $('#btn-indisponibleTache').attr("data",tache.id);
+                            $('#btn-indisponibleTache-modifier').attr("data",tache.id);
+                            if(!tache.disponible)
+                            {
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+
+                                $('#btn-indisponibleTache i').addClass("fa-lock");
+
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
+
+                            }
+                            else {
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+
+                                $('#btn-indisponibleTache i').addClass("fa-unlock");
+
+
+
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
+                            }
+
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                                 success: function(utilisateurs){
                                     var list = "";
@@ -1647,6 +1770,18 @@
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
                             $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
                             $('#formModifierChargeConsommee span').nextAll('span').html(unite);
+
+                            if(!tache.disponible)
+                            {
+                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeRestante').attr("disabled","");
+                                $('#formModifierChargeConsommee').attr("disabled","");
+                            }
+                            else {
+                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeRestante').removeAttr("disabled");
+                                $('#formModifierChargeConsommee').removeAttr("disabled");
+                            }
 
                         },
                         //Case we have a problem
