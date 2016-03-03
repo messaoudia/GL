@@ -361,9 +361,10 @@ public class Tache extends EntiteSecurise {
         }
 
         Utilisateur ancienResponsableTache = this.responsableTache;
-        this.responsableTache = responsable;
+        responsable.affectTache(this);
         removeUtilisateurNotification(ancienResponsableTache);
         addUtilisateurNotification(this.responsableTache);
+        save();
     }
 
     /**
@@ -415,6 +416,34 @@ public class Tache extends EntiteSecurise {
         }
         successeur.associerPredecesseur(this);
         successeurs.add(successeur);
+        save();
+    }
+
+    public void supprimerSuccesseurs() throws IllegalStateException {
+        for(Tache successeur : successeurs){
+            successeur.predecesseur = null;
+            successeur.save();
+        }
+        successeurs.clear();
+        save();
+    }
+
+    public void associerInterlocuteur(Contact interlocuteur) throws IllegalStateException {
+        if (this.interlocuteurs.contains(interlocuteur)) {
+            throw new IllegalStateException("Il y a deja cet interlocuteur pour cette tache");
+        }
+        interlocuteur.listTachesCorrespondant.add(this);
+        interlocuteur.save();
+        interlocuteurs.add(interlocuteur);
+        save();
+    }
+
+    public void supprimerInterlocuteurs() throws IllegalStateException {
+        for(Contact interlocuteur : interlocuteurs){
+            interlocuteur.listTachesCorrespondant.remove(this);
+            interlocuteur.save();
+        }
+        interlocuteurs.clear();
         save();
     }
 

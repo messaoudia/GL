@@ -156,9 +156,6 @@
             <!-- Menu -->
         <script src="/js/menu.js"></script>
 
-            <!-- Menu -->
-        <script src="/js/dashboard.js"></script>
-
         @scripts
         <script>
                  var changeModeDraftProjet = function(idProjet){
@@ -1595,8 +1592,11 @@
                      var idTache = $('#formModifierTache').attr('value');
 
                      //PREDECESSEUR
-                     var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
-                     console.log("idPredecesseur"+idPredecesseur);
+                     var idPredecesseur = "";
+                     if($('#form-tache-predecesseur').select2().val() != null){
+                         idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                         console.log("idPredecesseur"+idPredecesseur);
+                     }
 
                      var tabSuccesseurs = [];
                      //SUCCESSEUR
