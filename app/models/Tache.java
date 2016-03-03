@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
@@ -360,9 +361,10 @@ public class Tache extends EntiteSecurise {
         }
 
         Utilisateur ancienResponsableTache = this.responsableTache;
-        this.responsableTache = responsable;
+        responsable.affectTache(this);
         removeUtilisateurNotification(ancienResponsableTache);
         addUtilisateurNotification(this.responsableTache);
+        save();
     }
 
     /**
@@ -417,6 +419,34 @@ public class Tache extends EntiteSecurise {
         save();
     }
 
+    public void supprimerSuccesseurs() throws IllegalStateException {
+        for(Tache successeur : successeurs){
+            successeur.predecesseur = null;
+            successeur.save();
+        }
+        successeurs.clear();
+        save();
+    }
+
+    public void associerInterlocuteur(Contact interlocuteur) throws IllegalStateException {
+        if (this.interlocuteurs.contains(interlocuteur)) {
+            throw new IllegalStateException("Il y a deja cet interlocuteur pour cette tache");
+        }
+        interlocuteur.listTachesCorrespondant.add(this);
+        interlocuteur.save();
+        interlocuteurs.add(interlocuteur);
+        save();
+    }
+
+    public void supprimerInterlocuteurs() throws IllegalStateException {
+        for(Contact interlocuteur : interlocuteurs){
+            interlocuteur.listTachesCorrespondant.remove(this);
+            interlocuteur.save();
+        }
+        interlocuteurs.clear();
+        save();
+    }
+
     /**
      * TODO testme
      *
@@ -440,14 +470,17 @@ public class Tache extends EntiteSecurise {
         return Utils.before(dateFinTard, Calendar.getInstance().getTime());
     }
 
+    @JsonSerialize
     public boolean hasPredecesseur() {
         return predecesseur != null;
     }
 
+    @JsonSerialize
     public boolean hasSuccesseur() {
         return successeurs != null && !successeurs.isEmpty();
     }
 
+    @JsonSerialize
     public int nbSuccesseurs(){
         return successeurs.size();
     }
@@ -461,6 +494,10 @@ public class Tache extends EntiteSecurise {
         else return false;
     }
 
+    /**
+     * TODO testme
+     */
+    @JsonSerialize
     public Double getAvancementTache() {
         return (chargeConsommee / (chargeConsommee + chargeRestante));
     }
@@ -631,5 +668,10 @@ public class Tache extends EntiteSecurise {
             listResult.remove(this);
         }
         return listResult;
+    }
+
+    @JsonSerialize
+    public boolean hasResponsableActivateNotification(){
+        return utilisateursNotifications.contains(responsableTache);
     }
 }

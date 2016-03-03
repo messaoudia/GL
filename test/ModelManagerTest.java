@@ -17,7 +17,7 @@ public class ModelManagerTest {
     @Test
     public void testCreerTacheInitialisationProjet() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
             Client client = new Client("Apple", 2, false, null, new BeanList<Contact>(), new BeanList<Projet>());
@@ -53,7 +53,7 @@ public class ModelManagerTest {
     @Test
     public void testCreerTacheAuDessus() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,10, dateDebutReel: 2016,2,3, dateFinReelTot: 2016,2,9, dateFinReelTard: 2016,2,9
@@ -95,7 +95,7 @@ public class ModelManagerTest {
     @Test
     public void testCreerTacheEnDessous() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980","123456Aa");
             utilisateur.save();
 
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,10, dateDebutReel: 2016,2,3, dateFinReelTot: 2016,2,9, dateFinReelTard: 2016,2,9
@@ -137,7 +137,7 @@ public class ModelManagerTest {
     @Test
     public void testCreerSousTache() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,10, dateDebutReel: 2016,2,3, dateFinReelTot: 2016,2,9, dateFinReelTard: 2016,2,9
@@ -219,7 +219,7 @@ public class ModelManagerTest {
     @Test
     public void testIdTache() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,3,4, dateDebutReel: 2016,2,2, dateFinReelTot: 2016,3,3, dateFinReelTard: 2016,3,3
@@ -486,7 +486,7 @@ public class ModelManagerTest {
     @Test
     public void testCalculeCheminCritique() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,4, dateDebutReel: 2016,2,2, dateFinReelTot: 2016,2,4, dateFinReelTard: 2016,2,4
@@ -689,7 +689,7 @@ public class ModelManagerTest {
     @Test
     public void testUpdateAvancementGlobal() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,3,4, dateDebutReel: 2016,2,2, dateFinReelTot: 2016,3,3, dateFinReelTard: 2016,3,3
@@ -1026,7 +1026,7 @@ public class ModelManagerTest {
     @Test
     public void testSupprimerTacheProjet() {
         running(fakeApplication(), ()-> {
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
             //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,29, dateDebutReel: 2016,2,2, dateFinReelTot: 2016,2,28, dateFinReelTard: 2016,2,28
@@ -1084,7 +1084,7 @@ public class ModelManagerTest {
             utilisateur.save();
             */
 
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, password);
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", password);
             utilisateur.save();
 
             assertNotNull(utilisateur.id);

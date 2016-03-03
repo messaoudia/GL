@@ -91,12 +91,11 @@ public class Utilisateur extends Personne {
     //    return null;
     //}
 
-    public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
+    private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, List<Tache> listTaches,
                        List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue,
                        boolean recevoirNotifPourMesActions, boolean recevoirNotifPourMesTachesPresqueFinies,
                        boolean recevoirNotifPourMesTachesRetardees, String bloc_note) {
         super(nom, prenom, email, telephone, archive);
-        setPassword(password);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
         this.listTachesNotifications = (listTachesNotifications == null) ? new BeanList<>() : listTachesNotifications;
         this.utilisateursSuivis = (utilisateursSuivis == null) ? new BeanList<>() : utilisateursSuivis;
@@ -112,8 +111,16 @@ public class Utilisateur extends Personne {
         this.bloc_note = (bloc_note == null) ? "" : bloc_note;
     }
 
-    public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone, archive, password, null, null, null, LANGUE_FR, false, false, false, null);
+    private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive) {
+        this(nom, prenom, email, telephone, archive, null, null, null, LANGUE_FR, false, false, false, null);
+    }
+
+    public static Utilisateur create(String nom, String prenom, String email, String telephone, String password){
+        Utilisateur user = new Utilisateur(nom, prenom, email, telephone, false);
+        user.save();
+        user.setPassword(password);
+        user.update();
+        return user;
     }
 
     public Utilisateur() {

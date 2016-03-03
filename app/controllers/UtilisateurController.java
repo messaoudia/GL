@@ -1,5 +1,7 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import jdk.nashorn.internal.ir.annotations.Immutable;
 import models.*;
@@ -130,8 +132,8 @@ public class UtilisateurController extends Controller {
             {
                 //TODO SBLC
             }
-            Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false, Utilisateur.genererPassword());
-            user.save();
+            Utilisateur user = Utilisateur.create(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], Utilisateur.genererPassword());
+            //user.save();
             //TODO : send email to user
             return ok(Json.toJson(user));
         }
@@ -180,8 +182,26 @@ public class UtilisateurController extends Controller {
     public Result listProjetsUtilisateur(Long idUtilisateur) {
         return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listProjetsResponsable()));
     }
+
     public Result listTachesUtilisateur(Long idUtilisateur) {
-        return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listTaches()));
+        List<Tache> listTaches = Utilisateur.find.byId(idUtilisateur).listTaches();
+        //Logger.debug(t.toString());
+        JsonNode nodeArray = Json.toJson(listTaches);
+
+        int i=0;
+        for (JsonNode element: nodeArray) {
+            ObjectNode o = (ObjectNode) element;
+            if(listTaches.get(i).predecesseur != null) {
+                o.put("predecesseurIdTache", listTaches.get(i).predecesseur.idTache);
+            }
+            i++;
+        }
+
+        return ok(nodeArray);
+    }
+
+    public Result listTachesUtilisateurConnecte() {
+        return listTachesUtilisateur(Login.getUtilisateurConnecte().id);
     }
 
     public Result supprimerUtilisateur(Long idUtilisateur,String strProjet,String strTache){
