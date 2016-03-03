@@ -84,7 +84,12 @@
                                         <div class="sidebar-client-nom" style="color:#FFF ; line-height: 30px ;">@client.nom</div>
                                     </div>
                                     @for( projet <- utilisateur.listProjetsDuClient(client)) {
-                                        <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
+                                        @if(projet.estTermine()){
+                                            <div class="row client-project projet-finished-sidebar" style="margin-left: 0px ; margin-right: 0px ;">
+                                        } else {
+                                            <div class="row client-project" style="margin-left: 0px ; margin-right: 0px ;">
+                                        }
+
                                             <div name="client-projet-@projet.id" class="sidebar-projet">
                                                 <div class="content">
                                                     <div class="sidebar-projet-nom">@projet.nom</div>
@@ -100,7 +105,7 @@
                             <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute ; bottom: 51px ; background-color: #FFF ; width: 100% ;">
                                 <div class="sidebar-footer" style="height: 110px ;">
                                     <div class="checkbox checkbox-success checkbox-circle">
-                                        <input id="checkbox-projet-termines" type="checkbox">
+                                        <input onclick="updateSideBarClientArchive(this);" id="checkbox-projet-termines" type="checkbox">
                                         <label for="checkbox-projet-termines">
                                         @Messages("displayFinishProjects")
                                         </label>
@@ -114,7 +119,7 @@
                         </div>
                     </div>
                     @for( projet <- utilisateur.listProjets()) {
-                        <div id="client-projet-@projet.id" class="col-md-10" style="display:none ;">
+                        <div id="client-projet-@projet.id" class="col-md-10 col-consulterProjet" style="display:none ;">
                             <div id="div-consulterProjet-client-@projet.id">
                                 <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
                                     <div class="col-sm-4">
@@ -367,8 +372,8 @@
                                         <div class="row">
                                             <div class="switch" style="display:inline-block ; float:right ;">
                                                 <div class="onoffswitch">
-                                                    <input class="onoffswitch-checkbox" id="checkbox-draft-client" type="checkbox">
-                                                    <label class="onoffswitch-label" for="checkbox-draft-client">
+                                                    <input class="onoffswitch-checkbox" id="checkbox-draft-client-@projet.id" type="checkbox" onclick="changeModeDraftClient(@projet.id)">
+                                                    <label class="onoffswitch-label" for="checkbox-draft-client-@projet.id">
                                                         <span class="onoffswitch-inner"></span>
                                                         <span class="onoffswitch-switch"></span>
                                                     </label>
@@ -395,10 +400,10 @@
                                             </div>
                                         </div>
                                         <div id="mode-draft" class="table-responsive" style="">
-                                            <div class="dd" id="nestable-projet">
+                                            <div class="nestable dd dd-nodrag" id="nestable-client-projet-@projet.id">
                                                 <ol class="dd-list">
                                                         <!-- En-tete -->
-                                                    <li class="dd-item dd-item-min-width" data-id="0">
+                                                    <li class="dd-item dd-item-min-width">
                                                         <div style="padding:0px ; background-color:#f5f5f5 ; border:1px solid #EBEBEB ; font-weight:bold ;">
                                                             <div class="row row-nestable dd-nodrag">
                                                             @if(projet.responsableProjet.equals(utilisateur)) {

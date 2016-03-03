@@ -293,7 +293,7 @@ projets:
 
 - &projet1 !!models.Projet
     id:                 15
-    nom:                Projet Test 3
+    nom:                Projet Test Yasser
     description:        Ceci est un projet de test 4
     responsableProjet:  *utilisateur1
     dateDebutTheorique: 2016-02-12
@@ -301,10 +301,10 @@ projets:
     dateDebutReel:      2016-02-25
     dateFinReelTot:     2016-02-27
     dateFinReelTard:    2016-02-27
-    chargeInitiale:     2
-    avancementGlobal:   0
-    chargeConsommee :   0
-    chargeRestante :    2
+    chargeInitiale:     8
+    avancementGlobal:   100
+    chargeConsommee :   8
+    chargeRestante :    0
     enCours:            true
     archive:            true
     client:             *client1

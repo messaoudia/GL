@@ -147,7 +147,7 @@
             <!-- Select2 -->
         <script src="/js/plugins/select2/select2.full.min.js"></script>
 
-            <!-- Nestable -->
+            <!-- Nestable -->a
         <script src="/js/plugins/nestable/jquery.nestable.js"></script>
 
             <!-- Projet -->
@@ -158,6 +158,34 @@
 
         @scripts
         <script>
+                var changeModeDraftProjet = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+                    }
+                }
+
+                var changeModeDraftClient = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-client-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-client-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        $('#nestable-client-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+                    }
+                }
+
 
                 var userRow;
                 $requestUtilisateursArchives = false;
@@ -167,6 +195,35 @@
                 var $tmpTr;
                 var $tmpTrAdminClient;
                 var $tmpTrAdminUser;
+
+                function updateSideBarClientArchive(checkbox)
+                {
+                    if($(checkbox).is(":checked")) {
+                        $(".projet-finished-sidebar").show();
+                        console.log("TODO check si ok : j'affiche projet termine");
+                    }
+                    else {
+                        $(".projet-finished-sidebar").hide();
+                        console.log("TODO check si ok : je cache projet termine");
+
+                    }
+                }
+
+                $(document).on('click','.createSubTask', function(event){
+                    var btn = $(this);
+                    console.log("creer sous tache de "+btn.attr("data"));
+                });
+
+                $(document).on('click','.createTaskHaut', function(event){
+                    var btn = $(this);
+                    console.log("creer tache haut de "+btn.attr("data"));
+                });
+
+                $(document).on('click','.createTaskBas', function(event){
+                    var btn = $(this);
+                    console.log("creer tache bas de "+btn.attr("data"));
+                });
+
 
                 $(document).on('click','#interlocuteurs-modifier', function(event){
                     event.stopPropagation();
@@ -1319,7 +1376,7 @@
 
                             jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
                                 success: function(taches){
-                                    console.log(taches);
+                                    //console.log(taches);
                                     var list = "";
 
                                     $(taches).each(function(index, t) {
@@ -1340,7 +1397,7 @@
 
                             jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
                                 success: function(taches){
-                                    console.log(taches);
+                                    //console.log(taches);
                                     var list = "";
 
                                     $(taches).each(function(index, t) {
@@ -1378,10 +1435,10 @@
                                 console.log('#predecesseurTache-'+tache.predecesseurId);
 
                             }
-                            console.log("tache = "+JSON.stringify(tache))
+                            /*console.log("tache = "+JSON.stringify(tache))
                             console.log("predecesseurNom : "+tache.predecesseurNom);
                             console.log("predecesseurId : "+tache.predecesseurId);
-                            console.log("Successeurs : "+tache.successeurs);
+                            console.log("Successeurs : "+tache.successeurs);*/
 
                             var list = "";
                             var listModifier = "";
@@ -1405,9 +1462,9 @@
 
                                 jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
                                     success: function(interlocuteursClient){
-                                        console.log(JSON.stringify(interlocuteursClient));
-                                        console.log(JSON.stringify(tache.interlocuteurs));
-                                        console.log("diff = "+JSON.stringify(compareJSON(interlocuteursClient,tache.interlocuteurs)));
+                                        //console.log(JSON.stringify(interlocuteursClient));
+                                        //console.log(JSON.stringify(tache.interlocuteurs));
+                                        //console.log("diff = "+JSON.stringify(compareJSON(interlocuteursClient,tache.interlocuteurs)));
                                         var i = 0;
                                         for(var key in tache.interlocuteurs) {
                                             listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
@@ -1471,7 +1528,7 @@
                             {
                                 unite = '@Messages("week-first-letter")';
                             }
-                            console.log(JSON.stringify(tache));
+                            //console.log(JSON.stringify(tache));
                             $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
                             $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
@@ -1622,22 +1679,6 @@
                         jQuery.fx.off = false;
                     });
 
-                    function modeDraftProjet()
-                    {
-                        if($('#checkbox-draft-projet').is(':checked')){
-                            $('#nestable-projet').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-projet').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftProjet();
-                    $('#checkbox-draft-projet').click(function() {
-                        modeDraftProjet();
-                    });
-
                     function modeDraftClient()
                     {
                         if($('#checkbox-draft-client').is(':checked')){
@@ -1731,11 +1772,7 @@
 
 
 
-                    $('#nestable-projet').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-                    $('#nestable-client').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
@@ -2146,32 +2183,74 @@
                         height = parseInt(height);
                         height -= 150;
                         $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
 
-                        /*if($(window).width()<1050){
-                         hideSideBarProjet();
-                         }
-                         else {
-                         showSideBarProjet();
-                         }*/
+
+                        if($(window).width()<750){
+
+                            hideSideBarProjet();
+                            $('.liste-projet-client').css('height',"100%");
+                            height = $('.liste-projet-client').css('height');
+                            height = parseInt(height);
+                            height -= 200;
+                            $('.liste-projet-client').css('height',height);
+
+                        }
+                        else {
+
+                            showSideBarProjet();
+                            $('.liste-projet-client').css('height',"100%");
+                            height = $('.liste-projet-client').css('height');
+                            height = parseInt(height);
+                            height -= 200;
+                            $('.liste-projet-client').css('height',height);
+
+                        }
                     });
 
                     function hideSideBarProjet()
                     {
                         $('#col-sidebar-liste-projet').hide();
                         $('#afficheListeProjet').css("width","25px");
-                        $("#col-consulterProjet").removeClass("col-md-10");
-                        $("#col-consulterProjet").addClass("col-md-12");
+                        $(".col-consulterProjet").removeClass("col-md-10");
+                        $(".col-consulterProjet").addClass("col-md-12");
                         $("#icon-show-liste-projet").removeClass("fa-outdent");
                         $("#icon-show-liste-projet").addClass("fa-indent");
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
+
                     }
                     function showSideBarProjet()
                     {
                         $('#col-sidebar-liste-projet').show();
                         $('#afficheListeProjet').css("width","170px");
-                        $("#col-consulterProjet").removeClass("col-md-12");
-                        $("#col-consulterProjet").addClass("col-md-10");
+                        $(".col-consulterProjet").removeClass("col-md-12");
+                        $(".col-consulterProjet").addClass("col-md-10");
                         $("#icon-show-liste-projet").removeClass("fa-indent");
                         $("#icon-show-liste-projet").addClass("fa-outdent");
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
+
                     }
 
                     function hideSideBarRetour()
@@ -2234,16 +2313,10 @@
                     $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
 
-                    $('#nestable-projet').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
-                    $('#nestable-client').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-
-
 
                     $('.datatable-consulterClient').DataTable();
                     $('#dataTables-tdb-projet').DataTable();
