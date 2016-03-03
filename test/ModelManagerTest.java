@@ -1103,4 +1103,93 @@ public class ModelManagerTest {
             assertFalse(utilisateur2.checkPassword(passwordF));
         });
     }
+
+    @Test
+    public void testVerifierCoherenceDesDates() {
+        running(fakeApplication(), ()-> {
+            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            utilisateur.save();
+            Tache tache1 = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null,true);
+            tache1.save();
+
+            Tache tache2 = new Tache("Etude 12","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,18),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,17),20D,0D,20D,null,null,null,null,null,true);
+            tache2.save();
+            assertTrue(Tache.find.byId(tache1.id).verifierCoherenceDesDates());
+            assertFalse(Tache.find.byId(tache2.id).verifierCoherenceDesDates());
+        });
+    }
+
+    @Test
+    public void testVerifierOrdreSousTaches() {
+        running(fakeApplication(), ()-> {
+            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            utilisateur.save();
+
+            //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,29, dateDebutReel: 2016,2,2, dateFinReelTot: 2016,2,28, dateFinReelTard: 2016,2,28
+            Projet projet = new Projet("Site Apple","Développement du nouveau site d'Apple", utilisateur,
+                    Utils.getDateFrom(2016,2,1),Utils.getDateFrom(2016,3,25),Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,3,25),Utils.getDateFrom(2016,3,25),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null,null);
+            projet.save();
+
+            Tache tacheParent2 = new Tache("Tache parent2","Cette tâche permet de réaliser l'étude du projet",utilisateur,2,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null,true);
+            tacheParent2.save();
+
+            Tache tache21 = new Tache("Tache 21","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null,true);
+            tache21.save();
+
+            Tache tache22 = new Tache("Tache 22","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,26),
+                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tache21,null,null,true);
+            tache22.save();
+
+            Tache tache23 = new Tache("Tache 23","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,28),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,tache22,null,null,true);
+            tache23.save();
+
+            try {
+                projet.creerTacheInitialisationProjet(tacheParent2);
+                projet.creerSousTache(tache21,tacheParent2);
+                projet.creerTacheEnDessous(tache22,tache21);
+                projet.creerTacheEnDessous(tache23,tache22);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            assertTrue(Tache.find.byId(tacheParent2.id).verifierOrdreSousTaches());
+        });
+    }
+
+    @Test
+    public void testTacheEstDisponible() {
+        running(fakeApplication(), ()-> {
+            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
+            utilisateur.save();
+
+            //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,29, dateDebutReel: 2016,2,2, dateFinReelTot: 2016,2,28, dateFinReelTard: 2016,2,28
+            Projet projet = new Projet("Site Apple","Développement du nouveau site d'Apple", utilisateur,
+                    Utils.getDateFrom(2016,2,1),Utils.getDateFrom(2016,3,25),Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,3,25),Utils.getDateFrom(2016,3,25),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null,null);
+            projet.save();
+
+            Tache tacheParent2 = new Tache("Tache parent2","Cette tâche permet de réaliser l'étude du projet",utilisateur,2,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null,true);
+            tacheParent2.save();
+
+            Tache tache21 = new Tache("Tache 21","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,1),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null,true);
+            tache21.save();
+
+            Tache tache22 = new Tache("Tache 22","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,26),
+                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tache21,null,null,true);
+            tache22.save();
+
+            Tache tache23 = new Tache("Tache 23","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,28),
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,tache22,null,null,true);
+            tache23.save();
+
+            assertTrue(Tache.find.byId(tache22.id).estDisponible());
+        });
+    }
 }
