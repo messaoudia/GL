@@ -242,16 +242,6 @@ public class Projet extends EntiteSecurise {
             if(Utils.after(tache.parent.dateDebut, tache.dateDebut))
                 throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de début ("+ formateDate(tache.parent.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
 
-            System.out.println("********************");
-            System.out.println("parent: "+ tache.parent.dateFinTot);
-            System.out.println("tache: "+ tache.dateFinTot);
-            System.out.println("boolean1:" + tache.parent.dateFinTot.before(tache.dateFinTot));
-            System.out.println("boolean2:" + tache.parent.dateFinTot.equals(tache.dateFinTot));
-            System.out.println("tache parent getTime: " + tache.parent.dateFinTot.getTime());
-            System.out.println("tache parent toInstant: " + tache.parent.dateFinTot.toInstant());
-            System.out.println("tache getTime: " + tache.dateFinTot.getTime());
-            System.out.println("tache toInstant: " + tache.dateFinTot.toInstant());
-            System.out.println("********************");
             //if(tache.parent.dateFinTot.before(tache.dateFinTot))
             if(Utils.before(tache.parent.dateFinTot, tache.dateFinTot))
                 throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tot ("+ formateDate(tache.parent.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
