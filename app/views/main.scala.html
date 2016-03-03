@@ -1359,6 +1359,8 @@
                                 $('#imgCritique-consulterTache-tdb').hide();
                             }
 
+                            $('#formModifierTache').attr('value',tache.id);
+
                             $('#idTache-consulter-tdb').html(tache.idTache);
                             $('#idTache-modifier-tdb').html(tache.idTache);
                             $('#nomTache-consulter-tdb').html(tache.nom);
@@ -1544,6 +1546,13 @@
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
                             $('#formModifierChargeInitiale').attr("value",tache.chargeInitiale);
                             $('#formModifierChargeInitiale').nextAll('span').html(unite);
+                            if(tache.disponible){
+                                $('#formModifierChargeRestante').attr("disabled",false);
+                                $('#formModifierChargeConsommee').attr("disabled",false);
+                            }else{
+                                $('#formModifierChargeRestante').attr("disabled",true);
+                                $('#formModifierChargeConsommee').attr("disabled",true);
+                            }
                             $('#formModifierChargeRestante').attr("value",tache.chargeRestante);
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
                             $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
@@ -1562,6 +1571,9 @@
                     form = "#"+form;
                     var serialize = $(form).serialize();
                     console.log(serialize);
+
+                    //IDTACHE
+                    var idTache = $('#formModifierTache').attr('value');
 
                     //PREDECESSEUR
                     var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
@@ -1591,7 +1603,7 @@
                         }
                     }
 
-                    var dataToSend = serialize+"&predecesseur="+idPredecesseur;
+                    var dataToSend = serialize+"&id-tache="+idTache+"&predecesseur="+idPredecesseur;
                     dataToSend += "&successeurs=";
 
                     for (var i = 0; i < tabSuccesseurs.length; i++){
