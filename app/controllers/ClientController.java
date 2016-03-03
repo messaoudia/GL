@@ -4,23 +4,23 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Error;
-import play.api.mvc.LegacyI18nSupport;
+import models.Utils.Utils;
+import play.Logger;
 import play.libs.Json;
-import models.Utilisateur;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.client;
 import views.html.creerClient;
 
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static play.mvc.Results.ok;
+import java.util.stream.Collectors;
 
 /**
  * Created by Gishan on 03/01/2016.
@@ -188,6 +188,28 @@ public class ClientController extends Controller {
             Contact c = new Contact(nom,prenom, email,tel);
             return ok(Json.toJson(c));
         }
+    }
+
+    public Result getClientsAsCSV() throws IOException {
+        Logger.debug("Exporting clients...");
+        final Map<String, String> filesToExport = Utils.exportAllClientsCSV();
+
+        final List<File> filesToCompress = filesToExport.entrySet().stream()
+                .map(entry -> Utils.fileFromString(entry.getValue(), entry.getKey().split("\\.")[0], "." + entry.getKey().split("\\.")[1]))
+                .collect(Collectors.toList());
+
+        final String filePrefix = "clients";
+        final String fileSuffix = ".zip";
+
+        final File zippedFile = File.createTempFile(filePrefix, fileSuffix);
+        Utils.zipFile(filesToCompress, zippedFile);
+
+        response().setContentType("application/x-download");
+        response().setHeader("Content-disposition", "attachment; filename=" + filePrefix + fileSuffix);
+
+        return ok(zippedFile);
+
+        //return ok(Json.toJson(clients));
     }
 
     public Result modifierClient(Long idClient){

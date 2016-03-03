@@ -158,6 +158,34 @@
 
         @scripts
         <script>
+                var changeModeDraftProjet = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+                    }
+                }
+
+                var changeModeDraftClient = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-client-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-client-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        $('#nestable-client-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+                    }
+                }
+
 
                 var userRow;
                 $requestUtilisateursArchives = false;
@@ -169,6 +197,39 @@
                 var clientRow;
                 var $tmpTrAdminUser;
 
+                function updateSideBarClientArchive(checkbox)
+                {
+                    if($(checkbox).is(":checked")) {
+                        $(".projet-finished-sidebar").show();
+                        console.log("TODO check si ok : j'affiche projet termine");
+                    }
+                    else {
+                        $(".projet-finished-sidebar").hide();
+                        console.log("TODO check si ok : je cache projet termine");
+
+                    }
+                }
+
+                $(document).on('click','.createSubTask', function(event){
+                    var btn = $(this);
+                    console.log("creer sous tache de "+btn.attr("data"));
+                });
+
+                $(document).on('click','.createTaskHaut', function(event){
+                    var btn = $(this);
+                    console.log("creer tache haut de "+btn.attr("data"));
+                });
+
+                $(document).on('click','.createTaskBas', function(event){
+                    var btn = $(this);
+                    console.log("creer tache bas de "+btn.attr("data"));
+                });
+
+
+                $(document).on('click','#interlocuteurs-modifier', function(event){
+                    event.stopPropagation();
+
+                });
                 $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
                     var id = $(this).parent('tr').attr('value');
                     userRow = $(this).parent('tr');
@@ -256,70 +317,70 @@
                             $("#delete-utilisateur-name-confirm").empty();
                             $("#delete-utilisateur-name-confirm").append(" "+u.prenom+" "+u.nom+" ("+u.email+")");
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
-                               success: function(utilisateurs){
-                                 console.log(utilisateurs);
-                                   jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
-                                       success: function(listProjets){
-                                           console.log(listProjets);
-                                           //listProjets
-                                           var projetTableBody = $('#table-modal-suppr-user-projet-body');
-                                           projetTableBody.empty();
+                                success: function(utilisateurs){
+                                    console.log(utilisateurs);
+                                    jsRoutes.controllers.UtilisateurController.listProjetsUtilisateur(idU).ajax({
+                                        success: function(listProjets){
+                                            console.log(listProjets);
+                                            //listProjets
+                                            var projetTableBody = $('#table-modal-suppr-user-projet-body');
+                                            projetTableBody.empty();
 
-                                           var p ="";
-                                           if(listProjets.length != 0){
-                                               $(listProjets).each(function(index, projet) {
-                                                   p+=('<tr value="'+projet.id+'">');
-                                                   p+=('<td>'+projet.nom+'</td>');
-                                                   if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
-                                                       $(utilisateurs).each(function(index,u){
-                                                           // lister tous les utilisaturs en cours sauf l'user courant
-                                                           if(u.id != idU){
-                                                               p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           }//console.log(u.nom);
-                                                       });
-                                                       p+=('</select></td>');
-                                                   }
-                                                   p+=('</tr>');
+                                            var p ="";
+                                            if(listProjets.length != 0){
+                                                $(listProjets).each(function(index, projet) {
+                                                    p+=('<tr value="'+projet.id+'">');
+                                                    p+=('<td>'+projet.nom+'</td>');
+                                                    if(utilisateurs.length != 0){
+                                                        p+=('<td><select class="form-control select2-respo-projet" style="width:100%;" multiple="single">');
+                                                        $(utilisateurs).each(function(index,u){
+                                                            // lister tous les utilisaturs en cours sauf l'user courant
+                                                            if(u.id != idU){
+                                                                p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                            }//console.log(u.nom);
+                                                        });
+                                                        p+=('</select></td>');
+                                                    }
+                                                    p+=('</tr>');
 
-                                               });
-                                               projetTableBody.append(p);
-                                               p = "";
-                                           }
-                                       }
-                                   });
+                                                });
+                                                projetTableBody.append(p);
+                                                p = "";
+                                            }
+                                        }
+                                    });
 
-                                   jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
-                                       success: function(listTaches){
-                                           console.log(listTaches);
-                                           var tacheeBody = $('#table-modal-suppr-user-tache-body');
-                                           tacheeBody.empty();
+                                    jsRoutes.controllers.UtilisateurController.listTachesUtilisateur(idU).ajax({
+                                        success: function(listTaches){
+                                            console.log(listTaches);
+                                            var tacheeBody = $('#table-modal-suppr-user-tache-body');
+                                            tacheeBody.empty();
 
-                                           var p="";
-                                           if(listTaches.length != 0){
-                                               $(listTaches).each(function(index, tache) {
-                                                   p+=('<tr value="'+tache.id+'">');
-                                                   p+=('<td>'+tache.nom+'</td>');
-                                                   p+=('<td>'+tache.projet.nom+'</td>');
-                                                   if(utilisateurs.length != 0){
-                                                       p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
-                                                       $(utilisateurs).each(function(index,u){
-                                                           // lister tous les utilisaturs en cours sauf l'user courant
-                                                           if(u.id != idU){
-                                                               p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
-                                                           }//console.log(u.nom);
-                                                       });
-                                                       p+=('</select></td>');
-                                                   }
-                                                   p+=('</tr>');
+                                            var p="";
+                                            if(listTaches.length != 0){
+                                                $(listTaches).each(function(index, tache) {
+                                                    p+=('<tr value="'+tache.id+'">');
+                                                    p+=('<td>'+tache.nom+'</td>');
+                                                    p+=('<td>'+tache.projet.nom+'</td>');
+                                                    if(utilisateurs.length != 0){
+                                                        p+=('<td><select class="form-control select2-respo-tache" style="width:100%;" multiple="single">');
+                                                        $(utilisateurs).each(function(index,u){
+                                                            // lister tous les utilisaturs en cours sauf l'user courant
+                                                            if(u.id != idU){
+                                                                p+=('<option value="'+u.id+'">'+u.nom+' '+u.prenom+' ('+u.email+')</option>');
+                                                            }//console.log(u.nom);
+                                                        });
+                                                        p+=('</select></td>');
+                                                    }
+                                                    p+=('</tr>');
 
-                                               });
-                                               tacheeBody.append(p);
-                                               p = "";
-                                           }
-                                       }
-                                   });
-                               }
+                                                });
+                                                tacheeBody.append(p);
+                                                p = "";
+                                            }
+                                        }
+                                    });
+                                }
                             });
                         }
                     });
@@ -497,6 +558,82 @@
                     });
                 }
 
+                var selectUtilisateursASuivre = function(idUserConnecte){
+                    var listUtilisateurs = $('#searchContact-select2').val();
+                    //console.log("List User : " + listUtilisateurs);
+                    if(listUtilisateurs == null){
+                        listUtilisateurs = "";
+                    }
+                    jsRoutes.controllers.UtilisateurController.modifierUtilisateursASuivre(idUserConnecte, listUtilisateurs).ajax();
+                }
+
+                var activeOuDesactiveNotifMesActions = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-changes').is(':checked');
+                    console.log("activeOuDesactiveNotifMesActions : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationMesActions(idUserConnecte, isChecked).ajax();
+                }
+
+                var activeOuDesactiveNotifTachesPresqueTerminees = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-tasks-almost-finish').is(':checked');
+                    console.log("activeOuDesactiveNotifTachesPresqueTerminees : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationTachesPresqueFinies(idUserConnecte, isChecked).ajax();
+                }
+
+                var activeOuDesactiveNotifTachesRetardees = function(idUserConnecte) {
+                    var isChecked = $('#checkbox-tasks-late').is(':checked');
+                    console.log("activeOuDesactiveNotifTachesRetardees : " + isChecked);
+                    jsRoutes.controllers.UtilisateurController.modifierNotificationTachesRetardees(idUserConnecte, isChecked).ajax();
+                }
+
+                var saveBlocNote = function(idUser){
+                    console.log("Bloc note : " + $('#bloc-notes-tdb').val());
+                    jsRoutes.controllers.DashboardController.saveBlocNote(idUser, $('#bloc-notes-tdb').val()).ajax();
+                }
+
+                var changePassword = function(idUser){
+                    var previousPassword = $('#previousPassword').val();
+                    var newPassword = $('#newPassword').val();
+                    var confirmNewPassword = $('#newPasswordConfirm').val();
+                    jsRoutes.controllers.UtilisateurController.changePassword(idUser, previousPassword, newPassword, confirmNewPassword).ajax({
+                        success: function(){
+                            console.log("Modification password ok");
+                            $('#previousPassword').val('');
+                            $('#newPassword').val('');
+                            $('#newPasswordConfirm').val('');
+                            $('#errorMessagePreviousPassword').hide();
+                            $('#errorMessageNewPassword').hide();
+                            $('#errorMessageNewPasswordConfirm').hide();
+                            $("#successChangePassword").show();
+                            setTimeout(function(){
+                                $("#successChangePassword").hide();
+                            },2000);
+                        },
+                        error: function(errorMessage){
+                            console.log("Modification password ko");
+                            console.log(errorMessage.responseJSON);
+                            console.log(errorMessage.responseJSON.previousPasswordCorrect);
+                            console.log(errorMessage.responseJSON.newPasswordCorrect);
+                            console.log(errorMessage.responseJSON.newPasswordCorrect);
+
+                            if(errorMessage.responseJSON.previousPasswordCorrect==false){
+                                $('#errorMessagePreviousPassword').show();
+                            } else {
+                                $('#errorMessagePreviousPassword').hide();
+                            }
+                            if(errorMessage.responseJSON.newPasswordCorrect==false){
+                                $('#errorMessageNewPassword').show();
+                            } else {
+                                $('#errorMessageNewPassword').hide();
+                            }
+                            if(errorMessage.responseJSON.confirmNewPasswordCorrect==false){
+                                $('#errorMessageNewPasswordConfirm').show();
+                            } else {
+                                $('#errorMessageNewPasswordConfirm').hide();
+                            }
+                        }
+                    });
+                }
+
                 var supprimerUtilisateur = function(){
                     $("#error-message-suppr-user-projet").hide();
                     $("#error-message-suppr-user-tache").hide();
@@ -619,6 +756,7 @@
                         }
                     });
                 }
+
 
                 /**
                  * Methode Ajax pour aller récuperer des informations d'un utilisateur
@@ -768,8 +906,6 @@
 
                     return list;
                 }
-
-
 
                 var modifierUtilisateur = function(btn)
                 {
@@ -1181,6 +1317,29 @@
                     }
 
                 }
+
+                function listContains(list,obj) {
+                    for(var i in list)
+                    {
+                        if(list[i].email==obj.email)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                var compareJSON = function(obj1, obj2) {
+                    var ret = {};
+                    var k = 0;
+                    for(var i in obj1) {
+                        if(!listContains(obj2,obj1[i])) {
+                            ret[k] = obj1[i];
+                            k++;
+                        }
+                    }
+                    return ret;
+                };
+
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
@@ -1206,10 +1365,76 @@
                             $('#formModifierNomTache-tdb').val(tache.nom);
                             $('#descriptionTache-consulter-tdb').html(tache.description);
                             $('#formModifierDescriptionTache-tdb').val(tache.description);
+                            jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
+                                success: function(utilisateurs){
+                                    var list = "";
+                                    $(utilisateurs).each(function(index, u) {
+                                        if(u.email==tache.responsableTache.email){
+                                            list+='<option value="'+u.id+'" selected>'+u.nom+' '+u.prenom+'</option>';
+                                        }
+                                        else {
+                                            list+='<option value="'+u.id+'">'+u.nom+' '+u.prenom+'</option>';
+                                        }
+                                    });
+
+                                    $('#responsableTacheModifier').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+
+                            jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
+                                success: function(taches){
+                                    //console.log(taches);
+                                    var list = "";
+
+                                    $(taches).each(function(index, t) {
+                                        if(t.id==tache.predecesseurId){
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                        else {
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                    });
+
+                                    $('#form-tache-predecesseur').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+
+                            jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
+                                success: function(taches){
+                                    //console.log(taches);
+                                    var list = "";
+
+                                    $(taches).each(function(index, t) {
+                                        var isSuccesseur = false;
+                                        $(tache.successeurs).each(function(index,s){
+                                           if(t.id == s.id){
+                                               isSuccesseur = true;
+                                               return;
+                                           }
+                                        });
+                                        if(isSuccesseur){
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }else{
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                    });
+
+                                    $('#form-tache-successeur').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+
                             if(!tache.predecesseurNom){
                                 $('#titre-predecesseur-consulter-tdb').hide()
                                 $('#table-predecesseurTache-consulter-tdb').hide();
-                                $('#table-predecesseurTache-modifier-tdb').hide();
                             }
                             else{
                                 $('#titre-predecesseur-consulter-tdb').show()
@@ -1217,49 +1442,59 @@
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurId);
                                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseurNom);
 
-                                $('#table-predecesseurTache-modifier-tdb').show();
-                                $('#table-predecesseurTache-modifier-tdb table tbody tr .id-task').html(tache.predecesseurId);
-                                $('#table-predecesseurTache-modifier-tdb table tbody tr .name-task').html(tache.predecesseurNom);
+                                console.log('#predecesseurTache-'+tache.predecesseurId);
 
                             }
-                            console.log("tache = "+JSON.stringify(tache))
+                            /*console.log("tache = "+JSON.stringify(tache))
                             console.log("predecesseurNom : "+tache.predecesseurNom);
                             console.log("predecesseurId : "+tache.predecesseurId);
-                            console.log("Successeurs : "+tache.successeurs);
+                            console.log("Successeurs : "+tache.successeurs);*/
 
-                            //TODO
-                            // TODO : Successeurs
                             var list = "";
                             var listModifier = "";
-                            if(tache.successeurs)
-                            {
-                                for(var key in tache.successeurs) {
-
+                            if(tache.successeurs){
+                                $(tache.successeurs).each(function(index, tache) {
                                     list+='<tr>';
-                                    list+='<td class="id-task">'+tache.successeurs[key].id+'</td>';
-                                    list+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
+                                    list+='<td class="id-task">'+tache.id+'</td>';
+                                    list+='<td class="name-task">'+tache.nom+'</td>';
                                     list+='</tr>';
-
-                                    listModifier+='<tr><td class="id-task">'+tache.successeurs[key].id+'</td>';
-                                    listModifier+='<td class="name-task">'+tache.successeurs[key].nom+'</td>';
-                                    listModifier+='<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td></tr>';
-                                }
+                                });
                             }
                             $('#table-successeursTache-consulter-tdb-body').html(list);
-                            $('#table-successeursTache-modifier-tdb-body').html(listModifier);
 
                             list = "";
                             listModifier = "";
                             if(tache.interlocuteurs)
                             {
-                                for(var key in tache.interlocuteurs) {
-                                    list+='<li>'+tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom +'</li>';
-
-                                }
+                                $(tache.interlocuteurs).each(function(index,contact) {
+                                    list+='<li id="'+contact.id+'">'+contact.nom+' '+ contact.prenom +'</li>';
+                                });
 
                                 jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
-                                    success: function(interlocuteurs) {
-                                        console.log(JSON.stringify(interlocuteurs));
+                                    success: function(interlocuteursClient){
+                                        //console.log(JSON.stringify(interlocuteursClient));
+                                        //console.log(JSON.stringify(tache.interlocuteurs));
+                                        //console.log("diff = "+JSON.stringify(compareJSON(interlocuteursClient,tache.interlocuteurs)));
+                                        var i = 0;
+                                        for(var key in tache.interlocuteurs) {
+                                            listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox"  value="'+tache.interlocuteurs.id+'" checked>';
+                                            listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
+                                            listModifier+=tache.interlocuteurs[key].nom+' '+ tache.interlocuteurs[key].prenom+'</label></div></li>';
+                                            i++;
+                                        }
+                                        var interlocuteurNonCoche = compareJSON(interlocuteursClient,tache.interlocuteurs);
+                                        for(var key in interlocuteurNonCoche) {
+                                            listModifier+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                                            listModifier+='<input id="checkbox-interlocuteur-'+i+'" type="checkbox" value="'+interlocuteurNonCoche[key].id+'">';
+                                            listModifier+='<label for="checkbox-interlocuteur-'+i+'">';
+                                            listModifier+=interlocuteurNonCoche[key].nom+' '+ interlocuteurNonCoche[key].prenom+'</label></div></li>';
+                                            i++;
+                                            console.log("key "+key)
+                                        }
+                                        $('#nbInterlocuteurModifier').html(interlocuteursClient.length);
+                                        $('#interlocuteurs-modifier').html(listModifier);
+
                                     },
                                     error: function(errorMessage){
                                         alert(errorMessage);
@@ -1268,15 +1503,14 @@
 
 
                                 $('#nbInterlocuteur').html(tache.interlocuteurs.length);
-                                $('#nbInterlocuteurModifier').html(tache.interlocuteurs.length);
+
                             }
 
                             $('#interlocuteurs-consulter').html(list);
-                            $('#interlocuteurs-modifier').html(listModifier);
 
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
-                            $('#nomRespTache-consulter-tdb').html(tache.responsableTache.prenom + " " + tache.responsableTache.nom);
+                            $('#nomRespTache-consulter-tdb').html(tache.responsableTache.nom + " " + tache.responsableTache.prenom);
                             $('#avancementTache').html(tache.avancementTache+"%");
                             $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
                             $('#avancementTache').css("width",tache.avancementTache+"%");
@@ -1288,10 +1522,13 @@
                             {
                                 $('#avancementTache').css("color","#FFF");
                             }
-                            $('#nbJourRestant').html(tache.nbJourRestant+'@Messages("day-first-letter")');
+                            $('#nbJourRestant').html('@Messages("remainingTime")'+tache.nbJourRestant+'@Messages("day-first-letter")');
                             $('#dateDebutTache').html(tache.dateDebut);
                             $('#dateFinTotTache').html(tache.dateFinTot);
                             $('#dateFinTardTache').html(tache.dateFinTard);
+                            $('#DD-modifier').attr("value",tache.dateDebut);
+                            $('#DFTO-modifier').attr("value",tache.dateFinTot);
+                            $('#DFTA-modifier').attr("value",tache.dateFinTard);
                             var unite = tache.projet.unite;
                             if(unite=="JOUR")
                             {
@@ -1301,58 +1538,16 @@
                             {
                                 unite = '@Messages("week-first-letter")';
                             }
-                            console.log(JSON.stringify(tache));
+                            //console.log(JSON.stringify(tache));
                             $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
                             $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
-
-                            // div-modifier-tache
-
-
-                            /* Look for Projects and contacts
-                             jsRoutes.controllers.ProjetController.afficherProjetsClient(idTache).ajax({
-                             success: function(listProjets) {
-                             console.log("sucess -----");
-                             var projetTableBody = $('#table-modal-client-projets-body');
-                             projetTableBody.empty();
-                             console.log(listProjets);
-                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                             if(listProjets.length != 0){
-                             $(listProjets).each(function(index, projet) {
-                             var p ="";
-                             p+=('<tr>');
-                             p+=('<td class="first-td">'+projet.nom+'</td>');
-                             p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                             p+=('</tr>');
-
-                             projetTableBody.append(p);
-                             });
-                             }
-                             },
-                             error: function(errorMessage){
-                             console.log("error : "+errorMessage)
-                             }
-                             });
-                             jsRoutes.controllers.ContactController.afficherContactsClient(idTache).ajax({
-                             success: function(listContacts) {
-                             var contactsTableBody = $('#table-modal-client-contacts-body');
-                             contactsTableBody.empty();
-                             //console.log(listContacts);
-                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
-                             if(listContacts.length != 0){
-                             $(listContacts).each(function(index, contact) {
-                             var c ="";
-                             c+=('<tr>');
-                             c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                             c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                             c+=('</tr>');
-
-                             contactsTableBody.append(c);
-                             });
-                             }
-                             }
-                             });*/
-
+                            $('#formModifierChargeInitiale').attr("value",tache.chargeInitiale);
+                            $('#formModifierChargeInitiale').nextAll('span').html(unite);
+                            $('#formModifierChargeRestante').attr("value",tache.chargeRestante);
+                            $('#formModifierChargeRestante span').nextAll('span').html(unite);
+                            $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
+                            $('#formModifierChargeConsommee span').nextAll('span').html(unite);
 
                         },
                         //Case we have a problem
@@ -1362,8 +1557,74 @@
                     });
                 }
 
+                var modifierTache = function (btn) {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    console.log(serialize);
+
+                    //PREDECESSEUR
+                    var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                    console.log("idPredecesseur"+idPredecesseur);
+
+                    var tabSuccesseurs = [];
+                    //SUCCESSEUR
+                    $("#form-tache-successeur option").each(function() {
+                        if($(this).is(':selected')){
+                            console.log("selected : "+$(this).val());
+                            tabSuccesseurs.push($(this).val());
+                        }
+                    });
+
+                    //RESPONSABLE DE TACHE
+                    var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
+                    console.log("idReponsableTache"+idResponsableTache);
+
+                    //INTERLOCUTEURS EXTERNES
+                    var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+                    var tabInterlocuteurs = [];
+
+                    for (i = 0; i < nbInterlocuteurs; i++) {
+                        if($("#checkbox-interlocuteur-"+i).is(':checked')){
+                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
+                            tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
+                        }
+                    }
+
+                    var dataToSend = serialize+"&predecesseur="+idPredecesseur;
+                    dataToSend += "&successeurs=";
+
+                    for (var i = 0; i < tabSuccesseurs.length; i++){
+                        dataToSend += tabSuccesseurs[i]+",";
+                    }
+
+                    dataToSend += "&responsable="+idResponsableTache;
+
+                    dataToSend += "&interlocuteurs=";
+
+                    for (var i = 0; i < tabInterlocuteurs.length; i++){
+                        dataToSend += tabInterlocuteurs[i]+",";
+                    }
+
+                    console.log("Data SEND : "+dataToSend);
+                    //Ajax call submit form
+                    jsRoutes.controllers.DashboardController.modifierTache().ajax({
+                        data: dataToSend,
+                        success : function(data) {
+                            console.log("SUCCESS");
+                        },
+                        error: function(errorMessage,codeErreur){
+                            console.log(codeErreur+" "+errorMessage);
+                        }
+
+                    });
+
+
+                }
+
 
                 $(document).ready(function () {
+
                     $('#dataTables-admin-user').DataTable({
                         destroy:true,
                         "columnDefs": [{
@@ -1416,22 +1677,6 @@
                         $("#div-modifierProjet-client").hide();
                         $("#div-consulterProjet-client").show();
                         jQuery.fx.off = false;
-                    });
-
-                    function modeDraftProjet()
-                    {
-                        if($('#checkbox-draft-projet').is(':checked')){
-                            $('#nestable-projet').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-projet').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftProjet();
-                    $('#checkbox-draft-projet').click(function() {
-                        modeDraftProjet();
                     });
 
                     function modeDraftClient()
@@ -1491,6 +1736,8 @@
                         maximumSelectionLength: 1
                     });
 
+                    $("#searchContact-select2").select2();
+
 
 
 
@@ -1525,11 +1772,7 @@
 
 
 
-                    $('#nestable-projet').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-                    $('#nestable-client').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
@@ -1940,32 +2183,74 @@
                         height = parseInt(height);
                         height -= 150;
                         $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
 
-                        /*if($(window).width()<1050){
-                         hideSideBarProjet();
-                         }
-                         else {
-                         showSideBarProjet();
-                         }*/
+
+                        if($(window).width()<750){
+
+                            hideSideBarProjet();
+                            $('.liste-projet-client').css('height',"100%");
+                            height = $('.liste-projet-client').css('height');
+                            height = parseInt(height);
+                            height -= 200;
+                            $('.liste-projet-client').css('height',height);
+
+                        }
+                        else {
+
+                            showSideBarProjet();
+                            $('.liste-projet-client').css('height',"100%");
+                            height = $('.liste-projet-client').css('height');
+                            height = parseInt(height);
+                            height -= 200;
+                            $('.liste-projet-client').css('height',height);
+
+                        }
                     });
 
                     function hideSideBarProjet()
                     {
                         $('#col-sidebar-liste-projet').hide();
                         $('#afficheListeProjet').css("width","25px");
-                        $("#col-consulterProjet").removeClass("col-md-10");
-                        $("#col-consulterProjet").addClass("col-md-12");
+                        $(".col-consulterProjet").removeClass("col-md-10");
+                        $(".col-consulterProjet").addClass("col-md-12");
                         $("#icon-show-liste-projet").removeClass("fa-outdent");
                         $("#icon-show-liste-projet").addClass("fa-indent");
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
+
                     }
                     function showSideBarProjet()
                     {
                         $('#col-sidebar-liste-projet').show();
                         $('#afficheListeProjet').css("width","170px");
-                        $("#col-consulterProjet").removeClass("col-md-12");
-                        $("#col-consulterProjet").addClass("col-md-10");
+                        $(".col-consulterProjet").removeClass("col-md-12");
+                        $(".col-consulterProjet").addClass("col-md-10");
                         $("#icon-show-liste-projet").removeClass("fa-indent");
                         $("#icon-show-liste-projet").addClass("fa-outdent");
+                        $('.liste-projet').css('height',"100%");
+                        height = $('.liste-projet').css('height');
+                        height = parseInt(height);
+                        height -= 150;
+                        $('.liste-projet').css('height',height);
+                        $('.liste-projet-client').css('height',"100%");
+                        height = $('.liste-projet-client').css('height');
+                        height = parseInt(height);
+                        height -= 200;
+                        $('.liste-projet-client').css('height',height);
+
                     }
 
                     function hideSideBarRetour()
@@ -2028,16 +2313,10 @@
                     $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
 
-                    $('#nestable-projet').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
-                    $('#nestable-client').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-
-
 
                     $('.datatable-consulterClient').DataTable();
                     $('#dataTables-tdb-projet').DataTable();
@@ -2072,6 +2351,7 @@
                     $('.dataTables-example').DataTable();
 
                     $('#projet_Projet').dataTable( {
+                        destroy: true,
                         "ordering": false
                     } );
 
@@ -2562,6 +2842,11 @@
                         $('.projet-archived').hide();
                     }
                 }
+
+                $(document).on("click","#exporter-client", function(event){
+                    window.open("@routes.ClientController.getClientsAsCSV");
+                });
+
         </script>
     </body>
 </html>

@@ -1,11 +1,13 @@
 package controllers;
 
 import models.Utilisateur;
+import play.Logger;
 import play.Routes;
 import play.api.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
+import views.html.draftTest;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -80,8 +82,16 @@ public class Application extends Controller {
     }
 
     public Result changeLangue(String lang) {
+        Utilisateur utilisateurConnecte = Login.getUtilisateurConnecte();
+        utilisateurConnecte.langue = lang;
+        utilisateurConnecte.update();
         Controller.changeLang(lang);
+        Logger.debug("Language changed to: " + lang);
         return redirect(request().getHeader("referer"));
+    }
+
+    public Result getDraft() {
+        return ok(draftTest.render());
     }
 
 }

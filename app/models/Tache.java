@@ -196,10 +196,13 @@ public class Tache extends EntiteSecurise {
                     tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
                     tache.critique.equals(this.critique) &&
-                    tache.dateDebut.equals(this.dateDebut) &&
-                    tache.dateFinTot.equals(this.dateFinTot) &&
+                    //tache.dateDebut.equals(this.dateDebut) &&
+                    Utils.equals(tache.dateDebut, this.dateDebut) &&
+                    //tache.dateFinTot.equals(this.dateFinTot) &&
+                    Utils.equals(tache.dateFinTot, this.dateFinTot) &&
                     tache.chargeInitiale.equals(this.chargeInitiale) &&
-                    tache.dateFinTard.equals(this.dateFinTard) &&
+                    //tache.dateFinTard.equals(this.dateFinTard) &&
+                    Utils.equals(tache.dateFinTard, this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
                     tache.chargeRestante.equals(this.chargeRestante));
         } catch (ClassCastException e) {
@@ -470,11 +473,13 @@ public class Tache extends EntiteSecurise {
     public boolean verifierOrdreSousTaches() {
         for(Tache sousTache : enfants){
             if(sousTache.hasPredecesseur()) {
-                if(sousTache.predecesseur.dateFinTard.after(sousTache.dateDebut)) return false;
+                //if(sousTache.predecesseur.dateFinTard.after(sousTache.dateDebut)) return false;
+                if(Utils.after(sousTache.predecesseur.dateFinTard, sousTache.dateDebut)) return false;
             }
             if(sousTache.hasSuccesseur()) {
                 for(Tache successeur : sousTache.successeurs) {
-                    if(sousTache.dateFinTard.after(successeur.dateDebut)) return false;
+                    //if(sousTache.dateFinTard.after(successeur.dateDebut)) return false;
+                    if(Utils.after(sousTache.dateFinTard, successeur.dateDebut)) return false;
                 }
             }
         }
@@ -559,5 +564,70 @@ public class Tache extends EntiteSecurise {
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
+    /**
+     * TODO enlever les parents directs
+     * @return
+     */
+    @JsonIgnore
+    public List<Tache> getAllPredecesseursPossible() {
+        List<Tache> listPredecesseurs = Tache.find.where().eq("projet",projet).le("dateFinTard",dateDebut).findList();
+        return listPredecesseurs;
+    }
 
+    /**
+     * TODO enlever les parents directs
+     * @return
+     */
+    @JsonIgnore
+    public List<Tache> getAllSuccesseursPossible() {
+        List<Tache> listSuccesseur = Tache.find.where().eq("projet",projet).ge("dateDebut",dateFinTard).findList();
+        return listSuccesseur;
+    }
+
+    public List<Tache> getAllTacheNonParentsDirects(List<Tache> listTache){
+        List<Tache> listResult = new ArrayList<>();
+        for(Tache t : listTache){
+            switch (t.niveau){
+                case 0 :
+                    if(t.successeurs != null && !t.successeurs.contains(this)){
+                        for (Tache tSucc : t.successeurs) {
+                            if (tSucc.successeurs != null && !tSucc.successeurs.contains(this)) {
+                                break;
+                            }
+                        }
+                    }
+                    listResult.add(t);
+                    break;
+                case 1 :
+                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.successeurs != null && !t.successeurs.contains(this)){
+                        if(t.successeurs != null) {
+                            for (Tache tSucc : t.successeurs) {
+                                if (tSucc.successeurs != null && tSucc.successeurs.contains(this)) {
+                                    break;
+                                }
+                            }
+                        }
+                        listResult.add(t);
+                    }
+                    break;
+                case 2 :
+                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.predecesseur.predecesseur != null && !t.predecesseur.predecesseur.equals(this) &&
+                            t.successeurs != null && !t.successeurs.contains(this)){
+                        listResult.add(t);
+                    }
+                    break;
+                case 3 :
+                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.predecesseur.predecesseur != null&& !t.predecesseur.predecesseur.equals(this) &&
+                            !t.predecesseur.predecesseur.predecesseur.equals(this)){
+                        listResult.add(t);
+                    }
+                    break;
+                default : break;
+            }
+        }
+        if(listResult.contains(this)){
+            listResult.remove(this);
+        }
+        return listResult;
+    }
 }

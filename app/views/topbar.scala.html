@@ -13,7 +13,7 @@
             </li>
             <li id="notifTopBar" onclick="afficherNotifications()">
                 <a class="dropdown-toggle count-info pear-theme" data-toggle="dropdown" href="#" aria-expanded="true">
-                    <i class="fa fa-bell" style="color:white;"></i> <span class="label label-warning">8</span>
+                    <i class="fa fa-bell" style="color:white;"></i> <span class="label label-warning"> @Login.getUtilisateurConnecte().nbNotificationsNonLues()</span>
                 </a>
             </li>
 
@@ -38,68 +38,69 @@
             <form role="form">
                 <div class="form-group previousPassword">
                     <label for="previousPassword">@Messages("previousPassword")</label>
-                    <input type="password" id="previousPassword" class="form-control">
+                    <input type="password" value="" id="previousPassword" name="previousPassword" class="form-control">
+                    <p id="errorMessagePreviousPassword" style="color:red;display:none;">@Messages("badPassword")</p>
                 </div>
                 <div class="form-group newPassword">
                     <label for="newPassword">@Messages("newPassword")</label>
-                    <input type="password" id="newPassword" class="form-control">
+                    <input type="password" value="" id="newPassword" name="newPassword" class="form-control">
+                    <p id="errorMessageNewPassword" style="color:red;display:none">@Messages("improperPassword")</p>
                 </div>
                 <div class="form-group newPasswordConfirm">
                     <label for="newPasswordConfirm">@Messages("newPasswordConfirm")</label>
-                    <input type="password" id="newPasswordConfirm" class="form-control">
+                    <input type="password" value="" id="newPasswordConfirm" name="newPasswordConfirm"  class="form-control">
+                    <p id="errorMessageNewPasswordConfirm" style="color:red;display:none">@Messages("badConfirmPassword")</p>
                 </div>
                 <div class="validateForm">
-                    <button class="btn btn-user btn-block" type="submit" onclick>@Messages("validateForm") <i class="fa fa-check"></i></button>
+                    <a class="btn btn-user btn-block" onclick="changePassword(@Login.getUtilisateurConnecte().id)">@Messages("validateForm") <i class="fa fa-check"></i></a>
                 </div>
+                <p id="successChangePassword" style="display:none;color:green;">@Messages("successChangePassword")</p>
             </form>
         </div>
 
         <div class="notificationFrom">
             <p>@Messages("titleNotificationFrom")</p>
             <div>
-                    <!--TODO : auto recherche -->
-                <input type="text" id="searchContact" class="form-control z-index-3"/>
-            </div>
-
-            <div class="list-personnes-notifiees">
-                <table class="table-bordered">
-                    <tbody>
-                        <tr>
-                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
-                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
-                        </tr>
-                        <tr>
-                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
-                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
-                        </tr>
-                        <tr>
-                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
-                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
-                        </tr>
-                        <tr>
-                            <td class="first-td">Yasser Rabi - yasser.rabi&commat;gmail.com</td>
-                            <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <!--TODO : voir si utilisateursSuivis ou utilisateursSuivis() -->
+                <select id="searchContact-select2" class="form-control" style="width:100%;" placeholder="" multiple onChange="selectUtilisateursASuivre(@Login.getUtilisateurConnecte().id)">
+                    @for(user <- Login.getUtilisateurConnecte().utilisateursPouvantEtreSuivis()){
+                        @if(Login.getUtilisateurConnecte().utilisateursSuivis.contains(user)){
+                            <option value="@user.email" selected>@user.prenom @user.nom</option>
+                        } else {
+                            <option value="@user.email">@user.prenom @user.nom</option>
+                        }
+                    }
+                </select>
             </div>
         </div>
 
         <div class="notificationSettings">
             <div class="checkbox checkbox-success checkbox-circle">
-                <input id="checkbox-changes" type="checkbox">
+                @if(Login.getUtilisateurConnecte().recevoirNotifPourMesActions){
+                    <input id="checkbox-changes" type="checkbox" checked onChange="activeOuDesactiveNotifMesActions(@Login.getUtilisateurConnecte.id)">
+                } else {
+                    <input id="checkbox-changes" type="checkbox" onChange="activeOuDesactiveNotifMesActions(@Login.getUtilisateurConnecte.id)">
+                }
                 <label for="checkbox-changes">
                 @Messages("checkbox-changes")
                 </label>
             </div>
             <div class="checkbox checkbox-success checkbox-circle">
-                <input id="checkbox-tasks-almost-finish" type="checkbox" >
+                @if(Login.getUtilisateurConnecte().recevoirNotifPourMesTachesPresqueFinies){
+                    <input id="checkbox-tasks-almost-finish" type="checkbox" checked onChange="activeOuDesactiveNotifTachesPresqueTerminees(@Login.getUtilisateurConnecte.id)">
+                } else {
+                    <input id="checkbox-tasks-almost-finish" type="checkbox" onChange="activeOuDesactiveNotifTachesPresqueTerminees(@Login.getUtilisateurConnecte.id)" >
+                }
                 <label for="checkbox-tasks-almost-finish">
                 @Messages("checkbox-tasks-almost-finish")
                 </label>
             </div>
             <div class="checkbox checkbox-success checkbox-circle">
-                <input id="checkbox-tasks-late" type="checkbox" checked>
+                @if(Login.getUtilisateurConnecte().recevoirNotifPourMesTachesRetardees){
+                    <input id="checkbox-tasks-late" type="checkbox" checked onChange="activeOuDesactiveNotifTachesRetardees(@Login.getUtilisateurConnecte.id)">
+                } else {
+                    <input id="checkbox-tasks-late" type="checkbox" onChange="activeOuDesactiveNotifTachesRetardees(@Login.getUtilisateurConnecte.id)">
+                }
                 <label for="checkbox-tasks-late">
                 @Messages("checkbox-tasks-late")
                 </label>

@@ -2,6 +2,7 @@ package controllers;
 
 import models.*;
 import models.Error;
+import models.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
 import play.data.Form;
@@ -82,7 +83,8 @@ public class ProjetController extends Controller{
             try {
                 dateDebutTheorique = formatter.parse(dateDeb);
                 dateFinTheorique = formatter.parse(dateFin);
-                if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
+                //if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
+                if (Utils.after(dateFinTheorique, dateDebutTheorique) || Utils.equals(dateFinTheorique, dateDebutTheorique)) {
                     Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
                     p.save();
                     client.listeProjets.add(p);
