@@ -232,16 +232,26 @@
                 $(document).on('click','.createSubTask', function(event){
                     var btn = $(this);
                     console.log("creer sous tache de "+btn.attr("data"));
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+
                 });
 
                 $(document).on('click','.createTaskHaut', function(event){
                     var btn = $(this);
                     console.log("creer tache haut de "+btn.attr("data"));
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
                 });
 
                 $(document).on('click','.createTaskBas', function(event){
                     var btn = $(this);
                     console.log("creer tache bas de "+btn.attr("data"));
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
                 });
 
 
@@ -1442,7 +1452,7 @@
                                 $('#btn-indisponibleTache i').addClass("fa-unlock")
                                 $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
 
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
 
@@ -1465,7 +1475,7 @@
                                 $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
                                 $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
                                 console.log("la tache "+$('#btn-indisponibleTache').attr("data")+" devient indisponible");
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             },
@@ -1490,7 +1500,7 @@
                                 $('#btn-indisponibleTache i').removeClass("fa-lock");
                                 $('#btn-indisponibleTache i').addClass("fa-unlock")
                                 console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient disponible");
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
                             },
@@ -1510,7 +1520,7 @@
                                 $('#btn-indisponibleTache i').removeClass("fa-unlock");
                                 $('#btn-indisponibleTache i').addClass("fa-lock");
                                 console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient indisponible");
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             },
@@ -1527,12 +1537,14 @@
 
                     var idTache = $(t).attr('value');
 
+                    console.log('tache hihihi '+idTache);
+
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
                         type: 'POST',
                         dataType: 'json',
                         contentType: "application/json",
                         success: function(tache) {
-                            console.log(JSON.stringify(tache));
+                            //console.log(JSON.stringify(tache));
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
                             // div-consulter-tache
@@ -1628,10 +1640,10 @@
                                     $(taches).each(function(index, t) {
                                         var isSuccesseur = false;
                                         $(tache.successeurs).each(function(index,s){
-                                           if(t.id == s.id){
-                                               isSuccesseur = true;
-                                               return;
-                                           }
+                                            if(t.id == s.id){
+                                                isSuccesseur = true;
+                                                return;
+                                            }
                                         });
                                         if(isSuccesseur){
                                             list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
@@ -1661,9 +1673,9 @@
 
                             }
                             /*console.log("tache = "+JSON.stringify(tache))
-                            console.log("predecesseurNom : "+tache.predecesseurNom);
-                            console.log("predecesseurId : "+tache.predecesseurId);
-                            console.log("Successeurs : "+tache.successeurs);*/
+                             console.log("predecesseurNom : "+tache.predecesseurNom);
+                             console.log("predecesseurId : "+tache.predecesseurId);
+                             console.log("Successeurs : "+tache.successeurs);*/
 
                             var list = "";
                             var listModifier = "";
@@ -1725,6 +1737,8 @@
 
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
+                            $('#nomProjet-modifier-tdb').html(tache.projet.nom);
+                            $('#nomClient-modifier-tdb').html(tache.projet.client.nom);
                             $('#nomRespTache-consulter-tdb').html(tache.responsableTache.nom + " " + tache.responsableTache.prenom);
                             $('#avancementTache').html(tache.avancementTache+"%");
                             $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
@@ -1760,11 +1774,11 @@
                             $('#formModifierChargeInitiale').attr("value",tache.chargeInitiale);
                             $('#formModifierChargeInitiale').nextAll('span').html(unite);
                             if(tache.disponible){
-                                $('#formModifierChargeRestante').attr("disabled",false);
-                                $('#formModifierChargeConsommee').attr("disabled",false);
+                                $('.formModifierChargeRestante').attr("disabled",false);
+                                $('.formModifierChargeConsommee').attr("disabled",false);
                             }else{
-                                $('#formModifierChargeRestante').attr("disabled",true);
-                                $('#formModifierChargeConsommee').attr("disabled",true);
+                                $('.formModifierChargeRestante').attr("disabled",true);
+                                $('.formModifierChargeConsommee').attr("disabled",true);
                             }
                             $('#formModifierChargeRestante').attr("value",tache.chargeRestante);
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
@@ -1773,12 +1787,12 @@
 
                             if(!tache.disponible)
                             {
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             }
                             else {
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
                             }
@@ -2035,6 +2049,31 @@
                         language: "fr-FR"
                     });
 
+                    $('#datepicker_date_debutC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_totC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tardC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
                     $('#projet-tdb').slimScroll({
                         height: '130px'
                     });
@@ -2343,6 +2382,7 @@
 
                         if($("#col-sidebar-liste-projet").is(":visible")){
                             hideSideBarProjet();
+
                         }
                         else
                         {

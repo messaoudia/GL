@@ -414,8 +414,8 @@
                                                         @for( tacheMere <- projet.listTachesAAfficher()) {
                                                             <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
-                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                        <div class="col-middle first-col-middle" style="">
+                                                                    <div class="row row-nestable" >
+                                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable id-tache">
                                                                             @tacheMere.idTache
                                                                             </div>
@@ -423,14 +423,14 @@
                                                                             @tacheMere.nom
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@tacheMere.projet.client.nom</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@tacheMere.formateDate(tacheMere.dateDebut)</div>
-                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.projet.client.nom</div>
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.formateDate(tacheMere.dateDebut)</div>
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTot)</div>
                                                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTard)</div>
                                                                         </div>
-                                                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                 : @tacheMere.chargeInitiale
                                                                                 @if(projet.hasUniteJour()) {
@@ -467,7 +467,7 @@
                                                                                 }</div>
                                                                         </div>
 
-                                                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                                 :
                                                                                 @if(tacheMere.hasPredecesseur()) {
@@ -507,14 +507,14 @@
                                                                             <div class="normal boutonPlusCreerTache">
                                                                                 <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                             </div>
-                                                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
+                                                                            <div class="createSubTask" data-toggle="modal"  data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                                                                 <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
+                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal"  data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                                                             <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
+                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal"  data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                                                             <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                         </div>
                                                                     </div>
@@ -524,8 +524,8 @@
                                                                     @for( sousTache1 <- tacheMere.enfants()) {
                                                                         <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
                                                                             <div class="dd-handle" style="padding:0px ;">
-                                                                                <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                    <div class="col-middle first-col-middle" style="">
+                                                                                <div class="row row-nestable">
+                                                                                    <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                         <div class="row row-nestable id-tache">
                                                                                         @sousTache1.idTache
                                                                                         </div>
@@ -533,14 +533,14 @@
                                                                                         @sousTache1.nom
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
-                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache1.projet.client.nom</div>
-                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache1.formateDate(sousTache1.dateDebut)</div>
-                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.projet.client.nom</div>
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.formateDate(sousTache1.dateDebut)</div>
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                         <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTot)</div>
                                                                                         <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTard)</div>
                                                                                     </div>
-                                                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                         <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                             : @sousTache1.chargeInitiale
                                                                                             @if(projet.hasUniteJour()) {
@@ -578,7 +578,7 @@
                                                                                             }</div>
                                                                                     </div>
 
-                                                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                         <div class="row row-nestable">@Messages("predecessor")
                                                                                             :
                                                                                             @if(sousTache1.hasPredecesseur()) {
@@ -619,14 +619,14 @@
                                                                                         <div class="normal boutonPlusCreerTache">
                                                                                             <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                         </div>
-                                                                                        <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
+                                                                                        <div class="createSubTask" data-target="#modal-tache-creer" data="@sousTache1.id">
                                                                                             <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
+                                                                                    <div class="col-xs-4 normal createTaskHaut" data-target="#modal-tache-creer" data="@sousTache1.id">
                                                                                         <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                                     </div>
-                                                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
+                                                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-target="#modal-tache-creer" data="@sousTache1.id">
                                                                                         <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                     </div>
                                                                                 </div>
@@ -637,8 +637,8 @@
                                                                                 @for( sousTache2 <- sousTache1.enfants()) {
                                                                                     <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
                                                                                         <div class="dd-handle" style="padding:0px ;">
-                                                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                                <div class="col-middle first-col-middle" style="">
+                                                                                            <div class="row row-nestable" >
+                                                                                                <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                     <div class="row row-nestable id-tache">
                                                                                                     @sousTache2.idTache
                                                                                                     </div>
@@ -646,14 +646,14 @@
                                                                                                     @sousTache2.nom
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache2.projet.client.nom</div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache2.formateDate(sousTache2.dateDebut)</div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">@sousTache2.projet.client.nom</div>
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">@sousTache2.formateDate(sousTache2.dateDebut)</div>
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">
                                                                                                     <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTot)</div>
                                                                                                     <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTard)</div>
                                                                                                 </div>
-                                                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">
                                                                                                     <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                                         : @sousTache2.chargeInitiale
                                                                                                         @if(projet.hasUniteJour()) {
@@ -691,7 +691,7 @@
                                                                                                         }</div>
                                                                                                 </div>
 
-                                                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                     <div class="row row-nestable">@Messages("predecessor")
                                                                                                         :
                                                                                                         @if(sousTache2.hasPredecesseur()) {
@@ -733,14 +733,14 @@
                                                                                                     <div class="normal boutonPlusCreerTache">
                                                                                                         <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                                     </div>
-                                                                                                    <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
+                                                                                                    <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
                                                                                                         <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
+                                                                                                <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
                                                                                                     <i class="fa fa-arrow-up "> @Messages("createTask")</i>
                                                                                                 </div>
-                                                                                                <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
+                                                                                                <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
                                                                                                     <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                                 </div>
                                                                                             </div>
@@ -750,8 +750,8 @@
                                                                                             @for( sousTache3 <- sousTache2.enfants()) {
                                                                                                 <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
                                                                                                     <div class="dd-handle" style="padding:0px ;">
-                                                                                                        <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                                            <div class="col-middle first-col-middle" style="">
+                                                                                                        <div class="row row-nestable">
+                                                                                                            <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                 <div class="row row-nestable id-tache">
                                                                                                                 @sousTache3.idTache
                                                                                                                 </div>
@@ -759,14 +759,14 @@
                                                                                                                 @sousTache3.nom
                                                                                                                 </div>
                                                                                                             </div>
-                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
-                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache3.projet.client.nom</div>
-                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache3.formateDate(sousTache3.dateDebut)</div>
-                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
+                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.projet.client.nom</div>
+                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.formateDate(sousTache3.dateDebut)</div>
+                                                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                 <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTot)</div>
                                                                                                                 <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTard)</div>
                                                                                                             </div>
-                                                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                 <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                                                     : @sousTache3.chargeInitiale
                                                                                                                     @if(projet.hasUniteJour()) {
@@ -804,7 +804,7 @@
                                                                                                                     }</div>
                                                                                                             </div>
 
-                                                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                 <div class="row row-nestable">@Messages("predecessor")
                                                                                                                     :
                                                                                                                     @if(sousTache3.hasPredecesseur()) {
@@ -847,14 +847,14 @@
                                                                                                                 <div class="normal boutonPlusCreerTache">
                                                                                                                     <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                                                 </div>
-                                                                                                                <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
+                                                                                                                <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
                                                                                                                     <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                                                 </div>
                                                                                                             </div>
-                                                                                                            <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
+                                                                                                            <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
                                                                                                                 <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                                                             </div>
-                                                                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
+                                                                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
                                                                                                                 <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                                             </div>
                                                                                                         </div>
@@ -880,7 +880,7 @@
                                                         @for( tacheMere <- utilisateur.listTachesDansProjetNonResponsableAAfficher(projet)) {
                                                             <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
-                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                                    <div class="row row-nestable">
                                                                         <div class="col-middle first-col-middle" style="">
                                                                             <div class="row row-nestable id-tache">
                                                                             @tacheMere.idTache
@@ -889,14 +889,14 @@
                                                                             @tacheMere.nom
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@tacheMere.projet.client.nom</div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@tacheMere.formateDate(tacheMere.dateDebut)</div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.projet.client.nom</div>
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.formateDate(tacheMere.dateDebut)</div>
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTot)</div>
                                                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTard)</div>
                                                                         </div>
-                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                 : @tacheMere.chargeInitiale
                                                                                 @if(projet.hasUniteJour()) {
@@ -933,7 +933,7 @@
                                                                                 }</div>
                                                                         </div>
 
-                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                                 :
                                                                                 @if(tacheMere.hasPredecesseur()) {
@@ -974,8 +974,8 @@
                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache1)) {
                                                                             <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
                                                                                 <div class="dd-handle" style="padding:0px ;">
-                                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                        <div class="col-middle first-col-middle" style="">
+                                                                                    <div class="row row-nestable">
+                                                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-nestable id-tache">
                                                                                             @sousTache1.idTache
                                                                                             </div>
@@ -983,14 +983,14 @@
                                                                                             @sousTache1.nom
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache1.projet.client.nom</div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache1.formateDate(sousTache1.dateDebut)</div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.projet.client.nom</div>
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.formateDate(sousTache1.dateDebut)</div>
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTot)</div>
                                                                                             <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTard)</div>
                                                                                         </div>
-                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                                 : @sousTache1.chargeInitiale
                                                                                                 @if(projet.hasUniteJour()) {
@@ -1028,7 +1028,7 @@
                                                                                                 }</div>
                                                                                         </div>
 
-                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                                                 :
                                                                                                 @if(sousTache1.hasPredecesseur()) {
@@ -1071,8 +1071,8 @@
                                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache2)) {
                                                                                             <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
                                                                                                 <div class="dd-handle" style="padding:0px ;">
-                                                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                                        <div class="col-middle first-col-middle" style="">
+                                                                                                    <div class="row row-nestable">
+                                                                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                             <div class="row row-nestable id-tache">
                                                                                                             @sousTache2.idTache
                                                                                                             </div>
@@ -1080,14 +1080,14 @@
                                                                                                             @sousTache2.nom
                                                                                                             </div>
                                                                                                         </div>
-                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
-                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache2.projet.client.nom</div>
-                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache2.formateDate(sousTache2.dateDebut)</div>
-                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
+                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.projet.client.nom</div>
+                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.formateDate(sousTache2.dateDebut)</div>
+                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                             <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTot)</div>
                                                                                                             <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTard)</div>
                                                                                                         </div>
-                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                                                 : @sousTache2.chargeInitiale
                                                                                                                 @if(projet.hasUniteJour()) {
@@ -1125,7 +1125,7 @@
                                                                                                                 }</div>
                                                                                                         </div>
 
-                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                                                                 :
                                                                                                                 @if(sousTache2.hasPredecesseur()) {
@@ -1165,10 +1165,10 @@
                                                                                                     <ol class="dd-list">
                                                                                                     @for( sousTache3 <- sousTache2.enfants()) {
                                                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache3)) {
-                                                                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
+                                                                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache3.id" value="@sousTache2.id">
                                                                                                                 <div class="dd-handle" style="padding:0px ;">
-                                                                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                                                        <div class="col-middle first-col-middle" style="">
+                                                                                                                    <div class="row row-nestable">
+                                                                                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                             <div class="row row-nestable id-tache">
                                                                                                                             @sousTache3.idTache
                                                                                                                             </div>
@@ -1176,14 +1176,14 @@
                                                                                                                             @sousTache3.nom
                                                                                                                             </div>
                                                                                                                         </div>
-                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
-                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache3.projet.client.nom</div>
-                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache3.formateDate(sousTache3.dateDebut)</div>
-                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
+                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.projet.client.nom</div>
+                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.formateDate(sousTache3.dateDebut)</div>
+                                                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                             <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTot)</div>
                                                                                                                             <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTard)</div>
                                                                                                                         </div>
-                                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                                                                 : @sousTache3.chargeInitiale
                                                                                                                                 @if(projet.hasUniteJour()) {
@@ -1221,7 +1221,7 @@
                                                                                                                                 }</div>
                                                                                                                         </div>
 
-                                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                                                                                 :
                                                                                                                                 @if(sousTache3.hasPredecesseur()) {
@@ -1301,7 +1301,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr class="table-center">
-                                                    <td style="padding:0px ;" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                    <td style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">
                                                         <div>
                                                             <div class="idTache">4.1</div>
                                                             <div>
@@ -1310,14 +1310,14 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-modif-tache-projet">Daro Heng</td>
-                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-modif-tache-projet">Thalès</td>
-                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-modif-tache-projet">30/10/2015</td>
-                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">Daro Heng</td>
+                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">Thalès</td>
+                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">30/10/2015</td>
+                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">
                                                         <p>29/12/2015</p>
                                                         <p>4/01/2016</p>
                                                     </td>
-                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                                    <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">
                                                         <div class="row-initiale">Initiale : 30J</div>
                                                         <div class="row-restante">Totale : 18J</div>
                                                         <div class="progress progress-bar-default">
@@ -1359,14 +1359,14 @@
                                                                 <div class="normal boutonPlusCreerTache" >
                                                                     <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                 </div>
-                                                                <div class="cursor-pointer" data-toggle="modal" data-target="#modal-creer-tache">
+                                                                <div class="cursor-pointer" data-toggle="modal" data-target="#modal-tache">
                                                                     <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-xs-4 normal cursor-pointer" data-toggle="modal" data-target="#modal-creer-tache">
+                                                            <div class="col-xs-4 normal cursor-pointer" data-toggle="modal" data-target="#modal-tache">
                                                                 <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                             </div>
-                                                            <div class="col-xs-4 normal cursor-pointer" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                            <div class="col-xs-4 normal cursor-pointer" style="border:none ;" data-toggle="modal" data-target="#modal-tache">
                                                                 <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                             </div>
                                                         </div>
@@ -1392,511 +1392,10 @@
                     </div>
                 </div>
                 }
-                    <!-- Modal-view Creer tache/sous-tache -->
-                <div class="modal fade" id="modal-creer-tache" role="dialog">
-                    <div class="modal-dialog">
-                            <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <form id="formCreerTache-projet" class="form-horizontal">
-                                    <div class="row" style="margin-right:0px ;">
-                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
-                                            ×</span> <span class="sr-only">Close</span></button>
-                                    </div>
-                                    <div class="row">
-                                            <!-- 1ere colonne -->
-                                        <div class="col-sm-6">
-                                                <!-- Icones -->
-                                            <div class="id-tache-modal">
-                                                @Messages("task") 14
-                                            </div>
-                                                <!-- Form nom tache -->
-                                            <input type="text" id="formCreerNomTache-projet" class="form-control margin-form" placeholder='@Messages("taskName")...'>
 
-                                                <!-- Form description tache -->
-                                            <textarea id="formCreerDescriptionTache-projet" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
-
-                                                <!-- Modifier predecesseur -->
-                                            <p style="margin-top:7px ;">@Messages("predecessor")
-                                                : </p>
-                                            <select class="form-control select2-predecesseur" style="width:100% ;" multiple="multiple">
-                                                <option value="Mayotte">Mayotte</option>
-                                                <option value="Mexico">Mexico</option>
-                                                <option value="Nicaragua">Nicaragua</option>
-                                            </select>
-
-                                                <!-- Modifier successeurs -->
-                                            <p style="margin-top:7px ;">@Messages("successors")
-                                                : </p>
-                                            <select class="form-control select2-successeur" style="width:100% ;" multiple="multiple">
-                                                <option value="Mayotte">Mayotte</option>
-                                                <option value="Mexico">Mexico</option>
-                                                <option value="Nicaragua">Nicaragua</option>
-                                            </select>
-                                        </div>
-
-                                            <!-- 2eme colonne -->
-                                        <div class="col-sm-6">
-                                            <p class="bold">@Messages("project") : myProjects</p>
-
-                                            <p class="bold">@Messages("client") : PoPS5I Inc.</p>
-
-                                                <!-- Form responsable tache -->
-                                            <select class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple">
-                                                <option value="Mayotte">Mayotte</option>
-                                                <option value="Mexico">Mexico</option>
-                                                <option value="Nicaragua">Nicaragua</option>
-                                            </select>
-
-                                                <!-- Liste interlocuteurs externes -->
-                                            <div class="row margin-form" style="margin:10px 0px ;">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                        3 @Messages("externalInterlocutors") <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-pert">
-                                                        <li>
-                                                            <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-creerTache-projet-interlocuteur-1" type="checkbox">
-                                                                <label for="checkbox-creerTache-projet-interlocuteur-1">
-                                                                    Valérie Guimard
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-creerTache-projet-interlocuteur-2" type="checkbox" checked>
-                                                                <label for="checkbox-creerTache-projet-interlocuteur-2">
-                                                                    Lassana Diarra
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-creerTache-projet-interlocuteur-3" type="checkbox" checked>
-                                                                <label for="checkbox-creerTache-projet-interlocuteur-3">
-                                                                    Steve Mandanda
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-creerTache-projet-interlocuteur-4" type="checkbox">
-                                                                <label for="checkbox-creerTache-projet-interlocuteur-4">
-                                                                    Frédéric Voisin
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-creerTache-projet-interlocuteur-5" type="checkbox" checked>
-                                                                <label for="checkbox-creerTache-projet-interlocuteur-5">
-                                                                    Didier Drogba
-                                                                </label>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                                <!-- datepicker - date debut -->
-                                            <div class="row margin-form">
-                                                <label class="col-sm-4 control-label font-noraml" for="datepicker_date_debut" style="text-align: left">@Messages("startDate")</label>
-                                                <div class="form-group col-sm-8" id="datepicker_date_debut">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input type="text" class="form-control" value="">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                                <!-- datepicker - date fin au + tot -->
-                                            <div class="row margin-form">
-                                                <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tot" style="text-align: left">@Messages("earliestEndDate")</label>
-                                                <div class="form-group col-sm-8" id="datepicker_date_fin_tot">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input type="text" class="form-control" value="">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                                <!-- datepicker - date fin au + tard -->
-                                            <div class="row margin-form">
-                                                <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tard" style="text-align: left">@Messages("latestEndDate")</label>
-                                                <div class="form-group col-sm-8" id="datepicker_date_fin_tard">
-                                                    <div class="input-group date">
-                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input type="text" class="form-control" value="">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                                <!-- charge initiale -->
-                                            <div class="row form-group margin-form" >
-                                                <label class="col-sm-6 control-label font-noraml" for="formModifierChargeInitiale" style="text-align: left">@Messages("initialWorload")</label>
-                                                <div class="col-sm-6">
-                                                    <div class="input-group">
-                                                        <input type="number" id="formModifierChargeInitiale" class="form-control" value="0" min="0" step="0.5">
-                                                        <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                                <!-- charge consommée -->
-                                            <div class="row form-group margin-form" >
-                                                <label class="col-sm-6 control-label font-noraml" for="formModifierChargeConsommee" style="text-align: left">@Messages("consumedWorkload")</label>
-                                                <div class="col-sm-6">
-                                                    <div class="input-group">
-                                                        <input type="number" id="formModifierChargeConsommee" class="form-control" value="0" min="0" step="0.5">
-                                                        <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                                <!-- charge restante -->
-                                            <div class="row form-group margin-form" >
-                                                <label class="col-sm-6 control-label font-noraml" for="formModifierChargeRestante" style="text-align: left">@Messages("remainingWorkload")</label>
-                                                <div class="col-sm-6">
-                                                    <div class="input-group">
-                                                        <input type="number" id="formModifierChargeRestante" class="form-control" value="0" min="0" step="0.5">
-                                                        <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                        <!-- bouton valider -->
-                                    <div class="row" style="margin-top:15px ;">
-                                        <div class="div-center">
-                                            <button id="btn-projet-valider-modifierTache" class="btn btn-primary" type="submit" form="formModifierTache">
-                                                <i class="fa fa-check-square"></i> @Messages("validate")
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                     <!-- Modal-view modifier tache/sous-tache -->
-                <div class="modal fade" id="modal-modif-tache-projet" role="dialog">
-                    <div class="modal-dialog">
-                            <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="row" style="margin-right:0px ;">
-                                    <button id="btn-fermer-modifierTache" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
-                                        ×</span> <span class="sr-only">Close</span></button>
-                                </div>
-                                <div id="div-projet-consulterTache">
-                                    <div class="row">
-                                            <!-- 1ere colonne -->
-                                        <div class="col-sm-6">
-                                            <div class="id-tache-modal">
-                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
-                                                @Messages("task") 14
-                                                <a><i class="fa fa-bell-slash"></i></a>
-                                                <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet"><i class="fa fa-trash"></i></a>
-                                                <a id="btn-projet-modifierTache"><i class="fa fa-pencil"></i></a>
-                                            </div>
-                                            <p class="titre-tache-modal">Faire la maquette</p>
-                                            <div class="description-modal-tache">
-                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                                Création de la maquette. Création de la maquette. Création de la maquette.
-                                            </div>
-                                            <p style="margin-top:7px ;">@Messages("predecessor")
-                                                : </p>
-                                            <div class="list-task">
-                                                <table class="table-bordered">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="id-task">8</td>
-                                                            <td class="name-task">
-                                                                Créer la base de données</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <p style="margin-top:7px ;">@Messages("successors")
-                                                : </p>
-                                            <div class="list-task">
-                                                <table class="table-bordered">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="id-task">18</td>
-                                                            <td class="name-task">
-                                                                Créer la base de données</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="id-task">8</td>
-                                                            <td class="name-task">
-                                                                Créer la base de données</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="id-task">8</td>
-                                                            <td class="name-task">
-                                                                Créer la base de données</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="id-task">8</td>
-                                                            <td class="name-task">
-                                                                Créer la base de données</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                            <!-- 2eme colonne -->
-                                        <div class="col-sm-6">
-                                            <p class="bold">@Messages("project")
-                                                : myProjects</p>
-                                            <p class="bold">@Messages("client")
-                                                : PoPS5I Inc.</p>
-                                            <p>@Messages("taskPersonResponsible")
-                                                : Daro Heng</p>
-                                            <div class="row" style="margin-left:0px ;">
-                                                <a class="btn-interlocuteurs-externes"><i class="fa fa-envelope"></i></a>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                        3 @Messages("externalInterlocutors") <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-pert">
-                                                        <li>Lassana Diarra</li>
-                                                        <li>Steve Mandanda</li>
-                                                        <li>Didier Drogba</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <p style="margin-top:12px ;">@Messages("remainingTime")
-                                                : 10@Messages("day-first-letter")</p>
-                                            <div class="row row-date-tache-modal">
-                                                <div class="col-sm-7">
-                                                @Messages("startDate")
-                                                </div>
-                                                <div class="col-sm-4 dateVert">
-                                                    20/11/2016
-                                                </div>
-                                            </div>
-                                            <div class="row row-date-tache-modal">
-                                                <div class="col-sm-7">
-                                                @Messages("earliestEndDate")
-                                                </div>
-                                                <div class="col-sm-4 dateVert">
-                                                    20/11/2016
-                                                </div>
-                                            </div>
-                                            <div class="row row-date-tache-modal">
-                                                <div class="col-sm-7">
-                                                @Messages("latestEndDate")
-                                                </div>
-                                                <div class="col-sm-4 dateVert">
-                                                    20/11/2016
-                                                </div>
-                                            </div>
-                                            <div class="td-avancement" style="margin-top:24px ;">
-                                                <p class="row-initiale">@Messages("initial")
-                                                    : 50@Messages("day-first-letter")</p>
-                                                <p class="row-restante">@Messages("remaining")
-                                                    : 30@Messages("day-first-letter")</p>
-                                                <div class="progress progress-bar-default">
-                                                        <!-- si 0% : color:black; -->
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                        60%
-                                                    </div>
-                                                </div>
-                                                <p class="row-consommee">@Messages("consumed")
-                                                    : 30@Messages("day-first-letter")</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                    <!-- Formulaire modifier tache -->
-                                <div id="div-projet-modifierTache" style="display: none ;">
-                                    <form id="formModifierTache" class="form-horizontal">
-                                        <div class="row">
-                                                <!-- 1ere colonne -->
-                                            <div class="col-sm-6">
-                                                    <!-- Icones -->
-                                                <div class="id-tache-modal">
-                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
-                                                    @Messages("task") 14
-                                                    <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet"><i class="fa fa-trash"></i></a>
-                                                    <a id="btn-projet-modifierTache-active"><i class="fa fa-reply"></i></a>
-                                                </div>
-                                                    <!-- Form nom tache -->
-                                                <input type="text" id="formModifierNomTache" class="form-control margin-form" placeholder='@Messages("taskName")...'>
-
-                                                    <!-- Form description tache -->
-                                                <textarea id="formModifierDescriptionTache" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
-
-                                                    <!-- Modifier predecesseur -->
-                                                <p style="margin-top:7px ;">@Messages("predecessor")
-                                                    : </p>
-                                                <select class="form-control select2-predecesseur" style="width:100% ;" multiple="multiple">
-                                                    <option value="Mayotte">Mayotte</option>
-                                                    <option value="Mexico">Mexico</option>
-                                                    <option value="Nicaragua">Nicaragua</option>
-                                                </select>
-
-                                                    <!-- Modifier successeurs -->
-                                                <p style="margin-top:7px ;">@Messages("successors")
-                                                    : </p>
-                                                <select class="form-control select2-successeur" style="width:100% ;" multiple="multiple">
-                                                    <option value="Mayotte">Mayotte</option>
-                                                    <option value="Mexico">Mexico</option>
-                                                    <option value="Nicaragua">Nicaragua</option>
-                                                </select>
-                                            </div>
-
-                                                <!-- 2eme colonne -->
-                                            <div class="col-sm-6">
-                                                <p class="bold">@Messages("project")
-                                                    : myProjects</p>
-                                                <p class="bold">@Messages("client")
-                                                    : PoPS5I Inc.</p>
-
-                                                    <!-- Form responsable tache -->
-                                                <select class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple">
-                                                    <option value="Mayotte">Mayotte</option>
-                                                    <option value="Mexico">Mexico</option>
-                                                    <option value="Nicaragua">Nicaragua</option>
-                                                </select>
-
-                                                    <!-- Liste interlocuteurs externes -->
-                                                <div class="row margin-form" style="margin:10px 0px ;">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                            3 @Messages("externalInterlocutors") <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu dropdown-menu-pert">
-                                                            <li>
-                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                    <input id="checkbox-modifTache-projet-interlocuteur-1" type="checkbox">
-                                                                    <label for="checkbox-modifTache-projet-interlocuteur-1">
-                                                                        Valérie Guimard
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                    <input id="checkbox-modifTache-projet-interlocuteur-2" type="checkbox" checked>
-                                                                    <label for="checkbox-modifTache-projet-interlocuteur-2">
-                                                                        Lassana Diarra
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                    <input id="checkbox-modifTache-projet-interlocuteur-3" type="checkbox" checked>
-                                                                    <label for="checkbox-modifTache-projet-interlocuteur-3">
-                                                                        Steve Mandanda
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                    <input id="checkbox-modifTache-projet-interlocuteur-4" type="checkbox">
-                                                                    <label for="checkbox-modifTache-projet-interlocuteur-4">
-                                                                        Frédéric Voisin
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                    <input id="checkbox-modifTache-projet-interlocuteur-5" type="checkbox" checked>
-                                                                    <label for="checkbox-modifTache-projet-interlocuteur-5">
-                                                                        Didier Drogba
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                                    <!-- datepicker - date debut -->
-                                                <div class="row margin-form">
-                                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_debut" style="text-align: left">@Messages("startDate")</label>
-                                                    <div class="form-group col-sm-8" id="datepicker_date_debut">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input type="text" class="form-control" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                    <!-- datepicker - date fin au + tot -->
-                                                <div class="row margin-form">
-                                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tot" style="text-align: left">@Messages("earliestEndDate")</label>
-                                                    <div class="form-group col-sm-8" id="datepicker_date_fin_tot">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input type="text" class="form-control" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                    <!-- datepicker - date fin au + tard -->
-                                                <div class="row margin-form">
-                                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tard" style="text-align: left">@Messages("latestEndDate")</label>
-                                                    <div class="form-group col-sm-8" id="datepicker_date_fin_tard">
-                                                        <div class="input-group date">
-                                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span> <input type="text" class="form-control" value="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                    <!-- charge initiale -->
-                                                <div class="row form-group margin-form" >
-                                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeInitiale" style="text-align: left">@Messages("initialWorload")</label>
-                                                    <div class="col-sm-6">
-                                                        <div class="input-group">
-                                                            <input type="number" id="formModifierChargeInitiale" class="form-control" value="0" min="0" step="0.5">
-                                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">
-                                                                J</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                    <!-- charge consommée -->
-                                                <div class="row form-group margin-form" >
-                                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeConsommee" style="text-align: left">@Messages("consumedWorkload")</label>
-                                                    <div class="col-sm-6">
-                                                        <div class="input-group">
-                                                            <input type="number" id="formModifierChargeConsommee" class="form-control" value="0" min="0" step="0.5">
-                                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                    <!-- charge restante -->
-                                                <div class="row form-group margin-form" >
-                                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeRestante" style="text-align: left">@Messages("remainingWorkload")</label>
-                                                    <div class="col-sm-6">
-                                                        <div class="input-group">
-                                                            <input type="number" id="formModifierChargeRestante" class="form-control" value="0" min="0" step="0.5">
-                                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                            <!-- bouton valider -->
-                                        <div class="row" style="margin-top:15px ;">
-                                            <div class="div-center">
-                                                <button id="btn-projet-valider-modifierTache" class="btn btn-primary" type="submit" form="formModifierTache">
-                                                    <i class="fa fa-check-square"></i> @Messages("validate")
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @popuptacheConsulterModifier();
+                @popuptacheCreer();
                     <!-- Modal view supprimer tache -->
                 <div class="modal fade" id="modal-confirmation-suppr-tache-projet" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
