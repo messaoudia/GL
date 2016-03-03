@@ -590,42 +590,75 @@
                     jsRoutes.controllers.DashboardController.saveBlocNote(idUser, $('#bloc-notes-tdb').val()).ajax();
                 }
 
-                var allNotificationsLues = function(idUser){
-                    console.log("debut");
-                    console.log($("div.checkbox-notif input:checked"));
+                $('#checkbox-notif-all-selected').click(function() {
+                    if($('#checkbox-notif-all-selected').is(':checked')){
+                        $("div.checkbox-notif input[type=checkbox]").each(function(){
+                            $(this).attr('checked', true);
+                        });
+                    }
+                    else {
+                        $("div.checkbox-notif input[type=checkbox]").each(function(){
+                            $(this).attr('checked', false);
+                        });
+                    }
+                });
+
+                var clickNotificationsLues = function(idUser){
                     var listIdNotif = "";
                     $("div.checkbox-notif input:checked").each(function(){
                         listIdNotif += $(this).attr("name") + ",";
-                        console.log($(this).attr("name"));
                     });
-                    listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
-                    console.log(listIdNotif);
-                    jsRoutes.controllers.NotificationController.allNotificationsLues(idUser, listIdNotif).ajax({
-                        success: function(nbNotifNonLues){
-                            var listIdNotifSplit = listIdNotif.split(",");
-                            for(var i=0; i<listIdNotifSplit.length; i++){
-                                var idNotif = listIdNotifSplit[i];
-                                $('#notif-' + idNotif).removeClass('non-lu');
-                                $('#notif-' + idNotif).addClass('lu');
-                                if($('#notif-' + idNotif).next().is('tr.footable-row-detail')){
-                                    //$('#notif-etatLecture-' + idNotif).html('@Messages("read")');
-
-                                    $('#notif-' + idNotif).next().children().first().children().first().children().first().children().eq(1).html('@Messages("read")');
+                    if(listIdNotif.length > 0){
+                        listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
+                        console.log(listIdNotif);
+                        jsRoutes.controllers.NotificationController.clickNotificationsLues(idUser, listIdNotif).ajax({
+                            success: function(nbNotifNonLues){
+                                var listIdNotifSplit = listIdNotif.split(",");
+                                for(var i=0; i<listIdNotifSplit.length; i++){
+                                    var idNotif = listIdNotifSplit[i];
+                                    $('#notif-' + idNotif).removeClass('non-lu');
+                                    $('#notif-' + idNotif).addClass('lu');
+                                    if($('#notif-' + idNotif).next().is('tr.footable-row-detail')){
+                                        //$('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+                                        $('#notif-' + idNotif).next().children().first().children().first().children().first().children().eq(1).html('@Messages("read")');
+                                    }
+                                    else {
+                                        $('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+                                    }
+                                    $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+                                    $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+                                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
                                 }
-                                else {
-                                    $('#notif-etatLecture-' + idNotif).html('@Messages("read")');
-                                }
-                                $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
-                                $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
-                                console.log("Nb de notifs non lues = " + nbNotifNonLues);
+                            },
+                            error : function(){
                             }
+                        });
+                    }
+                }
 
-                        },
-                        error : function(){
-
-                        }
+                var clickNotificationsSupprimer = function(idUser){
+                    var listIdNotif = "";
+                    $("div.checkbox-notif input:checked").each(function(){
+                        listIdNotif += $(this).attr("name") + ",";
                     });
-                    console.log("fin");
+                    if(listIdNotif.length > 0){
+                        listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
+                        console.log(listIdNotif);
+                        jsRoutes.controllers.NotificationController.clickNotificationsSupprimer(idUser, listIdNotif).ajax({
+                            success: function(nbNotifNonLues){
+                                var listIdNotifSplit = listIdNotif.split(",");
+                                for(var i=0; i<listIdNotifSplit.length; i++){
+                                    var idNotif = listIdNotifSplit[i];
+                                    $('#notif-' + idNotif).remove();
+                                    $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+                                    $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+                                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
+                                }
+                            },
+                            error : function(){
+                            }
+                        });
+                    }
                 }
 
                 var changePassword = function(idUser){
@@ -1674,6 +1707,22 @@
 
 
                 $(document).ready(function () {
+                    $('#checkbox-notif-all-selected').click(function() {
+                        if($('#checkbox-notif-all-selected').is(':checked')){
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = true;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                        else {
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = false;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                    });
 
                     $('#dataTables-admin-user').DataTable({
                         destroy:true,
@@ -2060,6 +2109,22 @@
                     return messageDiv;
                 }
                 $( document ).ajaxComplete(function() {
+                    $('#checkbox-notif-all-selected').click(function() {
+                        if($('#checkbox-notif-all-selected').is(':checked')){
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = true;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                        else {
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = false;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                    });
 
                     $("#errorCreerUser > button").click(function(){
                         $("#errorCreerUser").hide()

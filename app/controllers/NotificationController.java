@@ -31,7 +31,7 @@ public class NotificationController extends Controller {
         return ok();
     }
 
-    public Result allNotificationsLues(long idUser, String listIdNotif){
+    public Result clickNotificationsLues(long idUser, String listIdNotif){
         Utilisateur user = Utilisateur.find.byId(idUser);
         String[] listIdNotifParse = listIdNotif.split(",");
         for(String idNotifStr : listIdNotifParse){
@@ -45,6 +45,21 @@ public class NotificationController extends Controller {
         return ok(user.nbNotificationsNonLues() + "");
     }
 
-
+    public Result clickNotificationsSupprimer(long idUser, String listIdNotif){
+        Utilisateur user = Utilisateur.find.byId(idUser);
+        String[] listIdNotifParse = listIdNotif.split(",");
+        for(String idNotifStr : listIdNotifParse){
+            long idNotif = Long.parseLong(idNotifStr);
+            Notification notif = Notification.find.byId(idNotif);
+            if(user.listNotifications.contains(notif)){
+                user.listNotifications.remove(notif);
+                Notification.find.deleteById(notif.id);
+                user.update();
+            }
+        }
+        user.listNotifications = user.listNotifications();
+        user.update();
+        return ok(user.nbNotificationsNonLues() + "");
+    }
 
 }

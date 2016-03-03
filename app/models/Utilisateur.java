@@ -328,12 +328,8 @@ public class Utilisateur extends Personne {
     }
 
     public List<Notification> listNotifications() {
-        //return Notification.find.where().eq("utilisateur", this).findList();
-        listNotifications.add(new Notification("title1", "content1", Calendar.getInstance().getTime(), false, false, this));
-        listNotifications.add(new Notification("title2", "content2", Calendar.getInstance().getTime(), false, false, this));
-        listNotifications.add(new Notification("title3", "content3", Calendar.getInstance().getTime(), false, false, this));
-        save();
-        return Notification.find.where().eq("utilisateur", this).findList();
+        listNotifications = Notification.find.where().eq("utilisateur", this).findList();
+        return listNotifications;
     }
 
     public int nbNotificationsNonLues() {
@@ -344,8 +340,6 @@ public class Utilisateur extends Personne {
         }
         return cpt;
     }
-
-    // TODO getListTachesNotifications, utilisateursMeSuivant, utilisateursMeSuivant
 
     /**
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur

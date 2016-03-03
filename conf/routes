@@ -85,7 +85,8 @@ POST        /modifierNotificationTachesPresqueFinies        controllers.Utilisat
 POST        /modifierNotificationTachesRetardees            controllers.UtilisateurController.modifierNotificationTachesRetardees(idUtilisateurConnecte: Long, checkbox: Boolean)
 POST        /changePassword                                 controllers.UtilisateurController.changePassword(idUser: Long, previousPassword: String, newPassword: String,confirmNewPassword: String)
 POST        /saveBlocNote                                   controllers.DashboardController.saveBlocNote(idUser: Long, note: String)
-POST        /allNotificationsLues                           controllers.NotificationController.allNotificationsLues(idUser: Long, listIdNotif: String)
+POST        /clickNotificationsLues                         controllers.NotificationController.clickNotificationsLues(idUser: Long, listIdNotif: String)
+POST        /clickNotificationsSupprimer                    controllers.NotificationController.clickNotificationsSupprimer(idUser: Long, listIdNotif: String)
 
 #Ajax export clients
 GET         /getClientsAsCSV                                controllers.ClientController.getClientsAsCSV
