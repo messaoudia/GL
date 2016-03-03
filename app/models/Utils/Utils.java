@@ -170,7 +170,9 @@ public class Utils {
             while ((lineClient = readerClients.readLine()) != null) {
                 if (!firstLine) {
                     String[] read = lineClient.split(CSVseparator);
-                    Client client = new Client(read[0], prioriteDefault, false, new Adresse(read[1], read[2], read[3], read[4]), null, null);
+                    Adresse adresse = new Adresse(read[1], read[2], read[3], read[4]);
+                    adresse.save();
+                    Client client = new Client(read[0], prioriteDefault, false, adresse, null, null);
                     client.save();
                 }
                 firstLine = false;
