@@ -161,35 +161,35 @@
 
         @scripts
         <script>
-                 var changeModeDraftProjet = function(idProjet){
-                     console.log("Je suis la");
-                     if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
-                         console.log("Je suis checked");
-                         $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
-                         $('.id-tache').hide();
-                     }
-                     else{
-                         console.log("Je suis pas checked");
-                         var draftParsedAsJson = parseDraft(idProjet);
+                var changeModeDraftProjet = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        var draftParsedAsJson = parseDraft(idProjet);
 
-                         $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
-                         $('.id-tache').show();
+                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
 
 
-                         console.log(draftParsedAsJson);
-                         jsRoutes.controllers.ProjetController.sendDraf().ajax({
-                             data: draftParsedAsJson,
-                             dataType: 'json',
-                             contentType: "application/json",
-                             success : function(data) {
-                                 console.log(data);
-                             },
-                             error: function(errorMessage){
-                                 console.error(errorMessage);
-                             }
-                         });
-                     }
-                 }
+                        console.log(draftParsedAsJson);
+                        jsRoutes.controllers.ProjetController.sendDraf().ajax({
+                            data: draftParsedAsJson,
+                            dataType: 'json',
+                            contentType: "application/json",
+                            success : function(data) {
+                                console.log(data);
+                            },
+                            error: function(errorMessage){
+                                console.error(errorMessage);
+                            }
+                        });
+                    }
+                }
 
                 var changeModeDraftClient = function(idProjet){
                     console.log("Je suis la");
@@ -1656,10 +1656,10 @@
                                     $(taches).each(function(index, t) {
                                         var isSuccesseur = false;
                                         $(tache.successeurs).each(function(index,s){
-                                           if(t.id == s.id){
-                                               isSuccesseur = true;
-                                               return;
-                                           }
+                                            if(t.id == s.id){
+                                                isSuccesseur = true;
+                                                return;
+                                            }
                                         });
                                         if(isSuccesseur){
                                             list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
@@ -1689,9 +1689,9 @@
 
                             }
                             /*console.log("tache = "+JSON.stringify(tache))
-                            console.log("predecesseurNom : "+tache.predecesseurNom);
-                            console.log("predecesseurId : "+tache.predecesseurId);
-                            console.log("Successeurs : "+tache.successeurs);*/
+                             console.log("predecesseurNom : "+tache.predecesseurNom);
+                             console.log("predecesseurId : "+tache.predecesseurId);
+                             console.log("Successeurs : "+tache.successeurs);*/
 
                             var list = "";
                             var listModifier = "";
@@ -2840,41 +2840,41 @@
 
                             var $length = $('#table-modal-client-contacts-body tr > td:contains('+$email+')').length;
                             if($length>0){
-                            $("#successModifierClient").hide();
-                            $("#successModifierClientP").empty();
-                            var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
-                            $("#errorModifierClientP").html(messageDiv);
-                            $("#errorModifierClient").show();
-                            }else{
-                            $("#errorModifierClientP").empty();
-                            $("#errorModifierClient").hide();
-
-                            $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
-                            $("#successModifierClient").show();
-
-
-                            setTimeout(function(){
                                 $("#successModifierClient").hide();
-                            },4000);
+                                $("#successModifierClientP").empty();
+                                var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                                $("#errorModifierClientP").html(messageDiv);
+                                $("#errorModifierClient").show();
+                            }else{
+                                $("#errorModifierClientP").empty();
+                                $("#errorModifierClient").hide();
 
-                            var contact = $('#table-modal-client-contacts-body');
+                                $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
+                                $("#successModifierClient").show();
 
-                            var list ="";
-                            list+=('<tr value=" ">');
-                            list+=('<td class="first-td">'+data.nom+'</td>');
-                            list+=('<td class="first-td">'+data.prenom+'</td>');
-                            list+=('<td style="display:none;">'+data.email+'</td>');
-                            list+=('<td style="display:none;">'+data.telephone+'</td>');
-                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                            list+=('</tr>');
-                            contact.append(list);
-                            var size = listeNewContact.length;
-                            listeNewContact[size] = {};
-                            listeNewContact[size]["nom"] = data.nom;
-                            listeNewContact[size]["prenom"] = data.prenom;
-                            listeNewContact[size]["email"] = data.email;
-                            listeNewContact[size]["telephone"] = data.telephone;
-                            $(form)[0].reset();
+
+                                setTimeout(function(){
+                                    $("#successModifierClient").hide();
+                                },4000);
+
+                                var contact = $('#table-modal-client-contacts-body');
+
+                                var list ="";
+                                list+=('<tr value=" ">');
+                                list+=('<td class="first-td">'+data.nom+'</td>');
+                                list+=('<td class="first-td">'+data.prenom+'</td>');
+                                list+=('<td style="display:none;">'+data.email+'</td>');
+                                list+=('<td style="display:none;">'+data.telephone+'</td>');
+                                list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                list+=('</tr>');
+                                contact.append(list);
+                                var size = listeNewContact.length;
+                                listeNewContact[size] = {};
+                                listeNewContact[size]["nom"] = data.nom;
+                                listeNewContact[size]["prenom"] = data.prenom;
+                                listeNewContact[size]["email"] = data.email;
+                                listeNewContact[size]["telephone"] = data.telephone;
+                                $(form)[0].reset();
                             }
                         },
                         error: function(errorMessage){
@@ -2887,7 +2887,7 @@
                     });
                 }
 
-              /* Afficher les Clients archivés */
+                /* Afficher les Clients archivés */
                 function clientsArchived(){
                     if($('#checkBoxClientsArchived').is(":checked")) {
                         $('.client-archived').show();
@@ -2966,64 +2966,67 @@
 
 
 
-                 //####################################################################
-                 //                         DRAFT PARSING
-                 //####################################################################
+                //####################################################################
+                //                         DRAFT PARSING
+                //####################################################################
 
 
-                 function parseDraft(idProjet){
-                     function ajoutTacheFille(tacheMere,tache){
-                         tacheMere["childrens"].push(tache);
-                     }
+                function parseDraft(idProjet){
+                    function ajoutTacheFille(tacheMere,tache){
+                        tacheMere["childrens"].push(tache);
+                    }
 
-                     function creerTache(tacheId){
-                         var tache={};
-                         tache["id"]=tacheId;
-                         tache["childrens"]=new Array();
-                         return tache;
-                     }
+                    function creerTache(tacheId,index){
+                        var tache={};
+                        tache["index"]=index;
+                        tache["id"]=tacheId;
+                        tache["childrens"]=new Array();
+                        return tache;
+                    }
 
-                     var taches = {};
-                     taches["projectId"] = idProjet;
-                     taches["taches"] = new Array();
+                    var taches = {};
+                    taches["projectId"] = idProjet;
+                    taches["taches"] = new Array();
 
-                     var processNodes = function(currentElement, depth, taches, parent) {
-                         var currentTache;
-                         if($(currentElement).is("li")){
-                             currentTache=creerTache($(currentElement).attr('data-id'));
-                             console.log("depth: "+depth);
-                             if(depth==1){
-                                 taches["taches"].push(currentTache);
-                             }
-                             else{
-                                 ajoutTacheFille(parent,currentTache);
-                             }
+                    var processNodes = function(currentElement, depth, taches, parent,index) {
+                        var currentTache;
+                        if($(currentElement).is("li")){
+                            currentTache=creerTache($(currentElement).attr('data-id'),index);
+                            console.log("depth: "+depth);
+                            if(depth==1){
+                                taches["taches"].push(currentTache);
+                            }
+                            else{
+                                ajoutTacheFille(parent,currentTache);
+                            }
 
-                             console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
-                         }
+                            console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
+                        }
 
-                         if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
+                        var indexChild=0;
+                        if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
 
-                             $(currentElement).children().eq(1).children().each(function unFunction(element){
-                                 depth=depth+1;
-                                 processNodes($(this),depth, taches, currentTache);
-                             });
-                         }
-                     }
+                            $(currentElement).children().eq(1).children().each(function unFunction(element){
+                                depth=depth+1;
+                                processNodes($(this),depth, taches, currentTache,indexChild++);
+                            });
+                        }
+                    }
 
 
-                     var depth =1;
-                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
-                     {
-                         processNodes(this, depth, taches, null);
+                    var depth =1;
+                    var indexChild=0;
+                    $("#table_taches_"+idProjet).children().each (function processNodesTmp()
+                    {
+                        processNodes(this, depth, taches, null,indexChild++);
 
-                     });
-                     var json = JSON.stringify(taches);
-                     console.log(json);
-                     return json;
-                 }
+                    });
+                    var json = JSON.stringify(taches);
+                    console.log(json);
+                    return json;
+                }
 
-                 //####################################################################
+                //####################################################################
 
         </script>
     </body>

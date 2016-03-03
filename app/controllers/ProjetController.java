@@ -101,12 +101,10 @@ public class ProjetController extends Controller {
         }
     }
 
-    public Result updateTacheToIndisponible(Long idTache)
-    {
+    public Result updateTacheToIndisponible(Long idTache) {
         Tache t = Tache.find.byId(idTache);
 
-        if(t==null)
-        {
+        if (t == null) {
             return badRequest();
         }
 
@@ -117,12 +115,10 @@ public class ProjetController extends Controller {
         return ok();
     }
 
-    public Result updateTacheToDisponible(Long idTache)
-    {
+    public Result updateTacheToDisponible(Long idTache) {
         Tache t = Tache.find.byId(idTache);
 
-        if(t==null)
-        {
+        if (t == null) {
             return badRequest();
         }
 
@@ -150,7 +146,7 @@ public class ProjetController extends Controller {
         final List<Tache> taches = Tache.find.where().idIn(tacheDuProjetIds).findList();
 
 
-        //draft.get("taches").findValuesAsText("id").forEach(Logger::debug);
+        draft.get("taches").findValuesAsText("id").forEach(Logger::debug);
 
         projet.listTaches = taches; //TODO Bring all tache with inscestor
         projet.save();
@@ -216,7 +212,12 @@ public class ProjetController extends Controller {
     }
 
     public static Stream<JsonNode> elementsToStream(Iterator<JsonNode> iterator) {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, /*Spliterator.DISTINCT | Spliterator.SORTED | */Spliterator.ORDERED), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, /*Spliterator.DISTINCT | Spliterator.SORTED | */Spliterator.ORDERED), false).sorted(new Comparator<JsonNode>() {
+            @Override
+            public int compare(JsonNode o1, JsonNode o2) {
+                return o1.get("index").asInt() - o2.get("index").asInt();
+            }
+        });
     }
 
 }
