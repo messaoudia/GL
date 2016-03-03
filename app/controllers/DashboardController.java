@@ -6,6 +6,7 @@ import models.Contact;
 import models.Projet;
 import models.Tache;
 import models.Utilisateur;
+import models.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -13,6 +14,7 @@ import play.mvc.Result;
 import views.html.dashboard;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +80,60 @@ public class DashboardController extends Controller{
 
     public Result modifierTache(){
         Map<String, String[]> map = request().body().asFormUrlEncoded();
-        Logger.debug(map.toString());
+
+        for (Map.Entry<String, String[]> entry : map.entrySet()) {
+            Logger.debug("Key : " + entry.getKey() + " Value : " + entry.getValue()[0]);
+        }
+        try {
+            Long idTache = Long.parseLong(map.get("id-tache")[0]);
+            Tache tache = Tache.find.byId(idTache);
+
+            String newNomTache = map.get("form-modif-tache-nom")[0];
+            String newDescTache = map.get("form-modif-tache-desc")[0];
+
+            Double newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
+            Double newChConso = null;
+            Double newChRestante = null;
+
+            if(tache.disponible) {
+                newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0]);
+                newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0]);
+            }
+
+            Tache newPredecesseur = Tache.find.byId(Long.parseLong(map.get("predecesseur")[0]));
+            Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0]));
+
+            String[] dateDebut = map.get("DD-modifier")[0].split("/");
+            Date newDebut = Utils.getDateFrom(Integer.parseInt(dateDebut[2]), Integer.parseInt(dateDebut[1]), Integer.parseInt(dateDebut[0]));
+
+            String[] dateFinProche = map.get("DFTO-modifier")[0].split("/");
+            Date newFinTot = Utils.getDateFrom(Integer.parseInt(dateFinProche[2]), Integer.parseInt(dateFinProche[1]), Integer.parseInt(dateFinProche[0]));
+
+            String[] dateFinTard = map.get("DFTA-modifier")[0].split("/");
+            Date newFinTard = Utils.getDateFrom(Integer.parseInt(dateFinTard[2]), Integer.parseInt(dateFinTard[1]), Integer.parseInt(dateFinTard[0]));
+
+            tache.nom = newNomTache;
+            tache.description = newDescTache;
+            tache.chargeInitiale = newChInitiale;
+            if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
+                tache.modifierCharge(newChConso, newChRestante);
+            }
+            if (!tache.predecesseur.equals(newPredecesseur)) {
+                tache.modifierPredecesseur(newPredecesseur);
+            }
+            if (!tache.responsableTache.equals(newResponsable)) {
+                tache.modifierResponsable(newResponsable);
+            }
+
+            tache.dateDebut = newDebut;
+            tache.dateFinTot = newFinTot;
+            tache.dateFinTard = newFinTard;
+            tache.save();
+
+            Logger.debug("SAVE OK");
+        }catch(Exception e){
+            return badRequest(e.getMessage());
+        }
         return ok();
     }
 
