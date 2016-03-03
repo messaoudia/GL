@@ -923,7 +923,8 @@ public class Projet extends EntiteSecurise {
 
     public boolean estRetarde(){
         if(dateFinReelTard!=null){
-            return dateFinReelTard.after(Calendar.getInstance().getTime());
+            //return dateFinReelTard.after(Calendar.getInstance().getTime());
+            return Utils.after(dateFinReelTard, Calendar.getInstance().getTime());
         }else{
             return false;
         }

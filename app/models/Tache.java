@@ -436,7 +436,8 @@ public class Tache extends EntiteSecurise {
     }
 
     public boolean estRetardee() {
-        return dateFinTard.before(Calendar.getInstance().getTime());
+        //return dateFinTard.before(Calendar.getInstance().getTime());
+        return Utils.before(dateFinTard, Calendar.getInstance().getTime());
     }
 
     public boolean hasPredecesseur() {
