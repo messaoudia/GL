@@ -1,10 +1,13 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import controllers.Global.Mail;
 import models.Utils.Utils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
+import play.libs.mailer.Email;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,6 +25,7 @@ public class Notification extends Model {
     public String title;
     public String contentNotification;
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateEnvoi;
     public Boolean etatLecture;
@@ -65,7 +69,8 @@ public class Notification extends Model {
         try {
             Notification notification = (Notification) obj;
             return (notification.id.equals(this.id) && notification.title.equals(this.title) &&
-                    notification.dateEnvoi.equals(this.dateEnvoi) &&
+                    //notification.dateEnvoi.equals(this.dateEnvoi) &&
+                    Utils.equals(notification.dateEnvoi, this.dateEnvoi) &&
                     notification.etatLecture.equals(this.etatLecture) &&
                     notification.archiver.equals(this.archiver) &&
                     notification.contentNotification.equals(this.contentNotification));
@@ -82,8 +87,25 @@ public class Notification extends Model {
         for(Map.Entry<Utilisateur, Notification> entry : mapNotifications.entrySet()){
             Utilisateur user = entry.getKey();
             Notification notification = entry.getValue();
+            notification.save();
             user.addNotification(notification);
+            user.update();
+            sendEmail(user, notification);
         }
+    }
+
+    /**
+     * Envoie la notification à l'utilisateur par e-mail
+     * @param user
+     * @param notification
+     */
+    private static void sendEmail(Utilisateur user, Notification notification){
+        final Email email = new Email();
+        email.setSubject(notification.title);
+        email.setFrom("NE-PAS-REPONDRE <myproject.polytechparissud@gmail.com>");
+        email.addTo(user.prenom + " " + user.nom + "\"" +user.prenom + " " + user.nom +" <" + user.email + ">\"");
+        email.setBodyHtml(notification.contentNotification);
+        Mail.sendEmail(email);
     }
 
     /**
@@ -282,7 +304,7 @@ public class Notification extends Model {
      * qui se terminent dans moins de 5 jours
      * @param utilisateur
      */
-    public static void sendNotificationTacheBientotProche(Utilisateur utilisateur){
+    public static void sendNotificationTacheBientotProche(Utilisateur utilisateur, Notification notification){
         Calendar cal = Calendar.getInstance();
         Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
         int LIMIT_DATE_ECHEANCE = 5;
@@ -292,7 +314,6 @@ public class Notification extends Model {
 
         if(utilisateur.langue.equals(Utilisateur.LANGUE_FR)){
             title = "Tâche(s) devant être terminée(s) dans moins de " + LIMIT_DATE_ECHEANCE + " jours";
-            /** TODO : changer en prenant l'attribut ? **/
             for(Tache tache  : utilisateur.listTaches()){
                 long nbDeJoursRestants = Utils.differenceNbJours(today.getTime(), tache.dateFinTard);
                 if(nbDeJoursRestants <= LIMIT_DATE_ECHEANCE){
@@ -318,7 +339,67 @@ public class Notification extends Model {
         }
 
         if(!message.isEmpty()){
-            utilisateur.addNotification(new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+            if(notification.title != null && !notification.title.isEmpty()){
+                notification.title += " - " + title;
+            }
+            else {
+                notification.title = title;
+            }
+            if(notification.contentNotification != null && !notification.contentNotification.isEmpty()){
+                notification.contentNotification += "\n" + message;
+            }
+            else {
+                notification.contentNotification = message;
+            }
+            notification.save();
+        }
+    }
+
+    /**
+     * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
+     * qui sont retardées
+     * @param utilisateur
+     */
+    public static void sendNotificationTacheRetardee(Utilisateur utilisateur, Notification notification){
+        String title = "";
+        String message = "";
+
+        if(utilisateur.langue.equals(Utilisateur.LANGUE_FR)){
+            title = "Tâche(s) retardée(s)";
+            for(Tache tache  : utilisateur.listTaches()){
+                if(tache.estRetardee()){
+                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
+                            + tache.dateFinTard + "\n";
+                }
+            }
+        }
+        /** TODO : a faire en anglais **/
+        else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+            title = "Tâche(s) retardée(s)";
+            for(Tache tache  : utilisateur.listTaches()){
+                if(tache.estRetardee()){
+                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
+                            + tache.dateFinTard + "\n";
+                }
+            }
+        }
+
+        if(!message.isEmpty()){
+            if(notification.title != null && !notification.title.isEmpty()){
+                notification.title += " - " + title;
+            }
+            else {
+                notification.title = title;
+            }
+            if(notification.contentNotification != null && !notification.contentNotification.isEmpty()){
+                notification.contentNotification += "\n" + message;
+            }
+            else {
+                notification.contentNotification = message;
+            }
+            notification.save();
         }
     }
 
@@ -386,6 +467,68 @@ public class Notification extends Model {
         else {
             mapNotifications.put(utilisateur, new Notification(objet, titleMessage + message, Calendar.getInstance().getTime(), false, false, utilisateur));
         }
+    }
+
+    public static void notificationCreerProjet(Projet projet, Utilisateur utilisateur){
+        Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
+
+        String titleFR = "Création du projet " + projet.nom;
+        String messageMemeUserFR = "Vous avez créé le projet \"" + projet.nom + "\" avec les caractéristiques suivantes :\n";
+        String messageAutreUserFR = utilisateur.prenom + " " + utilisateur.nom + " a créé le projet \""
+                + projet.nom + "\" avec les caractéristiques suivantes :\n";
+
+        String messageFR = "\t - Nom : " + projet.nom + "\n";
+        messageFR += "\t - Client : " + projet.client.nom + "\n";
+        messageFR += "\t - Responsable : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
+                " (" + projet.responsableProjet.email + ")\n";
+        messageFR += "\t - Priorité : " + projet.priorite + "\n";
+        messageFR += "\t - Date de début (théorique) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
+        messageFR += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
+        messageFR += "\t - Description : " + projet.description + "\n";
+
+        /** TODO : mettre en anglais **/
+        String titleEN = "Création du projet " + projet.nom;
+        String messageMemeUserEN = "Vous avez créé le projet \"" + projet.nom + "\" avec les caractéristiques suivantes :\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a créé le projet \""
+                + projet.nom + "\" avec les caractéristiques suivantes :\n";
+
+        String messageEN = "\t - Nom : " + projet.nom + "\n";
+        messageEN += "\t - Client : " + projet.client.nom + "\n";
+        messageEN += "\t - Responsable : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
+                " (" + projet.responsableProjet.email + ")\n";
+        messageEN += "\t - Priorité : " + projet.priorite + "\n";
+        messageEN += "\t - Date de début (théorique) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
+        messageEN += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
+        messageEN += "\t - Description : " + projet.description + "\n";
+
+        String title = "";
+        String message = "";
+        // Envoie notification a l'utilisateur
+        if(utilisateur.equals(projet.responsableProjet) || utilisateur.recevoirNotifPourMesActions){
+            if(utilisateur.langue.equals(Utilisateur.LANGUE_FR)){
+                title = titleFR;
+                message = messageMemeUserFR + messageFR;
+            }
+            else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+                title = titleEN;
+                message = messageMemeUserEN + messageEN;
+            }
+            mapNotifications.put(utilisateur, new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+        }
+        // Envoie notification au responsable de projet si ce n'est pas l'auteur de la création
+        if(!utilisateur.equals(projet.responsableProjet)){
+            if(projet.responsableProjet.langue.equals(Utilisateur.LANGUE_FR)){
+                title = titleFR;
+                message = messageAutreUserFR + messageFR;
+            }
+            else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+                title = titleEN;
+                message = messageAutreUserEN + messageEN;
+            }
+
+            mapNotifications.put(projet.responsableProjet, new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet));
+        }
+        sendNotifications(mapNotifications);
     }
 
 

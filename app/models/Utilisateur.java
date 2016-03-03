@@ -160,7 +160,6 @@ public class Utilisateur extends Personne {
             throw new IllegalArgumentException("Mot de passe : " + password + " incorrect, veuillez mettre au moins 1 Maj, 1 min, 1 chiffre et 6 caracteres minimum");
         }
         this.password = hachage(this.id, password);
-        this.save();
     }
 
     public String getPassword() {
@@ -276,9 +275,10 @@ public class Utilisateur extends Personne {
      **/
     public List<Tache> listTachesDansProjetNonResponsableAAfficher(Projet projet) {
         List<Tache> taches = listTachesDansProjetNonResponsable(projet);
-        for (Tache tache : taches) {
-            if (enfantIsPresent(tache.enfants(), taches)) {
-                removeEnfants(tache, taches);
+        for (int i = 0; i < taches.size(); i++) {
+            if (enfantIsPresent(taches.get(i).enfants(), taches)) {
+                removeEnfants(taches.get(i), taches);
+                i--;
             }
         }
         return taches;
@@ -294,10 +294,11 @@ public class Utilisateur extends Personne {
 
     private void removeEnfants(Tache tache, List<Tache> taches) {
         if (tache.hasEnfant()) {
-            for (Tache enfant : tache.enfants()) {
-                if (taches.contains(enfant)) {
-                    taches.remove(enfant);
-                    removeEnfants(enfant, taches);
+            for (int i = 0; i < tache.enfants().size(); i++) {
+                if (taches.contains(tache.enfants().get(i))) {
+                    taches.remove(tache.enfants().get(i));
+                    removeEnfants(tache.enfants().get(i), taches);
+                    i--;
                 }
             }
         }
@@ -328,7 +329,8 @@ public class Utilisateur extends Personne {
     }
 
     public List<Notification> listNotifications() {
-        return Notification.find.where().eq("utilisateur", this).findList();
+        listNotifications = Notification.find.where().eq("utilisateur", this).findList();
+        return listNotifications;
     }
 
     public int nbNotificationsNonLues() {
@@ -339,8 +341,6 @@ public class Utilisateur extends Personne {
         }
         return cpt;
     }
-
-    // TODO getListTachesNotifications, utilisateursMeSuivant, utilisateursMeSuivant
 
     /**
      * Verifie si le mot de passe saisi correspond bien au mot de passe de l'utilisateur
@@ -705,7 +705,8 @@ public class Utilisateur extends Personne {
         int cpt = 0;
         for (Projet projet : listProjetsResponsable()) {
             if (projet.dateFinReelTard != null) {
-                if (projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+                //if (projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+                if (projet.enCours && Utils.before(projet.dateFinReelTard, Calendar.getInstance().getTime())) cpt++;
             }
         }
         return cpt;
@@ -773,7 +774,8 @@ public class Utilisateur extends Personne {
     public int nbTachesRetardees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            //if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            if (!tache.archive && tache.estDisponible() && Utils.before(tache.dateFinTard, Calendar.getInstance().getTime()))
                 cpt++;
         }
         return cpt;
@@ -808,7 +810,8 @@ public class Utilisateur extends Personne {
     public List<Tache> tachesRetardees() {
         List<Tache> res = new ArrayList<>();
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            //if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            if (!tache.archive && tache.estDisponible() && Utils.before(tache.dateFinTard, Calendar.getInstance().getTime()))
                 res.add(tache);
         }
         return res;

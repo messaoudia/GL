@@ -161,35 +161,35 @@
 
         @scripts
         <script>
-                 var changeModeDraftProjet = function(idProjet){
-                     console.log("Je suis la");
-                     if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
-                         console.log("Je suis checked");
-                         $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
-                         $('.id-tache').hide();
-                     }
-                     else{
-                         console.log("Je suis pas checked");
-                         var draftParsedAsJson = parseDraft(idProjet);
+                var changeModeDraftProjet = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        var draftParsedAsJson = parseDraft(idProjet);
 
-                         $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
-                         $('.id-tache').show();
+                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
 
 
-                         console.log(draftParsedAsJson);
-                         jsRoutes.controllers.ProjetController.sendDraf().ajax({
-                             data: draftParsedAsJson,
-                             dataType: 'json',
-                             contentType: "application/json",
-                             success : function(data) {
-                                 console.log(data);
-                             },
-                             error: function(errorMessage){
-                                 console.error(errorMessage);
-                             }
-                         });
-                     }
-                 }
+                        console.log(draftParsedAsJson);
+                        jsRoutes.controllers.ProjetController.sendDraf().ajax({
+                            data: draftParsedAsJson,
+                            dataType: 'json',
+                            contentType: "application/json",
+                            success : function(data) {
+                                console.log(data);
+                            },
+                            error: function(errorMessage){
+                                console.error(errorMessage);
+                            }
+                        });
+                    }
+                }
 
                 var changeModeDraftClient = function(idProjet){
                     console.log("Je suis la");
@@ -609,6 +609,77 @@
                     jsRoutes.controllers.DashboardController.saveBlocNote(idUser, $('#bloc-notes-tdb').val()).ajax();
                 }
 
+                $('#checkbox-notif-all-selected').click(function() {
+                    if($('#checkbox-notif-all-selected').is(':checked')){
+                        $("div.checkbox-notif input[type=checkbox]").each(function(){
+                            $(this).attr('checked', true);
+                        });
+                    }
+                    else {
+                        $("div.checkbox-notif input[type=checkbox]").each(function(){
+                            $(this).attr('checked', false);
+                        });
+                    }
+                });
+
+                var clickNotificationsLues = function(idUser){
+                    var listIdNotif = "";
+                    $("div.checkbox-notif input:checked").each(function(){
+                        listIdNotif += $(this).attr("name") + ",";
+                    });
+                    if(listIdNotif.length > 0){
+                        listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
+                        console.log(listIdNotif);
+                        jsRoutes.controllers.NotificationController.clickNotificationsLues(idUser, listIdNotif).ajax({
+                            success: function(nbNotifNonLues){
+                                var listIdNotifSplit = listIdNotif.split(",");
+                                for(var i=0; i<listIdNotifSplit.length; i++){
+                                    var idNotif = listIdNotifSplit[i];
+                                    $('#notif-' + idNotif).removeClass('non-lu');
+                                    $('#notif-' + idNotif).addClass('lu');
+                                    if($('#notif-' + idNotif).next().is('tr.footable-row-detail')){
+                                        //$('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+                                        $('#notif-' + idNotif).next().children().first().children().first().children().first().children().eq(1).html('@Messages("read")');
+                                    }
+                                    else {
+                                        $('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+                                    }
+                                    $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+                                    $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+                                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
+                                }
+                            },
+                            error : function(){
+                            }
+                        });
+                    }
+                }
+
+                var clickNotificationsSupprimer = function(idUser){
+                    var listIdNotif = "";
+                    $("div.checkbox-notif input:checked").each(function(){
+                        listIdNotif += $(this).attr("name") + ",";
+                    });
+                    if(listIdNotif.length > 0){
+                        listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
+                        console.log(listIdNotif);
+                        jsRoutes.controllers.NotificationController.clickNotificationsSupprimer(idUser, listIdNotif).ajax({
+                            success: function(nbNotifNonLues){
+                                var listIdNotifSplit = listIdNotif.split(",");
+                                for(var i=0; i<listIdNotifSplit.length; i++){
+                                    var idNotif = listIdNotifSplit[i];
+                                    $('#notif-' + idNotif).remove();
+                                    $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+                                    $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+                                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
+                                }
+                            },
+                            error : function(){
+                            }
+                        });
+                    }
+                }
+
                 var changePassword = function(idUser){
                     var previousPassword = $('#previousPassword').val();
                     var newPassword = $('#newPassword').val();
@@ -652,6 +723,34 @@
                         }
                     });
                 }
+
+                 var activeModificationProjetDansProjet = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-consulterProjet-" + idProjet).hide();
+                     $("#div-modifierProjet-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
+
+                 var desactiveModificationProjetDansProjet = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-modifierProjet-" + idProjet).hide();
+                     $("#div-consulterProjet-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
+
+                 var activeModificationProjetDansClient = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-consulterProjet-client-" + idProjet).hide();
+                     $("#div-modifierProjet-client-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
+
+                 var desactiveModificationProjetDansClient = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-modifierProjet-client-" + idProjet).hide();
+                     $("#div-consulterProjet-client-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
 
                 var supprimerUtilisateur = function(){
                     $("#error-message-suppr-user-projet").hide();
@@ -1360,6 +1459,99 @@
                     return ret;
                 };
 
+                var updateIndisponibleTache = function() {
+                    if($('#btn-indisponibleTache i').hasClass("fa-lock"))
+                    {
+
+                        var idTache = $('#btn-indisponibleTache').attr("data");
+                        jsRoutes.controllers.ProjetController.updateTacheToDisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache i').addClass("fa-unlock")
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
+
+                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeRestante').removeAttr("disabled");
+                                $('#formModifierChargeConsommee').removeAttr("disabled");
+
+                                console.log("la tache "+$('#btn-indisponibleTache').attr("data")+" devient disponible");
+
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    }
+                    else {
+
+                        var idTache = $('#btn-indisponibleTache').attr("data");
+
+                        jsRoutes.controllers.ProjetController.updateTacheToIndisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache i').addClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
+                                console.log("la tache "+$('#btn-indisponibleTache').attr("data")+" devient indisponible");
+                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeRestante').attr("disabled","");
+                                $('#formModifierChargeConsommee').attr("disabled","");
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+
+                    }
+                }
+
+
+                var updateIndisponibleTacheModifier = function() {
+                    if($('#btn-indisponibleTache-modifier i').hasClass("fa-lock"))
+                    {
+
+                        var idTache = $('#btn-indisponibleTache-modifier').attr("data");
+                        jsRoutes.controllers.ProjetController.updateTacheToDisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache i').addClass("fa-unlock")
+                                console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient disponible");
+                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeRestante').removeAttr("disabled");
+                                $('#formModifierChargeConsommee').removeAttr("disabled");
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+                    }
+                    else {
+
+                        var idTache = $('#btn-indisponibleTache-modifier').attr("data");
+
+                        jsRoutes.controllers.ProjetController.updateTacheToIndisponible(idTache).ajax({
+                            success: function(tache) {
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache i').addClass("fa-lock");
+                                console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient indisponible");
+                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeRestante').attr("disabled","");
+                                $('#formModifierChargeConsommee').attr("disabled","");
+                            },
+                            error: function(errorMessage){
+                                alert(errorMessage);
+                            }
+                        });
+
+                    }
+                }
+
+
                 var afficherModalTache = function (t) {
 
                     var idTache = $(t).attr('value');
@@ -1369,6 +1561,7 @@
                         dataType: 'json',
                         contentType: "application/json",
                         success: function(tache) {
+                            console.log(JSON.stringify(tache));
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
                             // div-consulter-tache
@@ -1387,6 +1580,35 @@
                             $('#formModifierNomTache-tdb').val(tache.nom);
                             $('#descriptionTache-consulter-tdb').html(tache.description);
                             $('#formModifierDescriptionTache-tdb').val(tache.description);
+                            $('#btn-indisponibleTache').attr("data",tache.id);
+                            $('#btn-indisponibleTache-modifier').attr("data",tache.id);
+                            if(!tache.disponible)
+                            {
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+
+                                $('#btn-indisponibleTache i').addClass("fa-lock");
+
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
+
+                            }
+                            else {
+                                $('#btn-indisponibleTache i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache i').removeClass("fa-unlock");
+
+                                $('#btn-indisponibleTache i').addClass("fa-unlock");
+
+
+
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-lock");
+                                $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
+
+                                $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
+                            }
+
                             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                                 success: function(utilisateurs){
                                     var list = "";
@@ -1435,10 +1657,10 @@
                                     $(taches).each(function(index, t) {
                                         var isSuccesseur = false;
                                         $(tache.successeurs).each(function(index,s){
-                                           if(t.id == s.id){
-                                               isSuccesseur = true;
-                                               return;
-                                           }
+                                            if(t.id == s.id){
+                                                isSuccesseur = true;
+                                                return;
+                                            }
                                         });
                                         if(isSuccesseur){
                                             list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
@@ -1468,9 +1690,9 @@
 
                             }
                             /*console.log("tache = "+JSON.stringify(tache))
-                            console.log("predecesseurNom : "+tache.predecesseurNom);
-                            console.log("predecesseurId : "+tache.predecesseurId);
-                            console.log("Successeurs : "+tache.successeurs);*/
+                             console.log("predecesseurNom : "+tache.predecesseurNom);
+                             console.log("predecesseurId : "+tache.predecesseurId);
+                             console.log("Successeurs : "+tache.successeurs);*/
 
                             var list = "";
                             var listModifier = "";
@@ -1578,6 +1800,18 @@
                             $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
                             $('#formModifierChargeConsommee span').nextAll('span').html(unite);
 
+                            if(!tache.disponible)
+                            {
+                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeRestante').attr("disabled","");
+                                $('#formModifierChargeConsommee').attr("disabled","");
+                            }
+                            else {
+                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeRestante').removeAttr("disabled");
+                                $('#formModifierChargeConsommee').removeAttr("disabled");
+                            }
+
                         },
                         //Case we have a problem
                         error: function(errorMessage){
@@ -1587,6 +1821,22 @@
                 }
 
                 $(document).ready(function () {
+                    $('#checkbox-notif-all-selected').click(function() {
+                        if($('#checkbox-notif-all-selected').is(':checked')){
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = true;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                        else {
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = false;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                    });
 
                     $('#dataTables-admin-user').DataTable({
                         destroy:true,
@@ -1625,37 +1875,6 @@
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
                         jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        $("#div-modifierProjet-client").hide();
-                        $("#div-consulterProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    function modeDraftClient()
-                    {
-                        if($('#checkbox-draft-client').is(':checked')){
-                            $('#nestable-client').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-client').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftClient();
-                    $('#checkbox-draft-client').click(function() {
-                        modeDraftClient();
                     });
 
                     function modeDraftProjetAdmin()
@@ -1989,6 +2208,22 @@
                     return messageDiv;
                 }
                 $( document ).ajaxComplete(function() {
+                    $('#checkbox-notif-all-selected').click(function() {
+                        if($('#checkbox-notif-all-selected').is(':checked')){
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = true;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                        else {
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = false;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                    });
 
                     $("#errorCreerUser > button").click(function(){
                         $("#errorCreerUser").hide()
@@ -2016,51 +2251,6 @@
                         jQuery.fx.off = true;
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet-client").attr("name");
-                        $("#div-modifierProjet-client-" + idProjet).hide();
-                        $("#div-consulterProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-
-
-                    $( "#btn-modifierProjet" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-" + idProjet).hide();
-                        $("#div-modifierProjet-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet-client" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client-" + idProjet).hide();
-                        $("#div-modifierProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet").attr("name");
-                        $("#div-modifierProjet-" + idProjet).hide();
-                        $("#div-consulterProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
@@ -2528,41 +2718,6 @@
 
                     $('.footable').footable();
 
-                    // $('#modal-tdb-tache').modal();
-
-
-                    function modeDraftProjet()
-                    {
-                        if($('#checkbox-draft-projet').is(':checked')){
-                            $('#nestable-projet').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-projet').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftProjet();
-                    $('#checkbox-draft-projet').click(function() {
-                        modeDraftProjet();
-                    });
-
-                    function modeDraftClient()
-                    {
-                        if($('#checkbox-draft-client').is(':checked')){
-                            $('#nestable-client').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-client').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftClient();
-                    $('#checkbox-draft-client').click(function() {
-                        modeDraftClient();
-                    });
-
                     function modeDraftProjetAdmin()
                     {
                         if($('#checkbox-draft-projet-admin').is(':checked')){
@@ -2685,41 +2840,41 @@
 
                             var $length = $('#table-modal-client-contacts-body tr > td:contains('+$email+')').length;
                             if($length>0){
-                            $("#successModifierClient").hide();
-                            $("#successModifierClientP").empty();
-                            var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
-                            $("#errorModifierClientP").html(messageDiv);
-                            $("#errorModifierClient").show();
-                            }else{
-                            $("#errorModifierClientP").empty();
-                            $("#errorModifierClient").hide();
-
-                            $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
-                            $("#successModifierClient").show();
-
-
-                            setTimeout(function(){
                                 $("#successModifierClient").hide();
-                            },4000);
+                                $("#successModifierClientP").empty();
+                                var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                                $("#errorModifierClientP").html(messageDiv);
+                                $("#errorModifierClient").show();
+                            }else{
+                                $("#errorModifierClientP").empty();
+                                $("#errorModifierClient").hide();
 
-                            var contact = $('#table-modal-client-contacts-body');
+                                $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
+                                $("#successModifierClient").show();
 
-                            var list ="";
-                            list+=('<tr value=" ">');
-                            list+=('<td class="first-td">'+data.nom+'</td>');
-                            list+=('<td class="first-td">'+data.prenom+'</td>');
-                            list+=('<td style="display:none;">'+data.email+'</td>');
-                            list+=('<td style="display:none;">'+data.telephone+'</td>');
-                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                            list+=('</tr>');
-                            contact.append(list);
-                            var size = listeNewContact.length;
-                            listeNewContact[size] = {};
-                            listeNewContact[size]["nom"] = data.nom;
-                            listeNewContact[size]["prenom"] = data.prenom;
-                            listeNewContact[size]["email"] = data.email;
-                            listeNewContact[size]["telephone"] = data.telephone;
-                            $(form)[0].reset();
+
+                                setTimeout(function(){
+                                    $("#successModifierClient").hide();
+                                },4000);
+
+                                var contact = $('#table-modal-client-contacts-body');
+
+                                var list ="";
+                                list+=('<tr value=" ">');
+                                list+=('<td class="first-td">'+data.nom+'</td>');
+                                list+=('<td class="first-td">'+data.prenom+'</td>');
+                                list+=('<td style="display:none;">'+data.email+'</td>');
+                                list+=('<td style="display:none;">'+data.telephone+'</td>');
+                                list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                list+=('</tr>');
+                                contact.append(list);
+                                var size = listeNewContact.length;
+                                listeNewContact[size] = {};
+                                listeNewContact[size]["nom"] = data.nom;
+                                listeNewContact[size]["prenom"] = data.prenom;
+                                listeNewContact[size]["email"] = data.email;
+                                listeNewContact[size]["telephone"] = data.telephone;
+                                $(form)[0].reset();
                             }
                         },
                         error: function(errorMessage){
@@ -2732,7 +2887,7 @@
                     });
                 }
 
-              /* Afficher les Clients archivés */
+                /* Afficher les Clients archivés */
                 function clientsArchived(){
                     if($('#checkBoxClientsArchived').is(":checked")) {
                         $('.client-archived').show();
@@ -2811,64 +2966,67 @@
 
 
 
-                 //####################################################################
-                 //                         DRAFT PARSING
-                 //####################################################################
+                //####################################################################
+                //                         DRAFT PARSING
+                //####################################################################
 
 
-                 function parseDraft(idProjet){
-                     function ajoutTacheFille(tacheMere,tache){
-                         tacheMere["childrens"].push(tache);
-                     }
+                function parseDraft(idProjet){
+                    function ajoutTacheFille(tacheMere,tache){
+                        tacheMere["childrens"].push(tache);
+                    }
 
-                     function creerTache(tacheId){
-                         var tache={};
-                         tache["id"]=tacheId;
-                         tache["childrens"]=new Array();
-                         return tache;
-                     }
+                    function creerTache(tacheId,index){
+                        var tache={};
+                        tache["index"]=index;
+                        tache["id"]=tacheId;
+                        tache["childrens"]=new Array();
+                        return tache;
+                    }
 
-                     var taches = {};
-                     taches["projectId"] = idProjet;
-                     taches["taches"] = new Array();
+                    var taches = {};
+                    taches["projectId"] = idProjet;
+                    taches["taches"] = new Array();
 
-                     var processNodes = function(currentElement, depth, taches, parent) {
-                         var currentTache;
-                         if($(currentElement).is("li")){
-                             currentTache=creerTache($(currentElement).attr('data-id'));
-                             console.log("depth: "+depth);
-                             if(depth==1){
-                                 taches["taches"].push(currentTache);
-                             }
-                             else{
-                                 ajoutTacheFille(parent,currentTache);
-                             }
+                    var processNodes = function(currentElement, depth, taches, parent,index) {
+                        var currentTache;
+                        if($(currentElement).is("li")){
+                            currentTache=creerTache($(currentElement).attr('data-id'),index);
+                            console.log("depth: "+depth);
+                            if(depth==1){
+                                taches["taches"].push(currentTache);
+                            }
+                            else{
+                                ajoutTacheFille(parent,currentTache);
+                            }
 
-                             console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
-                         }
+                            console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
+                        }
 
-                         if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
+                        var indexChild=0;
+                        if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
 
-                             $(currentElement).children().eq(1).children().each(function unFunction(element){
-                                 depth=depth+1;
-                                 processNodes($(this),depth, taches, currentTache);
-                             });
-                         }
-                     }
+                            $(currentElement).children().eq(1).children().each(function unFunction(element){
+                                depth=depth+1;
+                                processNodes($(this),depth, taches, currentTache,indexChild++);
+                            });
+                        }
+                    }
 
 
-                     var depth =1;
-                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
-                     {
-                         processNodes(this, depth, taches, null);
+                    var depth =1;
+                    var indexChild=0;
+                    $("#table_taches_"+idProjet).children().each (function processNodesTmp()
+                    {
+                        processNodes(this, depth, taches, null,indexChild++);
 
-                     });
-                     var json = JSON.stringify(taches);
-                     console.log(json);
-                     return json;
-                 }
+                    });
+                    var json = JSON.stringify(taches);
+                    console.log(json);
+                    return json;
+                }
 
-                 //####################################################################
+                //####################################################################
 
                 //######### Modifier projet ##########
 

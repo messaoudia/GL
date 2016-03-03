@@ -295,7 +295,18 @@ public class Projet extends EntiteSecurise {
 
             //if(tache.dateDebut.before(tache.predecesseur.dateFinTard))
             if(Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard))
-                throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de debut ("+ formateDate(tache.dateDebut)+") avant la date de fin au plus tard ("+ formateDate(tache.predecesseur.dateFinTard)+") de son predecesseur [" + tache.predecesseur.nom + "]");
+                throw new IllegalArgumentException("La tache " + tache.nom + " a une date de debut ("+ formateDate(tache.dateDebut)+") avant la date de fin au plus tard ("+ formateDate(tache.predecesseur.dateFinTard)+") de son predecesseur [" + tache.predecesseur.nom + "]");
+
+            if(!checkPERT(tache, tache.predecesseur)){
+                throw new IllegalArgumentException("Le predecesseur " + tache.predecesseur.nom +
+                " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
+            }
+            for(Tache successeur : tache.successeurs){
+                if(!checkPERT(tache, successeur)){
+                    throw new IllegalArgumentException("Le successeur " + successeur +
+                            " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
+                }
+            }
 
             if(!tache.predecesseur.successeurs.contains(tache)){
                 tache.predecesseur.successeurs.add(tache);
@@ -781,11 +792,21 @@ public class Projet extends EntiteSecurise {
     private void calculeCheminCritique() throws Exception{
         // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
         List<Tache> listTachesFin = new ArrayList<Tache>();
-        for(Tache tache : listTaches){
+        listTachesFin.add(listTaches.get(0));
+        Date dateMaxTache = listTaches.get(0).dateFinTard;
+        for(int i=0; i<listTaches.size(); i++){
+            Tache tache = listTaches.get(i);
             tache.critique = false; // on réinitialise tous les champs 'critique'
             //if(tache.dateFinTard.equals(dateFinReelTard) && !tache.hasSuccesseur() && tache.enfants().isEmpty()){
-            if(Utils.equals(tache.dateFinTard, dateFinReelTard) && !tache.hasSuccesseur() && tache.enfants().isEmpty()){
-                listTachesFin.add(tache);
+            if(!tache.hasSuccesseur() && tache.enfants().isEmpty()){
+                if(Utils.equals(tache.dateFinTard, dateMaxTache)){
+                    listTachesFin.add(tache);
+                }
+                else if(Utils.after(tache.dateFinTard, dateMaxTache)){
+                    listTachesFin.clear();
+                    dateMaxTache = tache.dateFinTard;
+                    listTachesFin.add(tache);
+                }
             }
         }
         if(listTachesFin.isEmpty())
@@ -834,9 +855,6 @@ public class Projet extends EntiteSecurise {
         else return false;
     }*/
 
-    /**
-     * TODO testme
-     */
     public void updateAvancementGlobal() {
         Double chargeConsommeeGlobal = 0.0;
         Double chargeRestanteGlobal = 0.0;
@@ -923,7 +941,8 @@ public class Projet extends EntiteSecurise {
 
     public boolean estRetarde(){
         if(dateFinReelTard!=null){
-            return dateFinReelTard.after(Calendar.getInstance().getTime());
+            //return dateFinReelTard.after(Calendar.getInstance().getTime());
+            return Utils.after(dateFinReelTard, Calendar.getInstance().getTime());
         }else{
             return false;
         }
@@ -984,4 +1003,51 @@ public class Projet extends EntiteSecurise {
         });
         return taches;
     }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants)
+     * @param tache
+     * @param predecesseur
+     * @return
+     */
+    public boolean checkPERT(Tache tache, Tache tachePert){
+        return checkPERTRecursifVersPredecesseur(tache, tachePert) && checkPERTRecursifVersSuccesseurs(tache, tachePert);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants) : Vérifie vers le haut de la hiérarchie
+     * @param currentTache
+     * @param tachePert
+     * @return
+     */
+    private boolean checkPERTRecursifVersPredecesseur(Tache currentTache, Tache tachePert){
+        if(currentTache == null)
+            return true;
+        if(tachePert.equals(currentTache))
+            return false;
+        return checkPERTRecursifVersPredecesseur(currentTache.parent, tachePert);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants) : Vérifie vers le bas de la hiérarchie
+     * @param currentTache
+     * @param tachePert
+     * @return
+     */
+    private boolean checkPERTRecursifVersSuccesseurs(Tache currentTache, Tache tachePert){
+        if(currentTache == null)
+            return true;
+        if(tachePert.equals(currentTache))
+            return false;
+        for(Tache successeur : currentTache.getSuccesseurs()){
+            if(!checkPERTRecursifVersSuccesseurs(successeur, tachePert)){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
