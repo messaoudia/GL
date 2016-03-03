@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
 import play.data.format.Formats;
@@ -936,7 +937,10 @@ public class Projet extends EntiteSecurise {
         return p;
     }
 
+    @JsonSerialize
     public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
+
+    @JsonSerialize
     public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
 
     public boolean estRetarde(){
