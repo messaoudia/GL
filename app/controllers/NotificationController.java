@@ -10,7 +10,7 @@ import views.html.notifications;
 public class NotificationController extends Controller {
 
     public Result afficherNotifications() {
-        return ok(notifications.render("Notifications", Utilisateur.getAllNonArchives().get(0)));
+        return ok(notifications.render("Notifications", Login.getUtilisateurConnecte()));
     }
 
     /**
