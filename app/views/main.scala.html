@@ -166,6 +166,7 @@
                 $requestProjetsArchives = false;
                 var $tmpTr;
                 var $tmpTrAdminClient;
+                var clientRow;
                 var $tmpTrAdminUser;
 
                 $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
@@ -326,91 +327,100 @@
 
 
                 var d ="";
+                var modalId;
+
+                function modal(client,idC){
+                    $("#dataTables-admin-client").dataTable().fnDestroy();
+                    if(client.archiver)
+                    {
+                        d="D";
+                    }
+
+                    $('#formClientName'+d).val(client.nom);
+                    $('#formClientAdress'+d).val(client.adresseClient.adresse);
+                    $('#formZipCode'+d).val(client.adresseClient.zipCode);
+                    $('#formCity'+d).val(client.adresseClient.ville);
+                    $('#formCountry'+d).val(client.adresseClient.pays);
+
+                    $('#client-priority-1'+d).removeClass("btn-active");
+                    $('#client-priority-2'+d).removeClass("btn-active");
+                    $('#client-priority-3'+d).removeClass("btn-active");
+                    $('#client-priority-'+client.priorite+d).addClass("btn-active");
+
+                    jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
+                        success: function(listProjets) {
+                            console.log("sucess -----");
+                            var projetTableBody = $('#table-modal-client-projets-body'+d);
+                            projetTableBody.empty();
+                            console.log(listProjets);
+                            $("#dataTables-admin-client"+d).dataTable().fnDestroy();
+                            if(listProjets.length != 0){
+                                $(listProjets).each(function(index, projet) {
+                                    var p ="";
+                                    p+=('<tr value="'+projet.id+'">');
+                                    p+=('<td class="first-td">'+projet.nom+'</td>');
+                                    if(d=="D" || projet.archive == true )
+                                    {
+                                        p+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+                                    else
+                                    {
+                                        p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+                                    p+=('</tr>');
+
+                                    projetTableBody.append(p);
+                                });
+                            }
+                        },
+                        error: function(errorMessage){
+                            console.log("error : "+errorMessage)
+                        }
+                    });
+
+                    jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
+                        success: function(listContacts) {
+                            var contactsTableBody = $('#table-modal-client-contacts-body'+d);
+                            contactsTableBody.empty();
+                            console.log(listContacts);
+                            $("#dataTables-admin-client"+d).dataTable().fnDestroy();
+                            if(listContacts.length != 0){
+                                $(listContacts).each(function(index, contact) {
+                                    var c ="";
+                                    c+=('<tr value="'+contact.id+'">');
+                                    c+=('<td class="first-td">'+contact.nom+'</td>');
+                                    c+=('<td class="first-td">'+contact.prenom+'</td>');
+                                    c+=('<td style="display:none;">'+contact.email+'</td>');
+                                    c+=('<td style="display:none;">'+contact.telephone+'</td>');
+                                    if(d=="D" || contact.archive == true)
+                                    {
+                                        c+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+                                    else
+                                    {
+                                        c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+
+                                    c+=('</tr>');
+
+                                    contactsTableBody.append(c);
+                                });
+                            }
+                        },
+                        error: function(errorMessage){
+                            console.log("error : "+errorMessage)
+                        }
+                    });
+
+                }
                 $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
                     var idC = $(this).parent('tr').attr('value');
-
+                    clientRow = $(this).parent('tr');
                     jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
                         success: function(client) {
                             //console.log(client);
-                            console.log("client : "+client)
-                            $("#dataTables-admin-client").dataTable().fnDestroy();
-                            if(client.archiver)
-                            {
-                                d="D";
-                            }
-
-                            $('#formClientName'+d).val(client.nom);
-                            $('#formClientAdress'+d).val(client.adresseClient.adresse);
-                            $('#formZipCode'+d).val(client.adresseClient.zipCode);
-                            $('#formCity'+d).val(client.adresseClient.ville);
-                            $('#formCountry'+d).val(client.adresseClient.pays);
-
-                            $('#client-priority-1'+d).removeClass("btn-active");
-                            $('#client-priority-2'+d).removeClass("btn-active");
-                            $('#client-priority-3'+d).removeClass("btn-active");
-                            $('#client-priority-'+client.priorite+d).addClass("btn-active");
-
-                            jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
-                                success: function(listProjets) {
-                                    console.log("sucess -----");
-                                    var projetTableBody = $('#table-modal-client-projets-body'+d);
-                                    projetTableBody.empty();
-                                    console.log(listProjets);
-                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
-                                    if(listProjets.length != 0){
-                                        $(listProjets).each(function(index, projet) {
-                                            var p ="";
-                                            p+=('<tr>');
-                                            p+=('<td class="first-td">'+projet.nom+'</td>');
-                                            if(d=="D")
-                                            {
-                                                p+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            else
-                                            {
-                                                p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            p+=('</tr>');
-
-                                            projetTableBody.append(p);
-                                        });
-                                    }
-                                },
-                                error: function(errorMessage){
-                                    console.log("error : "+errorMessage)
-                                }
-                            });
-                            jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
-                                success: function(listContacts) {
-                                    var contactsTableBody = $('#table-modal-client-contacts-body'+d);
-                                    contactsTableBody.empty();
-                                    console.log(listContacts);
-                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
-                                    if(listContacts.length != 0){
-                                        $(listContacts).each(function(index, contact) {
-                                            var c ="";
-                                            c+=('<tr>');
-                                            c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                                            if(d=="D")
-                                            {
-                                                c+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            else
-                                            {
-                                                c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            c+=('</tr>');
-
-                                            contactsTableBody.append(c);
-                                        });
-                                    }
-                                },
-                                error: function(errorMessage){
-                                    console.log("error : "+errorMessage)
-                                }
-                            });
-
-
+                            console.log("client : "+client);
+                            modal(client, idC);
                         },
                         //Case we have a problem
                         error: function(errorMessage){
@@ -419,11 +429,6 @@
                     });
                 });
                 //dataTables-admin-client
-
-
-
-
-
                 var supprimerProjet = function(){
                     var $value = $tmpTr.attr('value');
                     console.log($value);
@@ -615,7 +620,6 @@
                     });
                 }
 
-
                 /**
                  * Methode Ajax pour aller récuperer des informations d'un utilisateur
                  **/
@@ -799,7 +803,7 @@
 
                             utilisateurList.append(list);
 
-                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("modified")');
+                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("created")');
                             $("#successModifierUser").show();
                             setTimeout(function(){
                                 $("#successModifierUser").hide();
@@ -818,53 +822,51 @@
                     });
                 }
 
-                var modifierUtilisateur = function(btn)
+                var modifierClient = function(btn)
                 {
                     var form = $(btn).attr("form");
                     form = "#"+form;
-                    var serialize = $(form).serialize();
-                    var value = "Non";
-                    if($("#btnAdminOuiModifier").hasClass("btn-active"))
-                    {
-                        value = "Oui";
-                    }
-                    var idUtilisateur = userRow.attr('value');
-
-                    console.log("value : "+value);
-                    jsRoutes.controllers.UtilisateurController.modifierUtilisateur(idUtilisateur).ajax({
-                        data: serialize+"&admin="+value,
+                    var serialize = $(form).serializeObject();
+                    var value = $(".btn-active").attr('value');
+                    var idClient = clientRow.attr('value');
+                    var json = "{\"form\":"+JSON.stringify(serialize)+",\"table\":"+JSON.stringify(listeNewContact)+",\"projet\":"+JSON.stringify(tmpRowModalClientProjet)+",\"contact\":"+JSON.stringify(tmpRowModalClientContact)+",\"priorite\":"+value+"}";
+                    console.log(json);
+                    jsRoutes.controllers.ClientController.modifierClient(idClient).ajax({
+                        data: json,
+                        contentType: "application/json",
                         success : function(data) {
-                            $("#errorModifierUserP").empty();
-                            $("#errorModifierUser").hide();
+                            $("#errorModifierClientP").empty();
+                            $("#errorModifierClient").hide();
 
-
-                            console.log("data return = "+data.nom);
-
-                            var utilisateurList = $('#dataTables-admin-user-body');
-                            $("#dataTables-admin-user").dataTable().fnDestroy();
-                            userRow.remove();
-
-                            var utilisateur = data;
-
-                            var list = generateRowUtilisateur(utilisateur);
-
-                            utilisateurList.append(list);
-
-                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("modified")');
-                            $("#successModifierUser").show();
+                            $("#successModifierClientP").html('@Messages("client") '+data.nom+' @Messages("modified")');
+                            $("#successModifierClient").show();
                             setTimeout(function(){
-                                $("#successModifierUser").hide();
+                                $("#successModifierClient").hide();
                             },4000);
+
+                            // Affichage des vrai valeur maitenant
+
+
+                            var clientList = $('#dataTables-admin-client-body');
+                            //mise a jour modal en fonction du truc de guillaume
+                            listeNewContact = [];
+                            tmpRowModalClientProjet = [];
+                            tmpRowModalClientContact = [];
+                            modal(data,data.id);
+                            $("#dataTables-admin-client").dataTable().fnDestroy();
+                            clientRow.remove();
+                            var list = generateRowClient(data);
+                            clientList.append(list);
+
                         },
                         error: function(errorMessage){
-                            console.log(errorMessage);
-                            $("#successModifierUser").hide();
-                            $("#successModifierUserP").empty();
+                            $("#successModifierClient").hide();
+                            $("#successModifierClientP").empty();
 
-                            var messageDiv = generateErrorUtilisateur(errorMessage);
+                            var messageDiv = generateErrorCreerClient(errorMessage);
 
-                            $("#errorModifierUserP").html(messageDiv);
-                            $("#errorModifierUser").show();
+                            $("#errorModifierClientP").html(messageDiv);
+                            $("#errorModifierClient").show();
                         }
                     });
                 }
@@ -969,7 +971,6 @@
 
                 function generateErrorCreerClient(errorMessage)
                 {
-                    alert(errorMessage);
                     var messageDiv = '@Messages("errors") : ';
 
                     if(errorMessage.responseJSON.nomClientVide==true)
@@ -1145,6 +1146,10 @@
                     else if(errorMessage.responseJSON.telTropLongContact==true)
                     {
                         messageDiv += '<br> - @Messages("telTooLongError")';
+                    }
+                    if(errorMessage.responseJSON.contactExiste==true)
+                    {
+                        messageDiv += '<br> - @Messages("contactExist")';
                     }
 
                     return messageDiv;
@@ -1359,8 +1364,6 @@
 
 
                 $(document).ready(function () {
-
-
                     $('#dataTables-admin-user').DataTable({
                         destroy:true,
                         "columnDefs": [{
@@ -2386,8 +2389,108 @@
                         }
                     });
                 });
+                var tmpRowModalClientProjet =  [];
+                var tmpRowModalClientContact =  [];
+                var listeNewContact =  [];
 
-                /* Afficher les Clients archivés */
+                $(document).on("hidden.bs.modal","#modal-modif-client",function(){
+                    var tmpRowModalClientProjet =  [];
+                    var tmpRowModalClientContact =  [];
+                    /*TODO : mettre les formulaire a 0 */
+                });
+
+                $(document).on('click','#table-modal-client-projets-body tr td:last-child', function(){
+                    var parent = $(this).parent('tr');
+                    var idP = parent.attr('value');
+                    var size = tmpRowModalClientProjet.length;
+                    tmpRowModalClientProjet[size] = {};
+                    tmpRowModalClientProjet[size]["idProjet"] = idP;
+                    parent.remove();
+                });
+
+
+                $(document).on('click','#table-modal-client-contacts-body tr td:last-child', function(){
+                    var parent = $(this).parent('tr');
+
+                    if($(this).parent('tr').attr("value")!=" "){
+                        //contact existant
+                        var idC =  $(this).parent('tr').attr("value");
+                        var size = tmpRowModalClientContact.length;
+                        tmpRowModalClientContact[size] = {};
+                        tmpRowModalClientContact[size]["idContact"] = idC;
+                    }else{
+                        //contact non existant, a enlver au niveau de la liste des contact
+                        var arrayLength = listeNewContact.length;
+                        for (var i = 0; i < arrayLength; i++) {
+                            var email = parent.find('td').eq(2).text();
+                            if(listeNewContact[i]["email"] === email){
+                                listeNewContact.splice(i, 1);
+                            }
+                        }
+                    }
+                    parent.remove();
+                });
+
+                var checkContactModal = function(btn)
+                {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    jsRoutes.controllers.ClientController.contactCheck().ajax({
+                        data: serialize,
+                        success : function(data) {
+                            var $email = data.email;
+
+                            var $length = $('#table-modal-client-contacts-body tr > td:contains('+$email+')').length;
+                            if($length>0){
+                            $("#successModifierClient").hide();
+                            $("#successModifierClientP").empty();
+                            var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                            $("#errorModifierClientP").html(messageDiv);
+                            $("#errorModifierClient").show();
+                            }else{
+                            $("#errorModifierClientP").empty();
+                            $("#errorModifierClient").hide();
+
+                            $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
+                            $("#successModifierClient").show();
+
+
+                            setTimeout(function(){
+                                $("#successModifierClient").hide();
+                            },4000);
+
+                            var contact = $('#table-modal-client-contacts-body');
+
+                            var list ="";
+                            list+=('<tr value=" ">');
+                            list+=('<td class="first-td">'+data.nom+'</td>');
+                            list+=('<td class="first-td">'+data.prenom+'</td>');
+                            list+=('<td style="display:none;">'+data.email+'</td>');
+                            list+=('<td style="display:none;">'+data.telephone+'</td>');
+                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                            list+=('</tr>');
+                            contact.append(list);
+                            var size = listeNewContact.length;
+                            listeNewContact[size] = {};
+                            listeNewContact[size]["nom"] = data.nom;
+                            listeNewContact[size]["prenom"] = data.prenom;
+                            listeNewContact[size]["email"] = data.email;
+                            listeNewContact[size]["telephone"] = data.telephone;
+                            $(form)[0].reset();
+                            }
+                        },
+                        error: function(errorMessage){
+                            $("#successModifierClient").hide();
+                            $("#successModifierClientPsuccessModifierClientP").empty();
+                            var messageDiv = generateErrorCreerClientContact(errorMessage);
+                            $("#errorModifierClientP").html(messageDiv);
+                            $("#errorModifierClient").show();
+                        }
+                    });
+                }
+
+              /* Afficher les Clients archivés */
                 function clientsArchived(){
                     if($('#checkBoxClientsArchived').is(":checked")) {
                         $('.client-archived').show();

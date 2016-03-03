@@ -206,6 +206,8 @@ public class Projet extends EntiteSecurise {
         sb.append("\nChargeInitiale : ").append(chargeInitiale).append(", Avancement (%) : ").append(avancementGlobal);
         sb.append(", En cours : ").append(enCours).append(", archive : ").append(archive);
         sb.append(", Priorite :").append(priorite).append("\n");
+        sb.append(", Restante :").append(chargeRestante).append("\n");
+        sb.append(", Consommee :").append(chargeConsommee).append("\n");
         if (client != null) {
             sb.append("Client : ").append(client.nom);
         }
@@ -882,7 +884,7 @@ public class Projet extends EntiteSecurise {
          Projet p = find.byId(idProjet);
          p.archive = true;
          p.save();
-        System.out.println("P"+p.nom);
+         System.out.println("P"+p.nom);
          for(int i=0; i<p.client.listeProjets.size();i++){
              System.out.println(p.client.listeProjets.get(i).nom);
              System.out.println(p.client.listeProjets.get(i).archive);

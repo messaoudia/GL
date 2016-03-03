@@ -4,6 +4,7 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Error;
+import play.api.mvc.LegacyI18nSupport;
 import play.libs.Json;
 import models.Utilisateur;
 import play.mvc.Controller;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,22 +35,10 @@ public class ClientController extends Controller {
         return ok(creerClient.render("Créer Client"));
     }
 
-    public Result creerClient()
-    {
-        JsonNode json = request().body().asJson();
-        System.out.println("LAAAAAAAAAAAAAAAAAAAAAA"+json);
-        Error error = new Error();
-        String nomClient =  json.get("form").get("formCreerClientName").asText();
-        String adresseClient =  json.get("form").get("formCreerClientAdress").asText();
-        String codePostal =  json.get("form").get("formCreerClientZipCode").asText();
-        String ville =  json.get("form").get("formCreerClientCity").asText();
-        String pays =  json.get("form").get("formCreerClientCountry").asText();
-        int priorite = json.get("priorite").asInt();
-
+    public Error checkCreationClient(String nomClient,String adresseClient, String codePostal, String ville, String pays){
         Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,30}$");
         Matcher nameMatch = nameRegex.matcher(nomClient);
-
-        //TODO : utiliser matche pour le nomClient
+        Error error = new Error();
         if(nomClient.isEmpty()){
             error.nomClientVide = true;
         }else if(nomClient.length()>30){
@@ -66,7 +56,7 @@ public class ClientController extends Controller {
         if(codePostal.isEmpty()){
             error.codePostalVide = true;
         }else if(codePostal.length()>10){
-            error.codePostaleTropLong = true;
+            error.codePostalTropLong = true;
         }
 
         if(ville.isEmpty()){
@@ -81,6 +71,20 @@ public class ClientController extends Controller {
             error.paysTropLong = true;
         }
 
+       return error;
+    }
+
+    public Result creerClient()
+    {
+        JsonNode json = request().body().asJson();
+        String nomClient =  json.get("form").get("formCreerClientName").asText();
+        String adresseClient =  json.get("form").get("formCreerClientAdress").asText();
+        String codePostal =  json.get("form").get("formCreerClientZipCode").asText();
+        String ville =  json.get("form").get("formCreerClientCity").asText();
+        String pays =  json.get("form").get("formCreerClientCountry").asText();
+        int priorite = json.get("priorite").asInt();
+        Error error = checkCreationClient(nomClient,adresseClient,codePostal,ville,pays);
+
         Adresse adresse = new Adresse(adresseClient,codePostal,ville,pays);
         List<Contact> listC = new BeanList<>();
         Client client = new Client(nomClient,priorite,false, adresse, listC, null);
@@ -90,7 +94,6 @@ public class ClientController extends Controller {
             error.clientExiste = true;
         }
         if(error.hasErrorClient()) {
-            System.out.println("ERREUUUUUURRRRR");
             return badRequest(Json.toJson(error));
         }else {
             adresse.save();
@@ -173,13 +176,100 @@ public class ClientController extends Controller {
         {
             error.telIncorrecteContact = true;
         }
-        //TODO : contact existe deja ?
+
+        List<Contact> lC = Contact.find.where().eq("email",email).findList();
+        if(!lC.isEmpty()){
+            error.contactExiste = true;
+        }
+
         if(error.hasErrorContact()){
             return badRequest(Json.toJson(error));
         }else{
             Contact c = new Contact(nom,prenom, email,tel);
             return ok(Json.toJson(c));
         }
+    }
+
+    public Result modifierClient(Long idClient){
+        JsonNode json = request().body().asJson();
+        String nom = json.get("form").get("name").asText();
+        String adress = json.get("form").get("adress").asText();
+        String zip = json.get("form").get("zip").asText();
+        String ville = json.get("form").get("city").asText();
+        String pays = json.get("form").get("country").asText();
+        int priorite = json.get("priorite").asInt();
+
+        Error error = checkCreationClient(nom,adress,zip,ville,pays);
+        // Check si erreur ou pas au niveau du client
+        //Client client = new Client(nomClient,priorite,false, adresse, listC, null);
+
+        //List<Client> lClient = Client.getAll();
+        //if(lClient.contains(client)){
+        //  error.clientExiste = true;
+        //}
+        //Si adresse existe deja, pas de modification fait
+        if(error.hasErrorClient()) {
+            return badRequest(Json.toJson(error));
+        }else {
+            Adresse adresse = new Adresse(adress,zip,ville,pays);
+            Client client = Client.find.byId(idClient);
+            if(!client.adresseClient.equals(adresse)){
+                //adresse is not the same
+                System.out.println("PAS LE MÊME");
+                client.adresseClient.adresse = adress;
+                client.adresseClient.zipCode = zip;
+                client.adresseClient.pays = pays;
+                client.adresseClient.ville = ville;
+                client.adresseClient.save();
+            }
+            if(!client.priorite.equals(priorite)){
+                client.priorite = priorite;
+            }
+            // Ajout nouveau contact
+            // parcours du json
+            //System.out.println(json.get("table").elements());
+            Iterator<JsonNode> elements = json.get("table").elements();
+            List<Contact> listClient = new BeanList<>();
+            while(elements.hasNext()){
+                JsonNode contact = elements.next();
+                Contact c = new Contact(contact.get("nom").asText(),contact.get("prenom").asText(), contact.get("email").asText(),contact.get("telephone").asText(), new BeanList<Tache>());
+                c.save();
+                listClient.add(c);
+            }
+            client.listeContacts.addAll(listClient);
+            client.save();
+            for(Contact c : listClient){
+                c.client = client;
+                c.save();
+            }
+
+            // mis de clients en archiver si il y a
+            Iterator<JsonNode> archiverContact = json.get("contact").elements();
+            while(archiverContact.hasNext()){
+                JsonNode contactArchiver = archiverContact.next();
+                Contact tmp = Contact.find.byId(contactArchiver.get("idContact").asLong());
+                tmp.archive = true;
+                tmp.save();
+            }
+
+
+            //mis a jour des projet archive
+            Iterator<JsonNode> archiverProjet = json.get("projet").elements();
+            while(archiverProjet.hasNext()){
+                JsonNode projetArchiver = archiverProjet.next();
+                System.out.println(projetArchiver.get("idProjet").asText());
+                Projet p = Projet.find.byId(projetArchiver.get("idProjet").asLong());
+                p.archive = true;
+                p.save();
+                System.out.println(p.nom + "     "+p.archive);
+            }
+            client.save();
+            for(Projet p : client.listeProjets){
+                System.out.println(p.archive);
+            }
+            return ok(Json.toJson(client));
+        }
+
     }
 
 }

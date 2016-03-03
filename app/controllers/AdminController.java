@@ -29,7 +29,13 @@ public class AdminController extends Controller{
     }
 
     public Result afficherAdminProjets() {
+        List<Projet> lp =  Projet.find.all();
+        System.out.println(lp.size());
+        for(Projet p : lp){
+            System.out.println(lp);
+        }
         return ok(adminProjets.render("Admin Projets", Projet.find.all()));
+
     }
 
     public Result afficherAdminUtilisateur() {

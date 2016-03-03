@@ -190,3 +190,4 @@ mailOrPasswordInvalid=Wrong email or password
 messageWelcomeLogin = Welcome on myProjects
 messageWelcomeDescription = myProjects, management website and monitoring project
 forgottenPassword = Forgotten password ?
+contactExist = Contact already exist

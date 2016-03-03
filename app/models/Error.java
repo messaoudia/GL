@@ -9,11 +9,11 @@ public class Error
     public boolean userExist;
     public boolean nomClientVide, nomClientTropLong;
     public boolean adresseVide, adresseTropLong;
-    public boolean codePostalVide, codePostaleTropLong;
+    public boolean codePostalVide, codePostalTropLong;
     public boolean villeVide,villeTropLong;
     public boolean paysVide, paysTropLong;
     public boolean descriptionTropLong;
-    public boolean clientExiste;
+    public boolean clientExiste,contactExiste;
 
     public boolean nomProjetVide, nomProjetTropLong;
     public boolean dateThDebutProjetVide,dateThFinProjetVide;
@@ -41,11 +41,11 @@ public class Error
     public boolean hasErrorContact() {
         return nomVideContact || nomTropLongContact || prenomVideContact || prenomTropLongContact || emailVideContact
                 || emailIncorrecteContact || telVideContact || telIncorrecteContact || telTropLongContact || emailTropLongContact
-                || nomIncorrectContact ||prenomIncorrectContact;
+                || nomIncorrectContact ||prenomIncorrectContact || contactExiste;
     }
 
     public boolean hasErrorClient(){
-        return nomClientVide || nomClientTropLong || adresseVide || adresseTropLong || codePostalVide || codePostaleTropLong
+        return nomClientVide || nomClientTropLong || adresseVide || adresseTropLong || codePostalVide || codePostalTropLong
                 || villeVide || villeTropLong || paysVide || paysTropLong || clientExiste;
     }
 

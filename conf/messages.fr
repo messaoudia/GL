@@ -191,3 +191,4 @@ mailOrPasswordInvalid= Email ou mot de passe incorrect
 messageWelcomeLogin = Bienvenue sur myProjects
 messageWelcomeDescription = myProjects, solution de gestion et de suivi de projets
 forgottenPassword = messageWelcomeDescription
+contactExist = le contact existe déjà

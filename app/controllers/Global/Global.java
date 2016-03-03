@@ -49,8 +49,10 @@ public class Global extends GlobalSettings {
             });
 
             Projet.find.all().stream().forEach(projet -> {
-                Logger.debug("Projet:" + projet.chargeRestante);
-                Logger.debug("Projet:" + projet.chargeConsommee);
+                Logger.debug("Projet: "+projet.nom);
+                Logger.debug("Projet: charge Restante " + projet.chargeRestante);
+                Logger.debug("Projet: charge consomme " + projet.chargeConsommee);
+                Logger.debug("Projet: avancement " + projet.avancementGlobal);
 
             });
 
