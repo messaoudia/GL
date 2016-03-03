@@ -156,21 +156,40 @@
             <!-- Menu -->
         <script src="/js/menu.js"></script>
 
+            <!-- Dashboard -->
+        <script src="/js/dashboard.js"></script>
+
         @scripts
         <script>
-                var changeModeDraftProjet = function(idProjet){
-                    console.log("Je suis la");
-                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
-                        console.log("Je suis checked");
-                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
-                        $('.id-tache').hide();
-                    }
-                    else{
-                        console.log("Je suis pas checked");
-                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
-                        $('.id-tache').show();
-                    }
-                }
+                 var changeModeDraftProjet = function(idProjet){
+                     console.log("Je suis la");
+                     if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                         console.log("Je suis checked");
+                         $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                         $('.id-tache').hide();
+                     }
+                     else{
+                         console.log("Je suis pas checked");
+                         var draftParsedAsJson = parseDraft(idProjet);
+
+                         $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                         $('.id-tache').show();
+
+
+                         console.log(draftParsedAsJson);
+                         jsRoutes.controllers.ProjetController.sendDraf().ajax({
+                             data: draftParsedAsJson,
+                             dataType: 'json',
+                             contentType: "application/json",
+                             success : function(data) {
+                                 console.log(data);
+                             },
+                             error: function(errorMessage){
+                                 console.error(errorMessage);
+                             }
+                         });
+                     }
+                 }
 
                 var changeModeDraftClient = function(idProjet){
                     console.log("Je suis la");
@@ -1637,75 +1656,6 @@
                     });
                 }
 
-                var modifierTache = function (btn) {
-                    var form = $(btn).attr("form");
-                    form = "#"+form;
-                    var serialize = $(form).serialize();
-                    console.log(serialize);
-
-                    //IDTACHE
-                    var idTache = $('#formModifierTache').attr('value');
-
-                    //PREDECESSEUR
-                    var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
-                    console.log("idPredecesseur"+idPredecesseur);
-
-                    var tabSuccesseurs = [];
-                    //SUCCESSEUR
-                    $("#form-tache-successeur option").each(function() {
-                        if($(this).is(':selected')){
-                            console.log("selected : "+$(this).val());
-                            tabSuccesseurs.push($(this).val());
-                        }
-                    });
-
-                    //RESPONSABLE DE TACHE
-                    var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
-                    console.log("idReponsableTache"+idResponsableTache);
-
-                    //INTERLOCUTEURS EXTERNES
-                    var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
-                    var tabInterlocuteurs = [];
-
-                    for (i = 0; i < nbInterlocuteurs; i++) {
-                        if($("#checkbox-interlocuteur-"+i).is(':checked')){
-                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
-                            tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
-                        }
-                    }
-
-                    var dataToSend = serialize+"&id-tache="+idTache+"&predecesseur="+idPredecesseur;
-                    dataToSend += "&successeurs=";
-
-                    for (var i = 0; i < tabSuccesseurs.length; i++){
-                        dataToSend += tabSuccesseurs[i]+",";
-                    }
-
-                    dataToSend += "&responsable="+idResponsableTache;
-
-                    dataToSend += "&interlocuteurs=";
-
-                    for (var i = 0; i < tabInterlocuteurs.length; i++){
-                        dataToSend += tabInterlocuteurs[i]+",";
-                    }
-
-                    console.log("Data SEND : "+dataToSend);
-                    //Ajax call submit form
-                    jsRoutes.controllers.DashboardController.modifierTache().ajax({
-                        data: dataToSend,
-                        success : function(data) {
-                            console.log("SUCCESS");
-                        },
-                        error: function(errorMessage,codeErreur){
-                            console.log(codeErreur+" "+errorMessage);
-                        }
-
-                    });
-
-
-                }
-
-
                 $(document).ready(function () {
                     $('#checkbox-notif-all-selected').click(function() {
                         if($('#checkbox-notif-all-selected').is(':checked')){
@@ -2910,6 +2860,67 @@
                 $(document).on("click","#exporter-client", function(event){
                     window.open("@routes.ClientController.getClientsAsCSV");
                 });
+
+
+
+                 //####################################################################
+                 //                         DRAFT PARSING
+                 //####################################################################
+
+
+                 function parseDraft(idProjet){
+                     function ajoutTacheFille(tacheMere,tache){
+                         tacheMere["childrens"].push(tache);
+                     }
+
+                     function creerTache(tacheId){
+                         var tache={};
+                         tache["id"]=tacheId;
+                         tache["childrens"]=new Array();
+                         return tache;
+                     }
+
+                     var taches = {};
+                     taches["projectId"] = idProjet;
+                     taches["taches"] = new Array();
+
+                     var processNodes = function(currentElement, depth, taches, parent) {
+                         var currentTache;
+                         if($(currentElement).is("li")){
+                             currentTache=creerTache($(currentElement).attr('data-id'));
+                             console.log("depth: "+depth);
+                             if(depth==1){
+                                 taches["taches"].push(currentTache);
+                             }
+                             else{
+                                 ajoutTacheFille(parent,currentTache);
+                             }
+
+                             console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
+                         }
+
+                         if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
+
+                             $(currentElement).children().eq(1).children().each(function unFunction(element){
+                                 depth=depth+1;
+                                 processNodes($(this),depth, taches, currentTache);
+                             });
+                         }
+                     }
+
+
+                     var depth =1;
+                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
+                     {
+                         processNodes(this, depth, taches, null);
+
+                     });
+                     var json = JSON.stringify(taches);
+                     console.log(json);
+                     return json;
+                 }
+
+                 //####################################################################
 
         </script>
     </body>
