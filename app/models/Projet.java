@@ -855,9 +855,6 @@ public class Projet extends EntiteSecurise {
         else return false;
     }*/
 
-    /**
-     * TODO testme
-     */
     public void updateAvancementGlobal() {
         Double chargeConsommeeGlobal = 0.0;
         Double chargeRestanteGlobal = 0.0;
