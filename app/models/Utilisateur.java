@@ -275,9 +275,10 @@ public class Utilisateur extends Personne {
      **/
     public List<Tache> listTachesDansProjetNonResponsableAAfficher(Projet projet) {
         List<Tache> taches = listTachesDansProjetNonResponsable(projet);
-        for (Tache tache : taches) {
-            if (enfantIsPresent(tache.enfants(), taches)) {
-                removeEnfants(tache, taches);
+        for (int i = 0; i < taches.size(); i++) {
+            if (enfantIsPresent(taches.get(i).enfants(), taches)) {
+                removeEnfants(taches.get(i), taches);
+                i--;
             }
         }
         return taches;
@@ -293,10 +294,11 @@ public class Utilisateur extends Personne {
 
     private void removeEnfants(Tache tache, List<Tache> taches) {
         if (tache.hasEnfant()) {
-            for (Tache enfant : tache.enfants()) {
-                if (taches.contains(enfant)) {
-                    taches.remove(enfant);
-                    removeEnfants(enfant, taches);
+            for (int i = 0; i < tache.enfants().size(); i++) {
+                if (taches.contains(tache.enfants().get(i))) {
+                    taches.remove(tache.enfants().get(i));
+                    removeEnfants(tache.enfants().get(i), taches);
+                    i--;
                 }
             }
         }
