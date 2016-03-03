@@ -93,6 +93,11 @@ public class Notification extends Model {
         }
     }
 
+    /**
+     * Envoie la notification à l'utilisateur par e-mail
+     * @param user
+     * @param notification
+     */
     private static void sendEmail(Utilisateur user, Notification notification){
         final Email email = new Email();
         email.setSubject(notification.title);
@@ -298,7 +303,7 @@ public class Notification extends Model {
      * qui se terminent dans moins de 5 jours
      * @param utilisateur
      */
-    public static void sendNotificationTacheBientotProche(Utilisateur utilisateur){
+    public static void sendNotificationTacheBientotProche(Utilisateur utilisateur, Notification notification){
         Calendar cal = Calendar.getInstance();
         Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
         int LIMIT_DATE_ECHEANCE = 5;
@@ -308,7 +313,6 @@ public class Notification extends Model {
 
         if(utilisateur.langue.equals(Utilisateur.LANGUE_FR)){
             title = "Tâche(s) devant être terminée(s) dans moins de " + LIMIT_DATE_ECHEANCE + " jours";
-            /** TODO : changer en prenant l'attribut ? **/
             for(Tache tache  : utilisateur.listTaches()){
                 long nbDeJoursRestants = Utils.differenceNbJours(today.getTime(), tache.dateFinTard);
                 if(nbDeJoursRestants <= LIMIT_DATE_ECHEANCE){
@@ -334,11 +338,67 @@ public class Notification extends Model {
         }
 
         if(!message.isEmpty()){
-            Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
+            if(notification.title != null && !notification.title.isEmpty()){
+                notification.title += " - " + title;
+            }
+            else {
+                notification.title = title;
+            }
+            if(notification.contentNotification != null && !notification.contentNotification.isEmpty()){
+                notification.contentNotification += "\n" + message;
+            }
+            else {
+                notification.contentNotification = message;
+            }
             notification.save();
-            utilisateur.addNotification(notification);
-            utilisateur.update();
-            sendEmail(utilisateur, notification);
+        }
+    }
+
+    /**
+     * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
+     * qui sont retardées
+     * @param utilisateur
+     */
+    public static void sendNotificationTacheRetardee(Utilisateur utilisateur, Notification notification){
+        String title = "";
+        String message = "";
+
+        if(utilisateur.langue.equals(Utilisateur.LANGUE_FR)){
+            title = "Tâche(s) retardée(s)";
+            for(Tache tache  : utilisateur.listTaches()){
+                if(tache.estRetardee()){
+                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
+                            + tache.dateFinTard + "\n";
+                }
+            }
+        }
+        /** TODO : a faire en anglais **/
+        else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+            title = "Tâche(s) retardée(s)";
+            for(Tache tache  : utilisateur.listTaches()){
+                if(tache.estRetardee()){
+                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
+                            + tache.dateFinTard + "\n";
+                }
+            }
+        }
+
+        if(!message.isEmpty()){
+            if(notification.title != null && !notification.title.isEmpty()){
+                notification.title += " - " + title;
+            }
+            else {
+                notification.title = title;
+            }
+            if(notification.contentNotification != null && !notification.contentNotification.isEmpty()){
+                notification.contentNotification += "\n" + message;
+            }
+            else {
+                notification.contentNotification = message;
+            }
+            notification.save();
         }
     }
 
