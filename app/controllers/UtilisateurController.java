@@ -330,6 +330,7 @@ public class UtilisateurController extends Controller {
         boolean confirmNewPasswordCorrect = newPassword.equals(confirmNewPassword);
         if(previousPasswordCorrect && newPasswordCorrect && confirmNewPasswordCorrect){
             user.setPassword(newPassword);
+            user.save();
             return ok();
         }
         return badRequest(Json.toJson(ImmutableMap.of("previousPasswordCorrect", previousPasswordCorrect, "newPasswordCorrect", newPasswordCorrect,

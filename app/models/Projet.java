@@ -995,4 +995,6 @@ public class Projet extends EntiteSecurise {
         });
         return taches;
     }
+
+    
 }
