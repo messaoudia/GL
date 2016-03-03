@@ -1067,5 +1067,40 @@ public class ModelManagerTest {
         });
     }
 
+    @Test
+    public void testUtilisateurCheckPassword() {
+        running(fakeApplication(), ()-> {
+            String password = "aZERTY123456";
+            String passwordF = "aZERTY123457";
 
+            /*
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.save();
+            utilisateur.setPassword(password);
+            utilisateur.save();
+            */
+
+            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, password);
+            utilisateur.save();
+
+            assertNotNull(utilisateur.id);
+            Logger.debug(utilisateur.toString());
+            Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
+            Logger.debug(utilisateur2.toString());
+
+            assertEquals(utilisateur,utilisateur2);
+            //Logger.debug("Utilisateur Id: " + utilisateur.id);
+            //Logger.debug("Utilisateur Id: " + Utilisateur.find.byId(utilisateur.id).id);
+            Logger.debug("hachage: " + utilisateur2.hachage(utilisateur2.id, password));
+            Logger.debug("this.pwd: " + utilisateur2.getPassword());
+            Logger.debug("check pwd: " + utilisateur2.hachage(utilisateur2.id, password).equals(utilisateur2.getPassword()));
+
+            assertTrue(utilisateur2.checkPassword(password));
+            assertFalse(utilisateur2.checkPassword(passwordF));
+        });
+    }
 }
