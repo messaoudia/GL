@@ -40,9 +40,9 @@
                         <div class="ibox float-e-margins">
                             <div class="ibox-content">
                                 <form id="form-notif">
-                                    <h2>@Messages("notifications") (@utilisateur.nbNotificationsNonLues())</h2>
-                                    <a class="btn btn-white btn-bitbucket"><i class="fa fa-eye"></i></a>
-                                    <a class="btn btn-white btn-bitbucket"><i class="fa fa-trash"></i></a>
+                                    <h2>@Messages("notifications") (<span id="nbNotifNonLues-pageNotif">@utilisateur.nbNotificationsNonLues()</span>)</h2>
+                                    <a class="btn btn-white btn-bitbucket" onclick="clickNotificationsLues(@utilisateur.id)"><i class="fa fa-eye"></i></a>
+                                    <a class="btn btn-white btn-bitbucket" onclick="clickNotificationsSupprimer(@utilisateur.id)"><i class="fa fa-trash"></i></a>
                                     @if(utilisateur.listNotifications().isEmpty()) {
                                         <div class="div-center"><h3>@Messages("noneNotification")</h3></div>
                                     } else {
@@ -50,7 +50,12 @@
                                             <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
                                                 <thead>
                                                     <tr>
-                                                        <th></th>
+                                                        <th data-sort-ignore="true">
+                                                            <div class="checkbox checkbox-success checkbox-inline">
+                                                                <input id="checkbox-notif-all-selected" type="checkbox">
+                                                                <label for="checkbox-notif-all-selected"></label>
+                                                            </div>
+                                                        </th>
                                                         <th>@Messages("from")</th>
                                                         <th>@Messages("object")</th>
                                                         <th>@Messages("date")</th>
@@ -67,18 +72,18 @@
                                                         }
 
                                                     <td>
-                                                        <div class="checkbox checkbox-success checkbox-inline">
-                                                            <input id="checkbox-notif-@notification.id" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-@notification.id','notif-@notification.id')">
+                                                        <div class="checkbox checkbox-success checkbox-inline checkbox-notif">
+                                                            <input name="@notification.id" id="checkbox-notif-@notification.id" type="checkbox" onclick="clickOnCheckboxNotification('checkbox-notif-@notification.id','notif-@notification.id')">
                                                             <label for="checkbox-notif-@notification.id"></label>
                                                         </div>
                                                     </td>
-
+                                                    <td>@notification.utilisateur.nom @notification.utilisateur.prenom</td>
                                                     <td>@notification.title</td>
-                                                    <td>06/02/2016 (15:15) (TODO)</td>
+                                                    <td>@notification.dateEnvoi</td>
                                                     @if(notification.etatLecture == true) {
-                                                        <td>@Messages("read")</td>
+                                                        <td id="notif-etatLecture-@notification.id">@Messages("read")</td>
                                                     } else {
-                                                        <td>@Messages("unread")</td>
+                                                        <td id="notif-etatLecture-@notification.id">@Messages("unread")</td>
                                                     }
                                                     <td>
                                                         <p>@notification.contentNotification</p>

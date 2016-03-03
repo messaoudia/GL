@@ -496,6 +496,8 @@
                                                                 <a><i id="notifTache" onclick="notifPopupTache(this)" class="fa fa-bell-slash"></i></a> <!-- TODO NOTIFICATION TACHE -->
                                                                 <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-tdb"><i class="fa fa-trash"></i></a>
                                                                 <a id="btn-modifierTache"><i class="fa fa-pencil"></i></a>
+                                                                <a id="btn-indisponibleTache" onclick="updateIndisponibleTache()"><i class="fa fa-lock"></i></a>
+
                                                             </div>
                                                             <p id="nomTache-consulter-tdb" class="titre-tache-modal"></p>
                                                             <div id="descriptionTache-consulter-tdb" class="description-modal-tache"></div>
@@ -626,6 +628,7 @@
                                                                     <img id="imgCritique-modifierTache-tdb" src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                                                     @Messages("task") <p id="idTache-modifier-tdb" style="display:inline-block;"></p>
                                                                     <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-tdb"><i class="fa fa-trash"></i></a>
+                                                                    <a id="btn-indisponibleTache-modifier" onclick="updateIndisponibleTacheModifier()"><i class="fa fa-lock"></i></a>
                                                                     <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
                                                                 </div>
                                                                     <!-- Form nom tache -->
@@ -733,7 +736,7 @@
                                                                     <label class="col-sm-6 control-label font-noraml" for="formModifierChargeInitiale" style="text-align: left">@Messages("initialWorload")</label>
                                                                     <div class="col-sm-6">
                                                                         <div class="input-group">
-                                                                            <input type="number" id="formModifierChargeInitiale" name="form-modif-tache-ch-init" class="form-control" value="0" min="0" step="0.5">
+                                                                            <input type="number" name="form-modif-tache-ch-init" class="form-control formModifierChargeInitiale" value="0" min="0" step="0.5">
                                                                             <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;"></span>
                                                                         </div>
                                                                     </div>

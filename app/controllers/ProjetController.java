@@ -5,31 +5,35 @@ import models.*;
 import models.Error;
 import models.Utils.Utils;
 import play.Logger;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.afficheProjet;
 import views.html.creerProjet;
 import views.html.projet;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
-public class ProjetController extends Controller{
+public class ProjetController extends Controller {
 
     public Result afficherProjets() {
-        return ok(projet.render("Projets", Utilisateur.getAllNonArchives().get(0)));   // provisoir en attendant login
+        return ok(projet.render("Projets", Login.getUtilisateurConnecte()));   // provisoir en attendant login
     }
 
-    public Result afficherCreerProjet(){
+    public Result afficherCreerProjet() {
         return ok(creerProjet.render("Créer Projet", Utilisateur.getAllNonArchives(), Client.getAllNonArchives()));
     }
 
     public Result afficherProjetsClient(long idClient) {
         Client client = Client.find.byId(idClient);
-        Logger.debug("Projet Client ID : "+idClient);
-        return ok(Json.toJson(models.Projet.find.where().eq("client",client).findList()));
+        Logger.debug("Projet Client ID : " + idClient);
+        return ok(Json.toJson(models.Projet.find.where().eq("client", client).findList()));
     }
 
     public Result creerProjet() {
@@ -41,7 +45,7 @@ public class ProjetController extends Controller{
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
         } else if (nom.length() > 30) {
-            error.nomProjetTropLong= true;
+            error.nomProjetTropLong = true;
         }
         Utilisateur responsableProjet = Utilisateur.find.byId(Long.valueOf(map.get("responsableProjet")[0]));
         Client client = Client.find.byId(Long.valueOf(map.get("client")[0]));
@@ -98,11 +102,118 @@ public class ProjetController extends Controller{
         }
     }
 
-    public Result sendDraf() {
-        JsonNode json = request().body().asJson();
+    public Result updateTacheToIndisponible(Long idTache) {
+        Tache t = Tache.find.byId(idTache);
 
-        Logger.debug(json.toString());
-        return ok(json.toString());
+        if (t == null) {
+            return badRequest();
+        }
+
+        t.disponible = false;
+        t.save();
+        System.out.println("t est sav => indispo " + t);
+
+        return ok();
+    }
+
+    public Result updateTacheToDisponible(Long idTache) {
+        Tache t = Tache.find.byId(idTache);
+
+        if (t == null) {
+            return badRequest();
+        }
+
+        t.disponible = true;
+        t.save();
+        System.out.println("t est sav => dispo " + t);
+        return ok();
+    }
+
+    public Result sendDraf() {
+        JsonNode jsonDraft = request().body().asJson();
+
+        Logger.debug(jsonDraft.toString());
+
+        parseDraftToProject(jsonDraft);
+
+        return ok(jsonDraft.toString());
+    }
+
+    @Transactional
+    public static Projet parseDraftToProject(JsonNode draft) {
+        Projet projet = Projet.find.byId(draft.get("projectId").asLong());
+
+        final List<Long> tacheDuProjetIds = elementsToStream(draft.get("taches").elements()).map(tache -> tache.get("id").asLong()).collect(Collectors.toList());
+        final List<Tache> taches = Tache.find.where().idIn(tacheDuProjetIds).findList();
+
+
+        draft.get("taches").findValuesAsText("id").forEach(Logger::debug);
+
+        projet.listTaches = taches; //TODO Bring all tache with inscestor
+        projet.save();
+
+        final List<JsonNode> tachesNodes = elementsToStream(draft.get("taches").elements()).collect(Collectors.toList());
+        draft.get("taches").elements();
+        Integer index = 1;
+        for (JsonNode tacheNode : tachesNodes) {
+            dfsTraversalJsNode(null, tacheNode, index++);
+            Logger.debug("Index: " + index.toString() + ", tacheId: " + tacheNode.get("id"));
+        }
+
+
+        return projet;
+    }
+
+    @Transactional
+    public static void dfsTraversalJsNode(JsonNode parentTacheNode, JsonNode currentTacheNode, Integer index) {
+        final Tache parentTache = parentTacheNode != null ? Tache.find.byId(parentTacheNode.get("id").asLong()) : null;
+        final Tache currentTache = Tache.find.byId(currentTacheNode.get("id").asLong());
+
+        final List<Tache> childrenTaches = elementsToStream(currentTacheNode.get("childrens")
+                .elements()).map(tache -> Tache.find.byId(tache.get("id").asLong())).collect(Collectors.toList());
+
+        if (parentTache == null) {
+            currentTache.idTache = index.toString();
+        } else {
+
+        }
+
+        // TODO Assign children to parent and parent to children
+        currentTache.enfants = childrenTaches;
+        currentTache.parent = parentTache;
+        currentTache.update();
+
+        //final Long parentId = parentTacheNode == null ? null : parentTacheNode.get("id").asLong();
+        //final Long currentId = currentTacheNode == null ? null : currentTacheNode.get("id").asLong();
+        //Logger.debug(currentId + " , parent: " + parentId);
+
+
+        //Iterator<JsonNode> childrenIterator = currentTacheNode.get("childrens").elements();
+        List<JsonNode> childrens = elementsToStream(currentTacheNode.get("childrens").elements()).collect(Collectors.toList());
+
+        Integer indexEnfant = 1;
+        for (int i = 0; i < childrens.size(); i++) {
+            JsonNode children = childrens.get(0);
+            Tache childrenTache = Tache.find.byId(children.get("id").asLong(0));
+            childrenTache.idTache = currentTache.idTache + "." + (indexEnfant++);
+            childrenTache.update();
+
+            dfsTraversalJsNode(currentTacheNode, children, index);
+        }
+    }
+
+    public static Stream<JsonNode> elementsToStream(Iterator<JsonNode> iterator) {
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, /*Spliterator.DISTINCT | Spliterator.SORTED | */Spliterator.ORDERED), false).sorted(new Comparator<JsonNode>() {
+            @Override
+            public int compare(JsonNode o1, JsonNode o2) {
+                return o1.get("index").asInt() - o2.get("index").asInt();
+            }
+        });
+    }
+
+    public Result afficheProjet(Long idProjet) {
+        Logger.debug(Login.getUtilisateurConnecte().toString());
+        return ok(afficheProjet.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte()));
     }
 
 }

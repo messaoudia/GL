@@ -48,7 +48,7 @@ public class Tache extends EntiteSecurise {
     public Double chargeRestante;
     public Integer priorite = 0;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "listTachesCorrespondant")
+    @ManyToMany(mappedBy = "listTachesCorrespondant")
     public List<Contact> interlocuteurs;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -80,7 +80,7 @@ public class Tache extends EntiteSecurise {
     public boolean disponible;
 
     // TODO @qqch?
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     public List<Utilisateur> utilisateursNotifications;
 
     public Tache(String nom, String description, Utilisateur responsableTache, Integer niveau, Boolean critique, Date dateDebut,
@@ -463,6 +463,11 @@ public class Tache extends EntiteSecurise {
      */
     public boolean estDisponible() {
         return disponible;
+    }
+
+    public boolean estRetardee() {
+        //return dateFinTard.before(Calendar.getInstance().getTime());
+        return Utils.before(dateFinTard, Calendar.getInstance().getTime());
     }
 
     @JsonSerialize

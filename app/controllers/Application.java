@@ -35,7 +35,7 @@ public class Application extends Controller {
         // return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
         //  String user = session("connected");
         if (Login.isUtilisateurConnecte()) {
-            return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
+            return ok(dashboard.render("Dashboard", Login.getUtilisateurConnecte()));
         } else {
             return redirect(routes.Login.index());
         }

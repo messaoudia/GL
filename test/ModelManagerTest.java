@@ -148,15 +148,16 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache1 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,null,null,null,true);
             tache1.save();
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
-            Tache tache2 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
+            Tache tache2 = new Tache("Tache2","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
                     Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
             tache2.save();
 
             try {
+                // 1er test
                 projet.creerTacheInitialisationProjet(tache1);
                 // tache2: idTache=1.1; tache1: idTache=1
                 projet.creerSousTache(tache2, tache1);
@@ -170,6 +171,45 @@ public class ModelManagerTest {
                 assertEquals(tache1Selected.idTache, "1");
                 assertEquals(tache2Selected.idTache, "1.1");
                 assertTrue(tache1Selected.enfants().contains(tache2Selected));
+
+                // 2eme test
+                //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
+                Tache tache3 = new Tache("Tache3","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
+                        Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null,true);
+                tache3.save();
+                projet.creerTacheEnDessous(tache3,tache2);
+                assertEquals(tache1Selected.idTache, "1");
+                assertEquals(tache2Selected.idTache, "1.1");
+                assertEquals(Tache.find.byId(tache3.id).idTache, "1.2");
+
+                Tache tache4 = new Tache("Tache4","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
+                        Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null,true);
+                tache4.save();
+                projet.creerSousTache(tache4, tache3);
+                assertEquals(tache1Selected.idTache, "1");
+                assertEquals(tache2Selected.idTache, "1.1");
+                assertEquals(Tache.find.byId(tache3.id).idTache, "1.2");
+                assertEquals(Tache.find.byId(tache4.id).idTache, "1.2.1");
+                assertTrue(Tache.find.byId(tache1.id).enfants().contains(Tache.find.byId(tache2.id)));
+                assertTrue(Tache.find.byId(tache1.id).enfants().contains(Tache.find.byId(tache3.id)));
+                assertTrue(Tache.find.byId(tache3.id).enfants().contains(Tache.find.byId(tache4.id)));
+
+                assertFalse(Tache.find.byId(tache1.id).enfants().contains(Tache.find.byId(tache4.id)));
+                assertFalse(Tache.find.byId(tache2.id).enfants().contains(Tache.find.byId(tache3.id)));
+                assertFalse(Tache.find.byId(tache2.id).enfants().contains(Tache.find.byId(tache4.id)));
+
+                assertTrue(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache2.id)));
+                assertFalse(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache1.id)));
+                assertFalse(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache4.id)));
+                assertFalse(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache3.id)));
+                assertTrue(Tache.find.byId(tache4.id).getSuccesseurs().isEmpty());
+
+                assertTrue(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache3.id)));
+                assertFalse(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache1.id)));
+                assertFalse(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache2.id)));
+                assertTrue(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache4.id)));
+                assertTrue(!Tache.find.byId(tache2.id).hasPredecesseur());
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -564,21 +604,13 @@ public class ModelManagerTest {
 
                 // 3ème test
                 // Ajouter les sous taches de TacheF(tacheH, tacheI, tacheJ, tacheK, tacheL et tacheM)
-                //TODO: problem!!!
                 tacheF.dateFinTard = Utils.getDateFrom(2016, 3, 5);
                 tacheF.dateFinTot = Utils.getDateFrom(2016, 3, 5);
-
-                if(Utils.getDateFrom(2016, 3, 5).before(Utils.getDateFrom(2016, 3, 5))) {
-                    Logger.debug("****");
-                } else {
-                    Logger.debug("----");
-                }
-
                 tacheF.save();
 
                 //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,5), dateFinTard: (2016,2,5)
                 Tache tacheH = new Tache("TacheH", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 4),
-                        Utils.getDateFrom(2016, 2, 5), Utils.getDateFrom(2016, 2, 5), 20D, 0D, 20D, null, null, null, null, null,true);
+                        Utils.getDateFrom(2016, 2, 5), Utils.getDateFrom(2016, 2, 5), 20D, 0D, 20D, null, null, tacheA, null, null,true);
                 tacheH.save();
 
                 //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
@@ -615,7 +647,7 @@ public class ModelManagerTest {
                 projet.creerTacheEnDessous(tacheM,tacheL);
 
                 // Afficher l'attribut critique de chaque tache
-
+                /*
                 Logger.debug("CRITIQUE");
                 Logger.debug("A:" + Tache.find.byId(tacheA.id).critique.toString());
                 Logger.debug("B:" + Tache.find.byId(tacheB.id).critique.toString());
@@ -631,146 +663,23 @@ public class ModelManagerTest {
                 Logger.debug("L:" + Tache.find.byId(tacheL.id).critique.toString());
                 Logger.debug("M:" + Tache.find.byId(tacheM.id).critique.toString());
                 Logger.debug("Z:" + Tache.find.byId(tacheZ.id).critique.toString());
+                */
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+                // Verifier le chemin critique
+                assertTrue(Tache.find.byId(tacheA.id).critique);
+                assertTrue(Tache.find.byId(tacheF.id).critique);
+                assertTrue(Tache.find.byId(tacheH.id).critique);
+                assertTrue(Tache.find.byId(tacheL.id).critique);
+                assertTrue(Tache.find.byId(tacheM.id).critique);
 
-    @Test
-    public void testCalculeCheminCritique_situation2() {
-        running(fakeApplication(), ()-> {
-            // 3ème test
-            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, "123456Aa");
-            utilisateur.save();
-
-            //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,4, dateDebutReel: 2016,2,2, dateFinReelTot: 2016,2,4, dateFinReelTard: 2016,2,4
-            Projet projet = new Projet("Site Apple","Développement du nouveau site d'Apple", utilisateur,
-                    Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,2),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null,null);
-            projet.save();
-
-            //tache dateDebut: (2016,2,2), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
-            Tache tacheA = new Tache("TacheA","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,2),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null,true);
-            tacheA.save();
-
-            //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
-            Tache tacheB = new Tache("TacheB","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null,true);
-            tacheB.save();
-
-            //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
-            Tache tacheC = new Tache("TacheC","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null,true);
-            tacheC.save();
-
-            //tache dateDebut: (2016,2,28), dateFinTot: (2016,3,3), dateFinTard: (2016,3,3)
-            Tache tacheD = new Tache("TacheD","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,28),
-                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,tacheC,null,null,true);
-            tacheD.save();
-
-            //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
-            Tache tacheE = new Tache("TacheE","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheB,null,null,true);
-            tacheE.save();
-
-            //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
-            Tache tacheF = new Tache("TacheF","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,3,5),Utils.getDateFrom(2016,3,5),20D,0D,20D,null,null,tacheA,null,null,true);
-            tacheF.save();
-
-            //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,5), dateFinTard: (2016,2,5)
-            Tache tacheH = new Tache("TacheH", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 4),
-                    Utils.getDateFrom(2016, 2, 5), Utils.getDateFrom(2016, 2, 5), 20D, 0D, 20D, null, null, null, null, null,true);
-            tacheH.save();
-
-            //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
-            Tache tacheI = new Tache("TacheI", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 5),
-                    Utils.getDateFrom(2016, 2, 10), Utils.getDateFrom(2016, 2, 10), 20D, 0D, 20D, null, null, tacheH, null, null,true);
-            tacheI.save();
-
-            //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,13), dateFinTard: (2016,2,13)
-            Tache tacheJ = new Tache("TacheJ", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 10),
-                    Utils.getDateFrom(2016, 2, 13), Utils.getDateFrom(2016, 2, 13), 20D, 0D, 20D, null, null, tacheI, null, null,true);
-            tacheJ.save();
-
-            //tache dateDebut: (2016,2,13), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
-            Tache tacheK = new Tache("TacheK", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 13),
-                    Utils.getDateFrom(2016, 2, 18), Utils.getDateFrom(2016, 2, 18), 20D, 0D, 20D, null, null, tacheJ, null, null, true);
-            tacheK.save();
-
-            //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
-            Tache tacheL = new Tache("TacheL", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 5),
-                    Utils.getDateFrom(2016, 2, 10), Utils.getDateFrom(2016, 2, 10), 20D, 0D, 20D, null, null, tacheH, null, null,true);
-            tacheL.save();
-
-            //tache dateDebut: (2016,2,10), dateFinTot: (2016,3,5), dateFinTard: (2016,3,5)
-            Tache tacheM = new Tache("TacheM", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 10),
-                    Utils.getDateFrom(2016, 3, 5), Utils.getDateFrom(2016, 3, 5), 20D, 0D, 20D, null, null, tacheL, null, null,true);
-            tacheM.save();
-
-            try {
-                projet.creerTacheInitialisationProjet(tacheA);
-                projet.creerTacheEnDessous(tacheB,tacheA);
-                projet.creerTacheEnDessous(tacheC,tacheB);
-                projet.creerTacheEnDessous(tacheD,tacheC);
-                projet.creerTacheEnDessous(tacheE,tacheB);
-                projet.creerTacheEnDessous(tacheF,tacheA);
-
-                projet.creerSousTache(tacheH,tacheF);
-
-                projet.creerTacheEnDessous(tacheI,tacheH);
-                projet.creerTacheEnDessous(tacheJ,tacheI);
-                projet.creerTacheEnDessous(tacheK,tacheJ);
-                projet.creerTacheEnDessous(tacheL,tacheH);
-                projet.creerTacheEnDessous(tacheM,tacheL);
-
-                //Projet projetSelected = Projet.find.byId(projet.id);
-                Tache tacheASelected = Tache.find.byId(tacheA.id);
-                Tache tacheBSelected = Tache.find.byId(tacheB.id);
-                Tache tacheCSelected = Tache.find.byId(tacheC.id);
-                Tache tacheDSelected = Tache.find.byId(tacheD.id);
-                Tache tacheESelected = Tache.find.byId(tacheE.id);
-                Tache tacheFSelected = Tache.find.byId(tacheF.id);
-
-                // Verifier les structure des taches de projet est bien MAJ
-                assertTrue(tacheASelected.getSuccesseurs().contains(tacheBSelected));
-                assertTrue(tacheASelected.getSuccesseurs().contains(tacheFSelected));
-                assertTrue(tacheBSelected.getSuccesseurs().contains(tacheCSelected));
-                assertTrue(tacheBSelected.getSuccesseurs().contains(tacheESelected));
-                assertTrue(tacheCSelected.getSuccesseurs().contains(tacheDSelected));
-
-                assertTrue(tacheFSelected.enfants().contains(Tache.find.byId(tacheH.id)));
-                assertTrue(tacheFSelected.enfants().contains(Tache.find.byId(tacheI.id)));
-                assertTrue(tacheFSelected.enfants().contains(Tache.find.byId(tacheJ.id)));
-                assertTrue(tacheFSelected.enfants().contains(Tache.find.byId(tacheK.id)));
-                assertTrue(tacheFSelected.enfants().contains(Tache.find.byId(tacheL.id)));
-                assertTrue(tacheFSelected.enfants().contains(Tache.find.byId(tacheM.id)));
-
-                assertTrue(Tache.find.byId(tacheH.id).getSuccesseurs().contains(Tache.find.byId(tacheI.id)));
-                assertTrue(Tache.find.byId(tacheH.id).getSuccesseurs().contains(Tache.find.byId(tacheL.id)));
-                assertTrue(Tache.find.byId(tacheI.id).getSuccesseurs().contains(Tache.find.byId(tacheJ.id)));
-                assertTrue(Tache.find.byId(tacheJ.id).getSuccesseurs().contains(Tache.find.byId(tacheK.id)));
-                assertTrue(Tache.find.byId(tacheL.id).getSuccesseurs().contains(Tache.find.byId(tacheM.id)));
-
-                // Afficher l'attribut critique de chaque tache
-
-                Logger.debug("CRITIQUE");
-                Logger.debug("A:" + Tache.find.byId(tacheA.id).critique.toString());
-                Logger.debug("B:" + Tache.find.byId(tacheB.id).critique.toString());
-                Logger.debug("C:" + Tache.find.byId(tacheC.id).critique.toString());
-                Logger.debug("D:" + Tache.find.byId(tacheD.id).critique.toString());
-                Logger.debug("E:" + Tache.find.byId(tacheE.id).critique.toString());
-                Logger.debug("F:" + Tache.find.byId(tacheF.id).critique.toString());
-                Logger.debug("H:" + Tache.find.byId(tacheH.id).critique.toString());
-                Logger.debug("I:" + Tache.find.byId(tacheI.id).critique.toString());
-                Logger.debug("J:" + Tache.find.byId(tacheJ.id).critique.toString());
-                Logger.debug("K:" + Tache.find.byId(tacheK.id).critique.toString());
-                Logger.debug("L:" + Tache.find.byId(tacheL.id).critique.toString());
-                Logger.debug("M:" + Tache.find.byId(tacheM.id).critique.toString());
-
+                assertFalse(Tache.find.byId(tacheB.id).critique);
+                assertFalse(Tache.find.byId(tacheC.id).critique);
+                assertFalse(Tache.find.byId(tacheD.id).critique);
+                assertFalse(Tache.find.byId(tacheE.id).critique);
+                assertFalse(Tache.find.byId(tacheI.id).critique);
+                assertFalse(Tache.find.byId(tacheJ.id).critique);
+                assertFalse(Tache.find.byId(tacheK.id).critique);
+                assertFalse(Tache.find.byId(tacheZ.id).critique);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1042,38 +951,6 @@ public class ModelManagerTest {
         });
     }
 
-    @Test
-    public void testExportContactClient(){
-        running(fakeApplication(), ()-> {
-
-            Client client = new Client("Microsoft",2,true, null,null, null);
-            client.save();
-            Logger.debug(client.toString());
-            assertNotNull(client.id);
-            assertEquals(client.listeContacts.size(),0);
-
-            List<Contact> listContacts = new BeanList<>();
-            Contact contact1 = new Contact("Jobsa","Stevea","s.j@apple.coma","0211465978",null);
-            Contact contact2 = new Contact("Jameas","Franka","f.j@apple.coma","0215461979",null);
-            listContacts.add(contact1);
-            listContacts.add(contact2);
-            client.importerListContacts(listContacts);
-
-            Logger.debug(contact1.toString());
-            Logger.debug(contact2.toString());
-            assertEquals(contact1,Contact.find.where().eq("nom","Jobsa").findUnique());
-            assertEquals(contact2,Contact.find.where().eq("nom","Jameas").findUnique());
-
-            List<Contact> listContacts2 = Client.find.byId(client.id).exporterContacts();
-
-            Logger.debug(listContacts.toString());
-            Logger.debug(listContacts2.toString());
-
-            assertTrue(Utils.isEqualList(listContacts, listContacts2));
-
-        });
-    }
-
     @Test(expected=IllegalArgumentException.class)
     public void testAffecterProjetClientException(){
         running(fakeApplication(), ()-> {
@@ -1178,6 +1055,7 @@ public class ModelManagerTest {
                 projet.creerTacheInitialisationProjet(tacheA);
                 projet.creerTacheEnDessous(tacheB,tacheA);
                 projet.creerTacheEnDessous(tacheC,tacheB);
+                projet.supprimerTache(tacheB);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1187,6 +1065,42 @@ public class ModelManagerTest {
             assertEquals(Tache.find.byId(tacheC.id).predecesseur,Tache.find.byId(tacheA.id));
             assertEquals(Tache.find.byId(tacheA.id).getSuccesseurs().get(0),Tache.find.byId(tacheC.id));
         });
+    }
 
+    @Test
+    public void testUtilisateurCheckPassword() {
+        running(fakeApplication(), ()-> {
+            String password = "aZERTY123456";
+            String passwordF = "aZERTY123457";
+
+            /*
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.nom = "G";
+            utilisateur.prenom = "B";
+            utilisateur.email = "g.b@gmail.com";
+            utilisateur.telephone = "1234567980";
+            utilisateur.save();
+            utilisateur.setPassword(password);
+            utilisateur.save();
+            */
+
+            Utilisateur utilisateur = new Utilisateur("Z", "Z", "z.z@gmail.com", "1234567980", true, password);
+            utilisateur.save();
+
+            assertNotNull(utilisateur.id);
+            Logger.debug(utilisateur.toString());
+            Utilisateur utilisateur2 = Utilisateur.find.byId(utilisateur.id);
+            Logger.debug(utilisateur2.toString());
+
+            assertEquals(utilisateur,utilisateur2);
+            //Logger.debug("Utilisateur Id: " + utilisateur.id);
+            //Logger.debug("Utilisateur Id: " + Utilisateur.find.byId(utilisateur.id).id);
+            Logger.debug("hachage: " + utilisateur2.hachage(utilisateur2.id, password));
+            Logger.debug("this.pwd: " + utilisateur2.getPassword());
+            Logger.debug("check pwd: " + utilisateur2.hachage(utilisateur2.id, password).equals(utilisateur2.getPassword()));
+
+            assertTrue(utilisateur2.checkPassword(password));
+            assertFalse(utilisateur2.checkPassword(passwordF));
+        });
     }
 }
