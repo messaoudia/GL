@@ -1,0 +1,453 @@
+@scripts = {
+    <script type="application/javascript">
+            // For simplification purpose
+            var doc = $(document);
+
+            // Waiting until the web page load all the scripts and the contents
+            doc.ready (function() {
+                var depth ="--"
+
+//
+//                // Build the tree :
+//                var buildTree = function(element, depth) {
+//                    depth
+//                    _.each(tree, function(item) {
+//                        var newContainer = document.createElement('div');
+//                        var nameText = document.createTextNode(item.name);
+//                        newContainer.appendChild(nameText);
+//
+//                        container.appendChild(newContainer);
+//                        if(item.tree) buildTree(item.tree, newContainer);
+//                    });
+//                }
+//
+//                buildTree(datas.tree, $('div#container')[0]);
+
+
+
+                function ajoutTacheFille(tacheMere,tache){
+                    tacheMere["childrens"].push(tache);
+                }
+
+
+                function creerTache(tacheId){
+                    var tache={};
+                    tache["id"]=tacheId;
+                    tache["childrens"]=new Array();
+                    return tache;
+                }
+
+
+                var taches = {};
+                taches["taches"] = new Array();
+
+//                taches["taches"].push(creerTache("1"));
+//                taches["taches"].push(creerTache("2"));
+//                taches["taches"].push(creerTache("3"));
+
+//                ajoutTacheFille(taches["taches"][0],"4");
+
+
+                var processNodes = function(currentElement, depth, taches, parent) {
+                    var currentTache;
+                    if($(currentElement).is("li")){
+                        currentTache=creerTache($(currentElement).attr('data-id'));
+                        console.log("depth: "+depth);
+                        if(depth==1){
+                            taches["taches"].push(currentTache);
+                        }
+                        else{
+                            ajoutTacheFille(parent,currentTache);
+                        }
+
+                        console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
+                    }
+
+                    if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
+
+                        $(currentElement).children().eq(1).children().each(function unFunction(element){
+                            depth=depth+1;
+                            processNodes($(this),depth, taches, currentTache);
+                        });
+                    }
+                }
+
+
+                var depth =1;
+                $("#table_taches").children().each (function processNodesTmp()
+                {
+                    var currentTache=null;
+                    processNodes(this, depth, taches, currentTache);
+
+                });
+
+                var json = JSON.stringify(taches);
+
+                console.log(json);
+
+            });
+
+    </script>
+}
+@content = {
+    <div class="dd dd-nodrag" id="nestable-projet">
+        <ol class="dd-list">
+                <!-- En-tete -->
+            <li class="dd-item dd-item-min-width" data-id="0">
+                <div style="padding:0px ; background-color:#f5f5f5 ; border:1px solid #EBEBEB ; font-weight:bold ;">
+                    <div class="row row-nestable dd-nodrag">
+
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Task</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Responsible</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Client</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Start date</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">End date</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ; width:15.75% ;">Workload</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ; width:15.75% ;">PERT</div>
+                        <div class="col-middle" style="width:2% ; border-right: 1px solid #EBEBEB ;"><i class="fa fa-bell"></i></div>
+                        <div class="col-middle" style="width:3% ;"><i class="fa fa-trash"></i></div>
+
+                    </div>
+                </div>
+            </li>
+        </ol>
+        <ol class="dd-list" id="table_taches">
+
+            <li class="dd-item dd-item-min-width" data-id="19">
+                <div class="dd-handle" style="padding:0px ;">
+                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                        <div class="col-middle first-col-middle" style="">
+                            <div class="row row-nestable id-tache" style="display: block ;">
+                                1
+                            </div>
+                            <div class="row row-nestable" style="padding-top: 10px ;">
+                                Réunion Client du Projet
+                            </div>
+                        </div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Julien PREISNER </div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Apple Inc.</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">25/02/2016</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                            <div class="row row-nestable">26/02/2016</div>
+                            <div class="row row-nestable">26/02/2016</div>
+                        </div>
+                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                            <div class="row row-initiale row-nestable">Initial
+                                : 1.0
+                                D
+                            </div>
+                            <div class="row row-restante row-nestable">Remaining
+                                : 1.0
+                                D
+                            </div>
+                            <div class="row progress progress-bar-default row-nestable">
+
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                    0%
+                                </div>
+
+                            </div>
+                            <div class="row row-consommee row-nestable">Consumed
+                                : 0.0
+                                D
+                            </div>
+                        </div>
+
+                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                            <div class="row row-nestable">Predecessor
+                                :
+                                None
+                            </div>
+                            <div class="row row-nestable dd-nodrag">
+                                Successors :
+                                None
+                            </div>
+                        </div>
+
+                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('19', '11')"><i id="notif-icon-tache-19" class="fa fa-bell-slash-o"></i></a></div>
+
+                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                    </div>
+                    <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                        <div class="col-xs-4 normal">
+                            <div class="normal boutonPlusCreerTache">
+                                <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                            </div>
+                            <div data-toggle="modal" data-target="#modal-creer-tache">
+                                <i class="fa fa-arrow-right"> Create subtask</i>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                            <i class="fa fa-arrow-up"> Create task</i>
+                        </div>
+                        <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                            <i class="fa fa-arrow-down"> Create task</i>
+                        </div>
+                    </div>
+                </div>
+
+                <ol class="dd-list">
+
+                    <li class="dd-item dd-item-min-width" data-id="20">
+                        <div class="dd-handle" style="padding:0px ;">
+                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                <div class="col-middle first-col-middle" style="">
+                                    <div class="row row-nestable id-tache" style="display: block ;">
+                                        2
+                                    </div>
+                                    <div class="row row-nestable" style="padding-top: 10px ;">
+                                        Réunion Client du Projet 1
+                                    </div>
+                                </div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Julien PREISNER </div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Apple Inc.</div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">26/02/2016</div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                    <div class="row row-nestable">27/02/2016</div>
+                                    <div class="row row-nestable">27/02/2016</div>
+                                </div>
+                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                    <div class="row row-initiale row-nestable">Initial
+                                        : 1.0
+                                        D
+                                    </div>
+                                    <div class="row row-restante row-nestable">Remaining
+                                        : 1.0
+                                        D
+                                    </div>
+                                    <div class="row progress progress-bar-default row-nestable">
+
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                            0%
+                                        </div>
+
+                                    </div>
+                                    <div class="row row-consommee row-nestable">Consumed
+                                        : 0.0
+                                        D
+                                    </div>
+                                </div>
+
+                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                    <div class="row row-nestable">Predecessor
+                                        :
+                                        None
+                                    </div>
+                                    <div class="row row-nestable dd-nodrag">
+                                        Successors :
+                                        None
+                                    </div>
+                                </div>
+
+                                <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('20', '11')"><i id="notif-icon-tache-20" class="fa fa-bell-slash-o"></i></a></div>
+
+                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                            </div>
+                            <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                                <div class="col-xs-4 normal">
+                                    <div class="normal boutonPlusCreerTache">
+                                        <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                                    </div>
+                                    <div data-toggle="modal" data-target="#modal-creer-tache">
+                                        <i class="fa fa-arrow-right"> Create subtask</i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                    <i class="fa fa-arrow-up"> Create task</i>
+                                </div>
+                                <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                    <i class="fa fa-arrow-down"> Create task</i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ol class="dd-list">
+                                <!-- En-tete -->
+                            <li class="dd-item dd-item-min-width" data-id="0">
+                                <div style="padding:0px ; background-color:#f5f5f5 ; border:1px solid #EBEBEB ; font-weight:bold ;">
+                                    <div class="row row-nestable dd-nodrag">
+
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Task</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                            Responsible</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Client</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                            Start date</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">End date</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ; width:15.75% ;">
+                                            Workload</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ; width:15.75% ;">
+                                            PERT</div>
+                                        <div class="col-middle" style="width:2% ; border-right: 1px solid #EBEBEB ;"><i class="fa fa-bell"></i></div>
+                                        <div class="col-middle" style="width:3% ;"><i class="fa fa-trash"></i></div>
+
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+
+                    </li></ol>
+
+            </li>
+
+            <li class="dd-item dd-item-min-width" data-id="19">
+                <div class="dd-handle" style="padding:0px ;">
+                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                        <div class="col-middle first-col-middle" style="">
+                            <div class="row row-nestable id-tache" style="display: block ;">
+                                1
+                            </div>
+                            <div class="row row-nestable" style="padding-top: 10px ;">
+                                Réunion Client du Projet
+                            </div>
+                        </div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Julien PREISNER </div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Apple Inc.</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">25/02/2016</div>
+                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                            <div class="row row-nestable">26/02/2016</div>
+                            <div class="row row-nestable">26/02/2016</div>
+                        </div>
+                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                            <div class="row row-initiale row-nestable">Initial
+                                : 1.0
+                                D
+                            </div>
+                            <div class="row row-restante row-nestable">Remaining
+                                : 1.0
+                                D
+                            </div>
+                            <div class="row progress progress-bar-default row-nestable">
+
+                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                    0%
+                                </div>
+
+                            </div>
+                            <div class="row row-consommee row-nestable">Consumed
+                                : 0.0
+                                D
+                            </div>
+                        </div>
+
+                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                            <div class="row row-nestable">Predecessor
+                                :
+                                None
+                            </div>
+                            <div class="row row-nestable dd-nodrag">
+                                Successors :
+                                None
+                            </div>
+                        </div>
+
+                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('19', '11')"><i id="notif-icon-tache-19" class="fa fa-bell-slash-o"></i></a></div>
+
+                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                    </div>
+                    <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                        <div class="col-xs-4 normal">
+                            <div class="normal boutonPlusCreerTache">
+                                <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                            </div>
+                            <div data-toggle="modal" data-target="#modal-creer-tache">
+                                <i class="fa fa-arrow-right"> Create subtask</i>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                            <i class="fa fa-arrow-up"> Create task</i>
+                        </div>
+                        <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                            <i class="fa fa-arrow-down"> Create task</i>
+                        </div>
+                    </div>
+                </div>
+
+                <ol class="dd-list">
+
+                    <li class="dd-item dd-item-min-width" data-id="20">
+                        <div class="dd-handle" style="padding:0px ;">
+                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                <div class="col-middle first-col-middle" style="">
+                                    <div class="row row-nestable id-tache" style="display: block ;">
+                                        2
+                                    </div>
+                                    <div class="row row-nestable" style="padding-top: 10px ;">
+                                        Réunion Client du Projet 1
+                                    </div>
+                                </div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Julien PREISNER </div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">Apple Inc.</div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">26/02/2016</div>
+                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                    <div class="row row-nestable">27/02/2016</div>
+                                    <div class="row row-nestable">27/02/2016</div>
+                                </div>
+                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                    <div class="row row-initiale row-nestable">Initial
+                                        : 1.0
+                                        D
+                                    </div>
+                                    <div class="row row-restante row-nestable">Remaining
+                                        : 1.0
+                                        D
+                                    </div>
+                                    <div class="row progress progress-bar-default row-nestable">
+
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                            0%
+                                        </div>
+
+                                    </div>
+                                    <div class="row row-consommee row-nestable">Consumed
+                                        : 0.0
+                                        D
+                                    </div>
+                                </div>
+
+                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                    <div class="row row-nestable">Predecessor
+                                        :
+                                        None
+                                    </div>
+                                    <div class="row row-nestable dd-nodrag">
+                                        Successors :
+                                        None
+                                    </div>
+                                </div>
+
+                                <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('20', '11')"><i id="notif-icon-tache-20" class="fa fa-bell-slash-o"></i></a></div>
+
+                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                            </div>
+                            <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                                <div class="col-xs-4 normal">
+                                    <div class="normal boutonPlusCreerTache">
+                                        <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                                    </div>
+                                    <div data-toggle="modal" data-target="#modal-creer-tache">
+                                        <i class="fa fa-arrow-right"> Create subtask</i>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 normal" data-toggle="modal" data-target="#modal-creer-tache">
+                                    <i class="fa fa-arrow-up"> Create task</i>
+                                </div>
+                                <div class="col-xs-4 normal" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                    <i class="fa fa-arrow-down"> Create task</i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ol class="dd-list">
+
+                        </ol>
+
+                    </li></ol>
+
+            </li>
+
+        </ol>
+    </div>
+}
+
+@main("test", content, scripts)
