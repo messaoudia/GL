@@ -60,7 +60,7 @@ public class Adresse extends Model {
         }
         try {
             Adresse addr = (Adresse) obj;
-            return (addr.id.equals(this.id) && addr.adresse.equals(this.adresse) && addr.zipCode.equals(this.zipCode)
+            return (addr.adresse.equals(this.adresse) && addr.zipCode.equals(this.zipCode)
             && addr.ville.equals(this.ville) && addr.pays.equals(this.pays));
         } catch (ClassCastException e) {
             return false;

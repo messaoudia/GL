@@ -1,13 +1,13 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Error;
+import models.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.creerClient;
 import views.html.creerProjet;
 import views.html.projet;
 
@@ -15,8 +15,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
-import static play.data.Form.form;
 
 public class ProjetController extends Controller{
 
@@ -82,7 +80,8 @@ public class ProjetController extends Controller{
             try {
                 dateDebutTheorique = formatter.parse(dateDeb);
                 dateFinTheorique = formatter.parse(dateFin);
-                if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
+                //if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
+                if (Utils.after(dateFinTheorique, dateDebutTheorique) || Utils.equals(dateFinTheorique, dateDebutTheorique)) {
                     Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
                     p.save();
                     client.listeProjets.add(p);
@@ -128,6 +127,13 @@ public class ProjetController extends Controller{
         t.save();
         System.out.println("t est sav => dispo " + t);
         return ok();
+    }
+
+    public Result sendDraf() {
+        JsonNode json = request().body().asJson();
+
+        Logger.debug(json.toString());
+        return ok(json.toString());
     }
 
 }

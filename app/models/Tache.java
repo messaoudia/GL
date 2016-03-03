@@ -196,10 +196,13 @@ public class Tache extends EntiteSecurise {
                     tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
                     tache.critique.equals(this.critique) &&
-                    tache.dateDebut.equals(this.dateDebut) &&
-                    tache.dateFinTot.equals(this.dateFinTot) &&
+                    //tache.dateDebut.equals(this.dateDebut) &&
+                    Utils.equals(tache.dateDebut, this.dateDebut) &&
+                    //tache.dateFinTot.equals(this.dateFinTot) &&
+                    Utils.equals(tache.dateFinTot, this.dateFinTot) &&
                     tache.chargeInitiale.equals(this.chargeInitiale) &&
-                    tache.dateFinTard.equals(this.dateFinTard) &&
+                    //tache.dateFinTard.equals(this.dateFinTard) &&
+                    Utils.equals(tache.dateFinTard, this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
                     tache.chargeRestante.equals(this.chargeRestante));
         } catch (ClassCastException e) {
@@ -432,6 +435,10 @@ public class Tache extends EntiteSecurise {
         return disponible;
     }
 
+    public boolean estRetardee() {
+        return dateFinTard.before(Calendar.getInstance().getTime());
+    }
+
     public boolean hasPredecesseur() {
         return predecesseur != null;
     }
@@ -470,11 +477,13 @@ public class Tache extends EntiteSecurise {
     public boolean verifierOrdreSousTaches() {
         for(Tache sousTache : enfants){
             if(sousTache.hasPredecesseur()) {
-                if(sousTache.predecesseur.dateFinTard.after(sousTache.dateDebut)) return false;
+                //if(sousTache.predecesseur.dateFinTard.after(sousTache.dateDebut)) return false;
+                if(Utils.after(sousTache.predecesseur.dateFinTard, sousTache.dateDebut)) return false;
             }
             if(sousTache.hasSuccesseur()) {
                 for(Tache successeur : sousTache.successeurs) {
-                    if(sousTache.dateFinTard.after(successeur.dateDebut)) return false;
+                    //if(sousTache.dateFinTard.after(successeur.dateDebut)) return false;
+                    if(Utils.after(sousTache.dateFinTard, successeur.dateDebut)) return false;
                 }
             }
         }

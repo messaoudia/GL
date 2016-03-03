@@ -6,6 +6,7 @@ import models.Contact;
 import play.Logger;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -251,6 +252,26 @@ public class Utils {
         }
 
     }
+
+    public static boolean equals(Date date1, Date date2) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        return fmt.format(date1).equals(fmt.format(date2));
+    }
+
+    public static boolean before(Date date1, Date date2) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        int date1Int = Integer.parseInt(fmt.format(date1).toString());
+        int date2Int = Integer.parseInt(fmt.format(date2).toString());
+        return date1Int < date2Int;
+    }
+
+    public static boolean after(Date date1, Date date2) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        int date1Int = Integer.parseInt(fmt.format(date1).toString());
+        int date2Int = Integer.parseInt(fmt.format(date2).toString());
+        return date1Int > date2Int;
+    }
+
 
     private static String trimTmpFileName(String name) {
         return name.replaceAll("[0-9]", "");

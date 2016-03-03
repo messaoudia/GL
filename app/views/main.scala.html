@@ -147,7 +147,7 @@
             <!-- Select2 -->
         <script src="/js/plugins/select2/select2.full.min.js"></script>
 
-            <!-- Nestable -->a
+            <!-- Nestable -->
         <script src="/js/plugins/nestable/jquery.nestable.js"></script>
 
             <!-- Projet -->
@@ -156,8 +156,55 @@
             <!-- Menu -->
         <script src="/js/menu.js"></script>
 
+            <!-- Dashboard -->
+        <script src="/js/dashboard.js"></script>
+
         @scripts
         <script>
+                 var changeModeDraftProjet = function(idProjet){
+                     console.log("Je suis la");
+                     if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                         console.log("Je suis checked");
+                         $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                         $('.id-tache').hide();
+                     }
+                     else{
+                         console.log("Je suis pas checked");
+                         var draftParsedAsJson = parseDraft(idProjet);
+
+                         $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                         $('.id-tache').show();
+
+
+                         console.log(draftParsedAsJson);
+                         jsRoutes.controllers.ProjetController.sendDraf().ajax({
+                             data: draftParsedAsJson,
+                             dataType: 'json',
+                             contentType: "application/json",
+                             success : function(data) {
+                                 console.log(data);
+                             },
+                             error: function(errorMessage){
+                                 console.error(errorMessage);
+                             }
+                         });
+                     }
+                 }
+
+                var changeModeDraftClient = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-client-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-client-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        $('#nestable-client-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+                    }
+                }
+
 
                 var userRow;
                 $requestUtilisateursArchives = false;
@@ -166,6 +213,7 @@
                 $requestProjetsArchives = false;
                 var $tmpTr;
                 var $tmpTrAdminClient;
+                var clientRow;
                 var $tmpTrAdminUser;
 
                 function updateSideBarClientArchive(checkbox)
@@ -359,91 +407,100 @@
 
 
                 var d ="";
+                var modalId;
+
+                function modal(client,idC){
+                    $("#dataTables-admin-client").dataTable().fnDestroy();
+                    if(client.archiver)
+                    {
+                        d="D";
+                    }
+
+                    $('#formClientName'+d).val(client.nom);
+                    $('#formClientAdress'+d).val(client.adresseClient.adresse);
+                    $('#formZipCode'+d).val(client.adresseClient.zipCode);
+                    $('#formCity'+d).val(client.adresseClient.ville);
+                    $('#formCountry'+d).val(client.adresseClient.pays);
+
+                    $('#client-priority-1'+d).removeClass("btn-active");
+                    $('#client-priority-2'+d).removeClass("btn-active");
+                    $('#client-priority-3'+d).removeClass("btn-active");
+                    $('#client-priority-'+client.priorite+d).addClass("btn-active");
+
+                    jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
+                        success: function(listProjets) {
+                            console.log("sucess -----");
+                            var projetTableBody = $('#table-modal-client-projets-body'+d);
+                            projetTableBody.empty();
+                            console.log(listProjets);
+                            $("#dataTables-admin-client"+d).dataTable().fnDestroy();
+                            if(listProjets.length != 0){
+                                $(listProjets).each(function(index, projet) {
+                                    var p ="";
+                                    p+=('<tr value="'+projet.id+'">');
+                                    p+=('<td class="first-td">'+projet.nom+'</td>');
+                                    if(d=="D" || projet.archive == true )
+                                    {
+                                        p+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+                                    else
+                                    {
+                                        p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+                                    p+=('</tr>');
+
+                                    projetTableBody.append(p);
+                                });
+                            }
+                        },
+                        error: function(errorMessage){
+                            console.log("error : "+errorMessage)
+                        }
+                    });
+
+                    jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
+                        success: function(listContacts) {
+                            var contactsTableBody = $('#table-modal-client-contacts-body'+d);
+                            contactsTableBody.empty();
+                            console.log(listContacts);
+                            $("#dataTables-admin-client"+d).dataTable().fnDestroy();
+                            if(listContacts.length != 0){
+                                $(listContacts).each(function(index, contact) {
+                                    var c ="";
+                                    c+=('<tr value="'+contact.id+'">');
+                                    c+=('<td class="first-td">'+contact.nom+'</td>');
+                                    c+=('<td class="first-td">'+contact.prenom+'</td>');
+                                    c+=('<td style="display:none;">'+contact.email+'</td>');
+                                    c+=('<td style="display:none;">'+contact.telephone+'</td>');
+                                    if(d=="D" || contact.archive == true)
+                                    {
+                                        c+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+                                    else
+                                    {
+                                        c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                    }
+
+                                    c+=('</tr>');
+
+                                    contactsTableBody.append(c);
+                                });
+                            }
+                        },
+                        error: function(errorMessage){
+                            console.log("error : "+errorMessage)
+                        }
+                    });
+
+                }
                 $(document).on('click','#dataTables-admin-client tr td:not(:last-child)', function(){
                     var idC = $(this).parent('tr').attr('value');
-
+                    clientRow = $(this).parent('tr');
                     jsRoutes.controllers.AdminController.afficherModalClient(idC).ajax({
                         success: function(client) {
                             //console.log(client);
-                            console.log("client : "+client)
-                            $("#dataTables-admin-client").dataTable().fnDestroy();
-                            if(client.archiver)
-                            {
-                                d="D";
-                            }
-
-                            $('#formClientName'+d).val(client.nom);
-                            $('#formClientAdress'+d).val(client.adresseClient.adresse);
-                            $('#formZipCode'+d).val(client.adresseClient.zipCode);
-                            $('#formCity'+d).val(client.adresseClient.ville);
-                            $('#formCountry'+d).val(client.adresseClient.pays);
-
-                            $('#client-priority-1'+d).removeClass("btn-active");
-                            $('#client-priority-2'+d).removeClass("btn-active");
-                            $('#client-priority-3'+d).removeClass("btn-active");
-                            $('#client-priority-'+client.priorite+d).addClass("btn-active");
-
-                            jsRoutes.controllers.ProjetController.afficherProjetsClient(idC).ajax({
-                                success: function(listProjets) {
-                                    console.log("sucess -----");
-                                    var projetTableBody = $('#table-modal-client-projets-body'+d);
-                                    projetTableBody.empty();
-                                    console.log(listProjets);
-                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
-                                    if(listProjets.length != 0){
-                                        $(listProjets).each(function(index, projet) {
-                                            var p ="";
-                                            p+=('<tr>');
-                                            p+=('<td class="first-td">'+projet.nom+'</td>');
-                                            if(d=="D")
-                                            {
-                                                p+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            else
-                                            {
-                                                p+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            p+=('</tr>');
-
-                                            projetTableBody.append(p);
-                                        });
-                                    }
-                                },
-                                error: function(errorMessage){
-                                    console.log("error : "+errorMessage)
-                                }
-                            });
-                            jsRoutes.controllers.ContactController.afficherContactsClient(idC).ajax({
-                                success: function(listContacts) {
-                                    var contactsTableBody = $('#table-modal-client-contacts-body'+d);
-                                    contactsTableBody.empty();
-                                    console.log(listContacts);
-                                    $("#dataTables-admin-client"+d).dataTable().fnDestroy();
-                                    if(listContacts.length != 0){
-                                        $(listContacts).each(function(index, contact) {
-                                            var c ="";
-                                            c+=('<tr>');
-                                            c+=('<td class="first-td">'+contact.nom+ " "+ contact.prenom+'</td>');
-                                            if(d=="D")
-                                            {
-                                                c+=('<td class="td-btn-suppr-disable" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            else
-                                            {
-                                                c+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                                            }
-                                            c+=('</tr>');
-
-                                            contactsTableBody.append(c);
-                                        });
-                                    }
-                                },
-                                error: function(errorMessage){
-                                    console.log("error : "+errorMessage)
-                                }
-                            });
-
-
+                            console.log("client : "+client);
+                            modal(client, idC);
                         },
                         //Case we have a problem
                         error: function(errorMessage){
@@ -451,7 +508,7 @@
                         }
                     });
                 });
-
+                //dataTables-admin-client
                 var supprimerProjet = function(){
                     var $value = $tmpTr.attr('value');
                     console.log($value);
@@ -550,6 +607,77 @@
                 var saveBlocNote = function(idUser){
                     console.log("Bloc note : " + $('#bloc-notes-tdb').val());
                     jsRoutes.controllers.DashboardController.saveBlocNote(idUser, $('#bloc-notes-tdb').val()).ajax();
+                }
+
+                $('#checkbox-notif-all-selected').click(function() {
+                    if($('#checkbox-notif-all-selected').is(':checked')){
+                        $("div.checkbox-notif input[type=checkbox]").each(function(){
+                            $(this).attr('checked', true);
+                        });
+                    }
+                    else {
+                        $("div.checkbox-notif input[type=checkbox]").each(function(){
+                            $(this).attr('checked', false);
+                        });
+                    }
+                });
+
+                var clickNotificationsLues = function(idUser){
+                    var listIdNotif = "";
+                    $("div.checkbox-notif input:checked").each(function(){
+                        listIdNotif += $(this).attr("name") + ",";
+                    });
+                    if(listIdNotif.length > 0){
+                        listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
+                        console.log(listIdNotif);
+                        jsRoutes.controllers.NotificationController.clickNotificationsLues(idUser, listIdNotif).ajax({
+                            success: function(nbNotifNonLues){
+                                var listIdNotifSplit = listIdNotif.split(",");
+                                for(var i=0; i<listIdNotifSplit.length; i++){
+                                    var idNotif = listIdNotifSplit[i];
+                                    $('#notif-' + idNotif).removeClass('non-lu');
+                                    $('#notif-' + idNotif).addClass('lu');
+                                    if($('#notif-' + idNotif).next().is('tr.footable-row-detail')){
+                                        //$('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+                                        $('#notif-' + idNotif).next().children().first().children().first().children().first().children().eq(1).html('@Messages("read")');
+                                    }
+                                    else {
+                                        $('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+                                    }
+                                    $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+                                    $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+                                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
+                                }
+                            },
+                            error : function(){
+                            }
+                        });
+                    }
+                }
+
+                var clickNotificationsSupprimer = function(idUser){
+                    var listIdNotif = "";
+                    $("div.checkbox-notif input:checked").each(function(){
+                        listIdNotif += $(this).attr("name") + ",";
+                    });
+                    if(listIdNotif.length > 0){
+                        listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
+                        console.log(listIdNotif);
+                        jsRoutes.controllers.NotificationController.clickNotificationsSupprimer(idUser, listIdNotif).ajax({
+                            success: function(nbNotifNonLues){
+                                var listIdNotifSplit = listIdNotif.split(",");
+                                for(var i=0; i<listIdNotifSplit.length; i++){
+                                    var idNotif = listIdNotifSplit[i];
+                                    $('#notif-' + idNotif).remove();
+                                    $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+                                    $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+                                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
+                                }
+                            },
+                            error : function(){
+                            }
+                        });
+                    }
                 }
 
                 var changePassword = function(idUser){
@@ -701,6 +829,7 @@
                             alert(errorMessage);
                         }
                     });
+
                 }
 
                 var afficherNotifications = function () {
@@ -900,7 +1029,7 @@
 
                             utilisateurList.append(list);
 
-                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("modified")');
+                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("created")');
                             $("#successModifierUser").show();
                             setTimeout(function(){
                                 $("#successModifierUser").hide();
@@ -919,53 +1048,51 @@
                     });
                 }
 
-                var modifierUtilisateur = function(btn)
+                var modifierClient = function(btn)
                 {
                     var form = $(btn).attr("form");
                     form = "#"+form;
-                    var serialize = $(form).serialize();
-                    var value = "Non";
-                    if($("#btnAdminOuiModifier").hasClass("btn-active"))
-                    {
-                        value = "Oui";
-                    }
-                    var idUtilisateur = userRow.attr('value');
-
-                    console.log("value : "+value);
-                    jsRoutes.controllers.UtilisateurController.modifierUtilisateur(idUtilisateur).ajax({
-                        data: serialize+"&admin="+value,
+                    var serialize = $(form).serializeObject();
+                    var value = $(".btn-active").attr('value');
+                    var idClient = clientRow.attr('value');
+                    var json = "{\"form\":"+JSON.stringify(serialize)+",\"table\":"+JSON.stringify(listeNewContact)+",\"projet\":"+JSON.stringify(tmpRowModalClientProjet)+",\"contact\":"+JSON.stringify(tmpRowModalClientContact)+",\"priorite\":"+value+"}";
+                    console.log(json);
+                    jsRoutes.controllers.ClientController.modifierClient(idClient).ajax({
+                        data: json,
+                        contentType: "application/json",
                         success : function(data) {
-                            $("#errorModifierUserP").empty();
-                            $("#errorModifierUser").hide();
+                            $("#errorModifierClientP").empty();
+                            $("#errorModifierClient").hide();
 
-
-                            console.log("data return = "+data.nom);
-
-                            var utilisateurList = $('#dataTables-admin-user-body');
-                            $("#dataTables-admin-user").dataTable().fnDestroy();
-                            userRow.remove();
-
-                            var utilisateur = data;
-
-                            var list = generateRowUtilisateur(utilisateur);
-
-                            utilisateurList.append(list);
-
-                            $("#successModifierUserP").html('@Messages("user") '+utilisateur.nom+ ' ' + utilisateur.prenom + ' @Messages("modified")');
-                            $("#successModifierUser").show();
+                            $("#successModifierClientP").html('@Messages("client") '+data.nom+' @Messages("modified")');
+                            $("#successModifierClient").show();
                             setTimeout(function(){
-                                $("#successModifierUser").hide();
+                                $("#successModifierClient").hide();
                             },4000);
+
+                            // Affichage des vrai valeur maitenant
+
+
+                            var clientList = $('#dataTables-admin-client-body');
+                            //mise a jour modal en fonction du truc de guillaume
+                            listeNewContact = [];
+                            tmpRowModalClientProjet = [];
+                            tmpRowModalClientContact = [];
+                            modal(data,data.id);
+                            $("#dataTables-admin-client").dataTable().fnDestroy();
+                            clientRow.remove();
+                            var list = generateRowClient(data);
+                            clientList.append(list);
+
                         },
                         error: function(errorMessage){
-                            console.log(errorMessage);
-                            $("#successModifierUser").hide();
-                            $("#successModifierUserP").empty();
+                            $("#successModifierClient").hide();
+                            $("#successModifierClientP").empty();
 
-                            var messageDiv = generateErrorUtilisateur(errorMessage);
+                            var messageDiv = generateErrorCreerClient(errorMessage);
 
-                            $("#errorModifierUserP").html(messageDiv);
-                            $("#errorModifierUser").show();
+                            $("#errorModifierClientP").html(messageDiv);
+                            $("#errorModifierClient").show();
                         }
                     });
                 }
@@ -1070,7 +1197,6 @@
 
                 function generateErrorCreerClient(errorMessage)
                 {
-                    alert(errorMessage);
                     var messageDiv = '@Messages("errors") : ';
 
                     if(errorMessage.responseJSON.nomClientVide==true)
@@ -1247,6 +1373,10 @@
                     {
                         messageDiv += '<br> - @Messages("telTooLongError")';
                     }
+                    if(errorMessage.responseJSON.contactExiste==true)
+                    {
+                        messageDiv += '<br> - @Messages("contactExist")';
+                    }
 
                     return messageDiv;
                 }
@@ -1412,6 +1542,8 @@
                             else{
                                 $('#imgCritique-consulterTache-tdb').hide();
                             }
+
+                            $('#formModifierTache').attr('value',tache.id);
 
                             $('#idTache-consulter-tdb').html(tache.idTache);
                             $('#idTache-modifier-tdb').html(tache.idTache);
@@ -1625,9 +1757,15 @@
                             $('#chargeInitialeTache').html('@Messages("initial") : '+tache.chargeInitiale+unite);
                             $('#chargeRestanteTache').html('@Messages("remaining") : '+tache.chargeRestante+unite);
                             $('#chargeConsommeeTache').html('@Messages("consumed") : '+tache.chargeConsommee+unite);
-
-                            $('.formModifierChargeInitiale').attr("value",tache.chargeInitiale);
-                            $('.formModifierChargeInitiale').nextAll('span').html(unite);
+                            $('#formModifierChargeInitiale').attr("value",tache.chargeInitiale);
+                            $('#formModifierChargeInitiale').nextAll('span').html(unite);
+                            if(tache.disponible){
+                                $('#formModifierChargeRestante').attr("disabled",false);
+                                $('#formModifierChargeConsommee').attr("disabled",false);
+                            }else{
+                                $('#formModifierChargeRestante').attr("disabled",true);
+                                $('#formModifierChargeConsommee').attr("disabled",true);
+                            }
                             $('#formModifierChargeRestante').attr("value",tache.chargeRestante);
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
                             $('#formModifierChargeConsommee').attr("value",tache.chargeConsommee);
@@ -1653,73 +1791,23 @@
                     });
                 }
 
-                var modifierTache = function (btn) {
-                    var form = $(btn).attr("form");
-                    form = "#"+form;
-                    var serialize = $(form).serialize();
-                    console.log(serialize);
-
-                    //PREDECESSEUR
-                    var idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
-                    console.log("idPredecesseur"+idPredecesseur);
-
-                    var tabSuccesseurs = [];
-                    //SUCCESSEUR
-                    $("#form-tache-successeur option").each(function() {
-                        if($(this).is(':selected')){
-                            console.log("selected : "+$(this).val());
-                            tabSuccesseurs.push($(this).val());
-                        }
-                    });
-
-                    //RESPONSABLE DE TACHE
-                    var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
-                    console.log("idReponsableTache"+idResponsableTache);
-
-                    //INTERLOCUTEURS EXTERNES
-                    var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
-                    var tabInterlocuteurs = [];
-
-                    for (i = 0; i < nbInterlocuteurs; i++) {
-                        if($("#checkbox-interlocuteur-"+i).is(':checked')){
-                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
-                            tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
-                        }
-                    }
-
-                    var dataToSend = serialize+"&predecesseur="+idPredecesseur;
-                    dataToSend += "&successeurs=";
-
-                    for (var i = 0; i < tabSuccesseurs.length; i++){
-                        dataToSend += tabSuccesseurs[i]+",";
-                    }
-
-                    dataToSend += "&responsable="+idResponsableTache;
-
-                    dataToSend += "&interlocuteurs=";
-
-                    for (var i = 0; i < tabInterlocuteurs.length; i++){
-                        dataToSend += tabInterlocuteurs[i]+",";
-                    }
-
-                    console.log("Data SEND : "+dataToSend);
-                    //Ajax call submit form
-                    jsRoutes.controllers.DashboardController.modifierTache().ajax({
-                        data: dataToSend,
-                        success : function(data) {
-                            console.log("SUCCESS");
-                        },
-                        error: function(errorMessage,codeErreur){
-                            console.log(codeErreur+" "+errorMessage);
-                        }
-
-                    });
-
-
-                }
-
-
                 $(document).ready(function () {
+                    $('#checkbox-notif-all-selected').click(function() {
+                        if($('#checkbox-notif-all-selected').is(':checked')){
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = true;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                        else {
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = false;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                    });
 
                     $('#dataTables-admin-user').DataTable({
                         destroy:true,
@@ -1773,38 +1861,6 @@
                         $("#div-modifierProjet-client").hide();
                         $("#div-consulterProjet-client").show();
                         jQuery.fx.off = false;
-                    });
-
-                    function modeDraftProjet()
-                    {
-                        if($('#checkbox-draft-projet').is(':checked')){
-                            $('#nestable-projet').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-projet').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftProjet();
-                    $('#checkbox-draft-projet').click(function() {
-                        modeDraftProjet();
-                    });
-
-                    function modeDraftClient()
-                    {
-                        if($('#checkbox-draft-client').is(':checked')){
-                            $('#nestable-client').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-client').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftClient();
-                    $('#checkbox-draft-client').click(function() {
-                        modeDraftClient();
                     });
 
                     function modeDraftProjetAdmin()
@@ -1884,11 +1940,7 @@
 
 
 
-                    $('#nestable-projet').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-                    $('#nestable-client').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
@@ -2142,6 +2194,22 @@
                     return messageDiv;
                 }
                 $( document ).ajaxComplete(function() {
+                    $('#checkbox-notif-all-selected').click(function() {
+                        if($('#checkbox-notif-all-selected').is(':checked')){
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = true;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                        else {
+                            $("div.checkbox-notif input[type=checkbox]").each(function(){
+                                var idNotif = $(this).attr('name');
+                                document.getElementById('checkbox-notif-'+idNotif).checked = false;
+                                clickOnCheckboxNotification('checkbox-notif-'+idNotif,'notif-'+idNotif);
+                            });
+                        }
+                    });
 
                     $("#errorCreerUser > button").click(function(){
                         $("#errorCreerUser").hide()
@@ -2429,16 +2497,10 @@
                     $('[data-toggle="popover"]').popover();
                     // activate Nestable for list 1
 
-                    $('#nestable-projet').nestable({
+                    $('.nestable').nestable({
                         group: 1,
                         maxDepth: 4
                     }).on('change');
-                    $('#nestable-client').nestable({
-                        group: 1,
-                        maxDepth: 4
-                    }).on('change');
-
-
 
                     $('.datatable-consulterClient').DataTable();
                     $('#dataTables-tdb-projet').DataTable();
@@ -2688,41 +2750,6 @@
 
                     $('.footable').footable();
 
-                    // $('#modal-tdb-tache').modal();
-
-
-                    function modeDraftProjet()
-                    {
-                        if($('#checkbox-draft-projet').is(':checked')){
-                            $('#nestable-projet').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-projet').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftProjet();
-                    $('#checkbox-draft-projet').click(function() {
-                        modeDraftProjet();
-                    });
-
-                    function modeDraftClient()
-                    {
-                        if($('#checkbox-draft-client').is(':checked')){
-                            $('#nestable-client').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-client').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftClient();
-                    $('#checkbox-draft-client').click(function() {
-                        modeDraftClient();
-                    });
-
                     function modeDraftProjetAdmin()
                     {
                         if($('#checkbox-draft-projet-admin').is(':checked')){
@@ -2791,8 +2818,108 @@
                         }
                     });
                 });
+                var tmpRowModalClientProjet =  [];
+                var tmpRowModalClientContact =  [];
+                var listeNewContact =  [];
 
-                /* Afficher les Clients archivés */
+                $(document).on("hidden.bs.modal","#modal-modif-client",function(){
+                    var tmpRowModalClientProjet =  [];
+                    var tmpRowModalClientContact =  [];
+                    /*TODO : mettre les formulaire a 0 */
+                });
+
+                $(document).on('click','#table-modal-client-projets-body tr td:last-child', function(){
+                    var parent = $(this).parent('tr');
+                    var idP = parent.attr('value');
+                    var size = tmpRowModalClientProjet.length;
+                    tmpRowModalClientProjet[size] = {};
+                    tmpRowModalClientProjet[size]["idProjet"] = idP;
+                    parent.remove();
+                });
+
+
+                $(document).on('click','#table-modal-client-contacts-body tr td:last-child', function(){
+                    var parent = $(this).parent('tr');
+
+                    if($(this).parent('tr').attr("value")!=" "){
+                        //contact existant
+                        var idC =  $(this).parent('tr').attr("value");
+                        var size = tmpRowModalClientContact.length;
+                        tmpRowModalClientContact[size] = {};
+                        tmpRowModalClientContact[size]["idContact"] = idC;
+                    }else{
+                        //contact non existant, a enlver au niveau de la liste des contact
+                        var arrayLength = listeNewContact.length;
+                        for (var i = 0; i < arrayLength; i++) {
+                            var email = parent.find('td').eq(2).text();
+                            if(listeNewContact[i]["email"] === email){
+                                listeNewContact.splice(i, 1);
+                            }
+                        }
+                    }
+                    parent.remove();
+                });
+
+                var checkContactModal = function(btn)
+                {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    jsRoutes.controllers.ClientController.contactCheck().ajax({
+                        data: serialize,
+                        success : function(data) {
+                            var $email = data.email;
+
+                            var $length = $('#table-modal-client-contacts-body tr > td:contains('+$email+')').length;
+                            if($length>0){
+                            $("#successModifierClient").hide();
+                            $("#successModifierClientP").empty();
+                            var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                            $("#errorModifierClientP").html(messageDiv);
+                            $("#errorModifierClient").show();
+                            }else{
+                            $("#errorModifierClientP").empty();
+                            $("#errorModifierClient").hide();
+
+                            $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
+                            $("#successModifierClient").show();
+
+
+                            setTimeout(function(){
+                                $("#successModifierClient").hide();
+                            },4000);
+
+                            var contact = $('#table-modal-client-contacts-body');
+
+                            var list ="";
+                            list+=('<tr value=" ">');
+                            list+=('<td class="first-td">'+data.nom+'</td>');
+                            list+=('<td class="first-td">'+data.prenom+'</td>');
+                            list+=('<td style="display:none;">'+data.email+'</td>');
+                            list+=('<td style="display:none;">'+data.telephone+'</td>');
+                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                            list+=('</tr>');
+                            contact.append(list);
+                            var size = listeNewContact.length;
+                            listeNewContact[size] = {};
+                            listeNewContact[size]["nom"] = data.nom;
+                            listeNewContact[size]["prenom"] = data.prenom;
+                            listeNewContact[size]["email"] = data.email;
+                            listeNewContact[size]["telephone"] = data.telephone;
+                            $(form)[0].reset();
+                            }
+                        },
+                        error: function(errorMessage){
+                            $("#successModifierClient").hide();
+                            $("#successModifierClientPsuccessModifierClientP").empty();
+                            var messageDiv = generateErrorCreerClientContact(errorMessage);
+                            $("#errorModifierClientP").html(messageDiv);
+                            $("#errorModifierClient").show();
+                        }
+                    });
+                }
+
+              /* Afficher les Clients archivés */
                 function clientsArchived(){
                     if($('#checkBoxClientsArchived').is(":checked")) {
                         $('.client-archived').show();
@@ -2868,6 +2995,67 @@
                 $(document).on("click","#exporter-client", function(event){
                     window.open("@routes.ClientController.getClientsAsCSV");
                 });
+
+
+
+                 //####################################################################
+                 //                         DRAFT PARSING
+                 //####################################################################
+
+
+                 function parseDraft(idProjet){
+                     function ajoutTacheFille(tacheMere,tache){
+                         tacheMere["childrens"].push(tache);
+                     }
+
+                     function creerTache(tacheId){
+                         var tache={};
+                         tache["id"]=tacheId;
+                         tache["childrens"]=new Array();
+                         return tache;
+                     }
+
+                     var taches = {};
+                     taches["projectId"] = idProjet;
+                     taches["taches"] = new Array();
+
+                     var processNodes = function(currentElement, depth, taches, parent) {
+                         var currentTache;
+                         if($(currentElement).is("li")){
+                             currentTache=creerTache($(currentElement).attr('data-id'));
+                             console.log("depth: "+depth);
+                             if(depth==1){
+                                 taches["taches"].push(currentTache);
+                             }
+                             else{
+                                 ajoutTacheFille(parent,currentTache);
+                             }
+
+                             console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
+                         }
+
+                         if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
+
+                             $(currentElement).children().eq(1).children().each(function unFunction(element){
+                                 depth=depth+1;
+                                 processNodes($(this),depth, taches, currentTache);
+                             });
+                         }
+                     }
+
+
+                     var depth =1;
+                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
+                     {
+                         processNodes(this, depth, taches, null);
+
+                     });
+                     var json = JSON.stringify(taches);
+                     console.log(json);
+                     return json;
+                 }
+
+                 //####################################################################
 
         </script>
     </body>
