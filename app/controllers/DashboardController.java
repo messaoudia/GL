@@ -131,10 +131,11 @@ public class DashboardController extends Controller{
             tache.save();
 
             Logger.debug("SAVE OK");
+
+            return ok();
         }catch(Exception e){
             return badRequest(e.getMessage());
         }
-        return ok();
     }
 
 }

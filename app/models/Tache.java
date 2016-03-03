@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
@@ -435,14 +436,17 @@ public class Tache extends EntiteSecurise {
         return disponible;
     }
 
+    @JsonSerialize
     public boolean hasPredecesseur() {
         return predecesseur != null;
     }
 
+    @JsonSerialize
     public boolean hasSuccesseur() {
         return successeurs != null && !successeurs.isEmpty();
     }
 
+    @JsonSerialize
     public int nbSuccesseurs(){
         return successeurs.size();
     }
@@ -459,6 +463,7 @@ public class Tache extends EntiteSecurise {
     /**
      * TODO testme
      */
+    @JsonSerialize
     public Double getAvancementTache() {
         return (chargeConsommee / (chargeConsommee + chargeRestante));
     }
@@ -629,5 +634,10 @@ public class Tache extends EntiteSecurise {
             listResult.remove(this);
         }
         return listResult;
+    }
+
+    @JsonSerialize
+    public boolean hasResponsableActivateNotification(){
+        return utilisateursNotifications.contains(responsableTache);
     }
 }
