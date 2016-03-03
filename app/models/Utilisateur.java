@@ -247,8 +247,8 @@ public class Utilisateur extends Personne {
             ajoutDesTachesEnfants(taches, tache);
         }
 
-        // Tri en fonction des id
-        Collections.sort(listTaches, new Comparator<Tache>() {
+        // Tri en fonction des id - Liste tache dans sort
+        Collections.sort(taches, new Comparator<Tache>() {
             @Override
             public int compare(Tache t1, Tache t2) {
                 String[] idT1Parse = t1.idTache.split("\\.");
