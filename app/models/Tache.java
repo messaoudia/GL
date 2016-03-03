@@ -460,9 +460,6 @@ public class Tache extends EntiteSecurise {
         else return false;
     }
 
-    /**
-     * TODO testme
-     */
     public Double getAvancementTache() {
         return (chargeConsommee / (chargeConsommee + chargeRestante));
     }

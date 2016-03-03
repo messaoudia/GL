@@ -468,5 +468,67 @@ public class Notification extends Model {
         }
     }
 
+    public static void notificationCreerProjet(Projet projet, Utilisateur utilisateur){
+        Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
+
+        String titleFR = "Création du projet " + projet.nom;
+        String messageMemeUserFR = "Vous avez créé le projet \"" + projet.nom + "\" avec les caractéristiques suivantes :\n";
+        String messageAutreUserFR = utilisateur.prenom + " " + utilisateur.nom + " a créé le projet \""
+                + projet.nom + "\" avec les caractéristiques suivantes :\n";
+
+        String messageFR = "\t - Nom : " + projet.nom + "\n";
+        messageFR += "\t - Client : " + projet.client.nom + "\n";
+        messageFR += "\t - Responsable : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
+                " (" + projet.responsableProjet.email + ")\n";
+        messageFR += "\t - Priorité : " + projet.priorite + "\n";
+        messageFR += "\t - Date de début (théorique) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
+        messageFR += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
+        messageFR += "\t - Description : " + projet.description + "\n";
+
+        /** TODO : mettre en anglais **/
+        String titleEN = "Création du projet " + projet.nom;
+        String messageMemeUserEN = "Vous avez créé le projet \"" + projet.nom + "\" avec les caractéristiques suivantes :\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a créé le projet \""
+                + projet.nom + "\" avec les caractéristiques suivantes :\n";
+
+        String messageEN = "\t - Nom : " + projet.nom + "\n";
+        messageEN += "\t - Client : " + projet.client.nom + "\n";
+        messageEN += "\t - Responsable : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
+                " (" + projet.responsableProjet.email + ")\n";
+        messageEN += "\t - Priorité : " + projet.priorite + "\n";
+        messageEN += "\t - Date de début (théorique) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
+        messageEN += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
+        messageEN += "\t - Description : " + projet.description + "\n";
+
+        String title = "";
+        String message = "";
+        // Envoie notification a l'utilisateur
+        if(utilisateur.equals(projet.responsableProjet) || utilisateur.recevoirNotifPourMesActions){
+            if(utilisateur.langue.equals(Utilisateur.LANGUE_FR)){
+                title = titleFR;
+                message = messageMemeUserFR + messageFR;
+            }
+            else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+                title = titleEN;
+                message = messageMemeUserEN + messageEN;
+            }
+            mapNotifications.put(utilisateur, new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+        }
+        // Envoie notification au responsable de projet si ce n'est pas l'auteur de la création
+        if(!utilisateur.equals(projet.responsableProjet)){
+            if(projet.responsableProjet.langue.equals(Utilisateur.LANGUE_FR)){
+                title = titleFR;
+                message = messageAutreUserFR + messageFR;
+            }
+            else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+                title = titleEN;
+                message = messageAutreUserEN + messageEN;
+            }
+
+            mapNotifications.put(projet.responsableProjet, new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet));
+        }
+        sendNotifications(mapNotifications);
+    }
+
 
 }
