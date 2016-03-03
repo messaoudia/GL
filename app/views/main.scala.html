@@ -580,6 +580,44 @@
                     jsRoutes.controllers.DashboardController.saveBlocNote(idUser, $('#bloc-notes-tdb').val()).ajax();
                 }
 
+                var allNotificationsLues = function(idUser){
+                    console.log("debut");
+                    console.log($("div.checkbox-notif input:checked"));
+                    var listIdNotif = "";
+                    $("div.checkbox-notif input:checked").each(function(){
+                        listIdNotif += $(this).attr("name") + ",";
+                        console.log($(this).attr("name"));
+                    });
+                    listIdNotif = listIdNotif.substring(0, listIdNotif.length-1);
+                    console.log(listIdNotif);
+                    jsRoutes.controllers.NotificationController.allNotificationsLues(idUser, listIdNotif).ajax({
+                        success: function(nbNotifNonLues){
+                            var listIdNotifSplit = listIdNotif.split(",");
+                            for(var i=0; i<listIdNotifSplit.length; i++){
+                                var idNotif = listIdNotifSplit[i];
+                                $('#notif-' + idNotif).removeClass('non-lu');
+                                $('#notif-' + idNotif).addClass('lu');
+                                if($('#notif-' + idNotif).next().is('tr.footable-row-detail')){
+                                    //$('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+
+                                    $('#notif-' + idNotif).next().children().first().children().first().children().first().children().eq(1).html('@Messages("read")');
+                                }
+                                else {
+                                    $('#notif-etatLecture-' + idNotif).html('@Messages("read")');
+                                }
+                                $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+                                $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+                                console.log("Nb de notifs non lues = " + nbNotifNonLues);
+                            }
+
+                        },
+                        error : function(){
+
+                        }
+                    });
+                    console.log("fin");
+                }
+
                 var changePassword = function(idUser){
                     var previousPassword = $('#previousPassword').val();
                     var newPassword = $('#newPassword').val();
@@ -1667,22 +1705,6 @@
                         jQuery.fx.off = false;
                     });
 
-                    function modeDraftClient()
-                    {
-                        if($('#checkbox-draft-client').is(':checked')){
-                            $('#nestable-client').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-client').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftClient();
-                    $('#checkbox-draft-client').click(function() {
-                        modeDraftClient();
-                    });
-
                     function modeDraftProjetAdmin()
                     {
                         if($('#checkbox-draft-projet-admin').is(':checked')){
@@ -2553,41 +2575,6 @@
                      */
 
                     $('.footable').footable();
-
-                    // $('#modal-tdb-tache').modal();
-
-
-                    function modeDraftProjet()
-                    {
-                        if($('#checkbox-draft-projet').is(':checked')){
-                            $('#nestable-projet').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-projet').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftProjet();
-                    $('#checkbox-draft-projet').click(function() {
-                        modeDraftProjet();
-                    });
-
-                    function modeDraftClient()
-                    {
-                        if($('#checkbox-draft-client').is(':checked')){
-                            $('#nestable-client').removeClass("dd-nodrag");
-                            $('.id-tache').hide();
-                        }
-                        else{
-                            $('#nestable-client').addClass("dd-nodrag");
-                            $('.id-tache').show();
-                        }
-                    }
-                    modeDraftClient();
-                    $('#checkbox-draft-client').click(function() {
-                        modeDraftClient();
-                    });
 
                     function modeDraftProjetAdmin()
                     {

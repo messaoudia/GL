@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Notification;
 import models.Tache;
 import models.Utilisateur;
 import play.mvc.Controller;
@@ -29,5 +30,21 @@ public class NotificationController extends Controller {
         }
         return ok();
     }
+
+    public Result allNotificationsLues(long idUser, String listIdNotif){
+        Utilisateur user = Utilisateur.find.byId(idUser);
+        String[] listIdNotifParse = listIdNotif.split(",");
+        for(String idNotifStr : listIdNotifParse){
+            long idNotif = Long.parseLong(idNotifStr);
+            Notification notif = Notification.find.byId(idNotif);
+            notif.etatLecture = true;
+            notif.update();
+        }
+        user.listNotifications = user.listNotifications();
+        user.update();
+        return ok(user.nbNotificationsNonLues() + "");
+    }
+
+
 
 }
