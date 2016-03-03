@@ -306,7 +306,7 @@ projets:
     chargeConsommee :   8
     chargeRestante :    0
     enCours:            true
-    archive:            true
+    archive:            false
     client:             *client1
     priorite:           2
     unite:              JOUR
@@ -324,7 +324,7 @@ projets:
     chargeInitiale:     15
     chargeConsommee :   15
     chargeRestante :    0
-    avancementGlobal:   100
+    avancementGlobal:   0
     enCours:            true
     archive:            false
     client:             *client1
@@ -342,11 +342,11 @@ projets:
     dateFinReelTot:     2016-05-23
     dateFinReelTard:    2016-05-24
     chargeInitiale:     3
-    chargeConsommee :   3
-    chargeRestante :    0
-    avancementGlobal:   100
+    chargeConsommee :   0
+    chargeRestante :    3
+    avancementGlobal:   0
     enCours:            false
-    archive:            true
+    archive:            false
     client:             *client2
     priorite:           2
     unite:              JOUR
@@ -568,7 +568,7 @@ taches:
     dateFinTard:        2016-05-24
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeRestante:       2
+    chargeRestante:     2
     projet:             *projet3
     responsableTache:   *utilisateur2
     idTache :           2

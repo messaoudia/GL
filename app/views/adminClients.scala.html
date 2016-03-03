@@ -9,10 +9,8 @@
                             controler = self.data('infos') || self.attr('data-infos');
                     $("#sidebar ul li").removeClass('active');
                     $(this).addClass('active');
-
                     eval("jsRoutes.controllers."+controler).ajax({
                         success: function(html) {
-
                             var result = $('#refresh',html);
                             $('#refresh').empty().html(result);
                         },
@@ -22,11 +20,9 @@
                         }
                     });
                 });
-
                 $("body").load(function(){
                     updateMenu();
                 });
-
                 function updateMenu()
                 {
                     var navHeader = document.getElementById('nav-header');
@@ -36,10 +32,6 @@
                 }
                 updateMenu();
             });
-
-
-
-
     </script>
 }
 
@@ -84,32 +76,32 @@
                                         <tr value="@client.id">
                                         }
 
-                                        @if(client.archiver) {
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.nom</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.adresseClient</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listContactsSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listProjetsSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listTachesSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.priorite</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">
-                                            @Messages("yes")
-                                            </td>
-                                            <td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                                    @if(client.archiver) {
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.nom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.adresseClient</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listContactsSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listProjetsSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.listTachesSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">@client.priorite</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client-disable">
+                                        @Messages("yes")
+                                        </td>
+                                        <td class="td-btn-suppr-disable" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
 
-                                        } else {
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listContactsSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listProjetsSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listTachesSize</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.priorite</td>
-                                            <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">
-                                            @Messages("no")
-                                            </td>
-                                            <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
+                                    } else {
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.nom</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.adresseClient</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listContactsSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listProjetsSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.listTachesSize</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">@client.priorite</td>
+                                        <td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">
+                                        @Messages("no")
+                                        </td>
+                                        <td class="td-btn-suppr" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-suppr-client"><i class="fa fa-times"></i></td>
 
-                                        }
-                                    </tr>
+                                    }
+                                </tr>
                                 }
                             </tbody>
                         </table>
@@ -149,26 +141,39 @@
                                     <div class="row">
                                         <div class="col-sm-6 b-r">
                                             <form class="form-horizontal" id="clientForm">
+
+                                                <div id="successModifierClient" class="alert alert-success alert-dismissable" style="display: none;">
+                                                    <button class="close" type="button">×</button>
+                                                    <p id="successModifierClientP"><p>
+                                                </div>
+                                                <div id="errorModifierClient" class="alert alert-danger alert-dismissable" style="display: none;">
+                                                    <button class="close" type="button">×</button>
+                                                    <p id="errorModifierClientP"><p>
+                                                </div>
+
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label" for="formClientName">@Messages("formClientName")</label>
-                                                    <div class="col-sm-7"><input type="text" id="formClientName" class="form-control"></div>
+                                                    <div class="col-sm-7"><input type="text" name="name" id="formClientName" name="" class="form-control"></div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label" for="formClientAdress">@Messages("adress")</label>
-                                                    <div class="col-sm-7"><input type="text" id="formClientAdress" class="form-control"></div>
+                                                    <div class="col-sm-7"><input type="text" name="adress" id="formClientAdress" class="form-control"></div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label" for="formZipCode">@Messages("formZipCode")</label>
-                                                    <div class="col-sm-7"><input type="text" id="formZipCode" class="form-control"></div>
+                                                    <div class="col-sm-7"><input type="text" name="zip" id="formZipCode" class="form-control"></div>
                                                 </div>
+
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label" for="formCity">@Messages("formCity")</label>
-                                                    <div class="col-sm-7"><input type="text" id="formCity" class="form-control"></div>
+                                                    <div class="col-sm-7"><input type="text" name="city" id="formCity" class="form-control"></div>
                                                 </div>
 
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label" for="formCountry">@Messages("formCountry")</label>
-                                                    <div class="col-sm-7"><input type="text" id="formCountry" class="form-control"></div>
+                                                    <div class="col-sm-7"><input type="text" name="country" id="formCountry" class="form-control"></div>
                                                 </div>
 
                                                 <div class="row form-group">
@@ -194,22 +199,22 @@
                                                 <form class="form-horizontal" id="contactForm">
                                                     <div class="row form-group">
                                                         <label class="col-sm-5 control-label" for="formLastName">@Messages("formLastName")</label>
-                                                        <div class="col-sm-7"><input type="text" id="formLastName" class="form-control"></div>
+                                                        <div class="col-sm-7"><input type="text" id="formLastName" name="formLastNameContactClient" class="form-control"></div>
                                                     </div>
                                                     <div class="row form-group">
                                                         <label class="col-sm-5 control-label" for="formFirstName">@Messages("formFirstName")</label>
-                                                        <div class="col-sm-7"><input type="text" id="formFirstName" class="form-control"></div>
+                                                        <div class="col-sm-7"><input type="text" id="formFirstName" name="formFirstNameContactClient" class="form-control"></div>
                                                     </div>
                                                     <div class="row form-group">
                                                         <label class="col-sm-5 control-label" for="formEmail">@Messages("formEmail")</label>
-                                                        <div class="col-sm-7"><input type="text" id="formEmail" class="form-control"></div>
+                                                        <div class="col-sm-7"><input type="text" id="formEmail" name="formEmailContactClient" class="form-control"></div>
                                                     </div>
                                                     <div class="row form-group">
                                                         <label class="col-sm-5 control-label" for="formTel" >@Messages("formTel")</label>
-                                                        <div class="col-sm-7"><input type="text" id="formTel" class="form-control"></div>
+                                                        <div class="col-sm-7"><input type="text" id="formTel" name="formTelContactClient" class="form-control"></div>
                                                     </div>
                                                 </form>
-                                                <button class="btn btn-admin inline" type="submit" form="contactForm">
+                                                <button class="btn btn-admin inline" onclick="checkContactModal(this); return false;"type="submit" form="contactForm">
                                                     <i class="fa fa-plus-square"></i>  @Messages("add")
                                                 </button>
                                             </div>
@@ -277,7 +282,7 @@
                                     </div>
                                     <div class="row" style="margin-top:15px ;">
                                         <div class="div-center">
-                                            <button class="btn btn-admin" type="submit" form="clientForm">
+                                            <button class="btn btn-admin" onclick="modifierClient(this); return false;"type="submit" form="clientForm">
                                                 <i class="fa fa-check-square"></i> @Messages("validate")
                                             </button>
                                         </div>
@@ -501,15 +506,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            <div class="ibox-footer text-center" onclick="creerClient(this); return false;" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; cursor: pointer ;" form="creerClientForm">
-                                <h3 style="margin:0px ;">@Messages("saveClient")</h3>
+                                <div class="ibox-footer text-center" onclick="creerClient(this); return false;" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; cursor: pointer ;" form="creerClientForm">
+                                    <h3 style="margin:0px ;">@Messages("saveClient")</h3>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 }
 

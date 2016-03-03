@@ -3,58 +3,58 @@
 # ~~~~
 
 # i18n route
-POST        /changeLanguage                       controllers.Application.changeLanguage()
-GET         /changerLangue                        controllers.Application.changeLangue(lang: String)
+POST        /changeLanguage                                 controllers.Application.changeLanguage()
+GET         /changerLangue                                  controllers.Application.changeLangue(lang: String)
 
 # Home page
-GET         /                                     controllers.DashboardController.afficherDashboard
+GET         /                                               controllers.DashboardController.afficherDashboard
 
 # Login page
-GET         /login                                controllers.Login.index()
-POST        /login                                controllers.Login.authenticate()
-GET         /logout                               controllers.Application.logout()
+GET         /login                                          controllers.Login.index()
+POST        /login                                          controllers.Login.authenticate()
+GET         /logout                                         controllers.Application.logout()
 
 # Tests pages
-GET         /tests                                controllers.Tests.index()
-POST        /tests                                controllers.Tests.add()
+GET         /tests                                          controllers.Tests.index()
+POST        /tests                                          controllers.Tests.add()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/js/routes/                    controllers.Application.javascriptRoutes()
+GET         /assets/js/routes/                              controllers.Application.javascriptRoutes()
 
-GET         /assets/*file                         controllers.Assets.versioned(path="/public", file: Asset)
-GET         /css/*file                            controllers.Assets.versioned(path="/public/css", file: Asset)
-GET         /font-awesome/*file                   controllers.Assets.versioned(path="/public/font-awesome", file: Asset)
-GET         /fonts/*file                          controllers.Assets.versioned(path="/public/fonts", file: Asset)
-GET         /img/*file                            controllers.Assets.versioned(path="/public/img", file: Asset)
-GET         /js/*file                             controllers.Assets.versioned(path="/public/js", file: Asset)
-GET         /LESS/*file                           controllers.Assets.versioned(path="/public/LESS", file: Asset)
-GET         /favicon.ico                          controllers.Assets.at(path="/public", file="favicon.ico")
+GET         /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
+GET         /css/*file                                      controllers.Assets.versioned(path="/public/css", file: Asset)
+GET         /font-awesome/*file                             controllers.Assets.versioned(path="/public/font-awesome", file: Asset)
+GET         /fonts/*file                                    controllers.Assets.versioned(path="/public/fonts", file: Asset)
+GET         /img/*file                                      controllers.Assets.versioned(path="/public/img", file: Asset)
+GET         /js/*file                                       controllers.Assets.versioned(path="/public/js", file: Asset)
+GET         /LESS/*file                                     controllers.Assets.versioned(path="/public/LESS", file: Asset)
+GET         /favicon.ico                                    controllers.Assets.at(path="/public", file="favicon.ico")
 
 # CRUD JSRoutes
-GET         /taches                               controllers.Tests.getAll()
-POST        /addTask                              controllers.Tests.addTask()
+GET         /taches                                         controllers.Tests.getAll()
+POST        /addTask                                        controllers.Tests.addTask()
 
 #View controller
-GET         /client                               controllers.ClientController.afficherClients
-GET         /projet                               controllers.ProjetController.afficherProjets
-GET         /creerClient                          controllers.ClientController.afficherCreerClient
-GET         /creerProjet                          controllers.ProjetController.afficherCreerProjet
-GET         /creerUtilisateur                     controllers.UtilisateurController.afficherCreerUtilisateur
-GET         /adminClients                         controllers.AdminController.afficherAdminClients
-POST        /adminClientsArchive                  controllers.AdminController.afficherClientsArchives
-GET         /adminProjets                         controllers.AdminController.afficherAdminProjets
-GET         /adminUtilisateur                     controllers.AdminController.afficherAdminUtilisateur
-POST        /adminUtilisateurArchive              controllers.AdminController.afficherUtilisateursArchives
-GET         /adminUtilisateurNonArchive           controllers.UtilisateurController.afficherUtilisateursNonArchives
-GET         /dashboard                            controllers.DashboardController.afficherDashboard
-GET         /dashboardTacheId                     controllers.DashboardController.afficherModalTache(id: Long)
-GET         /adminUtilisateurId                   controllers.AdminController.afficherModalUtilisateur(id: Long)
-GET         /adminClientId                        controllers.AdminController.afficherModalClient(id: Long)
-GET         /adminProjetsClient                   controllers.ProjetController.afficherProjetsClient(id: Long)
-GET         /adminContactsClient                  controllers.ContactController.afficherContactsClient(id: Long)
-GET         /allUsers                             controllers.UtilisateurController.allUsers()
-GET         /allSucesseursPossible                controllers.DashboardController.getAllSucesseursPossible(idTache: Long)
-GET         /AllPredecesseursPossible             controllers.DashboardController.getAllPredecesseursPossible(idTache: Long)
+GET         /client                                         controllers.ClientController.afficherClients
+GET         /projet                                         controllers.ProjetController.afficherProjets
+GET         /creerClient                                    controllers.ClientController.afficherCreerClient
+GET         /creerProjet                                    controllers.ProjetController.afficherCreerProjet
+GET         /creerUtilisateur                               controllers.UtilisateurController.afficherCreerUtilisateur
+GET         /adminClients                                   controllers.AdminController.afficherAdminClients
+POST        /adminClientsArchive                            controllers.AdminController.afficherClientsArchives
+GET         /adminProjets                                   controllers.AdminController.afficherAdminProjets
+GET         /adminUtilisateur                               controllers.AdminController.afficherAdminUtilisateur
+POST        /adminUtilisateurArchive                        controllers.AdminController.afficherUtilisateursArchives
+GET         /adminUtilisateurNonArchive                     controllers.UtilisateurController.afficherUtilisateursNonArchives
+GET         /dashboard                                      controllers.DashboardController.afficherDashboard
+GET         /dashboardTacheId                               controllers.DashboardController.afficherModalTache(id: Long)
+GET         /adminUtilisateurId                             controllers.AdminController.afficherModalUtilisateur(id: Long)
+GET         /adminClientId                                  controllers.AdminController.afficherModalClient(id: Long)
+GET         /adminProjetsClient                             controllers.ProjetController.afficherProjetsClient(id: Long)
+GET         /adminContactsClient                            controllers.ContactController.afficherContactsClient(id: Long)
+GET         /allUsers                                       controllers.UtilisateurController.allUsers()
+GET         /allSucesseursPossible                          controllers.DashboardController.getAllSucesseursPossible(idTache: Long)
+GET         /AllPredecesseursPossible                       controllers.DashboardController.getAllPredecesseursPossible(idTache: Long)
 
 POST        /modifierTache                        controllers.DashboardController.modifierTache()
 POST        /ajouterProjet                        controllers.ProjetController.creerProjet
@@ -62,7 +62,7 @@ GET         /listProjetsUtilisateur               controllers.UtilisateurControl
 GET         /listTachesUtilisateur                controllers.UtilisateurController.listTachesUtilisateur(id: Long)
 
 #view notification
-GET         /notifications                        controllers.NotificationController.afficherNotifications
+GET         /notifications                                  controllers.NotificationController.afficherNotifications
 
 POST        /adminProjetSelect                              controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
 POST        /adminProjetTermine                             controllers.AdminController.afficherProjetsTermines(check:Boolean)
@@ -88,4 +88,7 @@ POST        /saveBlocNote                                   controllers.Dashboar
 POST        /allNotificationsLues                           controllers.NotificationController.allNotificationsLues(idUser: Long, listIdNotif: String)
 
 #Ajax export clients
-GET         /getClientsAsCSV                      controllers.ClientController.getClientsAsCSV
+GET         /getClientsAsCSV                                controllers.ClientController.getClientsAsCSV
+GET         /draft                                          controllers.Application.getDraft
+
+POST        /modifClient                        controllers.ClientController.modifierClient(idClient : Long)
