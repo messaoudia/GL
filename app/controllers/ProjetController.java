@@ -98,6 +98,37 @@ public class ProjetController extends Controller{
         }
     }
 
+    public Result updateTacheToIndisponible(Long idTache)
+    {
+        Tache t = Tache.find.byId(idTache);
+
+        if(t==null)
+        {
+            return badRequest();
+        }
+
+        t.disponible = false;
+        t.save();
+        System.out.println("t est sav => indispo " + t);
+
+        return ok();
+    }
+
+    public Result updateTacheToDisponible(Long idTache)
+    {
+        Tache t = Tache.find.byId(idTache);
+
+        if(t==null)
+        {
+            return badRequest();
+        }
+
+        t.disponible = true;
+        t.save();
+        System.out.println("t est sav => dispo " + t);
+        return ok();
+    }
+
     public Result sendDraf() {
         JsonNode json = request().body().asJson();
 

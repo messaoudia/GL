@@ -69,7 +69,8 @@ public class Notification extends Model {
         try {
             Notification notification = (Notification) obj;
             return (notification.id.equals(this.id) && notification.title.equals(this.title) &&
-                    notification.dateEnvoi.equals(this.dateEnvoi) &&
+                    //notification.dateEnvoi.equals(this.dateEnvoi) &&
+                    Utils.equals(notification.dateEnvoi, this.dateEnvoi) &&
                     notification.etatLecture.equals(this.etatLecture) &&
                     notification.archiver.equals(this.archiver) &&
                     notification.contentNotification.equals(this.contentNotification));
