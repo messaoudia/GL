@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class ClientController extends Controller {
 
     public Result afficherClients() {
-        return ok(client.render("Clients", Utilisateur.getAllNonArchives().get(0)));
+        return ok(client.render("Clients", Login.getUtilisateurConnecte()));
     }
 
     public Result afficherCreerClient() {
