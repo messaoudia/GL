@@ -9,6 +9,7 @@ import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.afficheProjet;
 import views.html.creerProjet;
 import views.html.projet;
 
@@ -22,7 +23,7 @@ import java.util.stream.StreamSupport;
 public class ProjetController extends Controller {
 
     public Result afficherProjets() {
-        return ok(projet.render("Projets", Utilisateur.getAllNonArchives().get(0)));   // provisoir en attendant login
+        return ok(projet.render("Projets", Login.getUtilisateurConnecte()));   // provisoir en attendant login
     }
 
     public Result afficherCreerProjet() {
@@ -199,16 +200,6 @@ public class ProjetController extends Controller {
 
             dfsTraversalJsNode(currentTacheNode, children, index);
         }
-        //while (childrenIterator.hasNext()) {
-        //
-        //    JsonNode children = childrenIterator.next();
-        //    Tache childrenTache = Tache.find.byId(children.get("id").asLong(0));
-        //    childrenTache.idTache = currentTache.idTache + "." + (indexEnfant++);
-        //    childrenTache.update();
-        //
-        //    dfsTraversalJsNode(currentTacheNode, children, index);
-        //}
-
     }
 
     public static Stream<JsonNode> elementsToStream(Iterator<JsonNode> iterator) {
@@ -218,6 +209,11 @@ public class ProjetController extends Controller {
                 return o1.get("index").asInt() - o2.get("index").asInt();
             }
         });
+    }
+
+    public Result afficheProjet(Long idProjet) {
+        Logger.debug(Login.getUtilisateurConnecte().toString());
+        return ok(afficheProjet.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte()));
     }
 
 }

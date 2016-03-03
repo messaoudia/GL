@@ -99,3 +99,6 @@ POST        /modifClient                                    controllers.ClientCo
 
 # Draft parsed
 POST        /sendDraf                                       controllers.ProjetController.sendDraf
+
+# Workaround ajax refershing project
+GET         /affichePeojet                                  controllers.ProjetController.afficheProjet(idProjet: Long)
