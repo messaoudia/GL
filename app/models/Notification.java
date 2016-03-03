@@ -3,9 +3,11 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import controllers.Global.Mail;
 import models.Utils.Utils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import play.data.format.Formats;
+import play.libs.mailer.Email;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -84,8 +86,20 @@ public class Notification extends Model {
         for(Map.Entry<Utilisateur, Notification> entry : mapNotifications.entrySet()){
             Utilisateur user = entry.getKey();
             Notification notification = entry.getValue();
+            notification.save();
             user.addNotification(notification);
+            user.update();
+            sendEmail(user, notification);
         }
+    }
+
+    private static void sendEmail(Utilisateur user, Notification notification){
+        final Email email = new Email();
+        email.setSubject(notification.title);
+        email.setFrom("NE-PAS-REPONDRE <myproject.polytechparissud@gmail.com>");
+        email.addTo(user.prenom + " " + user.nom + "\"" +user.prenom + " " + user.nom +" <" + user.email + ">\"");
+        email.setBodyHtml(notification.contentNotification);
+        Mail.sendEmail(email);
     }
 
     /**
@@ -320,7 +334,11 @@ public class Notification extends Model {
         }
 
         if(!message.isEmpty()){
-            utilisateur.addNotification(new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+            Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
+            notification.save();
+            utilisateur.addNotification(notification);
+            utilisateur.update();
+            sendEmail(utilisateur, notification);
         }
     }
 
