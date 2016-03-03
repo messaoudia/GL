@@ -781,11 +781,21 @@ public class Projet extends EntiteSecurise {
     private void calculeCheminCritique() throws Exception{
         // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
         List<Tache> listTachesFin = new ArrayList<Tache>();
-        for(Tache tache : listTaches){
+        listTachesFin.add(listTaches.get(0));
+        Date dateMaxTache = listTaches.get(0).dateFinTard;
+        for(int i=0; i<listTaches.size(); i++){
+            Tache tache = listTaches.get(i);
             tache.critique = false; // on réinitialise tous les champs 'critique'
             //if(tache.dateFinTard.equals(dateFinReelTard) && !tache.hasSuccesseur() && tache.enfants().isEmpty()){
-            if(Utils.equals(tache.dateFinTard, dateFinReelTard) && !tache.hasSuccesseur() && tache.enfants().isEmpty()){
-                listTachesFin.add(tache);
+            if(!tache.hasSuccesseur() && tache.enfants().isEmpty()){
+                if(Utils.equals(tache.dateFinTard, dateMaxTache)){
+                    listTachesFin.add(tache);
+                }
+                else if(Utils.after(tache.dateFinTard, dateMaxTache)){
+                    listTachesFin.clear();
+                    dateMaxTache = tache.dateFinTard;
+                    listTachesFin.add(tache);
+                }
             }
         }
         if(listTachesFin.isEmpty())
