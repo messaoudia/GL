@@ -724,6 +724,34 @@
                     });
                 }
 
+                 var activeModificationProjetDansProjet = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-consulterProjet-" + idProjet).hide();
+                     $("#div-modifierProjet-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
+
+                 var desactiveModificationProjetDansProjet = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-modifierProjet-" + idProjet).hide();
+                     $("#div-consulterProjet-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
+
+                 var activeModificationProjetDansClient = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-consulterProjet-client-" + idProjet).hide();
+                     $("#div-modifierProjet-client-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
+
+                 var desactiveModificationProjetDansClient = function(idProjet){
+                     jQuery.fx.off = true;
+                     $("#div-modifierProjet-client-" + idProjet).hide();
+                     $("#div-consulterProjet-client-" + idProjet).show();
+                     jQuery.fx.off = false;
+                 }
+
                 var supprimerUtilisateur = function(){
                     $("#error-message-suppr-user-projet").hide();
                     $("#error-message-suppr-user-tache").hide();
@@ -1848,21 +1876,6 @@
                         jQuery.fx.off = false;
                     });
 
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        $("#div-modifierProjet-client").hide();
-                        $("#div-consulterProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
                     function modeDraftProjetAdmin()
                     {
                         if($('#checkbox-draft-projet-admin').is(':checked')){
@@ -2238,51 +2251,6 @@
                         jQuery.fx.off = true;
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet-client").attr("name");
-                        $("#div-modifierProjet-client-" + idProjet).hide();
-                        $("#div-consulterProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-
-
-                    $( "#btn-modifierProjet" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-" + idProjet).hide();
-                        $("#div-modifierProjet-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet-client" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client-" + idProjet).hide();
-                        $("#div-modifierProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet").attr("name");
-                        $("#div-modifierProjet-" + idProjet).hide();
-                        $("#div-consulterProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
