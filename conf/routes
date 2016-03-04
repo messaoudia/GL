@@ -89,6 +89,7 @@ POST        /clickNotificationsLues                         controllers.Notifica
 POST        /clickNotificationsSupprimer                    controllers.NotificationController.clickNotificationsSupprimer(idUser: Long, listIdNotif: String)
 POST        /updateTacheToIndisponible                      controllers.ProjetController.updateTacheToIndisponible(idTache: Long)
 POST        /updateTacheToDisponible                        controllers.ProjetController.updateTacheToDisponible(idTache: Long)
+POST        /checkMdpAdmin                                    controllers.AdminController.checkMdpAdmin(pswd : String)
 
 
 #Ajax export clients

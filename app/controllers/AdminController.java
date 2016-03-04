@@ -65,7 +65,7 @@ public class AdminController extends Controller{
 
 
     public Result afficherAdminProjetsSelect(Long idProjet) {
-        return ok(adminProjetsSelect.render("Projet",Projet.find.byId(idProjet)));
+        return ok(adminProjetsSelect.render("Projet",Projet.find.byId(idProjet),Login.getUtilisateurConnecte()));
     }
 
     public Result afficherProjetsTermines(Boolean check){
