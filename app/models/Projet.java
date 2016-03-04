@@ -954,6 +954,7 @@ public class Projet extends EntiteSecurise {
     public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
     public boolean estTermine(){ return avancementGlobal == 100; }
 
+    @JsonSerialize
     public int prioriteProjetEtClient(){ return priorite + client.priorite;}
 
     public List<Tache> listTaches(){

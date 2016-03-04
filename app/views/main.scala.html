@@ -968,6 +968,7 @@
 
                             $("#errorCreerUserP").html(messageDiv);
                             $("#errorCreerUser").show();
+
                         }
                     })
                 }
@@ -1108,7 +1109,7 @@
                     var form = $(btn).attr("form");
                     form = "#"+form;
                     var serialize = $(form).serializeObject();
-                    var value = $(".btn-active").attr('value');
+                    var value = $("#btnModifierClient .btn-active").attr('value');
                     var idClient = clientRow.attr('value');
                     var json = "{\"form\":"+JSON.stringify(serialize)+",\"table\":"+JSON.stringify(listeNewContact)+",\"projet\":"+JSON.stringify(tmpRowModalClientProjet)+",\"contact\":"+JSON.stringify(tmpRowModalClientContact)+",\"priorite\":"+value+"}";
                     console.log(json);
@@ -1174,7 +1175,7 @@
                     form = "#"+form;
                     var serialize = $(form).serializeObject();
                     //var myRows = { myRows: [] };
-                    var value = $(".btn-active").attr('value');
+                    var value = $("#btnCreerClient .btn-active").attr('value');
                     var $th = $('#tableContact th');
 
                     var rowCount = $('#tableContact tbody tr').length;
@@ -1850,189 +1851,189 @@
                     });
                 }
 
-                 var modifierTache = function (btn) {
-                     var form = $(btn).attr("form");
-                     form = "#"+form;
-                     var serialize = $(form).serialize();
-                     console.log(serialize);
+                var modifierTache = function (btn) {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    console.log(serialize);
 
-                     //IDTACHE
-                     var idTache = $('#formModifierTache').attr('value');
+                    //IDTACHE
+                    var idTache = $('#formModifierTache').attr('value');
 
-                     //PREDECESSEUR
-                     var idPredecesseur = "";
-                     if($('#form-tache-predecesseur').select2().val() != null){
-                         idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
-                         console.log("idPredecesseur"+idPredecesseur);
-                     }
+                    //PREDECESSEUR
+                    var idPredecesseur = "";
+                    if($('#form-tache-predecesseur').select2().val() != null){
+                        idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                        console.log("idPredecesseur"+idPredecesseur);
+                    }
 
-                     var tabSuccesseurs = [];
-                     //SUCCESSEUR
-                     $("#form-tache-successeur option").each(function() {
-                         if($(this).is(':selected')){
-                             console.log("selected : "+$(this).val());
-                             tabSuccesseurs.push($(this).val());
-                         }
-                     });
+                    var tabSuccesseurs = [];
+                    //SUCCESSEUR
+                    $("#form-tache-successeur option").each(function() {
+                        if($(this).is(':selected')){
+                            console.log("selected : "+$(this).val());
+                            tabSuccesseurs.push($(this).val());
+                        }
+                    });
 
-                     //RESPONSABLE DE TACHE
-                     var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
-                     console.log("idReponsableTache"+idResponsableTache);
+                    //RESPONSABLE DE TACHE
+                    var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
+                    console.log("idReponsableTache"+idResponsableTache);
 
-                     //INTERLOCUTEURS EXTERNES
-                     var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
-                     var tabInterlocuteurs = [];
+                    //INTERLOCUTEURS EXTERNES
+                    var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+                    var tabInterlocuteurs = [];
 
-                     for (i = 0; i < nbInterlocuteurs; i++) {
-                         if($("#checkbox-interlocuteur-"+i).is(':checked')){
-                             console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
-                             tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
-                         }
-                     }
+                    for (i = 0; i < nbInterlocuteurs; i++) {
+                        if($("#checkbox-interlocuteur-"+i).is(':checked')){
+                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
+                            tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
+                        }
+                    }
 
-                     var dataToSend = serialize+"&id-tache="+idTache+"&predecesseur="+idPredecesseur;
-                     dataToSend += "&successeurs=";
+                    var dataToSend = serialize+"&id-tache="+idTache+"&predecesseur="+idPredecesseur;
+                    dataToSend += "&successeurs=";
 
-                     for (var i = 0; i < tabSuccesseurs.length; i++){
-                         dataToSend += tabSuccesseurs[i]+",";
-                     }
+                    for (var i = 0; i < tabSuccesseurs.length; i++){
+                        dataToSend += tabSuccesseurs[i]+",";
+                    }
 
-                     dataToSend += "&responsable="+idResponsableTache;
+                    dataToSend += "&responsable="+idResponsableTache;
 
-                     dataToSend += "&interlocuteurs=";
+                    dataToSend += "&interlocuteurs=";
 
-                     for (var i = 0; i < tabInterlocuteurs.length; i++){
-                         dataToSend += tabInterlocuteurs[i]+",";
-                     }
+                    for (var i = 0; i < tabInterlocuteurs.length; i++){
+                        dataToSend += tabInterlocuteurs[i]+",";
+                    }
 
-                     console.log("Data SEND : "+dataToSend);
-                     //Ajax call submit form
-                     jsRoutes.controllers.DashboardController.modifierTache().ajax({
-                         data: dataToSend,
-                         success : function() {
+                    console.log("Data SEND : "+dataToSend);
+                    //Ajax call submit form
+                    jsRoutes.controllers.DashboardController.modifierTache().ajax({
+                        data: dataToSend,
+                        success : function() {
 
-                             jsRoutes.controllers.UtilisateurController.listTachesUtilisateurConnecte().ajax({
-                                 success : function(taches) {
-                                     console.log("SUCCESS");
-                                     console.log("ListTaches a afficher : ");
-                                     console.log(taches);
+                            jsRoutes.controllers.UtilisateurController.listTachesUtilisateurConnecte().ajax({
+                                success : function(taches) {
+                                    console.log("SUCCESS");
+                                    console.log("ListTaches a afficher : ");
+                                    console.log(taches);
 
-                                     $('#dataTables-tdb-tache').dataTable().fnDestroy();
+                                    $('#dataTables-tdb-tache').dataTable().fnDestroy();
 
-                                     var tableDashboardBody = $('#dataTables-tdb-tache-body');
-                                     tableDashboardBody.empty();
+                                    var tableDashboardBody = $('#dataTables-tdb-tache-body');
+                                    tableDashboardBody.empty();
 
-                                     var tableContent = "";
-                                     $.each(taches, function (i, tache) {
-                                         tableContent += ('<tr value="'+tache.id+'" onclick="afficherModalTache(this)" class="table-center">');
-                                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
-                                         tableContent += ('<p class="tdb-id-tache">'+tache.idTache+'</p>');
-                                         tableContent += ('<p class="tdb-nom-tache">'+tache.nom+'</p>');
-                                         tableContent += ('</td>');
+                                    var tableContent = "";
+                                    $.each(taches, function (i, tache) {
+                                        tableContent += ('<tr value="'+tache.id+'" onclick="afficherModalTache(this)" class="table-center">');
+                                        tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
+                                        tableContent += ('<p class="tdb-id-tache">'+tache.idTache+'</p>');
+                                        tableContent += ('<p class="tdb-nom-tache">'+tache.nom+'</p>');
+                                        tableContent += ('</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.nom+'</td>');
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.nom+'</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.client.nom+'</td>');
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.client.nom+'</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.dateDebut+'</td>');
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.dateDebut+'</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
-                                         tableContent += ('<p style="display:none ;">'+tache.dateFinTard+'</p>');
-                                         tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTot+'</p>');
-                                         tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTard+'</p>');
-                                         tableContent += ('</td>');
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
+                                        tableContent += ('<p style="display:none ;">'+tache.dateFinTard+'</p>');
+                                        tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTot+'</p>');
+                                        tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTard+'</p>');
+                                        tableContent += ('</td>');
 
-                                         tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
+                                        tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
 
-                                         tableContent += ('<p style="display:none ;">');
-                                         if(tache.getAvancementTache > 0 || tache.getAvancementTache < 100){
-                                             tableContent += ('0'+tache.getAvancementTache);
-                                         }else{
-                                             tableContent += (tache.getAvancementTache);
-                                         }
-                                         tableContent += ('</p>');
+                                        tableContent += ('<p style="display:none ;">');
+                                        if(tache.getAvancementTache > 0 || tache.getAvancementTache < 100){
+                                            tableContent += ('0'+tache.getAvancementTache);
+                                        }else{
+                                            tableContent += (tache.getAvancementTache);
+                                        }
+                                        tableContent += ('</p>');
 
-                                         tableContent += ('<p class="row-initiale">@Messages("initial") : '+tache.chargeInitiale);
-                                         if(tache.projet.hasUniteJour){
-                                             tableContent += ('@Messages("day-first-letter")');
-                                         }else{
-                                             tableContent += ('@Messages("week-first-letter")');
-                                         }
-                                         tableContent += ('</p>');
+                                        tableContent += ('<p class="row-initiale">@Messages("initial") : '+tache.chargeInitiale);
+                                        if(tache.projet.hasUniteJour){
+                                            tableContent += ('@Messages("day-first-letter")');
+                                        }else{
+                                            tableContent += ('@Messages("week-first-letter")');
+                                        }
+                                        tableContent += ('</p>');
 
-                                         tableContent += ('<p class="row-restante">@Messages("remaining") : '+tache.chargeRestante);
-                                         if(tache.projet.hasUniteJour){
-                                             tableContent += ('@Messages("day-first-letter")');
-                                         }else{
-                                             tableContent += ('@Messages("week-first-letter")');
-                                         }
-                                         tableContent += ('</p>');
+                                        tableContent += ('<p class="row-restante">@Messages("remaining") : '+tache.chargeRestante);
+                                        if(tache.projet.hasUniteJour){
+                                            tableContent += ('@Messages("day-first-letter")');
+                                        }else{
+                                            tableContent += ('@Messages("week-first-letter")');
+                                        }
+                                        tableContent += ('</p>');
 
-                                         tableContent += ('<div class="progress progress-bar-default">');
-                                         if(tache.getAvancementTache == 0){
-                                             tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">');
-                                             tableContent += ('0%');
-                                             tableContent += ('</div>');
-                                         }else{
-                                             tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="'+tache.getAvancementTache+'" aria-valuemin="0" aria-valuemax="100" style="width: '+tache.getAvancementTache+'% ;">');
-                                             tableContent += (tache.getAvancementTache+'%');
-                                             tableContent += ('</div>');
-                                         }
-                                         tableContent += ('</div>');
+                                        tableContent += ('<div class="progress progress-bar-default">');
+                                        if(tache.getAvancementTache == 0){
+                                            tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">');
+                                            tableContent += ('0%');
+                                            tableContent += ('</div>');
+                                        }else{
+                                            tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="'+tache.getAvancementTache+'" aria-valuemin="0" aria-valuemax="100" style="width: '+tache.getAvancementTache+'% ;">');
+                                            tableContent += (tache.getAvancementTache+'%');
+                                            tableContent += ('</div>');
+                                        }
+                                        tableContent += ('</div>');
 
-                                         tableContent += ('<p class="row-consommee">@Messages("consumed") : '+tache.chargeConsommee);
-                                         if(tache.projet.hasUniteJour){
-                                             tableContent += ('@Messages("day-first-letter")');
-                                         }else{
-                                             tableContent += ('@Messages("week-first-letter")');
-                                         }
-                                         tableContent += ('</p>');
-                                         tableContent += ('</td>');
+                                        tableContent += ('<p class="row-consommee">@Messages("consumed") : '+tache.chargeConsommee);
+                                        if(tache.projet.hasUniteJour){
+                                            tableContent += ('@Messages("day-first-letter")');
+                                        }else{
+                                            tableContent += ('@Messages("week-first-letter")');
+                                        }
+                                        tableContent += ('</p>');
+                                        tableContent += ('</td>');
 
-                                         tableContent += ('<td style="vertical-align:middle ;">');
-                                         if(tache.hasPredecesseur){
-                                             tableContent += ('<div class="row">@Messages("predecessor") : '+tache.predecesseurIdTache+'</div>');
+                                        tableContent += ('<td style="vertical-align:middle ;">');
+                                        if(tache.hasPredecesseur){
+                                            tableContent += ('<div class="row">@Messages("predecessor") : '+tache.predecesseurIdTache+'</div>');
 
-                                         }
+                                        }
 
-                                         if(tache.hasSuccesseur){
+                                        if(tache.hasSuccesseur){
 
-                                             tableContent += ('<div class="row"> @Messages("successors") : <div class="btn-group">');
-                                             tableContent += ('<button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">');
-                                             tableContent += (tache.nbSuccesseurs+' @Messages("tasks-lower") <span class="caret"></span></button>');
+                                            tableContent += ('<div class="row"> @Messages("successors") : <div class="btn-group">');
+                                            tableContent += ('<button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">');
+                                            tableContent += (tache.nbSuccesseurs+' @Messages("tasks-lower") <span class="caret"></span></button>');
 
-                                             tableContent += ('<ul class="dropdown-menu dropdown-menu-pert">');
+                                            tableContent += ('<ul class="dropdown-menu dropdown-menu-pert">');
 
-                                             $.each(tache.successeurs, function(i, successeur) {
-                                                 tableContent += ('<li>'+successeur.idTache+'</li>');
-                                             });
+                                            $.each(tache.successeurs, function(i, successeur) {
+                                                tableContent += ('<li>'+successeur.idTache+'</li>');
+                                            });
 
-                                             tableContent += ('</ul></div></div>');
-                                         }
-                                         tableContent += ('</td>');
+                                            tableContent += ('</ul></div></div>');
+                                        }
+                                        tableContent += ('</td>');
 
-                                         if(tache.hasResponsableActivateNotification){
-                                             tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell"></i></a></td>');
-                                         } else {
-                                             tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell-slash-o"></i></a></td>');
-                                         }
+                                        if(tache.hasResponsableActivateNotification){
+                                            tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell"></i></a></td>');
+                                        } else {
+                                            tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell-slash-o"></i></a></td>');
+                                        }
 
-                                         tableContent += ('</tr>');
-                                     });
+                                        tableContent += ('</tr>');
+                                    });
 
-                                     console.log(tableContent);
-                                     tableDashboardBody.append(tableContent);
-                                     $('#modal-tache').modal('toggle');
-                                     
-                                 }
-                             });
+                                    console.log(tableContent);
+                                    tableDashboardBody.append(tableContent);
+                                    $('#modal-tache').modal('toggle');
 
-                         },
-                         error: function(errorMessage,codeErreur){
-                             console.log(codeErreur+" "+errorMessage);
-                         }
-                     });
-                 }
+                                }
+                            });
+
+                        },
+                        error: function(errorMessage,codeErreur){
+                            console.log(codeErreur+" "+errorMessage);
+                        }
+                    });
+                }
 
                 $(document).ready(function () {
 
@@ -2334,7 +2335,7 @@
                 $(document).on('click', '#submitButton', function(){
                     var $form = $('#addProjectForm');
                     var $serialize= $form.serialize();
-                    var $value = $(".btn-active").attr('value');
+                    var $value = $("#btnCreerProjet .btn-active").attr('value');
                     jsRoutes.controllers.ProjetController.creerProjet().ajax({
                         data :$serialize+ '&priorite='+$value,
                         success : function(data) {
@@ -2483,7 +2484,6 @@
                     $("#errorCreerProjet > button").click(function(){
                         $("#errorProjet").hide()
                     });
-
 
 
                     $( "#btn-modifierProjet-admin" ).click(function() {
@@ -3301,6 +3301,68 @@
 
                 //####################################################################
 
+                //######### Modifier projet ##########
+
+                var modifierProjet = function(div) {
+                    var id = $(div).attr("value");
+                    var form = "#"+$(div).attr("form");
+                    alert(form);
+                    var serialize = $(form).serialize();
+                    var idBtn = "projet-modifier-btn-"+id;
+                    var priorite = $('#'+idBtn+' .btn-active').attr('value');
+
+                    alert(priorite);
+                    jsRoutes.controllers.ProjetController.modifierProjet(id).ajax({
+                        data: serialize+ '&priorite='+priorite,
+                        success : function(data) {
+                            $("#errorModifierProjetP").empty();
+                            $("#errorModifierProjet").hide();
+
+                            $("#successModifierProjetP").html('@Messages("project") '+data.nom+' @Messages("modified")');
+                            $("#successModifierProjet").show();
+                            setTimeout(function(){
+                                $("#successModifierProjet").hide();
+                            },4000);
+                            var div = "#div-consulterProjet-"+data.id;
+                            $(div).find('div[id=projetName]').html('@Messages("project"): '+data.nom);
+                            $(div).find('div[id=projetPriorite]').html(data.priorite);
+                            $(div).find('textarea[id=descriptionProjet]').html(data.description);
+                            var nom = "projet-"+data.id;
+                            $('.liste-projet').find('div[name='+nom+']').find('div[class=sidebar-projet-nom]').html(data.nom);
+                            $('.liste-projet').find('div[name='+nom+']').find('div[class=sidebar-client-projet-priorite]').find('div[class=valeur]').html(data.prioriteProjetEtClient);
+                            //modif des valeurs de la div
+                        },
+                        error: function(error){
+                            $("#successModifierProjet").hide();
+                            $("#successModifierProjetP").empty();
+
+                            var messageDiv = generateErrorModifierProjet(error);
+
+                            $("#errorModifierProjetP").html(messageDiv);
+                            $("#errorModifierProjet").show();
+                        }
+                    });
+                }
+
+                function generateErrorModifierProjet(errorMessage)
+                {
+                    var messageDiv = '@Messages("errors") : ';
+
+                    if(errorMessage.responseJSON.nomProjetVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameProjetEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.nomProjetTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameProjetTooLongError")';
+                    }
+
+                    if(errorMessage.responseJSON.descriptionTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("descriptionTooLongError")';
+                    }
+                    return messageDiv;
+                }
         </script>
     </body>
 </html>

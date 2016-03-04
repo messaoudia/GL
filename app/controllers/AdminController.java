@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
+import models.Error;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -110,5 +111,24 @@ public class AdminController extends Controller{
         System.out.println(client.listeProjets.size());
 
         return ok();
+    }
+
+    public Result checkMdpAdmin(String pswd){
+        Utilisateur connecte = Login.getUtilisateurConnecte();
+        //check si vide
+        Error error = new Error();
+        if(pswd.isEmpty()){
+            error.mdpVide = true;
+        }else {
+            //check si mot de passe correcte
+            if(!connecte.checkPassword(pswd)){
+                error.mdpIncorrecte = true;
+            }
+        }
+        if(error.hasErrorMdp()){
+            return badRequest(Json.toJson(error));
+        }else{
+            return ok();
+        }
     }
 }

@@ -21,7 +21,7 @@
                     });
                 });
                 $("body").load(function(){
-                    updateMenu();
+                    if(controler.substring(0,15) === 'AdminController')();
                 });
                 function updateMenu()
                 {
@@ -179,7 +179,7 @@
                                                 <div class="row form-group">
                                                     <label class="col-sm-5 control-label">@Messages("priority")</label>
                                                     <div class="col-sm-7">
-                                                        <div class="btn-group">
+                                                        <div id="btnModifierClient" class="btn-group">
                                                             <button id="client-priority-1" class="btn" type="button" value="1" >
                                                                 1</button>
                                                             <button id="client-priority-2" class="btn btn-active" value="2" type="button">
@@ -448,7 +448,7 @@
 
                                             <div class="row form-group">
                                                 <label class="col-sm-5 control-label">@Messages("priority")</label>
-                                                <div class="btn-group" style="display: inline-block ;">
+                                                <div id="btnCreerClient" class="btn-group" style="display: inline-block ;">
                                                     <button class="btn" type="button" value="1" >1</button>
                                                     <button class="btn  btn-active" value="2" type="button">2</button>
                                                     <button class="btn" type="button" value="3">3</button>
