@@ -89,24 +89,24 @@
                 </li>
 
                 @if(menu.equals("ProjetAdmin")) {
-                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()">
+                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()" data-toggle="modal" data-target="#modal-check-mdp">
                         <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
                         @Messages("projects") </span></a>
                     </li>
                 } else {
-                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()">
+                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()" data-toggle="modal" data-target="#modal-check-mdp">
                         <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
                         @Messages("projects") </span></a>
                     </li>
                 }
 
                 @if(menu.equals("ClientAdmin")) {
-                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminClients()">
+                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminClients()" data-toggle="modal" data-target="#modal-check-mdp">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
                         @Messages("clients") </span></a>
                     </li>
                 } else {
-                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminClients()">
+                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminClients()" data-toggle="modal" data-target="#modal-check-mdp">
                         <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
                         @Messages("clients") </span></a>
                     </li>
@@ -114,19 +114,45 @@
 
 
                 @if(menu.equals("UtilisateurAdmin")) {
-                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()">
+                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()" data-toggle="modal" data-target="#modal-check-mdp">
                         <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
                         @Messages("user") </span></a>
                     </li>
                 } else {
-                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()">
+                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()" data-toggle="modal" data-target="#modal-check-mdp">
                         <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
                         @Messages("user") </span></a>
                     </li>
                 }
-
             </ul>
+        </div>
+        <div class="modal fade" id="modal-check-mdp" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                    <!-- Modal content-->
+                <div class="modal-content">
 
+                    <div class="modal-header background_admin">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
+                            ×</span> <span class="sr-only">Close</span></button>
+                        <label style="color:white;" for="newPassword">@Messages("adminMdp")</label>
+                    </div>
+                    <div class="modal-body">
+                        <div id="errorMdpAdmin" class="alert alert-danger alert-dismissable" style="display: none;">
+                            <button class="close" type="button">×</button>
+                            <p id="errorMdpAdminP"><p>
+                        </div>
+                        <div class="newPassword">
+                            <input type="password" value="" id="passwordAdmin" name="passwordAdmin">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="adminBtn" type="button" class="btn btn-danger">@Messages("submit")</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
+
+
+
 </div>

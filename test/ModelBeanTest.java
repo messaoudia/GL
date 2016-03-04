@@ -252,7 +252,7 @@ public class ModelBeanTest {
                     20D,
                     0D,
                     20D,
-                    contactList,pr,null,null,null,false);
+                    contactList,pr,null,null,null);
             //tache.responsableTache = u1;
             tache.idTache = "1";
 

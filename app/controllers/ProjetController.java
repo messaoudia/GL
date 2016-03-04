@@ -129,6 +129,45 @@ public class ProjetController extends Controller {
         return ok();
     }
 
+    public Result modifierProjet(Long id){
+        Projet p = Projet.find.byId(id);
+        //check projet  -- nom + description
+        Map<String, String[]> map = request().body().asFormUrlEncoded();
+        Error error = new Error();
+        String nom = map.get("projet")[0];
+        if (nom.isEmpty()) {
+            error.nomProjetVide = true;
+        } else if (nom.length() > 30) {
+            error.nomProjetTropLong= true;
+        }
+        String description = map.get("description")[0];
+        if(description.length() > 65536) {
+            error.descriptionTropLong = true;
+        }
+        Logger.debug(p.responsableProjet.nom + p.responsableProjet.prenom);
+        if(error.hasErrorProjet()){
+            return badRequest(Json.toJson(error));
+        }else{
+            //modification des info si besoin
+            int priorite = Integer.parseInt(map.get("priorite")[0]);
+            //check priorite
+            if(!p.nom.equals(nom)){
+                p.nom = nom;
+            }
+            if(p.priorite != priorite){
+                p.priorite = priorite;
+            }
+            //description
+            if(!p.description.equals(description)){
+                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
+                p.description = description;
+            }
+            p.save();
+            return ok(Json.toJson(p));
+        }
+    }
+
+
     public Result sendDraf() {
         JsonNode jsonDraft = request().body().asJson();
 

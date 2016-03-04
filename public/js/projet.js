@@ -1,12 +1,29 @@
 $(document).ready(function() {
-    $('.btn-group .btn').click(function (e) {
+    $('#btnCreerClient .btn').click(function (e) {
         e.preventDefault();
-        var self = $(this),
-            controler = self.data('infos') || self.attr('data-infos');
-        $('.btn-group .btn').removeClass('btn-active');
+        $('#btnCreerClient .btn').removeClass('btn-active');
         $(this).addClass('btn-active');
-
     });
+
+    $('#btnCreerProjet .btn').click(function (e) {
+        e.preventDefault();
+        $('#btnCreerProjet .btn').removeClass('btn-active');
+        $(this).addClass('btn-active');
+    });
+
+    $('#btnModifierClient .btn').click(function (e) {
+        e.preventDefault();
+        $('#btnModifierClient .btn').removeClass('btn-active');
+        $(this).addClass('btn-active');
+    });
+
+    $('[id^=projet-modifier-btn-]').on('click', '*', function(e) {
+        e.preventDefault();
+        var id = $(this).parent('div').attr('id');
+        $('#'+id+' .btn').removeClass('btn-active');
+        $(this).addClass('btn-active');
+    });
+
 
     $( "#btn-modifierProjet" ).click(function() {
         //$("#div-consulterProjet").css("display","none");
@@ -23,14 +40,34 @@ $(document).ready(function() {
 });
 
 $(document).ajaxComplete(function() {
-    $('.btn-group .btn').click(function (e) {
+    $('#btnCreerClient .btn').click(function (e) {
         e.preventDefault();
-        var self = $(this),
-            controler = self.data('infos') || self.attr('data-infos');
-        $('.btn-group .btn').removeClass('btn-active');
+        $('#btnCreerClient .btn').removeClass('btn-active');
         $(this).addClass('btn-active');
-
     });
+
+    $('#btnCreerProjet .btn').click(function (e) {
+        e.preventDefault();
+        $('#btnCreerProjet .btn').removeClass('btn-active');
+        $(this).addClass('btn-active');
+    });
+
+    $('#btnModifierClient .btn').click(function (e) {
+        e.preventDefault();
+        $('#btnModifierClient .btn').removeClass('btn-active');
+        $(this).addClass('btn-active');
+    });
+
+    $('[id^=projet-modifier-btn-]').on('click', '*', function(e) {
+        e.preventDefault();
+        var id = $(this).parent('div').attr('id');
+        $('#'+id+' .btn').removeClass('btn-active');
+        $(this).addClass('btn-active');
+    });
+
+
+
+
 
     $( "#btn-modifierProjet" ).click(function() {
         //$("#div-consulterProjet").css("display","none");

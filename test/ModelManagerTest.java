@@ -31,7 +31,7 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache = new Tache("Tache","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null);
             tache.save();
 
             try {
@@ -64,12 +64,12 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache1 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null);
             tache1.save();
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache2 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null);
             tache2.save();
 
             try {
@@ -106,12 +106,12 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache1 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null);
             tache1.save();
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache2 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null);
             tache2.save();
 
             try {
@@ -148,12 +148,12 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache1 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,null,null,null);
             tache1.save();
 
             //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tache2 = new Tache("Tache2","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null);
             tache2.save();
 
             try {
@@ -175,7 +175,7 @@ public class ModelManagerTest {
                 // 2eme test
                 //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
                 Tache tache3 = new Tache("Tache3","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                        Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null,true);
+                        Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null);
                 tache3.save();
                 projet.creerTacheEnDessous(tache3,tache2);
                 assertEquals(tache1Selected.idTache, "1");
@@ -183,7 +183,7 @@ public class ModelManagerTest {
                 assertEquals(Tache.find.byId(tache3.id).idTache, "1.2");
 
                 Tache tache4 = new Tache("Tache4","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                        Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null,true);
+                        Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null);
                 tache4.save();
                 projet.creerSousTache(tache4, tache3);
                 assertEquals(tache1Selected.idTache, "1");
@@ -230,67 +230,67 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,2), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tacheA = new Tache("TacheA","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,2),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null);
             tacheA.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheB = new Tache("TacheB","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,null,null,null);
             tacheB.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheC = new Tache("TacheC","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,null,null,null);
             tacheC.save();
 
             //tache dateDebut: (2016,2,28), dateFinTot: (2016,3,3), dateFinTard: (2016,3,3)
             Tache tacheD = new Tache("TacheD","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,28),
-                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,null,null,null);
             tacheD.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheE = new Tache("TacheE","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null);
             tacheE.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheF = new Tache("TacheF","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null);
             tacheF.save();
 
             //tache dateDebut: (2016,2,20), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheG = new Tache("TacheG","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,20),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,null,null,null);
             tacheG.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,5), dateFinTard: (2016,2,5)
             Tache tacheH = new Tache("TacheH","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null,null,null,null);
             tacheH.save();
 
             //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
             Tache tacheI = new Tache("TacheI","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,null,null,null);
             tacheI.save();
 
             //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,13), dateFinTard: (2016,2,13)
             Tache tacheJ = new Tache("TacheJ","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,10),
-                    Utils.getDateFrom(2016,2,13),Utils.getDateFrom(2016,2,13),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,13),Utils.getDateFrom(2016,2,13),20D,0D,20D,null,null,null,null,null);
             tacheJ.save();
 
             //tache dateDebut: (2016,2,13), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheK = new Tache("TacheK","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,13),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,null,null,null);
             tacheK.save();
 
             //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
             Tache tacheL = new Tache("TacheL","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,null,null,null);
             tacheL.save();
 
             //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheM = new Tache("TacheM","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,10),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,null,null,null);
             tacheM.save();
 
             try {
@@ -497,37 +497,37 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,2), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tacheA = new Tache("TacheA","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,2),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null);
             tacheA.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheB = new Tache("TacheB","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null,true);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null);
             tacheB.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheC = new Tache("TacheC","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null,true);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null);
             tacheC.save();
 
             //tache dateDebut: (2016,2,28), dateFinTot: (2016,3,3), dateFinTard: (2016,3,3)
             Tache tacheD = new Tache("TacheD","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,28),
-                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,tacheC,null,null,true);
+                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,tacheC,null,null);
             tacheD.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheE = new Tache("TacheE","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheB,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheB,null,null);
             tacheE.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheF = new Tache("TacheF","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheA,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheA,null,null);
             tacheF.save();
 
             //tache dateDebut: (2016,2,20), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheG = new Tache("TacheG","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,20),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheF,null,null,true);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheF,null,null);
             tacheG.save();
 
             try {
@@ -588,7 +588,7 @@ public class ModelManagerTest {
                 // Ajouter tacheZ après tacheG
                 //tache dateDebut: (2016,2,28), dateFinTot: (2016,3,4), dateFinTard: (2016,3,4)
                 Tache tacheZ = new Tache("TacheZ","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,28),
-                        Utils.getDateFrom(2016,3,4),Utils.getDateFrom(2016,3,4),20D,0D,20D,null,null,tacheG,null,null,true);
+                        Utils.getDateFrom(2016,3,4),Utils.getDateFrom(2016,3,4),20D,0D,20D,null,null,tacheG,null,null);
                 tacheZ.save();
                 projet.creerTacheEnDessous(tacheZ,tacheG);
                 // Verifier le chemin critique
@@ -610,32 +610,32 @@ public class ModelManagerTest {
 
                 //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,5), dateFinTard: (2016,2,5)
                 Tache tacheH = new Tache("TacheH", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 4),
-                        Utils.getDateFrom(2016, 2, 5), Utils.getDateFrom(2016, 2, 5), 20D, 0D, 20D, null, null, tacheA, null, null,true);
+                        Utils.getDateFrom(2016, 2, 5), Utils.getDateFrom(2016, 2, 5), 20D, 0D, 20D, null, null, tacheA, null, null);
                 tacheH.save();
 
                 //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
                 Tache tacheI = new Tache("TacheI", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 5),
-                        Utils.getDateFrom(2016, 2, 10), Utils.getDateFrom(2016, 2, 10), 20D, 0D, 20D, null, null, tacheH, null, null,true);
+                        Utils.getDateFrom(2016, 2, 10), Utils.getDateFrom(2016, 2, 10), 20D, 0D, 20D, null, null, tacheH, null, null);
                 tacheI.save();
 
                 //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,13), dateFinTard: (2016,2,13)
                 Tache tacheJ = new Tache("TacheJ", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 10),
-                        Utils.getDateFrom(2016, 2, 13), Utils.getDateFrom(2016, 2, 13), 20D, 0D, 20D, null, null, tacheI, null, null,true);
+                        Utils.getDateFrom(2016, 2, 13), Utils.getDateFrom(2016, 2, 13), 20D, 0D, 20D, null, null, tacheI, null, null);
                 tacheJ.save();
 
                 //tache dateDebut: (2016,2,13), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
                 Tache tacheK = new Tache("TacheK", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 13),
-                        Utils.getDateFrom(2016, 2, 18), Utils.getDateFrom(2016, 2, 18), 20D, 0D, 20D, null, null, tacheJ, null, null, true);
+                        Utils.getDateFrom(2016, 2, 18), Utils.getDateFrom(2016, 2, 18), 20D, 0D, 20D, null, null, tacheJ, null, null);
                 tacheK.save();
 
                 //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
                 Tache tacheL = new Tache("TacheL", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 5),
-                        Utils.getDateFrom(2016, 2, 10), Utils.getDateFrom(2016, 2, 10), 20D, 0D, 20D, null, null, tacheH, null, null,true);
+                        Utils.getDateFrom(2016, 2, 10), Utils.getDateFrom(2016, 2, 10), 20D, 0D, 20D, null, null, tacheH, null, null);
                 tacheL.save();
 
                 //tache dateDebut: (2016,2,10), dateFinTot: (2016,3,5), dateFinTard: (2016,3,5)
                 Tache tacheM = new Tache("TacheM", "Cette tâche permet de réaliser l'étude du projet", utilisateur, 0, true, Utils.getDateFrom(2016, 2, 10),
-                        Utils.getDateFrom(2016, 3, 5), Utils.getDateFrom(2016, 3, 5), 20D, 0D, 20D, null, null, tacheL, null, null,true);
+                        Utils.getDateFrom(2016, 3, 5), Utils.getDateFrom(2016, 3, 5), 20D, 0D, 20D, null, null, tacheL, null, null);
                 tacheM.save();
 
                 projet.creerSousTache(tacheH,tacheF);
@@ -700,67 +700,67 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,2), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tacheA = new Tache("TacheA","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,2),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null);
             tacheA.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheB = new Tache("TacheB","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null,true);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null);
             tacheB.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheC = new Tache("TacheC","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null,true);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null);
             tacheC.save();
 
             //tache dateDebut: (2016,2,28), dateFinTot: (2016,3,3), dateFinTard: (2016,3,3)
             Tache tacheD = new Tache("TacheD","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,28),
-                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,tacheC,null,null,true);
+                    Utils.getDateFrom(2016,3,3),Utils.getDateFrom(2016,3,3),20D,0D,20D,null,null,tacheC,null,null);
             tacheD.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheE = new Tache("TacheE","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheB,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheB,null,null);
             tacheE.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheF = new Tache("TacheF","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheA,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheA,null,null);
             tacheF.save();
 
             //tache dateDebut: (2016,2,20), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheG = new Tache("TacheG","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,20),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheF,null,null,true);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheF,null,null);
             tacheG.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,5), dateFinTard: (2016,2,5)
             Tache tacheH = new Tache("TacheH","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,0D,20D,null,null,null,null,null);
             tacheH.save();
 
             //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
             Tache tacheI = new Tache("TacheI","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,tacheH,null,null,true);
+                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,tacheH,null,null);
             tacheI.save();
 
             //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,13), dateFinTard: (2016,2,13)
             Tache tacheJ = new Tache("TacheJ","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,10),
-                    Utils.getDateFrom(2016,2,13),Utils.getDateFrom(2016,2,13),20D,0D,20D,null,null,tacheI,null,null,true);
+                    Utils.getDateFrom(2016,2,13),Utils.getDateFrom(2016,2,13),20D,0D,20D,null,null,tacheI,null,null);
             tacheJ.save();
 
             //tache dateDebut: (2016,2,13), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheK = new Tache("TacheK","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,13),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheJ,null,null,true);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheJ,null,null);
             tacheK.save();
 
             //tache dateDebut: (2016,2,5), dateFinTot: (2016,2,10), dateFinTard: (2016,2,10)
             Tache tacheL = new Tache("TacheL","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,5),
-                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,tacheH,null,null,true);
+                    Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,10),20D,0D,20D,null,null,tacheH,null,null);
             tacheL.save();
 
             //tache dateDebut: (2016,2,10), dateFinTot: (2016,2,20), dateFinTard: (2016,2,20)
             Tache tacheM = new Tache("TacheM","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,10),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheL,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,20),20D,0D,20D,null,null,tacheL,null,null);
             tacheM.save();
 
             try {
@@ -1037,17 +1037,17 @@ public class ModelManagerTest {
 
             //tache dateDebut: (2016,2,2), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
             Tache tacheA = new Tache("TacheA","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,2),
-                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,0D,20D,null,null,null,null,null);
             tacheA.save();
 
             //tache dateDebut: (2016,2,4), dateFinTot: (2016,2,18), dateFinTard: (2016,2,18)
             Tache tacheB = new Tache("TacheB","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
-                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null,true);
+                    Utils.getDateFrom(2016,2,18),Utils.getDateFrom(2016,2,18),20D,0D,20D,null,null,tacheA,null,null);
             tacheB.save();
 
             //tache dateDebut: (2016,2,18), dateFinTot: (2016,2,28), dateFinTard: (2016,2,28)
             Tache tacheC = new Tache("TacheC","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null,true);
+                    Utils.getDateFrom(2016,2,28),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tacheB,null,null);
             tacheC.save();
 
             try {
@@ -1099,11 +1099,11 @@ public class ModelManagerTest {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
             Tache tache1 = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null);
             tache1.save();
 
             Tache tache2 = new Tache("Etude 12","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,18),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,17),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,17),20D,0D,20D,null,null,null,null,null);
             tache2.save();
             assertTrue(Tache.find.byId(tache1.id).verifierCoherenceDesDates());
             assertFalse(Tache.find.byId(tache2.id).verifierCoherenceDesDates());
@@ -1123,19 +1123,19 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheParent2 = new Tache("Tache parent2","Cette tâche permet de réaliser l'étude du projet",utilisateur,2,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null);
             tacheParent2.save();
 
             Tache tache21 = new Tache("Tache 21","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null);
             tache21.save();
 
             Tache tache22 = new Tache("Tache 22","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,26),
-                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tache21,null,null,true);
+                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tache21,null,null);
             tache22.save();
 
             Tache tache23 = new Tache("Tache 23","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,28),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,tache22,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,tache22,null,null);
             tache23.save();
 
             try {
@@ -1163,19 +1163,19 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tacheParent2 = new Tache("Tache parent2","Cette tâche permet de réaliser l'étude du projet",utilisateur,2,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null);
             tacheParent2.save();
 
             Tache tache21 = new Tache("Tache 21","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,2,25),20D,0D,20D,null,null,null,null,null);
             tache21.save();
 
             Tache tache22 = new Tache("Tache 22","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,26),
-                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tache21,null,null,false);
+                    Utils.getDateFrom(2016,2,27),Utils.getDateFrom(2016,2,28),20D,0D,20D,null,null,tache21,null,null);
             tache22.save();
 
             Tache tache23 = new Tache("Tache 23","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,28),
-                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,tache22,null,null,false);
+                    Utils.getDateFrom(2016,2,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,tache22,null,null);
             tache23.save();
 
             try {
@@ -1206,7 +1206,7 @@ public class ModelManagerTest {
             projet.save();
 
             Tache tache = new Tache("Tache","Cette tâche permet de réaliser l'étude du projet",null,2,true, Utils.getDateFrom(2016,2,1),
-                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null,true);
+                    Utils.getDateFrom(2016,3,20),Utils.getDateFrom(2016,3,25),20D,0D,20D,null,null,null,null,null);
             tache.save();
 
             try {

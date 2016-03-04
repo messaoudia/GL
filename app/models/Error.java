@@ -25,6 +25,8 @@ public class Error
     public boolean emailVideContact, emailIncorrecteContact, emailTropLongContact;
     public boolean telVideContact, telIncorrecteContact, telTropLongContact;
 
+    public boolean mdpVide, mdpIncorrecte;
+
     public boolean hasErrorUtilisateur()
     {
         return nomVide || nomTropLong || nomIncorrect
@@ -47,6 +49,10 @@ public class Error
     public boolean hasErrorClient(){
         return nomClientVide || nomClientTropLong || adresseVide || adresseTropLong || codePostalVide || codePostalTropLong
                 || villeVide || villeTropLong || paysVide || paysTropLong || clientExiste;
+    }
+
+    public boolean hasErrorMdp(){
+        return mdpVide || mdpIncorrecte;
     }
 
 }
