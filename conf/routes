@@ -99,3 +99,7 @@ POST        /modifClient                                    controllers.ClientCo
 
 # Draft parsed
 POST        /sendDraf                                       controllers.ProjetController.sendDraf
+
+GET         /affichePeojet                                  controllers.ProjetController.afficheProjet(idProjet: Long)
+
+POST        /modifProjet                                    controllers.ProjetController.modifierProjet(id : Long)

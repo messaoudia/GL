@@ -150,15 +150,8 @@ public class ProjetController extends Controller {
         }else{
             //modification des info si besoin
             int priorite = Integer.parseInt(map.get("priorite")[0]);
-            Utilisateur responsableProjet = Utilisateur.find.byId(Long.valueOf(map.get("responsableProjet")[0]));
-            if(!p.responsableProjet.equals(responsableProjet)){
-                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
-                p.responsableProjet = responsableProjet;
-                Logger.debug(responsableProjet.nom + responsableProjet.prenom);
-            }
             //check priorite
             if(!p.priorite.equals(priorite)){
-                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
                 p.priorite = priorite;
             }
             //description
@@ -166,6 +159,7 @@ public class ProjetController extends Controller {
                 //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
                 p.description = description;
             }
+            p.save();
             return ok(Json.toJson(p));
         }
     }

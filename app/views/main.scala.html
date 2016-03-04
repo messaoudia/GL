@@ -3061,23 +3061,24 @@
                              $("#errorModifierProjetP").empty();
                              $("#errorModifierProjet").hide();
 
-                             $("#successModifierProjetP").html('@Messages("client") '+data.nom+' @Messages("modified")');
+                             $("#successModifierProjetP").html('@Messages("project") '+data.nom+' @Messages("modified")');
                              $("#successModifierProjet").show();
                              setTimeout(function(){
                                  $("#successModifierProjet").hide();
                              },4000);
-                             //modif des valeurs de la dif
-
-
-
-
-
+                             var div = "#div-consulterProjet-"+data.id;
+                             console.log($(div).find('h3[id=projetName]').html());
+                             console.log($(div).find('textarea[id=descriptionProjet]').html());
+                             var nom = "projet-"+data.id;
+                             console.log($('.liste-projet').find('div[name=nom]').find('div[class=sidebar-projet-nom]').html());
+                             console.log($('.liste-projet').find('div[name=nom]').find('div[class=sidebar-client-projet-priorite]').html());
+                             //modif des valeurs de la div
                          },
                          error: function(error){
                              $("#successModifierProjet").hide();
                              $("#successModifierProjetP").empty();
 
-                             var messageDiv = generateErrorModifierProjet(errorMessage);
+                             var messageDiv = generateErrorModifierProjet(error);
 
                              $("#errorModifierProjetP").html(messageDiv);
                              $("#errorModifierProjet").show();
