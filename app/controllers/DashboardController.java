@@ -147,15 +147,17 @@ public class DashboardController extends Controller{
                 tache.modifierResponsable(newResponsable);
             }
 
-            /*tache.supprimerSuccesseurs();
+            tache.supprimerSuccesseurs();
             for(Tache succ : successeurs){
                 tache.associerSuccesseur(succ);
             }
 
             tache.supprimerInterlocuteurs();
+            Tache tbdd = Tache.find.byId(tache.id);
+
             for(Contact inter : interlocuteurs){
                 tache.associerInterlocuteur(inter);
-            }*/
+            }
 
             tache.dateDebut = newDebut;
             tache.dateFinTot = newFinTot;

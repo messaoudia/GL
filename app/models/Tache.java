@@ -448,8 +448,6 @@ public class Tache extends EntiteSecurise {
         }
         interlocuteur.listTachesCorrespondant.add(this);
         interlocuteur.save();
-        interlocuteurs.add(interlocuteur);
-        save();
     }
 
     public void supprimerInterlocuteurs() throws IllegalStateException {
