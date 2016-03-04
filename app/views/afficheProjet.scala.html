@@ -1,31 +1,32 @@
 @(projet: Projet, utilisateur: Utilisateur)
 
-<!--
-<div id="projet- @projet.id" class="col-consulterProjet col-md-10" style="display:none ;">
-    -->
 <div id="div-consulterProjet-@projet.id">
     <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
 
         <div class="col-sm-4">
-            <h3 class="header-text">@Messages("project")
-                : @projet.nom <div class="priorite">@projet.priorite</div></h3>
+            <h3 class="header-text"><div style="display:inline-block ;" id="projetName"> @Messages("project")
+                : @projet.nom </div> <div id="projetPriorite" class="priorite">@projet.priorite</div>
+            </h3>
             <h3 class="header-text">@Messages("client")
                 : @projet.client.nom <div class="priorite">@projet.client.priorite</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet-@projet.id"></i></a></h3>
-            <textarea readonly class="description" style="width: 100% ; height: 130px ;">@projet.description</textarea>
+            <textarea id="descriptionProjet" readonly class="description" style="width: 100% ; height: 130px ;">@projet.description</textarea>
         </div>
 
         <div class="col-sm-3" id="">
             <h3 class="header-text">@Messages("projectPersonResponsible")
                 : @projet.responsableProjet.prenom @projet.responsableProjet.nom</h3>
-            <h3 class="header-text">@Messages("progress") : @projet.avancementGlobal%</h3>
-            <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale
+            <h3 class="header-text">@Messages("progress")
+                : @projet.avancementGlobal%</h3>
+            <div class="row-initiale">@Messages("initial")
+                : @projet.chargeInitiale
                 @if(projet.hasUniteJour()) {
                     @Messages("day-first-letter")
                 } else {
                     @Messages("week-first-letter")
                 }
             </div>
-            <div class="row-restante">@Messages("remaining") : @projet.chargeRestante
+            <div class="row-restante">@Messages("remaining")
+                : @projet.chargeRestante
                 @if(projet.hasUniteJour()) {
                     @Messages("day-first-letter")
                 } else {
@@ -43,7 +44,8 @@
             }
 
             </div>
-            <p class="row-consommee">@Messages("consumed") : @projet.chargeConsommee
+            <p class="row-consommee">@Messages("consumed")
+                : @projet.chargeConsommee
                 @if(projet.hasUniteJour()) {
                     @Messages("day-first-letter")
                 } else {
@@ -158,6 +160,16 @@
                             <div onclick="desactiveModificationProjetDansProjet('@projet.id')" name="@projet.id" class="cursor-pointer" style="border:none ; background-color:#E74C3C ; color:#FFF ;">@Messages("cancel") <i class="fa fa-times"></i></div>
                         </div>
                     </div>
+
+                    <div id="successModifierProjet" class="alert alert-success alert-dismissable" style="display: none ;">
+                        <button class="close" type="button">×</button>
+                        <p id="successModifierProjetP"><p>
+                    </div>
+                    <div id="errorModifierProjet" class="alert alert-danger alert-dismissable" style="display: none ;">
+                        <button class="close" type="button">×</button>
+                        <p id="errorModifierProjetP"><p>
+                    </div>
+
                     <div class="row">
                         <div class="col-sm-offset-2 col-sm-8">
                             <label class="label_form" for="projet">@Messages("project")</label>
@@ -170,27 +182,31 @@
                                     <input name="projet" value="@projet.nom" required="true" placeholder="" class="form-control"/>
                                 </div>
                                 <div class="col-sm-6">@Messages("priority")
-                                    <div class="btn-group" style="display: inline-block ;">
+                                    <div id="projet-modifier-btn-@projet.id" class="btn-group" style="display: inline-block ;">
                                     @if(projet.priorite == 1) {
                                         <button class="btn btn-active" type="button" value="1" >
                                             1</button>
-                                        <button class="btn" value="2" type="button">2</button>
-                                        <button class="btn" type="button" value="3">3</button>
+                                        <button class="btn" value="2" type="button">
+                                            2</button>
+                                        <button class="btn" type="button" value="3">
+                                            3</button>
                                     } else {
                                         @if(projet.priorite == 2) {
-                                            <button class="btn" type="button" value="1" >1</button>
+                                            <button class="btn" type="button" value="1" >
+                                                1</button>
                                             <button class="btn btn-active" value="2" type="button">
                                                 2</button>
-                                            <button class="btn" type="button" value="3">3</button>
+                                            <button class="btn" type="button" value="3">
+                                                3</button>
                                         } else {
-                                            <button class="btn" type="button" value="1" >1</button>
-                                            <button class="btn  btn-active" value="2" type="button">
+                                            <button class="btn" type="button" value="1" >
+                                                1</button>
+                                            <button class="btn" value="2" type="button">
                                                 2</button>
                                             <button class="btn btn-active" type="button" value="3">
                                                 3</button>
                                         }
                                     }
-
                                     </div>
                                 </div>
                             </div>
@@ -199,12 +215,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
-                                        <div>
-                                            <select id="responsableProjet" value="@projet.responsableProjet.prenom @projet.responsableProjet.nom" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
-                                            @for( utilisateur <- Utilisateur.getAllNonArchives) {
-                                                <option value="@utilisateur.prenom @utilisateur.nom">@utilisateur.prenom @utilisateur.nom</option>
-                                            }
-                                            </select>
+                                        <div> @projet.responsableProjet.prenom @projet.responsableProjet.nom
                                         </div>
                                     </div>
                                 </div>
@@ -213,6 +224,15 @@
                                     <div class='form-group'>
                                         <label class="label_form" for="client">@Messages("client")</label>
                                         <div> @projet.client.nom
+                                                <!--
+                                                                    <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
+                                                                        <option value="1">Option 1</option>
+                                                                        <option value="2">Option 2</option>
+                                                                        <option value="3">Option 3</option>
+                                                                        <option value="4">Option 4</option>
+                                                                        <option value="5">Option 5</option>
+                                                                    </select>
+                                                                    -->
                                         </div>
                                     </div>
                                 </div>
@@ -229,9 +249,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ;">
+                <div onclick="modifierProjet(this); return false;" class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; text-align:center ;" form="addProjectForm-projet-@projet.id" value="@projet.id">
                     <h3>@Messages("saveProject")</h3>
                 </div>
             </div>
@@ -308,8 +327,8 @@
                         @for( tacheMere <- projet.listTachesAAfficher()) {
                             <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
                                 <div class="dd-handle" style="padding:0px ;">
-                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                        <div class="col-middle first-col-middle" style="">
+                                    <div class="row row-nestable" >
+                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                             <div class="row row-nestable id-tache">
                                             @tacheMere.idTache
                                             </div>
@@ -317,14 +336,14 @@
                                             @tacheMere.nom
                                             </div>
                                         </div>
-                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
-                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@tacheMere.projet.client.nom</div>
-                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@tacheMere.formateDate(tacheMere.dateDebut)</div>
-                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.projet.client.nom</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.formateDate(tacheMere.dateDebut)</div>
+                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTot)</div>
                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTard)</div>
                                         </div>
-                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                 : @tacheMere.chargeInitiale
                                                 @if(projet.hasUniteJour()) {
@@ -348,7 +367,8 @@
                                                 </div>
                                             } else {
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="@tacheMere.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                    @tacheMere.getAvancementTache()%
+                                                    @tacheMere.getAvancementTache()
+                                                    %
                                                 </div>
                                             }
                                             </div>
@@ -361,7 +381,7 @@
                                                 }</div>
                                         </div>
 
-                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                             <div class="row row-nestable">@Messages("predecessor")
                                                 :
                                                 @if(tacheMere.hasPredecesseur()) {
@@ -401,14 +421,14 @@
                                             <div class="normal boutonPlusCreerTache">
                                                 <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                             </div>
-                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
+                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                                 <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                             </div>
                                         </div>
-                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
+                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                             <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                         </div>
-                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@tacheMere.id">
+                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                             <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                         </div>
                                     </div>
@@ -418,8 +438,8 @@
                                     @for( sousTache1 <- tacheMere.enfants()) {
                                         <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
                                             <div class="dd-handle" style="padding:0px ;">
-                                                <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                    <div class="col-middle first-col-middle" style="">
+                                                <div class="row row-nestable">
+                                                    <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                         <div class="row row-nestable id-tache">
                                                         @sousTache1.idTache
                                                         </div>
@@ -427,14 +447,14 @@
                                                         @sousTache1.nom
                                                         </div>
                                                     </div>
-                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
-                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache1.projet.client.nom</div>
-                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache1.formateDate(sousTache1.dateDebut)</div>
-                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
+                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.projet.client.nom</div>
+                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.formateDate(sousTache1.dateDebut)</div>
+                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                         <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTot)</div>
                                                         <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTard)</div>
                                                     </div>
-                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                         <div class="row row-initiale row-nestable">@Messages("initial")
                                                             : @sousTache1.chargeInitiale
                                                             @if(projet.hasUniteJour()) {
@@ -472,7 +492,7 @@
                                                             }</div>
                                                     </div>
 
-                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                         <div class="row row-nestable">@Messages("predecessor")
                                                             :
                                                             @if(sousTache1.hasPredecesseur()) {
@@ -482,7 +502,8 @@
                                                             }
                                                         </div>
                                                         <div class="row row-nestable dd-nodrag">
-                                                            @Messages("successors") :
+                                                            @Messages("successors")
+                                                            :
                                                             @if(sousTache1.hasSuccesseur()) {
                                                                 <div class="btn-group">
                                                                     <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
@@ -513,14 +534,14 @@
                                                         <div class="normal boutonPlusCreerTache">
                                                             <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                         </div>
-                                                        <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
+                                                        <div class="createSubTask" data-target="#modal-tache-creer" data="@sousTache1.id">
                                                             <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
+                                                    <div class="col-xs-4 normal createTaskHaut" data-target="#modal-tache-creer" data="@sousTache1.id">
                                                         <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                     </div>
-                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache1.id">
+                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-target="#modal-tache-creer" data="@sousTache1.id">
                                                         <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                     </div>
                                                 </div>
@@ -531,8 +552,8 @@
                                                 @for( sousTache2 <- sousTache1.enfants()) {
                                                     <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
                                                         <div class="dd-handle" style="padding:0px ;">
-                                                            <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                <div class="col-middle first-col-middle" style="">
+                                                            <div class="row row-nestable" >
+                                                                <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                     <div class="row row-nestable id-tache">
                                                                     @sousTache2.idTache
                                                                     </div>
@@ -540,14 +561,14 @@
                                                                     @sousTache2.nom
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache2.projet.client.nom</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache2.formateDate(sousTache2.dateDebut)</div>
-                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.projet.client.nom</div>
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.formateDate(sousTache2.dateDebut)</div>
+                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                     <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTot)</div>
                                                                     <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTard)</div>
                                                                 </div>
-                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                     <div class="row row-initiale row-nestable">@Messages("initial")
                                                                         : @sousTache2.chargeInitiale
                                                                         @if(projet.hasUniteJour()) {
@@ -585,7 +606,7 @@
                                                                         }</div>
                                                                 </div>
 
-                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                     <div class="row row-nestable">@Messages("predecessor")
                                                                         :
                                                                         @if(sousTache2.hasPredecesseur()) {
@@ -627,14 +648,14 @@
                                                                     <div class="normal boutonPlusCreerTache">
                                                                         <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                     </div>
-                                                                    <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
+                                                                    <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
                                                                         <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
+                                                                <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
                                                                     <i class="fa fa-arrow-up "> @Messages("createTask")</i>
                                                                 </div>
-                                                                <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache2.id">
+                                                                <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
                                                                     <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                 </div>
                                                             </div>
@@ -644,8 +665,8 @@
                                                             @for( sousTache3 <- sousTache2.enfants()) {
                                                                 <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
                                                                     <div class="dd-handle" style="padding:0px ;">
-                                                                        <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                            <div class="col-middle first-col-middle" style="">
+                                                                        <div class="row row-nestable">
+                                                                            <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                 <div class="row row-nestable id-tache">
                                                                                 @sousTache3.idTache
                                                                                 </div>
@@ -653,14 +674,14 @@
                                                                                 @sousTache3.nom
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
-                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache3.projet.client.nom</div>
-                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@sousTache3.formateDate(sousTache3.dateDebut)</div>
-                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">
+                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
+                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.projet.client.nom</div>
+                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.formateDate(sousTache3.dateDebut)</div>
+                                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                 <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTot)</div>
                                                                                 <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTard)</div>
                                                                             </div>
-                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                 <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                     : @sousTache3.chargeInitiale
                                                                                     @if(projet.hasUniteJour()) {
@@ -698,7 +719,7 @@
                                                                                     }</div>
                                                                             </div>
 
-                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                 <div class="row row-nestable">@Messages("predecessor")
                                                                                     :
                                                                                     @if(sousTache3.hasPredecesseur()) {
@@ -741,14 +762,14 @@
                                                                                 <div class="normal boutonPlusCreerTache">
                                                                                     <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                 </div>
-                                                                                <div class="createSubTask" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
+                                                                                <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
                                                                                     <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
+                                                                            <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
                                                                                 <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                             </div>
-                                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache" data="@sousTache3.id">
+                                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
                                                                                 <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                             </div>
                                                                         </div>
@@ -774,7 +795,7 @@
                         @for( tacheMere <- utilisateur.listTachesDansProjetNonResponsableAAfficher(projet)) {
                             <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
                                 <div class="dd-handle" style="padding:0px ;">
-                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
+                                    <div class="row row-nestable">
                                         <div class="col-middle first-col-middle" style="">
                                             <div class="row row-nestable id-tache">
                                             @tacheMere.idTache
@@ -783,14 +804,14 @@
                                             @tacheMere.nom
                                             </div>
                                         </div>
-                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
-                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@tacheMere.projet.client.nom</div>
-                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@tacheMere.formateDate(tacheMere.dateDebut)</div>
-                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
+                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.projet.client.nom</div>
+                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.formateDate(tacheMere.dateDebut)</div>
+                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTot)</div>
                                             <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTard)</div>
                                         </div>
-                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                 : @tacheMere.chargeInitiale
                                                 @if(projet.hasUniteJour()) {
@@ -814,7 +835,8 @@
                                                 </div>
                                             } else {
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="@tacheMere.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                    @tacheMere.getAvancementTache()%
+                                                    @tacheMere.getAvancementTache()
+                                                    %
                                                 </div>
                                             }
                                             </div>
@@ -827,7 +849,7 @@
                                                 }</div>
                                         </div>
 
-                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
                                             <div class="row row-nestable">@Messages("predecessor")
                                                 :
                                                 @if(tacheMere.hasPredecesseur()) {
@@ -868,8 +890,8 @@
                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache1)) {
                                             <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
                                                 <div class="dd-handle" style="padding:0px ;">
-                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                        <div class="col-middle first-col-middle" style="">
+                                                    <div class="row row-nestable">
+                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                             <div class="row row-nestable id-tache">
                                                             @sousTache1.idTache
                                                             </div>
@@ -877,14 +899,14 @@
                                                             @sousTache1.nom
                                                             </div>
                                                         </div>
-                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
-                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache1.projet.client.nom</div>
-                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache1.formateDate(sousTache1.dateDebut)</div>
-                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
+                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.projet.client.nom</div>
+                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.formateDate(sousTache1.dateDebut)</div>
+                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                             <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTot)</div>
                                                             <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTard)</div>
                                                         </div>
-                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                 : @sousTache1.chargeInitiale
                                                                 @if(projet.hasUniteJour()) {
@@ -922,7 +944,7 @@
                                                                 }</div>
                                                         </div>
 
-                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                 :
                                                                 @if(sousTache1.hasPredecesseur()) {
@@ -965,8 +987,8 @@
                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache2)) {
                                                             <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
-                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                        <div class="col-middle first-col-middle" style="">
+                                                                    <div class="row row-nestable">
+                                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable id-tache">
                                                                             @sousTache2.idTache
                                                                             </div>
@@ -974,14 +996,14 @@
                                                                             @sousTache2.nom
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache2.projet.client.nom</div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache2.formateDate(sousTache2.dateDebut)</div>
-                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.projet.client.nom</div>
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.formateDate(sousTache2.dateDebut)</div>
+                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTot)</div>
                                                                             <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTard)</div>
                                                                         </div>
-                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                 : @sousTache2.chargeInitiale
                                                                                 @if(projet.hasUniteJour()) {
@@ -1019,7 +1041,7 @@
                                                                                 }</div>
                                                                         </div>
 
-                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                                 :
                                                                                 @if(sousTache2.hasPredecesseur()) {
@@ -1059,10 +1081,10 @@
                                                                     <ol class="dd-list">
                                                                     @for( sousTache3 <- sousTache2.enfants()) {
                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache3)) {
-                                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
+                                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache3.id" value="@sousTache2.id">
                                                                                 <div class="dd-handle" style="padding:0px ;">
-                                                                                    <div class="row row-nestable" data-toggle="modal" data-target="#modal-modif-tache-projet">
-                                                                                        <div class="col-middle first-col-middle" style="">
+                                                                                    <div class="row row-nestable">
+                                                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-nestable id-tache">
                                                                                             @sousTache3.idTache
                                                                                             </div>
@@ -1070,14 +1092,14 @@
                                                                                             @sousTache3.nom
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache3.projet.client.nom</div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">@sousTache3.formateDate(sousTache3.dateDebut)</div>
-                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;">
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.projet.client.nom</div>
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.formateDate(sousTache3.dateDebut)</div>
+                                                                                        <div class="col-middle" style="width:13.5% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTot)</div>
                                                                                             <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTard)</div>
                                                                                         </div>
-                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                                 : @sousTache3.chargeInitiale
                                                                                                 @if(projet.hasUniteJour()) {
@@ -1115,7 +1137,7 @@
                                                                                                 }</div>
                                                                                         </div>
 
-                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;">
+                                                                                        <div class="col-middle" style="width:16.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
                                                                                             <div class="row row-nestable">@Messages("predecessor")
                                                                                                 :
                                                                                                 @if(sousTache3.hasPredecesseur()) {
@@ -1183,6 +1205,3 @@
 <div class="ibox-footer text-center cursor-pointer" style="background-color: #27AE62 ; color:#FFF ; height: 40px ;" data-toggle="modal" data-target="#modal-add-projet">
     <h3 style="margin:0px ;"><i class="fa fa-plus-circle" style="margin-right:7px ;"></i> @Messages("addProject")</h3>
 </div>
-    <!--
-    </div>
-        -->
