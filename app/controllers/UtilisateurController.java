@@ -125,8 +125,9 @@ public class UtilisateurController extends Controller {
         }
         else{
 
-            Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false, Utilisateur.genererPassword());
 
+
+            Utilisateur user = Utilisateur.create(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], Utilisateur.genererPassword());
             //creation user
             //TODO si admin = OUI, si admin = NON
             if(map.get("admin")[0].equals("Oui"))
@@ -135,7 +136,6 @@ public class UtilisateurController extends Controller {
                 System.out.println("Creation d'un admin ...");
                 donnerDroitAdmin(user);
             }
-            Utilisateur user = Utilisateur.create(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], Utilisateur.genererPassword());
             //user.save();
             //TODO : send email to user
             return ok(Json.toJson(user));
