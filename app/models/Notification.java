@@ -144,7 +144,7 @@ public class Notification extends Model {
                 + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
         messageEN += "The new task progress is : " + tache.getAvancementTache() + "%\n";
         messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "\n";
-        messageEN += "\t - Finished workload : " + tache.chargeConsommee + " " + uniteEN + "\n";
+        messageEN += "\t - Completed workload : " + tache.chargeConsommee + " " + uniteEN + "\n";
         messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "\n";
 
         Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
@@ -211,9 +211,9 @@ public class Notification extends Model {
         messageEN += "\t - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "\n";
         messageEN += "\t - Latest due date : " + tache.formateDate(tache.dateFinTard) + "\n";
         messageEN += "The task progress is : " + tache.getAvancementTache() + "%\n";
-        messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteFR + "\n";
-        messageEN += "\t - Finished workload : " + tache.chargeConsommee + " " + uniteFR + "\n";
-        messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteFR + "\n";
+        messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "\n";
+        messageEN += "\t - Completed workload : " + tache.chargeConsommee + " " + uniteEN + "\n";
+        messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "\n";
 
         Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
         String objet = "";
@@ -250,13 +250,11 @@ public class Notification extends Model {
         /** TODO : utiliser l'attribut? **/
         String objetFR = "Nouvelle(s) tâche(s) disponible(s)";
 
-        /** TODO FAIRE EN ANGLAIS **/
-        String objetEN = "Nouvelle(s) tâche(s) disponible(s)";
+        String objetEN = "New available task(s)";
 
         String titleMessageFR = "Nouvelle(s) tâche(s) disponible(s) :";
 
-        /** TODO FAIRE EN ANGLAIS **/
-        String titleMessageEN = "Nouvelle(s) tâche(s) disponible(s) :";
+        String titleMessageEN = "New available task(s) :";
 
         for(Tache successeur : tache.getSuccesseurs()){
             Utilisateur utilisateur = successeur.responsableTache;
@@ -268,9 +266,8 @@ public class Notification extends Model {
                 objet = objetFR;
                 titleMessage = titleMessageFR;
             }
-            /** TODO : FAIRE EN ANGLAIS **/
             else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
-                message = "\t - " + successeur.nom + " du projet " + successeur.projet.nom + " (client : " + successeur.projet.client.nom + ")\n";
+                message = "\t - " + successeur.nom + " of project " + successeur.projet.nom + " (client : " + successeur.projet.client.nom + ")\n";
                 objet = objetEN;
                 titleMessage = titleMessageEN;
             }
@@ -303,7 +300,7 @@ public class Notification extends Model {
     /**
      * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
      * qui se terminent dans moins de 5 jours
-     * TODO ZHENG
+     * TODO ZHENG => verifier sur pageweb
      * @param utilisateur
      */
     public static void sendNotificationTacheBientotProche(Utilisateur utilisateur, Notification notification){
@@ -326,15 +323,14 @@ public class Notification extends Model {
                 }
             }
         }
-        /** TODO : a faire en anglais **/
         else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
-            title = "Tâche(s) devant être terminée(s) dans moins de " + LIMIT_DATE_ECHEANCE + " jours";
+            title = "Task(s) to be completed within " + LIMIT_DATE_ECHEANCE + " days";
             for(Tache tache  : utilisateur.listTaches()){
                 long nbDeJoursRestants = Utils.differenceNbJours(today.getTime(), tache.dateFinTard);
                 if(nbDeJoursRestants <= LIMIT_DATE_ECHEANCE){
-                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
-                            + "(client : " + tache.projet.client.nom + ") doit être terminé dans "
-                            + nbDeJoursRestants + " jour(s) (Date d'échéance au plus tard : "
+                    message += "The task " + tache.nom + " of project " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") should be completed within "
+                            + nbDeJoursRestants + " day(s) (Latest due date : "
                             + tache.formateDate(tache.dateFinTard) + ")\n";
                 }
             }
@@ -360,7 +356,7 @@ public class Notification extends Model {
     /**
      * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
      * qui sont retardées
-     * TODO ZHENG
+     * TODO ZHENG => verifier sur pageweb
      * @param utilisateur
      */
     public static void sendNotificationTacheRetardee(Utilisateur utilisateur, Notification notification){
@@ -377,13 +373,12 @@ public class Notification extends Model {
                 }
             }
         }
-        /** TODO : a faire en anglais **/
         else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
-            title = "Tâche(s) retardée(s)";
+            title = "Delayed task(s)";
             for(Tache tache  : utilisateur.listTaches()){
                 if(tache.estRetardee()){
-                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
-                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
+                    message += "The task " + tache.nom + " of project " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") is delayed. The latest due date is : "
                             + tache.dateFinTard + "\n";
                 }
             }
@@ -409,7 +404,7 @@ public class Notification extends Model {
     /**
      * Prépare les notifications lors de la suppresion d'un utilisateur : l'utilisateur passé en paramètre est le nouveau responsable
      * du projet en paramètre
-     * TODO ZHENG
+     * TODO ZHENG => verifier sur pageweb
      * @param utilisateur
      */
     public static void notificationSuppressionUtilisateurProjet(Map<Utilisateur, Notification> mapNotifications,
@@ -423,11 +418,10 @@ public class Notification extends Model {
             titleMessage = "Voici vos nouvelles responsabilités : \n";
             message = "\t - Vous êtes le nouveau responsable du projet : " + projet.nom + " (client : " + projet.client.nom + ")\n";
         }
-        /** TODO : A FAIRE EN ANGLAIS  **/
         else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
-            objet = "Nouvelle(s) responsabilité(s)";
-            titleMessage = "Voici vos nouvelles responsabilités : \n";
-            message = "\t - Vous êtes le nouveau responsable du projet : " + projet.nom + " (client : " + projet.client.nom + ")\n";
+            objet = "New person(s) in charge";
+            titleMessage = "Here are your new responsibilities : \n";
+            message = "\t - You are the new person in charge of project : " + projet.nom + " (client : " + projet.client.nom + ")\n";
         }
 
         if(mapNotifications.containsKey(utilisateur)){
@@ -443,7 +437,7 @@ public class Notification extends Model {
     /**
      * Prépare les notifications lors de la suppresion d'un utilisateur : l'utilisateur passé en paramètre est le nouveau responsable
      * de la tache en paramètre
-     * TODO ZHENG
+     * TODO ZHENG => verifier sur pageweb
      * @param utilisateur
      */
     public static void notificationSuppressionUtilisateurTache(Map<Utilisateur, Notification> mapNotifications,
@@ -457,11 +451,10 @@ public class Notification extends Model {
             titleMessage = "Voici vos nouvelles responsabilités : \n";
             message = "\t - Vous êtes le nouveau responsable de la tâche : " + tache.nom + " du projet " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")\n";
         }
-        /** TODO : A FAIRE EN ANGLAIS  **/
         else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
-            objet = "Nouvelle(s) responsabilité(s)";
-            titleMessage = "Voici vos nouvelles responsabilités : \n";
-            message = "\t - Vous êtes le nouveau responsable de la tâche : " + tache.nom + " du projet " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")\n";
+            objet = "New person(s) in charge";
+            titleMessage = "Here are your new responsibilities : \n";
+            message = "\t - You are the new person in charge of the task : " + tache.nom + " of project " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")\n";
         }
 
         if(mapNotifications.containsKey(utilisateur)){
@@ -475,7 +468,7 @@ public class Notification extends Model {
     }
 
     /**
-     * TODO ZHENG
+     * TODO ZHENG => verifier sur pageweb
      * @param projet
      * @param utilisateur
      */
@@ -496,19 +489,18 @@ public class Notification extends Model {
         messageFR += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
         messageFR += "\t - Description : " + projet.description + "\n";
 
-        /** TODO : mettre en anglais **/
-        String titleEN = "Création du projet " + projet.nom;
-        String messageMemeUserEN = "Vous avez créé le projet \"" + projet.nom + "\" avec les caractéristiques suivantes :\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a créé le projet \""
-                + projet.nom + "\" avec les caractéristiques suivantes :\n";
+        String titleEN = "Create project " + projet.nom;
+        String messageMemeUserEN = "You have created the project \"" + projet.nom + "\" with the following characteristics :\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has created the project \""
+                + projet.nom + "\" with the following characteristics :\n";
 
-        String messageEN = "\t - Nom : " + projet.nom + "\n";
+        String messageEN = "\t - Name : " + projet.nom + "\n";
         messageEN += "\t - Client : " + projet.client.nom + "\n";
-        messageEN += "\t - Responsable : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
+        messageEN += "\t - Person in charge : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
                 " (" + projet.responsableProjet.email + ")\n";
-        messageEN += "\t - Priorité : " + projet.priorite + "\n";
-        messageEN += "\t - Date de début (théorique) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
-        messageEN += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
+        messageEN += "\t - Priority : " + projet.priorite + "\n";
+        messageEN += "\t - Start date (theoretical) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
+        messageEN += "\t - End date (theoretical) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
         messageEN += "\t - Description : " + projet.description + "\n";
 
         String title = "";
@@ -541,7 +533,7 @@ public class Notification extends Model {
         sendNotifications(mapNotifications);
     }
 
-    /** TODO ZHENG
+    /** TODO ZHENG => verifier sur pageweb
      * Envoie une notification quand un projet est supprimé
      * @param projet
      * @param utilisateur
@@ -553,10 +545,9 @@ public class Notification extends Model {
         String messageMemeUserFR = "Vous avez supprimé le projet \"" + projet.nom + "\" (client : "+ projet.client.nom +")\n";
         String messageAutreUserFR = utilisateur.prenom + " " + utilisateur.nom + " a supprimé le projet " + projet.nom + "\" (client : "+ projet.client.nom +")\n";
 
-        /** TODO ANGLAIS **/
-        String titleEN = "Suppression du projet " + projet.nom;
-        String messageMemeUserEN = "Vous avez supprimé le projet \"" + projet.nom + "\" (client : "+ projet.client.nom +")\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a supprimé le projet " + projet.nom + "\" (client : "+ projet.client.nom +")\n";
+        String titleEN = "Remove project " + projet.nom;
+        String messageMemeUserEN = "You have removed the project \"" + projet.nom + "\" (client : "+ projet.client.nom +")\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has removed the project " + projet.nom + "\" (client : "+ projet.client.nom +")\n";
 
         String title = "";
         String message = "";
