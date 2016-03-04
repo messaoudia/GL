@@ -68,13 +68,20 @@
                         <div class="sidebar-liste-projet" style="position: fixed ; width: 170px ; z-index: 1998 ; height: 100% ; background-color:#FFF ; box-shadow: 3px 0 5px -4px #333 ;">
                             <div class="liste-projet" style="overflow-y: auto ; height: 100% ; margin-top:26px ;">
 
-                                @for(projet <- utilisateur.listProjets()) {
-                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                @for( (projet, index) <- utilisateur.listProjets().zipWithIndex) {                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                    @if(index == 0) {
+                                        @if(projet.estTermine()) {
+                                            <div name="projet-@projet.id" class="sidebar-projet select projet-finished-sidebar" style="background-color: #0d8ddb ;">
+                                            } else {
+                                            <div name="projet-@projet.id" class="sidebar-projet select">
+                                            }
+                                    } else {
                                         @if(projet.estTermine()) {
                                             <div name="projet-@projet.id" class="sidebar-projet projet-finished-sidebar" style="background-color: #0d8ddb ;">
                                             } else {
                                             <div name="projet-@projet.id" class="sidebar-projet">
                                             }
+                                    }
                                     <div class="content">
                                         <div class="sidebar-projet-nom">@projet.nom</div>
                                         <div class="sidebar-client-nom">@projet.client.nom</div>
