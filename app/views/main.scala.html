@@ -156,9 +156,6 @@
             <!-- Menu -->
         <script src="/js/menu.js"></script>
 
-            <!-- Dashboard -->
-        <script src="/js/dashboard.js"></script>
-
         @scripts
         <script>
                 var changeModeDraftProjet = function(idProjet){
@@ -252,16 +249,26 @@
                 $(document).on('click','.createSubTask', function(event){
                     var btn = $(this);
                     console.log("creer sous tache de "+btn.attr("data"));
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+
                 });
 
                 $(document).on('click','.createTaskHaut', function(event){
                     var btn = $(this);
                     console.log("creer tache haut de "+btn.attr("data"));
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
                 });
 
                 $(document).on('click','.createTaskBas', function(event){
                     var btn = $(this);
                     console.log("creer tache bas de "+btn.attr("data"));
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
                 });
 
 
@@ -1491,7 +1498,7 @@
                                 $('#btn-indisponibleTache i').addClass("fa-unlock")
                                 $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
 
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
 
@@ -1514,7 +1521,7 @@
                                 $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
                                 $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
                                 console.log("la tache "+$('#btn-indisponibleTache').attr("data")+" devient indisponible");
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             },
@@ -1539,7 +1546,7 @@
                                 $('#btn-indisponibleTache i').removeClass("fa-lock");
                                 $('#btn-indisponibleTache i').addClass("fa-unlock")
                                 console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient disponible");
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
                             },
@@ -1559,7 +1566,7 @@
                                 $('#btn-indisponibleTache i').removeClass("fa-unlock");
                                 $('#btn-indisponibleTache i').addClass("fa-lock");
                                 console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient indisponible");
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             },
@@ -1576,12 +1583,14 @@
 
                     var idTache = $(t).attr('value');
 
+                    console.log('tache hihihi '+idTache);
+
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
                         type: 'POST',
                         dataType: 'json',
                         contentType: "application/json",
                         success: function(tache) {
-                            console.log(JSON.stringify(tache));
+                            //console.log(JSON.stringify(tache));
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
                             // div-consulter-tache
@@ -1774,6 +1783,8 @@
 
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
+                            $('#nomProjet-modifier-tdb').html(tache.projet.nom);
+                            $('#nomClient-modifier-tdb').html(tache.projet.client.nom);
                             $('#nomRespTache-consulter-tdb').html(tache.responsableTache.nom + " " + tache.responsableTache.prenom);
                             $('#avancementTache').html(tache.avancementTache+"%");
                             $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
@@ -1809,11 +1820,11 @@
                             $('#formModifierChargeInitiale').attr("value",tache.chargeInitiale);
                             $('#formModifierChargeInitiale').nextAll('span').html(unite);
                             if(tache.disponible){
-                                $('#formModifierChargeRestante').attr("disabled",false);
-                                $('#formModifierChargeConsommee').attr("disabled",false);
+                                $('.formModifierChargeRestante').attr("disabled",false);
+                                $('.formModifierChargeConsommee').attr("disabled",false);
                             }else{
-                                $('#formModifierChargeRestante').attr("disabled",true);
-                                $('#formModifierChargeConsommee').attr("disabled",true);
+                                $('.formModifierChargeRestante').attr("disabled",true);
+                                $('.formModifierChargeConsommee').attr("disabled",true);
                             }
                             $('#formModifierChargeRestante').attr("value",tache.chargeRestante);
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
@@ -1822,12 +1833,12 @@
 
                             if(!tache.disponible)
                             {
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             }
                             else {
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
                             }
@@ -1839,6 +1850,189 @@
                         }
                     });
                 }
+
+                 var modifierTache = function (btn) {
+                     var form = $(btn).attr("form");
+                     form = "#"+form;
+                     var serialize = $(form).serialize();
+                     console.log(serialize);
+
+                     //IDTACHE
+                     var idTache = $('#formModifierTache').attr('value');
+
+                     //PREDECESSEUR
+                     var idPredecesseur = "";
+                     if($('#form-tache-predecesseur').select2().val() != null){
+                         idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                         console.log("idPredecesseur"+idPredecesseur);
+                     }
+
+                     var tabSuccesseurs = [];
+                     //SUCCESSEUR
+                     $("#form-tache-successeur option").each(function() {
+                         if($(this).is(':selected')){
+                             console.log("selected : "+$(this).val());
+                             tabSuccesseurs.push($(this).val());
+                         }
+                     });
+
+                     //RESPONSABLE DE TACHE
+                     var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
+                     console.log("idReponsableTache"+idResponsableTache);
+
+                     //INTERLOCUTEURS EXTERNES
+                     var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+                     var tabInterlocuteurs = [];
+
+                     for (i = 0; i < nbInterlocuteurs; i++) {
+                         if($("#checkbox-interlocuteur-"+i).is(':checked')){
+                             console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
+                             tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
+                         }
+                     }
+
+                     var dataToSend = serialize+"&id-tache="+idTache+"&predecesseur="+idPredecesseur;
+                     dataToSend += "&successeurs=";
+
+                     for (var i = 0; i < tabSuccesseurs.length; i++){
+                         dataToSend += tabSuccesseurs[i]+",";
+                     }
+
+                     dataToSend += "&responsable="+idResponsableTache;
+
+                     dataToSend += "&interlocuteurs=";
+
+                     for (var i = 0; i < tabInterlocuteurs.length; i++){
+                         dataToSend += tabInterlocuteurs[i]+",";
+                     }
+
+                     console.log("Data SEND : "+dataToSend);
+                     //Ajax call submit form
+                     jsRoutes.controllers.DashboardController.modifierTache().ajax({
+                         data: dataToSend,
+                         success : function() {
+
+                             jsRoutes.controllers.UtilisateurController.listTachesUtilisateurConnecte().ajax({
+                                 success : function(taches) {
+                                     console.log("SUCCESS");
+                                     console.log("ListTaches a afficher : ");
+                                     console.log(taches);
+
+                                     $('#dataTables-tdb-tache').dataTable().fnDestroy();
+
+                                     var tableDashboardBody = $('#dataTables-tdb-tache-body');
+                                     tableDashboardBody.empty();
+
+                                     var tableContent = "";
+                                     $.each(taches, function (i, tache) {
+                                         tableContent += ('<tr value="'+tache.id+'" onclick="afficherModalTache(this)" class="table-center">');
+                                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+                                         tableContent += ('<p class="tdb-id-tache">'+tache.idTache+'</p>');
+                                         tableContent += ('<p class="tdb-nom-tache">'+tache.nom+'</p>');
+                                         tableContent += ('</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.projet.nom+'</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.projet.client.nom+'</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.dateDebut+'</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+                                         tableContent += ('<p style="display:none ;">'+tache.dateFinTard+'</p>');
+                                         tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTot+'</p>');
+                                         tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTard+'</p>');
+                                         tableContent += ('</td>');
+
+                                         tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+
+                                         tableContent += ('<p style="display:none ;">');
+                                         if(tache.getAvancementTache > 0 || tache.getAvancementTache < 100){
+                                             tableContent += ('0'+tache.getAvancementTache);
+                                         }else{
+                                             tableContent += (tache.getAvancementTache);
+                                         }
+                                         tableContent += ('</p>');
+
+                                         tableContent += ('<p class="row-initiale">@Messages("initial") : '+tache.chargeInitiale);
+                                         if(tache.projet.hasUniteJour){
+                                             tableContent += ('@Messages("day-first-letter")');
+                                         }else{
+                                             tableContent += ('@Messages("week-first-letter")');
+                                         }
+                                         tableContent += ('</p>');
+
+                                         tableContent += ('<p class="row-restante">@Messages("remaining") : '+tache.chargeRestante);
+                                         if(tache.projet.hasUniteJour){
+                                             tableContent += ('@Messages("day-first-letter")');
+                                         }else{
+                                             tableContent += ('@Messages("week-first-letter")');
+                                         }
+                                         tableContent += ('</p>');
+
+                                         tableContent += ('<div class="progress progress-bar-default">');
+                                         if(tache.getAvancementTache == 0){
+                                             tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">');
+                                             tableContent += ('0%');
+                                             tableContent += ('</div>');
+                                         }else{
+                                             tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="'+tache.getAvancementTache+'" aria-valuemin="0" aria-valuemax="100" style="width: '+tache.getAvancementTache+'% ;">');
+                                             tableContent += (tache.getAvancementTache+'%');
+                                             tableContent += ('</div>');
+                                         }
+                                         tableContent += ('</div>');
+
+                                         tableContent += ('<p class="row-consommee">@Messages("consumed") : '+tache.chargeConsommee);
+                                         if(tache.projet.hasUniteJour){
+                                             tableContent += ('@Messages("day-first-letter")');
+                                         }else{
+                                             tableContent += ('@Messages("week-first-letter")');
+                                         }
+                                         tableContent += ('</p>');
+                                         tableContent += ('</td>');
+
+                                         tableContent += ('<td style="vertical-align:middle ;">');
+                                         if(tache.hasPredecesseur){
+                                             tableContent += ('<div class="row">@Messages("predecessor") : '+tache.predecesseurIdTache+'</div>');
+
+                                         }
+
+                                         if(tache.hasSuccesseur){
+
+                                             tableContent += ('<div class="row"> @Messages("successors") : <div class="btn-group">');
+                                             tableContent += ('<button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">');
+                                             tableContent += (tache.nbSuccesseurs+' @Messages("tasks-lower") <span class="caret"></span></button>');
+
+                                             tableContent += ('<ul class="dropdown-menu dropdown-menu-pert">');
+
+                                             $.each(tache.successeurs, function(i, successeur) {
+                                                 tableContent += ('<li>'+successeur.idTache+'</li>');
+                                             });
+
+                                             tableContent += ('</ul></div></div>');
+                                         }
+                                         tableContent += ('</td>');
+
+                                         if(tache.hasResponsableActivateNotification){
+                                             tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell"></i></a></td>');
+                                         } else {
+                                             tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell-slash-o"></i></a></td>');
+                                         }
+
+                                         tableContent += ('</tr>');
+                                     });
+
+                                     console.log(tableContent);
+                                     tableDashboardBody.append(tableContent);
+                                     $('#modal-tdb-tache').modal('toggle');
+                                 }
+                             });
+
+                         },
+                         error: function(errorMessage,codeErreur){
+                             console.log(codeErreur+" "+errorMessage);
+                         }
+                     });
+                 }
 
                 $(document).ready(function () {
                     $('#checkbox-notif-all-selected').click(function() {
@@ -2069,6 +2263,31 @@
                         language: "fr-FR"
                     });
 
+                    $('#datepicker_date_debutC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_totC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tardC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
                     $('#projet-tdb').slimScroll({
                         height: '130px'
                     });
@@ -2331,6 +2550,7 @@
 
                         if($("#col-sidebar-liste-projet").is(":visible")){
                             hideSideBarProjet();
+
                         }
                         else
                         {
@@ -2650,7 +2870,31 @@
                         language: "fr-FR"
 
                     });
+                    $('#datepicker_date_debutC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
 
+                    });
+                    $('#datepicker_date_fin_totC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tardC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
 
 
 

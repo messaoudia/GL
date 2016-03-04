@@ -91,16 +91,21 @@ public class DashboardController extends Controller{
             String newNomTache = map.get("form-modif-tache-nom")[0];
             String newDescTache = map.get("form-modif-tache-desc")[0];
 
-            Double newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
+            Double newChInitiale = null;
             Double newChConso = null;
             Double newChRestante = null;
 
             if(tache.disponible) {
+                newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
                 newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0]);
                 newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0]);
             }
+            String idPredecesseur = map.get("predecesseur")[0];
 
-            Tache newPredecesseur = Tache.find.byId(Long.parseLong(map.get("predecesseur")[0]));
+            Tache newPredecesseur = null;
+            if(!idPredecesseur.equals("")) {
+                newPredecesseur = Tache.find.byId(Long.parseLong(idPredecesseur));
+            }
             Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0]));
 
             String[] dateDebut = map.get("DD-modifier")[0].split("/");
@@ -112,29 +117,60 @@ public class DashboardController extends Controller{
             String[] dateFinTard = map.get("DFTA-modifier")[0].split("/");
             Date newFinTard = Utils.getDateFrom(Integer.parseInt(dateFinTard[2]), Integer.parseInt(dateFinTard[1]), Integer.parseInt(dateFinTard[0]));
 
+            //Successeurs
+            List<Tache> successeurs = new ArrayList<>();
+            String[] tabSucc = map.get("successeurs")[0].split(",");
+            for(String idSucc : tabSucc){
+                if(!idSucc.equals("")){
+                    successeurs.add(Tache.find.byId(Long.parseLong(idSucc)));
+                }
+            }
+            //interlocuteurs
+            List<Contact> interlocuteurs = new ArrayList<>();
+            String[] tabInterlocuteurs = map.get("interlocuteurs")[0].split(",");
+            for(String idContact : tabInterlocuteurs){
+                if(!idContact.equals("undefined") && !idContact.equals("")){
+                    interlocuteurs.add(Contact.find.byId(Long.parseLong(idContact)));
+                }
+            }
+
             tache.nom = newNomTache;
             tache.description = newDescTache;
-            tache.chargeInitiale = newChInitiale;
             if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
+                tache.chargeInitiale = newChInitiale;
                 tache.modifierCharge(newChConso, newChRestante);
             }
-            if (!tache.predecesseur.equals(newPredecesseur)) {
-                tache.modifierPredecesseur(newPredecesseur);
+            if (newPredecesseur != null && (tache.predecesseur == null || !tache.predecesseur.equals(newPredecesseur))) {
+                newPredecesseur.associerSuccesseur(tache);
             }
-            if (!tache.responsableTache.equals(newResponsable)) {
+            if (newResponsable != null && !tache.responsableTache.equals(newResponsable)) {
                 tache.modifierResponsable(newResponsable);
             }
+
+            /*tache.supprimerSuccesseurs();
+            for(Tache succ : successeurs){
+                tache.associerSuccesseur(succ);
+            }
+
+            tache.supprimerInterlocuteurs();
+            for(Contact inter : interlocuteurs){
+                tache.associerInterlocuteur(inter);
+            }*/
 
             tache.dateDebut = newDebut;
             tache.dateFinTot = newFinTot;
             tache.dateFinTard = newFinTard;
             tache.save();
 
+            Tache t = Tache.find.byId(tache.id);
+            Logger.debug(t.toString());
             Logger.debug("SAVE OK");
+
+            return ok();
         }catch(Exception e){
+            e.printStackTrace();
             return badRequest(e.getMessage());
         }
-        return ok();
     }
 
 }

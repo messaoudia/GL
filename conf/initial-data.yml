@@ -115,7 +115,7 @@ contacts:
     id:          37
     nom:         HENRIOT
     prenom:      Marie-christine
-    email:       mch@polytech
+    email:       mch@polytech.fr
     telephone:   0123456987
     archive:     false
     client:      *client5
@@ -124,7 +124,7 @@ contacts:
     id:          78
     nom:         SAZIO
     prenom:      Mauro
-    email:       mauro.sazio@telecom
+    email:       mauro.sazio@telecom.fr
     telephone:   0143154717
     archive:     false
     client:      *client1

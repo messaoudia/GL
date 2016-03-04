@@ -69,7 +69,10 @@ public class ModelBeanTest {
             listContacts.add(c1);
             listContacts.add(c2);
 
-            Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
+            utilisateur.save();
+
+            Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", utilisateur,
                     Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
                     Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null,null);
             List<Projet> listProjet = new BeanList<>();
@@ -234,7 +237,7 @@ public class ModelBeanTest {
             Contact c1 = new Contact("Toto","Tata","toto.tata@tt.tt","0123456789");
             List<Contact> contactList = new BeanList<>();
             contactList.add(c1);
-            Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789",false,"azertY1");
+            Utilisateur u1 = Utilisateur.create("Blanchard","Guillaume","g.b@abc.fr","0123456789","azertY1");
             u1.save();
             //TODO Tester utilisateursNotifications avec des vrai valeurs
             List<Utilisateur> utilisateursNotifications = null;
@@ -286,6 +289,7 @@ public class ModelBeanTest {
             u1.prenom = "Steeve";
             u1.email = "s.ja@apple.com";
             u1.telephone = "0215465948";
+            u1.save();
             u1.setPassword("azertY1");
             Logger.debug(u1.toString());
             u1.save();
@@ -333,8 +337,8 @@ public class ModelBeanTest {
     @Test
     public void testFindUtilisateur() {
         running(fakeApplication(), ()-> {
-            Utilisateur u1 = new Utilisateur("A","C","a.c@apple.com","1236549870",false,"TOTO123a");
-            Utilisateur u2 = new Utilisateur("B","D","b.d@zlatanino.com","0147258369",false,"TATA123a");
+            Utilisateur u1 = Utilisateur.create("A","C","a.c@apple.com","1236549870","TOTO123a");
+            Utilisateur u2 = Utilisateur.create("B","D","b.d@zlatanino.com","0147258369","TATA123a");
             u1.save();
             u2.save();
             assertNotNull(u1.id);
