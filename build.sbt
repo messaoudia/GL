@@ -19,7 +19,9 @@ libraryDependencies ++= Seq(
   "org.xerial" % "sqlite-jdbc" % "3.7.15-M1",
 
   // play mailer
-  "com.typesafe.play" %% "play-mailer" % "3.0.1"
+  "com.typesafe.play" %% "play-mailer" % "3.0.1",
+  "mysql" % "mysql-connector-java" % "5.1.18"
+
 )
 
 // Play provides two styles of routers, one expects its actions to be injected, the
