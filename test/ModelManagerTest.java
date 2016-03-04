@@ -209,7 +209,6 @@ public class ModelManagerTest {
                 assertFalse(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache2.id)));
                 assertTrue(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache4.id)));
                 assertTrue(!Tache.find.byId(tache2.id).hasPredecesseur());
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1251,6 +1250,83 @@ public class ModelManagerTest {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", oldPassword);
             utilisateur.save();
             utilisateur.setPassword(oldPassword);
+        });
+    }
+
+    @Test(expected = Exception.class)
+    public void testAssocierSuccesseurEception() {
+        running(fakeApplication(), ()-> {
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
+            utilisateur.save();
+
+            //projet dateDebutTheorique: 2016,2,2, dateFinTheorique: 2016,2,10, dateDebutReel: 2016,2,3, dateFinReelTot: 2016,2,9, dateFinReelTard: 2016,2,9
+            Projet projet = new Projet("Site Apple","Développement du nouveau site d'Apple", utilisateur,
+                    Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
+                    Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null,null);
+            projet.save();
+
+            //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
+            Tache tache1 = new Tache("Tache1","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
+                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,null,null,null);
+            tache1.save();
+
+            //tache dateDebut: (2016,2,3), dateFinTot: (2016,2,4), dateFinTard: (2016,2,4)
+            Tache tache2 = new Tache("Tache2","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,3),
+                    Utils.getDateFrom(2016,2,4),Utils.getDateFrom(2016,2,4),20D,10D,20D,null,null,null,null,null);
+            tache2.save();
+
+            Tache tache3 = new Tache("Tache3","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
+                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null);
+            tache3.save();
+
+            Tache tache4 = new Tache("Tache4","Cette tâche permet de réaliser l'étude du projet",utilisateur,0,true, Utils.getDateFrom(2016,2,4),
+                    Utils.getDateFrom(2016,2,5),Utils.getDateFrom(2016,2,5),20D,10D,20D,null,null,tache2,null,null);
+            tache4.save();
+
+            try {
+                projet.creerTacheInitialisationProjet(tache1);
+                projet.creerSousTache(tache2, tache1);
+                projet.creerTacheEnDessous(tache3, tache2);
+                projet.creerSousTache(tache4, tache3);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            assertTrue(Projet.find.byId(projet.id).listTaches().contains(Tache.find.byId(tache1.id)));
+            assertTrue(Projet.find.byId(projet.id).listTaches().contains(Tache.find.byId(tache2.id)));
+            assertTrue(Tache.find.byId(tache1.id).enfants().contains(Tache.find.byId(tache2.id)));
+
+            assertEquals(Tache.find.byId(tache1.id).idTache, "1");
+            assertEquals(Tache.find.byId(tache2.id).idTache, "1.1");
+            assertEquals(Tache.find.byId(tache3.id).idTache, "1.2");
+
+            assertEquals(Tache.find.byId(tache1.id).idTache, "1");
+            assertEquals(Tache.find.byId(tache2.id).idTache, "1.1");
+            assertEquals(Tache.find.byId(tache3.id).idTache, "1.2");
+            assertEquals(Tache.find.byId(tache4.id).idTache, "1.2.1");
+            assertTrue(Tache.find.byId(tache1.id).enfants().contains(Tache.find.byId(tache2.id)));
+            assertTrue(Tache.find.byId(tache1.id).enfants().contains(Tache.find.byId(tache3.id)));
+            assertTrue(Tache.find.byId(tache3.id).enfants().contains(Tache.find.byId(tache4.id)));
+
+            assertFalse(Tache.find.byId(tache1.id).enfants().contains(Tache.find.byId(tache4.id)));
+            assertFalse(Tache.find.byId(tache2.id).enfants().contains(Tache.find.byId(tache3.id)));
+            assertFalse(Tache.find.byId(tache2.id).enfants().contains(Tache.find.byId(tache4.id)));
+
+            assertTrue(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache2.id)));
+            assertFalse(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache1.id)));
+            assertFalse(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache4.id)));
+            assertFalse(Tache.find.byId(tache4.id).predecesseur.equals(Tache.find.byId(tache3.id)));
+            assertTrue(Tache.find.byId(tache4.id).getSuccesseurs().isEmpty());
+
+            assertTrue(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache3.id)));
+            assertFalse(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache1.id)));
+            assertFalse(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache2.id)));
+            assertTrue(Tache.find.byId(tache2.id).getSuccesseurs().contains(Tache.find.byId(tache4.id)));
+            assertTrue(!Tache.find.byId(tache2.id).hasPredecesseur());
+
+            // Tache1: 1; Tache2: 1.1; Tache3: 1.2; Tache4: 1.2.1
+            // TODO
+            tache4.associerSuccesseur(tache1);
         });
     }
 }
