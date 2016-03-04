@@ -91,12 +91,11 @@ public class Utilisateur extends Personne {
     //    return null;
     //}
 
-    public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password, List<Tache> listTaches,
+    private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, List<Tache> listTaches,
                        List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue,
                        boolean recevoirNotifPourMesActions, boolean recevoirNotifPourMesTachesPresqueFinies,
                        boolean recevoirNotifPourMesTachesRetardees, String bloc_note) {
         super(nom, prenom, email, telephone, archive);
-        setPassword(password);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
         this.listTachesNotifications = (listTachesNotifications == null) ? new BeanList<>() : listTachesNotifications;
         this.utilisateursSuivis = (utilisateursSuivis == null) ? new BeanList<>() : utilisateursSuivis;
@@ -112,8 +111,16 @@ public class Utilisateur extends Personne {
         this.bloc_note = (bloc_note == null) ? "" : bloc_note;
     }
 
-    public Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, String password) {
-        this(nom, prenom, email, telephone, archive, password, null, null, null, LANGUE_FR, false, false, false, null);
+    private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive) {
+        this(nom, prenom, email, telephone, archive, null, null, null, LANGUE_FR, false, false, false, null);
+    }
+
+    public static Utilisateur create(String nom, String prenom, String email, String telephone, String password){
+        Utilisateur user = new Utilisateur(nom, prenom, email, telephone, false);
+        user.save();
+        user.setPassword(password);
+        user.update();
+        return user;
     }
 
     public Utilisateur() {
@@ -160,7 +167,6 @@ public class Utilisateur extends Personne {
             throw new IllegalArgumentException("Mot de passe : " + password + " incorrect, veuillez mettre au moins 1 Maj, 1 min, 1 chiffre et 6 caracteres minimum");
         }
         this.password = hachage(this.id, password);
-        this.save();
     }
 
     public String getPassword() {
@@ -241,8 +247,8 @@ public class Utilisateur extends Personne {
             ajoutDesTachesEnfants(taches, tache);
         }
 
-        // Tri en fonction des id
-        Collections.sort(listTaches, new Comparator<Tache>() {
+        // Tri en fonction des id - Liste tache dans sort
+        Collections.sort(taches, new Comparator<Tache>() {
             @Override
             public int compare(Tache t1, Tache t2) {
                 String[] idT1Parse = t1.idTache.split("\\.");
@@ -276,9 +282,10 @@ public class Utilisateur extends Personne {
      **/
     public List<Tache> listTachesDansProjetNonResponsableAAfficher(Projet projet) {
         List<Tache> taches = listTachesDansProjetNonResponsable(projet);
-        for (Tache tache : taches) {
-            if (enfantIsPresent(tache.enfants(), taches)) {
-                removeEnfants(tache, taches);
+        for (int i = 0; i < taches.size(); i++) {
+            if (enfantIsPresent(taches.get(i).enfants(), taches)) {
+                removeEnfants(taches.get(i), taches);
+                i--;
             }
         }
         return taches;
@@ -294,10 +301,11 @@ public class Utilisateur extends Personne {
 
     private void removeEnfants(Tache tache, List<Tache> taches) {
         if (tache.hasEnfant()) {
-            for (Tache enfant : tache.enfants()) {
-                if (taches.contains(enfant)) {
-                    taches.remove(enfant);
-                    removeEnfants(enfant, taches);
+            for (int i = 0; i < tache.enfants().size(); i++) {
+                if (taches.contains(tache.enfants().get(i))) {
+                    taches.remove(tache.enfants().get(i));
+                    removeEnfants(tache.enfants().get(i), taches);
+                    i--;
                 }
             }
         }
@@ -704,7 +712,8 @@ public class Utilisateur extends Personne {
         int cpt = 0;
         for (Projet projet : listProjetsResponsable()) {
             if (projet.dateFinReelTard != null) {
-                if (projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+                //if (projet.enCours && projet.dateFinReelTard.before(Calendar.getInstance().getTime())) cpt++;
+                if (projet.enCours && Utils.before(projet.dateFinReelTard, Calendar.getInstance().getTime())) cpt++;
             }
         }
         return cpt;
@@ -772,7 +781,8 @@ public class Utilisateur extends Personne {
     public int nbTachesRetardees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            //if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            if (!tache.archive && tache.estDisponible() && Utils.before(tache.dateFinTard, Calendar.getInstance().getTime()))
                 cpt++;
         }
         return cpt;
@@ -807,7 +817,8 @@ public class Utilisateur extends Personne {
     public List<Tache> tachesRetardees() {
         List<Tache> res = new ArrayList<>();
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            //if (!tache.archive && tache.estDisponible() && tache.dateFinTard.before(Calendar.getInstance().getTime()))
+            if (!tache.archive && tache.estDisponible() && Utils.before(tache.dateFinTard, Calendar.getInstance().getTime()))
                 res.add(tache);
         }
         return res;

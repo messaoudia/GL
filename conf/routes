@@ -60,7 +60,7 @@ POST        /modifierTache                                  controllers.Dashboar
 POST        /ajouterProjet                                  controllers.ProjetController.creerProjet
 GET         /listProjetsUtilisateur                         controllers.UtilisateurController.listProjetsUtilisateur(id: Long)
 GET         /listTachesUtilisateur                          controllers.UtilisateurController.listTachesUtilisateur(id: Long)
-
+GET         /listTachesUtilisateurConnecte                  controllers.UtilisateurController.listTachesUtilisateurConnecte
 #view notification
 GET         /notifications                                  controllers.NotificationController.afficherNotifications
 
@@ -99,3 +99,6 @@ POST        /modifClient                                    controllers.ClientCo
 
 # Draft parsed
 POST        /sendDraf                                       controllers.ProjetController.sendDraf
+
+# Workaround ajax refershing project
+GET         /affichePeojet                                  controllers.ProjetController.afficheProjet(idProjet: Long)

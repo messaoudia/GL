@@ -156,40 +156,57 @@
             <!-- Menu -->
         <script src="/js/menu.js"></script>
 
-            <!-- Dashboard -->
-        <script src="/js/dashboard.js"></script>
-
         @scripts
         <script>
-                 var changeModeDraftProjet = function(idProjet){
-                     console.log("Je suis la");
-                     if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
-                         console.log("Je suis checked");
-                         $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
-                         $('.id-tache').hide();
-                     }
-                     else{
-                         console.log("Je suis pas checked");
-                         var draftParsedAsJson = parseDraft(idProjet);
+                var changeModeDraftProjet = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        var draftParsedAsJson = parseDraft(idProjet);
 
-                         $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
-                         $('.id-tache').show();
+                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
 
 
-                         console.log(draftParsedAsJson);
-                         jsRoutes.controllers.ProjetController.sendDraf().ajax({
-                             data: draftParsedAsJson,
-                             dataType: 'json',
-                             contentType: "application/json",
-                             success : function(data) {
-                                 console.log(data);
-                             },
-                             error: function(errorMessage){
-                                 console.error(errorMessage);
-                             }
-                         });
-                     }
-                 }
+                        console.log(draftParsedAsJson);
+                        jsRoutes.controllers.ProjetController.sendDraf().ajax({
+                            data: draftParsedAsJson,
+                            dataType: 'json',
+                            contentType: "application/json",
+                            success : function(data) {
+                                console.log(data);
+
+                                // Refresh project view
+                                jsRoutes.controllers.ProjetController.afficheProjet(idProjet).ajax({
+                                    success: function(data){
+                                        console.log(data);
+                                        $('#projet-'+idProjet).html(data);
+
+//                                        var idProjet = '#' + $('.sidebar-projet.select').attr("name");
+//                                        $('.sidebar-projet.select').removeClass("select");
+//                                        $(idProjet).hide();
+//                                        $(this).addClass("select");
+//                                        var newIdProjet = '#' + $(this).attr("name");
+                                        $('#projet-'+idProjet).show();
+
+                                    },
+                                    error:function(errorMessage){
+                                        console.log(errorMessage);
+                                    }
+                                });
+
+                            },
+                            error: function(errorMessage){
+                                console.error(errorMessage);
+                            }
+                        });
+                    }
+                }
 
                 var changeModeDraftClient = function(idProjet){
                     console.log("Je suis la");
@@ -732,6 +749,34 @@
                             }
                         }
                     });
+                }
+
+                var activeModificationProjetDansProjet = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-consulterProjet-" + idProjet).hide();
+                    $("#div-modifierProjet-" + idProjet).show();
+                    jQuery.fx.off = false;
+                }
+
+                var desactiveModificationProjetDansProjet = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-modifierProjet-" + idProjet).hide();
+                    $("#div-consulterProjet-" + idProjet).show();
+                    jQuery.fx.off = false;
+                }
+
+                var activeModificationProjetDansClient = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-consulterProjet-client-" + idProjet).hide();
+                    $("#div-modifierProjet-client-" + idProjet).show();
+                    jQuery.fx.off = false;
+                }
+
+                var desactiveModificationProjetDansClient = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-modifierProjet-client-" + idProjet).hide();
+                    $("#div-consulterProjet-client-" + idProjet).show();
+                    jQuery.fx.off = false;
                 }
 
                 var supprimerUtilisateur = function(){
@@ -1805,6 +1850,189 @@
                     });
                 }
 
+                 var modifierTache = function (btn) {
+                     var form = $(btn).attr("form");
+                     form = "#"+form;
+                     var serialize = $(form).serialize();
+                     console.log(serialize);
+
+                     //IDTACHE
+                     var idTache = $('#formModifierTache').attr('value');
+
+                     //PREDECESSEUR
+                     var idPredecesseur = "";
+                     if($('#form-tache-predecesseur').select2().val() != null){
+                         idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                         console.log("idPredecesseur"+idPredecesseur);
+                     }
+
+                     var tabSuccesseurs = [];
+                     //SUCCESSEUR
+                     $("#form-tache-successeur option").each(function() {
+                         if($(this).is(':selected')){
+                             console.log("selected : "+$(this).val());
+                             tabSuccesseurs.push($(this).val());
+                         }
+                     });
+
+                     //RESPONSABLE DE TACHE
+                     var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
+                     console.log("idReponsableTache"+idResponsableTache);
+
+                     //INTERLOCUTEURS EXTERNES
+                     var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+                     var tabInterlocuteurs = [];
+
+                     for (i = 0; i < nbInterlocuteurs; i++) {
+                         if($("#checkbox-interlocuteur-"+i).is(':checked')){
+                             console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
+                             tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
+                         }
+                     }
+
+                     var dataToSend = serialize+"&id-tache="+idTache+"&predecesseur="+idPredecesseur;
+                     dataToSend += "&successeurs=";
+
+                     for (var i = 0; i < tabSuccesseurs.length; i++){
+                         dataToSend += tabSuccesseurs[i]+",";
+                     }
+
+                     dataToSend += "&responsable="+idResponsableTache;
+
+                     dataToSend += "&interlocuteurs=";
+
+                     for (var i = 0; i < tabInterlocuteurs.length; i++){
+                         dataToSend += tabInterlocuteurs[i]+",";
+                     }
+
+                     console.log("Data SEND : "+dataToSend);
+                     //Ajax call submit form
+                     jsRoutes.controllers.DashboardController.modifierTache().ajax({
+                         data: dataToSend,
+                         success : function() {
+
+                             jsRoutes.controllers.UtilisateurController.listTachesUtilisateurConnecte().ajax({
+                                 success : function(taches) {
+                                     console.log("SUCCESS");
+                                     console.log("ListTaches a afficher : ");
+                                     console.log(taches);
+
+                                     $('#dataTables-tdb-tache').dataTable().fnDestroy();
+
+                                     var tableDashboardBody = $('#dataTables-tdb-tache-body');
+                                     tableDashboardBody.empty();
+
+                                     var tableContent = "";
+                                     $.each(taches, function (i, tache) {
+                                         tableContent += ('<tr value="'+tache.id+'" onclick="afficherModalTache(this)" class="table-center">');
+                                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+                                         tableContent += ('<p class="tdb-id-tache">'+tache.idTache+'</p>');
+                                         tableContent += ('<p class="tdb-nom-tache">'+tache.nom+'</p>');
+                                         tableContent += ('</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.projet.nom+'</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.projet.client.nom+'</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.dateDebut+'</td>');
+
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+                                         tableContent += ('<p style="display:none ;">'+tache.dateFinTard+'</p>');
+                                         tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTot+'</p>');
+                                         tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTard+'</p>');
+                                         tableContent += ('</td>');
+
+                                         tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+
+                                         tableContent += ('<p style="display:none ;">');
+                                         if(tache.getAvancementTache > 0 || tache.getAvancementTache < 100){
+                                             tableContent += ('0'+tache.getAvancementTache);
+                                         }else{
+                                             tableContent += (tache.getAvancementTache);
+                                         }
+                                         tableContent += ('</p>');
+
+                                         tableContent += ('<p class="row-initiale">@Messages("initial") : '+tache.chargeInitiale);
+                                         if(tache.projet.hasUniteJour){
+                                             tableContent += ('@Messages("day-first-letter")');
+                                         }else{
+                                             tableContent += ('@Messages("week-first-letter")');
+                                         }
+                                         tableContent += ('</p>');
+
+                                         tableContent += ('<p class="row-restante">@Messages("remaining") : '+tache.chargeRestante);
+                                         if(tache.projet.hasUniteJour){
+                                             tableContent += ('@Messages("day-first-letter")');
+                                         }else{
+                                             tableContent += ('@Messages("week-first-letter")');
+                                         }
+                                         tableContent += ('</p>');
+
+                                         tableContent += ('<div class="progress progress-bar-default">');
+                                         if(tache.getAvancementTache == 0){
+                                             tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">');
+                                             tableContent += ('0%');
+                                             tableContent += ('</div>');
+                                         }else{
+                                             tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="'+tache.getAvancementTache+'" aria-valuemin="0" aria-valuemax="100" style="width: '+tache.getAvancementTache+'% ;">');
+                                             tableContent += (tache.getAvancementTache+'%');
+                                             tableContent += ('</div>');
+                                         }
+                                         tableContent += ('</div>');
+
+                                         tableContent += ('<p class="row-consommee">@Messages("consumed") : '+tache.chargeConsommee);
+                                         if(tache.projet.hasUniteJour){
+                                             tableContent += ('@Messages("day-first-letter")');
+                                         }else{
+                                             tableContent += ('@Messages("week-first-letter")');
+                                         }
+                                         tableContent += ('</p>');
+                                         tableContent += ('</td>');
+
+                                         tableContent += ('<td style="vertical-align:middle ;">');
+                                         if(tache.hasPredecesseur){
+                                             tableContent += ('<div class="row">@Messages("predecessor") : '+tache.predecesseurIdTache+'</div>');
+
+                                         }
+
+                                         if(tache.hasSuccesseur){
+
+                                             tableContent += ('<div class="row"> @Messages("successors") : <div class="btn-group">');
+                                             tableContent += ('<button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">');
+                                             tableContent += (tache.nbSuccesseurs+' @Messages("tasks-lower") <span class="caret"></span></button>');
+
+                                             tableContent += ('<ul class="dropdown-menu dropdown-menu-pert">');
+
+                                             $.each(tache.successeurs, function(i, successeur) {
+                                                 tableContent += ('<li>'+successeur.idTache+'</li>');
+                                             });
+
+                                             tableContent += ('</ul></div></div>');
+                                         }
+                                         tableContent += ('</td>');
+
+                                         if(tache.hasResponsableActivateNotification){
+                                             tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell"></i></a></td>');
+                                         } else {
+                                             tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell-slash-o"></i></a></td>');
+                                         }
+
+                                         tableContent += ('</tr>');
+                                     });
+
+                                     console.log(tableContent);
+                                     tableDashboardBody.append(tableContent);
+                                     $('#modal-tdb-tache').modal('toggle');
+                                 }
+                             });
+
+                         },
+                         error: function(errorMessage,codeErreur){
+                             console.log(codeErreur+" "+errorMessage);
+                         }
+                     });
+                 }
+
                 $(document).ready(function () {
                     $('#checkbox-notif-all-selected').click(function() {
                         if($('#checkbox-notif-all-selected').is(':checked')){
@@ -1859,21 +2087,6 @@
                         jQuery.fx.off = true;
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        $("#div-modifierProjet-client").hide();
-                        $("#div-consulterProjet-client").show();
                         jQuery.fx.off = false;
                     });
 
@@ -2277,51 +2490,6 @@
                         jQuery.fx.off = true;
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet-client").attr("name");
-                        $("#div-modifierProjet-client-" + idProjet).hide();
-                        $("#div-consulterProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-
-
-                    $( "#btn-modifierProjet" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-" + idProjet).hide();
-                        $("#div-modifierProjet-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet-client" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client-" + idProjet).hide();
-                        $("#div-modifierProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet").attr("name");
-                        $("#div-modifierProjet-" + idProjet).hide();
-                        $("#div-consulterProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
@@ -2936,41 +3104,41 @@
 
                             var $length = $('#table-modal-client-contacts-body tr > td:contains('+$email+')').length;
                             if($length>0){
-                            $("#successModifierClient").hide();
-                            $("#successModifierClientP").empty();
-                            var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
-                            $("#errorModifierClientP").html(messageDiv);
-                            $("#errorModifierClient").show();
-                            }else{
-                            $("#errorModifierClientP").empty();
-                            $("#errorModifierClient").hide();
-
-                            $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
-                            $("#successModifierClient").show();
-
-
-                            setTimeout(function(){
                                 $("#successModifierClient").hide();
-                            },4000);
+                                $("#successModifierClientP").empty();
+                                var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                                $("#errorModifierClientP").html(messageDiv);
+                                $("#errorModifierClient").show();
+                            }else{
+                                $("#errorModifierClientP").empty();
+                                $("#errorModifierClient").hide();
 
-                            var contact = $('#table-modal-client-contacts-body');
+                                $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
+                                $("#successModifierClient").show();
 
-                            var list ="";
-                            list+=('<tr value=" ">');
-                            list+=('<td class="first-td">'+data.nom+'</td>');
-                            list+=('<td class="first-td">'+data.prenom+'</td>');
-                            list+=('<td style="display:none;">'+data.email+'</td>');
-                            list+=('<td style="display:none;">'+data.telephone+'</td>');
-                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                            list+=('</tr>');
-                            contact.append(list);
-                            var size = listeNewContact.length;
-                            listeNewContact[size] = {};
-                            listeNewContact[size]["nom"] = data.nom;
-                            listeNewContact[size]["prenom"] = data.prenom;
-                            listeNewContact[size]["email"] = data.email;
-                            listeNewContact[size]["telephone"] = data.telephone;
-                            $(form)[0].reset();
+
+                                setTimeout(function(){
+                                    $("#successModifierClient").hide();
+                                },4000);
+
+                                var contact = $('#table-modal-client-contacts-body');
+
+                                var list ="";
+                                list+=('<tr value=" ">');
+                                list+=('<td class="first-td">'+data.nom+'</td>');
+                                list+=('<td class="first-td">'+data.prenom+'</td>');
+                                list+=('<td style="display:none;">'+data.email+'</td>');
+                                list+=('<td style="display:none;">'+data.telephone+'</td>');
+                                list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                list+=('</tr>');
+                                contact.append(list);
+                                var size = listeNewContact.length;
+                                listeNewContact[size] = {};
+                                listeNewContact[size]["nom"] = data.nom;
+                                listeNewContact[size]["prenom"] = data.prenom;
+                                listeNewContact[size]["email"] = data.email;
+                                listeNewContact[size]["telephone"] = data.telephone;
+                                $(form)[0].reset();
                             }
                         },
                         error: function(errorMessage){
@@ -2983,7 +3151,7 @@
                     });
                 }
 
-              /* Afficher les Clients archivés */
+                /* Afficher les Clients archivés */
                 function clientsArchived(){
                     if($('#checkBoxClientsArchived').is(":checked")) {
                         $('.client-archived').show();
@@ -3062,64 +3230,67 @@
 
 
 
-                 //####################################################################
-                 //                         DRAFT PARSING
-                 //####################################################################
+                //####################################################################
+                //                         DRAFT PARSING
+                //####################################################################
 
 
-                 function parseDraft(idProjet){
-                     function ajoutTacheFille(tacheMere,tache){
-                         tacheMere["childrens"].push(tache);
-                     }
+                function parseDraft(idProjet){
+                    function ajoutTacheFille(tacheMere,tache){
+                        tacheMere["childrens"].push(tache);
+                    }
 
-                     function creerTache(tacheId){
-                         var tache={};
-                         tache["id"]=tacheId;
-                         tache["childrens"]=new Array();
-                         return tache;
-                     }
+                    function creerTache(tacheId,index){
+                        var tache={};
+                        tache["index"]=index;
+                        tache["id"]=tacheId;
+                        tache["childrens"]=new Array();
+                        return tache;
+                    }
 
-                     var taches = {};
-                     taches["projectId"] = idProjet;
-                     taches["taches"] = new Array();
+                    var taches = {};
+                    taches["projectId"] = idProjet;
+                    taches["taches"] = new Array();
 
-                     var processNodes = function(currentElement, depth, taches, parent) {
-                         var currentTache;
-                         if($(currentElement).is("li")){
-                             currentTache=creerTache($(currentElement).attr('data-id'));
-                             console.log("depth: "+depth);
-                             if(depth==1){
-                                 taches["taches"].push(currentTache);
-                             }
-                             else{
-                                 ajoutTacheFille(parent,currentTache);
-                             }
+                    var processNodes = function(currentElement, depth, taches, parent,index) {
+                        var currentTache;
+                        if($(currentElement).is("li")){
+                            currentTache=creerTache($(currentElement).attr('data-id'),index);
+                            console.log("depth: "+depth);
+                            if(depth==1){
+                                taches["taches"].push(currentTache);
+                            }
+                            else{
+                                ajoutTacheFille(parent,currentTache);
+                            }
 
-                             console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
-                         }
+                            console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
+                        }
 
-                         if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
+                        var indexChild=0;
+                        if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
 
-                             $(currentElement).children().eq(1).children().each(function unFunction(element){
-                                 depth=depth+1;
-                                 processNodes($(this),depth, taches, currentTache);
-                             });
-                         }
-                     }
+                            $(currentElement).children().eq(1).children().each(function unFunction(element){
+                                depth=depth+1;
+                                processNodes($(this),depth, taches, currentTache,indexChild++);
+                            });
+                        }
+                    }
 
 
-                     var depth =1;
-                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
-                     {
-                         processNodes(this, depth, taches, null);
+                    var depth =1;
+                    var indexChild=0;
+                    $("#table_taches_"+idProjet).children().each (function processNodesTmp()
+                    {
+                        processNodes(this, depth, taches, null,indexChild++);
 
-                     });
-                     var json = JSON.stringify(taches);
-                     console.log(json);
-                     return json;
-                 }
+                    });
+                    var json = JSON.stringify(taches);
+                    console.log(json);
+                    return json;
+                }
 
-                 //####################################################################
+                //####################################################################
 
         </script>
     </body>
