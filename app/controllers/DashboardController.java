@@ -91,11 +91,12 @@ public class DashboardController extends Controller{
             String newNomTache = map.get("form-modif-tache-nom")[0];
             String newDescTache = map.get("form-modif-tache-desc")[0];
 
-            Double newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
+            Double newChInitiale = null;
             Double newChConso = null;
             Double newChRestante = null;
 
             if(tache.disponible) {
+                newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
                 newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0]);
                 newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0]);
             }
@@ -135,8 +136,8 @@ public class DashboardController extends Controller{
 
             tache.nom = newNomTache;
             tache.description = newDescTache;
-            tache.chargeInitiale = newChInitiale;
             if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
+                tache.chargeInitiale = newChInitiale;
                 tache.modifierCharge(newChConso, newChRestante);
             }
             if (newPredecesseur != null && (tache.predecesseur == null || !tache.predecesseur.equals(newPredecesseur))) {
