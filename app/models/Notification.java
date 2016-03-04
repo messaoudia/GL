@@ -531,5 +531,51 @@ public class Notification extends Model {
         sendNotifications(mapNotifications);
     }
 
+    /**
+     * Envoie une notification quand un projet est supprimé
+     * @param projet
+     * @param utilisateur
+     */
+    public static void notificationSupprimerProjet(Projet projet, Utilisateur utilisateur){
+        Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
+
+        String titleFR = "Suppression du projet " + projet.nom;
+        String messageMemeUserFR = "Vous avez supprimé le projet \"" + projet.nom + "\" (client : "+ projet.client.nom +")\n";
+        String messageAutreUserFR = utilisateur.prenom + " " + utilisateur.nom + " a supprimé le projet " + projet.nom + "\" (client : "+ projet.client.nom +")\n";
+
+        /** TODO ANGLAIS **/
+        String titleEN = "Suppression du projet " + projet.nom;
+        String messageMemeUserEN = "Vous avez supprimé le projet \"" + projet.nom + "\" (client : "+ projet.client.nom +")\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a supprimé le projet " + projet.nom + "\" (client : "+ projet.client.nom +")\n";
+
+        String title = "";
+        String message = "";
+        // Envoie notification a l'utilisateur
+        if(utilisateur.equals(projet.responsableProjet) || utilisateur.recevoirNotifPourMesActions){
+            if(utilisateur.langue.equals(Utilisateur.LANGUE_FR)){
+                title = titleFR;
+                message = messageMemeUserFR;
+            }
+            else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+                title = titleEN;
+                message = messageMemeUserEN;
+            }
+            mapNotifications.put(utilisateur, new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+        }
+        // Envoie notification au responsable de projet si ce n'est pas l'auteur de la création
+        if(!utilisateur.equals(projet.responsableProjet)){
+            if(projet.responsableProjet.langue.equals(Utilisateur.LANGUE_FR)){
+                title = titleFR;
+                message = messageAutreUserFR;
+            }
+            else if(utilisateur.langue.equals(Utilisateur.LANGUE_EN)){
+                title = titleEN;
+                message = messageAutreUserEN;
+            }
+
+            mapNotifications.put(projet.responsableProjet, new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet));
+        }
+        sendNotifications(mapNotifications);
+    }
 
 }

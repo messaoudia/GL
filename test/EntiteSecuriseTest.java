@@ -71,8 +71,8 @@ public class EntiteSecuriseTest {
 
 
         // Load some users
-        Utilisateur utilisateur1 = new Utilisateur("lastName1", "firstName1", "first1.last1@mail.com", "0612522543", false, "hashedPassword1");
-        Utilisateur utilisateur2 = new Utilisateur("lastName2", "firstName2", "first2.last2@mail.com", "0117027893", false, "hashedPassword2");
+        Utilisateur utilisateur1 = Utilisateur.create("lastName1", "firstName1", "first1.last1@mail.com", "0612522543", "hashedPassword1");
+        Utilisateur utilisateur2 = Utilisateur.create("lastName2", "firstName2", "first2.last2@mail.com", "0117027893", "hashedPassword2");
         Ebean.save(utilisateur1);
         Ebean.save(utilisateur2);
 

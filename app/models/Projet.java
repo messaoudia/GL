@@ -127,7 +127,7 @@ public class Projet extends EntiteSecurise {
          if(!utilisateursNotifications.contains(tache.responsableTache))
              utilisateursNotifications.add(tache.responsableTache);
         }
-        save();
+        //save();
     }
 
     private void addUtilisateurNotification(Utilisateur user){
