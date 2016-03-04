@@ -114,6 +114,8 @@ public class Notification extends Model {
      *
      * Si la modification de l'avancement entraîne un changement d'état d'une tâche (disponible/indisponible),
      * une notification est aussi envoyée (notifications groupées)
+     *
+     * TODO ZHENG => verifier sur pageweb
      * @param tache
      * @param utilisateur
      */
@@ -136,15 +138,14 @@ public class Notification extends Model {
         messageFR += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "\n";
         messageFR += "\t - Charge restante : " + tache.chargeRestante + " " + uniteFR + "\n";
 
-        /** TODO : mettre en anglais **/
-        String objetEN = "Modification de l'avancement de la tâche " + tache.nom;
+        String objetEN = "Changing the task progress " + tache.nom;
 
-        String messageEN = "L'utilisateur " + utilisateur.prenom + " " + utilisateur.nom + " a modifié l'avancement de la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
-        messageFR += "Le nouvel avancement de la tâche est de : " + tache.getAvancementTache() + "%\n";
-        messageFR += "\t - Charge initiale : " + tache.chargeInitiale + " " + uniteEN + "\n";
-        messageFR += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteEN + "\n";
-        messageFR += "\t - Charge restante : " + tache.chargeRestante + " " + uniteEN + "\n";
+        String messageEN = "User " + utilisateur.prenom + " " + utilisateur.nom + " has changed the progress of task "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
+        messageEN += "The new task progress is : " + tache.getAvancementTache() + "%\n";
+        messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "\n";
+        messageEN += "\t - Finished workload : " + tache.chargeConsommee + " " + uniteEN + "\n";
+        messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "\n";
 
         Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
         String objet = "";
@@ -172,6 +173,7 @@ public class Notification extends Model {
     /**
      * Envoie une notification à tous les utilisateurs associés à la tache passé en paramètre
      * L'utilisateur passé en paramètre est l'utilisateur qui a modifié la tâche
+     * TODO ZHENG => verifier sur pageweb
      * @param tache
      * @param utilisateur
      */
@@ -199,20 +201,19 @@ public class Notification extends Model {
         messageFR += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "\n";
         messageFR += "\t - Charge restante : " + tache.chargeRestante + " " + uniteFR + "\n";
 
-        /** TODO : mettre en anglais **/
-        String objetEN = "Modification de la tâche " + tache.nom;
+        String objetEN = "Changing the task " + tache.nom;
 
-        String messageEN = "L'utilisateur " + utilisateur.prenom + " " + utilisateur.nom + " a modifié la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
-        messageFR += "Responsable : " + tache.responsableTache.prenom + tache.responsableTache.nom + "(" + tache.responsableTache.email + ")\n";
-        messageFR +="Dates de la tâche :\n";
-        messageFR += "\t - Date de début : " + tache.formateDate(tache.dateDebut) + "\n";
-        messageFR += "\t - Date d'échéance au plus tôt : " + tache.formateDate(tache.dateFinTot) + "\n";
-        messageFR += "\t - Date d'échéance au plus tard : " + tache.formateDate(tache.dateFinTard) + "\n";
-        messageFR += "Avancement de la tâche est de : " + tache.getAvancementTache() + "%\n";
-        messageFR += "\t - Charge initiale : " + tache.chargeInitiale + " " + uniteFR + "\n";
-        messageFR += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "\n";
-        messageFR += "\t - Charge restante : " + tache.chargeRestante + " " + uniteFR + "\n";
+        String messageEN = "User " + utilisateur.prenom + " " + utilisateur.nom + " has changed the task "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
+        messageEN += "Person in charge : " + tache.responsableTache.prenom + tache.responsableTache.nom + "(" + tache.responsableTache.email + ")\n";
+        messageEN +="Dates of the task :\n";
+        messageEN += "\t - Start date : " + tache.formateDate(tache.dateDebut) + "\n";
+        messageEN += "\t - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "\n";
+        messageEN += "\t - Latest due date : " + tache.formateDate(tache.dateFinTard) + "\n";
+        messageEN += "The task progress is : " + tache.getAvancementTache() + "%\n";
+        messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteFR + "\n";
+        messageEN += "\t - Finished workload : " + tache.chargeConsommee + " " + uniteFR + "\n";
+        messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteFR + "\n";
 
         Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
         String objet = "";
@@ -302,6 +303,7 @@ public class Notification extends Model {
     /**
      * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
      * qui se terminent dans moins de 5 jours
+     * TODO ZHENG
      * @param utilisateur
      */
     public static void sendNotificationTacheBientotProche(Utilisateur utilisateur, Notification notification){
@@ -358,6 +360,7 @@ public class Notification extends Model {
     /**
      * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
      * qui sont retardées
+     * TODO ZHENG
      * @param utilisateur
      */
     public static void sendNotificationTacheRetardee(Utilisateur utilisateur, Notification notification){
@@ -406,6 +409,7 @@ public class Notification extends Model {
     /**
      * Prépare les notifications lors de la suppresion d'un utilisateur : l'utilisateur passé en paramètre est le nouveau responsable
      * du projet en paramètre
+     * TODO ZHENG
      * @param utilisateur
      */
     public static void notificationSuppressionUtilisateurProjet(Map<Utilisateur, Notification> mapNotifications,
@@ -439,6 +443,7 @@ public class Notification extends Model {
     /**
      * Prépare les notifications lors de la suppresion d'un utilisateur : l'utilisateur passé en paramètre est le nouveau responsable
      * de la tache en paramètre
+     * TODO ZHENG
      * @param utilisateur
      */
     public static void notificationSuppressionUtilisateurTache(Map<Utilisateur, Notification> mapNotifications,
@@ -469,6 +474,11 @@ public class Notification extends Model {
         }
     }
 
+    /**
+     * TODO ZHENG
+     * @param projet
+     * @param utilisateur
+     */
     public static void notificationCreerProjet(Projet projet, Utilisateur utilisateur){
         Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
 
@@ -531,7 +541,7 @@ public class Notification extends Model {
         sendNotifications(mapNotifications);
     }
 
-    /**
+    /** TODO ZHENG
      * Envoie une notification quand un projet est supprimé
      * @param projet
      * @param utilisateur
