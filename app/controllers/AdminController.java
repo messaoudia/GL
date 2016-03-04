@@ -14,6 +14,7 @@ import views.html.adminProjetsSelect;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -65,7 +66,7 @@ public class AdminController extends Controller{
 
 
     public Result afficherAdminProjetsSelect(Long idProjet) {
-        return ok(adminProjetsSelect.render("Projet",Projet.find.byId(idProjet),Login.getUtilisateurConnecte()));
+        return ok(adminProjetsSelect.render("Projet",Projet.find.byId(idProjet),Login.getUtilisateurConnecte(),Client.getAllNonArchives(),Utilisateur.getAllNonArchives()));
     }
 
     public Result afficherProjetsTermines(Boolean check){
@@ -129,6 +130,54 @@ public class AdminController extends Controller{
             return badRequest(Json.toJson(error));
         }else{
             return ok();
+        }
+    }
+
+    public Result modifierProjet(Long id){
+        Projet p = Projet.find.byId(id);
+        Map<String, String[]> map = request().body().asFormUrlEncoded();
+        Error error = new Error();
+        String nom = map.get("projet")[0];
+        if (nom.isEmpty()) {
+            error.nomProjetVide = true;
+        } else if (nom.length() > 30) {
+            error.nomProjetTropLong= true;
+        }
+        String description = map.get("description")[0];
+        if(description.length() > 65536) {
+            error.descriptionTropLong = true;
+        }
+        if(error.hasErrorProjet()){
+            return badRequest(Json.toJson(error));
+        }else{
+            Long idUser = Long.parseLong(map.get("responsableProjet")[0]);
+            Utilisateur user = Utilisateur.find.byId(idUser);
+            Long idClient = Long.parseLong(map.get("client")[0]);
+            Client client = Client.find.byId(idClient);
+            //modification des info si besoin
+            int priorite = Integer.parseInt(map.get("priorite")[0]);
+            //check priorite
+            if(!p.nom.equals(nom)){
+                p.nom = nom;
+            }
+            if(p.priorite != priorite){
+                p.priorite = priorite;
+            }
+            //description
+            if(!p.description.equals(description)){
+                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
+                p.description = description;
+            }
+
+            if(!p.responsableProjet.equals(user)){
+                p.responsableProjet = user;
+            }
+
+            if(!p.client.equals(client)){
+                p.client = client;
+            }
+            p.save();
+            return ok(Json.toJson(p));
         }
     }
 }
