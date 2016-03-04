@@ -68,6 +68,8 @@ public class Utilisateur extends Personne {
 
     public String bloc_note;
 
+    public MapNotificationsGroupees mapNotificationsGenerees = new MapNotificationsGroupees();
+
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
     public static Utilisateur authenticate(String email, String password) {
@@ -907,5 +909,57 @@ public class Utilisateur extends Personne {
                                 .findFirst()
                                 .isPresent()
                 ).collect(Collectors.toList());
+    }
+
+    /**
+     * Envoie les notifications
+     */
+    public void sendNotifications(){
+        HashMap<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
+        convertMapNotificationsGroupees();
+        Notification.sendNotifications(mapNotifications);
+        this.mapNotificationsGenerees.clear();
+        this.save();
+    }
+
+    private Map<Utilisateur, Notification> convertMapNotificationsGroupees(){
+        HashMap<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
+
+        // On parcours la liste des taches/projets qui doivent engendrer une notification
+        for(Map.Entry<Long, TypeNotification> entry : this.mapNotificationsGenerees.entrySet()){
+            Long id = entry.getKey();
+            TypeNotification typeNotification = entry.getValue();
+
+            // Projet
+            if(TypeNotification.isProjet(typeNotification)){
+                Projet projet = Projet.find.byId(id);
+                if(typeNotification == TypeNotification.MODIFIER_PROJET){
+                    // Envoyer la notif aux responsable de projet si c'est pas lui et tous les collaborateurs
+                    // + eventuellement à l'utilisateur s'il a activé les notifications pour ses actions
+                    Notification.sendNotificationModifierProjet(projet, this, mapNotifications);
+                }
+                else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_PROJET){
+                    Notification.sendNotificationModifierResponsableProjet(projet, this, mapNotifications);
+                }
+            }
+            // Tache
+            else if(TypeNotification.isTache(typeNotification)){
+                Tache tache = Tache.find.byId(id);
+                if(typeNotification == TypeNotification.CREER_TACHE){
+                    Notification.sendNotificationCreerTache(tache, this, mapNotifications);
+                } else if(typeNotification == TypeNotification.MODIFIER_AVANCEMENT_TACHE){
+                    Notification.sendNotificationModifierAvancementTache(tache, this, mapNotifications);
+                } else if(typeNotification == TypeNotification.MODIFIER_TACHE){
+                    Notification.sendNotificationModifierTache(tache, this, mapNotifications);
+                } else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_TACHE){
+                    Notification.sendNotificationModifierResponsableTache(tache, this, mapNotifications);
+                } else if(typeNotification == TypeNotification.SUPPRIMER_TACHE){
+                    Notification.sendNotificationSupprimerTache(tache, this, mapNotifications);
+                }
+            }
+
+        }
+
+        return mapNotifications;
     }
 }

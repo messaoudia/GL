@@ -90,6 +90,8 @@ public class ProjetController extends Controller {
                     p.save();
                     client.listeProjets.add(p);
                     client.save();
+                    // TODO A TESTER
+                    Notification.sendNotificationCreerProjet(p, Login.getUtilisateurConnecte());
                     return ok(Json.toJson(p));
                 } else {
                     error.dateFinAvantDebut = true;
