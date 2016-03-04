@@ -2036,6 +2036,10 @@
                 }
 
                 $(document).ready(function () {
+
+                    // Print the first selected project
+                    $('#' + $('.sidebar-projet.select').attr("name")).show();
+
                     $('#checkbox-notif-all-selected').click(function() {
                         if($('#checkbox-notif-all-selected').is(':checked')){
                             $("div.checkbox-notif input[type=checkbox]").each(function(){
@@ -2448,6 +2452,10 @@
                     return messageDiv;
                 }
                 $( document ).ajaxComplete(function() {
+
+                    // Print the first selected project
+                    $('#' + $('.sidebar-projet.select').attr("name")).show();
+
                     $('#checkbox-notif-all-selected').click(function() {
                         if($('#checkbox-notif-all-selected').is(':checked')){
                             $("div.checkbox-notif input[type=checkbox]").each(function(){

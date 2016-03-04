@@ -68,13 +68,20 @@
                         <div class="sidebar-liste-projet" style="position: fixed ; width: 170px ; z-index: 1998 ; height: 100% ; background-color:#FFF ; box-shadow: 3px 0 5px -4px #333 ;">
                             <div class="liste-projet" style="overflow-y: auto ; height: 100% ; margin-top:26px ;">
 
-                                @for( projet <- utilisateur.listProjets()) {
-                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                @for( (projet, index) <- utilisateur.listProjets().zipWithIndex) {                                    <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
+                                    @if(index == 0) {
+                                        @if(projet.estTermine()) {
+                                            <div name="projet-@projet.id" class="sidebar-projet select projet-finished-sidebar" style="background-color: #0d8ddb ;">
+                                            } else {
+                                            <div name="projet-@projet.id" class="sidebar-projet select">
+                                            }
+                                    } else {
                                         @if(projet.estTermine()) {
                                             <div name="projet-@projet.id" class="sidebar-projet projet-finished-sidebar" style="background-color: #0d8ddb ;">
                                             } else {
                                             <div name="projet-@projet.id" class="sidebar-projet">
                                             }
+                                    }
                                     <div class="content">
                                         <div class="sidebar-projet-nom">@projet.nom</div>
                                         <div class="sidebar-client-nom">@projet.client.nom</div>
@@ -85,7 +92,7 @@
                                     }
                             </div>
 
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute ; bottom: 51px ; background-color: #FFF ; width: 100%;">
+                                <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute ; bottom: 51px ; background-color: #FFF ; width: 100% ;">
                                     <div class="sidebar-footer">
                                         <div class="checkbox checkbox-success checkbox-circle">
                                             <input onclick="updateSideBarClientArchive(this);" id="checkbox-tache-termines" type="checkbox">
@@ -98,7 +105,7 @@
                             </div>
                         </div>
 
-                        @for( projet <- utilisateur.listProjets()) {
+                        @for(projet <- utilisateur.listProjets()) {
                             <div id="projet-@projet.id" class="col-consulterProjet col-md-10" style="display:none ;">
 
                                 <div id="div-consulterProjet-@projet.id">
@@ -228,7 +235,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            @for( contact <- projet.client.listContacts()) {
+                                                            @for(contact <- projet.client.listContacts()) {
                                                                 <tr class="table-center">
                                                                     <td style="vertical-align:middle ;">@contact.nom</td>
                                                                     <td style="vertical-align:middle ;">@contact.prenom</td>
@@ -314,6 +321,15 @@
                                                                     <div class='form-group'>
                                                                         <label class="label_form" for="client">@Messages("client")</label>
                                                                         <div> @projet.client.nom
+                                                                            <!--
+                                                                    <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
+                                                                        <option value="1">Option 1</option>
+                                                                        <option value="2">Option 2</option>
+                                                                        <option value="3">Option 3</option>
+                                                                        <option value="4">Option 4</option>
+                                                                        <option value="5">Option 5</option>
+                                                                    </select>
+                                                                    -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -405,7 +421,7 @@
                                                     </ol>
                                                     <ol class="dd-list" id="table_taches_@projet.id">
                                                     @if(projet.responsableProjet.equals(utilisateur)) {
-                                                        @for( tacheMere <- projet.listTachesAAfficher()) {
+                                                        @for(tacheMere <- projet.listTachesAAfficher()) {
                                                             <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                     <div class="row row-nestable" >
@@ -478,7 +494,7 @@
                                                                                             @tacheMere.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                         </button>
                                                                                         <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                        @for( successeur <- tacheMere.successeurs) {
+                                                                                        @for(successeur <- tacheMere.successeurs) {
                                                                                             <li>@successeur.idTache</li>
                                                                                         }
                                                                                         </ul>
@@ -501,21 +517,21 @@
                                                                             <div class="normal boutonPlusCreerTache">
                                                                                 <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                             </div>
-                                                                            <div class="createSubTask" data-toggle="modal"  data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
+                                                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                                                                 <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal"  data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
+                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                                                             <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal"  data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
+                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
                                                                             <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 @if(tacheMere.hasEnfant()) {
                                                                     <ol class="dd-list">
-                                                                    @for( sousTache1 <- tacheMere.enfants()) {
+                                                                    @for(sousTache1 <- tacheMere.enfants()) {
                                                                         <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
                                                                             <div class="dd-handle" style="padding:0px ;">
                                                                                 <div class="row row-nestable">
@@ -589,7 +605,7 @@
                                                                                                         @sousTache1.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                                     </button>
                                                                                                     <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                    @for( successeur <- sousTache1.successeurs) {
+                                                                                                    @for(successeur <- sousTache1.successeurs) {
                                                                                                         <li>@successeur.idTache</li>
                                                                                                     }
                                                                                                     </ul>
@@ -628,7 +644,7 @@
 
                                                                             @if(sousTache1.hasEnfant()) {
                                                                                 <ol class="dd-list">
-                                                                                @for( sousTache2 <- sousTache1.enfants()) {
+                                                                                @for(sousTache2 <- sousTache1.enfants()) {
                                                                                     <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
                                                                                         <div class="dd-handle" style="padding:0px ;">
                                                                                             <div class="row row-nestable" >
@@ -703,7 +719,7 @@
                                                                                                                     @sousTache2.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                                                 </button>
                                                                                                                 <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                                @for( successeur <- sousTache2.successeurs) {
+                                                                                                                @for(successeur <- sousTache2.successeurs) {
                                                                                                                     <li>@successeur.idTache</li>
                                                                                                                 }
                                                                                                                 </ul>
@@ -741,7 +757,7 @@
                                                                                         </div>
                                                                                         @if(sousTache2.hasEnfant()) {
                                                                                             <ol class="dd-list">
-                                                                                            @for( sousTache3 <- sousTache2.enfants()) {
+                                                                                            @for(sousTache3 <- sousTache2.enfants()) {
                                                                                                 <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
                                                                                                     <div class="dd-handle" style="padding:0px ;">
                                                                                                         <div class="row row-nestable">
@@ -816,7 +832,7 @@
                                                                                                                                 @sousTache3.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                                                             </button>
                                                                                                                             <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                                            @for( successeur <- sousTache3.successeurs) {
+                                                                                                                            @for(successeur <- sousTache3.successeurs) {
                                                                                                                                 <li>@successeur.idTache</li>
                                                                                                                             }
                                                                                                                             </ul>
@@ -871,7 +887,7 @@
 
                                                         }
                                                     } else {
-                                                        @for( tacheMere <- utilisateur.listTachesDansProjetNonResponsableAAfficher(projet)) {
+                                                        @for(tacheMere <- utilisateur.listTachesDansProjetNonResponsableAAfficher(projet)) {
                                                             <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                     <div class="row row-nestable">
@@ -944,7 +960,7 @@
                                                                                             @tacheMere.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                         </button>
                                                                                         <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                        @for( successeur <- tacheMere.successeurs) {
+                                                                                        @for(successeur <- tacheMere.successeurs) {
                                                                                             <li>@successeur.idTache</li>
                                                                                         }
                                                                                         </ul>
@@ -964,7 +980,7 @@
                                                                 </div>
                                                                 @if(tacheMere.hasEnfant() && utilisateur.enfantIsPresent(tacheMere.enfants(), utilisateur.listTachesDansProjetNonResponsable(projet))) {
                                                                     <ol class="dd-list">
-                                                                    @for( sousTache1 <- tacheMere.enfants()) {
+                                                                    @for(sousTache1 <- tacheMere.enfants()) {
                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache1)) {
                                                                             <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
                                                                                 <div class="dd-handle" style="padding:0px ;">
@@ -1040,7 +1056,7 @@
                                                                                                             @sousTache1.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                                         </button>
                                                                                                         <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                        @for( successeur <- sousTache1.successeurs) {
+                                                                                                        @for(successeur <- sousTache1.successeurs) {
                                                                                                             <li>@successeur.idTache</li>
                                                                                                         }
                                                                                                         </ul>
@@ -1061,7 +1077,7 @@
 
                                                                                 @if(sousTache1.hasEnfant() && utilisateur.enfantIsPresent(sousTache1.enfants(), utilisateur.listTachesDansProjetNonResponsable(projet))) {
                                                                                     <ol class="dd-list">
-                                                                                    @for( sousTache2 <- sousTache1.enfants()) {
+                                                                                    @for(sousTache2 <- sousTache1.enfants()) {
                                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache2)) {
                                                                                             <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
                                                                                                 <div class="dd-handle" style="padding:0px ;">
@@ -1137,7 +1153,7 @@
                                                                                                                             @sousTache2.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                                                         </button>
                                                                                                                         <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                                        @for( successeur <- sousTache2.successeurs) {
+                                                                                                                        @for(successeur <- sousTache2.successeurs) {
                                                                                                                             <li>@successeur.idTache</li>
                                                                                                                         }
                                                                                                                         </ul>
@@ -1157,7 +1173,7 @@
                                                                                                 </div>
                                                                                                 @if(sousTache2.hasEnfant() && utilisateur.enfantIsPresent(sousTache2.enfants(), utilisateur.listTachesDansProjetNonResponsable(projet))) {
                                                                                                     <ol class="dd-list">
-                                                                                                    @for( sousTache3 <- sousTache2.enfants()) {
+                                                                                                    @for(sousTache3 <- sousTache2.enfants()) {
                                                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache3)) {
                                                                                                             <li class="dd-item dd-item-min-width" data-id="@sousTache3.id" value="@sousTache2.id">
                                                                                                                 <div class="dd-handle" style="padding:0px ;">
@@ -1233,7 +1249,7 @@
                                                                                                                                             @sousTache3.successeurs.size() @Messages("tasks") <span class="caret"></span>
                                                                                                                                         </button>
                                                                                                                                         <ul class="dropdown-menu dropdown-menu-pert">
-                                                                                                                                        @for( successeur <- sousTache3.successeurs) {
+                                                                                                                                        @for(successeur <- sousTache3.successeurs) {
                                                                                                                                             <li>@successeur.idTache</li>
                                                                                                                                         }
                                                                                                                                         </ul>
@@ -1282,7 +1298,7 @@
                                                 <table id="projet_Projet" class="table table-striped table-bordered table-hover">
                                                     <thead>
                                                         <tr class="table-center">
-                                                            <th style="vertical-align:middle ;"> @Messages("task") </th>
+                                                            <th style="vertical-align:middle ;">  @Messages("task") </th>
                                             <th style="vertical-align:middle ;">@Messages("responsible")</th>
                                             <th style="vertical-align:middle ;">@Messages("client")</th>
                                             <th style="vertical-align:middle ;">@Messages("startDate")</th>
