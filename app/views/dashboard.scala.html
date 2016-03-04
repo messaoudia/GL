@@ -382,10 +382,10 @@
                                                         </td>
                                                         <td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">
                                                             <p style="display:none ;">
-                                                            @if(tache.getAvancementTache() > 0 || tache.getAvancementTache() < 100) {
-                                                                0@tache.getAvancementTache()
+                                                            @if((math rint tache.getAvancementTache()*100) > 0 || (math rint tache.getAvancementTache()*100) < 100) {
+                                                                0@{(math rint tache.getAvancementTache()*100) }
                                                             } else {
-                                                                @tache.getAvancementTache()
+                                                                @{(math rint tache.getAvancementTache()*100) }
                                                             }
                                                             </p>
                                                             <p class="row-initiale">@Messages("initial")
@@ -405,13 +405,13 @@
                                                                 }
                                                             </p>
                                                             <div class="progress progress-bar-default">
-                                                            @if(tache.getAvancementTache() == 0) {
+                                                            @if((math rint tache.getAvancementTache()*100) == 0) {
                                                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                     0%
                                                                 </div>
                                                             } else {
-                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@tache.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @tache.getAvancementTache()% ;">
-                                                                    @tache.getAvancementTache()%
+                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint tache.getAvancementTache()*100) }" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint tache.getAvancementTache()*100) }% ;">
+                                                                    @{(math rint tache.getAvancementTache()*100) }%
                                                                 </div>
                                                             }
 

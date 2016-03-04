@@ -1869,10 +1869,10 @@
                             $('#nomProjet-modifier-tdb').html(tache.projet.nom);
                             $('#nomClient-modifier-tdb').html(tache.projet.client.nom);
                             $('#nomRespTache-consulter-tdb').html(tache.responsableTache.nom + " " + tache.responsableTache.prenom);
-                            $('#avancementTache').html(tache.avancementTache+"%");
-                            $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
-                            $('#avancementTache').css("width",tache.avancementTache+"%");
-                            if(parseInt(tache.avancementTache)<7)
+                            $('#avancementTache').html((Math.round(tache.avancementTache*100))+"%");
+                            $('#avancementTache').attr("aria-valuenow",(Math.round(tache.avancementTache*100)));
+                            $('#avancementTache').css("width",(Math.round(tache.avancementTache*100))+"%");
+                            if(parseInt((Math.round(tache.avancementTache*100)))<7)
                             {
                                 $('#avancementTache').css("color","#000");
                             }
@@ -2029,10 +2029,10 @@
                                         tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
 
                                         tableContent += ('<p style="display:none ;">');
-                                        if(tache.getAvancementTache > 0 || tache.getAvancementTache < 100){
-                                            tableContent += ('0'+tache.getAvancementTache);
+                                        if((Math.round(tache.avancementTache*100)) > 0 || (Math.round(tache.avancementTache*100)) < 100){
+                                            tableContent += ('0'+(Math.round(tache.avancementTache*100)));
                                         }else{
-                                            tableContent += (tache.getAvancementTache);
+                                            tableContent += ((Math.round(tache.avancementTache*100)));
                                         }
                                         tableContent += ('</p>');
 
@@ -2053,13 +2053,13 @@
                                         tableContent += ('</p>');
 
                                         tableContent += ('<div class="progress progress-bar-default">');
-                                        if(tache.getAvancementTache == 0){
+                                        if((Math.round(tache.avancementTache*100)) == 0){
                                             tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">');
                                             tableContent += ('0%');
                                             tableContent += ('</div>');
                                         }else{
-                                            tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="'+tache.getAvancementTache+'" aria-valuemin="0" aria-valuemax="100" style="width: '+tache.getAvancementTache+'% ;">');
-                                            tableContent += (tache.getAvancementTache+'%');
+                                            tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="'+(Math.round(tache.avancementTache*100))+'" aria-valuemin="0" aria-valuemax="100" style="width: '+(Math.round(tache.avancementTache*100))+'% ;">');
+                                            tableContent += ((Math.round(tache.avancementTache*100))+'%');
                                             tableContent += ('</div>');
                                         }
                                         tableContent += ('</div>');
@@ -2119,7 +2119,7 @@
                 }
 
                 $(document).ready(function () {
-                   
+
                     // Print the first selected project
                     $('#' + $('.sidebar-projet.select').attr("name")).show();
 
@@ -2413,6 +2413,10 @@
                     $('[data-toggle="popover"]').popover();
 
 
+                    // Envoie de notification
+                    $(window).on('beforeunload', function(){
+                        jsRoutes.controllers.NotificationController.sendNotifications().ajax();
+                    });
                 });
 
                 $(document).on('click', '#submitButton', function(){
@@ -3079,6 +3083,11 @@
                     $('#checkbox-draft-projet-admin').click(function() {
                         modeDraftProjetAdmin();
                     });
+
+                    // Envoie de notification
+                    $(window).on('beforeunload', function(){
+                        jsRoutes.controllers.NotificationController.sendNotifications().ajax();
+                    });
                 });
 
                 $(document).on("hidden.bs.modal","#modal-add-client-admin",function(){
@@ -3480,5 +3489,6 @@
                     });
                 }
         </script>
+
     </body>
 </html>

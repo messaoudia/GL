@@ -103,5 +103,7 @@ POST        /sendDraf                                       controllers.ProjetCo
 GET         /affichePeojet                                  controllers.ProjetController.afficheProjet(idProjet: Long)
 
 POST        /modifProjet                                    controllers.ProjetController.modifierProjet(id : Long)
+
+POST        /envoieNotifications                            controllers.NotificationController.sendNotifications()
 POST        /checkMdpAdmin                                  controllers.AdminController.checkMdpAdmin(pswd : String)
 POST        /modifProjetSelect                              controllers.AdminController.modifierProjet(id :Long)
