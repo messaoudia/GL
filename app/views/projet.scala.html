@@ -85,7 +85,7 @@
                                     }
                             </div>
 
-                                <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute ; bottom: 51px ; background-color: #FFF ;">
+                                <div class="row" style="margin-left: 0px ; margin-right: 0px ; position: absolute ; bottom: 51px ; background-color: #FFF ; width: 100%;">
                                     <div class="sidebar-footer">
                                         <div class="checkbox checkbox-success checkbox-circle">
                                             <input onclick="updateSideBarClientArchive(this);" id="checkbox-tache-termines" type="checkbox">
@@ -641,14 +641,14 @@
                                                                                                     @sousTache2.nom
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">@sousTache2.projet.client.nom</div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">@sousTache2.formateDate(sousTache2.dateDebut)</div>
-                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.projet.client.nom</div>
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.formateDate(sousTache2.dateDebut)</div>
+                                                                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                     <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTot)</div>
                                                                                                     <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTard)</div>
                                                                                                 </div>
-                                                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache">
+                                                                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
                                                                                                     <div class="row row-initiale row-nestable">@Messages("initial")
                                                                                                         : @sousTache2.chargeInitiale
                                                                                                         @if(projet.hasUniteJour()) {
@@ -1389,8 +1389,8 @@
                 }
 
                     <!-- Modal-view modifier tache/sous-tache -->
-                @popuptacheConsulterModifier();
-                @popuptacheCreer();
+                @popuptacheConsulterModifier()
+                @popuptacheCreer()
                     <!-- Modal view supprimer tache -->
                 <div class="modal fade" id="modal-confirmation-suppr-tache-projet" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-sm">

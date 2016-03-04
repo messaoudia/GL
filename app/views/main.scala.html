@@ -1926,24 +1926,24 @@
                                      var tableContent = "";
                                      $.each(taches, function (i, tache) {
                                          tableContent += ('<tr value="'+tache.id+'" onclick="afficherModalTache(this)" class="table-center">');
-                                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+                                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
                                          tableContent += ('<p class="tdb-id-tache">'+tache.idTache+'</p>');
                                          tableContent += ('<p class="tdb-nom-tache">'+tache.nom+'</p>');
                                          tableContent += ('</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.projet.nom+'</td>');
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.nom+'</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.projet.client.nom+'</td>');
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.client.nom+'</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">'+tache.dateDebut+'</td>');
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.dateDebut+'</td>');
 
-                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+                                         tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
                                          tableContent += ('<p style="display:none ;">'+tache.dateFinTard+'</p>');
                                          tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTot+'</p>');
                                          tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTard+'</p>');
                                          tableContent += ('</td>');
 
-                                         tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tdb-tache">');
+                                         tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
 
                                          tableContent += ('<p style="display:none ;">');
                                          if(tache.getAvancementTache > 0 || tache.getAvancementTache < 100){
@@ -2023,7 +2023,8 @@
 
                                      console.log(tableContent);
                                      tableDashboardBody.append(tableContent);
-                                     $('#modal-tdb-tache').modal('toggle');
+                                     $('#modal-tache').modal('toggle');
+                                     
                                  }
                              });
 
