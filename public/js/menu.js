@@ -108,6 +108,7 @@ $(document).on("click",".close", function(event){
                 alert(errorMessage);
             }
         });
+        jsRoutes.controllers.NotificationController.sendNotifications().ajax();
     }
 
 

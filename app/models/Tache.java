@@ -1,9 +1,11 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.util.ContainerBuilder;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
@@ -86,7 +88,7 @@ public class Tache extends EntiteSecurise {
     public Tache(String nom, String description, Utilisateur responsableTache, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
                  Double chargeRestante, List<Contact> interlocuteurs, Projet projet, Tache predecesseur,
-                 List<Tache> successeurs, List<Utilisateur> utilisateursNotifications, boolean disponible) {
+                 List<Tache> successeurs, List<Utilisateur> utilisateursNotifications) {
         this.nom = nom;
         this.description = description;
         this.responsableTache = responsableTache;
@@ -99,13 +101,22 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
-        this.predecesseur = predecesseur;
+
+        if(predecesseur == null){
+            this.disponible = true;
+        }else {
+            this.predecesseur = predecesseur;
+            if(predecesseur.getAvancementTache() == 100){
+                disponible = true;
+            }else{
+                disponible = false;
+            }
+        }
         this.successeurs = (successeurs == null)?new BeanList<>():successeurs;
         this.enfants = new BeanList<>();
         this.projet = projet;
         this.archive = false;
         this.utilisateursNotifications = (utilisateursNotifications == null) ? new BeanList<>() : utilisateursNotifications;
-        this.disponible = disponible;
     }
 
     public Tache() {
@@ -215,6 +226,19 @@ public class Tache extends EntiteSecurise {
         return find.where().eq("predecesseur", this).findList();
     }
 
+    public List<Contact> getInterlocuteurs(){
+        List<Contact> listContacts =  Contact.find.all();
+        List<Contact> result =  new ArrayList<>();
+
+        for(Contact contact : listContacts){
+            if(contact.listTachesCorrespondant.contains(this)){
+                result.add(contact);
+            }
+        }
+
+        return result;
+    }
+
     public List<Tache> getEnfants() {
         return find.where().eq("parent", this).findList();
     }
@@ -292,6 +316,11 @@ public class Tache extends EntiteSecurise {
         this.chargeRestante = chargeRestante;
         updateEtatDisponibleSuccesseurs();
         updateChargesTachesMeresEtProjet();
+        if(getAvancementTache() == 100){
+            for(Tache succ : successeurs){
+                succ.disponible = true;
+            }
+        }
     }
 
     public void updateChargesTachesMeresEtProjet(){
@@ -432,10 +461,10 @@ public class Tache extends EntiteSecurise {
         if (this.interlocuteurs.contains(interlocuteur)) {
             throw new IllegalStateException("Il y a deja cet interlocuteur pour cette tache");
         }
-        interlocuteur.listTachesCorrespondant.add(this);
-        interlocuteur.save();
         interlocuteurs.add(interlocuteur);
-        save();
+        update();
+        /*interlocuteur.listTachesCorrespondant.add(this);
+        interlocuteur.update();*/
     }
 
     public void supprimerInterlocuteurs() throws IllegalStateException {
