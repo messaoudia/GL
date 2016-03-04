@@ -588,6 +588,7 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            1
+    disponible:         true
     interlocuteurs:
              - *contact2
 
@@ -606,6 +607,7 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            2
+    disponible:         true
     predecesseur:       *tache11
 
 - &tache13 !!models.Tache

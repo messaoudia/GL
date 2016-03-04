@@ -37,15 +37,6 @@ public class ApplicationTest {
     }
 
     @Test
-    public void renderTemplate() {
-        running(fakeApplication(), ()-> {
-            Content html = views.html.index.render("Your new application is ready.");
-            assertEquals("text/html", contentType(html));
-            assertTrue(contentAsString(html).contains("Your new application is ready."));
-        });
-    }
-
-    @Test
     public void randomStringTest(){
         String s1 = RandomStringUtils.randomAlphanumeric(10);
         String s2 = RandomStringUtils.randomAscii(10);
