@@ -2413,6 +2413,10 @@
                     $('[data-toggle="popover"]').popover();
 
 
+                    // Envoie de notification
+                    $(window).on('beforeunload', function(){
+                        jsRoutes.controllers.NotificationController.sendNotifications().ajax();
+                    });
                 });
 
                 $(document).on('click', '#submitButton', function(){
@@ -3079,6 +3083,11 @@
                     $('#checkbox-draft-projet-admin').click(function() {
                         modeDraftProjetAdmin();
                     });
+
+                    // Envoie de notification
+                    $(window).on('beforeunload', function(){
+                        jsRoutes.controllers.NotificationController.sendNotifications().ajax();
+                    });
                 });
 
                 $(document).on("hidden.bs.modal","#modal-add-client-admin",function(){
@@ -3437,5 +3446,6 @@
                     return messageDiv;
                 }
         </script>
+
     </body>
 </html>
