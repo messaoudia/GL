@@ -2076,7 +2076,8 @@
                                         tableContent += ('<td style="vertical-align:middle ;">');
                                         if(tache.hasPredecesseur){
                                             tableContent += ('<div class="row">@Messages("predecessor") : '+tache.predecesseurIdTache+'</div>');
-
+                                        }else {
+                                            tableContent += ('<div class="row">@Messages("predecessor") : @Messages("none")</div>');
                                         }
 
                                         if(tache.hasSuccesseur){
@@ -2092,6 +2093,8 @@
                                             });
 
                                             tableContent += ('</ul></div></div>');
+                                        } else {
+                                            tableContent += ('<div class="row">@Messages("successors") : @Messages("none")</div>');
                                         }
                                         tableContent += ('</td>');
 
