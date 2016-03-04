@@ -1,9 +1,11 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.util.ContainerBuilder;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
@@ -222,6 +224,19 @@ public class Tache extends EntiteSecurise {
 
     public List<Tache> getSuccesseurs() {
         return find.where().eq("predecesseur", this).findList();
+    }
+
+    public List<Contact> getInterlocuteurs(){
+        List<Contact> listContacts =  Contact.find.all();
+        List<Contact> result =  new ArrayList<>();
+
+        for(Contact contact : listContacts){
+            if(contact.listTachesCorrespondant.contains(this)){
+                result.add(contact);
+            }
+        }
+
+        return result;
     }
 
     public List<Tache> getEnfants() {
@@ -446,8 +461,10 @@ public class Tache extends EntiteSecurise {
         if (this.interlocuteurs.contains(interlocuteur)) {
             throw new IllegalStateException("Il y a deja cet interlocuteur pour cette tache");
         }
-        interlocuteur.listTachesCorrespondant.add(this);
-        interlocuteur.save();
+        interlocuteurs.add(interlocuteur);
+        update();
+        /*interlocuteur.listTachesCorrespondant.add(this);
+        interlocuteur.update();*/
     }
 
     public void supprimerInterlocuteurs() throws IllegalStateException {
