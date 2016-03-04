@@ -406,6 +406,12 @@ public class Tache extends EntiteSecurise {
         if (this.predecesseur == predecesseur) {
             throw new IllegalStateException("Ce parametre est le meme que le predecesseur de cette tache");
         }
+
+        if(!checkPERT(this, predecesseur))
+            throw new IllegalStateException("La tache " + nom + " a comme predecesseur (" + predecesseur.nom + ") " +
+                    "une tâche présente dans sa hiérarchie directe.");
+
+
         this.predecesseur = predecesseur;
         if(predecesseur.successeurs == null){
             predecesseur.successeurs = new BeanList<>();
@@ -443,6 +449,10 @@ public class Tache extends EntiteSecurise {
         if (this.successeurs.contains(successeur)) {
             throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
         }
+        if(!checkPERT(this, successeur))
+            throw new IllegalStateException("La tache " + nom + " a comme successeur (" + successeur.nom + ") " +
+                    "une tâche présente dans sa hiérarchie directe.");
+
         successeur.associerPredecesseur(this);
         successeurs.add(successeur);
         save();
@@ -702,5 +712,51 @@ public class Tache extends EntiteSecurise {
     @JsonSerialize
     public boolean hasResponsableActivateNotification(){
         return utilisateursNotifications.contains(responsableTache);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants)
+     * @param tache
+     * @param predecesseur
+     * @return
+     */
+    public static boolean checkPERT(Tache tache, Tache tachePert){
+        return checkPERTRecursifVersPredecesseur(tache, tachePert) && checkPERTRecursifVersSuccesseurs(tache, tachePert);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants) : Vérifie vers le haut de la hiérarchie
+     * @param currentTache
+     * @param tachePert
+     * @return
+     */
+    private static boolean checkPERTRecursifVersPredecesseur(Tache currentTache, Tache tachePert){
+        if(currentTache == null)
+            return true;
+        if(tachePert.equals(currentTache))
+            return false;
+        return checkPERTRecursifVersPredecesseur(currentTache.parent, tachePert);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants) : Vérifie vers le bas de la hiérarchie
+     * @param currentTache
+     * @param tachePert
+     * @return
+     */
+    private static boolean checkPERTRecursifVersSuccesseurs(Tache currentTache, Tache tachePert){
+        if(currentTache == null)
+            return true;
+        if(tachePert.equals(currentTache))
+            return false;
+        for(Tache successeur : currentTache.getSuccesseurs()){
+            if(!checkPERTRecursifVersSuccesseurs(successeur, tachePert)){
+                return false;
+            }
+        }
+        return true;
     }
 }
