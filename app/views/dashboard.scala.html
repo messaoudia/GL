@@ -1,23 +1,7 @@
 @(pageTitle: String, utilisateur: models.Utilisateur)
 
 @scripts = {
-    <script>
-            $(document).ready(function () {
-                $( window ).unload(function() {
-                    jsRoutes.controllers.NotificationController.sendNotifications();
-                    alert("Handler for .unload() called.");
-                    return "coucuo";
-                });
-            });
-            $( document ).ajaxComplete(function() {
-                $( window ).unload(function() {
-                    jsRoutes.controllers.NotificationController.sendNotifications();
-                    alert( "Handler for .unload() called.");
-                    return "coucuo";
-                });
-            });
 
-    </script>
 }
 
 
