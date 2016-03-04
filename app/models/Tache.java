@@ -86,7 +86,7 @@ public class Tache extends EntiteSecurise {
     public Tache(String nom, String description, Utilisateur responsableTache, Integer niveau, Boolean critique, Date dateDebut,
                  Date dateFinTot, Date dateFinTard, Double chargeInitiale, Double chargeConsommee,
                  Double chargeRestante, List<Contact> interlocuteurs, Projet projet, Tache predecesseur,
-                 List<Tache> successeurs, List<Utilisateur> utilisateursNotifications, boolean disponible) {
+                 List<Tache> successeurs, List<Utilisateur> utilisateursNotifications) {
         this.nom = nom;
         this.description = description;
         this.responsableTache = responsableTache;
@@ -99,13 +99,22 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
-        this.predecesseur = predecesseur;
+
+        if(predecesseur == null){
+            this.disponible = true;
+        }else {
+            this.predecesseur = predecesseur;
+            if(predecesseur.getAvancementTache() == 100){
+                disponible = true;
+            }else{
+                disponible = false;
+            }
+        }
         this.successeurs = (successeurs == null)?new BeanList<>():successeurs;
         this.enfants = new BeanList<>();
         this.projet = projet;
         this.archive = false;
         this.utilisateursNotifications = (utilisateursNotifications == null) ? new BeanList<>() : utilisateursNotifications;
-        this.disponible = disponible;
     }
 
     public Tache() {
@@ -292,6 +301,11 @@ public class Tache extends EntiteSecurise {
         this.chargeRestante = chargeRestante;
         updateEtatDisponibleSuccesseurs();
         updateChargesTachesMeresEtProjet();
+        if(getAvancementTache() == 100){
+            for(Tache succ : successeurs){
+                succ.disponible = true;
+            }
+        }
     }
 
     public void updateChargesTachesMeresEtProjet(){

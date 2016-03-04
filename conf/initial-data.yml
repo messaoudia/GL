@@ -588,6 +588,7 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            1
+    disponible:         true
     interlocuteurs:
              - *contact2
 
