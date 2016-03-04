@@ -3,6 +3,7 @@ package controllers;
 import models.Notification;
 import models.Tache;
 import models.Utilisateur;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.notifications;
@@ -60,6 +61,11 @@ public class NotificationController extends Controller {
         user.listNotifications = user.listNotifications();
         user.update();
         return ok(user.nbNotificationsNonLues() + "");
+    }
+
+    public Result sendNotifications(){
+        Logger.debug(request().body().asText());
+        return ok(request().body().asText());
     }
 
 }
