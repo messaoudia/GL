@@ -69,7 +69,10 @@ public class ModelBeanTest {
             listContacts.add(c1);
             listContacts.add(c2);
 
-            Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", null,
+            Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
+            utilisateur.save();
+
+            Projet pr = new Projet("Site Apple","Développement du nouveau site d'Apple", utilisateur,
                     Utils.getDateFrom(2016,2,2),Utils.getDateFrom(2016,2,10),Utils.getDateFrom(2016,2,3),
                     Utils.getDateFrom(2016,2,9),Utils.getDateFrom(2016,2,9),24D, UniteProjetEnum.SEMAINE,new Byte("0"),false,false,null,3,null,null);
             List<Projet> listProjet = new BeanList<>();
