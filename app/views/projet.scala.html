@@ -105,8 +105,8 @@
                                     <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
 
                                         <div class="col-sm-4">
-                                            <h3 id="projetName" class="header-text">@Messages("project")
-                                                : @projet.nom <div class="priorite">@projet.priorite</div></h3>
+                                            <h3 class="header-text"><div style="display:inline-block;" id="projetName"> @Messages("project")
+                                                : @projet.nom </div> <div class="priorite">@projet.priorite</div></h3>
                                             <h3 class="header-text">@Messages("client")
                                                 : @projet.client.nom <div class="priorite">@projet.client.priorite</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet-@projet.id"></i></a></h3>
                                             <textarea id="descriptionProjet"readonly class="description" style="width: 100% ; height: 130px ;">@projet.description</textarea>
