@@ -1109,7 +1109,7 @@
                     var form = $(btn).attr("form");
                     form = "#"+form;
                     var serialize = $(form).serializeObject();
-                    var value = $(".btn-active").attr('value');
+                    var value = $("#btnModifierClient .btn-active").attr('value');
                     var idClient = clientRow.attr('value');
                     var json = "{\"form\":"+JSON.stringify(serialize)+",\"table\":"+JSON.stringify(listeNewContact)+",\"projet\":"+JSON.stringify(tmpRowModalClientProjet)+",\"contact\":"+JSON.stringify(tmpRowModalClientContact)+",\"priorite\":"+value+"}";
                     console.log(json);
@@ -1175,7 +1175,7 @@
                     form = "#"+form;
                     var serialize = $(form).serializeObject();
                     //var myRows = { myRows: [] };
-                    var value = $(".btn-active").attr('value');
+                    var value = $("#btnCreerClient .btn-active").attr('value');
                     var $th = $('#tableContact th');
 
                     var rowCount = $('#tableContact tbody tr').length;
@@ -2331,7 +2331,7 @@
                 $(document).on('click', '#submitButton', function(){
                     var $form = $('#addProjectForm');
                     var $serialize= $form.serialize();
-                    var $value = $(".btn-active").attr('value');
+                    var $value = $("#btnCreerProjet .btn-active").attr('value');
                     jsRoutes.controllers.ProjetController.creerProjet().ajax({
                         data :$serialize+ '&priorite='+$value,
                         success : function(data) {
@@ -3297,9 +3297,13 @@
 
                  var modifierProjet = function(div) {
                      var id = $(div).attr("value");
-                     var form = "#" + $(div).attr("form");
+                     var form = "#"+$(div).attr("form");
+                     alert(form);
                      var serialize = $(form).serialize();
-                     var priorite = $(".btn-active").attr('value');
+                     var idBtn = "projet-modifier-btn-"+id;
+                     var priorite = $('#'+idBtn+' .btn-active').attr('value');
+
+                     alert(priorite);
                      jsRoutes.controllers.ProjetController.modifierProjet(id).ajax({
                          data: serialize+ '&priorite='+priorite,
                          success : function(data) {
@@ -3312,11 +3316,12 @@
                                  $("#successModifierProjet").hide();
                              },4000);
                              var div = "#div-consulterProjet-"+data.id;
-                             console.log($(div).find('h3[id=projetName]').html());
-                             console.log($(div).find('textarea[id=descriptionProjet]').html());
+                             $(div).find('div[id=projetName]').html('@Messages("project"): '+data.nom);
+                             $(div).find('div[id=projetPriorite]').html(data.priorite);
+                             $(div).find('textarea[id=descriptionProjet]').html(data.description);
                              var nom = "projet-"+data.id;
-                             console.log($('.liste-projet').find('div[name=nom]').find('div[class=sidebar-projet-nom]').html());
-                             console.log($('.liste-projet').find('div[name=nom]').find('div[class=sidebar-client-projet-priorite]').html());
+                             $('.liste-projet').find('div[name='+nom+']').find('div[class=sidebar-projet-nom]').html(data.nom);
+                             $('.liste-projet').find('div[name='+nom+']').find('div[class=sidebar-client-projet-priorite]').find('div[class=valeur]').html(data.prioriteProjetEtClient);
                              //modif des valeurs de la div
                          },
                          error: function(error){

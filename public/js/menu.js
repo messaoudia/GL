@@ -10,7 +10,7 @@ $(document).on("click",".sidebar-btn-red", function(){
     var self = $(this),
         controler = self.data('infos') || self.attr('data-infos');
     // verif mot de passe
-    if(!needClick){
+   /* if(!needClick){
         changeTopBarRed();
         changePage(self,controler);
         $("#modal-check-mdp").removeAttr('data-backdrop');
@@ -18,8 +18,10 @@ $(document).on("click",".sidebar-btn-red", function(){
     }else{
         selfBis = self;
         controlerBis = controler;
-    }
+    }*/
     // on click sur le bouton obligatoire
+    changeTopBarRed();
+    changePage(self,controler);
 });
 
 $(document).on("click",".sidebar-btn-green", function(){

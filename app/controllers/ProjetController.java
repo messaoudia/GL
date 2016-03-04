@@ -151,7 +151,10 @@ public class ProjetController extends Controller {
             //modification des info si besoin
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
-            if(!p.priorite.equals(priorite)){
+            if(!p.nom.equals(nom)){
+                p.nom = nom;
+            }
+            if(p.priorite != priorite){
                 p.priorite = priorite;
             }
             //description
