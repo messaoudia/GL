@@ -361,13 +361,13 @@
                                                 }
                                             </div>
                                             <div class="row progress progress-bar-default row-nestable">
-                                            @if(tacheMere.getAvancementTache() == 0.0) {
+                                            @if((math rint tacheMere.getAvancementTache()*100) == 0.0) {
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                     0%
                                                 </div>
                                             } else {
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="@tacheMere.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                    @tacheMere.getAvancementTache()
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint tacheMere.getAvancementTache()*100)}" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint tacheMere.getAvancementTache()*100)}% ;">
+                                                    @{(math rint tacheMere.getAvancementTache()*100)}
                                                     %
                                                 </div>
                                             }
@@ -472,13 +472,13 @@
                                                             }
                                                         </div>
                                                         <div class="row progress progress-bar-default row-nestable">
-                                                        @if(sousTache1.getAvancementTache() == 0.0) {
+                                                        @if((math rint sousTache1.getAvancementTache()*100) == 0.0) {
                                                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                 0%
                                                             </div>
                                                         } else {
-                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache1.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                @sousTache1.getAvancementTache()
+                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint sousTache1.getAvancementTache()*100) }" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint sousTache1.getAvancementTache()*100) }% ;">
+                                                                @{(math rint sousTache1.getAvancementTache()*100) }
                                                                 %
                                                             </div>
                                                         }
@@ -586,13 +586,13 @@
                                                                         }
                                                                     </div>
                                                                     <div class="row progress progress-bar-default row-nestable">
-                                                                    @if(sousTache2.getAvancementTache() == 0.0) {
+                                                                    @if((math rint sousTache2.getAvancementTache()*100)  == 0.0) {
                                                                         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                             0%
                                                                         </div>
                                                                     } else {
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache2.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                            @sousTache2.getAvancementTache()
+                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint sousTache2.getAvancementTache()*100) }" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint sousTache2.getAvancementTache()*100) }% ;">
+                                                                            @{(math rint sousTache2.getAvancementTache()*100) }
                                                                             %
                                                                         </div>
                                                                     }
@@ -699,13 +699,13 @@
                                                                                     }
                                                                                 </div>
                                                                                 <div class="row progress progress-bar-default row-nestable">
-                                                                                @if(sousTache3.getAvancementTache() == 0.0) {
+                                                                                @if((math rint sousTache3.getAvancementTache()*100) == 0.0) {
                                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                                         0%
                                                                                     </div>
                                                                                 } else {
-                                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache3.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                                        @sousTache3.getAvancementTache()
+                                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint sousTache3.getAvancementTache()*100) }" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint sousTache3.getAvancementTache()*100) }% ;">
+                                                                                        @{(math rint sousTache3.getAvancementTache()*100) }
                                                                                         %
                                                                                     </div>
                                                                                 }
@@ -829,13 +829,13 @@
                                                 }
                                             </div>
                                             <div class="row progress progress-bar-default row-nestable">
-                                            @if(tacheMere.getAvancementTache() == 0.0) {
+                                            @if((math rint tacheMere.getAvancementTache()*100) == 0.0) {
                                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                     0%
                                                 </div>
                                             } else {
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="@tacheMere.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                    @tacheMere.getAvancementTache()
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint tacheMere.getAvancementTache()*100) }" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint tacheMere.getAvancementTache()*100) }% ;">
+                                                    @{(math rint tacheMere.getAvancementTache()*100) }
                                                     %
                                                 </div>
                                             }
@@ -924,13 +924,13 @@
                                                                 }
                                                             </div>
                                                             <div class="row progress progress-bar-default row-nestable">
-                                                            @if(sousTache1.getAvancementTache() == 0.0) {
+                                                            @if((math rint sousTache1.getAvancementTache()*100) == 0.0) {
                                                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                     0%
                                                                 </div>
                                                             } else {
-                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache1.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                    @sousTache1.getAvancementTache()
+                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint sousTache1.getAvancementTache()*100)}" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint sousTache1.getAvancementTache()*100)}% ;">
+                                                                    @{(math rint sousTache1.getAvancementTache()*100)}
                                                                     %
                                                                 </div>
                                                             }
@@ -1021,13 +1021,13 @@
                                                                                 }
                                                                             </div>
                                                                             <div class="row progress progress-bar-default row-nestable">
-                                                                            @if(sousTache2.getAvancementTache() == 0.0) {
+                                                                            @if((math rint sousTache2.getAvancementTache()*100) == 0.0) {
                                                                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                                     0%
                                                                                 </div>
                                                                             } else {
-                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache2.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                                    @sousTache2.getAvancementTache()
+                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint sousTache2.getAvancementTache()*100)}" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint sousTache2.getAvancementTache()*100)}% ;">
+                                                                                    @{(math rint sousTache2.getAvancementTache()*100)}
                                                                                     %
                                                                                 </div>
                                                                             }
@@ -1117,13 +1117,13 @@
                                                                                                 }
                                                                                             </div>
                                                                                             <div class="row progress progress-bar-default row-nestable">
-                                                                                            @if(sousTache3.getAvancementTache() == 0.0) {
+                                                                                            @if((math rint sousTache2.getAvancementTache()*100) == 0.0) {
                                                                                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                                                     0%
                                                                                                 </div>
                                                                                             } else {
-                                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache3.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                                                    @sousTache3.getAvancementTache()
+                                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@{(math rint sousTache2.getAvancementTache()*100)}" aria-valuemin="0" aria-valuemax="100" style="width: @{(math rint sousTache2.getAvancementTache()*100)}% ;">
+                                                                                                    @{(math rint sousTache2.getAvancementTache()*100)}
                                                                                                     %
                                                                                                 </div>
                                                                                             }
