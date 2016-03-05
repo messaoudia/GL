@@ -58,7 +58,7 @@ GET         /allSucesseursPossible                          controllers.Dashboar
 GET         /AllPredecesseursPossible                       controllers.DashboardController.getAllPredecesseursPossible(idTache: Long)
 GET         /getTacheById                                   controllers.TacheController.getTacheById(idTache: Long)
 POST        /creerSousTach                                  controllers.TacheController.creerSousTache(idTache: Long)
-POST        /creerTacheHaut                                  controllers.TacheController.creerTacheHaut(idTache: Long)
+POST        /creerTacheHaut                                 controllers.TacheController.creerTacheHaut(idTache: Long)
 POST        /creerTacheBas                                  controllers.TacheController.creerTacheBas(idTache: Long)
 
 POST        /modifierTache                                  controllers.DashboardController.modifierTache()
