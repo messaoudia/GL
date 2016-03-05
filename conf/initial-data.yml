@@ -379,8 +379,8 @@ taches:
     description:        Cette tâche correspond à la réunion client
     niveau:             0
     critique:           true
-    dateDebut:          2016-02-25
-    dateFinTot:         2016-02-26
+    dateDebut:          2016-02-01
+    dateFinTot:         2016-02-25
     dateFinTard:        2016-02-26
     chargeInitiale:     1
     chargeConsommee:    0
@@ -397,9 +397,9 @@ taches:
     description:        Cette tâche correspond à la réunion client 2
     niveau:             0
     critique:           true
-    dateDebut:          2016-02-26
-    dateFinTot:         2016-02-27
-    dateFinTard:        2016-02-27
+    dateDebut:          2016-03-20
+    dateFinTot:         2016-03-25
+    dateFinTard:        2016-03-27
     chargeInitiale:     1
     chargeConsommee:    0
     chargeRestante:       1
