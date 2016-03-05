@@ -77,33 +77,33 @@ public class TacheController  extends Controller {
         for (Map.Entry<String, String[]> entry : map.entrySet()) {
             Logger.debug("Key : " + entry.getKey() + " Value : " + entry.getValue()[0]);
         }
-        String newNomTache = map.get("form-modif-tache-nom")[0];
-        String newDescTache = map.get("form-modif-tache-desc")[0];
+        String newNomTache = map.get("form-modif-tache-nomC")[0];
+        String newDescTache = map.get("form-modif-tache-descC")[0];
 
-        Double newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
-        Double newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0]);
-        Double newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0]);
+        Double newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-initC")[0]);
+        Double newChConso = Double.parseDouble(map.get("form-modif-tache-ch-consC")[0]);
+        Double newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-restC")[0]);
 
-        String idPredecesseur = map.get("predecesseur")[0];
+        String idPredecesseur = map.get("predecesseurC")[0];
 
         Tache newPredecesseur = null;
         if(!idPredecesseur.equals("")) {
             newPredecesseur = Tache.find.byId(Long.parseLong(idPredecesseur));
         }
-        Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0]));
+        Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsableC")[0]));
 
-        String[] dateDebut = map.get("DD-modifier")[0].split("/");
+        String[] dateDebut = map.get("DD-modifierC")[0].split("/");
         Date newDebut = Utils.getDateFrom(Integer.parseInt(dateDebut[2]), Integer.parseInt(dateDebut[1]), Integer.parseInt(dateDebut[0]));
 
-        String[] dateFinProche = map.get("DFTO-modifier")[0].split("/");
+        String[] dateFinProche = map.get("DFTO-modifierC")[0].split("/");
         Date newFinTot = Utils.getDateFrom(Integer.parseInt(dateFinProche[2]), Integer.parseInt(dateFinProche[1]), Integer.parseInt(dateFinProche[0]));
 
-        String[] dateFinTard = map.get("DFTA-modifier")[0].split("/");
+        String[] dateFinTard = map.get("DFTA-modifierC")[0].split("/");
         Date newFinTard = Utils.getDateFrom(Integer.parseInt(dateFinTard[2]), Integer.parseInt(dateFinTard[1]), Integer.parseInt(dateFinTard[0]));
 
         //Successeurs
         List<Tache> successeurs = new ArrayList<>();
-        String[] tabSucc = map.get("successeurs")[0].split(",");
+        String[] tabSucc = map.get("successeursC")[0].split(",");
         for(String idSucc : tabSucc){
             if(!idSucc.equals("")){
                 successeurs.add(Tache.find.byId(Long.parseLong(idSucc)));
@@ -111,7 +111,7 @@ public class TacheController  extends Controller {
         }
         //interlocuteurs
         List<Contact> interlocuteurs = new ArrayList<>();
-        String[] tabInterlocuteurs = map.get("interlocuteurs")[0].split(",");
+        String[] tabInterlocuteurs = map.get("interlocuteursC")[0].split(",");
         for(String idContact : tabInterlocuteurs){
             if(!idContact.equals("undefined") && !idContact.equals("")){
                 interlocuteurs.add(Contact.find.byId(Long.parseLong(idContact)));
@@ -120,26 +120,22 @@ public class TacheController  extends Controller {
 
         newTache.nom = newNomTache;
         newTache.description = newDescTache;
-        newTache.update();
+        newTache.save();
         newTache.chargeInitiale = newChInitiale;
-        try {
-            newTache.modifierCharge(newChConso, newChRestante);
-        } catch (NotAvailableTask notAvailableTask) {
-            notAvailableTask.printStackTrace();
+        newTache.chargeConsommee = newChConso;
+        newTache.chargeRestante = newChRestante;
+
+        if(!idPredecesseur.equals("") && newPredecesseur != null) {
+            newPredecesseur.associerSuccesseur(newTache);
         }
 
-        newPredecesseur.associerSuccesseur(newTache);
-
-        if (newResponsable != null && !newTache.responsableTache.equals(newResponsable)) {
-            newTache.modifierResponsable(newResponsable);
+        if (newResponsable != null) {
+            newTache.associerResponsable(newResponsable);
         }
 
-        newTache.supprimerSuccesseurs();
         for(Tache succ : successeurs){
             newTache.associerSuccesseur(succ);
         }
-
-        newTache.supprimerInterlocuteurs();
 
         for(Contact inter : interlocuteurs){
             newTache.associerInterlocuteur(inter);
