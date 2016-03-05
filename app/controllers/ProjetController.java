@@ -129,7 +129,7 @@ public class ProjetController extends Controller {
         return ok();
     }
 
-    public Result modifierProjet(Long id){
+    public Result modifierProjet(Long id) {
         Projet p = Projet.find.byId(id);
         //check projet  -- nom + description
         Map<String, String[]> map = request().body().asFormUrlEncoded();
@@ -138,27 +138,27 @@ public class ProjetController extends Controller {
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
         } else if (nom.length() > 30) {
-            error.nomProjetTropLong= true;
+            error.nomProjetTropLong = true;
         }
         String description = map.get("description")[0];
-        if(description.length() > 65536) {
+        if (description.length() > 65536) {
             error.descriptionTropLong = true;
         }
         Logger.debug(p.responsableProjet.nom + p.responsableProjet.prenom);
-        if(error.hasErrorProjet()){
+        if (error.hasErrorProjet()) {
             return badRequest(Json.toJson(error));
-        }else{
+        } else {
             //modification des info si besoin
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
-            if(!p.nom.equals(nom)){
+            if (!p.nom.equals(nom)) {
                 p.nom = nom;
             }
-            if(p.priorite != priorite){
+            if (p.priorite != priorite) {
                 p.priorite = priorite;
             }
             //description
-            if(!p.description.equals(description)){
+            if (!p.description.equals(description)) {
                 //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
                 p.description = description;
             }
@@ -213,21 +213,18 @@ public class ProjetController extends Controller {
 
         if (parentTache == null) {
             currentTache.idTache = index.toString();
-        } else {
-
         }
-
         // TODO Assign children to parent and parent to children
         currentTache.enfants = childrenTaches;
+        childrenTaches.forEach(child -> {
+            child.parent = currentTache;
+            child.save();
+        });
+
         currentTache.parent = parentTache;
-        currentTache.update();
+        currentTache.niveau = currentTacheNode.get("depth").asInt();
+        currentTache.save();
 
-        //final Long parentId = parentTacheNode == null ? null : parentTacheNode.get("id").asLong();
-        //final Long currentId = currentTacheNode == null ? null : currentTacheNode.get("id").asLong();
-        //Logger.debug(currentId + " , parent: " + parentId);
-
-
-        //Iterator<JsonNode> childrenIterator = currentTacheNode.get("childrens").elements();
         List<JsonNode> childrens = elementsToStream(currentTacheNode.get("childrens").elements()).collect(Collectors.toList());
 
         Integer indexEnfant = 1;

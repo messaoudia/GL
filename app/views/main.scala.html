@@ -270,7 +270,6 @@
                                 // Refresh project view
                                 jsRoutes.controllers.ProjetController.afficheProjet(idProjet).ajax({
                                     success: function(data){
-                                        console.log(data);
                                         $('#projet-'+idProjet).html(data);
                                         $('#client-projet-'+idProjet).html(data);
 //                                        var idProjet = '#' + $('.sidebar-projet.select').attr("name");
@@ -3549,9 +3548,10 @@
                         tacheMere["childrens"].push(tache);
                     }
 
-                    function creerTache(tacheId,index){
+                    function creerTache(tacheId,index,depth){
                         var tache={};
                         tache["index"]=index;
+                        tache["depth"]=index;
                         tache["id"]=tacheId;
                         tache["childrens"]=new Array();
                         return tache;
@@ -3564,9 +3564,9 @@
                     var processNodes = function(currentElement, depth, taches, parent,index) {
                         var currentTache;
                         if($(currentElement).is("li")){
-                            currentTache=creerTache($(currentElement).attr('data-id'),index);
+                            currentTache=creerTache($(currentElement).attr('data-id'),index,depth);
                             console.log("depth: "+depth);
-                            if(depth==1){
+                            if(depth==0){
                                 taches["taches"].push(currentTache);
                             }
                             else{
@@ -3584,10 +3584,11 @@
                                 processNodes($(this),depth, taches, currentTache,indexChild++);
                             });
                         }
+                        depth=depth-indexChild-1;
                     }
 
 
-                    var depth =1;
+                    var depth =0;
                     var indexChild=0;
                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
                     {
