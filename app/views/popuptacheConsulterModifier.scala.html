@@ -139,7 +139,7 @@
 
                     <!-- Formulaire modifier tache -->
                 <div id="div-modifierTache" style="display: none ;">
-                    <form id="formModifierTache" class="form-horizontal">
+                    <form id="formModifierTacheC" class="form-horizontal">
                         <div class="row">
                                 <!-- 1ere colonne -->
                             <div class="col-sm-6">
@@ -153,10 +153,10 @@
                                 </div>
                                     <!-- Form nom tache -->
 
-                                <input type="text" id="formModifierNomTache-tdb" name="form-modif-tache-nom" class="form-control margin-form" placeholder='@Messages("taskName")...'>
+                                <input type="text" id="formModifierNomTache-tdb" name="form-modif-tache-nom" class="form-control margin-form" placeholder='@Messages("taskName")...' required>
 
                                     <!-- Form description tache -->
-                                <textarea id="formModifierDescriptionTache-tdb" name="form-modif-tache-desc" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...'></textarea>
+                                <textarea id="formModifierDescriptionTache-tdb" name="form-modif-tache-desc" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...' required></textarea>
 
                                     <!-- Modifier predecesseur -->
                                 <p style="margin-top:7px ;">@Messages("predecessor")
@@ -193,7 +193,7 @@
 
 
                                     <!-- Form responsable tache -->
-                                <select id="responsableTacheModifier" class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple">
+                                <select id="responsableTacheModifier" class="form-control select2-respo-tache" style="width:100% ;" multiple="multiple" required>
                                         <!--<option value="Mayotte">Mayotte</option>
                                                                     <option value="Mexico">Mexico</option>
                                                                     <option value="Nicaragua">Nicaragua</option>-->
@@ -231,7 +231,7 @@
                                     <label class="col-sm-4 control-label font-noraml" for="datepicker_date_debut" style="text-align: left">@Messages("startDate")</label>
                                     <div class="form-group col-sm-8" id="datepicker_date_debut">
                                         <div class="input-group date">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DD-modifier" id="DD-modifier" type="text" class="form-control" value="">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DD-modifier" id="DD-modifier" type="text" class="form-control" value="" required>
                                         </div>
                                     </div>
                                 </div>
@@ -241,7 +241,7 @@
                                     <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tot" style="text-align: left">@Messages("earliestEndDate")</label>
                                     <div class="form-group col-sm-8" id="datepicker_date_fin_tot">
                                         <div class="input-group date">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTO-modifier" id="DFTO-modifier" type="text" class="form-control" value="">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTO-modifier" id="DFTO-modifier" type="text" class="form-control" value="" required>
                                         </div>
                                     </div>
                                 </div>
@@ -251,7 +251,7 @@
                                     <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tard" style="text-align: left">@Messages("latestEndDate")</label>
                                     <div class="form-group col-sm-8" id="datepicker_date_fin_tard">
                                         <div class="input-group date">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTA-modifier" id="DFTA-modifier" type="text" class="form-control" value="">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTA-modifier" id="DFTA-modifier" type="text" class="form-control" value="" required>
                                         </div>
                                     </div>
                                 </div>
@@ -261,7 +261,7 @@
                                     <label class="col-sm-6 control-label font-noraml" for="formModifierChargeInitiale" style="text-align: left">@Messages("initialWorload")</label>
                                     <div class="col-sm-6">
                                         <div class="input-group">
-                                            <input type="number" id="formModifierChargeInitiale"  name="form-modif-tache-ch-init" class="form-control" value="0" min="0" step="0.5">
+                                            <input type="number" id="formModifierChargeInitiale"  name="form-modif-tache-ch-init" class="form-control" value="0" min="0" step="0.5" required>
                                             <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;"></span>
                                         </div>
                                     </div>
@@ -272,7 +272,7 @@
                                     <label class="col-sm-6 control-label font-noraml" for="formModifierChargeConsommee" style="text-align: left">@Messages("consumedWorkload")</label>
                                     <div class="col-sm-6">
                                         <div class="input-group">
-                                            <input type="number" id="formModifierChargeConsommee" name="form-modif-tache-ch-cons" class="form-control" value="0" min="0" step="0.5">
+                                            <input type="number" id="formModifierChargeConsommee" name="form-modif-tache-ch-cons" class="form-control" value="0" min="0" step="0.5" required>
                                             <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
                                         </div>
                                     </div>
@@ -283,7 +283,7 @@
                                     <label class="col-sm-6 control-label font-noraml" for="formModifierChargeRestante" style="text-align: left">@Messages("remainingWorkload")</label>
                                     <div class="col-sm-6">
                                         <div class="input-group">
-                                            <input type="number" id="formModifierChargeRestante" name="form-modif-tache-ch-rest" class="form-control" value="0" min="0" step="0.5">
+                                            <input type="number" id="formModifierChargeRestante" name="form-modif-tache-ch-rest" class="form-control" value="0" min="0" step="0.5" required>
                                             <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
                                         </div>
                                     </div>

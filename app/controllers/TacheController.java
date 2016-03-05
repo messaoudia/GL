@@ -1,0 +1,155 @@
+package controllers;
+
+import models.Contact;
+import models.Exceptions.NotAvailableTask;
+import models.Projet;
+import models.Tache;
+import models.Utilisateur;
+import models.Utils.Utils;
+import play.Logger;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Result;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by Guillaume on 05/03/2016.
+ */
+public class TacheController  extends Controller {
+
+    public Result getTacheById(Long id){
+        return ok(Json.toJson(Tache.find.byId(id)));
+    }
+
+    public Result creerSousTache(Long idTacheMere){
+        Map<String, String[]> form = request().body().asFormUrlEncoded();
+
+        Tache mere = Tache.find.byId(idTacheMere);
+        Projet projet = Projet.find.byId(mere.id);
+
+        Tache newTache = creeTacheExtractDonneesFormulaire(form);
+
+        try {
+            projet.creerSousTache(newTache , mere);
+        } catch (Exception e) {
+            return badRequest();
+        }
+        return ok();
+    }
+
+    public Result creerTacheHaut(Long idTacheSelect){
+        Map<String, String[]> form = request().body().asFormUrlEncoded();
+
+        Tache mere = Tache.find.byId(idTacheSelect);
+        Projet projet = Projet.find.byId(mere.id);
+
+        Tache newTache = creeTacheExtractDonneesFormulaire(form);
+
+        try {
+            projet.creerTacheAuDessus(newTache , mere);
+        } catch (Exception e) {
+            return badRequest();
+        }
+        return ok();
+    }
+
+    public Result creerTacheBas(Long idTacheSelect){
+        Map<String, String[]> form = request().body().asFormUrlEncoded();
+
+        Tache mere = Tache.find.byId(idTacheSelect);
+        Projet projet = Projet.find.byId(mere.id);
+
+        Tache newTache = creeTacheExtractDonneesFormulaire(form);
+        try {
+            projet.creerTacheEnDessous(newTache , mere);
+        } catch (Exception e) {
+            return badRequest();
+        }
+        return ok();
+    }
+
+    public Tache creeTacheExtractDonneesFormulaire(Map<String,String[]> map){
+        Tache newTache = new Tache();
+        for (Map.Entry<String, String[]> entry : map.entrySet()) {
+            Logger.debug("Key : " + entry.getKey() + " Value : " + entry.getValue()[0]);
+        }
+        String newNomTache = map.get("form-modif-tache-nom")[0];
+        String newDescTache = map.get("form-modif-tache-desc")[0];
+
+        Double newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
+        Double newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0]);
+        Double newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0]);
+
+        String idPredecesseur = map.get("predecesseur")[0];
+
+        Tache newPredecesseur = null;
+        if(!idPredecesseur.equals("")) {
+            newPredecesseur = Tache.find.byId(Long.parseLong(idPredecesseur));
+        }
+        Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0]));
+
+        String[] dateDebut = map.get("DD-modifier")[0].split("/");
+        Date newDebut = Utils.getDateFrom(Integer.parseInt(dateDebut[2]), Integer.parseInt(dateDebut[1]), Integer.parseInt(dateDebut[0]));
+
+        String[] dateFinProche = map.get("DFTO-modifier")[0].split("/");
+        Date newFinTot = Utils.getDateFrom(Integer.parseInt(dateFinProche[2]), Integer.parseInt(dateFinProche[1]), Integer.parseInt(dateFinProche[0]));
+
+        String[] dateFinTard = map.get("DFTA-modifier")[0].split("/");
+        Date newFinTard = Utils.getDateFrom(Integer.parseInt(dateFinTard[2]), Integer.parseInt(dateFinTard[1]), Integer.parseInt(dateFinTard[0]));
+
+        //Successeurs
+        List<Tache> successeurs = new ArrayList<>();
+        String[] tabSucc = map.get("successeurs")[0].split(",");
+        for(String idSucc : tabSucc){
+            if(!idSucc.equals("")){
+                successeurs.add(Tache.find.byId(Long.parseLong(idSucc)));
+            }
+        }
+        //interlocuteurs
+        List<Contact> interlocuteurs = new ArrayList<>();
+        String[] tabInterlocuteurs = map.get("interlocuteurs")[0].split(",");
+        for(String idContact : tabInterlocuteurs){
+            if(!idContact.equals("undefined") && !idContact.equals("")){
+                interlocuteurs.add(Contact.find.byId(Long.parseLong(idContact)));
+            }
+        }
+
+        newTache.nom = newNomTache;
+        newTache.description = newDescTache;
+        newTache.update();
+        newTache.chargeInitiale = newChInitiale;
+        try {
+            newTache.modifierCharge(newChConso, newChRestante);
+        } catch (NotAvailableTask notAvailableTask) {
+            notAvailableTask.printStackTrace();
+        }
+
+        newPredecesseur.associerSuccesseur(newTache);
+
+        if (newResponsable != null && !newTache.responsableTache.equals(newResponsable)) {
+            newTache.modifierResponsable(newResponsable);
+        }
+
+        newTache.supprimerSuccesseurs();
+        for(Tache succ : successeurs){
+            newTache.associerSuccesseur(succ);
+        }
+
+        newTache.supprimerInterlocuteurs();
+
+        for(Contact inter : interlocuteurs){
+            newTache.associerInterlocuteur(inter);
+        }
+
+        newTache.dateDebut = newDebut;
+        newTache.dateFinTot = newFinTot;
+        newTache.dateFinTard = newFinTard;
+        newTache.update();
+
+        return newTache;
+    }
+}

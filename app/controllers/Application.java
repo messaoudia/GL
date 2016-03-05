@@ -90,6 +90,10 @@ public class Application extends Controller {
         return redirect(request().getHeader("referer"));
     }
 
+    public Result getLangue(){
+        return ok(Login.getUtilisateurConnecte().langue);
+    }
+
     public Result getDraft() {
         return ok(draftTest.render());
     }
