@@ -267,7 +267,6 @@
                                 // Refresh project view
                                 jsRoutes.controllers.ProjetController.afficheProjet(idProjet).ajax({
                                     success: function(data){
-                                        console.log(data);
                                         $('#projet-'+idProjet).html(data);
                                         $('#client-projet-'+idProjet).html(data);
 //                                        var idProjet = '#' + $('.sidebar-projet.select').attr("name");
@@ -3355,7 +3354,7 @@
                         if($(currentElement).is("li")){
                             currentTache=creerTache($(currentElement).attr('data-id'),index);
                             console.log("depth: "+depth);
-                            if(depth==1){
+                            if(depth==0){
                                 taches["taches"].push(currentTache);
                             }
                             else{
@@ -3373,10 +3372,11 @@
                                 processNodes($(this),depth, taches, currentTache,indexChild++);
                             });
                         }
+                        depth=depth-indexChild-1;
                     }
 
 
-                    var depth =1;
+                    var depth =0;
                     var indexChild=0;
                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
                     {
