@@ -29,9 +29,14 @@ public class TacheController  extends Controller {
         Map<String, String[]> form = request().body().asFormUrlEncoded();
 
         Tache mere = Tache.find.byId(idTacheMere);
-        Projet projet = Projet.find.byId(mere.id);
+        Projet projet = Projet.find.byId(mere.projet.id);
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
+
+        newTache.niveau = mere.niveau+1;
+        newTache.critique = false;
+        newTache.projet = mere.projet;
+        newTache.update();
 
         try {
             projet.creerSousTache(newTache , mere);
