@@ -302,12 +302,6 @@ public class Projet extends EntiteSecurise {
                 throw new IllegalArgumentException("Le predecesseur " + tache.predecesseur.nom +
                 " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
             }
-            for(Tache successeur : tache.successeurs){
-                if(!Tache.checkPERT(tache, successeur)){
-                    throw new IllegalArgumentException("Le successeur " + successeur +
-                            " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
-                }
-            }
 
             if(!tache.predecesseur.successeurs.contains(tache)){
                 tache.predecesseur.successeurs.add(tache);
@@ -324,6 +318,10 @@ public class Projet extends EntiteSecurise {
                 if(Utils.after(tache.dateFinTard, successeur.dateDebut))
                     throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") après la date de début ("+ formateDate(successeur.dateDebut)+") de son successeur [" + successeur.nom + "]");
 
+                if(!Tache.checkPERT(tache, successeur)){
+                    throw new IllegalArgumentException("Le successeur " + successeur +
+                            " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
+                }
                 successeur.predecesseur = tache;
                 successeur.save();
             }
@@ -1007,6 +1005,46 @@ public class Projet extends EntiteSecurise {
             }
         });
         return taches;
+    }
+
+    /**
+     * TODO : a utiliser dans draftProjet
+     * @return
+     */
+    public boolean checkProjet(){
+        for(Tache tache : listTaches){
+            // Verification des predecesseur et successeurs
+            if(tache.hasPredecesseur() && (Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard)
+                    || !Tache.checkPERT(tache, tache.predecesseur))){
+                return false;
+            }
+
+            if(tache.hasSuccesseur()){
+                for(Tache successeur : tache.successeurs){
+                    if(!Tache.checkPERT(tache, successeur) || Utils.after(tache.dateFinTard, successeur.dateDebut))
+                        return false;
+                }
+            }
+
+            // Vérification des dates des parents
+            if(tache.hasParent() && (Utils.after(tache.parent.dateDebut, tache.dateDebut)
+                    || Utils.before(tache.parent.dateFinTot, tache.dateFinTot)
+                    || Utils.before(tache.parent.dateFinTard, tache.dateFinTard))){
+                    return false;
+            }
+
+            // Vérification des dates des enfants
+            if(tache.hasEnfant()){
+                for(Tache enfant : tache.enfants){
+                    if(Utils.after(tache.dateDebut, enfant.dateDebut)
+                            ||Utils.before(tache.dateFinTot, enfant.dateFinTot)
+                            ||Utils.before(tache.dateFinTard, enfant.dateFinTard)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 }
