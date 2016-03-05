@@ -926,38 +926,44 @@ public class Utilisateur extends Personne {
         HashMap<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
 
         // On parcours la liste des taches/projets qui doivent engendrer une notification
-        for(Map.Entry<Long, TypeNotification> entry : this.mapNotificationsGenerees.entrySet()){
+        for(Map.Entry<Long, HashMap<TypeNotification, Object>> entry : this.mapNotificationsGenerees.entrySet()){
             Long id = entry.getKey();
-            TypeNotification typeNotification = entry.getValue();
-
-            // Projet
-            if(TypeNotification.isProjet(typeNotification)){
-                Projet projet = Projet.find.byId(id);
-                if(typeNotification == TypeNotification.MODIFIER_PROJET){
-                    // Envoyer la notif aux responsable de projet si c'est pas lui et tous les collaborateurs
-                    // + eventuellement à l'utilisateur s'il a activé les notifications pour ses actions
-                    Notification.sendNotificationModifierProjet(projet, this, mapNotifications);
+            for(Map.Entry<TypeNotification, Object> entry2 : entry.getValue().entrySet()){
+                TypeNotification typeNotification = entry2.getKey();
+                // Projet
+                if(TypeNotification.isProjet(typeNotification)){
+                    Projet projet = Projet.find.byId(id);
+                    if(typeNotification == TypeNotification.MODIFIER_PROJET){
+                        // Envoyer la notif aux responsable de projet si c'est pas lui et tous les collaborateurs
+                        // + eventuellement à l'utilisateur s'il a activé les notifications pour ses actions
+                        Notification.sendNotificationModifierProjet(projet, this, mapNotifications);
+                    }
+                    else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_PROJET){
+                        if(entry2.getValue() instanceof Utilisateur){
+                            Utilisateur ancienResponsableProjet = (Utilisateur) entry2.getValue();
+                            Notification.sendNotificationModifierResponsableProjet(projet, ancienResponsableProjet, this, mapNotifications);
+                        }
+                    }
                 }
-                else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_PROJET){
-                    Notification.sendNotificationModifierResponsableProjet(projet, this, mapNotifications);
+                // Tache
+                else if(TypeNotification.isTache(typeNotification)){
+                    Tache tache = Tache.find.byId(id);
+                    if(typeNotification == TypeNotification.CREER_TACHE){
+                        Notification.sendNotificationCreerTache(tache, this, mapNotifications);
+                    } else if(typeNotification == TypeNotification.MODIFIER_AVANCEMENT_TACHE){
+                        Notification.sendNotificationModifierAvancementTache(tache, this, mapNotifications);
+                    } else if(typeNotification == TypeNotification.MODIFIER_TACHE){
+                        Notification.sendNotificationModifierTache(tache, this, mapNotifications);
+                    } else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_TACHE){
+                        if(entry2.getValue() instanceof Utilisateur){
+                            Utilisateur ancienResponsableTache = (Utilisateur) entry2.getValue();
+                            Notification.sendNotificationModifierResponsableTache(tache, ancienResponsableTache, this, mapNotifications);
+                        }
+                    } else if(typeNotification == TypeNotification.SUPPRIMER_TACHE){
+                        Notification.sendNotificationSupprimerTache(tache, this, mapNotifications);
+                    }
                 }
             }
-            // Tache
-            else if(TypeNotification.isTache(typeNotification)){
-                Tache tache = Tache.find.byId(id);
-                if(typeNotification == TypeNotification.CREER_TACHE){
-                    Notification.sendNotificationCreerTache(tache, this, mapNotifications);
-                } else if(typeNotification == TypeNotification.MODIFIER_AVANCEMENT_TACHE){
-                    Notification.sendNotificationModifierAvancementTache(tache, this, mapNotifications);
-                } else if(typeNotification == TypeNotification.MODIFIER_TACHE){
-                    Notification.sendNotificationModifierTache(tache, this, mapNotifications);
-                } else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_TACHE){
-                    Notification.sendNotificationModifierResponsableTache(tache, this, mapNotifications);
-                } else if(typeNotification == TypeNotification.SUPPRIMER_TACHE){
-                    Notification.sendNotificationSupprimerTache(tache, this, mapNotifications);
-                }
-            }
-
         }
 
         return mapNotifications;

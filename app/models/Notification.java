@@ -434,7 +434,7 @@ public class Notification extends Model {
         listUserTemporaire.clear();
     }
 
-    public static void sendNotificationModifierResponsableProjet(Projet projet, Utilisateur utilisateur, HashMap<Utilisateur, Notification> mapNotifications) {
+    public static void sendNotificationModifierResponsableProjet(Projet projet, Utilisateur ancienResponsableProjet, Utilisateur utilisateur, HashMap<Utilisateur, Notification> mapNotifications) {
         String titleNouveauRespoFR = "Nouvelle affectation d'un projet";
         String messageNouveauRespoFR = "Vous êtes le nouveau responsable du projet " + projet.nom + " (client : " + projet.client.nom + ")\n";
 
@@ -470,7 +470,7 @@ public class Notification extends Model {
 
         // Notif pour l'utilisateur qui a fait l'action
         if (utilisateur.recevoirNotifPourMesActions || utilisateur.equals(projet.responsableProjet)
-                || utilisateur.equals(utilisateur.mapNotificationsGenerees.ancienResponsableProjet)) {
+                || utilisateur.equals(ancienResponsableProjet)) {
             updateMapNotifications(utilisateur, titleFR, messageMemeUserFR + messageProjetFR, titleFRManyChangements,
                     titleEN, messageMemeUserEN + messageProjetEN, titleENManyChangements, mapNotifications);
             listUserTemporaire.add(utilisateur);
@@ -484,11 +484,10 @@ public class Notification extends Model {
         }
 
         // Notif pour l'ancien responsable de projet
-        if (!utilisateur.equals(utilisateur.mapNotificationsGenerees.ancienResponsableProjet)) {
-            Utilisateur ancienRespo = utilisateur.mapNotificationsGenerees.ancienResponsableProjet;
-            updateMapNotifications(ancienRespo, titleAncienRespoFR, messageAncienRespoFR, titleFRManyChangements,
+        if (!utilisateur.equals(ancienResponsableProjet)) {
+            updateMapNotifications(ancienResponsableProjet, titleAncienRespoFR, messageAncienRespoFR, titleFRManyChangements,
                     titleAncienRespoEN, messageAncienRespoEN, titleENManyChangements, mapNotifications);
-            listUserTemporaire.add(ancienRespo);
+            listUserTemporaire.add(ancienResponsableProjet);
         }
 
         // Notif pour tous les collaborateurs
@@ -721,7 +720,7 @@ public class Notification extends Model {
         listUserTemporaire.clear();
     }
 
-    public static void sendNotificationModifierResponsableTache(Tache tache, Utilisateur utilisateur, HashMap<Utilisateur, Notification> mapNotifications) {
+    public static void sendNotificationModifierResponsableTache(Tache tache, Utilisateur ancienResponsableTache, Utilisateur utilisateur, HashMap<Utilisateur, Notification> mapNotifications) {
         String uniteFR, uniteEN;
         if (tache.projet.hasUniteJour()) {
             uniteFR = "jour(s)";
@@ -779,7 +778,7 @@ public class Notification extends Model {
 
         // Notif pour l'utilisateur qui a fait l'action
         if (utilisateur.recevoirNotifPourMesActions || utilisateur.equals(tache.projet.responsableProjet)
-                || utilisateur.equals(utilisateur.mapNotificationsGenerees.ancienResponsableProjet)) {
+                || utilisateur.equals(ancienResponsableTache)) {
             updateMapNotifications(utilisateur, titleFR, messageMemeUserFR + messageFR, titleFRManyChangements,
                     titleEN, messageMemeUserEN + messageEN, titleENManyChangements, mapNotifications);
             listUserTemporaire.add(utilisateur);
@@ -793,11 +792,10 @@ public class Notification extends Model {
         }
 
         // Notif pour l'ancien responsable de la tache
-        if (!utilisateur.equals(utilisateur.mapNotificationsGenerees.ancienResponsableProjet)) {
-            Utilisateur ancienRespo = utilisateur.mapNotificationsGenerees.ancienResponsableTache;
-            updateMapNotifications(ancienRespo, titleAncienRespoFR, messageAncienRespoFR, titleFRManyChangements,
+        if (!utilisateur.equals(ancienResponsableTache)) {
+            updateMapNotifications(ancienResponsableTache, titleAncienRespoFR, messageAncienRespoFR, titleFRManyChangements,
                     titleAncienRespoEN, messageAncienRespoEN, titleENManyChangements, mapNotifications);
-            listUserTemporaire.add(ancienRespo);
+            listUserTemporaire.add(ancienResponsableTache);
         }
 
         // Notif pour le nouveau responsable de la tache
