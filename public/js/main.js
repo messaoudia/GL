@@ -184,12 +184,215 @@ function updateSideBarClientArchive(checkbox)
 
 $(document).on('click','.createSubTask', function(event){
     var btn = $(this);
-    var jsonTache = "";
     console.log("creer sous tache de "+btn.attr("data"));
 
     $('#formModifierTacheC').validate().resetForm();
+    $('#formModifierTacheC').trigger("reset");
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+    remplirFormulaireCreationTache(btn);
+
+    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
+    $('#btn-valider-modifierTacheC').attr("onclick","creerSousTache(this); return false;");
+});
+
+var creerSousTache = function(btn){
+    console.log("main.scala : creerSousTache appelé");
+    var idTacheSelect = $(btn).attr("data");
+    var dataToSend = creerDataFormulaireCreationTache(btn);
+
+    if(dataToSend == -1){
+
+    }else{
+        console.log("main.scala : appel du controlleur creerSousTache");
+        jsRoutes.controllers.TacheController.creerSousTache(idTacheSelect).ajax({
+            data: dataToSend,
+            success : function(data) {
+                console.log("main.scala : success");
+                $('#modal-tache-creer').modal('toggle');
+
+                //Refresh project table
+                refreshProjectTable(idTacheSelect);
+            },
+            error : function(errorMessage){
+                console.log("main.scala > creerSousTache => error");
+                console.log("-----------> " + errorMessage)
+            }
+        });
+    }
+}
+
+$(document).on('click','.createTaskHaut', function(event){
+    var btn = $(this);
+    console.log("creer tache haut de "+btn.attr("data"));
+
+    $('#formModifierTacheC').validate().resetForm();
+    $('#formModifierTacheC').trigger("reset");
+    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+    remplirFormulaireCreationTache(btn);
+
+    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
+    $('#btn-valider-modifierTacheC').attr("onclick","creerTacheHaut(this); return false;");
+});
+
+var creerTacheHaut = function(btn){
+    var idTacheSelect = $(btn).attr("data");
+    var dataToSend = creerDataFormulaireCreationTache(btn);
+
+    if(dataToSend == -1){
+
+    }else{
+        console.log("main.scala : appel du controlleur creerSousTache");
+        jsRoutes.controllers.TacheController.creerTacheHaut(idTacheSelect).ajax({
+            data: dataToSend,
+            success : function(data) {
+                console.log("main.scala : success");
+                $('#modal-tache-creer').modal('toggle');
+
+                //Refresh project table
+                refreshProjectTable(idTacheSelect);
+            },
+            error : function(errorMessage){
+                console.log("main.scala > creerSousTache => error");
+                console.log("-----------> " + errorMessage)
+            }
+        });
+    }
+}
+
+$(document).on('click','.createTaskBas', function(event){
+    var btn = $(this);
+
+    console.log("creer tache bas de "+btn.attr("data"));
+    $('#formModifierTacheC').validate().resetForm();
+    $('#formModifierTacheC').trigger("reset");
+    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+    remplirFormulaireCreationTache(btn);
+
+    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
+    $('#btn-valider-modifierTacheC').attr("onclick","creerTacheBas(this); return false;");
+});
+
+var creerTacheBas = function(btn){
+    var idTacheSelect = $(btn).attr("data");
+    var dataToSend = creerDataFormulaireCreationTache(btn);
+
+    if(dataToSend == -1){
+
+    }else{
+        console.log("main.scala : appel du controlleur creerSousTache");
+        jsRoutes.controllers.TacheController.creerTacheBas(idTacheSelect).ajax({
+            data: dataToSend,
+            success : function(data) {
+                console.log("main.scala : success");
+                $('#modal-tache-creer').modal('toggle');
+
+                //Refresh project table
+                refreshProjectTable(idTacheSelect);
+            },
+            error : function(errorMessage){
+                console.log("main.scala > creerSousTache => error");
+                console.log("-----------> " + errorMessage)
+            }
+        });
+    }
+}
+
+var creerDataFormulaireCreationTache = function(btn){
+    var form = $(btn).attr("form");
+    form = "#"+form;
+
+    if($(form).valid()){
+        var serialize = $(form).serialize();
+        console.log(serialize);
+
+        //PREDECESSEUR
+        var idPredecesseur = "";
+        if($('#form-tache-predecesseuCr').select2().val() != null){
+            idPredecesseur = $('#form-tache-predecesseurC').select2().val()[0];
+            console.log("idPredecesseur"+idPredecesseur);
+        }
+
+        var tabSuccesseurs = [];
+        //SUCCESSEUR
+        $("#form-tache-successeurC option").each(function() {
+            if($(this).is(':selected')){
+                console.log("selected : "+$(this).val());
+                tabSuccesseurs.push($(this).val());
+            }
+        });
+
+        //RESPONSABLE DE TACHE
+        var idResponsableTache = $('#responsableTacheModifierC').select2().val()[0];
+        console.log("idReponsableTache"+idResponsableTache);
+
+        //INTERLOCUTEURS EXTERNES
+        var nbInterlocuteurs = $("#interlocuteurs-modifierC li").length;
+        var tabInterlocuteurs = [];
+
+        for (i = 0; i < nbInterlocuteurs; i++) {
+            if($("#checkbox-interlocuteurC-"+i).is(':checked')){
+                console.log("checked : "+$("#checkbox-interlocuteurC-"+i).attr('value'));
+                tabInterlocuteurs.push($("#checkbox-interlocuteurC-"+i).attr('value'));
+            }
+        }
+
+        var dataToSend = serialize+"&predecesseurC="+idPredecesseur;
+        dataToSend += "&successeursC=";
+
+        for (var i = 0; i < tabSuccesseurs.length; i++){
+            dataToSend += tabSuccesseurs[i]+",";
+        }
+
+        dataToSend += "&responsableC="+idResponsableTache;
+
+        dataToSend += "&interlocuteursC=";
+
+        for (var i = 0; i < tabInterlocuteurs.length; i++){
+            dataToSend += tabInterlocuteurs[i]+",";
+        }
+
+        console.log("Data SEND : "+dataToSend);
+
+        return dataToSend;
+    }else{
+        return -1;
+    }
+}
+
+var refreshProjectTable = function(idTacheSelect){
+
+    jsRoutes.controllers.TacheController.getTacheById(idTacheSelect).ajax({
+        success : function(tache){
+            var projetId = tache.projet.id;
+            // Refresh project view
+            jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
+                success: function(data){
+                    $('#projet-'+projetId).html(data);
+                    $('#client-projet-'+projetId).html(data);
+                    $('#projet-'+projetId).show();
+                    console.log("AfficheProjet OK : "+projetId);
+                },
+                error:function(errorMessage){
+                    console.log(errorMessage);
+                    console.log("AfficheProjet KO : "+projetId);
+                }
+            });
+        },
+        error : function(errorMessage){
+            console.log(errorMessage);
+        }
+    });
+
+}
+
+var remplirFormulaireCreationTache = function(btn){
+    var jsonTache = "";
 
     //FIXME Dates limites
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
@@ -295,157 +498,6 @@ $(document).on('click','.createSubTask', function(event){
         }
     });
 
-    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
-    $('#btn-valider-modifierTacheC').attr("onclick","creerSousTache(this); return false;");
-});
-
-var creerSousTache = function(btn){
-    console.log("main.scala : creerSousTache appelé");
-    var idTacheSelect = $(btn).attr("data");
-    var dataToSend = creerDataFormulaireCreationTache(btn);
-
-    if(dataToSend == -1){
-
-    }else{
-        console.log("main.scala : appel du controlleur creerSousTache");
-        jsRoutes.controllers.TacheController.creerSousTache(idTacheSelect).ajax({
-            data: dataToSend,
-            success : function(data) {
-                console.log("main.scala : success");
-                $('#modal-tache-creer').modal('toggle');
-
-
-                jsRoutes.controllers.TacheController.getTacheById(idTacheSelect).ajax({
-                    success : function(tache){
-                        var projetId = tache.projet.id;
-                        // Refresh project view
-                        jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
-                            success: function(data){
-                                $('#projet-'+projetId).html(data);
-                                $('#client-projet-'+projetId).html(data);
-                                $('#projet-'+projetId).show();
-                                console.log("AfficheProjet OK : "+projetId);
-                            },
-                            error:function(errorMessage){
-                                console.log(errorMessage);
-                                console.log("AfficheProjet KO : "+projetId);
-                            }
-                        });
-                    },
-                    error : function(errorMessage){
-                        console.log(errorMessage);
-                    }
-                });
-
-
-            },
-            error : function(errorMessage){
-                console.log("main.scala > creerSousTache => error");
-                console.log("-----------> " + errorMessage)
-            }
-        });
-    }
-}
-
-$(document).on('click','.createTaskHaut', function(event){
-    var btn = $(this);
-    console.log("creer tache haut de "+btn.attr("data"));
-
-    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
-    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
-
-
-
-    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
-    $('#btn-valider-modifierTacheC').attr("onclick","creerTacheHaut(this); return false;");
-});
-
-var creerTacheHaut = function(btn){
-    var idTacheSelect = $(btn).attr("data");
-    var dataToSend = creerDataFormulaireCreationTache(btn);
-
-}
-
-$(document).on('click','.createTaskBas', function(event){
-    var btn = $(this);
-
-    console.log("creer tache bas de "+btn.attr("data"));
-    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
-    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
-
-
-
-    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
-    $('#btn-valider-modifierTacheC').attr("onclick","creerTacheBas(this); return false;");
-});
-
-var creerTacheBas = function(btn){
-    var idTacheSelect = $(btn).attr("data");
-    var dataToSend = creerDataFormulaireCreationTache(btn);
-
-
-}
-
-var creerDataFormulaireCreationTache = function(btn){
-    var form = $(btn).attr("form");
-    form = "#"+form;
-
-    if($(form).valid()){
-        var serialize = $(form).serialize();
-        console.log(serialize);
-
-        //PREDECESSEUR
-        var idPredecesseur = "";
-        if($('#form-tache-predecesseuCr').select2().val() != null){
-            idPredecesseur = $('#form-tache-predecesseurC').select2().val()[0];
-            console.log("idPredecesseur"+idPredecesseur);
-        }
-
-        var tabSuccesseurs = [];
-        //SUCCESSEUR
-        $("#form-tache-successeurC option").each(function() {
-            if($(this).is(':selected')){
-                console.log("selected : "+$(this).val());
-                tabSuccesseurs.push($(this).val());
-            }
-        });
-
-        //RESPONSABLE DE TACHE
-        var idResponsableTache = $('#responsableTacheModifierC').select2().val()[0];
-        console.log("idReponsableTache"+idResponsableTache);
-
-        //INTERLOCUTEURS EXTERNES
-        var nbInterlocuteurs = $("#interlocuteurs-modifierC li").length;
-        var tabInterlocuteurs = [];
-
-        for (i = 0; i < nbInterlocuteurs; i++) {
-            if($("#checkbox-interlocuteurC-"+i).is(':checked')){
-                console.log("checked : "+$("#checkbox-interlocuteurC-"+i).attr('value'));
-                tabInterlocuteurs.push($("#checkbox-interlocuteurC-"+i).attr('value'));
-            }
-        }
-
-        var dataToSend = serialize+"&predecesseurC="+idPredecesseur;
-        dataToSend += "&successeursC=";
-
-        for (var i = 0; i < tabSuccesseurs.length; i++){
-            dataToSend += tabSuccesseurs[i]+",";
-        }
-
-        dataToSend += "&responsableC="+idResponsableTache;
-
-        dataToSend += "&interlocuteursC=";
-
-        for (var i = 0; i < tabInterlocuteurs.length; i++){
-            dataToSend += tabInterlocuteurs[i]+",";
-        }
-
-        console.log("Data SEND : "+dataToSend);
-
-        return dataToSend;
-    }else{
-        return -1;
-    }
 }
 
 $(document).on('click','#interlocuteurs-modifier', function(event){
@@ -3081,7 +3133,7 @@ $(document).on('click', '#submitButton', function () {
         success: function (data) {
             $("#errorCreerProjetP").empty();
             $("#errorCreerProjet").hide();
-            $("#successCreerProjetP").html(messages("projet") + ' ' + data.nom + ' ' + messages("created"));
+            $("#successCreerProjetP").html(messages("project") + ' ' + data.nom + ' ' + messages("created"));
             $("#successCreerProjet").show();
             setTimeout(function () {
                 $("#successCreerProjet").hide();
