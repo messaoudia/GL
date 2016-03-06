@@ -129,3 +129,6 @@ POST        /envoieNotifications                            controllers.Notifica
 
 GET         /messages                                       controllers.Application.messages(message: String)
 GET         /messagesMap                                    controllers.Application.messagesMap
+POST        /checkMdpAdmin                                  controllers.AdminController.checkMdpAdmin(pswd : String)
+POST        /modifProjetSelect                              controllers.AdminController.modifierProjet(id :Long)
+POST        /redirectDashBoard                              controllers.AdminController.redirectDashboard()

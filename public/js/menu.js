@@ -10,18 +10,16 @@ $(document).on("click",".sidebar-btn-red", function(){
     var self = $(this),
         controler = self.data('infos') || self.attr('data-infos');
     // verif mot de passe
-   /* if(!needClick){
+    if(!needClick){
         changeTopBarRed();
         changePage(self,controler);
-        $("#modal-check-mdp").removeAttr('data-backdrop');
-        $("#modal-check-mdp").removeAttr('data-keyboard');
+        //$("#modal-check-mdp").removeAttr('data-backdrop');
+        //$("#modal-check-mdp").removeAttr('data-keyboard');
     }else{
         selfBis = self;
         controlerBis = controler;
-    }*/
+    }
     // on click sur le bouton obligatoire
-    changeTopBarRed();
-    changePage(self,controler);
 });
 
 $(document).on("click",".sidebar-btn-green", function(){
@@ -34,9 +32,23 @@ $(document).on("click",".sidebar-btn-green", function(){
 
 $(document).on("click",".close", function(event){
     var attr = $("#modal-check-mdp").attr('data-backdrop');
-    if (typeof attr !== typeof undefined && attr !== false) {
-        // return sur dashboard
-        //DashboardController.afficherDashboard()
+    if (special == true) {
+        special = false;
+        needClick = false;
+        $(location).attr('href',window.location.href);
+        /*
+         jsRoutes.controllers.AdminController.redirectDashboard().ajax({
+         success: function(html) {
+         var result = $('#wrapper',html);
+         $('#modal-check-mdp').modal('toggle');
+         alert($($(html).find('#wrapper')).html());
+         //$('#wrapper').empty();
+         console.log($('#wrapper').html());
+         $('#wrapper').html(result);
+         console.log($('#wrapper').html());
+         }
+         });*/
+
     }
 
 
@@ -51,31 +63,52 @@ $(document).on("click",".close", function(event){
                 needClick = false;
                 changeTopBarRed();
                 changePage(selfBis,controlerBis);
+                $("#passwordAdmin").val("");
                 $(".sidebar-btn-red").removeAttr("data-target");
                 $(".sidebar-btn-red").removeAttr("data-toggle");
                 setTimeout(function(){
                     needClick = true;
-                    $("#modal-check-mdp").attr('data-backdrop', 'static');
-                    $("#modal-check-mdp").attr('data-keyboard','false');
+                   // $("#modal-check-mdp").attr('data-backdrop', 'static');
+                   // $("#modal-check-mdp").attr('data-keyboard','false');
                     // Si on est sur une page admin
                     if( $(".active").hasClass('sidebar-btn-red')){
+                        //remove attribute close
+                        $("#modalClose").removeAttr("data-dismiss");
                         $("#modal-check-mdp").modal('show');
+                        special = true;
                     }
-                },10000);
+                },10000000);
                 $('#modal-check-mdp').modal('toggle');
             },
             //Case we have a problem
             error: function(error){
                 var messageDiv = "";
-                messageDiv += '@Messages("errors") : ';
+                jsRoutes.controllers.Application.messages("errors").ajax({
+                    success: function(data) {
+                        messageDiv+=JSON.stringify(data);
+                    }
+                });
                 if(error.responseJSON.mdpVide==true)
                 {
-                    messageDiv += '<br> - @Messages("mdpEmptyError")';
+                    jsRoutes.controllers.Application.messages("mdpEmptyError").ajax({
+                        success: function(data) {
+                            console.log(JSON.stringify(data));
+                            messageDiv += '<br> - '+JSON.stringify(data);
+                            $("#errorMdpAdminP").html(messageDiv);
+                            $("#errorMdpAdmin").show();
+                        }
+                    });
                 }else if(error.responseJSON.mdpIncorrecte == true){
-                    messageDiv += '<br> - @Messages("mdpIncorrecteError")';
+                    jsRoutes.controllers.Application.messages("mdpIncorrecteError").ajax({
+                        success: function(data) {
+                            console.log(JSON.stringify(data));
+                            messageDiv += '<br> - '+JSON.stringify(data);
+                            $("#errorMdpAdminP").html(messageDiv);
+                            $("#errorMdpAdmin").show();
+                        }
+                    });
                 }
-                $("#errorMdpAdminP").html(messageDiv);
-                $("#errorMdpAdmin").show();
+
             }
         });
 

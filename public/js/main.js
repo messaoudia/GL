@@ -67,18 +67,6 @@ $(document).on('click','#afficheListeProjet', function(event){
     }
 });
 
-
-$(document).on('click','#afficheRetour', function(event){
-
-    if($("#col-sidebar-retour").is(":visible")){
-        hideSideBarRetour();
-    }
-    else
-    {
-        showSideBarRetour();
-    }
-});
-
 function hideSideBarRetour()
 {
     $('#col-sidebar-retour').hide();
@@ -97,6 +85,18 @@ function showSideBarRetour()
     $("#icon-show-liste-projet").removeClass("fa-indent");
     $("#icon-show-liste-projet").addClass("fa-outdent");
 }
+
+
+$(document).on('click','#afficheRetour', function(event){
+    if($("#col-sidebar-retour").is(":visible")){
+        hideSideBarRetour();
+    }
+    else
+    {
+        showSideBarRetour();
+    }
+});
+
 
 
 var changeModeDraftProjet = function(idProjet){
@@ -2785,6 +2785,47 @@ var checkContactModal = function (btn) {
 }
 
 
+var modifierProjetAdminSelect = function(div) {
+    var id = $(div).attr("value");
+    var form = "#"+$(div).attr("form");
+    var serialize = $(form).serialize();
+    var priorite = $('#projet-modifierAdmin-btn .btn-active').attr('value');
+
+    jsRoutes.controllers.AdminController.modifierProjet(id).ajax({
+        data: serialize+ '&priorite='+priorite,
+        success : function(data) {
+            $("#errorModifierProjetP").empty();
+            $("#errorModifierProjet").hide();
+
+            $("#successModifierProjetP").html(messages("project")+' ' +data.nom +' '+messages("modified"));
+            $("#successModifierProjet").show();
+            setTimeout(function(){
+                $("#successModifierProjet").hide();
+            },4000);
+
+            // modification nom, responsable projet, priorite projet, priorite client
+
+
+            $("#nomProjet").html(messages("project")+': '+data.nom);
+            $("#prioriteProjet").html(data.priorite);
+            $("#nomClient").html(messages("client")+': '+data.client.nom);
+            $("#prioriteClient").html(data.client.priorite);
+            $("#descriptionProjet").html(data.description);
+            $("#responsableProjetName").html(messages("projectPersonResponsible")+': '+data.responsableProjet.prenom+' '+data.responsableProjet.nom);
+        },
+        error: function(error){
+            $("#successModifierProjet").hide();
+            $("#successModifierProjetP").empty();
+
+            var messageDiv = generateErrorModifierProjet(error);
+
+            $("#errorModifierProjetP").html(messageDiv);
+            $("#errorModifierProjet").show();
+        }
+    });
+}
+
+
 $(document).ready(function () {
 
     // Print the first selected project
@@ -3092,7 +3133,7 @@ $(document).on('click', '#submitButton', function () {
         success: function (data) {
             $("#errorCreerProjetP").empty();
             $("#errorCreerProjet").hide();
-            $("#successCreerProjetP").html(messages("projet") + ' ' + data.nom + ' ' + messages("created"));
+            $("#successCreerProjetP").html(messages("project") + ' ' + data.nom + ' ' + messages("created"));
             $("#successCreerProjet").show();
             setTimeout(function () {
                 $("#successCreerProjet").hide();
@@ -3219,16 +3260,6 @@ $(document).ajaxComplete(function () {
     });
 
 
-    $('#afficheRetour').click(function () {
-
-        if ($("#col-sidebar-retour").is(":visible")) {
-            hideSideBarRetour();
-        }
-        else {
-            showSideBarRetour();
-        }
-    });
-
     $(window).resize(function () {
         $('.liste-projet').css('height', "100%");
         height = $('.liste-projet').css('height');
@@ -3264,63 +3295,9 @@ $(document).ajaxComplete(function () {
         }
     });
 
-    function hideSideBarProjet() {
-        $('#col-sidebar-liste-projet').hide();
-        $('#afficheListeProjet').css("width", "25px");
-        $(".col-consulterProjet").removeClass("col-md-10");
-        $(".col-consulterProjet").addClass("col-md-12");
-        $("#icon-show-liste-projet").removeClass("fa-outdent");
-        $("#icon-show-liste-projet").addClass("fa-indent");
-        $('.liste-projet').css('height', "100%");
-        height = $('.liste-projet').css('height');
-        height = parseInt(height);
-        height -= 150;
-        $('.liste-projet').css('height', height);
-        $('.liste-projet-client').css('height', "100%");
-        height = $('.liste-projet-client').css('height');
-        height = parseInt(height);
-        height -= 200;
-        $('.liste-projet-client').css('height', height);
 
-    }
 
-    function showSideBarProjet() {
-        $('#col-sidebar-liste-projet').show();
-        $('#afficheListeProjet').css("width", "170px");
-        $(".col-consulterProjet").removeClass("col-md-12");
-        $(".col-consulterProjet").addClass("col-md-10");
-        $("#icon-show-liste-projet").removeClass("fa-indent");
-        $("#icon-show-liste-projet").addClass("fa-outdent");
-        $('.liste-projet').css('height', "100%");
-        height = $('.liste-projet').css('height');
-        height = parseInt(height);
-        height -= 150;
-        $('.liste-projet').css('height', height);
-        $('.liste-projet-client').css('height', "100%");
-        height = $('.liste-projet-client').css('height');
-        height = parseInt(height);
-        height -= 200;
-        $('.liste-projet-client').css('height', height);
 
-    }
-
-    function hideSideBarRetour() {
-        $('#col-sidebar-retour').hide();
-        $('#afficheRetour').css("width", "25px");
-        $("#col-consulterProjet").removeClass("col-md-10");
-        $("#col-consulterProjet").addClass("col-md-12");
-        $("#icon-show-liste-projet").removeClass("fa-outdent");
-        $("#icon-show-liste-projet").addClass("fa-indent");
-    }
-
-    function showSideBarRetour() {
-        $('#col-sidebar-retour').show();
-        $('#afficheRetour').css("width", "170px");
-        $("#col-consulterProjet").removeClass("col-md-12");
-        $("#col-consulterProjet").addClass("col-md-10");
-        $("#icon-show-liste-projet").removeClass("fa-indent");
-        $("#icon-show-liste-projet").addClass("fa-outdent");
-    }
 
 
     $('.liste-projet').css('height', "100%");
