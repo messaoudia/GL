@@ -198,3 +198,7 @@ improperPassword = Le mot de passe doit avoir une taille minimum de 6 caractère
 badConfirmPassword = Le mot de passe et la confirmation de mot de passe ne sont pas identiques
 successChangePassword = Mot de passe changé
 contactExist = le contact existe déjà
+adminMdp = Saisir mot de passe admin
+mdpEmptyError = Mot de passe est vide
+mdpIncorrecteError = Mot de passe est incorrecte
+nonCoherentProject=Votre projet n'est plus cohérent, veuillez verifier la coherence de votre projet!

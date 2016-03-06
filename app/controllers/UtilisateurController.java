@@ -1,9 +1,14 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
+import controllers.Global.StaticEntite;
 import jdk.nashorn.internal.ir.annotations.Immutable;
 import models.*;
 import models.Error;
+import models.Securite.Autorisation;
+import models.Securite.Role;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -119,22 +124,46 @@ public class UtilisateurController extends Controller {
             return badRequest(Json.toJson(error));
         }
         else{
+
+
+
+            Utilisateur user = Utilisateur.create(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], Utilisateur.genererPassword());
             //creation user
             //TODO si admin = OUI, si admin = NON
             if(map.get("admin")[0].equals("Oui"))
             {
                 //TODO lui donner droit admin
                 System.out.println("Creation d'un admin ...");
+                donnerDroitAdmin(user);
             }
-            else
-            {
-                //TODO SBLC
-            }
-            Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false,"Azerty2");
-            user.save();
+            //user.save();
             //TODO : send email to user
             return ok(Json.toJson(user));
         }
+    }
+
+    public void donnerDroitAdmin(Utilisateur utilisateur) {
+
+
+        // Octroyé le droit admin
+        Role adminRole = Role.getRole("Administrateur");
+        Autorisation autorisationAdminstration = new Autorisation();
+        autorisationAdminstration.utilisateur = utilisateur;
+        autorisationAdminstration.entiteSecurise = StaticEntite.getSystem();
+
+        // Sauvgarder l'autorisation
+        autorisationAdminstration.save();
+    }
+
+    public void retirerDroitAdmin(Utilisateur utilisateur) {
+        // Enlever le droit administrateur du system
+        Autorisation autorisationQuiVaEtreSupprime = Autorisation.find
+                .where()
+                .allEq(ImmutableMap.of("utilisateur.id", utilisateur.id.toString(), "entiteSecurise.id", StaticEntite.getSystem().id))
+                .findUnique();
+
+        autorisationQuiVaEtreSupprime.roles.removeIf(role -> role.nomDuRole.equals("Administrateur"));
+        autorisationQuiVaEtreSupprime.update();
     }
 
     public Result modifierUtilisateur(Long idUtilisateur)
@@ -163,6 +192,20 @@ public class UtilisateurController extends Controller {
         utst.setEmail(map.get("modify-formEmail")[0]);
         utst.setTelephone(map.get("modify-formTel")[0]);
 
+        //on donne les droit d'admin
+        if(map.get("admin")[0].equals("Oui") && !utst.checkAdmin())
+        {
+            System.out.println("Ajout droit admin ...");
+            donnerDroitAdmin(utst);
+        }
+        //
+        else if(map.get("admin")[0].equals("Non") && utst.checkAdmin())
+        {
+            System.out.println("Retirer droit admin");
+            retirerDroitAdmin(utst);
+        }
+
+
         //map.get("new-formLastName")[0]
         //map.get("new-formFirstName")[0]
         //map.get("new-formEmail")[0]
@@ -180,8 +223,26 @@ public class UtilisateurController extends Controller {
     public Result listProjetsUtilisateur(Long idUtilisateur) {
         return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listProjetsResponsable()));
     }
+
     public Result listTachesUtilisateur(Long idUtilisateur) {
-        return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listTaches()));
+        List<Tache> listTaches = Utilisateur.find.byId(idUtilisateur).listTaches();
+        //Logger.debug(t.toString());
+        JsonNode nodeArray = Json.toJson(listTaches);
+
+        int i=0;
+        for (JsonNode element: nodeArray) {
+            ObjectNode o = (ObjectNode) element;
+            if(listTaches.get(i).predecesseur != null) {
+                o.put("predecesseurIdTache", listTaches.get(i).predecesseur.idTache);
+            }
+            i++;
+        }
+
+        return ok(nodeArray);
+    }
+
+    public Result listTachesUtilisateurConnecte() {
+        return listTachesUtilisateur(Login.getUtilisateurConnecte().id);
     }
 
     public Result supprimerUtilisateur(Long idUtilisateur,String strProjet,String strTache){

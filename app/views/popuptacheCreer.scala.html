@@ -1,0 +1,172 @@
+<div class="modal fade" id="modal-tache-creer" role="dialog">
+    <div class="modal-dialog">
+            <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row" style="margin-right:0px;">
+                    <button id="btn-fermer-modifierTacheC" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                </div>
+
+                    <!-- Formulaire creer tache -->
+                <div id="div-modifierTacheC" style="">
+                    <form id="formModifierTacheC" class="form-horizontal">
+                        <div class="row">
+                                <!-- 1ere colonne -->
+                            <div class="col-sm-6">
+                                    <!-- Icones -->
+                                <div class="id-tache-modal">
+                                    @Messages("task") <p id="idTache-modifier-tdbC" style="display:inline-block;"></p>
+                                </div>
+                                    <!-- Form nom tache -->
+
+                                <input type="text" id="formModifierNomTache-tdbC" name="form-modif-tache-nomC" class="form-control margin-form" placeholder='@Messages("taskName")...' required>
+
+                                    <!-- Form description tache -->
+                                <textarea id="formModifierDescriptionTache-tdbC" name="form-modif-tache-descC" class="textarea-perso margin-form" placeholder='@Messages("taskDescription")...' required></textarea>
+
+                                    <!-- Modifier predecesseur -->
+                                <p style="margin-top:7px ;">@Messages("predecessor")
+                                    : </p>
+                                <select id="form-tache-predecesseurC" class="form-control select2-predecesseur" style="width:100% ;" multiple="single">
+                                        <!--<option value="Mayotte">Mayotte</option>
+                                                                    <option value="Mexico">Mexico</option>
+                                                                    <option value="Nicaragua">Nicaragua</option>-->
+                                        <!-- TODO Faire en JS la concaté,ation avec le JS
+                                                                     du formulaire serialize()-->
+                                </select>
+
+                                    <!-- Modifier successeurs -->
+                                <p style="margin-top:7px ;">@Messages("successors")
+                                    : </p>
+                                <select id="form-tache-successeurC" class="form-control select2-successeur" style="width:100% ;" multiple="multiple">
+                                        <!-- <option value="Mayotte">Mayotte</option>
+                                                                    <option value="Mexico">Mexico</option>
+                                                                    <option value="Nicaragua">Nicaragua</option>-->
+                                </select>
+                            </div>
+
+                                <!-- 2eme colonne -->
+                            <div class="col-sm-6">
+                                <div>
+                                    <p style="display:inline-block;" class="bold">@Messages("project") : </p>
+                                    <p style="display:inline-block;" id="nomProjet-modifier-tdbC" class="bold"></p>
+                                </div>
+
+                                <div>
+                                    <p style="display:inline-block;" class="bold">@Messages("client") : </p>
+                                    <p style="display:inline-block;" id="nomClient-modifier-tdbC" class="bold"></p>
+                                </div>
+
+                                    <!-- Form responsable tache -->
+                                <select id="responsableTacheModifierC" class="form-control select2-respo-tache" style="width:100% ;" multiple="single" required>
+                                        <!--<option value="Mayotte">Mayotte</option>
+                                                                    <option value="Mexico">Mexico</option>
+                                                                    <option value="Nicaragua">Nicaragua</option>-->
+                                </select>
+
+                                    <!-- Liste interlocuteurs externes -->
+                                <div class="row margin-form" style="margin:10px 0px ;">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-interlocuteurs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                            <div id="nbInterlocuteurModifierC" style="display: inline-block;"></div> 0 @Messages("externalInterlocutors") <span class="caret"></span>
+                                        </button>
+                                        <ul id="interlocuteurs-modifierC" class="dropdown-menu dropdown-menu-pert">
+                                                <!--<li>
+                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                                    <input id="checkbox-interlocuteur-1C" type="checkbox">
+                                                                                    <label for="checkbox-interlocuteur-1C">
+                                                                                        Valérie Guimard
+                                                                                    </label>
+                                                                                </div>
+                                                                            </li>
+                                                                            <li>
+                                                                                <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                                    <input id="checkbox-interlocuteur-2C" type="checkbox" checked>
+                                                                                    <label for="checkbox-interlocuteur-2C">
+                                                                                        Lassana Diarra
+                                                                                    </label>
+                                                                                </div>
+                                                                            </li>-->
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                    <!-- datepicker - date debut -->
+                                <div class="row margin-form">
+                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_debutC" style="text-align: left">@Messages("startDate")</label>
+                                    <div class="form-group col-sm-8" id="datepicker_date_debutC">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DD-modifierC" id="DD-modifierC" type="text" class="form-control" value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <!-- datepicker - date fin au + tot -->
+                                <div class="row margin-form">
+                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_totC" style="text-align: left">@Messages("earliestEndDate")</label>
+                                    <div class="form-group col-sm-8" id="datepicker_date_fin_totC">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTO-modifierC" id="DFTO-modifierC" type="text" class="form-control" value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <!-- datepicker - date fin au + tard -->
+                                <div class="row margin-form">
+                                    <label class="col-sm-4 control-label font-noraml" for="datepicker_date_fin_tardC" style="text-align: left">@Messages("latestEndDate")</label>
+                                    <div class="form-group col-sm-8" id="datepicker_date_fin_tardC">
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input name="DFTA-modifierC" id="DFTA-modifierC" type="text" class="form-control" value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <!-- charge initiale -->
+                                <div class="row form-group margin-form" >
+                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeInitialeC" style="text-align: left">@Messages("initialWorload")</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input type="number" id="formModifierChargeInitialeC" name="form-modif-tache-ch-initC" class="form-control" value="0" min="0" step="0.5" required>
+                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <!-- charge consommée -->
+                                <div class="row form-group margin-form" >
+                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeConsommeeC" style="text-align: left">@Messages("consumedWorkload")</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input type="number" id="formModifierChargeConsommeeC" name="form-modif-tache-ch-consC" class="form-control" value="0" min="0" step="0.5" required>
+                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <!-- charge restante -->
+                                <div class="row form-group margin-form" >
+                                    <label class="col-sm-6 control-label font-noraml" for="formModifierChargeRestanteC" style="text-align: left">@Messages("remainingWorkload")</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <input type="number" id="formModifierChargeRestanteC" name="form-modif-tache-ch-restC" class="form-control" value="0" min="0" step="0.5" required>
+                                            <span class="input-group-addon" style="background-color:#1AB394 ; color:white ;">@Messages("day-first-letter")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- bouton valider -->
+                        <div class="row" style="margin-top:15px ;">
+                            <div class="div-center">
+                                    <!-- on click return false pour permettre de rester sur la même page-->
+                                <button id="btn-valider-modifierTacheC" onclick="modifierTache(this); return false;" class="btn btn-primary" type="submit" form="formModifierTacheC">
+                                    <i class="fa fa-check-square"></i> @Messages("validate")
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

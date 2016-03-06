@@ -156,40 +156,143 @@
             <!-- Menu -->
         <script src="/js/menu.js"></script>
 
-            <!-- Dashboard -->
-        <script src="/js/dashboard.js"></script>
+            <!-- Validation des formulaires -->
+        <script src="/js/jquery.validate.min.js"></script>
 
         @scripts
         <script>
-                 var changeModeDraftProjet = function(idProjet){
-                     console.log("Je suis la");
-                     if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
-                         console.log("Je suis checked");
-                         $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
-                         $('.id-tache').hide();
-                     }
-                     else{
-                         console.log("Je suis pas checked");
-                         var draftParsedAsJson = parseDraft(idProjet);
+                function hideSideBarProjet()
+                {
+                    $('#col-sidebar-liste-projet').hide();
+                    $('#afficheListeProjet').css("width","25px");
+                    $(".col-consulterProjet").removeClass("col-md-10");
+                    $(".col-consulterProjet").addClass("col-md-12");
+                    $("#icon-show-liste-projet").removeClass("fa-outdent");
+                    $("#icon-show-liste-projet").addClass("fa-indent");
+                    $('.liste-projet').css('height',"100%");
+                    height = $('.liste-projet').css('height');
+                    height = parseInt(height);
+                    height -= 150;
+                    $('.liste-projet').css('height',height);
+                    $('.liste-projet-client').css('height',"100%");
+                    height = $('.liste-projet-client').css('height');
+                    height = parseInt(height);
+                    height -= 200;
+                    $('.liste-projet-client').css('height',height);
 
-                         $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
-                         $('.id-tache').show();
+                }
+                function showSideBarProjet()
+                {
+                    $('#col-sidebar-liste-projet').show();
+                    $('#afficheListeProjet').css("width","170px");
+                    $(".col-consulterProjet").removeClass("col-md-12");
+                    $(".col-consulterProjet").addClass("col-md-10");
+                    $("#icon-show-liste-projet").removeClass("fa-indent");
+                    $("#icon-show-liste-projet").addClass("fa-outdent");
+                    $('.liste-projet').css('height',"100%");
+                    height = $('.liste-projet').css('height');
+                    height = parseInt(height);
+                    height -= 150;
+                    $('.liste-projet').css('height',height);
+                    $('.liste-projet-client').css('height',"100%");
+                    height = $('.liste-projet-client').css('height');
+                    height = parseInt(height);
+                    height -= 200;
+                    $('.liste-projet-client').css('height',height);
+
+                }
+                $(document).on('click','#afficheListeProjet', function(event){
+                    if($("#col-sidebar-liste-projet").is(":visible")){
+                        hideSideBarProjet();
+
+                    }
+                    else
+                    {
+                        showSideBarProjet();
+                    }
+                });
 
 
-                         console.log(draftParsedAsJson);
-                         jsRoutes.controllers.ProjetController.sendDraf().ajax({
-                             data: draftParsedAsJson,
-                             dataType: 'json',
-                             contentType: "application/json",
-                             success : function(data) {
-                                 console.log(data);
-                             },
-                             error: function(errorMessage){
-                                 console.error(errorMessage);
-                             }
-                         });
-                     }
-                 }
+                $(document).on('click','#afficheRetour', function(event){
+
+                    if($("#col-sidebar-retour").is(":visible")){
+                        hideSideBarRetour();
+                    }
+                    else
+                    {
+                        showSideBarRetour();
+                    }
+                });
+
+                function hideSideBarRetour()
+                {
+                    $('#col-sidebar-retour').hide();
+                    $('#afficheRetour').css("width","25px");
+                    $("#col-consulterProjet").removeClass("col-md-10");
+                    $("#col-consulterProjet").addClass("col-md-12");
+                    $("#icon-show-liste-projet").removeClass("fa-outdent");
+                    $("#icon-show-liste-projet").addClass("fa-indent");
+                }
+                function showSideBarRetour()
+                {
+                    $('#col-sidebar-retour').show();
+                    $('#afficheRetour').css("width","170px");
+                    $("#col-consulterProjet").removeClass("col-md-12");
+                    $("#col-consulterProjet").addClass("col-md-10");
+                    $("#icon-show-liste-projet").removeClass("fa-indent");
+                    $("#icon-show-liste-projet").addClass("fa-outdent");
+                }
+
+
+                var changeModeDraftProjet = function(idProjet){
+                    console.log("Je suis la");
+                    if($('#checkbox-draft-projet-'+idProjet).is(':checked')){
+                        console.log("Je suis checked");
+                        $('#nestable-projet-'+idProjet).removeClass("dd-nodrag");
+                        $('.id-tache').hide();
+                    }
+                    else{
+                        console.log("Je suis pas checked");
+                        var draftParsedAsJson = parseDraft(idProjet);
+
+                        $('#nestable-projet-'+idProjet).addClass("dd-nodrag");
+                        $('.id-tache').show();
+
+
+                        console.log(draftParsedAsJson);
+                        jsRoutes.controllers.ProjetController.sendDraf().ajax({
+                            data: draftParsedAsJson,
+                            dataType: "json",
+                            contentType: "application/json",
+                            success : function(data) {
+                                console.log(data);
+
+                                // Refresh project view
+                                jsRoutes.controllers.ProjetController.afficheProjet(idProjet).ajax({
+                                    success: function(data){
+                                        $('#projet-'+idProjet).html(data);
+                                        $('#client-projet-'+idProjet).html(data);
+//                                        var idProjet = '#' + $('.sidebar-projet.select').attr("name");
+//                                        $('.sidebar-projet.select').removeClass("select");
+//                                        $(idProjet).hide();
+//                                        $(this).addClass("select");
+//                                        var newIdProjet = '#' + $(this).attr("name");
+                                        $('#projet-'+idProjet).show();
+
+                                    },
+                                    error:function(errorMessage){
+                                        console.log(errorMessage);
+                                    }
+                                });
+
+                            },
+                            error: function(errorMessage){
+                                $('#modal-draft-projet').modal('show');
+                                console.error(errorMessage);
+                            }
+                        });
+                    }
+                }
 
                 var changeModeDraftClient = function(idProjet){
                     console.log("Je suis la");
@@ -231,24 +334,252 @@
 
                 $(document).on('click','.createSubTask', function(event){
                     var btn = $(this);
+                    var jsonTache = "";
                     console.log("creer sous tache de "+btn.attr("data"));
+
+                    $('#formModifierTacheC').validate().resetForm();
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+                    //FIXME Dates limites
+                    jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
+                        success: function(tache) {
+                            jsonTache = tache;
+                            var dateDebut = tache.dateDebut;
+                            var dateFinTard = tache.dateFinTard;
+                            $('#datepicker_date_debutC .input-group.date').datepicker('option', {
+                                minDate: new Date(dateDebut.split("/")[2],dateDebut.split("/")[1],dateDebut.split("/")[0]),
+                                maxDate: new Date(dateFinTard.split("/")[2],dateFinTard.split("/")[1],dateFinTard.split("/")[0]),
+                            });
+                            /*$('#datepicker_date_fin_totC .input-group.date').datepicker('option', {
+                                minDate: new Date(dateDebut.split("/")[2],dateDebut.split("/")[1],dateDebut.split("/")[0]),
+                                maxDate: new Date(dateFinTard.split("/")[2],dateFinTard.split("/")[1],dateFinTard.split("/")[0]),
+                            });
+                            $('#datepicker_date_fin_tardC .input-group.date').datepicker('option', {
+                                minDate: new Date(dateDebut.split("/")[2],dateDebut.split("/")[1],dateDebut.split("/")[0]),
+                                maxDate: new Date(dateFinTard.split("/")[2],dateFinTard.split("/")[1],dateFinTard.split("/")[0]),
+                            });*/
+
+                            //Interlocuteurs
+                            jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
+                                success: function(interlocuteursClient){
+                                    var listCreer = "";
+                                    $(interlocuteursClient).each(function(i,interlocuteur){
+                                        listCreer+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                                        listCreer+='<input id="checkbox-interlocuteurC-'+i+'" type="checkbox" value="'+interlocuteur.id+'">';
+                                        listCreer+='<label for="checkbox-interlocuteurC-'+i+'">';
+                                        listCreer+=interlocuteur.nom+' '+ interlocuteur.prenom+'</label></div></li>';
+                                    });
+
+                                    $('#interlocuteurs-modifierC').html(listCreer);
+
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+
+                            //Predecesseurs possible
+                            jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
+                                success: function(taches){
+                                    //console.log(taches);
+                                    var list = "";
+
+                                    $(taches).each(function(index, t) {
+                                        if(t.id==tache.predecesseurId){
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                        else {
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                    });
+
+                                    $('#form-tache-predecesseurC').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+
+                            //Successeurs possible
+                            jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
+                                success: function(taches){
+                                    //console.log(taches);
+                                    var list = "";
+
+                                    $(taches).each(function(index, t) {
+                                        var isSuccesseur = false;
+                                        $(tache.successeurs).each(function(index,s){
+                                            if(t.id == s.id){
+                                                isSuccesseur = true;
+                                                return;
+                                            }
+                                        });
+                                        if(isSuccesseur){
+                                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
+                                        }else{
+                                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
+                                        }
+                                    });
+
+                                    $('#form-tache-successeurC').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+                            //Responsable de tache
+                            jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
+                                success: function(utilisateurs){
+                                    var list = "";
+                                    $(utilisateurs).each(function(index, u) {
+                                            list+='<option value="'+u.id+'">'+u.nom+' '+u.prenom+'</option>';
+                                    });
+
+                                    $('#responsableTacheModifierC').html(list);
+                                },
+                                error: function(errorMessage){
+                                    alert(errorMessage);
+                                }
+                            });
+                        }
+                    });
+
+                    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
+                    $('#btn-valider-modifierTacheC').attr("onclick","creerSousTache(this); return false;");
                 });
+
+                var creerSousTache = function(btn){
+                    console.log("main.scala : creerSousTache appelé");
+                    var idTacheSelect = $(btn).attr("data");
+                    var dataToSend = creerDataFormulaireCreationTache(btn);
+
+                    if(dataToSend == -1){
+
+                    }else{
+                        console.log("main.scala : appel du controlleur creerSousTache");
+                        jsRoutes.controllers.TacheController.creerSousTache(idTacheSelect).ajax({
+                            data: dataToSend,
+                            success : function(data) {
+                                console.log("main.scala : success");
+                            },
+                            error : function(errorMessage){
+                                console.log("main.scala > creerSousTache => error");
+                                console.log("-----------> " + errorMessage)
+                            }
+                        });
+                    }
+                }
 
                 $(document).on('click','.createTaskHaut', function(event){
                     var btn = $(this);
                     console.log("creer tache haut de "+btn.attr("data"));
+
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+
+
+                    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
+                    $('#btn-valider-modifierTacheC').attr("onclick","creerTacheHaut(this); return false;");
                 });
+
+                var creerTacheHaut = function(btn){
+                    var idTacheSelect = $(btn).attr("data");
+                    var dataToSend = creerDataFormulaireCreationTache(btn);
+
+                }
 
                 $(document).on('click','.createTaskBas', function(event){
                     var btn = $(this);
+
                     console.log("creer tache bas de "+btn.attr("data"));
+                    $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
+                    $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+
+
+
+                    $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
+                    $('#btn-valider-modifierTacheC').attr("onclick","creerTacheBas(this); return false;");
                 });
 
+                var creerTacheBas = function(btn){
+                    var idTacheSelect = $(btn).attr("data");
+                    var dataToSend = creerDataFormulaireCreationTache(btn);
+
+
+                }
+
+                var creerDataFormulaireCreationTache = function(btn){
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+
+                    if($(form).valid()){
+                        var serialize = $(form).serialize();
+                        console.log(serialize);
+
+                        //PREDECESSEUR
+                        var idPredecesseur = "";
+                        if($('#form-tache-predecesseuCr').select2().val() != null){
+                            idPredecesseur = $('#form-tache-predecesseurC').select2().val()[0];
+                            console.log("idPredecesseur"+idPredecesseur);
+                        }
+
+                        var tabSuccesseurs = [];
+                        //SUCCESSEUR
+                        $("#form-tache-successeurC option").each(function() {
+                            if($(this).is(':selected')){
+                                console.log("selected : "+$(this).val());
+                                tabSuccesseurs.push($(this).val());
+                            }
+                        });
+
+                        //RESPONSABLE DE TACHE
+                        var idResponsableTache = $('#responsableTacheModifierC').select2().val()[0];
+                        console.log("idReponsableTache"+idResponsableTache);
+
+                        //INTERLOCUTEURS EXTERNES
+                        var nbInterlocuteurs = $("#interlocuteurs-modifierC li").length;
+                        var tabInterlocuteurs = [];
+
+                        for (i = 0; i < nbInterlocuteurs; i++) {
+                            if($("#checkbox-interlocuteurC-"+i).is(':checked')){
+                                console.log("checked : "+$("#checkbox-interlocuteurC-"+i).attr('value'));
+                                tabInterlocuteurs.push($("#checkbox-interlocuteurC-"+i).attr('value'));
+                            }
+                        }
+
+                        var dataToSend = serialize+"&predecesseurC="+idPredecesseur;
+                        dataToSend += "&successeursC=";
+
+                        for (var i = 0; i < tabSuccesseurs.length; i++){
+                            dataToSend += tabSuccesseurs[i]+",";
+                        }
+
+                        dataToSend += "&responsableC="+idResponsableTache;
+
+                        dataToSend += "&interlocuteursC=";
+
+                        for (var i = 0; i < tabInterlocuteurs.length; i++){
+                            dataToSend += tabInterlocuteurs[i]+",";
+                        }
+
+                        console.log("Data SEND : "+dataToSend);
+
+                        return dataToSend;
+                    }else{
+                        return -1;
+                    }
+                }
 
                 $(document).on('click','#interlocuteurs-modifier', function(event){
                     event.stopPropagation();
-
                 });
+
+                $(document).on('click','#interlocuteurs-modifierC', function(event){
+                    event.stopPropagation();
+                });
+
                 $(document).on('click','#dataTables-admin-user tr td:not(:last-child)', function(){
                     var id = $(this).parent('tr').attr('value');
                     userRow = $(this).parent('tr');
@@ -724,6 +1055,34 @@
                     });
                 }
 
+                var activeModificationProjetDansProjet = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-consulterProjet-" + idProjet).hide();
+                    $("#div-modifierProjet-" + idProjet).show();
+                    jQuery.fx.off = false;
+                }
+
+                var desactiveModificationProjetDansProjet = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-modifierProjet-" + idProjet).hide();
+                    $("#div-consulterProjet-" + idProjet).show();
+                    jQuery.fx.off = false;
+                }
+
+                var activeModificationProjetDansClient = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-consulterProjet-client-" + idProjet).hide();
+                    $("#div-modifierProjet-client-" + idProjet).show();
+                    jQuery.fx.off = false;
+                }
+
+                var desactiveModificationProjetDansClient = function(idProjet){
+                    jQuery.fx.off = true;
+                    $("#div-modifierProjet-client-" + idProjet).hide();
+                    $("#div-consulterProjet-client-" + idProjet).show();
+                    jQuery.fx.off = false;
+                }
+
                 var supprimerUtilisateur = function(){
                     $("#error-message-suppr-user-projet").hide();
                     $("#error-message-suppr-user-tache").hide();
@@ -913,6 +1272,7 @@
 
                             $("#errorCreerUserP").html(messageDiv);
                             $("#errorCreerUser").show();
+
                         }
                     })
                 }
@@ -1053,7 +1413,7 @@
                     var form = $(btn).attr("form");
                     form = "#"+form;
                     var serialize = $(form).serializeObject();
-                    var value = $(".btn-active").attr('value');
+                    var value = $("#btnModifierClient .btn-active").attr('value');
                     var idClient = clientRow.attr('value');
                     var json = "{\"form\":"+JSON.stringify(serialize)+",\"table\":"+JSON.stringify(listeNewContact)+",\"projet\":"+JSON.stringify(tmpRowModalClientProjet)+",\"contact\":"+JSON.stringify(tmpRowModalClientContact)+",\"priorite\":"+value+"}";
                     console.log(json);
@@ -1119,7 +1479,7 @@
                     form = "#"+form;
                     var serialize = $(form).serializeObject();
                     //var myRows = { myRows: [] };
-                    var value = $(".btn-active").attr('value');
+                    var value = $("#btnCreerClient .btn-active").attr('value');
                     var $th = $('#tableContact th');
 
                     var rowCount = $('#tableContact tbody tr').length;
@@ -1442,7 +1802,7 @@
                                 $('#btn-indisponibleTache i').addClass("fa-unlock")
                                 $('#btn-indisponibleTache-modifier i').addClass("fa-unlock");
 
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
 
@@ -1465,7 +1825,7 @@
                                 $('#btn-indisponibleTache-modifier i').removeClass("fa-unlock");
                                 $('#btn-indisponibleTache-modifier i').addClass("fa-lock");
                                 console.log("la tache "+$('#btn-indisponibleTache').attr("data")+" devient indisponible");
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             },
@@ -1490,7 +1850,7 @@
                                 $('#btn-indisponibleTache i').removeClass("fa-lock");
                                 $('#btn-indisponibleTache i').addClass("fa-unlock")
                                 console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient disponible");
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
                             },
@@ -1510,7 +1870,7 @@
                                 $('#btn-indisponibleTache i').removeClass("fa-unlock");
                                 $('#btn-indisponibleTache i').addClass("fa-lock");
                                 console.log("la tache "+$('#btn-indisponibleTache-modifier').attr("data")+" devient indisponible");
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             },
@@ -1527,12 +1887,14 @@
 
                     var idTache = $(t).attr('value');
 
+                    console.log('tache hihihi '+idTache);
+
                     jsRoutes.controllers.DashboardController.afficherModalTache(idTache).ajax({
                         type: 'POST',
                         dataType: 'json',
                         contentType: "application/json",
                         success: function(tache) {
-                            console.log(JSON.stringify(tache));
+                            //console.log(JSON.stringify(tache));
                             $("#dataTables-tdb-tache").dataTable().fnDestroy();
 
                             // div-consulter-tache
@@ -1628,10 +1990,10 @@
                                     $(taches).each(function(index, t) {
                                         var isSuccesseur = false;
                                         $(tache.successeurs).each(function(index,s){
-                                           if(t.id == s.id){
-                                               isSuccesseur = true;
-                                               return;
-                                           }
+                                            if(t.id == s.id){
+                                                isSuccesseur = true;
+                                                return;
+                                            }
                                         });
                                         if(isSuccesseur){
                                             list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
@@ -1661,9 +2023,9 @@
 
                             }
                             /*console.log("tache = "+JSON.stringify(tache))
-                            console.log("predecesseurNom : "+tache.predecesseurNom);
-                            console.log("predecesseurId : "+tache.predecesseurId);
-                            console.log("Successeurs : "+tache.successeurs);*/
+                             console.log("predecesseurNom : "+tache.predecesseurNom);
+                             console.log("predecesseurId : "+tache.predecesseurId);
+                             console.log("Successeurs : "+tache.successeurs);*/
 
                             var list = "";
                             var listModifier = "";
@@ -1725,11 +2087,13 @@
 
                             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
                             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
+                            $('#nomProjet-modifier-tdb').html(tache.projet.nom);
+                            $('#nomClient-modifier-tdb').html(tache.projet.client.nom);
                             $('#nomRespTache-consulter-tdb').html(tache.responsableTache.nom + " " + tache.responsableTache.prenom);
-                            $('#avancementTache').html(tache.avancementTache+"%");
-                            $('#avancementTache').attr("aria-valuenow",tache.avancementTache);
-                            $('#avancementTache').css("width",tache.avancementTache+"%");
-                            if(parseInt(tache.avancementTache)<7)
+                            $('#avancementTache').html((Math.round(tache.avancementTache*100))+"%");
+                            $('#avancementTache').attr("aria-valuenow",(Math.round(tache.avancementTache*100)));
+                            $('#avancementTache').css("width",(Math.round(tache.avancementTache*100))+"%");
+                            if(parseInt((Math.round(tache.avancementTache*100)))<7)
                             {
                                 $('#avancementTache').css("color","#000");
                             }
@@ -1760,11 +2124,11 @@
                             $('#formModifierChargeInitiale').attr("value",tache.chargeInitiale);
                             $('#formModifierChargeInitiale').nextAll('span').html(unite);
                             if(tache.disponible){
-                                $('#formModifierChargeRestante').attr("disabled",false);
-                                $('#formModifierChargeConsommee').attr("disabled",false);
+                                $('.formModifierChargeRestante').attr("disabled",false);
+                                $('.formModifierChargeConsommee').attr("disabled",false);
                             }else{
-                                $('#formModifierChargeRestante').attr("disabled",true);
-                                $('#formModifierChargeConsommee').attr("disabled",true);
+                                $('.formModifierChargeRestante').attr("disabled",true);
+                                $('.formModifierChargeConsommee').attr("disabled",true);
                             }
                             $('#formModifierChargeRestante').attr("value",tache.chargeRestante);
                             $('#formModifierChargeRestante span').nextAll('span').html(unite);
@@ -1773,12 +2137,12 @@
 
                             if(!tache.disponible)
                             {
-                                $('.formModifierChargeInitiale').attr("disabled","");
+                                $('#formModifierChargeInitiale').attr("disabled","");
                                 $('#formModifierChargeRestante').attr("disabled","");
                                 $('#formModifierChargeConsommee').attr("disabled","");
                             }
                             else {
-                                $('.formModifierChargeInitiale').removeAttr("disabled");
+                                $('#formModifierChargeInitiale').removeAttr("disabled");
                                 $('#formModifierChargeRestante').removeAttr("disabled");
                                 $('#formModifierChargeConsommee').removeAttr("disabled");
                             }
@@ -1791,7 +2155,198 @@
                     });
                 }
 
+                var modifierTache = function (btn) {
+                    var form = $(btn).attr("form");
+                    form = "#"+form;
+                    var serialize = $(form).serialize();
+                    console.log(serialize);
+
+                    //IDTACHE
+                    var idTache = $('#formModifierTache').attr('value');
+
+                    //PREDECESSEUR
+                    var idPredecesseur = "";
+                    if($('#form-tache-predecesseur').select2().val() != null){
+                        idPredecesseur = $('#form-tache-predecesseur').select2().val()[0];
+                        console.log("idPredecesseur"+idPredecesseur);
+                    }
+
+                    var tabSuccesseurs = [];
+                    //SUCCESSEUR
+                    $("#form-tache-successeur option").each(function() {
+                        if($(this).is(':selected')){
+                            console.log("selected : "+$(this).val());
+                            tabSuccesseurs.push($(this).val());
+                        }
+                    });
+
+                    //RESPONSABLE DE TACHE
+                    var idResponsableTache = $('#responsableTacheModifier').select2().val()[0];
+                    console.log("idReponsableTache"+idResponsableTache);
+
+                    //INTERLOCUTEURS EXTERNES
+                    var nbInterlocuteurs = $("#interlocuteurs-modifier li").length;
+                    var tabInterlocuteurs = [];
+
+                    for (i = 0; i < nbInterlocuteurs; i++) {
+                        if($("#checkbox-interlocuteur-"+i).is(':checked')){
+                            console.log("checked : "+$("#checkbox-interlocuteur-"+i).attr('value'));
+                            tabInterlocuteurs.push($("#checkbox-interlocuteur-"+i).attr('value'));
+                        }
+                    }
+
+                    var dataToSend = serialize+"&id-tache="+idTache+"&predecesseur="+idPredecesseur;
+                    dataToSend += "&successeurs=";
+
+                    for (var i = 0; i < tabSuccesseurs.length; i++){
+                        dataToSend += tabSuccesseurs[i]+",";
+                    }
+
+                    dataToSend += "&responsable="+idResponsableTache;
+
+                    dataToSend += "&interlocuteurs=";
+
+                    for (var i = 0; i < tabInterlocuteurs.length; i++){
+                        dataToSend += tabInterlocuteurs[i]+",";
+                    }
+
+                    console.log("Data SEND : "+dataToSend);
+                    //Ajax call submit form
+                    jsRoutes.controllers.DashboardController.modifierTache().ajax({
+                        data: dataToSend,
+                        success : function() {
+
+                            jsRoutes.controllers.UtilisateurController.listTachesUtilisateurConnecte().ajax({
+                                success : function(taches) {
+                                    console.log("SUCCESS");
+                                    console.log("ListTaches a afficher : ");
+                                    console.log(taches);
+
+                                    $('#dataTables-tdb-tache').dataTable().fnDestroy();
+
+                                    var tableDashboardBody = $('#dataTables-tdb-tache-body');
+                                    tableDashboardBody.empty();
+
+                                    var tableContent = "";
+                                    $.each(taches, function (i, tache) {
+                                        tableContent += ('<tr value="'+tache.id+'" onclick="afficherModalTache(this)" class="table-center">');
+                                        tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
+                                        tableContent += ('<p class="tdb-id-tache">'+tache.idTache+'</p>');
+                                        tableContent += ('<p class="tdb-nom-tache">'+tache.nom+'</p>');
+                                        tableContent += ('</td>');
+
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.nom+'</td>');
+
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.projet.client.nom+'</td>');
+
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">'+tache.dateDebut+'</td>');
+
+                                        tableContent += ('<td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
+                                        tableContent += ('<p style="display:none ;">'+tache.dateFinTard+'</p>');
+                                        tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTot+'</p>');
+                                        tableContent += ('<p class="tdb-nom-tache">'+tache.dateFinTard+'</p>');
+                                        tableContent += ('</td>');
+
+                                        tableContent += ('<td class="td-modal" class="td-avancement" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">');
+
+                                        tableContent += ('<p style="display:none ;">');
+                                        if((Math.round(tache.avancementTache*100)) > 0 || (Math.round(tache.avancementTache*100)) < 100){
+                                            tableContent += ('0'+(Math.round(tache.avancementTache*100)));
+                                        }else{
+                                            tableContent += ((Math.round(tache.avancementTache*100)));
+                                        }
+                                        tableContent += ('</p>');
+
+                                        tableContent += ('<p class="row-initiale">@Messages("initial") : '+tache.chargeInitiale);
+                                        if(tache.projet.hasUniteJour){
+                                            tableContent += ('@Messages("day-first-letter")');
+                                        }else{
+                                            tableContent += ('@Messages("week-first-letter")');
+                                        }
+                                        tableContent += ('</p>');
+
+                                        tableContent += ('<p class="row-restante">@Messages("remaining") : '+tache.chargeRestante);
+                                        if(tache.projet.hasUniteJour){
+                                            tableContent += ('@Messages("day-first-letter")');
+                                        }else{
+                                            tableContent += ('@Messages("week-first-letter")');
+                                        }
+                                        tableContent += ('</p>');
+
+                                        tableContent += ('<div class="progress progress-bar-default">');
+                                        if((Math.round(tache.avancementTache*100)) == 0){
+                                            tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;color:black;">');
+                                            tableContent += ('0%');
+                                            tableContent += ('</div>');
+                                        }else{
+                                            tableContent += ('<div class="progress-bar" role="progressbar" aria-valuenow="'+(Math.round(tache.avancementTache*100))+'" aria-valuemin="0" aria-valuemax="100" style="width: '+(Math.round(tache.avancementTache*100))+'% ;">');
+                                            tableContent += ((Math.round(tache.avancementTache*100))+'%');
+                                            tableContent += ('</div>');
+                                        }
+                                        tableContent += ('</div>');
+
+                                        tableContent += ('<p class="row-consommee">@Messages("consumed") : '+tache.chargeConsommee);
+                                        if(tache.projet.hasUniteJour){
+                                            tableContent += ('@Messages("day-first-letter")');
+                                        }else{
+                                            tableContent += ('@Messages("week-first-letter")');
+                                        }
+                                        tableContent += ('</p>');
+                                        tableContent += ('</td>');
+
+                                        tableContent += ('<td style="vertical-align:middle ;">');
+                                        if(tache.hasPredecesseur){
+                                            tableContent += ('<div class="row">@Messages("predecessor") : '+tache.predecesseurIdTache+'</div>');
+                                        }else {
+                                            tableContent += ('<div class="row">@Messages("predecessor") : @Messages("none")</div>');
+                                        }
+
+                                        if(tache.hasSuccesseur){
+
+                                            tableContent += ('<div class="row"> @Messages("successors") : <div class="btn-group">');
+                                            tableContent += ('<button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">');
+                                            tableContent += (tache.nbSuccesseurs+' @Messages("tasks-lower") <span class="caret"></span></button>');
+
+                                            tableContent += ('<ul class="dropdown-menu dropdown-menu-pert">');
+
+                                            $.each(tache.successeurs, function(i, successeur) {
+                                                tableContent += ('<li>'+successeur.idTache+'</li>');
+                                            });
+
+                                            tableContent += ('</ul></div></div>');
+                                        } else {
+                                            tableContent += ('<div class="row">@Messages("successors") : @Messages("none")</div>');
+                                        }
+                                        tableContent += ('</td>');
+
+                                        if(tache.hasResponsableActivateNotification){
+                                            tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell"></i></a></td>');
+                                        } else {
+                                            tableContent += ('<td class="icon-notif-tdb" style="vertical-align:middle ;"><a onclick="activerOuDesactiverNotification('+tache.id+', '+tache.responsableTache.id+')"><i id="notif-icon-tache-'+tache.id+'" class="fa fa-bell-slash-o"></i></a></td>');
+                                        }
+
+                                        tableContent += ('</tr>');
+                                    });
+
+                                    console.log(tableContent);
+                                    tableDashboardBody.append(tableContent);
+                                    $('#modal-tache').modal('toggle');
+
+                                }
+                            });
+
+                        },
+                        error: function(errorMessage,codeErreur){
+                            console.log(codeErreur+" "+errorMessage);
+                        }
+                    });
+                }
+
                 $(document).ready(function () {
+
+                    // Print the first selected project
+                    $('#' + $('.sidebar-projet.select').attr("name")).show();
+
                     $('#checkbox-notif-all-selected').click(function() {
                         if($('#checkbox-notif-all-selected').is(':checked')){
                             $("div.checkbox-notif input[type=checkbox]").each(function(){
@@ -1845,21 +2400,6 @@
                         jQuery.fx.off = true;
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        $("#div-modifierProjet-client").hide();
-                        $("#div-consulterProjet-client").show();
                         jQuery.fx.off = false;
                     });
 
@@ -2035,6 +2575,31 @@
                         language: "fr-FR"
                     });
 
+                    $('#datepicker_date_debutC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+
+                    });
+                    $('#datepicker_date_fin_totC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tardC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
                     $('#projet-tdb').slimScroll({
                         height: '130px'
                     });
@@ -2072,12 +2637,16 @@
                     $('[data-toggle="popover"]').popover();
 
 
+                    // Envoie de notification
+                    $(window).on('beforeunload', function(){
+                        jsRoutes.controllers.NotificationController.sendNotifications().ajax();
+                    });
                 });
 
                 $(document).on('click', '#submitButton', function(){
                     var $form = $('#addProjectForm');
                     var $serialize= $form.serialize();
-                    var $value = $(".btn-active").attr('value');
+                    var $value = $("#btnCreerProjet .btn-active").attr('value');
                     jsRoutes.controllers.ProjetController.creerProjet().ajax({
                         data :$serialize+ '&priorite='+$value,
                         success : function(data) {
@@ -2194,6 +2763,10 @@
                     return messageDiv;
                 }
                 $( document ).ajaxComplete(function() {
+
+                    // Print the first selected project
+                    $('#' + $('.sidebar-projet.select').attr("name")).show();
+
                     $('#checkbox-notif-all-selected').click(function() {
                         if($('#checkbox-notif-all-selected').is(':checked')){
                             $("div.checkbox-notif input[type=checkbox]").each(function(){
@@ -2224,7 +2797,6 @@
                     });
 
 
-
                     $( "#btn-modifierProjet-admin" ).click(function() {
                         //$("#div-consulterProjet").css("display","none");
 
@@ -2238,51 +2810,6 @@
                         jQuery.fx.off = true;
                         $("#div-modifierProjet-admin").hide();
                         $("#div-consulterProjet-admin").show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client").hide();
-                        $("#div-modifierProjet-client").show();
-                        jQuery.fx.off = false;
-                    });
-
-
-                    $( "#btn-cancel-modifierProjet-client" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet-client").attr("name");
-                        $("#div-modifierProjet-client-" + idProjet).hide();
-                        $("#div-consulterProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-
-
-                    $( "#btn-modifierProjet" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-" + idProjet).hide();
-                        $("#div-modifierProjet-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-modifierProjet-client" ).click(function() {
-                        //$("#div-consulterProjet").css("display","none");
-                        var idProjet = $( "#btn-modifierProjet-client" ).attr("name");
-                        jQuery.fx.off = true;
-                        $("#div-consulterProjet-client-" + idProjet).hide();
-                        $("#div-modifierProjet-client-" + idProjet).show();
-                        jQuery.fx.off = false;
-                    });
-
-                    $( "#btn-cancel-modifierProjet" ).click(function() {
-                        jQuery.fx.off = true;
-                        var idProjet = $("#btn-cancel-modifierProjet").attr("name");
-                        $("#div-modifierProjet-" + idProjet).hide();
-                        $("#div-consulterProjet-" + idProjet).show();
                         jQuery.fx.off = false;
                     });
 
@@ -2339,16 +2866,7 @@
 
                     });
 
-                    $('#afficheListeProjet').click(function(){
 
-                        if($("#col-sidebar-liste-projet").is(":visible")){
-                            hideSideBarProjet();
-                        }
-                        else
-                        {
-                            showSideBarProjet();
-                        }
-                    });
 
                     $('#afficheRetour').click(function(){
 
@@ -2662,7 +3180,31 @@
                         language: "fr-FR"
 
                     });
+                    $('#datepicker_date_debutC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
 
+                    });
+                    $('#datepicker_date_fin_totC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
+                    $('#datepicker_date_fin_tardC .input-group.date').datepicker({
+                        todayBtn: "linked",
+                        keyboardNavigation: false,
+                        forceParse: false,
+                        calendarWeeks: true,
+                        autoclose: true,
+                        language: "fr-FR"
+                    });
 
 
 
@@ -2764,6 +3306,11 @@
                     modeDraftProjetAdmin();
                     $('#checkbox-draft-projet-admin').click(function() {
                         modeDraftProjetAdmin();
+                    });
+
+                    // Envoie de notification
+                    $(window).on('beforeunload', function(){
+                        jsRoutes.controllers.NotificationController.sendNotifications().ajax();
                     });
                 });
 
@@ -2872,41 +3419,41 @@
 
                             var $length = $('#table-modal-client-contacts-body tr > td:contains('+$email+')').length;
                             if($length>0){
-                            $("#successModifierClient").hide();
-                            $("#successModifierClientP").empty();
-                            var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
-                            $("#errorModifierClientP").html(messageDiv);
-                            $("#errorModifierClient").show();
-                            }else{
-                            $("#errorModifierClientP").empty();
-                            $("#errorModifierClient").hide();
-
-                            $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
-                            $("#successModifierClient").show();
-
-
-                            setTimeout(function(){
                                 $("#successModifierClient").hide();
-                            },4000);
+                                $("#successModifierClientP").empty();
+                                var messageDiv = '<br> - /!\\ @Messages("emailAlreadyUsed")';
+                                $("#errorModifierClientP").html(messageDiv);
+                                $("#errorModifierClient").show();
+                            }else{
+                                $("#errorModifierClientP").empty();
+                                $("#errorModifierClient").hide();
 
-                            var contact = $('#table-modal-client-contacts-body');
+                                $("#successModifierClientP").html('@Messages("contact") '+data.nom+ ' ' + data.prenom + ' @Messages("created")');
+                                $("#successModifierClient").show();
 
-                            var list ="";
-                            list+=('<tr value=" ">');
-                            list+=('<td class="first-td">'+data.nom+'</td>');
-                            list+=('<td class="first-td">'+data.prenom+'</td>');
-                            list+=('<td style="display:none;">'+data.email+'</td>');
-                            list+=('<td style="display:none;">'+data.telephone+'</td>');
-                            list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
-                            list+=('</tr>');
-                            contact.append(list);
-                            var size = listeNewContact.length;
-                            listeNewContact[size] = {};
-                            listeNewContact[size]["nom"] = data.nom;
-                            listeNewContact[size]["prenom"] = data.prenom;
-                            listeNewContact[size]["email"] = data.email;
-                            listeNewContact[size]["telephone"] = data.telephone;
-                            $(form)[0].reset();
+
+                                setTimeout(function(){
+                                    $("#successModifierClient").hide();
+                                },4000);
+
+                                var contact = $('#table-modal-client-contacts-body');
+
+                                var list ="";
+                                list+=('<tr value=" ">');
+                                list+=('<td class="first-td">'+data.nom+'</td>');
+                                list+=('<td class="first-td">'+data.prenom+'</td>');
+                                list+=('<td style="display:none;">'+data.email+'</td>');
+                                list+=('<td style="display:none;">'+data.telephone+'</td>');
+                                list+=('<td class="td-btn-suppr" style="vertical-align:middle;"><i class="fa fa-times"></i></td>');
+                                list+=('</tr>');
+                                contact.append(list);
+                                var size = listeNewContact.length;
+                                listeNewContact[size] = {};
+                                listeNewContact[size]["nom"] = data.nom;
+                                listeNewContact[size]["prenom"] = data.prenom;
+                                listeNewContact[size]["email"] = data.email;
+                                listeNewContact[size]["telephone"] = data.telephone;
+                                $(form)[0].reset();
                             }
                         },
                         error: function(errorMessage){
@@ -2919,7 +3466,7 @@
                     });
                 }
 
-              /* Afficher les Clients archivés */
+                /* Afficher les Clients archivés */
                 function clientsArchived(){
                     if($('#checkBoxClientsArchived').is(":checked")) {
                         $('.client-archived').show();
@@ -3136,65 +3683,133 @@ function filtreTDBproj(){
 
 
 
-                 //####################################################################
-                 //                         DRAFT PARSING
-                 //####################################################################
+                //####################################################################
+                //                         DRAFT PARSING
+                //####################################################################
 
 
-                 function parseDraft(idProjet){
-                     function ajoutTacheFille(tacheMere,tache){
-                         tacheMere["childrens"].push(tache);
-                     }
+                function parseDraft(idProjet){
+                    function ajoutTacheFille(tacheMere,tache){
+                        tacheMere["childrens"].push(tache);
+                    }
 
-                     function creerTache(tacheId){
-                         var tache={};
-                         tache["id"]=tacheId;
-                         tache["childrens"]=new Array();
-                         return tache;
-                     }
+                    function creerTache(tacheId,index,depth){
+                        var tache={};
+                        tache["index"]=index;
+                        tache["depth"]=index;
+                        tache["id"]=tacheId;
+                        tache["childrens"]=new Array();
+                        return tache;
+                    }
 
-                     var taches = {};
-                     taches["projectId"] = idProjet;
-                     taches["taches"] = new Array();
+                    var taches = {};
+                    taches["projectId"] = idProjet;
+                    taches["taches"] = new Array();
 
-                     var processNodes = function(currentElement, depth, taches, parent) {
-                         var currentTache;
-                         if($(currentElement).is("li")){
-                             currentTache=creerTache($(currentElement).attr('data-id'));
-                             console.log("depth: "+depth);
-                             if(depth==1){
-                                 taches["taches"].push(currentTache);
-                             }
-                             else{
-                                 ajoutTacheFille(parent,currentTache);
-                             }
+                    var processNodes = function(currentElement, depth, taches, parent,index) {
+                        var currentTache;
+                        if($(currentElement).is("li")){
+                            currentTache=creerTache($(currentElement).attr('data-id'),index,depth);
+                            console.log("depth: "+depth);
+                            if(depth==0){
+                                taches["taches"].push(currentTache);
+                            }
+                            else{
+                                ajoutTacheFille(parent,currentTache);
+                            }
 
-                             console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
-                         }
+                            console.log(Array(depth+1).join("--")+" "+$(currentElement).attr('data-id'));
+                        }
 
-                         if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
+                        var indexChild=0;
+                        if($(currentElement).children().size()==2 && $(currentElement).children().eq(1).is("ol")){
 
-                             $(currentElement).children().eq(1).children().each(function unFunction(element){
-                                 depth=depth+1;
-                                 processNodes($(this),depth, taches, currentTache);
-                             });
-                         }
-                     }
+                            $(currentElement).children().eq(1).children().each(function unFunction(element){
+                                depth=depth+1;
+                                processNodes($(this),depth, taches, currentTache,indexChild++);
+                            });
+                        }
+                        depth=depth-indexChild-1;
+                    }
 
 
-                     var depth =1;
-                     $("#table_taches_"+idProjet).children().each (function processNodesTmp()
-                     {
-                         processNodes(this, depth, taches, null);
+                    var depth =0;
+                    var indexChild=0;
+                    $("#table_taches_"+idProjet).children().each (function processNodesTmp()
+                    {
+                        processNodes(this, depth, taches, null,indexChild++);
 
-                     });
-                     var json = JSON.stringify(taches);
-                     console.log(json);
-                     return json;
-                 }
+                    });
+                    var json = JSON.stringify(taches);
+                    console.log(json);
+                    return json;
+                }
 
-                 //####################################################################
+                //####################################################################
 
+                //######### Modifier projet ##########
+
+                var modifierProjet = function(div) {
+                    var id = $(div).attr("value");
+                    var form = "#"+$(div).attr("form");
+                    alert(form);
+                    var serialize = $(form).serialize();
+                    var idBtn = "projet-modifier-btn-"+id;
+                    var priorite = $('#'+idBtn+' .btn-active').attr('value');
+
+                    alert(priorite);
+                    jsRoutes.controllers.ProjetController.modifierProjet(id).ajax({
+                        data: serialize+ '&priorite='+priorite,
+                        success : function(data) {
+                            $("#errorModifierProjetP").empty();
+                            $("#errorModifierProjet").hide();
+
+                            $("#successModifierProjetP").html('@Messages("project") '+data.nom+' @Messages("modified")');
+                            $("#successModifierProjet").show();
+                            setTimeout(function(){
+                                $("#successModifierProjet").hide();
+                            },4000);
+                            var div = "#div-consulterProjet-"+data.id;
+                            $(div).find('div[id=projetName]').html('@Messages("project"): '+data.nom);
+                            $(div).find('div[id=projetPriorite]').html(data.priorite);
+                            $(div).find('textarea[id=descriptionProjet]').html(data.description);
+                            var nom = "projet-"+data.id;
+                            $('.liste-projet').find('div[name='+nom+']').find('div[class=sidebar-projet-nom]').html(data.nom);
+                            $('.liste-projet').find('div[name='+nom+']').find('div[class=sidebar-client-projet-priorite]').find('div[class=valeur]').html(data.prioriteProjetEtClient);
+                            //modif des valeurs de la div
+                        },
+                        error: function(error){
+                            $("#successModifierProjet").hide();
+                            $("#successModifierProjetP").empty();
+
+                            var messageDiv = generateErrorModifierProjet(error);
+
+                            $("#errorModifierProjetP").html(messageDiv);
+                            $("#errorModifierProjet").show();
+                        }
+                    });
+                }
+
+                function generateErrorModifierProjet(errorMessage)
+                {
+                    var messageDiv = '@Messages("errors") : ';
+
+                    if(errorMessage.responseJSON.nomProjetVide==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameProjetEmptyError")';
+                    }
+                    else if(errorMessage.responseJSON.nomProjetTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("nameProjetTooLongError")';
+                    }
+
+                    if(errorMessage.responseJSON.descriptionTropLong==true)
+                    {
+                        messageDiv += '<br> - @Messages("descriptionTooLongError")';
+                    }
+                    return messageDiv;
+                }
         </script>
+
     </body>
 </html>
