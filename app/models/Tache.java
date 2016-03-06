@@ -28,6 +28,7 @@ public class Tache extends EntiteSecurise {
     public String nom;
     @Constraints.Required
     @Constraints.MinLength(4)
+    @Column(length=65535)
     public String description;
     @Constraints.Min(0)
     @Constraints.Max(3)
