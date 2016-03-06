@@ -496,8 +496,8 @@ taches:
     niveau:             1
     critique:           false
     dateDebut:          2016-05-22
-    dateFinTot:         2016-05-23
-    dateFinTard:        2016-05-24
+    dateFinTot:         2016-05-24
+    dateFinTard:        2016-05-25
     chargeInitiale:     2
     chargeConsommee:    0
     chargeRestante:       2
