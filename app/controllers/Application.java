@@ -5,6 +5,7 @@ import play.Logger;
 import play.Routes;
 import play.api.i18n.Lang;
 import play.i18n.Messages;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
@@ -14,7 +15,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.reflections.ReflectionUtils.getAllMethods;
 import static org.reflections.ReflectionUtils.withReturnType;
@@ -103,7 +106,17 @@ public class Application extends Controller {
         if (Messages.isDefined(message)) {
             return ok(play.i18n.Messages.get(message));
         } else {
-            return badRequest(message+" -> message indefined");
+            return badRequest(message + " -> message indefined");
+        }
+    }
+
+    public Result messagesMap() {
+        try {
+            final Properties config = new Properties();
+            config.load(play.Play.application().resourceAsStream("messages." + ctx().lang().code())); //example input stream
+            return ok(Json.toJson(config.stringPropertyNames().stream().collect(Collectors.toMap(key -> key, key -> Messages.get(key)))));
+        } catch (Exception e) {
+            return badRequest();
         }
     }
 
