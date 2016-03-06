@@ -101,6 +101,7 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
+        this.idTache = "";
 
         if(predecesseur == null){
             this.disponible = true;
@@ -204,7 +205,8 @@ public class Tache extends EntiteSecurise {
         }
         try {
             Tache tache = (Tache) obj;
-            return (tache.id.equals(this.id) && tache.nom.equals(this.nom) &&
+            // TODO : voir pour l'id
+            boolean conditionEquals = tache.nom.equals(this.nom) &&
                     tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
                     tache.critique.equals(this.critique) &&
@@ -216,8 +218,9 @@ public class Tache extends EntiteSecurise {
                     //tache.dateFinTard.equals(this.dateFinTard) &&
                     Utils.equals(tache.dateFinTard, this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
-                    tache.chargeRestante.equals(this.chargeRestante));
-        } catch (ClassCastException e) {
+                    tache.chargeRestante.equals(this.chargeRestante);
+            return conditionEquals ;
+        } catch (Exception e) {
             return false;
         }
     }
@@ -344,7 +347,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Il y a deja cette tache enfant pour cette tache");
         }
         enfants.add(fille);
-        save();
+        //save();
     }
 
     /**
@@ -360,7 +363,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Ce parametre est le meme que le parent de cette tache");
         }
         this.parent = parent;
-        save();
+        //save();
     }
 
     /**
@@ -419,8 +422,8 @@ public class Tache extends EntiteSecurise {
         if(!predecesseur.successeurs.contains(this)){
             predecesseur.successeurs.add(this);
         }
-        predecesseur.save();
-        save();
+        //predecesseur.save();
+        //save();
     }
 
     /**
@@ -449,22 +452,23 @@ public class Tache extends EntiteSecurise {
         if (this.successeurs.contains(successeur)) {
             throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
         }
+
         if(!checkPERT(this, successeur))
             throw new IllegalStateException("La tache " + nom + " a comme successeur (" + successeur.nom + ") " +
                     "une tâche présente dans sa hiérarchie directe.");
 
         successeur.associerPredecesseur(this);
         successeurs.add(successeur);
-        save();
+        //save();
     }
 
     public void supprimerSuccesseurs() throws IllegalStateException {
         for(Tache successeur : successeurs){
             successeur.predecesseur = null;
-            successeur.save();
+            //successeur.save();
         }
         successeurs.clear();
-        save();
+        //save();
     }
 
     public void associerInterlocuteur(Contact interlocuteur) throws IllegalStateException {
@@ -472,7 +476,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Il y a deja cet interlocuteur pour cette tache");
         }
         interlocuteurs.add(interlocuteur);
-        update();
+        //update();
         /*interlocuteur.listTachesCorrespondant.add(this);
         interlocuteur.update();*/
     }
@@ -480,10 +484,10 @@ public class Tache extends EntiteSecurise {
     public void supprimerInterlocuteurs() throws IllegalStateException {
         for(Contact interlocuteur : interlocuteurs){
             interlocuteur.listTachesCorrespondant.remove(this);
-            interlocuteur.save();
+            //interlocuteur.save();
         }
         interlocuteurs.clear();
-        save();
+        //save();
     }
 
     /**
@@ -758,5 +762,31 @@ public class Tache extends EntiteSecurise {
             }
         }
         return true;
+    }
+
+    public void saveAllTask() {
+        save();
+        if(hasPredecesseur())
+            predecesseur.save();
+        if(hasSuccesseur()){
+            for(Tache successeur : successeurs){
+                successeur.save();
+            }
+        }
+        if(hasParent())
+            parent.save();
+
+        if(hasEnfant()) {
+            for (Tache enfant : enfants) {
+                enfant.save();
+            }
+        }
+        if(utilisateursNotifications != null){
+            for(Utilisateur user : utilisateursNotifications){
+                user.save();
+            }
+        }
+        save();
+        //responsableTache.save();
     }
 }

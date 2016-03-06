@@ -450,16 +450,22 @@
                 });
 
                 var creerSousTache = function(btn){
+                    console.log("main.scala : creerSousTache appelé");
                     var idTacheSelect = $(btn).attr("data");
                     var dataToSend = creerDataFormulaireCreationTache(btn);
 
                     if(dataToSend == -1){
 
                     }else{
+                        console.log("main.scala : appel du controlleur creerSousTache");
                         jsRoutes.controllers.TacheController.creerSousTache(idTacheSelect).ajax({
                             data: dataToSend,
                             success : function(data) {
-
+                                console.log("main.scala : success");
+                            },
+                            error : function(errorMessage){
+                                console.log("main.scala > creerSousTache => error");
+                                console.log("-----------> " + errorMessage)
                             }
                         });
                     }

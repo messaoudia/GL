@@ -33,15 +33,18 @@ public class TacheController  extends Controller {
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
 
-        newTache.niveau = mere.niveau+1;
-        newTache.critique = false;
-        newTache.projet = mere.projet;
-        newTache.update();
+        //newTache.niveau = mere.niveau+1;
+        //newTache.critique = false;
+        //newTache.projet = mere.projet;
+        //newTache.update();
 
         try {
             projet.creerSousTache(newTache , mere);
         } catch (Exception e) {
-            return badRequest();
+            System.out.println("Affichage de l'exception : ");
+            e.printStackTrace();
+            //System.out.println("--> " + e.getMessage());
+            return badRequest(/*e.getMessage()*/);
         }
         return ok();
     }
@@ -125,7 +128,7 @@ public class TacheController  extends Controller {
 
         newTache.nom = newNomTache;
         newTache.description = newDescTache;
-        newTache.save();
+        //newTache.save();
         newTache.chargeInitiale = newChInitiale;
         newTache.chargeConsommee = newChConso;
         newTache.chargeRestante = newChRestante;
@@ -149,7 +152,7 @@ public class TacheController  extends Controller {
         newTache.dateDebut = newDebut;
         newTache.dateFinTot = newFinTot;
         newTache.dateFinTard = newFinTard;
-        newTache.update();
+        //newTache.update();
 
         return newTache;
     }
