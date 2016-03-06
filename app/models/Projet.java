@@ -179,7 +179,7 @@ public class Projet extends EntiteSecurise {
         }
         try {
             Projet projet = (Projet) obj;
-            return (projet.id.equals(this.id) && projet.nom.equals(this.nom) &&
+            return (projet.nom.equals(this.nom) &&
                     projet.description.equals(this.description) &&
                     //projet.dateDebutTheorique.equals(this.dateDebutTheorique) &&
                     Utils.equals(projet.dateDebutTheorique, this.dateDebutTheorique) &&

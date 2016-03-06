@@ -71,7 +71,7 @@ public class Client extends EntiteSecurise {
         }
         try {
             Client client = (Client) obj;
-            return (client.id.equals(this.id) && client.nom.equals(this.nom) && client.priorite.equals(this.priorite)
+            return (client.nom.equals(this.nom) && client.priorite.equals(this.priorite)
                     && client.archiver.equals(this.archiver) && client.adresseClient.equals(this.adresseClient));
         } catch (ClassCastException e) {
             return false;
