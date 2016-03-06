@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.annotation.Transactional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Contact;
@@ -79,8 +80,13 @@ public class DashboardController extends Controller{
     }
 
     public Result modifierTache(){
+        Logger.debug("modifierTache");
         Map<String, String[]> map = request().body().asFormUrlEncoded();
 
+        return modifierTacheMap(map);
+    }
+
+    public static Result modifierTacheMap(Map<String,String[]> map){
         for (Map.Entry<String, String[]> entry : map.entrySet()) {
             Logger.debug("Key : " + entry.getKey() + " Value : " + entry.getValue()[0]);
         }
@@ -136,6 +142,7 @@ public class DashboardController extends Controller{
 
             tache.nom = newNomTache;
             tache.description = newDescTache;
+            tache.update();
             if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
                 tache.chargeInitiale = newChInitiale;
                 tache.modifierCharge(newChConso, newChRestante);
@@ -147,20 +154,21 @@ public class DashboardController extends Controller{
                 tache.modifierResponsable(newResponsable);
             }
 
-            /*tache.supprimerSuccesseurs();
+            tache.supprimerSuccesseurs();
             for(Tache succ : successeurs){
                 tache.associerSuccesseur(succ);
             }
 
             tache.supprimerInterlocuteurs();
+
             for(Contact inter : interlocuteurs){
                 tache.associerInterlocuteur(inter);
-            }*/
+            }
 
             tache.dateDebut = newDebut;
             tache.dateFinTot = newFinTot;
             tache.dateFinTard = newFinTard;
-            tache.save();
+            tache.update();
 
             Tache t = Tache.find.byId(tache.id);
             Logger.debug(t.toString());

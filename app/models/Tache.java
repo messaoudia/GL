@@ -1,9 +1,11 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.util.ContainerBuilder;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
@@ -99,6 +101,7 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
+        this.idTache = "";
 
         if(predecesseur == null){
             this.disponible = true;
@@ -202,7 +205,8 @@ public class Tache extends EntiteSecurise {
         }
         try {
             Tache tache = (Tache) obj;
-            return (tache.id.equals(this.id) && tache.nom.equals(this.nom) &&
+            // TODO : voir pour l'id
+            boolean conditionEquals = tache.nom.equals(this.nom) &&
                     tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
                     tache.critique.equals(this.critique) &&
@@ -214,14 +218,28 @@ public class Tache extends EntiteSecurise {
                     //tache.dateFinTard.equals(this.dateFinTard) &&
                     Utils.equals(tache.dateFinTard, this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
-                    tache.chargeRestante.equals(this.chargeRestante));
-        } catch (ClassCastException e) {
+                    tache.chargeRestante.equals(this.chargeRestante);
+            return conditionEquals ;
+        } catch (Exception e) {
             return false;
         }
     }
 
     public List<Tache> getSuccesseurs() {
         return find.where().eq("predecesseur", this).findList();
+    }
+
+    public List<Contact> getInterlocuteurs(){
+        List<Contact> listContacts =  Contact.find.all();
+        List<Contact> result =  new ArrayList<>();
+
+        for(Contact contact : listContacts){
+            if(contact.listTachesCorrespondant.contains(this)){
+                result.add(contact);
+            }
+        }
+
+        return result;
     }
 
     public List<Tache> getEnfants() {
@@ -329,7 +347,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Il y a deja cette tache enfant pour cette tache");
         }
         enfants.add(fille);
-        save();
+        //save();
     }
 
     /**
@@ -345,7 +363,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Ce parametre est le meme que le parent de cette tache");
         }
         this.parent = parent;
-        save();
+        //save();
     }
 
     /**
@@ -391,6 +409,12 @@ public class Tache extends EntiteSecurise {
         if (this.predecesseur == predecesseur) {
             throw new IllegalStateException("Ce parametre est le meme que le predecesseur de cette tache");
         }
+
+        if(!checkPERT(this, predecesseur))
+            throw new IllegalStateException("La tache " + nom + " a comme predecesseur (" + predecesseur.nom + ") " +
+                    "une tâche présente dans sa hiérarchie directe.");
+
+
         this.predecesseur = predecesseur;
         if(predecesseur.successeurs == null){
             predecesseur.successeurs = new BeanList<>();
@@ -398,8 +422,8 @@ public class Tache extends EntiteSecurise {
         if(!predecesseur.successeurs.contains(this)){
             predecesseur.successeurs.add(this);
         }
-        predecesseur.save();
-        save();
+        //predecesseur.save();
+        //save();
     }
 
     /**
@@ -428,37 +452,42 @@ public class Tache extends EntiteSecurise {
         if (this.successeurs.contains(successeur)) {
             throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
         }
+
+        if(!checkPERT(this, successeur))
+            throw new IllegalStateException("La tache " + nom + " a comme successeur (" + successeur.nom + ") " +
+                    "une tâche présente dans sa hiérarchie directe.");
+
         successeur.associerPredecesseur(this);
         successeurs.add(successeur);
-        save();
+        //save();
     }
 
     public void supprimerSuccesseurs() throws IllegalStateException {
         for(Tache successeur : successeurs){
             successeur.predecesseur = null;
-            successeur.save();
+            //successeur.save();
         }
         successeurs.clear();
-        save();
+        //save();
     }
 
     public void associerInterlocuteur(Contact interlocuteur) throws IllegalStateException {
         if (this.interlocuteurs.contains(interlocuteur)) {
             throw new IllegalStateException("Il y a deja cet interlocuteur pour cette tache");
         }
-        interlocuteur.listTachesCorrespondant.add(this);
-        interlocuteur.save();
         interlocuteurs.add(interlocuteur);
-        save();
+        //update();
+        /*interlocuteur.listTachesCorrespondant.add(this);
+        interlocuteur.update();*/
     }
 
     public void supprimerInterlocuteurs() throws IllegalStateException {
         for(Contact interlocuteur : interlocuteurs){
             interlocuteur.listTachesCorrespondant.remove(this);
-            interlocuteur.save();
+            //interlocuteur.save();
         }
         interlocuteurs.clear();
-        save();
+        //save();
     }
 
     /**
@@ -543,7 +572,7 @@ public class Tache extends EntiteSecurise {
         return parent != null;
     }
     public boolean hasEnfant() {
-        return enfants != null || enfants.isEmpty();
+        return enfants != null && !enfants.isEmpty();
     }
 
     /**
@@ -687,5 +716,77 @@ public class Tache extends EntiteSecurise {
     @JsonSerialize
     public boolean hasResponsableActivateNotification(){
         return utilisateursNotifications.contains(responsableTache);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants)
+     * @param tache
+     * @param predecesseur
+     * @return
+     */
+    public static boolean checkPERT(Tache tache, Tache tachePert){
+        return checkPERTRecursifVersPredecesseur(tache, tachePert) && checkPERTRecursifVersSuccesseurs(tache, tachePert);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants) : Vérifie vers le haut de la hiérarchie
+     * @param currentTache
+     * @param tachePert
+     * @return
+     */
+    private static boolean checkPERTRecursifVersPredecesseur(Tache currentTache, Tache tachePert){
+        if(currentTache == null)
+            return true;
+        if(tachePert.equals(currentTache))
+            return false;
+        return checkPERTRecursifVersPredecesseur(currentTache.parent, tachePert);
+    }
+
+    /**
+     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * (taches meres directs et tous ses enfants) : Vérifie vers le bas de la hiérarchie
+     * @param currentTache
+     * @param tachePert
+     * @return
+     */
+    private static boolean checkPERTRecursifVersSuccesseurs(Tache currentTache, Tache tachePert){
+        if(currentTache == null)
+            return true;
+        if(tachePert.equals(currentTache))
+            return false;
+        for(Tache successeur : currentTache.getSuccesseurs()){
+            if(!checkPERTRecursifVersSuccesseurs(successeur, tachePert)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void saveAllTask() {
+        save();
+        if(hasPredecesseur())
+            predecesseur.save();
+        if(hasSuccesseur()){
+            for(Tache successeur : successeurs){
+                successeur.save();
+            }
+        }
+        if(hasParent())
+            parent.save();
+
+        if(hasEnfant()) {
+            for (Tache enfant : enfants) {
+                enfant.save();
+            }
+        }
+        if(utilisateursNotifications != null){
+            for(Utilisateur user : utilisateursNotifications){
+                user.save();
+            }
+        }
+        save();
+        //responsableTache.save();
     }
 }

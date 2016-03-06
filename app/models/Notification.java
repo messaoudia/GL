@@ -103,7 +103,7 @@ public class Notification extends Model {
         final Email email = new Email();
         email.setSubject(notification.title);
         email.setFrom("NE-PAS-REPONDRE <myproject.polytechparissud@gmail.com>");
-        email.addTo(user.prenom + " " + user.nom + "\"" +user.prenom + " " + user.nom +" <" + user.email + ">\"");
+        email.addTo(user.email);
         email.setBodyHtml(notification.contentNotification);
         Mail.sendEmail(email);
     }

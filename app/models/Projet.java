@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
+import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -107,7 +108,6 @@ public class Projet extends EntiteSecurise {
             this.chargeRestante = chargeInitiale;
         }else{
             this.listTaches = listTaches;
-            System.out.println(listTaches);
             updateAvancementGlobal();
         }
 
@@ -166,7 +166,7 @@ public class Projet extends EntiteSecurise {
     }
 
     public Projet() {
-        this.listTaches = new BeanList<>();
+        listTaches = new BeanList<>();
     }
 
     @Override
@@ -258,7 +258,7 @@ public class Projet extends EntiteSecurise {
 
             if(!tache.parent.enfants.contains(tache)){
                 tache.parent.enfants.add(tache);
-                tache.parent.save();
+                //tache.parent.save();
             }
         }
 
@@ -282,7 +282,7 @@ public class Projet extends EntiteSecurise {
                     throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(enfant.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
 
                 enfant.parent = tache;
-                enfant.save();
+                //enfant.save();
             }
         }
 
@@ -298,22 +298,17 @@ public class Projet extends EntiteSecurise {
             if(Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard))
                 throw new IllegalArgumentException("La tache " + tache.nom + " a une date de debut ("+ formateDate(tache.dateDebut)+") avant la date de fin au plus tard ("+ formateDate(tache.predecesseur.dateFinTard)+") de son predecesseur [" + tache.predecesseur.nom + "]");
 
-            if(!checkPERT(tache, tache.predecesseur)){
+            if(!Tache.checkPERT(tache, tache.predecesseur)){
                 throw new IllegalArgumentException("Le predecesseur " + tache.predecesseur.nom +
                 " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
-            }
-            for(Tache successeur : tache.successeurs){
-                if(!checkPERT(tache, successeur)){
-                    throw new IllegalArgumentException("Le successeur " + successeur +
-                            " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
-                }
             }
 
             if(!tache.predecesseur.successeurs.contains(tache)){
                 tache.predecesseur.successeurs.add(tache);
-                tache.predecesseur.save();
+                //tache.predecesseur.save();
             }
         }
+
         // Met a jour les successeur
         if(tache.hasSuccesseur()){
             if(tache.successeurs.contains(tache))
@@ -324,28 +319,39 @@ public class Projet extends EntiteSecurise {
                 if(Utils.after(tache.dateFinTard, successeur.dateDebut))
                     throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") après la date de début ("+ formateDate(successeur.dateDebut)+") de son successeur [" + successeur.nom + "]");
 
+                if(!Tache.checkPERT(tache, successeur)){
+                    throw new IllegalArgumentException("Le successeur " + successeur +
+                            " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
+                }
                 successeur.predecesseur = tache;
-                successeur.save();
+                //successeur.save();
             }
         }
 
+        tache.responsableTache.update();
+        tache.projet = this;
+        tache.save();
+        listTaches.add(tache);
+
+        saveAllProject();
+
+        // TODO : faire tous les save
+
+        updateDatesProjet(tache);
+        // TODO : mettre a jour les charges des taches meres -> a checker
+        tache.initCharge(0.0, tache.chargeInitiale);
+        // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
 
         // Initialisation des personnes a notifié par défaut à la création de la tache
         tache.addUtilisateurNotification(tache.responsableTache);
         tache.initUtilisateursNotificationsEnfants();
         tache.initUtilisateursNotificationsParents();
         this.addUtilisateurNotification(tache.responsableTache);
-        tache.projet = this;
-        tache.save();
-        listTaches.add(tache);
-        updateDatesProjet(tache);
-        // TODO : mettre a jour les charges des taches meres -> a checker
-        tache.initCharge(0.0, tache.chargeInitiale);
-        // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
+
         updateAvancementGlobal();
-        save();
+        saveAllProject();
         calculeCheminCritique();
-        save();
+        saveAllProject();
     }
 
     private void updateDatesProjet(Tache tache){
@@ -501,12 +507,13 @@ public class Projet extends EntiteSecurise {
             throw new IllegalArgumentException("La tache " + parent.nom +
                     " ne peut pas avoir de sous-tâche car elle est déjà au niveau de profondeur maximum ("+Tache.NIVEAU_MAX + ")");
         }
+
         if(!listTaches.contains(parent)){
             throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+parent.nom);
         }
-        if (listTaches.contains(tache)) {
-            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
-                    ", creation impossible");
+
+        if(listTaches.contains(tache)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +", creation impossible");
         }
 
         // Même niveau et parent que la tache en dessous
@@ -520,7 +527,6 @@ public class Projet extends EntiteSecurise {
 
         // Si le parent a l'id 'A.B.C', alors tache a l'id 'A.B.C.1'
         tache.idTache = parent.idTache + ".1";
-
         ajouterTache(tache);
         save();
     }
@@ -1010,49 +1016,62 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
-     * (taches meres directs et tous ses enfants)
-     * @param tache
-     * @param predecesseur
+     * TODO : a utiliser dans draftProjet
      * @return
      */
-    public boolean checkPERT(Tache tache, Tache tachePert){
-        return checkPERTRecursifVersPredecesseur(tache, tachePert) && checkPERTRecursifVersSuccesseurs(tache, tachePert);
-    }
-
-    /**
-     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
-     * (taches meres directs et tous ses enfants) : Vérifie vers le haut de la hiérarchie
-     * @param currentTache
-     * @param tachePert
-     * @return
-     */
-    private boolean checkPERTRecursifVersPredecesseur(Tache currentTache, Tache tachePert){
-        if(currentTache == null)
-            return true;
-        if(tachePert.equals(currentTache))
-            return false;
-        return checkPERTRecursifVersPredecesseur(currentTache.parent, tachePert);
-    }
-
-    /**
-     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
-     * (taches meres directs et tous ses enfants) : Vérifie vers le bas de la hiérarchie
-     * @param currentTache
-     * @param tachePert
-     * @return
-     */
-    private boolean checkPERTRecursifVersSuccesseurs(Tache currentTache, Tache tachePert){
-        if(currentTache == null)
-            return true;
-        if(tachePert.equals(currentTache))
-            return false;
-        for(Tache successeur : currentTache.getSuccesseurs()){
-            if(!checkPERTRecursifVersSuccesseurs(successeur, tachePert)){
+    public boolean checkProjet(){
+        for(Tache tache : listTaches){
+            // Verification des predecesseur et successeurs
+            if(tache.hasPredecesseur() && (Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard)
+                    || !Tache.checkPERT(tache, tache.predecesseur))){
                 return false;
+            }
+
+            if(tache.hasSuccesseur()){
+                for(Tache successeur : tache.successeurs){
+                    if(!Tache.checkPERT(tache, successeur) || Utils.after(tache.dateFinTard, successeur.dateDebut))
+                        return false;
+                }
+            }
+
+            // Vérification des dates des parents
+            if(tache.hasParent() && (Utils.after(tache.parent.dateDebut, tache.dateDebut)
+                    || Utils.before(tache.parent.dateFinTot, tache.dateFinTot)
+                    || Utils.before(tache.parent.dateFinTard, tache.dateFinTard))){
+                    return false;
+            }
+
+            // Vérification des dates des enfants
+            if(tache.hasEnfant()){
+                for(Tache enfant : tache.enfants){
+                    if(Utils.after(tache.dateDebut, enfant.dateDebut)
+                            ||Utils.before(tache.dateFinTot, enfant.dateFinTot)
+                            ||Utils.before(tache.dateFinTard, enfant.dateFinTard)){
+                        Logger.debug("Utils.after(tache.dateDebut, enfant.dateDebut)"+Utils.after(tache.dateDebut, enfant.dateDebut));
+                        Logger.debug("Utils.before(tache.dateFinTot, enfant.dateFinTot)"+Utils.before(tache.dateFinTot, enfant.dateFinTot));
+                        Logger.debug("Utils.before(tache.dateFinTard, enfant.dateFinTard)"+Utils.before(tache.dateFinTard, enfant.dateFinTard));
+                        return false;
+                    }
+                }
             }
         }
         return true;
+    }
+
+    public void saveAllProject(){
+        for(Tache tache : listTaches){
+            tache.saveAllTask();
+        }
+        //client.save();
+        if(utilisateursNotifications != null){
+            for(Utilisateur user : utilisateursNotifications){
+                user.save();
+            }
+        }
+
+        save();
+        //responsableProjet.save();
+
     }
 
 }
