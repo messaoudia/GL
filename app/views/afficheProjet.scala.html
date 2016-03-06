@@ -261,7 +261,9 @@
 <div style="margin-top: 30px ; padding-top:0px ;" class="row wrapper wrapper-content white-bg">
     <div style="margin:auto ;">
         <div class="panel-body">
-            <div class="row">
+            @if(projet.responsableProjet.id==utilisateur.id){
+
+                <div class="row">
                 <div class="switch" style="display:inline-block ; float:right ;">
                     <div class="onoffswitch">
                         <input class="onoffswitch-checkbox" id="checkbox-draft-projet-@projet.id" type="checkbox" onclick="changeModeDraftProjet(@projet.id)">
@@ -273,7 +275,8 @@
                 </div>
                 <p style="display:inline-block ; margin-left:5px ; vertical-align:middle ; font-weight: bold ; float: right ; padding-right: 5px ;"> @Messages("draftMode")</p>
             </div>
-            <div class="row row-options-admin-projet">
+            }
+        <div class="row row-options-admin-projet">
                 <div class="col-sm-3">
                     <div class="checkbox checkbox-success checkbox-circle">
                         <input id="checkbox-taches-terminees" type="checkbox">
