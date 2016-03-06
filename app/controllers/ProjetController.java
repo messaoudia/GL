@@ -1,11 +1,13 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import models.*;
 import models.Error;
 import models.Utils.Utils;
 import play.Logger;
 import play.db.ebean.Transactional;
+import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -16,6 +18,7 @@ import views.html.projet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -173,29 +176,36 @@ public class ProjetController extends Controller {
 
         Logger.debug(jsonDraft.toString());
 
-        parseDraftToProject(jsonDraft);
 
-        return ok(jsonDraft.toString());
+        Projet projet = parseDraftToProject(jsonDraft);
+
+        if (projet.checkProjet()) {
+            projet.listTaches.forEach(tache -> tache.save());
+            projet.save();
+            return ok(jsonDraft.toString());
+        } else {
+            return badRequest(Json.toJson(ImmutableMap.of("error", Messages.get("nonCoherentProject"))));
+        }
+
     }
 
     @Transactional
     public static Projet parseDraftToProject(JsonNode draft) {
         Projet projet = Projet.find.byId(draft.get("projectId").asLong());
 
-        final List<Long> tacheDuProjetIds = elementsToStream(draft.get("taches").elements()).map(tache -> tache.get("id").asLong()).collect(Collectors.toList());
-        final List<Tache> taches = Tache.find.where().idIn(tacheDuProjetIds).findList();
+        final List<Long> tacheDuProjetIds = draft.findValues("id").stream().map(node -> node.asLong()).collect(Collectors.toList());
+        final Map<Long, Tache> taches = Tache.find.where().idIn(tacheDuProjetIds).findList().stream().collect(Collectors.toMap(x -> x.id, Function.identity()));
 
 
         draft.get("taches").findValuesAsText("id").forEach(Logger::debug);
 
-        projet.listTaches = taches; //TODO Bring all tache with inscestor
-        projet.save();
+        projet.listTaches = taches.values().parallelStream().collect(Collectors.toList()); //TODO Bring all tache with inscestor
 
         final List<JsonNode> tachesNodes = elementsToStream(draft.get("taches").elements()).collect(Collectors.toList());
-        draft.get("taches").elements();
+
         Integer index = 1;
         for (JsonNode tacheNode : tachesNodes) {
-            dfsTraversalJsNode(null, tacheNode, index++);
+            dfsTraversalJsNode(null, tacheNode, index++, taches);
             Logger.debug("Index: " + index.toString() + ", tacheId: " + tacheNode.get("id"));
         }
 
@@ -204,12 +214,13 @@ public class ProjetController extends Controller {
     }
 
     @Transactional
-    public static void dfsTraversalJsNode(JsonNode parentTacheNode, JsonNode currentTacheNode, Integer index) {
-        final Tache parentTache = parentTacheNode != null ? Tache.find.byId(parentTacheNode.get("id").asLong()) : null;
-        final Tache currentTache = Tache.find.byId(currentTacheNode.get("id").asLong());
+    public static void dfsTraversalJsNode(JsonNode parentTacheNode, JsonNode currentTacheNode, Integer index, Map<Long, Tache> taches) {
+        final Tache parentTache = parentTacheNode != null ? taches.get(parentTacheNode.get("id").asLong()) : null;
+        final Tache currentTache = taches.get(currentTacheNode.get("id").asLong());
 
-        final List<Tache> childrenTaches = elementsToStream(currentTacheNode.get("childrens")
-                .elements()).map(tache -> Tache.find.byId(tache.get("id").asLong())).collect(Collectors.toList());
+        final List<Tache> childrenTaches = elementsToStream(currentTacheNode.get("childrens").elements())
+                .map(tache -> taches.get(tache.get("id").asLong()))
+                .collect(Collectors.toList());
 
         if (parentTache == null) {
             currentTache.idTache = index.toString();
@@ -218,23 +229,23 @@ public class ProjetController extends Controller {
         currentTache.enfants = childrenTaches;
         childrenTaches.forEach(child -> {
             child.parent = currentTache;
-            child.save();
+            // child.save();
         });
 
         currentTache.parent = parentTache;
         currentTache.niveau = currentTacheNode.get("depth").asInt();
-        currentTache.save();
+        //currentTache.save();
 
         List<JsonNode> childrens = elementsToStream(currentTacheNode.get("childrens").elements()).collect(Collectors.toList());
 
         Integer indexEnfant = 1;
         for (int i = 0; i < childrens.size(); i++) {
             JsonNode children = childrens.get(0);
-            Tache childrenTache = Tache.find.byId(children.get("id").asLong(0));
+            Tache childrenTache = taches.get(children.get("id").asLong(0));
             childrenTache.idTache = currentTache.idTache + "." + (indexEnfant++);
-            childrenTache.update();
+            //childrenTache.update();
 
-            dfsTraversalJsNode(currentTacheNode, children, index);
+            dfsTraversalJsNode(currentTacheNode, children, index, taches);
         }
     }
 

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
+import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -1039,6 +1040,9 @@ public class Projet extends EntiteSecurise {
                     if(Utils.after(tache.dateDebut, enfant.dateDebut)
                             ||Utils.before(tache.dateFinTot, enfant.dateFinTot)
                             ||Utils.before(tache.dateFinTard, enfant.dateFinTard)){
+                        Logger.debug("Utils.after(tache.dateDebut, enfant.dateDebut)"+Utils.after(tache.dateDebut, enfant.dateDebut));
+                        Logger.debug("Utils.before(tache.dateFinTot, enfant.dateFinTot)"+Utils.before(tache.dateFinTot, enfant.dateFinTot));
+                        Logger.debug("Utils.before(tache.dateFinTard, enfant.dateFinTard)"+Utils.before(tache.dateFinTard, enfant.dateFinTard));
                         return false;
                     }
                 }

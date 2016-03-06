@@ -568,7 +568,7 @@ public class Tache extends EntiteSecurise {
         return parent != null;
     }
     public boolean hasEnfant() {
-        return enfants != null || enfants.isEmpty();
+        return enfants != null && !enfants.isEmpty();
     }
 
     /**

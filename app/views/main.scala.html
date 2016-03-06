@@ -262,7 +262,7 @@
                         console.log(draftParsedAsJson);
                         jsRoutes.controllers.ProjetController.sendDraf().ajax({
                             data: draftParsedAsJson,
-                            dataType: 'json',
+                            dataType: "json",
                             contentType: "application/json",
                             success : function(data) {
                                 console.log(data);
@@ -287,6 +287,7 @@
 
                             },
                             error: function(errorMessage){
+                                $('#modal-draft-projet').modal('show');
                                 console.error(errorMessage);
                             }
                         });
