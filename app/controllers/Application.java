@@ -4,6 +4,7 @@ import models.Utilisateur;
 import play.Logger;
 import play.Routes;
 import play.api.i18n.Lang;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
@@ -90,12 +91,20 @@ public class Application extends Controller {
         return redirect(request().getHeader("referer"));
     }
 
-    public Result getLangue(){
+    public Result getLangue() {
         return ok(Login.getUtilisateurConnecte().langue);
     }
 
     public Result getDraft() {
         return ok(draftTest.render());
+    }
+
+    public Result messages(String message) {
+        if (Messages.isDefined(message)) {
+            return ok(play.i18n.Messages.get(message));
+        } else {
+            return badRequest(message+" -> message indefined");
+        }
     }
 
 }
