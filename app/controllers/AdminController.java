@@ -7,14 +7,12 @@ import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.adminClients;
-import views.html.adminProjets;
-import views.html.adminUtilisateur;
-import views.html.adminProjetsSelect;
+import views.html.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -174,10 +172,24 @@ public class AdminController extends Controller{
             }
 
             if(!p.client.equals(client)){
+                // on enleve le projet de l'ancien
+                Logger.debug("on est la");
+                Optional<Projet> projet = p.client.listeProjets.stream().filter(projetC -> projetC.id == p.id).findFirst();
+                if (projet.isPresent()) {
+                   p.client.listeProjets.remove(projet);
+                } else {
+                    System.out.println("T'es dans la merde");
+                }
+                p.client.save();
                 p.client = client;
             }
             p.save();
             return ok(Json.toJson(p));
         }
+    }
+
+    public Result redirectDashboard(){
+        Logger.debug(dashboard.render("Dashboard", Login.getUtilisateurConnecte()).toString());
+        return ok(dashboard.render("Dashboard", Login.getUtilisateurConnecte()));   // provisoir en attendant login
     }
 }

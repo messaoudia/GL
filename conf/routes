@@ -107,3 +107,4 @@ POST        /modifProjet                                    controllers.ProjetCo
 POST        /envoieNotifications                            controllers.NotificationController.sendNotifications()
 POST        /checkMdpAdmin                                  controllers.AdminController.checkMdpAdmin(pswd : String)
 POST        /modifProjetSelect                              controllers.AdminController.modifierProjet(id :Long)
+POST         /redirectDashBoard                              controllers.AdminController.redirectDashboard()
