@@ -83,15 +83,32 @@ $(document).on("click",".close", function(event){
             //Case we have a problem
             error: function(error){
                 var messageDiv = "";
-                messageDiv += '@Messages("errors") : ';
+                jsRoutes.controllers.Application.messages("errors").ajax({
+                    success: function(data) {
+                        messageDiv+=JSON.stringify(data);
+                    }
+                });
                 if(error.responseJSON.mdpVide==true)
                 {
-                    messageDiv += '<br> - @Messages("mdpEmptyError")';
+                    jsRoutes.controllers.Application.messages("mdpEmptyError").ajax({
+                        success: function(data) {
+                            console.log(JSON.stringify(data));
+                            messageDiv += '<br> - '+JSON.stringify(data);
+                            $("#errorMdpAdminP").html(messageDiv);
+                            $("#errorMdpAdmin").show();
+                        }
+                    });
                 }else if(error.responseJSON.mdpIncorrecte == true){
-                    messageDiv += '<br> - @Messages("mdpIncorrecteError")';
+                    jsRoutes.controllers.Application.messages("mdpIncorrecteError").ajax({
+                        success: function(data) {
+                            console.log(JSON.stringify(data));
+                            messageDiv += '<br> - '+JSON.stringify(data);
+                            $("#errorMdpAdminP").html(messageDiv);
+                            $("#errorMdpAdmin").show();
+                        }
+                    });
                 }
-                $("#errorMdpAdminP").html(messageDiv);
-                $("#errorMdpAdmin").show();
+
             }
         });
 
