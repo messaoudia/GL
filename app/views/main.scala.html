@@ -272,11 +272,6 @@
                                     success: function(data){
                                         $('#projet-'+idProjet).html(data);
                                         $('#client-projet-'+idProjet).html(data);
-//                                        var idProjet = '#' + $('.sidebar-projet.select').attr("name");
-//                                        $('.sidebar-projet.select').removeClass("select");
-//                                        $(idProjet).hide();
-//                                        $(this).addClass("select");
-//                                        var newIdProjet = '#' + $(this).attr("name");
                                         $('#projet-'+idProjet).show();
 
                                     },
@@ -462,6 +457,32 @@
                             data: dataToSend,
                             success : function(data) {
                                 console.log("main.scala : success");
+                                $('#modal-tache-creer').modal('toggle');
+
+
+                                jsRoutes.controllers.TacheController.getTacheById(idTacheSelect).ajax({
+                                    success : function(tache){
+                                        var projetId = tache.projet.id;
+                                        // Refresh project view
+                                        jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
+                                            success: function(data){
+                                                $('#projet-'+projetId).html(data);
+                                                $('#client-projet-'+projetId).html(data);
+                                                $('#projet-'+projetId).show();
+                                                console.log("AfficheProjet OK : "+projetId);
+                                            },
+                                            error:function(errorMessage){
+                                                console.log(errorMessage);
+                                                console.log("AfficheProjet KO : "+projetId);
+                                            }
+                                        });
+                                    },
+                                    error : function(errorMessage){
+                                        console.log(errorMessage);
+                                    }
+                                });
+
+
                             },
                             error : function(errorMessage){
                                 console.log("main.scala > creerSousTache => error");
