@@ -41,7 +41,7 @@ public class TacheController  extends Controller {
         try {
             projet.creerSousTache(newTache , mere);
         } catch (Exception e) {
-            System.out.println("Affichage de l'exception : ");
+            Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
             //System.out.println("--> " + e.getMessage());
             return badRequest(/*e.getMessage()*/);
@@ -60,6 +60,8 @@ public class TacheController  extends Controller {
         try {
             projet.creerTacheAuDessus(newTache , mere);
         } catch (Exception e) {
+            Logger.debug("Affichage de l'exception : ");
+            e.printStackTrace();
             return badRequest();
         }
         return ok();
@@ -75,8 +77,9 @@ public class TacheController  extends Controller {
         try {
             projet.creerTacheEnDessous(newTache , mere);
         } catch (Exception e) {
-            return badRequest();
-        }
+            Logger.debug("Affichage de l'exception : ");
+            e.printStackTrace();
+            return badRequest();        }
         return ok();
     }
 

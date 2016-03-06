@@ -459,30 +459,8 @@
                                 console.log("main.scala : success");
                                 $('#modal-tache-creer').modal('toggle');
 
-
-                                jsRoutes.controllers.TacheController.getTacheById(idTacheSelect).ajax({
-                                    success : function(tache){
-                                        var projetId = tache.projet.id;
-                                        // Refresh project view
-                                        jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
-                                            success: function(data){
-                                                $('#projet-'+projetId).html(data);
-                                                $('#client-projet-'+projetId).html(data);
-                                                $('#projet-'+projetId).show();
-                                                console.log("AfficheProjet OK : "+projetId);
-                                            },
-                                            error:function(errorMessage){
-                                                console.log(errorMessage);
-                                                console.log("AfficheProjet KO : "+projetId);
-                                            }
-                                        });
-                                    },
-                                    error : function(errorMessage){
-                                        console.log(errorMessage);
-                                    }
-                                });
-
-
+                                //Refresh project table
+                                refreshProjectTable();
                             },
                             error : function(errorMessage){
                                 console.log("main.scala > creerSousTache => error");
@@ -499,8 +477,6 @@
                     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
                     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
-
-
                     $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
                     $('#btn-valider-modifierTacheC').attr("onclick","creerTacheHaut(this); return false;");
                 });
@@ -509,6 +485,25 @@
                     var idTacheSelect = $(btn).attr("data");
                     var dataToSend = creerDataFormulaireCreationTache(btn);
 
+                    if(dataToSend == -1){
+
+                    }else{
+                        console.log("main.scala : appel du controlleur creerSousTache");
+                        jsRoutes.controllers.TacheController.creerTacheHaut(idTacheSelect).ajax({
+                            data: dataToSend,
+                            success : function(data) {
+                                console.log("main.scala : success");
+                                $('#modal-tache-creer').modal('toggle');
+
+                                //Refresh project table
+                                refreshProjectTable();
+                            },
+                            error : function(errorMessage){
+                                console.log("main.scala > creerSousTache => error");
+                                console.log("-----------> " + errorMessage)
+                            }
+                        });
+                    }
                 }
 
                 $(document).on('click','.createTaskBas', function(event){
@@ -528,7 +523,25 @@
                     var idTacheSelect = $(btn).attr("data");
                     var dataToSend = creerDataFormulaireCreationTache(btn);
 
+                    if(dataToSend == -1){
 
+                    }else{
+                        console.log("main.scala : appel du controlleur creerSousTache");
+                        jsRoutes.controllers.TacheController.creerTacheBas(idTacheSelect).ajax({
+                            data: dataToSend,
+                            success : function(data) {
+                                console.log("main.scala : success");
+                                $('#modal-tache-creer').modal('toggle');
+
+                                //Refresh project table
+                                refreshProjectTable();
+                            },
+                            error : function(errorMessage){
+                                console.log("main.scala > creerSousTache => error");
+                                console.log("-----------> " + errorMessage)
+                            }
+                        });
+                    }
                 }
 
                 var creerDataFormulaireCreationTache = function(btn){
@@ -591,6 +604,32 @@
                     }else{
                         return -1;
                     }
+                }
+
+                var refreshProjectTable = function(){
+
+                    jsRoutes.controllers.TacheController.getTacheById(idTacheSelect).ajax({
+                        success : function(tache){
+                            var projetId = tache.projet.id;
+                            // Refresh project view
+                            jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
+                                success: function(data){
+                                    $('#projet-'+projetId).html(data);
+                                    $('#client-projet-'+projetId).html(data);
+                                    $('#projet-'+projetId).show();
+                                    console.log("AfficheProjet OK : "+projetId);
+                                },
+                                error:function(errorMessage){
+                                    console.log(errorMessage);
+                                    console.log("AfficheProjet KO : "+projetId);
+                                }
+                            });
+                        },
+                        error : function(errorMessage){
+                            console.log(errorMessage);
+                        }
+                    });
+
                 }
 
                 $(document).on('click','#interlocuteurs-modifier', function(event){
@@ -3645,7 +3684,6 @@ function filtreTDBproj(){
                         var final = res[2] + '/' + res[1] + '/' + res[0];
                         return final;
                     }
-
                 }
 
                 function verif(string){
@@ -3655,9 +3693,6 @@ function filtreTDBproj(){
                         return string;
                     }
                 }
-
-
-
 
                 //TODO : changer pour la partie consommee
                 var checkBoxProjetTermine = '#checkbox-projet-admin-projets-termines';
