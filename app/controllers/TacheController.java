@@ -29,7 +29,7 @@ public class TacheController  extends Controller {
         Map<String, String[]> form = request().body().asFormUrlEncoded();
 
         Tache mere = Tache.find.byId(idTacheMere);
-        Projet projet = Projet.find.byId(mere.projet.id);
+        Projet projet = mere.projet;
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
 
@@ -52,13 +52,13 @@ public class TacheController  extends Controller {
     public Result creerTacheHaut(Long idTacheSelect){
         Map<String, String[]> form = request().body().asFormUrlEncoded();
 
-        Tache mere = Tache.find.byId(idTacheSelect);
-        Projet projet = Projet.find.byId(mere.id);
+        Tache tacheReference = Tache.find.byId(idTacheSelect);
+        Projet projet = tacheReference.projet;
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
 
         try {
-            projet.creerTacheAuDessus(newTache , mere);
+            projet.creerTacheAuDessus(newTache , tacheReference);
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
@@ -70,12 +70,12 @@ public class TacheController  extends Controller {
     public Result creerTacheBas(Long idTacheSelect){
         Map<String, String[]> form = request().body().asFormUrlEncoded();
 
-        Tache mere = Tache.find.byId(idTacheSelect);
-        Projet projet = Projet.find.byId(mere.id);
+        Tache tacheReference = Tache.find.byId(idTacheSelect);
+        Projet projet = tacheReference.projet;
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
         try {
-            projet.creerTacheEnDessous(newTache , mere);
+            projet.creerTacheEnDessous(newTache , tacheReference);
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
