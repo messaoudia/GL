@@ -136,15 +136,14 @@ public class Notification extends Model {
                 }
             }
         }
-        /** TODO : a faire en anglais **/
         else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
-            title = "Tâche(s) devant être terminée(s) dans moins de " + LIMIT_DATE_ECHEANCE + " jours";
+            title = "Task(s) to be completed within " + LIMIT_DATE_ECHEANCE + " days";
             for (Tache tache : utilisateur.listTaches()) {
                 long nbDeJoursRestants = Utils.differenceNbJours(today.getTime(), tache.dateFinTard);
                 if (nbDeJoursRestants <= LIMIT_DATE_ECHEANCE) {
-                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
-                            + "(client : " + tache.projet.client.nom + ") doit être terminé dans "
-                            + nbDeJoursRestants + " jour(s) (Date d'échéance au plus tard : "
+                    message += "The task " + tache.nom + " of project " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") should be completed within "
+                            + nbDeJoursRestants + " day(s) (Latest due date : "
                             + tache.formateDate(tache.dateFinTard) + ")\n";
                 }
             }
@@ -185,13 +184,12 @@ public class Notification extends Model {
                 }
             }
         }
-        /** TODO : a faire en anglais **/
         else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
-            title = "Tâche(s) retardée(s)";
+            title = "Delayed task(s)";
             for (Tache tache : utilisateur.listTaches()) {
                 if (tache.estRetardee()) {
-                    message += "La tâche " + tache.nom + " du projet " + tache.projet.nom
-                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
+                    message += "The task " + tache.nom + " of project " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") is delayed. The latest due date is : "
                             + tache.dateFinTard + "\n";
                 }
             }
@@ -229,11 +227,10 @@ public class Notification extends Model {
             titleMessage = "Voici vos nouvelles responsabilités : \n";
             message = "\t - Vous êtes le nouveau responsable du projet : " + projet.nom + " (client : " + projet.client.nom + ")\n";
         }
-        /** TODO : A FAIRE EN ANGLAIS  **/
         else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
-            objet = "Nouvelle(s) responsabilité(s)";
-            titleMessage = "Voici vos nouvelles responsabilités : \n";
-            message = "\t - Vous êtes le nouveau responsable du projet : " + projet.nom + " (client : " + projet.client.nom + ")\n";
+            objet = "New person(s) in charge";
+            titleMessage = "Here are your new responsibilities : \n";
+            message = "\t - You are the new person in charge of project : " + projet.nom + " (client : " + projet.client.nom + ")\n";
         }
 
         if (mapNotifications.containsKey(utilisateur)) {
@@ -262,11 +259,10 @@ public class Notification extends Model {
             titleMessage = "Voici vos nouvelles responsabilités : \n";
             message = "\t - Vous êtes le nouveau responsable de la tâche : " + tache.nom + " du projet " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")\n";
         }
-        /** TODO : A FAIRE EN ANGLAIS  **/
         else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
-            objet = "Nouvelle(s) responsabilité(s)";
-            titleMessage = "Voici vos nouvelles responsabilités : \n";
-            message = "\t - Vous êtes le nouveau responsable de la tâche : " + tache.nom + " du projet " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")\n";
+            objet = "New person(s) in charge";
+            titleMessage = "Here are your new responsibilities : \n";
+            message = "\t - You are the new person in charge of the task : " + tache.nom + " of project " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")\n";
         }
 
         if (mapNotifications.containsKey(utilisateur)) {
@@ -295,19 +291,18 @@ public class Notification extends Model {
         messageFR += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
         messageFR += "\t - Description : " + projet.description + "\n";
 
-        /** TODO : mettre en anglais **/
-        String titleEN = "Création du projet " + projet.nom;
-        String messageMemeUserEN = "Vous avez créé le projet \"" + projet.nom + "\" avec les caractéristiques suivantes :\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a créé le projet \""
-                + projet.nom + "\" avec les caractéristiques suivantes :\n";
+        String titleEN = "Create project " + projet.nom;
+        String messageMemeUserEN = "You have created the project \"" + projet.nom + "\" with the following characteristics :\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has created the project \""
+                + projet.nom + "\" with the following characteristics :\n";
 
-        String messageEN = "\t - Nom : " + projet.nom + "\n";
+        String messageEN = "\t - Name : " + projet.nom + "\n";
         messageEN += "\t - Client : " + projet.client.nom + "\n";
-        messageEN += "\t - Responsable : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
+        messageEN += "\t - Person in charge : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
                 " (" + projet.responsableProjet.email + ")\n";
-        messageEN += "\t - Priorité : " + projet.priorite + "\n";
-        messageEN += "\t - Date de début (théorique) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
-        messageEN += "\t - Date de fin (théorique) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
+        messageEN += "\t - Priority : " + projet.priorite + "\n";
+        messageEN += "\t - Start date (theoretical) : " + projet.formateDate(projet.dateDebutTheorique) + "\n";
+        messageEN += "\t - End date (theoretical) : " + projet.formateDate(projet.dateFinTheorique) + "\n";
         messageEN += "\t - Description : " + projet.description + "\n";
 
         String title = "";
@@ -351,10 +346,9 @@ public class Notification extends Model {
         String messageMemeUserFR = "Vous avez supprimé le projet \"" + projet.nom + "\" (client : " + projet.client.nom + ")\n";
         String messageAutreUserFR = utilisateur.prenom + " " + utilisateur.nom + " a supprimé le projet " + projet.nom + "\" (client : " + projet.client.nom + ")\n";
 
-        /** TODO ANGLAIS **/
-        String titleEN = "Suppression du projet " + projet.nom;
-        String messageMemeUserEN = "Vous avez supprimé le projet \"" + projet.nom + "\" (client : " + projet.client.nom + ")\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a supprimé le projet " + projet.nom + "\" (client : " + projet.client.nom + ")\n";
+        String titleEN = "Remove project " + projet.nom;
+        String messageMemeUserEN = "You have removed the project \"" + projet.nom + "\" (client : " + projet.client.nom + ")\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has removed the project " + projet.nom + "\" (client : " + projet.client.nom + ")\n";
 
         String title = "";
         String message = "";
@@ -394,15 +388,14 @@ public class Notification extends Model {
         messageProjetFR += "\t - Client : " + projet.client.nom + "\n";
         messageProjetFR += "\t - Responsable de projet : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "\n";
 
-        /** TODO ANGLAIS **/
-        String titleEN = "Modification du projet " + projet.nom;
-        String titleENManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
-        String messageMemeUserEN = "Vous avez modifié le projet " + projet.nom + " (client : " + projet.client.nom + ") : \n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a modifié le projet " + projet.nom + " (client : " + projet.client.nom + ") : \n";
+        String titleEN = "Modify project " + projet.nom;
+        String titleENManyChangements = "The changes have taken place in your tasks/projects";
+        String messageMemeUserEN = "You have modified the project " + projet.nom + " (client : " + projet.client.nom + ") : \n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has modified the project " + projet.nom + " (client : " + projet.client.nom + ") : \n";
 
-        String messageProjetEN = "\t - Nom : " + projet.nom + "\n";
+        String messageProjetEN = "\t - Name : " + projet.nom + "\n";
         messageProjetEN += "\t - Client : " + projet.client.nom + "\n";
-        messageProjetEN += "\t - Responsable de projet : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "\n";
+        messageProjetEN += "\t - Person in charge of project : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "\n";
 
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
 
@@ -450,21 +443,20 @@ public class Notification extends Model {
         messageProjetFR += "\t - Client : " + projet.client.nom + "\n";
         messageProjetFR += "\t - Nouveau responsable de projet : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "\n";
 
-        /** TODO ANGLAIS **/
-        String titleNouveauRespoEN = "Nouvelle affectation d'un projet";
-        String messageNouveauRespoEN = "Vous êtes le nouveau responsable du projet " + projet.nom + " (client : " + projet.client.nom + ")\n";
+        String titleNouveauRespoEN = "New project assignment";
+        String messageNouveauRespoEN = "You are the new person in charge of project " + projet.nom + " (client : " + projet.client.nom + ")\n";
 
-        String titleAncienRespoEN = "Désaffectation d'un projet";
-        String messageAncienRespoEN = "Vous n'êtes plus responsable du projet " + projet.nom + " (client : " + projet.client.nom + ")\n";
+        String titleAncienRespoEN = "Decommissioning project";
+        String messageAncienRespoEN = "You are no longer person in charge of project " + projet.nom + " (client : " + projet.client.nom + ")\n";
 
-        String titleEN = "Modification du projet " + projet.nom;
-        String titleENManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
-        String messageMemeUserEN = "Vous avez modifié le projet " + projet.nom + " (client : " + projet.client.nom + ") : \n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a modifié le projet " + projet.nom + " (client : " + projet.client.nom + ") : \n";
+        String titleEN = "Modify project " + projet.nom;
+        String titleENManyChangements = "The changes have taken place in your tasks/projects";
+        String messageMemeUserEN = "You have modified the project " + projet.nom + " (client : " + projet.client.nom + ") : \n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has modified the project " + projet.nom + " (client : " + projet.client.nom + ") : \n";
 
-        String messageProjetEN = "\t - Nom : " + projet.nom + "\n";
+        String messageProjetEN = "\t - Name : " + projet.nom + "\n";
         messageProjetEN += "\t - Client : " + projet.client.nom + "\n";
-        messageProjetFR += "\t - Nouveau responsable de projet : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "\n";
+        messageProjetFR += "\t - New person in charge of project : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "\n";
 
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
 
@@ -519,23 +511,22 @@ public class Notification extends Model {
         messageFR += "\t - Date d'échéance au plus tard : " + tache.formateDate(tache.dateFinTard) + "\n";
         messageFR += "\t - Charge initiale : " + tache.chargeInitiale + (tache.projet.hasUniteJour() ? " J" : " semaine(s)") + "\n";
 
-        /** TODO ANGLAIS **/
-        String titleEN = "Création de la tâche " + tache.nom;
-        String messageMemeUserEN = "Vous avez créé la tâche \"" + tache.nom + "\" avec les caractéristiques suivantes :\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a créé la tâche \""
-                + tache.nom + "\" avec les caractéristiques suivantes :\n";
+        String titleEN = "Create task " + tache.nom;
+        String messageMemeUserEN = "You have created the task \"" + tache.nom + "\" with the following characteristics :\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has created the task \""
+                + tache.nom + "\" with the following characteristics :\n";
 
-        String titleENManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
+        String titleENManyChangements = "The changes have taken place in your tasks/projects";
 
-        String messageEN = "\t - Nom : " + tache.nom + "\n";
-        messageEN += "\t - Projet : " + tache.projet.nom + "\n";
+        String messageEN = "\t - Name : " + tache.nom + "\n";
+        messageEN += "\t - Project : " + tache.projet.nom + "\n";
         messageEN += "\t - Client : " + tache.projet.client.nom + "\n";
-        messageEN += "\t - Responsable : " + tache.responsableTache.prenom + " " + tache.responsableTache.nom +
+        messageEN += "\t - Person in charge : " + tache.responsableTache.prenom + " " + tache.responsableTache.nom +
                 " (" + tache.responsableTache.email + ")\n";
-        messageEN += "\t - Date de début : " + tache.formateDate(tache.dateDebut) + "\n";
-        messageEN += "\t - Date d'échéance au plus tôt : " + tache.formateDate(tache.dateFinTot) + "\n";
-        messageEN += "\t - Date d'échéance au plus tard : " + tache.formateDate(tache.dateFinTard) + "\n";
-        messageEN += "\t - Charge initiale : " + tache.chargeInitiale + (tache.projet.hasUniteJour() ? " J" : " semaine(s)") + "\n";
+        messageEN += "\t - Start date : " + tache.formateDate(tache.dateDebut) + "\n";
+        messageEN += "\t - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "\n";
+        messageEN += "\t - Latest due date : " + tache.formateDate(tache.dateFinTard) + "\n";
+        messageEN += "\t - Initial workload : " + tache.chargeInitiale + (tache.projet.hasUniteJour() ? " Day(s)" : " week(s)") + "\n";
 
         // Pour une tache : regarder List notification dans tache
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
@@ -598,20 +589,19 @@ public class Notification extends Model {
         messageFR += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "\n";
         messageFR += "\t - Charge restante : " + tache.chargeRestante + " " + uniteFR + "\n";
 
-        /** TODO : mettre en anglais **/
-        String titleEN = "Modification de l'avancement de la tâche " + tache.nom;
+        String titleEN = "Changing the task progress " + tache.nom;
 
-        String messageMemeUserEN = "Vous avez modifié l'avancement de la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a modifié l'avancement de la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
-        String titleENManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
+        String messageMemeUserEN = "You have changed the task progress "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has changed the task progress "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
 
-        String messageEN = "Le nouvel avancement de la tâche est de : " + tache.getAvancementTache() + "%\n";
-        messageEN += "Le nouvel avancement de la tâche est de : " + tache.getAvancementTache() + "%\n";
-        messageEN += "\t - Charge initiale : " + tache.chargeInitiale + " " + uniteEN + "\n";
-        messageEN += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteEN + "\n";
-        messageEN += "\t - Charge restante : " + tache.chargeRestante + " " + uniteEN + "\n";
+        String titleENManyChangements = "The changes have taken place in your tasks/projects";
+
+        String messageEN = "The new task progress is : " + tache.getAvancementTache() + "%\n";
+        messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "\n";
+        messageEN += "\t - Completed workload : " + tache.chargeConsommee + " " + uniteEN + "\n";
+        messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "\n";
 
         // Pour une tache : regarder List notification dans tache
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
@@ -671,26 +661,25 @@ public class Notification extends Model {
 
         String titleFRManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
 
-        /** TODO ANGLAIS **/
-        String titleEN = "Modification de la tâche " + tache.nom;
+        String titleEN = "Modify task " + tache.nom;
 
-        String messageMemeUserEN = "Vous avez modifié la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a modifié la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
+        String messageMemeUserEN = "You have modified the task "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has modified the task "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
 
-        String messageEN = "Responsable : " + tache.responsableTache.prenom + " " + tache.responsableTache.nom + "(" + tache.responsableTache.email + ")\n";
-        messageEN += "Etat de la tâche : " + (tache.disponible ? "disponible" : "indisponible") + "\n";
-        messageEN += "Dates de la tâche :\n";
-        messageEN += "\t - Date de début : " + tache.formateDate(tache.dateDebut) + "\n";
-        messageEN += "\t - Date d'échéance au plus tôt : " + tache.formateDate(tache.dateFinTot) + "\n";
-        messageEN += "\t - Date d'échéance au plus tard : " + tache.formateDate(tache.dateFinTard) + "\n";
-        messageEN += "Avancement de la tâche est de : " + tache.getAvancementTache() + "%\n";
-        messageEN += "\t - Charge initiale : " + tache.chargeInitiale + " " + uniteFR + "\n";
-        messageEN += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "\n";
-        messageEN += "\t - Charge restante : " + tache.chargeRestante + " " + uniteFR + "\n";
+        String messageEN = "Person in charge : " + tache.responsableTache.prenom + " " + tache.responsableTache.nom + "(" + tache.responsableTache.email + ")\n";
+        messageEN += "Task state : " + (tache.disponible ? "available" : "unavailable") + "\n";
+        messageEN += "Task schedule :\n";
+        messageEN += "\t - Start date : " + tache.formateDate(tache.dateDebut) + "\n";
+        messageEN += "\t - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "\n";
+        messageEN += "\t - Latest due date : " + tache.formateDate(tache.dateFinTard) + "\n";
+        messageEN += "The task progress is : " + tache.getAvancementTache() + "%\n";
+        messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteFR + "\n";
+        messageEN += "\t - Completed workload : " + tache.chargeConsommee + " " + uniteFR + "\n";
+        messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteFR + "\n";
 
-        String titleENManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
+        String titleENManyChangements = "The changes have taken place in your tasks/projects";
 
         // Pour une tache : regarder List notification dans tache
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
@@ -752,28 +741,27 @@ public class Notification extends Model {
         messageFR += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "\n";
         messageFR += "\t - Charge restante : " + tache.chargeRestante + " " + uniteFR + "\n";
 
-        /** TODO ANGLAIS **/
-        String titleNouveauRespoEN = "Nouvelle affectation d'une tache";
-        String messageNouveauRespoEN = "Vous êtes le nouveau responsable de la tâche " + tache.nom + " (client : " + tache.projet.client.nom + ")\n";
+        String titleNouveauRespoEN = "New task assignment";
+        String messageNouveauRespoEN = "You are the new person in charge of the task " + tache.nom + " (client : " + tache.projet.client.nom + ")\n";
 
-        String titleAncienRespoEN = "Désaffectation d'un projet";
-        String messageAncienRespoEN = "Vous n'êtes plus responsable du projet " + tache.nom + " (client : " + tache.projet.client.nom + ")\n";
+        String titleAncienRespoEN = "Decommissioning project";
+        String messageAncienRespoEN = "You are no longer person in charge of project " + tache.nom + " (client : " + tache.projet.client.nom + ")\n";
 
-        String titleEN = "Modification de la tâche " + tache.nom;
-        String titleENManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
-        String messageMemeUserEN = "Vous avez modifié la tâche " + tache.nom + " (client : " + tache.projet.client.nom + ") : \n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a modifié la tache " + tache.nom + " (client : " + tache.projet.client.nom + ") : \n";
+        String titleEN = "Modify task " + tache.nom;
+        String titleENManyChangements = "The changes have taken place in your tasks/projects";
+        String messageMemeUserEN = "You have modified the task " + tache.nom + " (client : " + tache.projet.client.nom + ") : \n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has modified the task " + tache.nom + " (client : " + tache.projet.client.nom + ") : \n";
 
-        String messageEN = "Nouveau responsable : " + tache.responsableTache.prenom + " " + tache.responsableTache.nom + "(" + tache.responsableTache.email + ")\n";
-        messageEN += "Etat de la tâche : " + (tache.disponible ? "disponible" : "indisponible") + "\n";
-        messageEN += "Dates de la tâche :\n";
-        messageEN += "\t - Date de début : " + tache.formateDate(tache.dateDebut) + "\n";
-        messageEN += "\t - Date d'échéance au plus tôt : " + tache.formateDate(tache.dateFinTot) + "\n";
-        messageEN += "\t - Date d'échéance au plus tard : " + tache.formateDate(tache.dateFinTard) + "\n";
-        messageEN += "Avancement de la tâche est de : " + tache.getAvancementTache() + "%\n";
-        messageEN += "\t - Charge initiale : " + tache.chargeInitiale + " " + uniteEN + "\n";
-        messageEN += "\t - Charge consommée : " + tache.chargeConsommee + " " + uniteEN + "\n";
-        messageEN += "\t - Charge restante : " + tache.chargeRestante + " " + uniteEN + "\n";
+        String messageEN = "New person in charge : " + tache.responsableTache.prenom + " " + tache.responsableTache.nom + "(" + tache.responsableTache.email + ")\n";
+        messageEN += "Task state : " + (tache.disponible ? "available" : "unavailable") + "\n";
+        messageEN += "Task schedule :\n";
+        messageEN += "\t - Start date : " + tache.formateDate(tache.dateDebut) + "\n";
+        messageEN += "\t - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "\n";
+        messageEN += "\t - Latest due date : " + tache.formateDate(tache.dateFinTard) + "\n";
+        messageEN += "The task progress is : " + tache.getAvancementTache() + "%\n";
+        messageEN += "\t - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "\n";
+        messageEN += "\t - Completed workload : " + tache.chargeConsommee + " " + uniteEN + "\n";
+        messageEN += "\t - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "\n";
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
 
         // Notif pour l'utilisateur qui a fait l'action
@@ -823,14 +811,13 @@ public class Notification extends Model {
         String messageAutreUserFR = utilisateur.prenom + " " + utilisateur.nom + " a supprimé la tâche "
                 + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
         String titleFRManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
-
-        /** TODO ANGLAIS **/
-        String titleEN = "Suppression de la tâche " + tache.nom;
-        String messageMemeUserEN = "Vous avez supprimé la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
-        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " a supprimé la tâche "
-                + tache.nom + " du projet " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
-        String titleENManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
+        
+        String titleEN = "Delete task " + tache.nom;
+        String messageMemeUserEN = "You have deleted the task "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
+        String messageAutreUserEN = utilisateur.prenom + " " + utilisateur.nom + " has deleted the task "
+                + tache.nom + " of project " + tache.projet.nom + "(client : " + tache.projet.client.nom + ")\n";
+        String titleENManyChangements = "The changes have taken place in your tasks/projects";
 
         // Pour une tache : regarder List notification dans tache
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
