@@ -67,18 +67,6 @@ $(document).on('click','#afficheListeProjet', function(event){
     }
 });
 
-
-$(document).on('click','#afficheRetour', function(event){
-
-    if($("#col-sidebar-retour").is(":visible")){
-        hideSideBarRetour();
-    }
-    else
-    {
-        showSideBarRetour();
-    }
-});
-
 function hideSideBarRetour()
 {
     $('#col-sidebar-retour').hide();
@@ -97,6 +85,18 @@ function showSideBarRetour()
     $("#icon-show-liste-projet").removeClass("fa-indent");
     $("#icon-show-liste-projet").addClass("fa-outdent");
 }
+
+
+$(document).on('click','#afficheRetour', function(event){
+    if($("#col-sidebar-retour").is(":visible")){
+        hideSideBarRetour();
+    }
+    else
+    {
+        showSideBarRetour();
+    }
+});
+
 
 
 var changeModeDraftProjet = function(idProjet){
@@ -3208,16 +3208,6 @@ $(document).ajaxComplete(function () {
     });
 
 
-    $('#afficheRetour').click(function () {
-
-        if ($("#col-sidebar-retour").is(":visible")) {
-            hideSideBarRetour();
-        }
-        else {
-            showSideBarRetour();
-        }
-    });
-
     $(window).resize(function () {
         $('.liste-projet').css('height', "100%");
         height = $('.liste-projet').css('height');
@@ -3253,63 +3243,9 @@ $(document).ajaxComplete(function () {
         }
     });
 
-    function hideSideBarProjet() {
-        $('#col-sidebar-liste-projet').hide();
-        $('#afficheListeProjet').css("width", "25px");
-        $(".col-consulterProjet").removeClass("col-md-10");
-        $(".col-consulterProjet").addClass("col-md-12");
-        $("#icon-show-liste-projet").removeClass("fa-outdent");
-        $("#icon-show-liste-projet").addClass("fa-indent");
-        $('.liste-projet').css('height', "100%");
-        height = $('.liste-projet').css('height');
-        height = parseInt(height);
-        height -= 150;
-        $('.liste-projet').css('height', height);
-        $('.liste-projet-client').css('height', "100%");
-        height = $('.liste-projet-client').css('height');
-        height = parseInt(height);
-        height -= 200;
-        $('.liste-projet-client').css('height', height);
 
-    }
 
-    function showSideBarProjet() {
-        $('#col-sidebar-liste-projet').show();
-        $('#afficheListeProjet').css("width", "170px");
-        $(".col-consulterProjet").removeClass("col-md-12");
-        $(".col-consulterProjet").addClass("col-md-10");
-        $("#icon-show-liste-projet").removeClass("fa-indent");
-        $("#icon-show-liste-projet").addClass("fa-outdent");
-        $('.liste-projet').css('height', "100%");
-        height = $('.liste-projet').css('height');
-        height = parseInt(height);
-        height -= 150;
-        $('.liste-projet').css('height', height);
-        $('.liste-projet-client').css('height', "100%");
-        height = $('.liste-projet-client').css('height');
-        height = parseInt(height);
-        height -= 200;
-        $('.liste-projet-client').css('height', height);
 
-    }
-
-    function hideSideBarRetour() {
-        $('#col-sidebar-retour').hide();
-        $('#afficheRetour').css("width", "25px");
-        $("#col-consulterProjet").removeClass("col-md-10");
-        $("#col-consulterProjet").addClass("col-md-12");
-        $("#icon-show-liste-projet").removeClass("fa-outdent");
-        $("#icon-show-liste-projet").addClass("fa-indent");
-    }
-
-    function showSideBarRetour() {
-        $('#col-sidebar-retour').show();
-        $('#afficheRetour').css("width", "170px");
-        $("#col-consulterProjet").removeClass("col-md-12");
-        $("#col-consulterProjet").addClass("col-md-10");
-        $("#icon-show-liste-projet").removeClass("fa-indent");
-        $("#icon-show-liste-projet").addClass("fa-outdent");
-    }
 
 
     $('.liste-projet').css('height', "100%");
