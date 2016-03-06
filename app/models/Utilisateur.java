@@ -467,7 +467,7 @@ public class Utilisateur extends Personne {
      *
      * @return
      */
-    public String genererPassword() {
+    public static String genererPassword() {
 
         String upperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
@@ -501,8 +501,7 @@ public class Utilisateur extends Personne {
         for (int pos : positions) {
             password[pos] = getRandomChar(upperCaseLetters, lowerCaseLetters, numbers);
         }
-        setPassword(String.valueOf(password));
-        update();
+
         return(String.valueOf(password));
     }
 

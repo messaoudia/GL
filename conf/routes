@@ -126,4 +126,6 @@ GET         /affichePeojet                                  controllers.ProjetCo
 POST        /modifProjet                                    controllers.ProjetController.modifierProjet(id : Long)
 
 POST        /envoieNotifications                            controllers.NotificationController.sendNotifications()
+
 GET         /messages                                       controllers.Application.messages(message: String)
+GET         /messagesMap                                    controllers.Application.messagesMap

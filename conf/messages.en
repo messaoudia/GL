@@ -201,3 +201,4 @@ adminMdp = Select admin password
 mdpEmptyError = Password is empty
 mdpIncorrecteError = Password is incorrect
 nonCoherentProject=Your project is not coherent anymore, please check your project before saving it.
+choosePredecessor = Choose predecessor
