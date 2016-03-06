@@ -7,13 +7,12 @@ import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.adminClients;
-import views.html.adminProjets;
-import views.html.adminUtilisateur;
-import views.html.adminProjetsSelect;
+import views.html.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -65,7 +64,7 @@ public class AdminController extends Controller{
 
 
     public Result afficherAdminProjetsSelect(Long idProjet) {
-        return ok(adminProjetsSelect.render("Projet",Projet.find.byId(idProjet),Login.getUtilisateurConnecte()));
+        return ok(adminProjetsSelect.render("Projet",Projet.find.byId(idProjet),Login.getUtilisateurConnecte(),Client.getAllNonArchives(),Utilisateur.getAllNonArchives()));
     }
 
     public Result afficherProjetsTermines(Boolean check){
@@ -131,5 +130,67 @@ public class AdminController extends Controller{
         }else{
             return ok();
         }
+    }
+
+    public Result modifierProjet(Long id){
+        Projet p = Projet.find.byId(id);
+        Map<String, String[]> map = request().body().asFormUrlEncoded();
+        Error error = new Error();
+        String nom = map.get("projet")[0];
+        if (nom.isEmpty()) {
+            error.nomProjetVide = true;
+        } else if (nom.length() > 30) {
+            error.nomProjetTropLong= true;
+        }
+        String description = map.get("description")[0];
+        if(description.length() > 65536) {
+            error.descriptionTropLong = true;
+        }
+        if(error.hasErrorProjet()){
+            return badRequest(Json.toJson(error));
+        }else{
+            Long idUser = Long.parseLong(map.get("responsableProjet")[0]);
+            Utilisateur user = Utilisateur.find.byId(idUser);
+            Long idClient = Long.parseLong(map.get("client")[0]);
+            Client client = Client.find.byId(idClient);
+            //modification des info si besoin
+            int priorite = Integer.parseInt(map.get("priorite")[0]);
+            //check priorite
+            if(!p.nom.equals(nom)){
+                p.nom = nom;
+            }
+            if(p.priorite != priorite){
+                p.priorite = priorite;
+            }
+            //description
+            if(!p.description.equals(description)){
+                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
+                p.description = description;
+            }
+
+            if(!p.responsableProjet.equals(user)){
+                p.responsableProjet = user;
+            }
+
+            if(!p.client.equals(client)){
+                // on enleve le projet de l'ancien
+                Logger.debug("on est la");
+                Optional<Projet> projet = p.client.listeProjets.stream().filter(projetC -> projetC.id == p.id).findFirst();
+                if (projet.isPresent()) {
+                   p.client.listeProjets.remove(projet);
+                } else {
+                    System.out.println("T'es dans la merde");
+                }
+                p.client.save();
+                p.client = client;
+            }
+            p.save();
+            return ok(Json.toJson(p));
+        }
+    }
+
+    public Result redirectDashboard(){
+        Logger.debug(dashboard.render("Dashboard", Login.getUtilisateurConnecte()).toString());
+        return ok(dashboard.render("Dashboard", Login.getUtilisateurConnecte()));   // provisoir en attendant login
     }
 }

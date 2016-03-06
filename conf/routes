@@ -5,6 +5,7 @@
 # i18n route
 POST        /changeLanguage                                 controllers.Application.changeLanguage()
 GET         /changerLangue                                  controllers.Application.changeLangue(lang: String)
+GET         /getLangue                                      controllers.Application.getLangue()
 
 # Home page
 GET         /                                               controllers.DashboardController.afficherDashboard
@@ -55,6 +56,10 @@ GET         /adminContactsClient                            controllers.ContactC
 GET         /allUsers                                       controllers.UtilisateurController.allUsers()
 GET         /allSucesseursPossible                          controllers.DashboardController.getAllSucesseursPossible(idTache: Long)
 GET         /AllPredecesseursPossible                       controllers.DashboardController.getAllPredecesseursPossible(idTache: Long)
+GET         /getTacheById                                   controllers.TacheController.getTacheById(idTache: Long)
+POST        /creerSousTach                                  controllers.TacheController.creerSousTache(idTache: Long)
+POST        /creerTacheHaut                                 controllers.TacheController.creerTacheHaut(idTache: Long)
+POST        /creerTacheBas                                  controllers.TacheController.creerTacheBas(idTache: Long)
 
 POST        /modifierTache                                  controllers.DashboardController.modifierTache()
 POST        /ajouterProjet                                  controllers.ProjetController.creerProjet
@@ -64,6 +69,22 @@ GET         /listTachesUtilisateurConnecte                  controllers.Utilisat
 #view notification
 GET         /notifications                                  controllers.NotificationController.afficherNotifications
 
+POST        /adminProjetSelect                              controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
+POST        /adminProjetTermine                             controllers.AdminController.afficherProjetsTermines(check:Boolean)
+POST        /adminProjetArchives                            controllers.AdminController.afficherProjetsArchives(check:Boolean)
+POST        /adminProjetSupprimer                           controllers.AdminController.supprimerProjet(idProjet:Long)
+POST        /checkContact                                   controllers.ClientController.contactCheck
+POST        /ajouterUtilisateur                             controllers.UtilisateurController.creerUtilisateur
+POST        /modifierUtilisateur                            controllers.UtilisateurController.modifierUtilisateur(id: Long)
+POST        /ajouterClient                                  controllers.ClientController.creerClient
+POST        /afficherModalProjetAdmin                       controllers.AdminController.afficherModalProjet(idP: Long)
+POST        /initModalAdminProjetRespo                      controllers.AdminController.afficherModalCreerProjetResponsable
+POST        /initModalAdminProjetClient                     controllers.AdminController.afficherModalCreerProjetClient
+POST        /adminClientSupprimer                           controllers.AdminController.supprimerClient(idC : Long)
+POST        /supprimerUtilisateur                           controllers.UtilisateurController.supprimerUtilisateur(idUtilisateur: Long ,strProjet: String ,strTache: String)
+POST        /activeOuDesactiveNotification                  controllers.NotificationController.activerOuDesactiverNotificationTache(idTache:Long, idUser:Long)
+POST        /getAllInterlocuteur                            controllers.DashboardController.getAllInterlocuteur(idProjet:Long)
+POST        /mdpOublie                                      controllers.Login.clickMotDePasseOublie(email:String)
 POST        /adminProjetSelect                              controllers.AdminController.afficherAdminProjetsSelect(idProjet:Long)
 POST        /adminProjetTermine                             controllers.AdminController.afficherProjetsTermines(check:Boolean)
 POST        /adminProjetArchives                            controllers.AdminController.afficherProjetsArchives(check:Boolean)
@@ -105,3 +126,9 @@ GET         /affichePeojet                                  controllers.ProjetCo
 POST        /modifProjet                                    controllers.ProjetController.modifierProjet(id : Long)
 
 POST        /envoieNotifications                            controllers.NotificationController.sendNotifications()
+
+GET         /messages                                       controllers.Application.messages(message: String)
+GET         /messagesMap                                    controllers.Application.messagesMap
+POST        /checkMdpAdmin                                  controllers.AdminController.checkMdpAdmin(pswd : String)
+POST        /modifProjetSelect                              controllers.AdminController.modifierProjet(id :Long)
+POST        /redirectDashBoard                              controllers.AdminController.redirectDashboard()
