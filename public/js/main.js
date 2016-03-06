@@ -2733,6 +2733,47 @@ var checkContactModal = function (btn) {
 }
 
 
+var modifierProjetAdminSelect = function(div) {
+    var id = $(div).attr("value");
+    var form = "#"+$(div).attr("form");
+    var serialize = $(form).serialize();
+    var priorite = $('#projet-modifierAdmin-btn .btn-active').attr('value');
+
+    jsRoutes.controllers.AdminController.modifierProjet(id).ajax({
+        data: serialize+ '&priorite='+priorite,
+        success : function(data) {
+            $("#errorModifierProjetP").empty();
+            $("#errorModifierProjet").hide();
+
+            $("#successModifierProjetP").html(messages("project")+' ' +data.nom +' '+messages("modified"));
+            $("#successModifierProjet").show();
+            setTimeout(function(){
+                $("#successModifierProjet").hide();
+            },4000);
+
+            // modification nom, responsable projet, priorite projet, priorite client
+
+
+            $("#nomProjet").html(messages("project")+': '+data.nom);
+            $("#prioriteProjet").html(data.priorite);
+            $("#nomClient").html(messages("client")+': '+data.client.nom);
+            $("#prioriteClient").html(data.client.priorite);
+            $("#descriptionProjet").html(data.description);
+            $("#responsableProjetName").html(messages("projectPersonResponsible")+': '+data.responsableProjet.prenom+' '+data.responsableProjet.nom);
+        },
+        error: function(error){
+            $("#successModifierProjet").hide();
+            $("#successModifierProjetP").empty();
+
+            var messageDiv = generateErrorModifierProjet(error);
+
+            $("#errorModifierProjetP").html(messageDiv);
+            $("#errorModifierProjet").show();
+        }
+    });
+}
+
+
 $(document).ready(function () {
 
     // Print the first selected project
