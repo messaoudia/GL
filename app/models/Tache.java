@@ -557,12 +557,185 @@ public class Tache extends EntiteSecurise {
 
     public long nbJourRestant() {
         Calendar cal = Calendar.getInstance();
-        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
+        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
         long diff = Utils.differenceNbJours(today.getTime(), dateFinTard);
         if(diff<0)
             diff=0;
         return diff;
     }
+
+
+    public boolean commenceNextWeek() {
+        Calendar cal = Calendar.getInstance();
+
+        int jourActuel =cal.get(Calendar.DAY_OF_MONTH);
+
+        int j =  cal.DAY_OF_MONTH ;
+      //  System.out.println(" cal.DAY_OF_MONTH -> jour = "+        Calendar.DATE +" , et la valeur par default de jeudi : "+ Calendar.THURSDAY);
+
+        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+        long diff = Utils.differenceNbJours(today.getTime(), dateDebut);
+        /*if(diff<0){
+            diff= diff*(-1);
+        }*/
+
+
+       // System.out.println("nous sommes le : "+today.getTime() +" date de début :"+ dateDebut +"l'écart de jours est de : "+diff);
+
+        if((diff>7) && (diff<13)){
+
+            switch(j){
+
+
+
+
+                case 2 :
+
+                    if(diff>13){
+                        System.out.println("lundi ");
+                        return false;
+                    }
+
+
+
+                    break;
+
+                case 3:
+                    if(diff>12){
+                        System.out.println("mardi ");
+                        return false;
+                    }
+
+
+                    break;
+                case 4:
+                    if(diff>11){
+                        System.out.println("mercredi ");
+                        return false;
+                    }
+
+
+                    break;
+                case 5:
+                    if(diff>10){
+                        System.out.println("jeudi ");
+                        return false;
+                    }
+
+                    break;
+                case 6:
+                    if(diff>9){
+                        System.out.println("vendredi ");
+                        return false;
+                    }
+
+                case 7:
+                    if(diff>8){
+                        System.out.println("samedi ");
+                        return false;
+                    }
+
+
+
+                    break;
+
+                case 8:
+                    if(diff>7){
+                        System.out.println("dimanche ");
+                        return false;
+                    }
+
+
+
+                    break;
+
+                default:
+                    System.out.println("le jour est erroné.");
+
+            }
+            return true;
+        }
+        else if(diff<=7){
+            switch(j){
+
+                case 2:
+
+                    if(diff<7){
+                        System.out.println("lundi ");
+                        return false;
+                    }
+
+
+
+                    break;
+                case 3:
+
+                    if(diff<6){
+                        System.out.println("mardi ");
+
+                        return false;
+                    }
+
+
+
+                    break;
+
+                case 4:
+                    if(diff<5){
+                        System.out.println("mercredi ");
+
+                        return false;
+                    }
+
+
+                    break;
+                case 5:
+                    if(diff<4){
+                        System.out.println("jeudi ");
+
+                        return false;
+                    }
+
+
+                    break;
+                case 6:
+                    if(diff<3){
+                        System.out.println("vendredi ");
+
+                        return false;
+                    }
+
+                    break;
+                case 7:
+                    if(diff<2){
+                        System.out.println("samedi ");
+
+                        return false;
+                    }
+
+                    break;
+                case 8:
+                    if(diff<1){
+                        System.out.println("dimanche ");
+
+                        return false;
+                    }
+
+                    break;
+
+
+            }
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+
+      }
+
+
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
@@ -632,4 +805,30 @@ public class Tache extends EntiteSecurise {
         }
         return listResult;
     }
+
+
+
+    public String filtres(){
+        String result ="";
+        if(this.disponible==false){
+            result= result +" tache-indisponible ";
+        }
+        if(this.critique==true){
+            result = result+" tache-critique ";
+        }
+        if(this.estRetardee()==true){
+            result = result+" tache-retardee ";
+        }
+
+        if(this.nbJourRestant()<10){
+            result= result+" tache-terminee-dans-moins-10-j ";
+        }
+        if(this.commenceNextWeek()==true){
+            result = result + " tache-commence-semaine-prochaine ";
+        }
+
+        System.out.println("fonction : checkout "+result);
+        return result;
+    }
+
 }

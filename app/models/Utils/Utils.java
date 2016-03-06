@@ -1,5 +1,6 @@
 package models.Utils;
 
+import controllers.Global.Mail;
 import models.Adresse;
 import models.Client;
 import models.Contact;
@@ -10,6 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import java.util.ArrayList;
+import models.Utilisateur;
+import play.libs.mailer.Email;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Guillaume on 10/02/2016.
@@ -52,7 +60,6 @@ public class Utils {
 
     /**
      * Calcule le nombre de jours entre date1 et date2 : date2-date1
-     *
      * @param date1
      * @param date2
      * @return
@@ -211,13 +218,13 @@ public class Utils {
                 fileWriter.flush();
                 fileWriter.write(fileContent);
             } catch (IOException e) {
-                Logger.error("File writing error", e);
+                play.Logger.error("File writing error", e);
             }
 
         } catch (IOException e) {
-            Logger.error("Error creating file from content: ", e);
+            play.Logger.error("Error creating file from content: ", e);
         }
-        Logger.debug(file.getAbsolutePath());
+        play.Logger.debug(file.getAbsolutePath());
         return file;
     }
 
@@ -277,6 +284,28 @@ public class Utils {
 
     private static String trimTmpFileName(String name) {
         return name.replaceAll("[0-9]", "");
+    }
+
+    public static String sendMailMotDePasseOublie(Utilisateur user){
+        final Email email = new Email();
+        email.setSubject("[ My Project - Polytech ] Test 2 ");
+        email.setFrom("NE-PAS-REPONDRE <myproject.polytechparissud@gmail.com>");
+
+        email.addTo(user.getFirstname() + " "+ user.getLastname() +"<"+user.getEmail()+">");
+
+        // adds attachment
+        //email.addAttachment("attachment.pdf", new File("/some/path/attachment.pdf"));
+        // adds inline attachment from byte array
+        // email.addAttachment("data.txt", "data".getBytes(), "text/plain", "Simple data", EmailAttachment.INLINE);
+        // sends text, HTML or both...
+        //email.setBodyText("Hi Yasser");
+
+
+        email.setBodyHtml("<html><body><p>Bonjour "+user.getFirstname()+" "+user.getLastname()+",<br>Voici votre nouveau mot de passe : "+user.genererPassword()+"<br>Cordialement,</body></html>");
+
+        Mail.sendEmail(email);
+
+        return ("ok mail envoyé.");
     }
 
 }

@@ -130,7 +130,7 @@ public class UtilisateurController extends Controller {
             {
                 //TODO SBLC
             }
-            Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false, Utilisateur.genererPassword());
+            Utilisateur user = new Utilisateur(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], false,"Azerty2");
             user.save();
             //TODO : send email to user
             return ok(Json.toJson(user));

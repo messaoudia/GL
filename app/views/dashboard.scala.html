@@ -169,7 +169,7 @@
                                         <div class="row row-options-tdb">
                                             <div class="col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-tdb-rp-projets-termines" type="checkbox">
+                                                    <input id="checkbox-tdb-rp-projets-termines" type="checkbox" onclick="filtreTDBproj();">
                                                     <label for="checkbox-tdb-rp-projets-termines">
                                                     @Messages("completedProjects")
                                                     </label>
@@ -184,7 +184,7 @@
                                                     <ul class="dropdown-menu">
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-projets-bientot-finis" type="checkbox">
+                                                                <input id="checkbox-tdb-projets-bientot-finis" type="checkbox" onclick="filtreTDBproj();">
                                                                 <label for="checkbox-tdb-projets-bientot-finis">
                                                                 @Messages("projectsToFinishShortly")
                                                                 </label>
@@ -192,7 +192,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-projets-retardes" type="checkbox">
+                                                                <input id="checkbox-tdb-projets-retardes" type="checkbox" onclick="filtreTDBproj();">
                                                                 <label for="checkbox-tdb-projets-retardes">
                                                                 @Messages("delayedProjects")
                                                                 </label>
@@ -300,7 +300,8 @@
                                         <div class="row row-options-tdb">
                                             <div class="col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-tdb-collab-projets-termines" type="checkbox">
+
+                                                    <input id="checkbox-tdb-collab-projets-termines" type="checkbox" onclick="projetTacheTDBTermine();">
                                                     <label for="checkbox-tdb-collab-projets-termines">
                                                     @Messages("completedProjects")
                                                     </label>
@@ -308,7 +309,7 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-tdb-collab-taches-termines" type="checkbox">
+                                                     <input id="checkbox-tdb-collab-taches-termines" type="checkbox" onclick="projetTacheTDBTermine();">
                                                     <label for="checkbox-tdb-collab-taches-termines">
                                                     @Messages("completedTasks")
                                                     </label>
@@ -323,7 +324,7 @@
                                                     <ul class="dropdown-menu">
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-critiques" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-critiques" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-critiques">
                                                                 @Messages("tasksOnCriticalPath")
                                                                 </label>
@@ -331,7 +332,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-indisponibles" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-indisponibles" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-indisponibles">
                                                                 @Messages("unavailableTasks")
                                                                 </label>
@@ -339,7 +340,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-semaine-pro" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-semaine-pro" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-semaine-pro">
                                                                 @Messages("tasksStartingNextWeek")
                                                                 </label>
@@ -347,7 +348,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-moins-10j" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-moins-10j" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-moins-10j">
                                                                 @Messages("tasksMustBeCompletedInLessThan10days")
                                                                 </label>
@@ -355,7 +356,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-retardees" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-retardees" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-retardees">
                                                                 @Messages("delayedTasks")
                                                                 </label>
@@ -382,7 +383,7 @@
                                                 </thead>
                                                 <tbody>
                                                     @for(tache <- utilisateur.listTaches()){
-                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center">
+                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center @tache.filtres()">
                                                             <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tdb-tache">
                                                                 <p class="tdb-id-tache">@tache.idTache</p>
                                                                 <p class="tdb-nom-tache">@tache.nom</p>

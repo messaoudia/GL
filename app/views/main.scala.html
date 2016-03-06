@@ -2928,6 +2928,138 @@
                     }
                 }
 
+
+
+                /* Afficher les projets terminés dans l'onglet projet  */
+                function projetTDBTermine(){
+                    if($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
+                        $('.projet-finished').show();
+                    } else {
+                        $('.projet-finished').hide();
+                    }
+                }
+
+
+
+
+                /* Afficher les projets et taches terminés dans l'onglet tache  */
+                function projetTacheTDBTermine(){
+
+
+                    if($('#checkbox-tdb-collab-projets-termines').is(":checked")){
+                        $('.projet-finished').show();
+                    }
+                    else{
+                        $('.projet-finished').hide();
+                    }
+
+
+
+                    if($('#checkbox-tdb-collab-taches-termines').is(":checked")){
+                        $('.tache-finished').show();
+                    }
+                    else{
+                        $('.tache-finished').hide();
+                    }
+
+                    // transforme en et
+                    var result = "";
+
+                     if($('#checkbox-tdb-taches-critiques').is(":checked")){
+                         result+= '.tache-critique';
+                         //$('.table-center').hide();
+                         //$('.tache-critique').show();
+                     }
+
+
+                    if($('#checkbox-tdb-taches-indisponibles').is(":checked")){
+                        result+= '.tache-indisponible';
+                        //$('.table-center').hide();
+                        //$('.tache-indisponible').show();
+                    }
+
+
+                    if($('#checkbox-tdb-taches-semaine-pro').is(":checked")){
+                        result+='.tache-commence-semaine-prochaine';
+                        //$('.table-center').hide();
+                        //$('.tache-commence-semaine-prochaine').show();
+                    }
+
+                    if($('#checkbox-tdb-taches-semaine-pro').is(":checked")){
+                        result+= '.tache-commence-semaine-prochaine';
+                        //$('.table-center').hide();
+                        //$('.tache-commence-semaine-prochaine').show();
+                    }
+
+                    if($('#checkbox-tdb-taches-moins-10j').is(":checked")){
+                        result+= '.tache-terminee-dans-moins-10-j';
+                        //$('.table-center').hide();
+                        //$('.tache-terminee-dans-moins-10-j').show();
+                    }
+
+
+                    if($('#checkbox-tdb-taches-retardees').is(":checked")){
+                        result+= '.tache-retardee';
+                        //$('.table-center').hide();
+                        //$('.tache-retardee').show();
+                    }
+
+                    if(result.length > 0){
+                         $('.table-center').hide();
+                        console.log("result = "+result);
+                        $(result).show();
+                    }
+                    else{
+                        //$('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+                    }
+
+
+
+                }
+
+
+
+function filtreTDBproj(){
+    if($('#checkbox-tdb-rp-projets-termines').is(":checked")){
+        $('.projet-finished').show();
+    }
+    else{
+        $('.projet-finished').hide();
+    }
+
+
+
+
+    if($('#checkbox-tdb-projets-retardes').is(":checked")){
+        result+= '.projets-retardes';
+
+    }
+
+
+    if($('#checkbox-tdb-projets-bientot-finis').is(":checked")){
+        result+= '.projets-bientot-finis';
+
+    }
+
+    if(result.length > 0){
+        $('.table-center').hide();
+        console.log("result = "+result);
+        $(result).show();
+    }
+    else{
+        //$('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+    }
+
+
+
+
+}
+
+
+
+
+
+
                 /* Afficher les utilisateurs archivés */
                 function utilisateursArchived(){
                     if($('#checkboxUsersArchived').is(":checked")) {
@@ -2955,6 +3087,10 @@
                         return string;
                     }
                 }
+
+
+
+
                 //TODO : changer pour la partie consommee
                 var checkBoxProjetTermine = '#checkbox-projet-admin-projets-termines';
                 var checkBoxProjetArchive = '#checkbox-projet-admin-projets-archives';
@@ -2974,6 +3110,8 @@
                         $('.projet-finished').hide();
                     }
                 }
+
+
 
                 function projetArchives(){
                     if($(checkBoxProjetArchive).is(":checked") && $(checkBoxProjetTermine).is(":checked")) {
