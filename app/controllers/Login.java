@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import models.Utilisateur;
+import models.Utils.Utils;
 import play.Logger;
 import play.api.i18n.Lang;
 import play.data.Form;
@@ -15,6 +16,7 @@ import play.mvc.Result;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.rmi.CORBA.Util;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -98,6 +100,20 @@ public class Login extends Controller {
             }
         } else {
             return false;
+        }
+    }
+
+    public Result clickMotDePasseOublie(String email){
+        Utilisateur user = Utilisateur.find.where().eq("email", email).findUnique();
+
+        if(user==null){
+            System.out.println("Cet adresse mail n'existe pas.");
+            return ok();
+
+        }
+        else {
+            Logger.debug("Mot de passe oublier");
+            return ok(Utils.sendMailMotDePasseOublie(user));
         }
     }
 }

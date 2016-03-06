@@ -64,11 +64,12 @@
 
                     <div class="modal-body">
                         <p>@Messages("getEmail")</p>
-                        <input name="email" type="email" class="form-control" placeholder="Email" required="true" value="@form("email").value">                    </div>
+                        <input id="email-mdp-oublie" name="email" type="email" class="form-control" placeholder="Email" required="true" value="@form("email").value">
+                    </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("cancel")</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">@Messages("submit")</button>
+                        <a type="button" class="btn btn-primary" data-dismiss="modal" onclick="mdpOublie()">@Messages("submit")</a>
                     </div>
                 </div>
             </div>
@@ -81,6 +82,30 @@
         <!-- Mainly scripts -->
         <script src="js/jquery-2.1.1.js"></script>
         <script src="js/bootstrap.min.js"></script>
+            <!-- Exposing play framework routes -->
+        <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
+        <script type="application/javascript">
+                function mdpOublie(){
+
+
+                    var email =   $('#email-mdp-oublie').val();
+                     jsRoutes.controllers.Login.clickMotDePasseOublie(email).ajax({
+                        success: function(data) {
+                        console.log(data);
+                            alert("Le mail contenant votre nouveau mot de passe a été envoyé à votre adressse mail.")
+                            alert(data)
+
+
+
+
+
+                        },
+                        //Case we have a problem
+                        error: function(errorMessage){
+                        }
+                    });
+                }
+        </script>
 
     </body>
 

@@ -125,92 +125,92 @@
                         </div>
                     </div>
 
-                    <div class="wrapper wrapper-content">
-                        <div class="animated fadeInRightBig" style="margin:auto ;">
-                            <div class="row">
-                                <div class="col-xs-offset-11 col-xs-1">
-                                    <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
-                                        <i class="fa fa-info"></i>
-                                    </a>
-                                </div>
+                <div class="wrapper wrapper-content">
+                    <div class="animated fadeInRightBig" style="margin:auto ;">
+                        <div class="row">
+                            <div class="col-xs-offset-11 col-xs-1">
+                                <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
+                                    <i class="fa fa-info"></i>
+                                </a>
                             </div>
-                            <div class="tabs-container">
-                                <ul class="nav nav-tabs">
-                                @if(utilisateur.hasProjetsResponsable()) {
-                                    <li class="active"><a data-toggle="tab" href="#tab-projets">@Messages("myProjects")</a></li>
-                                    <li class=""><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
-                                } else {
-                                    <li class="active"><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
-                                }
-                                </ul>
-                                <div class="tab-content">
-                                    @if(utilisateur.hasProjetsResponsable()) {
-                                            <!-- Tab "Mes projets" -->
-                                        <div id="tab-projets" class="tab-pane active">
-                                            <div class="panel-body" style="padding-top:10px ;">
-                                                <div class="row row-options-tdb">
-                                                    <div class="col-sm-3">
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-tdb-rp-projets-termines" type="checkbox">
-                                                            <label for="checkbox-tdb-rp-projets-termines">
-                                                            @Messages("completedProjects")
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                        <!-- debut filtre -->
-                                                    <div class="col-sm-offset-7 col-sm-2">
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                @Messages("filters") <span class="caret"></span>
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <li>
-                                                                    <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                        <input id="checkbox-tdb-projets-bientot-finis" type="checkbox">
-                                                                        <label for="checkbox-tdb-projets-bientot-finis">
-                                                                        @Messages("projectsToFinishShortly")
-                                                                        </label>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                        <input id="checkbox-tdb-projets-retardes" type="checkbox">
-                                                                        <label for="checkbox-tdb-projets-retardes">
-                                                                        @Messages("delayedProjects")
-                                                                        </label>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
+                        </div>
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                            @if(utilisateur.hasProjetsResponsable()){
+                                <li class="active"><a data-toggle="tab" href="#tab-projets">@Messages("myProjects")</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
+                            } else {
+                                <li class="active"><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
+                            }
+                            </ul>
+                            <div class="tab-content">
+                                @if(utilisateur.hasProjetsResponsable()){
+                                    <!-- Tab "Mes projets" -->
+                                    <div id="tab-projets" class="tab-pane active">
+                                    <div class="panel-body" style="padding-top:10px ;">
+                                        <div class="row row-options-tdb">
+                                            <div class="col-sm-3">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-tdb-rp-projets-termines" type="checkbox" onclick="filtreTDBproj();">
+                                                    <label for="checkbox-tdb-rp-projets-termines">
+                                                    @Messages("completedProjects")
+                                                    </label>
                                                 </div>
-                                                    <!-- fin filtre -->
-                                                <div class="table-responsive table-responsive-tdb">
-                                                    <table id="dataTables-tdb-projet" class="table table-striped table-bordered table-hover">
-                                                        <thead>
-                                                            <tr class="table-center">
-                                                                <th style="vertical-align:middle ;">@Messages("project")</th>
-                                                                <th style="vertical-align:middle ;">@Messages("client")</th>
-                                                                <th style="vertical-align:middle ;">@Messages("startDate")</th>
-                                                                <th style="vertical-align:middle ;">@Messages("endDate")</th>
-                                                                <th style="vertical-align:middle ;">@Messages("workload")</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @for( projet <- utilisateur.listProjetsResponsable()) {
-                                                            @if(projet.estRetarde()) {
-                                                                <tr class="table-center projet-retarde">
-                                                            } else {
-                                                                @if(projet.estPresqueFini()) {
-                                                                    <tr class="table-center projet-presque-fini">
-                                                                } else {
-                                                                    @if(projet.estTermine()) {
-                                                                        <tr class="table-center projet-termine projet-finished">
-                                                                    } else {
-                                                                        <tr class="table-center">
-                                                                        }
+                                            </div>
+                                                <!-- debut filtre -->
+                                            <div class="col-sm-offset-7 col-sm-2">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        @Messages("filters") <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li>
+                                                            <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                <input id="checkbox-tdb-projets-bientot-finis" type="checkbox" onclick="filtreTDBproj();">
+                                                                <label for="checkbox-tdb-projets-bientot-finis">
+                                                                @Messages("projectsToFinishShortly")
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="checkbox checkbox-success checkbox-dropdown">
+                                                                <input id="checkbox-tdb-projets-retardes" type="checkbox" onclick="filtreTDBproj();">
+                                                                <label for="checkbox-tdb-projets-retardes">
+                                                                @Messages("delayedProjects")
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <!-- fin filtre -->
+                                        <div class="table-responsive table-responsive-tdb">
+                                            <table id="dataTables-tdb-projet" class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr class="table-center">
+                                                        <th style="vertical-align:middle ;">@Messages("project")</th>
+                                                        <th style="vertical-align:middle ;">@Messages("client")</th>
+                                                        <th style="vertical-align:middle ;">@Messages("startDate")</th>
+                                                        <th style="vertical-align:middle ;">@Messages("endDate")</th>
+                                                        <th style="vertical-align:middle ;">@Messages("workload")</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @for(projet <- utilisateur.listProjetsResponsable()) {
+                                                        @if(projet.estRetarde()){
+                                                            <tr class="table-center projet-retarde">
+                                                        } else{
+                                                            @if(projet.estPresqueFini()){
+                                                                <tr class="table-center projet-presque-fini">
+                                                            } else{
+                                                                @if(projet.estTermine()){
+                                                                    <tr class="table-center projet-termine projet-finished">
+                                                                } else{
+                                                                    <tr class="table-center">
                                                                 }
                                                             }
+                                                        }
                                                             <td style="vertical-align:middle ;"> @projet.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.formateDate(projet.dateDebutReel)</td>
@@ -282,7 +282,8 @@
                                         <div class="row row-options-tdb">
                                             <div class="col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-tdb-collab-projets-termines" type="checkbox">
+
+                                                    <input id="checkbox-tdb-collab-projets-termines" type="checkbox" onclick="projetTacheTDBTermine();">
                                                     <label for="checkbox-tdb-collab-projets-termines">
                                                     @Messages("completedProjects")
                                                     </label>
@@ -290,7 +291,7 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-tdb-collab-taches-termines" type="checkbox">
+                                                     <input id="checkbox-tdb-collab-taches-termines" type="checkbox" onclick="projetTacheTDBTermine();">
                                                     <label for="checkbox-tdb-collab-taches-termines">
                                                     @Messages("completedTasks")
                                                     </label>
@@ -305,7 +306,7 @@
                                                     <ul class="dropdown-menu">
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-critiques" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-critiques" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-critiques">
                                                                 @Messages("tasksOnCriticalPath")
                                                                 </label>
@@ -313,7 +314,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-indisponibles" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-indisponibles" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-indisponibles">
                                                                 @Messages("unavailableTasks")
                                                                 </label>
@@ -321,7 +322,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-semaine-pro" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-semaine-pro" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-semaine-pro">
                                                                 @Messages("tasksStartingNextWeek")
                                                                 </label>
@@ -329,7 +330,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-moins-10j" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-moins-10j" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-moins-10j">
                                                                 @Messages("tasksMustBeCompletedInLessThan10days")
                                                                 </label>
@@ -337,7 +338,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
-                                                                <input id="checkbox-tdb-taches-retardees" type="checkbox">
+                                                                <input id="checkbox-tdb-taches-retardees" type="checkbox" onclick="projetTacheTDBTermine();">
                                                                 <label for="checkbox-tdb-taches-retardees">
                                                                 @Messages("delayedTasks")
                                                                 </label>
@@ -364,7 +365,7 @@
                                                 </thead>
                                                 <tbody id="dataTables-tdb-tache-body">
                                                 @for( tache <- utilisateur.listTaches()) {
-                                                    <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center">
+                                                    <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center  @tache.filtres()" >
                                                         <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">
                                                             <p class="tdb-id-tache">@tache.idTache</p>
                                                             <p class="tdb-nom-tache">@tache.nom</p>
