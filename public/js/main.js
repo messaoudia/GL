@@ -69,8 +69,9 @@ $(document).on('click','#afficheListeProjet', function(event){
 
 
 $(document).on('click','#afficheRetour', function(event){
-
+    console.log($("#col-sidebar-retour").is(":hide"));
     if($("#col-sidebar-retour").is(":visible")){
+        alert("je vais fermer");
         hideSideBarRetour();
     }
     else
@@ -3081,7 +3082,7 @@ $(document).on('click', '#submitButton', function () {
         success: function (data) {
             $("#errorCreerProjetP").empty();
             $("#errorCreerProjet").hide();
-            $("#successCreerProjetP").html(messages("projet") + ' ' + data.nom + ' ' + messages("created"));
+            $("#successCreerProjetP").html(messages("project") + ' ' + data.nom + ' ' + messages("created"));
             $("#successCreerProjet").show();
             setTimeout(function () {
                 $("#successCreerProjet").hide();
