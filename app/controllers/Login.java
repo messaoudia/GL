@@ -88,6 +88,10 @@ public class Login extends Controller {
         return Utilisateur.authenticate(jsonSessionCredential.get("email").asText(), jsonSessionCredential.get("password").asText());
     }
 
+    public Result utilisateurConnecte(){
+        return ok(Json.toJson(getUtilisateurConnecte()));
+    }
+
     public static boolean isUtilisateurConnecte() {
         if (session().containsKey("sessionCredential")) {
             final String encryptedCredentials = session().get("sessionCredential");

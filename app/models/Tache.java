@@ -571,6 +571,8 @@ public class Tache extends EntiteSecurise {
     public boolean hasParent() {
         return parent != null;
     }
+
+    @JsonSerialize
     public boolean hasEnfant() {
         return enfants != null && !enfants.isEmpty();
     }

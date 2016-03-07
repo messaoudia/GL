@@ -2433,22 +2433,55 @@ var afficherModalTache = function (t) {
             $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
             $('#formModifierChargeConsommee span').nextAll('span').html(unite);
 
-            if (!tache.disponible) {
-                $('#formModifierChargeInitiale').attr("disabled", "");
-                $('#formModifierChargeRestante').attr("disabled", "");
-                $('#formModifierChargeConsommee').attr("disabled", "");
-            }
-            else {
-                $('#formModifierChargeInitiale').removeAttr("disabled");
-                $('#formModifierChargeRestante').removeAttr("disabled");
-                $('#formModifierChargeConsommee').removeAttr("disabled");
-            }
+            //Activation/désactivation des inputs
+            jsRoutes.controllers.Login.utilisateurConnecte().ajax({
+                success: function (utilisateur) {
+                    if(utilisateur.id != tache.projet.responsableProjet.id){
+                        changeDisablePropretyFormulaireModifierTache(true);
+
+                        $('#btn-indisponibleTache').hide();
+                        $('#btn-indisponibleTache-modifier').hide();
+                    }else{
+                        changeDisablePropretyFormulaireModifierTache(false);
+
+                        $('#btn-indisponibleTache').show();
+                        $('#btn-indisponibleTache-modifier').show();
+                    }
+
+                    if (tache.disponible && !tache.hasEnfant) {
+                        changeDisablePropertyChargesFormulaireTache(false);
+                    }else{
+                        changeDisablePropertyChargesFormulaireTache(true);
+                    }
+                }
+            });
 
         },
         //Case we have a problem
         error: function (errorMessage) {
             alert(errorMessage);
         }
+    });
+
+}
+
+var changeDisablePropertyChargesFormulaireTache = function(boolean){
+    $('#formModifierChargeInitiale').prop('disabled', boolean);
+    $('#formModifierChargeRestante').prop('disabled', boolean);
+    $('#formModifierChargeConsommee').prop('disabled', boolean);
+}
+
+var changeDisablePropretyFormulaireModifierTache = function(boolean){
+    $("#formModifierNomTache-tdb").prop('disabled', boolean);
+    $("#formModifierDescriptionTache-tdb").prop('disabled', boolean);
+    $("#form-tache-predecesseur").prop('disabled', boolean);
+    $("#form-tache-successeur").prop('disabled', boolean);
+    $("#responsableTacheModifier").prop('disabled', boolean);
+    $("#DD-modifier").prop('disabled', boolean);
+    $("#DFTO-modifier").prop('disabled', boolean);
+    $("#DFTA-modifier").prop('disabled', boolean);
+    $('#interlocuteurs-modifier input').each(function(){
+        $(this).prop('disabled', boolean);
     });
 }
 
