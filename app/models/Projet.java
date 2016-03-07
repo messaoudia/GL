@@ -1120,4 +1120,22 @@ public class Projet extends EntiteSecurise {
     }
 
 
+    public String filtres(){
+        String result ="";
+        if(this.estTermine()){
+            result= result +" projet-finished ";
+        }
+        if(this.estPresqueFini()){
+            result= result +" projet-presque-fini ";
+        }
+        if(this.estRetarde()==true){
+            result = result+" projet-retarde ";
+        }
+
+        System.out.println("fonction : checkout projet "+result);
+        return result;
+    }
+
+
+
 }

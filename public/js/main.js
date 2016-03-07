@@ -1408,15 +1408,15 @@ function filtreTDBproj() {
         $('.projet-finished').hide();
     }
 
-
+    var result = "";
     if ($('#checkbox-tdb-projets-retardes').is(":checked")) {
-        result += '.projets-retardes';
+        result += '.projet-retarde';
 
     }
 
 
     if ($('#checkbox-tdb-projets-bientot-finis').is(":checked")) {
-        result += '.projets-bientot-finis';
+        result += '.projet-presque-fini';
 
     }
 

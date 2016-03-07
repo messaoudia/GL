@@ -196,19 +196,8 @@
                                                 </thead>
                                                 <tbody>
                                                     @for(projet <- utilisateur.listProjetsResponsable()) {
-                                                        @if(projet.estRetarde()){
-                                                            <tr class="table-center projet-retarde">
-                                                        } else{
-                                                            @if(projet.estPresqueFini()){
-                                                                <tr class="table-center projet-presque-fini">
-                                                            } else{
-                                                                @if(projet.estTermine()){
-                                                                    <tr class="table-center projet-termine projet-finished">
-                                                                } else{
-                                                                    <tr class="table-center">
-                                                                }
-                                                            }
-                                                        }
+
+                                                        <tr class="table-center @projet.filtres()">
                                                             <td style="vertical-align:middle ;"> @projet.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.formateDate(projet.dateDebutReel)</td>
