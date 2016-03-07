@@ -7,7 +7,6 @@ import models.Error;
 import models.Utils.Utils;
 import play.Logger;
 import play.db.ebean.Transactional;
-import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -179,12 +178,13 @@ public class ProjetController extends Controller {
 
         Projet projet = parseDraftToProject(jsonDraft);
 
-        if (projet.checkProjet()) {
+        final Map<String, String> errors = projet.checkProjet();
+        if (errors.isEmpty()) {
             projet.listTaches.forEach(tache -> tache.save());
             projet.save();
             return ok(jsonDraft.toString());
         } else {
-            return badRequest(Json.toJson(ImmutableMap.of("error", Messages.get("nonCoherentProject"))));
+            return badRequest(Json.toJson(ImmutableMap.of("errors", errors)));
         }
 
     }
