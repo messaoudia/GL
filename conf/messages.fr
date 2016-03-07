@@ -201,4 +201,5 @@ contactExist = le contact existe déjà
 adminMdp = Saisir mot de passe admin
 mdpEmptyError = Mot de passe est vide
 mdpIncorrecteError = Mot de passe est incorrecte
-nonCoherentProject=Votre projet n'est plus cohérent, veuillez verifier la coherence de votre projet!
+nonCoherentProject = Votre projet n'est plus cohérent, veuillez verifier la coherence de votre projet!
+errorCreationTache = Création de la tâche impossible, veuillez vérifier la cohérence des champs saisis.

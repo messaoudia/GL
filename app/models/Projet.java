@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
-import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -32,21 +31,21 @@ public class Projet extends EntiteSecurise {
     @JoinColumn
     public Utilisateur responsableProjet;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutTheorique;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinTheorique;
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateDebutReel;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinReelTot;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @Formats.DateTime(pattern = "dd/MM/yyyy")
     public Date dateFinReelTard;
 
@@ -102,36 +101,35 @@ public class Projet extends EntiteSecurise {
         this.archive = archive;
         this.client = client;
         this.priorite = priorite;
-        if(listTaches == null){
+        if (listTaches == null) {
             this.listTaches = new BeanList<>();
             this.chargeConsommee = 0.0;
             this.chargeRestante = chargeInitiale;
-        }else{
+        } else {
             this.listTaches = listTaches;
             updateAvancementGlobal();
         }
 
-        if(utilisateursNotifications == null ||utilisateursNotifications.isEmpty()){
+        if (utilisateursNotifications == null || utilisateursNotifications.isEmpty()) {
             initUtilisateursNotifications();
-        }
-        else{
+        } else {
             this.utilisateursNotifications = utilisateursNotifications;
         }
 
     }
 
-    private void initUtilisateursNotifications(){
+    private void initUtilisateursNotifications() {
         utilisateursNotifications = new BeanList<>();
         utilisateursNotifications.add(responsableProjet);
-        for(Tache tache : listTaches){
-         if(!utilisateursNotifications.contains(tache.responsableTache))
-             utilisateursNotifications.add(tache.responsableTache);
+        for (Tache tache : listTaches) {
+            if (!utilisateursNotifications.contains(tache.responsableTache))
+                utilisateursNotifications.add(tache.responsableTache);
         }
         //save();
     }
 
-    private void addUtilisateurNotification(Utilisateur user){
-        if(!utilisateursNotifications.contains(user)) {
+    private void addUtilisateurNotification(Utilisateur user) {
+        if (!utilisateursNotifications.contains(user)) {
             utilisateursNotifications.add(user);
             save();
         }
@@ -139,30 +137,31 @@ public class Projet extends EntiteSecurise {
 
     /**
      * Attention : cette méthode doit être appelé une fois la suppression (tache, responsable de tache) effectuée
+     *
      * @param user
      */
-    private void removeUtilisateurNotification(Utilisateur user){
-        if(responsableProjet.equals(user))
+    private void removeUtilisateurNotification(Utilisateur user) {
+        if (responsableProjet.equals(user))
             return;
 
-        for(Tache tache : listTaches){
+        for (Tache tache : listTaches) {
             // On ne supprime pas l'user des notifs car il a d'autre(s) tache(s) dans ce projet
-            if(tache.responsableTache.equals(user))
+            if (tache.responsableTache.equals(user))
                 return;
         }
         removeDefinitivelyUtilisateurNotification(user);
         save();
     }
 
-    private void removeDefinitivelyUtilisateurNotification(Utilisateur user){
-        if(utilisateursNotifications.contains(user)) {
+    private void removeDefinitivelyUtilisateurNotification(Utilisateur user) {
+        if (utilisateursNotifications.contains(user)) {
             utilisateursNotifications.remove(user);
             save();
         }
     }
 
-    public Projet(String nom,String description,Utilisateur responsableProjet,Date dateDebutTheorique,Date dateFinTheorique,UniteProjetEnum unite,Client client, Integer priorite){
-        this(nom,description,responsableProjet,dateDebutTheorique,dateFinTheorique, null, null, null, 0.0,unite , (byte)0, true, false,client,priorite ,null,null);
+    public Projet(String nom, String description, Utilisateur responsableProjet, Date dateDebutTheorique, Date dateFinTheorique, UniteProjetEnum unite, Client client, Integer priorite) {
+        this(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, null, null, null, 0.0, unite, (byte) 0, true, false, client, priorite, null, null);
     }
 
     public Projet() {
@@ -196,8 +195,8 @@ public class Projet extends EntiteSecurise {
                     projet.enCours.equals(this.enCours) &&
                     projet.archive.equals(this.archive) &&
                     projet.priorite.equals(this.priorite) &&
-                    Utils.isEqualList(projet.listTaches,listTaches) &&
-                    Utils.isEqualList(projet.utilisateursNotifications,utilisateursNotifications));
+                    Utils.isEqualList(projet.listTaches, listTaches) &&
+                    Utils.isEqualList(projet.utilisateursNotifications, utilisateursNotifications));
         } catch (ClassCastException e) {
             return false;
         }
@@ -227,8 +226,10 @@ public class Projet extends EntiteSecurise {
 
     /** TODO : getUtilisateursNotifications **/
 
-    /** !!! A NE JAMAIS APPELER DANS LES PAGES HTML !!!
+    /**
+     * !!! A NE JAMAIS APPELER DANS LES PAGES HTML !!!
      * Ajouter la tache en parametre a la liste des taches du projet
+     *
      * @param tache
      * @param tache
      * @throws Exception
@@ -237,49 +238,49 @@ public class Projet extends EntiteSecurise {
     private void ajouterTache(Tache tache) throws Exception {
 
         // Met a jour le parent
-        if(tache.hasParent()){
-            if(tache.parent.equals(tache))
+        if (tache.hasParent()) {
+            if (tache.parent.equals(tache))
                 throw new IllegalArgumentException("Le parent de la tache " + tache.nom + " est lui-même!");
 
             //if(tache.parent.dateDebut.after(tache.dateDebut))
-            if(Utils.after(tache.parent.dateDebut, tache.dateDebut))
-                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de début ("+ formateDate(tache.parent.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+            if (Utils.after(tache.parent.dateDebut, tache.dateDebut))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de début (" + formateDate(tache.parent.dateDebut) + ") après la date de début (" + formateDate(tache.dateDebut) + ") de sa sous-tâche [" + tache.nom + "]");
 
             //if(tache.parent.dateFinTot.before(tache.dateFinTot))
-            if(Utils.before(tache.parent.dateFinTot, tache.dateFinTot))
-                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tot ("+ formateDate(tache.parent.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+            if (Utils.before(tache.parent.dateFinTot, tache.dateFinTot))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tot (" + formateDate(tache.parent.dateFinTot) + ") après la date de fin au plus tot (" + formateDate(tache.dateFinTot) + ") de sa sous-tâche [" + tache.nom + "]");
 
             //if(tache.parent.dateFinTard.before(tache.dateFinTard))
-            if(Utils.before(tache.parent.dateFinTard, tache.dateFinTard))
-                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tard ("+ formateDate(tache.parent.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+            if (Utils.before(tache.parent.dateFinTard, tache.dateFinTard))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tard (" + formateDate(tache.parent.dateFinTard) + ") après la date de fin au plus tard (" + formateDate(tache.dateFinTard) + ") de sa sous-tâche [" + tache.nom + "]");
 
-            if(tache.parent.enfants == null)
+            if (tache.parent.enfants == null)
                 tache.parent.enfants = new BeanList<>();
 
-            if(!tache.parent.enfants.contains(tache)){
+            if (!tache.parent.enfants.contains(tache)) {
                 tache.parent.enfants.add(tache);
                 //tache.parent.save();
             }
         }
 
         // Met a jour les enfants
-        if(tache.hasEnfant()){
-            if(tache.enfants.contains(tache))
+        if (tache.hasEnfant()) {
+            if (tache.enfants.contains(tache))
                 throw new IllegalArgumentException("Un des enfants de la tache " + tache.nom + " est lui-même!");
 
-            for(Tache enfant : tache.enfants){
+            for (Tache enfant : tache.enfants) {
                 //if(tache.dateDebut.after(enfant.dateDebut))
-                if(Utils.after(tache.dateDebut, enfant.dateDebut))
-                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de début ("+ formateDate(enfant.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+                if (Utils.after(tache.dateDebut, enfant.dateDebut))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de début (" + formateDate(enfant.dateDebut) + ") après la date de début (" + formateDate(tache.dateDebut) + ") de sa sous-tâche [" + tache.nom + "]");
 
 
                 //if(tache.dateFinTot.before(enfant.dateFinTot))
-                if(Utils.before(tache.dateFinTot, enfant.dateFinTot))
-                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tot ("+ formateDate(enfant.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+                if (Utils.before(tache.dateFinTot, enfant.dateFinTot))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tot (" + formateDate(enfant.dateFinTot) + ") après la date de fin au plus tot (" + formateDate(tache.dateFinTot) + ") de sa sous-tâche [" + tache.nom + "]");
 
                 //if(tache.dateFinTard.before(enfant.dateFinTard))
-                if(Utils.before(tache.dateFinTard, enfant.dateFinTard))
-                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(enfant.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+                if (Utils.before(tache.dateFinTard, enfant.dateFinTard))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tard (" + formateDate(enfant.dateFinTard) + ") après la date de fin au plus tard (" + formateDate(tache.dateFinTard) + ") de sa sous-tâche [" + tache.nom + "]");
 
                 enfant.parent = tache;
                 //enfant.save();
@@ -287,39 +288,39 @@ public class Projet extends EntiteSecurise {
         }
 
         // Met a jour le prédécesseur
-        if(tache.hasPredecesseur()){
-            if(tache.predecesseur.equals(tache))
+        if (tache.hasPredecesseur()) {
+            if (tache.predecesseur.equals(tache))
                 throw new IllegalArgumentException("Le predecesseur de la tache " + tache.nom + " est lui-même!");
 
-            if(tache.predecesseur.successeurs == null)
+            if (tache.predecesseur.successeurs == null)
                 tache.predecesseur.successeurs = new BeanList<>();
 
             //if(tache.dateDebut.before(tache.predecesseur.dateFinTard))
-            if(Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard))
-                throw new IllegalArgumentException("La tache " + tache.nom + " a une date de debut ("+ formateDate(tache.dateDebut)+") avant la date de fin au plus tard ("+ formateDate(tache.predecesseur.dateFinTard)+") de son predecesseur [" + tache.predecesseur.nom + "]");
+            if (Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard))
+                throw new IllegalArgumentException("La tache " + tache.nom + " a une date de debut (" + formateDate(tache.dateDebut) + ") avant la date de fin au plus tard (" + formateDate(tache.predecesseur.dateFinTard) + ") de son predecesseur [" + tache.predecesseur.nom + "]");
 
-            if(!Tache.checkPERT(tache, tache.predecesseur)){
+            if (!Tache.checkPERT(tache, tache.predecesseur)) {
                 throw new IllegalArgumentException("Le predecesseur " + tache.predecesseur.nom +
-                " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
+                        " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
             }
 
-            if(!tache.predecesseur.successeurs.contains(tache)){
+            if (!tache.predecesseur.successeurs.contains(tache)) {
                 tache.predecesseur.successeurs.add(tache);
                 //tache.predecesseur.save();
             }
         }
 
         // Met a jour les successeur
-        if(tache.hasSuccesseur()){
-            if(tache.successeurs.contains(tache))
+        if (tache.hasSuccesseur()) {
+            if (tache.successeurs.contains(tache))
                 throw new IllegalArgumentException("Un des successeurs de la tache " + tache.nom + " est lui-même!");
 
-            for(Tache successeur : tache.successeurs){
+            for (Tache successeur : tache.successeurs) {
                 //if(tache.dateFinTard.after(successeur.dateDebut))
-                if(Utils.after(tache.dateFinTard, successeur.dateDebut))
-                    throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") après la date de début ("+ formateDate(successeur.dateDebut)+") de son successeur [" + successeur.nom + "]");
+                if (Utils.after(tache.dateFinTard, successeur.dateDebut))
+                    throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard (" + formateDate(tache.dateFinTard) + ") après la date de début (" + formateDate(successeur.dateDebut) + ") de son successeur [" + successeur.nom + "]");
 
-                if(!Tache.checkPERT(tache, successeur)){
+                if (!Tache.checkPERT(tache, successeur)) {
                     throw new IllegalArgumentException("Le successeur " + successeur +
                             " de la tache " + tache.nom + " est présent dans sa hiérarchie directe.");
                 }
@@ -354,28 +355,29 @@ public class Projet extends EntiteSecurise {
         saveAllProject();
     }
 
-    private void updateDatesProjet(Tache tache){
+    private void updateDatesProjet(Tache tache) {
         // Mise a jour date de début
         //if(dateDebutReel == null || tache.dateDebut.before(dateDebutReel)){
-        if(dateDebutReel == null || Utils.before(tache.dateDebut, dateDebutReel)){
+        if (dateDebutReel == null || Utils.before(tache.dateDebut, dateDebutReel)) {
             dateDebutReel = tache.dateDebut;
         }
 
         // Mise a jour date de fin au + tot
         //if(dateFinReelTot == null || tache.dateFinTot.after(dateFinReelTot)){
-        if(dateFinReelTot == null || Utils.after(tache.dateFinTot, dateFinReelTot)){
+        if (dateFinReelTot == null || Utils.after(tache.dateFinTot, dateFinReelTot)) {
             dateFinReelTot = tache.dateFinTot;
         }
 
         // Mise a jour date de fin au + tard
         //if(dateFinReelTard == null || tache.dateFinTard.after(dateFinReelTard)){
-        if(dateFinReelTard == null || Utils.after(tache.dateFinTard, dateFinReelTard)){
+        if (dateFinReelTard == null || Utils.after(tache.dateFinTard, dateFinReelTard)) {
             dateFinReelTard = tache.dateFinTard;
         }
     }
 
     /**
      * Méthode uniquement appelée lorsque le projet n'a aucune tâche
+     *
      * @param tache
      * @throws Exception
      */
@@ -393,14 +395,15 @@ public class Projet extends EntiteSecurise {
 
     /**
      * A appeler quand on fait Créer une tache au dessus
+     *
      * @param tache
      * @param tacheDejaInseree
      * @throws Exception
      */
-    public void creerTacheAuDessus(Tache tache, Tache tacheDejaInseree) throws Exception{
+    public void creerTacheAuDessus(Tache tache, Tache tacheDejaInseree) throws Exception {
         // Vérifications initiales
-        if(!listTaches.contains(tacheDejaInseree)){
-            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheDejaInseree.nom);
+        if (!listTaches.contains(tacheDejaInseree)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache " + tacheDejaInseree.nom);
         }
         if (listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
@@ -409,7 +412,7 @@ public class Projet extends EntiteSecurise {
 
         // Même niveau et parent que la tache en dessous
         tache.niveau = tacheDejaInseree.niveau;
-        tache.parent = (tacheDejaInseree.parent == null)?null:tacheDejaInseree.parent;
+        tache.parent = (tacheDejaInseree.parent == null) ? null : tacheDejaInseree.parent;
 
         // Pas d'enfant
         tache.enfants = new BeanList<>();
@@ -422,16 +425,16 @@ public class Projet extends EntiteSecurise {
         String[] idTacheParse = tache.idTache.split("\\.");
         int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
 
-        for(Tache tacheDuProjet : listTaches){
-            if(!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau){
+        for (Tache tacheDuProjet : listTaches) {
+            if (!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau) {
                 // On parse l'id(=A.B.C.D) pour avoir A, B, C et D
                 String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
                 int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
 
                 // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >=
                 // (car il faut modifier aussi tacheDejaInseree qui a le meme id)
-                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger){
-                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger+1, tache.niveau);
+                if (samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger) {
+                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger + 1, tache.niveau);
                     tacheDuProjet.save();
                 }
             }
@@ -444,14 +447,15 @@ public class Projet extends EntiteSecurise {
 
     /**
      * A appeler quand on fait Créer une tache en dessous
+     *
      * @param tache
      * @param tacheDejaInseree
      * @throws Exception
      */
-    public void creerTacheEnDessous(Tache tache, Tache tacheDejaInseree) throws Exception{
+    public void creerTacheEnDessous(Tache tache, Tache tacheDejaInseree) throws Exception {
         // Vérifications initiales
-        if(!listTaches.contains(tacheDejaInseree)){
-            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+tacheDejaInseree.nom);
+        if (!listTaches.contains(tacheDejaInseree)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache " + tacheDejaInseree.nom);
         }
         if (listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
@@ -460,7 +464,7 @@ public class Projet extends EntiteSecurise {
 
         // Même niveau et parent que la tache en dessous
         tache.niveau = tacheDejaInseree.niveau;
-        tache.parent = (tacheDejaInseree.parent == null)?null:tacheDejaInseree.parent;
+        tache.parent = (tacheDejaInseree.parent == null) ? null : tacheDejaInseree.parent;
 
         // Pas d'enfant
         tache.enfants = new BeanList<>();
@@ -477,16 +481,16 @@ public class Projet extends EntiteSecurise {
         tache.idTache = reconstituerIdTache(idTacheParse, idTacheInteger, tache.niveau);
 
         // Modification de l'id des autres taches
-        for(Tache tacheDuProjet : listTaches){
-            if(!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau){
+        for (Tache tacheDuProjet : listTaches) {
+            if (!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau) {
                 // On parse l'id(=A.B.C.D) pour avoir A, B, C et D
                 String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
                 int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
 
                 // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >=
                 // (car il faut modifier aussi tacheDejaInseree+1 qui a le meme id)
-                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger){
-                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger+1, tache.niveau);
+                if (samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger >= idTacheInteger) {
+                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger + 1, tache.niveau);
                     tacheDuProjet.save();
                 }
             }
@@ -497,27 +501,28 @@ public class Projet extends EntiteSecurise {
 
     /**
      * Créer une sous-tâche à la tache parent
+     *
      * @param tache
      * @param parent
      * @throws Exception
      */
-    public void creerSousTache(Tache tache, Tache parent) throws Exception{
+    public void creerSousTache(Tache tache, Tache parent) throws Exception {
         // Vérifications initiales
-        if(parent.niveau > Tache.NIVEAU_MAX){
+        if (parent.niveau > Tache.NIVEAU_MAX) {
             throw new IllegalArgumentException("La tache " + parent.nom +
-                    " ne peut pas avoir de sous-tâche car elle est déjà au niveau de profondeur maximum ("+Tache.NIVEAU_MAX + ")");
+                    " ne peut pas avoir de sous-tâche car elle est déjà au niveau de profondeur maximum (" + Tache.NIVEAU_MAX + ")");
         }
 
-        if(!listTaches.contains(parent)){
-            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache "+parent.nom);
+        if (!listTaches.contains(parent)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + " ne contient pas la tache " + parent.nom);
         }
 
-        if(listTaches.contains(tache)) {
-            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +", creation impossible");
+        if (listTaches.contains(tache)) {
+            throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom + ", creation impossible");
         }
 
         // Même niveau et parent que la tache en dessous
-        tache.niveau = parent.niveau+1;
+        tache.niveau = parent.niveau + 1;
 
         // Parent est le parent de la tache. Mise a jour de la liste des enfants de 'parent' dans la methode 'ajouterTache'
         tache.parent = parent;
@@ -533,15 +538,16 @@ public class Projet extends EntiteSecurise {
 
     /**
      * Vérifie si deux taches ont le meme prefixe pour leur idTache
+     *
      * @param idTacheDuProjetParse
      * @param idTacheParse
      * @param niveau
      * @return
      */
-    private boolean samePrefix(String[] idTacheDuProjetParse, String[] idTacheParse, int niveau){
+    private boolean samePrefix(String[] idTacheDuProjetParse, String[] idTacheParse, int niveau) {
         // Condition pour faire le changement : il faut que ce qui précède l'id à l'indice niveau soit égal
-        for(int i=0; i<niveau; i++){
-            if(!idTacheDuProjetParse[i].equals(idTacheParse[i]))
+        for (int i = 0; i < niveau; i++) {
+            if (!idTacheDuProjetParse[i].equals(idTacheParse[i]))
                 return false;
         }
         return true;
@@ -549,25 +555,26 @@ public class Projet extends EntiteSecurise {
 
     /**
      * Reconstitue idTache d'une tache en modifiant a l'indice niveau par newIdTacheInteger
+     *
      * @param idTacheParse
      * @param newIdTache
      * @param niveau
      * @return
      */
-    private String reconstituerIdTache(String[] idTacheParse, int newIdTache, int niveau){
+    private String reconstituerIdTache(String[] idTacheParse, int newIdTache, int niveau) {
         String idTache = "";
         // Même debut entre 0 et niveau-1
-        for(int i=0; i<niveau; i++){
+        for (int i = 0; i < niveau; i++) {
             idTache += idTacheParse[i] + ".";
         }
         // Modification a l'indice niveau
         idTache += newIdTache + ".";
 
         // Meme fin entre niveau+1 et fin
-        for(int i=niveau+1; i<idTacheParse.length; i++){
+        for (int i = niveau + 1; i < idTacheParse.length; i++) {
             idTache += idTacheParse[i] + ".";
         }
-        return idTache.substring(0, idTache.length()-1);
+        return idTache.substring(0, idTache.length() - 1);
     }
 
 
@@ -586,40 +593,40 @@ public class Projet extends EntiteSecurise {
         }
 
         // Met a jour le parent
-        if(tache.hasParent()){
-            if(tache.parent.equals(tache))
+        if (tache.hasParent()) {
+            if (tache.parent.equals(tache))
                 throw new IllegalArgumentException("Le parent de la tache " + tache.nom + " est lui-même!");
 
             //if(tache.parent.dateDebut.after(tache.dateDebut))
-            if(Utils.after(tache.parent.dateDebut, tache.dateDebut))
-                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de début ("+ formateDate(tache.parent.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+            if (Utils.after(tache.parent.dateDebut, tache.dateDebut))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de début (" + formateDate(tache.parent.dateDebut) + ") après la date de début (" + formateDate(tache.dateDebut) + ") de sa sous-tâche [" + tache.nom + "]");
 
             //if(tache.parent.dateFinTot.before(tache.dateFinTot))
-            if(Utils.before(tache.parent.dateFinTot, tache.dateFinTot))
-                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tot ("+ formateDate(tache.parent.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+            if (Utils.before(tache.parent.dateFinTot, tache.dateFinTot))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tot (" + formateDate(tache.parent.dateFinTot) + ") après la date de fin au plus tot (" + formateDate(tache.dateFinTot) + ") de sa sous-tâche [" + tache.nom + "]");
 
             //if(tache.parent.dateFinTard.before(tache.dateFinTard))
-            if(Utils.before(tache.parent.dateFinTard, tache.dateFinTard))
-                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tard ("+ formateDate(tache.parent.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+            if (Utils.before(tache.parent.dateFinTard, tache.dateFinTard))
+                throw new IllegalArgumentException("Le parent [" + tache.parent.nom + " a une date de fin au plus tard (" + formateDate(tache.parent.dateFinTard) + ") après la date de fin au plus tard (" + formateDate(tache.dateFinTard) + ") de sa sous-tâche [" + tache.nom + "]");
         }
 
         // Met a jour les enfants
-        if(tache.hasEnfant()){
-            if(tache.enfants.contains(tache))
+        if (tache.hasEnfant()) {
+            if (tache.enfants.contains(tache))
                 throw new IllegalArgumentException("Un des enfants de la tache " + tache.nom + " est lui-même!");
 
-            for(Tache enfant : tache.enfants){
+            for (Tache enfant : tache.enfants) {
                 //if(tache.dateDebut.after(enfant.dateDebut))
-                if(Utils.after(tache.dateDebut, enfant.dateDebut))
-                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de début ("+ formateDate(enfant.dateDebut)+") après la date de début ("+ formateDate(tache.dateDebut)+") de sa sous-tâche [" + tache.nom + "]");
+                if (Utils.after(tache.dateDebut, enfant.dateDebut))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de début (" + formateDate(enfant.dateDebut) + ") après la date de début (" + formateDate(tache.dateDebut) + ") de sa sous-tâche [" + tache.nom + "]");
 
                 //if(tache.dateFinTot.before(enfant.dateFinTot))
-                if(Utils.before(tache.dateFinTot, enfant.dateFinTot))
-                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tot ("+ formateDate(enfant.dateFinTot)+") après la date de fin au plus tot ("+ formateDate(tache.dateFinTot)+") de sa sous-tâche [" + tache.nom + "]");
+                if (Utils.before(tache.dateFinTot, enfant.dateFinTot))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tot (" + formateDate(enfant.dateFinTot) + ") après la date de fin au plus tot (" + formateDate(tache.dateFinTot) + ") de sa sous-tâche [" + tache.nom + "]");
 
                 //if(tache.dateFinTard.before(enfant.dateFinTard))
-                if(Utils.before(tache.dateFinTard, enfant.dateFinTard))
-                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(enfant.dateFinTard)+") après la date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") de sa sous-tâche [" + tache.nom + "]");
+                if (Utils.before(tache.dateFinTard, enfant.dateFinTard))
+                    throw new IllegalArgumentException("Le parent [" + tache.nom + " a une date de fin au plus tard (" + formateDate(enfant.dateFinTard) + ") après la date de fin au plus tard (" + formateDate(tache.dateFinTard) + ") de sa sous-tâche [" + tache.nom + "]");
 
                 enfant.parent = tache;
                 enfant.save();
@@ -627,26 +634,26 @@ public class Projet extends EntiteSecurise {
         }
 
         // Met a jour le prédécesseur
-        if(tache.hasPredecesseur()){
-            if(tache.predecesseur.equals(tache))
+        if (tache.hasPredecesseur()) {
+            if (tache.predecesseur.equals(tache))
                 throw new IllegalArgumentException("Le predecesseur de la tache " + tache.nom + " est lui-même!");
 
-            if(tache.predecesseur.successeurs == null)
+            if (tache.predecesseur.successeurs == null)
                 tache.predecesseur.successeurs = new BeanList<>();
 
             //if(tache.dateDebut.before(tache.predecesseur.dateFinTard))
-            if(Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard))
-                throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de debut ("+ formateDate(tache.dateDebut)+") avant la date de fin au plus tard ("+ formateDate(tache.predecesseur.dateFinTard)+") de son predecesseur [" + tache.predecesseur.nom + "]");
+            if (Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard))
+                throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de debut (" + formateDate(tache.dateDebut) + ") avant la date de fin au plus tard (" + formateDate(tache.predecesseur.dateFinTard) + ") de son predecesseur [" + tache.predecesseur.nom + "]");
         }
         // Met a jour les successeur
-        if(tache.hasSuccesseur()){
-            if(tache.successeurs.contains(tache))
+        if (tache.hasSuccesseur()) {
+            if (tache.successeurs.contains(tache))
                 throw new IllegalArgumentException("Un des successeurs de la tache " + tache.nom + " est lui-même!");
 
-            for(Tache successeur : tache.successeurs){
+            for (Tache successeur : tache.successeurs) {
                 //if(tache.dateFinTard.after(successeur.dateDebut))
-                if(Utils.after(tache.dateFinTard, successeur.dateDebut))
-                    throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard ("+ formateDate(tache.dateFinTard)+") après la date de début ("+ formateDate(successeur.dateDebut)+") de son successeur [" + successeur.nom + "]");
+                if (Utils.after(tache.dateFinTard, successeur.dateDebut))
+                    throw new IllegalArgumentException("La tache [" + tache.nom + " a une date de fin au plus tard (" + formateDate(tache.dateFinTard) + ") après la date de début (" + formateDate(successeur.dateDebut) + ") de son successeur [" + successeur.nom + "]");
             }
         }
 
@@ -660,19 +667,20 @@ public class Projet extends EntiteSecurise {
 
     /**
      * Supprimer la tâche du systeme si elle n'a pas ete commencee (chargeConsommee == 0), l'archive sinon
+     *
      * @param tache
      * @throws Exception
      */
     @Transient
     public void supprimerTache(Tache tache) throws Exception {
-        if (!listTaches.contains(tache)){
+        if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
         listTaches.remove(tache);
 
         // Modifications au niveau des liaisons predecesseur/successeurs
-        if(tache.hasPredecesseur() && tache.hasSuccesseur()){
+        if (tache.hasPredecesseur() && tache.hasSuccesseur()) {
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
 
@@ -683,17 +691,17 @@ public class Projet extends EntiteSecurise {
                 t.save();
             });
             tAvant.save();
-        }else if(tache.hasPredecesseur()){
+        } else if (tache.hasPredecesseur()) {
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
             tAvant.save();
-        }else if(tache.hasSuccesseur()){
+        } else if (tache.hasSuccesseur()) {
             tache.getSuccesseurs().forEach(t -> t.predecesseur = null);
         }
 
         /** TODO A VERIFIER **/
-        if(tache.hasEnfant()){
-            for(Tache enfant : tache.enfants){
+        if (tache.hasEnfant()) {
+            for (Tache enfant : tache.enfants) {
                 supprimerTache(enfant);
             }
         }
@@ -702,15 +710,15 @@ public class Projet extends EntiteSecurise {
         String[] idTacheParse = tache.idTache.split("\\.");
         int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
 
-        for(Tache tacheDuProjet : listTaches){
-            if(!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau){
+        for (Tache tacheDuProjet : listTaches) {
+            if (!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau) {
                 // On parse l'id(=A.B.C.D) pour avoir A, B, C et D
                 String[] idTacheDuProjetParse = tacheDuProjet.idTache.split("\\.");
                 int idTacheDuProjetInteger = Integer.parseInt(idTacheDuProjetParse[tache.niveau]);
 
                 // Pour faire le changement : le prefixe doit être identique, et a l'indice niveau, ça doit être >
-                if(samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger > idTacheInteger){
-                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger-1, tache.niveau);
+                if (samePrefix(idTacheDuProjetParse, idTacheParse, tache.niveau) && idTacheDuProjetInteger > idTacheInteger) {
+                    tacheDuProjet.idTache = reconstituerIdTache(idTacheDuProjetParse, idTacheDuProjetInteger - 1, tache.niveau);
                     tacheDuProjet.save();
                 }
             }
@@ -720,9 +728,9 @@ public class Projet extends EntiteSecurise {
         removeUtilisateurNotification(tache.responsableTache);
 
         /** TODO : est-ce qu'on supprime la tache de la liste des notifs pour l'user et inversement?
-        tache.removeUtilisateurNotification(tache.responsableTache);
-        tache.removeUtilisateurNotificationEnfants();
-        tache.removeUtilisateurNotificationParents();
+         tache.removeUtilisateurNotification(tache.responsableTache);
+         tache.removeUtilisateurNotificationEnfants();
+         tache.removeUtilisateurNotificationParents();
          */
 
         // TODO Mettre a jour les charges des taches filles -> a checker
@@ -739,7 +747,7 @@ public class Projet extends EntiteSecurise {
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
             Tache.find.deleteById(tache.id);
-        }else{
+        } else {
             tache.archive = true;
             tache.save();
         }
@@ -796,36 +804,35 @@ public class Projet extends EntiteSecurise {
         this.client = client;
     }
 
-    private void calculeCheminCritique() throws Exception{
+    private void calculeCheminCritique() throws Exception {
         // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
         List<Tache> listTachesFin = new ArrayList<Tache>();
         listTachesFin.add(listTaches.get(0));
         Date dateMaxTache = listTaches.get(0).dateFinTard;
-        for(int i=0; i<listTaches.size(); i++){
+        for (int i = 0; i < listTaches.size(); i++) {
             Tache tache = listTaches.get(i);
             tache.critique = false; // on réinitialise tous les champs 'critique'
             //if(tache.dateFinTard.equals(dateFinReelTard) && !tache.hasSuccesseur() && tache.enfants().isEmpty()){
-            if(!tache.hasSuccesseur() && tache.enfants().isEmpty()){
-                if(Utils.equals(tache.dateFinTard, dateMaxTache)){
+            if (!tache.hasSuccesseur() && tache.enfants().isEmpty()) {
+                if (Utils.equals(tache.dateFinTard, dateMaxTache)) {
                     listTachesFin.add(tache);
-                }
-                else if(Utils.after(tache.dateFinTard, dateMaxTache)){
+                } else if (Utils.after(tache.dateFinTard, dateMaxTache)) {
                     listTachesFin.clear();
                     dateMaxTache = tache.dateFinTard;
                     listTachesFin.add(tache);
                 }
             }
         }
-        if(listTachesFin.isEmpty())
+        if (listTachesFin.isEmpty())
             throw new Exception("Le projet [" + nom + "] n'a pas de chemin critique car aucune tache ne termine à la date de fin au plus" +
                     " tard du projet (" + formateDate(dateFinReelTard) + ")");
 
         // Récupération de la tâche ayant le moins de marge
         Tache tacheAvecMoinsMarge = listTachesFin.get(0);
-        for(int i=1; i<listTachesFin.size(); i++){
+        for (int i = 1; i < listTachesFin.size(); i++) {
             Tache tmp = listTachesFin.get(i);
-            if((tmp.dateFinTard.getTime() - tmp.dateFinTot.getTime()) <
-                    (tacheAvecMoinsMarge.dateFinTard.getTime() - tacheAvecMoinsMarge.dateFinTot.getTime())){
+            if ((tmp.dateFinTard.getTime() - tmp.dateFinTot.getTime()) <
+                    (tacheAvecMoinsMarge.dateFinTard.getTime() - tacheAvecMoinsMarge.dateFinTot.getTime())) {
                 tacheAvecMoinsMarge = tmp;
             }
         }
@@ -835,18 +842,18 @@ public class Projet extends EntiteSecurise {
 
     }
 
-    private void calculeCheminCritiqueRecursive(Tache t){
+    private void calculeCheminCritiqueRecursive(Tache t) {
         t.critique = true;
-        if(t.hasPredecesseur()){
+        if (t.hasPredecesseur()) {
             calculeCheminCritiqueRecursive(t.predecesseur);
-            if(t.parent != null)
+            if (t.parent != null)
                 calculeCheminCritiqueTacheMere(t.parent);
         }
     }
 
-    private void calculeCheminCritiqueTacheMere(Tache t){
+    private void calculeCheminCritiqueTacheMere(Tache t) {
         t.critique = true;
-        if(t.parent != null)
+        if (t.parent != null)
             calculeCheminCritiqueTacheMere(t.parent);
     }
 
@@ -861,45 +868,45 @@ public class Projet extends EntiteSecurise {
             return true;
         else return false;
     }*/
-
     public void updateAvancementGlobal() {
         Double chargeConsommeeGlobal = 0.0;
         Double chargeRestanteGlobal = 0.0;
-        for(Tache tache : listTaches){
-            if(!tache.hasParent()) {
+        for (Tache tache : listTaches) {
+            if (!tache.hasParent()) {
                 chargeConsommeeGlobal += tache.chargeConsommee;
                 chargeRestanteGlobal += tache.chargeRestante;
             }
         }
-        if(listTaches.size() != 0){
+        if (listTaches.size() != 0) {
             this.chargeConsommee = chargeConsommeeGlobal;
             this.chargeRestante = chargeRestanteGlobal;
-            Double avancementDouble = chargeConsommeeGlobal/(chargeConsommeeGlobal + chargeRestanteGlobal);
+            Double avancementDouble = chargeConsommeeGlobal / (chargeConsommeeGlobal + chargeRestanteGlobal);
             BigDecimal bd = new BigDecimal(avancementDouble);
             BigDecimal bd2 = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
             String result = bd2.toString();
-            if(result.length()==3){
+            if (result.length() == 3) {
                 // Par example: "0.1"
-                this.avancementGlobal = new Byte(result.substring(2,3)+"0");
+                this.avancementGlobal = new Byte(result.substring(2, 3) + "0");
             } else {
                 // Par example: "0.15"
-                this.avancementGlobal = new Byte(result.substring(2,4));
+                this.avancementGlobal = new Byte(result.substring(2, 4));
             }
         }
         save();
     }
 
-    public String formateDate(Date d){
-        if(d!=null){
-        return dateFormat.format(d);}else{
+    public String formateDate(Date d) {
+        if (d != null) {
+            return dateFormat.format(d);
+        } else {
             return "";
         }
     }
 
-    public String formateDateTri(Date d){
-        if(d!=null) {
+    public String formateDateTri(Date d) {
+        if (d != null) {
             return dateFormatTri.format(d);
-        }else{
+        } else {
             return "";
         }
     }
@@ -908,63 +915,75 @@ public class Projet extends EntiteSecurise {
         return find.all();
     }
 
-    public static List<Projet> getAllNonArchivesNonTermines(){
+    public static List<Projet> getAllNonArchivesNonTermines() {
         return find.where()
-                .eq("archive",false)
-                .eq("enCours",true)
+                .eq("archive", false)
+                .eq("enCours", true)
                 .findList();
     }
 
-    public static List<Projet> getAllArchives(Boolean check){
-        if(check){
-            return find.where().eq("archive",true).eq("enCours",true).findList();
-        }else{
-            return find.where().eq("archive",true).findList();
+    public static List<Projet> getAllArchives(Boolean check) {
+        if (check) {
+            return find.where().eq("archive", true).eq("enCours", true).findList();
+        } else {
+            return find.where().eq("archive", true).findList();
         }
     }
 
-    public static List<Projet> getAllTermines(Boolean check){
-        if(check){
-            return find.where().eq("enCours",false).eq("archive",false).findList();
-        }else{
-            return find.where().eq("enCours",false).findList();
+    public static List<Projet> getAllTermines(Boolean check) {
+        if (check) {
+            return find.where().eq("enCours", false).eq("archive", false).findList();
+        } else {
+            return find.where().eq("enCours", false).findList();
         }
     }
 
-    public static Projet supprimerProjet(Long idProjet){
-         Projet p = find.byId(idProjet);
-         p.archive = true;
-         p.save();
-         System.out.println("P"+p.nom);
-         for(int i=0; i<p.client.listeProjets.size();i++){
-             System.out.println(p.client.listeProjets.get(i).nom);
-             System.out.println(p.client.listeProjets.get(i).archive);
-         }
+    public static Projet supprimerProjet(Long idProjet) {
+        Projet p = find.byId(idProjet);
+        p.archive = true;
+        p.save();
+        System.out.println("P" + p.nom);
+        for (int i = 0; i < p.client.listeProjets.size(); i++) {
+            System.out.println(p.client.listeProjets.get(i).nom);
+            System.out.println(p.client.listeProjets.get(i).archive);
+        }
         return p;
     }
 
     @JsonSerialize
-    public boolean hasUniteJour(){ return unite == UniteProjetEnum.JOUR; }
+    public boolean hasUniteJour() {
+        return unite == UniteProjetEnum.JOUR;
+    }
 
     @JsonSerialize
-    public boolean hasUniteSemaine(){ return unite == UniteProjetEnum.SEMAINE; }
+    public boolean hasUniteSemaine() {
+        return unite == UniteProjetEnum.SEMAINE;
+    }
 
-    public boolean estRetarde(){
-        if(dateFinReelTard!=null){
+    public boolean estRetarde() {
+        if (dateFinReelTard != null) {
             //return dateFinReelTard.after(Calendar.getInstance().getTime());
             return Utils.after(dateFinReelTard, Calendar.getInstance().getTime());
-        }else{
+        } else {
             return false;
         }
     }
-    public boolean estPresqueFini(){ return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);}
-    public boolean estTermine(){ return avancementGlobal == 100; }
+
+    public boolean estPresqueFini() {
+        return (avancementGlobal >= LIMITE_PROJET_PRESQUE_FINI && avancementGlobal < 100);
+    }
+
+    public boolean estTermine() {
+        return avancementGlobal == 100;
+    }
 
     @JsonSerialize
-    public int prioriteProjetEtClient(){ return priorite + client.priorite;}
+    public int prioriteProjetEtClient() {
+        return priorite + client.priorite;
+    }
 
-    public List<Tache> listTaches(){
-        listTaches = Tache.find.where().eq("projet",this).findList();
+    public List<Tache> listTaches() {
+        listTaches = Tache.find.where().eq("projet", this).findList();
         /*
         // Trier en fonction de idTache
         Collections.sort(listTaches, new Comparator<Tache>(){
@@ -997,16 +1016,16 @@ public class Projet extends EntiteSecurise {
         return listTaches;
     }
 
-    public List<Tache> listTachesAAfficher(){
+    public List<Tache> listTachesAAfficher() {
         listTaches = listTaches();
         List<Tache> taches = new BeanList<>();
-        for(Tache tache : listTaches){
-            if(!tache.hasParent()){
+        for (Tache tache : listTaches) {
+            if (!tache.hasParent()) {
                 taches.add(tache);
             }
         }
         // Trier en fonction de idTache (normalement que des int)
-        Collections.sort(taches, new Comparator<Tache>(){
+        Collections.sort(taches, new Comparator<Tache>() {
             @Override
             public int compare(Tache t1, Tache t2) {
                 return Integer.parseInt(t1.idTache) - Integer.parseInt(t2.idTache);
@@ -1017,54 +1036,77 @@ public class Projet extends EntiteSecurise {
 
     /**
      * TODO : a utiliser dans draftProjet
+     *
      * @return
      */
-    public boolean checkProjet(){
-        for(Tache tache : listTaches){
+    public Map<String, String> checkProjet() {
+        final Map<String, String> errors = new HashMap<>();
+        for (Tache tache : listTaches) {
             // Verification des predecesseur et successeurs
-            if(tache.hasPredecesseur() && (Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard)
-                    || !Tache.checkPERT(tache, tache.predecesseur))){
-                return false;
+            if (tache.hasPredecesseur()) {
+                if (Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard)) {
+                    errors.put("e1", "incoherence au niveau des dates debut entre tache:" + tache.nom + " et tache: " + tache.predecesseur.nom);
+                }
+                if (!Tache.checkPERT(tache, tache.predecesseur)) {
+                    errors.put("e2", "le predecesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.predecesseur.nom);
+                }
             }
 
-            if(tache.hasSuccesseur()){
-                for(Tache successeur : tache.successeurs){
-                    if(!Tache.checkPERT(tache, successeur) || Utils.after(tache.dateFinTard, successeur.dateDebut))
-                        return false;
+            if (tache.hasSuccesseur()) {
+                for (int i = 0; i < tache.successeurs.size(); i++) {
+                    if (!Tache.checkPERT(tache, tache.successeurs.get(i))) {
+                        errors.put("e3-" + i, "le sucesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.successeurs.get(i).nom);
+                    }
+                    if (Utils.after(tache.dateFinTard, tache.successeurs.get(i).dateDebut)) {
+                        errors.put("e4-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.successeurs.get(i).nom);
+                    }
                 }
             }
 
             // Vérification des dates des parents
-            if(tache.hasParent() && (Utils.after(tache.parent.dateDebut, tache.dateDebut)
-                    || Utils.before(tache.parent.dateFinTot, tache.dateFinTot)
-                    || Utils.before(tache.parent.dateFinTard, tache.dateFinTard))){
-                    return false;
+            if (tache.hasParent()) {
+                if (Utils.after(tache.parent.dateDebut, tache.dateDebut)) {
+                    errors.put("e5", "incoherence au niveau des dates debut entre tache:" + tache.parent.nom + " et tache: " + tache.nom);
+
+                }
+                if (Utils.before(tache.parent.dateFinTot, tache.dateFinTot)) {
+                    errors.put("e6", "incoherence au niveau des dates fin tot entre tache:" + tache.parent.nom + " et tache: " + tache.nom);
+
+                }
+                if (Utils.before(tache.parent.dateFinTard, tache.dateFinTard)) {
+                    errors.put("e7", "incoherence au niveau des dates fin tard entre tache:" + tache.parent.nom + " et tache: " + tache.nom);
+                }
             }
 
             // Vérification des dates des enfants
-            if(tache.hasEnfant()){
-                for(Tache enfant : tache.enfants){
-                    if(Utils.after(tache.dateDebut, enfant.dateDebut)
-                            ||Utils.before(tache.dateFinTot, enfant.dateFinTot)
-                            ||Utils.before(tache.dateFinTard, enfant.dateFinTard)){
-                        Logger.debug("Utils.after(tache.dateDebut, enfant.dateDebut)"+Utils.after(tache.dateDebut, enfant.dateDebut));
-                        Logger.debug("Utils.before(tache.dateFinTot, enfant.dateFinTot)"+Utils.before(tache.dateFinTot, enfant.dateFinTot));
-                        Logger.debug("Utils.before(tache.dateFinTard, enfant.dateFinTard)"+Utils.before(tache.dateFinTard, enfant.dateFinTard));
-                        return false;
+            if (tache.hasEnfant()) {
+
+                for (int i = 0; i < tache.enfants.size(); i++) {
+
+                    if (Utils.after(tache.dateDebut, tache.enfants.get(i).dateDebut)) {
+                        errors.put("e8-" + i, "incoherence au niveau des dates debut entre tache:" + tache.nom + " et tache: " + tache.enfants.get(i).nom);
+                    }
+                    if (Utils.before(tache.dateFinTot, tache.enfants.get(i).dateFinTot)) {
+                        errors.put("e9-" + i, "incoherence au niveau des dates fin tot entre tache:" + tache.nom + " et tache: " + tache.enfants.get(i).nom);
+
+                    }
+
+                    if (Utils.before(tache.dateFinTard, tache.enfants.get(i).dateFinTard)) {
+                        errors.put("e10-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.enfants.get(i).nom);
                     }
                 }
             }
         }
-        return true;
+        return errors;
     }
 
-    public void saveAllProject(){
-        for(Tache tache : listTaches){
+    public void saveAllProject() {
+        for (Tache tache : listTaches) {
             tache.saveAllTask();
         }
         //client.save();
-        if(utilisateursNotifications != null){
-            for(Utilisateur user : utilisateursNotifications){
+        if (utilisateursNotifications != null) {
+            for (Utilisateur user : utilisateursNotifications) {
                 user.save();
             }
         }
