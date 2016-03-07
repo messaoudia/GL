@@ -4,20 +4,15 @@ import controllers.Global.Mail;
 import models.Adresse;
 import models.Client;
 import models.Contact;
+import models.Utilisateur;
 import play.Logger;
+import play.libs.mailer.Email;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import java.util.ArrayList;
-import models.Utilisateur;
-import play.libs.mailer.Email;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Guillaume on 10/02/2016.
@@ -60,6 +55,7 @@ public class Utils {
 
     /**
      * Calcule le nombre de jours entre date1 et date2 : date2-date1
+     *
      * @param date1
      * @param date2
      * @return
@@ -204,7 +200,7 @@ public class Utils {
             readerContacts.close();
 
         } catch (Exception e) {
-            System.err.println("Impossible d'importer la liste des clients [" + fileNameClient + "] et des contacts [" + fileNameContact + "]: " + e.getMessage());
+            Logger.error("Impossible d'importer la liste des clients [" + fileNameClient + "] et des contacts [" + fileNameContact + "]: " + e.getMessage(), e);
         }
     }
 
@@ -286,12 +282,12 @@ public class Utils {
         return name.replaceAll("[0-9]", "");
     }
 
-    public static String sendMailMotDePasseOublie(Utilisateur user){
+    public static String sendMailMotDePasseOublie(Utilisateur user) {
         final Email email = new Email();
         email.setSubject("[ My Project - Polytech ] Test 2 ");
         email.setFrom("NE-PAS-REPONDRE <myproject.polytechparissud@gmail.com>");
 
-        email.addTo(user.getFirstname() + " "+ user.getLastname() +"<"+user.getEmail()+">");
+        email.addTo(user.getFirstname() + " " + user.getLastname() + "<" + user.getEmail() + ">");
 
         // adds attachment
         //email.addAttachment("attachment.pdf", new File("/some/path/attachment.pdf"));
@@ -301,7 +297,7 @@ public class Utils {
         //email.setBodyText("Hi Yasser");
 
 
-        email.setBodyHtml("<html><body><p>Bonjour "+user.getFirstname()+" "+user.getLastname()+",<br>Voici votre nouveau mot de passe : "+user.genererPassword()+"<br>Cordialement,</body></html>");
+        email.setBodyHtml("<html><body><p>Bonjour " + user.getFirstname() + " " + user.getLastname() + ",<br>Voici votre nouveau mot de passe : " + user.genererPassword() + "<br>Cordialement,</body></html>");
 
         Mail.sendEmail(email);
 

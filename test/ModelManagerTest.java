@@ -1,12 +1,20 @@
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import com.google.common.collect.ImmutableMap;
 import controllers.DashboardController;
 import models.*;
 import models.Exceptions.NotAvailableTask;
 import models.Utils.Utils;
+import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import play.Logger;
+import play.test.FakeApplication;
+import play.test.Helpers;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -16,9 +24,40 @@ import static play.test.Helpers.running;
  * Created by zzcoolj on 16/2/24.
  */
 public class ModelManagerTest {
+
+    public static FakeApplication app;
+    public static String createDdl = "";
+    public static String dropDdl = "";
+
+    @BeforeClass
+    public static void startApp() throws IOException {
+        app = Helpers.fakeApplication(Helpers.inMemoryDatabase());
+        Helpers.start(app);
+
+        // Reading the evolution file
+        String evolutionContent = FileUtils.readFileToString(
+                app.getWrappedApplication().getFile("conf/evolutions/default/1.sql"));
+        String[] splittedEvolutionContent = evolutionContent.split("# --- !Ups");
+        String[] upsDowns = splittedEvolutionContent[1].split("# --- !Downs");
+        createDdl = upsDowns[0];
+        dropDdl = upsDowns[1];
+    }
+
+    @Before
+    public void beforeEachTest() {
+        Ebean.execute(Ebean.createCallableSql(dropDdl));
+        Ebean.execute(Ebean.createCallableSql(createDdl));
+    }
+
+    @AfterClass
+    public static void stopApp() {
+        Helpers.stop(app);
+    }
+
+
+
     @Test
     public void testCreerTacheInitialisationProjet() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -49,12 +88,11 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testCreerTacheAuDessus() {
-        running(fakeApplication(), ()-> {
+
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -91,12 +129,10 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testCreerTacheEnDessous() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980","123456Aa");
             utilisateur.save();
 
@@ -133,12 +169,10 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testCreerSousTache() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -215,12 +249,10 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testIdTache() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -481,13 +513,11 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
 
     @Test
     public void testCalculeCheminCritique() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -685,12 +715,10 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testUpdateAvancementGlobal() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -895,12 +923,10 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testImportContactClient(){
-        running(fakeApplication(), ()-> {
 
             Client client = new Client("Applee",2,true, null,null, null);
             client.save();
@@ -930,12 +956,10 @@ public class ModelManagerTest {
 
             assertTrue(Utils.isEqualList(listContacts, cl2.listeContacts));
 
-        });
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testAjouterContactClientException(){
-        running(fakeApplication(), ()-> {
 
             Client cl = new Client("Applee",2,true, null,null, null);
             cl.save();
@@ -950,12 +974,10 @@ public class ModelManagerTest {
             cl.ajouterContact(c1);
             cl.ajouterContact(c2);
 
-        });
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testAffecterProjetClientException(){
-        running(fakeApplication(), ()-> {
 
             Client cl = new Client("Google",3,true, null,null, null);
             cl.save();
@@ -981,12 +1003,10 @@ public class ModelManagerTest {
 
             cl.affecterProjet(pr);
             cl.affecterProjet(pr);
-        });
     }
 
     @Test
     public void testAffecterProjetClient(){
-        running(fakeApplication(), ()-> {
 
             Client cl = new Client("Atos",1,true, null,null, null);
             cl.save();
@@ -1022,12 +1042,10 @@ public class ModelManagerTest {
             Logger.debug(cl2.listeProjets.get(0).toString());
 
             assertEquals(cl.listeProjets.get(0),cl2.listeProjets.get(0));
-        });
     }
 
     @Test
     public void testSupprimerTacheProjet() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -1066,12 +1084,10 @@ public class ModelManagerTest {
             assertTrue(!Projet.find.byId(projet.id).listTaches().contains(Tache.find.byId(tacheB.id)));
             assertEquals(Tache.find.byId(tacheC.id).predecesseur,Tache.find.byId(tacheA.id));
             assertEquals(Tache.find.byId(tacheA.id).getSuccesseurs().get(0),Tache.find.byId(tacheC.id));
-        });
     }
 
     @Test
     public void testUtilisateurCheckPassword() {
-        running(fakeApplication(), ()-> {
             String password = "aZERTY123456";
             String passwordF = "aZERTY123457";
 
@@ -1092,12 +1108,10 @@ public class ModelManagerTest {
 
             assertTrue(utilisateur2.checkPassword(password));
             assertFalse(utilisateur2.checkPassword(passwordF));
-        });
     }
 
     @Test
     public void testVerifierCoherenceDesDates() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
             Tache tache1 = new Tache("Etude 11","Cette tâche permet de réaliser l'étude du projet",utilisateur,3,true, Utils.getDateFrom(2016,2,1),
@@ -1109,12 +1123,10 @@ public class ModelManagerTest {
             tache2.save();
             assertTrue(Tache.find.byId(tache1.id).verifierCoherenceDesDates());
             assertFalse(Tache.find.byId(tache2.id).verifierCoherenceDesDates());
-        });
     }
 
     @Test
     public void testVerifierOrdreSousTaches() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -1149,12 +1161,10 @@ public class ModelManagerTest {
                 e.printStackTrace();
             }
             assertTrue(Tache.find.byId(tacheParent2.id).verifierOrdreSousTaches());
-        });
     }
 
     @Test
     public void testTacheEstDisponible() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -1192,12 +1202,10 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testUtilisateurAffecterTache() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -1217,12 +1225,10 @@ public class ModelManagerTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
     }
 
     @Test
     public void testUtilisateurGenererPassword() {
-        running(fakeApplication(), ()-> {
             String oldPassword = "aZERTY123456";
 
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", oldPassword);
@@ -1243,22 +1249,18 @@ public class ModelManagerTest {
             assertTrue(utilisateur2.checkPassword(newPassword));
             assertFalse(utilisateur2.checkPassword(oldPassword));
 
-        });
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testUtilisateurPasswordEception() {
-        running(fakeApplication(), ()-> {
             String oldPassword = "AZERTY";
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", oldPassword);
             utilisateur.save();
             utilisateur.setPassword(oldPassword);
-        });
     }
 
     @Test(expected = Exception.class)
     public void testAssocierSuccesseurEception() {
-        running(fakeApplication(), ()-> {
             Utilisateur utilisateur = Utilisateur.create("Z", "Z", "z.z@gmail.com", "1234567980", "123456Aa");
             utilisateur.save();
 
@@ -1330,12 +1332,10 @@ public class ModelManagerTest {
             // Tache1: 1; Tache2: 1.1; Tache3: 1.2; Tache4: 1.2.1
             // TODO
             tache4.associerSuccesseur(tache1);
-        });
     }
 
     @Test
     public void testModifierTache() {
-        running(fakeApplication(), () -> {
             Map<String, String[]> map = new HashMap<>();
             map.put("form-modif-tache-nom", new String[]{"NewNom"});
             map.put("form-modif-tache-desc", new String[]{"newDescription"});
@@ -1406,6 +1406,5 @@ public class ModelManagerTest {
 
             assertEquals(tache.responsableTache,Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0])));
 
-        });
     }
 }

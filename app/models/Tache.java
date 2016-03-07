@@ -542,6 +542,8 @@ public class Tache extends EntiteSecurise {
      */
     @JsonSerialize
     public Double getAvancementTache() {
+        System.out.println("charge consomme = "+chargeConsommee + " chargeRestante = "+chargeRestante);
+        System.out.println("Resultat de la tache "+this.nom+" = "+(chargeConsommee / (chargeConsommee + chargeRestante)));
         return (chargeConsommee / (chargeConsommee + chargeRestante));
     }
 
@@ -907,8 +909,34 @@ public class Tache extends EntiteSecurise {
             result = result + " tache-commence-semaine-prochaine ";
         }
 
+        if(this.estTerminee()){
+            result = result + " tache-terminee ";
+        }
+
+
+
         System.out.println("fonction : checkout "+result);
         return result;
+    }
+
+    public String checkBox()
+    {
+        if(this.estTerminee() && !this.estDisponible())
+        {
+            return " tache-terminee-indisponible";
+        }
+        if(this.estTerminee())
+        {
+            return " tache-terminee";
+        }
+        if(!this.estDisponible())
+        {
+            return " tache-indisponible";
+
+        }
+
+        return "";
+
     }
 
 

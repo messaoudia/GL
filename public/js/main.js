@@ -181,6 +181,51 @@ var $tmpTrAdminClient;
 var clientRow;
 var $tmpTrAdminUser;
 
+
+function updateTaskNestableCheckbox(id)
+{
+    console.log("updateTaskNestableCheckbox");
+    var idCheckboxT = "#checkbox-taches-terminees"+id;
+    var classTacheT = ".tache-terminee";
+    var classTacheTI = ".tache-terminee-indisponible";
+    var idCheckboxI = "#checkbox-taches-indisponibles"+id;
+    var classTacheI = ".tache-indisponible";
+
+    if($(idCheckboxT).is(":checked") && $(idCheckboxI).is(":checked"))
+    {
+        console.log("les 2 sont coche");
+        $(classTacheTI).show();
+        $(classTacheT).show();
+        $(classTacheI).show();
+    }
+    else
+    {
+        $(classTacheTI).hide();
+        if ($(idCheckboxT).is(":checked")) {
+            $(classTacheT).show();
+            console.log("les termine sont affiche");
+        }
+        else {
+            console.log("les termine sont cache");
+
+            $(classTacheT).hide();
+        }
+
+
+        if ($(idCheckboxI).is(":checked")) {
+            console.log("les indispo sont affiche");
+
+            $(classTacheI).show();
+        }
+        else {
+            console.log("les indispo sont cache");
+
+            $(classTacheI).hide();
+        }
+    }
+
+}
+
 function updateSideBarClientArchive(checkbox) {
     if ($(checkbox).is(":checked")) {
         $(".projet-finished-sidebar").show();
@@ -257,13 +302,13 @@ var creerTacheHaut = function (btn) {
     var idTacheSelect = $(btn).attr("data");
     var dataToSend = creerDataFormulaireCreationTache(btn);
 
-    if(dataToSend == -1){
+    if (dataToSend == -1) {
 
-    }else{
+    } else {
         console.log("main.scala : appel du controlleur creerSousTache");
         jsRoutes.controllers.TacheController.creerTacheHaut(idTacheSelect).ajax({
             data: dataToSend,
-            success : function(data) {
+            success: function (data) {
                 console.log("main.scala : success");
 
                 $('#errorCreerTache').hide();
@@ -272,7 +317,7 @@ var creerTacheHaut = function (btn) {
                 //Refresh project table
                 refreshProjectTable(idTacheSelect);
             },
-            error : function(errorMessage){
+            error: function (errorMessage) {
                 console.log("main.scala > creerSousTache => error");
                 console.log("-----------> " + errorMessage)
                 $('#errorCreerTache').show();
@@ -284,7 +329,7 @@ var creerTacheHaut = function (btn) {
 $(document).on('click', '.createTaskBas', function (event) {
     var btn = $(this);
 
-    console.log("creer tache bas de "+btn.attr("data"));
+    console.log("creer tache bas de " + btn.attr("data"));
     $('#formModifierTacheC').validate().resetForm();
     $('#formModifierTacheC').trigger("reset");
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
@@ -300,13 +345,13 @@ var creerTacheBas = function (btn) {
     var idTacheSelect = $(btn).attr("data");
     var dataToSend = creerDataFormulaireCreationTache(btn);
 
-    if(dataToSend == -1){
+    if (dataToSend == -1) {
 
-    }else{
+    } else {
         console.log("main.scala : appel du controlleur creerSousTache");
         jsRoutes.controllers.TacheController.creerTacheBas(idTacheSelect).ajax({
             data: dataToSend,
-            success : function(data) {
+            success: function (data) {
                 console.log("main.scala : success");
 
                 $('#errorCreerTache').hide();
@@ -315,7 +360,7 @@ var creerTacheBas = function (btn) {
                 //Refresh project table
                 refreshProjectTable(idTacheSelect);
             },
-            error : function(errorMessage){
+            error: function (errorMessage) {
                 console.log("main.scala > creerSousTache => error");
                 console.log("-----------> " + errorMessage)
                 $('#errorCreerTache').show();
@@ -387,47 +432,47 @@ var creerDataFormulaireCreationTache = function (btn) {
     }
 }
 
-var refreshProjectTable = function(idTacheSelect){
+var refreshProjectTable = function (idTacheSelect) {
 
     jsRoutes.controllers.TacheController.getTacheById(idTacheSelect).ajax({
-        success : function(tache){
+        success: function (tache) {
             var projetId = tache.projet.id;
             refreshProjectTableByIdProject(projetId);
         },
-        error : function(errorMessage){
+        error: function (errorMessage) {
             console.log(errorMessage);
         }
     });
 }
 
-var refreshProjectTableByIdProject = function(projetId) {
+var refreshProjectTableByIdProject = function (projetId) {
     // Refresh project view
     jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
-        success: function(data){
-            $('#projet-'+projetId).html(data);
-            $('#client-projet-'+projetId).html(data);
-            $('#projet-'+projetId).show();
-            console.log("AfficheProjet OK : "+projetId);
+        success: function (data) {
+            $('#projet-' + projetId).html(data);
+            $('#client-projet-' + projetId).html(data);
+            $('#projet-' + projetId).show();
+            console.log("AfficheProjet OK : " + projetId);
         },
-        error:function(errorMessage){
+        error: function (errorMessage) {
             console.log(errorMessage);
-            console.log("AfficheProjet KO : "+projetId);
+            console.log("AfficheProjet KO : " + projetId);
         }
     });
 }
 
-var remplirFormulaireCreationTache = function(btn){
+var remplirFormulaireCreationTache = function (btn) {
     var jsonTache = "";
 
     //FIXME Dates limites
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
-        success: function(tache) {
+        success: function (tache) {
             jsonTache = tache;
             var dateDebut = tache.dateDebut;
             var dateFinTard = tache.dateFinTard;
             $('#datepicker_date_debutC .input-group.date').datepicker('option', {
-                minDate: new Date(dateDebut.split("/")[2],dateDebut.split("/")[1],dateDebut.split("/")[0]),
-                maxDate: new Date(dateFinTard.split("/")[2],dateFinTard.split("/")[1],dateFinTard.split("/")[0]),
+                minDate: new Date(dateDebut.split("/")[2], dateDebut.split("/")[1], dateDebut.split("/")[0]),
+                maxDate: new Date(dateFinTard.split("/")[2], dateFinTard.split("/")[1], dateFinTard.split("/")[0]),
             });
             /*$('#datepicker_date_fin_totC .input-group.date').datepicker('option', {
              minDate: new Date(dateDebut.split("/")[2],dateDebut.split("/")[1],dateDebut.split("/")[0]),
@@ -440,83 +485,83 @@ var remplirFormulaireCreationTache = function(btn){
 
             //Interlocuteurs
             jsRoutes.controllers.DashboardController.getAllInterlocuteur(tache.projet.id).ajax({
-                success: function(interlocuteursClient){
+                success: function (interlocuteursClient) {
                     var listCreer = "";
-                    $(interlocuteursClient).each(function(i,interlocuteur){
-                        listCreer+='<li><div class="checkbox checkbox-success checkbox-dropdown">';
-                        listCreer+='<input id="checkbox-interlocuteurC-'+i+'" type="checkbox" value="'+interlocuteur.id+'">';
-                        listCreer+='<label for="checkbox-interlocuteurC-'+i+'">';
-                        listCreer+=interlocuteur.nom+' '+ interlocuteur.prenom+'</label></div></li>';
+                    $(interlocuteursClient).each(function (i, interlocuteur) {
+                        listCreer += '<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                        listCreer += '<input id="checkbox-interlocuteurC-' + i + '" type="checkbox" value="' + interlocuteur.id + '">';
+                        listCreer += '<label for="checkbox-interlocuteurC-' + i + '">';
+                        listCreer += interlocuteur.nom + ' ' + interlocuteur.prenom + '</label></div></li>';
                     });
 
                     $('#interlocuteurs-modifierC').html(listCreer);
 
                 },
-                error: function(errorMessage){
+                error: function (errorMessage) {
                     alert(errorMessage);
                 }
             });
 
             //Predecesseurs possible
             jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
-                success: function(taches){
+                success: function (taches) {
                     //console.log(taches);
                     var list = "";
 
-                    $(taches).each(function(index, t) {
-                        if(t.id==tache.predecesseurId){
-                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
+                    $(taches).each(function (index, t) {
+                        if (t.id == tache.predecesseurId) {
+                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
                         }
                         else {
-                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
+                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
                         }
                     });
 
                     $('#form-tache-predecesseurC').html(list);
                 },
-                error: function(errorMessage){
+                error: function (errorMessage) {
                     alert(errorMessage);
                 }
             });
 
             //Successeurs possible
             jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
-                success: function(taches){
+                success: function (taches) {
                     //console.log(taches);
                     var list = "";
 
-                    $(taches).each(function(index, t) {
+                    $(taches).each(function (index, t) {
                         var isSuccesseur = false;
-                        $(tache.successeurs).each(function(index,s){
-                            if(t.id == s.id){
+                        $(tache.successeurs).each(function (index, s) {
+                            if (t.id == s.id) {
                                 isSuccesseur = true;
                                 return;
                             }
                         });
-                        if(isSuccesseur){
-                            list+='<option value="'+t.id+'" selected>'+t.id+' - '+t.nom+'</option>';
-                        }else{
-                            list+='<option value="'+t.id+'">'+t.id+' - '+t.nom+'</option>';
+                        if (isSuccesseur) {
+                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                        } else {
+                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
                         }
                     });
 
                     $('#form-tache-successeurC').html(list);
                 },
-                error: function(errorMessage){
+                error: function (errorMessage) {
                     alert(errorMessage);
                 }
             });
             //Responsable de tache
             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
-                success: function(utilisateurs){
+                success: function (utilisateurs) {
                     var list = "";
-                    $(utilisateurs).each(function(index, u) {
-                        list+='<option value="'+u.id+'">'+u.nom+' '+u.prenom+'</option>';
+                    $(utilisateurs).each(function (index, u) {
+                        list += '<option value="' + u.id + '">' + u.nom + ' ' + u.prenom + '</option>';
                     });
 
                     $('#responsableTacheModifierC').html(list);
                 },
-                error: function(errorMessage){
+                error: function (errorMessage) {
                     alert(errorMessage);
                 }
             });
@@ -525,7 +570,7 @@ var remplirFormulaireCreationTache = function(btn){
 
 }
 
-$(document).on('click','#interlocuteurs-modifier', function(event){
+$(document).on('click', '#interlocuteurs-modifier', function (event) {
     event.stopPropagation();
 });
 
@@ -960,62 +1005,62 @@ var activeModificationProjetDansProjet = function (idProjet) {
     jQuery.fx.off = false;
 }
 
-var cancelProjetAdmin = function(idProjet){
+var cancelProjetAdmin = function (idProjet) {
     jQuery.fx.off = true;
     $("#div-modifierProjet-admin").hide();
     $("#div-consulterProjet-admin").show();
     jQuery.fx.off = false;
     jsRoutes.controllers.ProjetController.infoProjet(idProjet).ajax({
-        success: function(data) {
+        success: function (data) {
             $("#div-modifierProjet-admin").find('input[name=projet]').val(data.nom);
 
             $("#div-modifierProjet-admin").find('textarea[name=description]').html(data.description);
             //bouton priorite
 
             $("#projet-modifierAdmin-btn .btn").removeClass('btn-active');
-            if(data.priorite == 1){
+            if (data.priorite == 1) {
                 $("#first-admin-projet").addClass('btn-active');
-            }else if(data.priorite == 2){
+            } else if (data.priorite == 2) {
                 $("#second-admin-projet").addClass('btn-active');
-            }else{
+            } else {
                 $("#third-admin-projet").addClass('btn-active');
             }
 
             $("#responsableProjet option").removeAttr("selected");
-            $("#responsableProjet option[value="+data.responsableProjet.id+"]").prop("selected", "selected");
+            $("#responsableProjet option[value=" + data.responsableProjet.id + "]").prop("selected", "selected");
             $("#client option").removeAttr("selected");
-            $("#client option[value="+data.client.id+"]").prop("selected", "selected")
+            $("#client option[value=" + data.client.id + "]").prop("selected", "selected")
         },
         //Case we have a problem
-        error: function(errorMessage){
+        error: function (errorMessage) {
             alert(errorMessage);
         }
     });
 
 }
 
-var desactiveModificationProjetDansProjet = function(idProjet){
+var desactiveModificationProjetDansProjet = function (idProjet) {
     jQuery.fx.off = true;
     $("#div-modifierProjet-" + idProjet).hide();
     $("#div-consulterProjet-" + idProjet).show();
     jQuery.fx.off = false;
     //mis a jour des champs en fonction du projet
     jsRoutes.controllers.ProjetController.infoProjet(idProjet).ajax({
-        success: function(data) {
+        success: function (data) {
             $("#div-modifierProjet-" + idProjet).find('input[name=projet]').val(data.nom);
             $("#div-modifierProjet-" + idProjet).find('textarea[name=description]').html(data.description);
             //bouton priorite
-            $("#projet-modifier-btn-"+idProjet+" .btn").removeClass('btn-active');
-            if(data.priorite == 1){
-                $("#first-"+idProjet).addClass('btn-active');
-            }else if(data.priorite == 2){
-                $("#second-"+idProjet).addClass('btn-active');
-            }else{
-                $("#third-"+idProjet).addClass('btn-active');
+            $("#projet-modifier-btn-" + idProjet + " .btn").removeClass('btn-active');
+            if (data.priorite == 1) {
+                $("#first-" + idProjet).addClass('btn-active');
+            } else if (data.priorite == 2) {
+                $("#second-" + idProjet).addClass('btn-active');
+            } else {
+                $("#third-" + idProjet).addClass('btn-active');
             }
         },
         //Case we have a problem
-        error: function(errorMessage){
+        error: function (errorMessage) {
             alert(errorMessage);
         }
     });
@@ -1505,7 +1550,7 @@ function projetArchives() {
 }
 
 $(document).on("click", "#exporter-client", function (event) {
-    window.open("@routes.ClientController.getClientsAsCSV");
+    window.open(window.location+"getClientsAsCSV");
 });
 
 
@@ -2386,6 +2431,15 @@ var afficherModalTache = function (t) {
             }
 
             $('#interlocuteurs-consulter').html(list);
+            console.log("============> " + JSON.stringify(tache.interlocuteurs));
+
+            var mailToSTRING = "mailto:";
+            $.each(tache.interlocuteurs, function (index, value) {
+                mailToSTRING += (value.email + ";");
+            });
+            console.log(mailToSTRING);
+            //$("#interlocuteurs-consulter").html("<a href=\"" + mailToSTRING + "\"></a>");
+            $("#mail-to-interlocuteur").attr('href',mailToSTRING);
 
             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
@@ -2750,7 +2804,7 @@ var modifierProjet = function (div) {
             $('.liste-projet').find('div[name=' + nom + ']').find('div[class=sidebar-projet-nom]').html(data.nom);
             $('.liste-projet').find('div[name=' + nom + ']').find('div[class=sidebar-client-projet-priorite]').find('div[class=valeur]').html(data.prioriteProjetEtClient);
             //modif des valeurs de la div
-            nom = "client-projet-"+data.id;
+            nom = "client-projet-" + data.id;
 
             $('.liste-projet-client').find('div[name=' + nom + ']').find('div[class=sidebar-projet-nom]').html(data.nom);
             $('.liste-projet-client').find('div[name=' + nom + ']').find('div[class=sidebar-projet-priorite]').find('div[class=valeur]').html(data.priorite);
@@ -2889,6 +2943,7 @@ var modifierProjetAdminSelect = function (div) {
 
 
 $(document).ready(function () {
+
 
     // Print the first selected project
     $('#' + $('.sidebar-projet.select').attr("name")).show();
@@ -3304,7 +3359,7 @@ $(document).ajaxComplete(function () {
         $(this).addClass("select");
         var newIdProjet = '#' + $(this).attr("name");
         $(newIdProjet).show();
-
+        updateTaskNestableCheckbox($('.sidebar-projet.select').attr("projet"));
     });
 
 
@@ -3678,3 +3733,21 @@ $(document).ajaxComplete(function () {
         jsRoutes.controllers.NotificationController.sendNotifications().ajax();
     });
 });
+
+
+var interval;
+function callAjaxNbNotificationsNonLues() {
+    jsRoutes.controllers.NotificationController.nbNotificationsNonLues().ajax({
+        success: function (data) {
+            if (parseInt(data) > 0) {
+                $("#nbNotifNonLues-topbar").html(data);
+                $("#nbNotifNonLues-topbar").show();
+            } else {
+                $("#nbNotifNonLues-topbar").hide();
+            }
+
+            interval = setTimeout(callAjaxNbNotificationsNonLues, 10000);
+        }
+    });
+}
+callAjaxNbNotificationsNonLues();
