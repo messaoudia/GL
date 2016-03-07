@@ -64,7 +64,7 @@ public class Tache extends EntiteSecurise {
     @OneToMany(mappedBy = "predecesseur")
     public List<Tache> successeurs;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public Tache parent;
 
     @OneToMany(mappedBy = "parent")
@@ -955,7 +955,7 @@ public class Tache extends EntiteSecurise {
             return true;
         if(tachePert.equals(currentTache))
             return false;
-        for(Tache successeur : currentTache.getSuccesseurs()){
+        for(Tache successeur : currentTache.successeurs){
             if(!checkPERTRecursifVersSuccesseurs(successeur, tachePert)){
                 return false;
             }

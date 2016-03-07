@@ -169,6 +169,7 @@ public class ProjetController extends Controller {
     }
 
 
+    @Transactional
     public Result sendDraf() {
         JsonNode jsonDraft = request().body().asJson();
 
@@ -176,14 +177,24 @@ public class ProjetController extends Controller {
 
 
         Projet projet = parseDraftToProject(jsonDraft);
+        Logger.debug("BEFORE check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
+
 
         final Map<String, String> errors = projet.checkProjet();
+        //final Map<String, String> errors = new HashMap<>();
+
+        Logger.debug("AFTER check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
+
         if (errors.isEmpty()) {
             for (int i = 0; i < projet.listTaches.size(); i++) {
                 //Logger.debug(projet.listTaches.get(i).id + ", " + projet.listTaches.get(i).idTache + " -> " + projet.listTaches.get(i).niveau);
 
-                Tache tacheCourant = projet.listTaches.get(i);
-                tacheCourant.update();
+                Tache tache = projet.listTaches.get(i);
+                Logger.debug(tache.id + ", " + tache.idTache + " -> " + tache.niveau + ", enfants: " + tache.enfants.size());
+
+                Logger.debug(" ================> "+projet.listTaches.stream().filter(tache1 -> tache1.id==21L).findFirst().get().enfants.size());
+
+                tache.save();
                 //List<Tache> enfants = tacheCourant.enfants;
                 //for (int j = 0; j < enfants.size(); j++) {
                 //    enfants.get(j).parent = projet.listTaches.get(i);
@@ -248,8 +259,11 @@ public class ProjetController extends Controller {
         Integer index = 1;
         for (JsonNode tacheNode : tachesNodes) {
             dfsTraversalJsNode(null, tacheNode, index++, taches);
-            Logger.debug("Index: " + index.toString() + ", tacheId: " + tacheNode.get("id"));
+
+            //Logger.debug("Index: " + index.toString() + ", tacheId: " + tacheNode.get("id"));
         }
+
+        projet.listTaches = taches.values().stream().collect(Collectors.toList());
 
 
         return projet;
@@ -257,6 +271,7 @@ public class ProjetController extends Controller {
 
     @Transactional
     public static void dfsTraversalJsNode(JsonNode parentTacheNode, JsonNode currentTacheNode, Integer index, Map<Long, Tache> taches) {
+        Logger.debug(" dfsTraversalJsNode ==============================> "+taches.get(21L).enfants.size());
         final Tache parentTache = parentTacheNode != null ? taches.get(parentTacheNode.get("id").asLong()) : null;
         final Tache currentTache = taches.get(currentTacheNode.get("id").asLong());
 
@@ -268,17 +283,18 @@ public class ProjetController extends Controller {
             currentTache.idTache = index.toString();
         }
         // TODO Assign children to parent and parent to children
-        currentTache.enfants = childrenTaches;
+        //currentTache.enfants = childrenTaches;
         childrenTaches.forEach(child -> {
+            currentTache.enfants.add(child);
             child.parent = currentTache;
             //child.save();
-            taches.put(child.id,child);
+            taches.put(child.id, child);
         });
 
         currentTache.parent = parentTache;
         currentTache.niveau = currentTacheNode.get("depth").asInt();
         //currentTache.save();
-        taches.put(currentTache.id,currentTache);
+        taches.put(currentTache.id, currentTache);
 
         List<JsonNode> childrens = elementsToStream(currentTacheNode.get("childrens").elements()).collect(Collectors.toList());
 
@@ -288,7 +304,7 @@ public class ProjetController extends Controller {
             Tache childrenTache = taches.get(children.get("id").asLong(0));
             childrenTache.idTache = currentTache.idTache + "." + (indexEnfant++);
             //childrenTache.update();
-            taches.put(childrenTache.id,childrenTache);
+            taches.put(childrenTache.id, childrenTache);
 
 
             dfsTraversalJsNode(currentTacheNode, children, index, taches);
