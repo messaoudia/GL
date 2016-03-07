@@ -180,7 +180,6 @@ public class UtilisateurController extends Controller {
             return badRequest(Json.toJson(error));
         }
 
-
         String email = map.get("modify-formEmail")[0].trim();
         Logger.debug(email);
         if(!utst.email.equals(email)){
