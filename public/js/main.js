@@ -192,6 +192,7 @@ $(document).on('click','.createSubTask', function(event){
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
     remplirFormulaireCreationTache(btn);
+    $('#errorCreerTache').hide();
 
     $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
     $('#btn-valider-modifierTacheC').attr("onclick","creerSousTache(this); return false;");
@@ -210,6 +211,8 @@ var creerSousTache = function(btn){
             data: dataToSend,
             success : function(data) {
                 console.log("main.scala : success");
+
+                $('#errorCreerTache').hide();
                 $('#modal-tache-creer').modal('toggle');
 
                 //Refresh project table
@@ -218,6 +221,7 @@ var creerSousTache = function(btn){
             error : function(errorMessage){
                 console.log("main.scala > creerSousTache => error");
                 console.log("-----------> " + errorMessage)
+                $('#errorCreerTache').show();
             }
         });
     }
@@ -233,6 +237,7 @@ $(document).on('click','.createTaskHaut', function(event){
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
     remplirFormulaireCreationTache(btn);
+    $('#errorCreerTache').hide();
 
     $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
     $('#btn-valider-modifierTacheC').attr("onclick","creerTacheHaut(this); return false;");
@@ -250,6 +255,8 @@ var creerTacheHaut = function(btn){
             data: dataToSend,
             success : function(data) {
                 console.log("main.scala : success");
+
+                $('#errorCreerTache').hide();
                 $('#modal-tache-creer').modal('toggle');
 
                 //Refresh project table
@@ -258,6 +265,7 @@ var creerTacheHaut = function(btn){
             error : function(errorMessage){
                 console.log("main.scala > creerSousTache => error");
                 console.log("-----------> " + errorMessage)
+                $('#errorCreerTache').show();
             }
         });
     }
@@ -273,6 +281,7 @@ $(document).on('click','.createTaskBas', function(event){
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
     remplirFormulaireCreationTache(btn);
+    $('#errorCreerTache').hide();
 
     $('#btn-valider-modifierTacheC').attr("data",btn.attr("data"));
     $('#btn-valider-modifierTacheC').attr("onclick","creerTacheBas(this); return false;");
@@ -290,6 +299,8 @@ var creerTacheBas = function(btn){
             data: dataToSend,
             success : function(data) {
                 console.log("main.scala : success");
+
+                $('#errorCreerTache').hide();
                 $('#modal-tache-creer').modal('toggle');
 
                 //Refresh project table
@@ -298,6 +309,8 @@ var creerTacheBas = function(btn){
             error : function(errorMessage){
                 console.log("main.scala > creerSousTache => error");
                 console.log("-----------> " + errorMessage)
+                $('#errorCreerTache').show();
+
             }
         });
     }
