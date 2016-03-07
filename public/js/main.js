@@ -886,11 +886,65 @@ var activeModificationProjetDansProjet = function(idProjet){
     jQuery.fx.off = false;
 }
 
+var cancelProjetAdmin = function(idProjet){
+    jQuery.fx.off = true;
+    $("#div-modifierProjet-admin").hide();
+    $("#div-consulterProjet-admin").show();
+    jQuery.fx.off = false;
+    jsRoutes.controllers.ProjetController.infoProjet(idProjet).ajax({
+        success: function(data) {
+            $("#div-modifierProjet-admin").find('input[name=projet]').val(data.nom);
+
+            $("#div-modifierProjet-admin").find('textarea[name=description]').html(data.description);
+            //bouton priorite
+
+            $("#projet-modifierAdmin-btn .btn").removeClass('btn-active');
+            if(data.priorite == 1){
+                $("#first-admin-projet").addClass('btn-active');
+            }else if(data.priorite == 2){
+                $("#second-admin-projet").addClass('btn-active');
+            }else{
+                $("#third-admin-projet").addClass('btn-active');
+            }
+
+            $("#responsableProjet option").removeAttr("selected");
+            $("#responsableProjet option[value="+data.responsableProjet.id+"]").prop("selected", "selected");
+            $("#client option").removeAttr("selected");
+            $("#client option[value="+data.client.id+"]").prop("selected", "selected")
+        },
+        //Case we have a problem
+        error: function(errorMessage){
+            alert(errorMessage);
+        }
+    });
+
+}
+
 var desactiveModificationProjetDansProjet = function(idProjet){
     jQuery.fx.off = true;
     $("#div-modifierProjet-" + idProjet).hide();
     $("#div-consulterProjet-" + idProjet).show();
     jQuery.fx.off = false;
+    //mis a jour des champs en fonction du projet
+    jsRoutes.controllers.ProjetController.infoProjet(idProjet).ajax({
+        success: function(data) {
+            $("#div-modifierProjet-" + idProjet).find('input[name=projet]').val(data.nom);
+            $("#div-modifierProjet-" + idProjet).find('textarea[name=description]').html(data.description);
+            //bouton priorite
+            $("#projet-modifier-btn-"+idProjet+" .btn").removeClass('btn-active');
+            if(data.priorite == 1){
+                $("#first-"+idProjet).addClass('btn-active');
+            }else if(data.priorite == 2){
+                $("#second-"+idProjet).addClass('btn-active');
+            }else{
+                $("#third-"+idProjet).addClass('btn-active');
+            }
+        },
+        //Case we have a problem
+        error: function(errorMessage){
+            alert(errorMessage);
+        }
+    });
 }
 
 var activeModificationProjetDansClient = function(idProjet){
@@ -2620,12 +2674,9 @@ function generateErrorCreerProjet(errorMessage) {
 var modifierProjet = function (div) {
     var id = $(div).attr("value");
     var form = "#" + $(div).attr("form");
-    alert(form);
     var serialize = $(form).serialize();
     var idBtn = "projet-modifier-btn-" + id;
     var priorite = $('#' + idBtn + ' .btn-active').attr('value');
-
-    alert(priorite);
     jsRoutes.controllers.ProjetController.modifierProjet(id).ajax({
         data: serialize + '&priorite=' + priorite,
         success: function (data) {
@@ -2645,6 +2696,10 @@ var modifierProjet = function (div) {
             $('.liste-projet').find('div[name=' + nom + ']').find('div[class=sidebar-projet-nom]').html(data.nom);
             $('.liste-projet').find('div[name=' + nom + ']').find('div[class=sidebar-client-projet-priorite]').find('div[class=valeur]').html(data.prioriteProjetEtClient);
             //modif des valeurs de la div
+            nom = "client-projet-"+data.id;
+
+            $('.liste-projet-client').find('div[name=' + nom + ']').find('div[class=sidebar-projet-nom]').html(data.nom);
+            $('.liste-projet-client').find('div[name=' + nom + ']').find('div[class=sidebar-projet-priorite]').find('div[class=valeur]').html(data.priorite);
         },
         error: function (error) {
             $("#successModifierProjet").hide();
@@ -2828,13 +2883,6 @@ $(document).ready(function () {
         jQuery.fx.off = false;
     });
 
-    $("#btn-cancel-modifierProjet-admin").click(function () {
-        jQuery.fx.off = true;
-        $("#div-modifierProjet-admin").hide();
-        $("#div-consulterProjet-admin").show();
-        jQuery.fx.off = false;
-    });
-
     function modeDraftProjetAdmin() {
         if ($('#checkbox-draft-projet-admin').is(':checked')) {
             $('#nestable-projet-admin').removeClass("dd-nodrag");
@@ -2850,7 +2898,6 @@ $(document).ready(function () {
     $('#checkbox-draft-projet-admin').click(function () {
         modeDraftProjetAdmin();
     });
-
 
     $(".select2-input").select2();
 
@@ -3150,12 +3197,6 @@ $(document).ajaxComplete(function () {
         jQuery.fx.off = false;
     });
 
-    $("#btn-cancel-modifierProjet-admin").click(function () {
-        jQuery.fx.off = true;
-        $("#div-modifierProjet-admin").hide();
-        $("#div-consulterProjet-admin").show();
-        jQuery.fx.off = false;
-    });
 
     $(".header-sidebar-projet").click(function () {
 

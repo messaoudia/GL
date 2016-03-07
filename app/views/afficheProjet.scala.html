@@ -184,26 +184,26 @@
                                 <div class="col-sm-6">@Messages("priority")
                                     <div id="projet-modifier-btn-@projet.id" class="btn-group" style="display: inline-block ;">
                                     @if(projet.priorite == 1) {
-                                        <button class="btn btn-active" type="button" value="1" >
+                                        <button id="first-@projet.id" class="btn btn-active" type="button" value="1" >
                                             1</button>
-                                        <button class="btn" value="2" type="button">
+                                        <button id="second-@projet.id" class="btn" value="2" type="button">
                                             2</button>
-                                        <button class="btn" type="button" value="3">
+                                        <button id="third-@projet.id" class="btn" type="button" value="3">
                                             3</button>
                                     } else {
                                         @if(projet.priorite == 2) {
-                                            <button class="btn" type="button" value="1" >
+                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
                                                 1</button>
-                                            <button class="btn btn-active" value="2" type="button">
+                                            <button id="second-@projet.id" class="btn btn-active" value="2" type="button">
                                                 2</button>
-                                            <button class="btn" type="button" value="3">
+                                            <button id="third-@projet.id" class="btn" type="button" value="3">
                                                 3</button>
                                         } else {
-                                            <button class="btn" type="button" value="1" >
+                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
                                                 1</button>
-                                            <button class="btn" value="2" type="button">
+                                            <button id="second-@projet.id" class="btn" value="2" type="button">
                                                 2</button>
-                                            <button class="btn btn-active" type="button" value="3">
+                                            <button id="third-@projet.id" class="btn btn-active" type="button" value="3">
                                                 3</button>
                                         }
                                     }

@@ -40,7 +40,6 @@ public class ProjetController extends Controller {
     }
 
     public Result creerProjet() {
-        //TODO : description non obligatoire ?
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         System.out.println(map);
         Error error = new Error();
@@ -263,4 +262,7 @@ public class ProjetController extends Controller {
         return ok(afficheProjet.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte()));
     }
 
+    public Result infoProjet(Long idProjet) {
+        return ok(Json.toJson(Projet.find.byId(idProjet)));
+    }
 }

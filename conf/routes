@@ -132,3 +132,4 @@ GET         /messagesMap                                    controllers.Applicat
 POST        /checkMdpAdmin                                  controllers.AdminController.checkMdpAdmin(pswd : String)
 POST        /modifProjetSelect                              controllers.AdminController.modifierProjet(id :Long)
 POST        /redirectDashBoard                              controllers.AdminController.redirectDashboard()
+POST        /infoProjet                                     controllers.ProjetController.infoProjet(id : Long)
