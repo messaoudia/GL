@@ -70,7 +70,7 @@
                                             <div>
                                                 <select id="responsableProjet" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
                                                     @for(user <- users) {
-                                                        <option value="@user.id">@user.prenom @user.nom</option>
+                                                        <option value="@user.id">@user.prenom @user.nom ( @user.email ) </option>
                                                     }
 
                                                 </select>

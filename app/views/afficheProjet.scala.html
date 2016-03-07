@@ -64,6 +64,7 @@
             </div>
             <div class="row" id="date-header">
                 <h3 class="header-text">
+                @if(projet.dateDebutTheorique != null) {
                     @Messages("theoreticalDate")
                     <table>
                         <tr>
@@ -80,8 +81,9 @@
                                 <div class="date-projet">@projet.formateDate(projet.dateFinTheorique)</div>
                             </td>
                         </tr>
-
                     </table>
+                }
+                @if(projet.dateFinReelTot != null) {
                     @Messages("effectiveDates")
                     <table>
                         <tr>
@@ -101,6 +103,7 @@
                             </td>
                         </tr>
                     </table>
+                }
                 </h3>
             </div>
             <div class="row" style="margin-top: 14px ;">
@@ -161,13 +164,13 @@
                         </div>
                     </div>
 
-                    <div id="successModifierProjet" class="alert alert-success alert-dismissable" style="display: none ;">
+                    <div id="successModifierProjet-@projet.id" class="alert alert-success alert-dismissable" style="display: none ;">
                         <button class="close" type="button">×</button>
-                        <p id="successModifierProjetP"><p>
+                        <p id="successModifierProjetP-@projet.id"><p>
                     </div>
-                    <div id="errorModifierProjet" class="alert alert-danger alert-dismissable" style="display: none ;">
+                    <div id="errorModifierProjet-@projet.id" class="alert alert-danger alert-dismissable" style="display: none ;">
                         <button class="close" type="button">×</button>
-                        <p id="errorModifierProjetP"><p>
+                        <p id="errorModifierProjetP-@projet.id"><p>
                     </div>
 
                     <div class="row">

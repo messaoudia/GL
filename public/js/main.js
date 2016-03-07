@@ -1279,7 +1279,7 @@ $(document).on("shown.bs.modal", "#modal-add-projet-admin", function () {
             var responsablelist = $('#responsableProjet');
             $(listResponsable).each(function (index, user) {
                 var list = "";
-                list += ('<option value=' + user.id + '>' + user.prenom + ' ' + user.nom + '</option>');
+                list += ('<option value=' + user.id + '>' + user.prenom + ' ' + user.nom +' ('+user.email+') </option>');
                 responsablelist.append(list);
             });
         }
@@ -1955,7 +1955,7 @@ var modifierClient = function (btn) {
             $("#errorModifierClientP").empty();
             $("#errorModifierClient").hide();
 
-            $("#successModifierClientP").html(messages("client") + data.nom + messages("modified"));
+            $("#successModifierClientP").html(messages("client") +' '+ data.nom +' '+ messages("modified"));
             $("#successModifierClient").show();
             setTimeout(function () {
                 $("#successModifierClient").hide();
@@ -2036,7 +2036,7 @@ var creerClient = function (btn) {
             $("#errorCreerClientP").empty();
             $("#errorCreerClient").hide();
 
-            $("#successCreerClientP").html(messages("client") + data.nom + messages("created"));
+            $("#successCreerClientP").html(messages("client") +' '+ data.nom +' '+ messages("created"));
             $("#successCreerClient").show();
             setTimeout(function () {
                 $("#successCreerClient").hide();
@@ -2768,6 +2768,14 @@ function generateErrorCreerProjet(errorMessage) {
     if (errorMessage.responseJSON.parseError == true) {
         messageDiv += '<br> - ' + messages("incoherentDate");
     }
+    if (errorMessage.responseJSON.saisir2Date == true) {
+        messageDiv += '<br> - ' + messages("saisir2DateError");
+    }
+    if (errorMessage.responseJSON.projetExist == true) {
+        messageDiv += '<br> - ' + messages("projetExistError");
+    }
+
+
     return messageDiv;
 }
 
@@ -2780,13 +2788,13 @@ var modifierProjet = function (div) {
     jsRoutes.controllers.ProjetController.modifierProjet(id).ajax({
         data: serialize + '&priorite=' + priorite,
         success: function (data) {
-            $("#errorModifierProjetP").empty();
-            $("#errorModifierProjet").hide();
+            $("#errorModifierProjetP-"+id).empty();
+            $("#errorModifierProjet-"+id).hide();
 
-            $("#successModifierProjetP").html(messages("project") + ' ' + data.nom + ' ' + messages("modified"));
-            $("#successModifierProjet").show();
+            $("#successModifierProjetP-"+id).html(messages("project") + ' ' + data.nom + ' ' + messages("modified"));
+            $("#successModifierProjet-"+id).show();
             setTimeout(function () {
-                $("#successModifierProjet").hide();
+                $("#successModifierProjet-"+id).hide();
             }, 4000);
             var div = "#div-consulterProjet-" + data.id;
             $(div).find('div[id=projetName]').html(messages("project") + ': ' + data.nom);
@@ -2802,18 +2810,19 @@ var modifierProjet = function (div) {
             $('.liste-projet-client').find('div[name=' + nom + ']').find('div[class=sidebar-projet-priorite]').find('div[class=valeur]').html(data.priorite);
         },
         error: function (error) {
-            $("#successModifierProjet").hide();
-            $("#successModifierProjetP").empty();
+            $("#successModifierProjet-"+id).hide();
+            $("#successModifierProjetP-"+id).empty();
 
             var messageDiv = generateErrorModifierProjet(error);
-
-            $("#errorModifierProjetP").html(messageDiv);
-            $("#errorModifierProjet").show();
+            $("#errorModifierProjetP-"+id).html(messageDiv);
+            console.log($("#errorModifierProjetP-"+id).html());
+            $("#errorModifierProjet-"+id).show();
         }
     });
 }
 
 function generateErrorModifierProjet(errorMessage) {
+    console.log(errorMessage);
     var messageDiv = messages("errors") + ' : ';
 
     if (errorMessage.responseJSON.nomProjetVide == true) {
@@ -2825,6 +2834,10 @@ function generateErrorModifierProjet(errorMessage) {
 
     if (errorMessage.responseJSON.descriptionTropLong == true) {
         messageDiv += '<br> - ' + messages("descriptionTooLongError");
+    }
+
+    if (errorMessage.responseJSON.projetExist == true) {
+        messageDiv += '<br> - ' + messages("projetExistError");
     }
     return messageDiv;
 }
