@@ -7,7 +7,6 @@ import models.Error;
 import models.Utils.Utils;
 import play.Logger;
 import play.db.ebean.Transactional;
-import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -40,7 +39,6 @@ public class ProjetController extends Controller {
     }
 
     public Result creerProjet() {
-        //TODO : description non obligatoire ?
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         System.out.println(map);
         Error error = new Error();
@@ -180,6 +178,7 @@ public class ProjetController extends Controller {
     }
 
 
+    @Transactional
     public Result sendDraf() {
         JsonNode jsonDraft = request().body().asJson();
 
@@ -187,15 +186,70 @@ public class ProjetController extends Controller {
 
 
         Projet projet = parseDraftToProject(jsonDraft);
+        Logger.debug("BEFORE check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
 
-        if (projet.checkProjet()) {
-            projet.listTaches.forEach(tache -> tache.save());
-            projet.save();
+
+        final Map<String, String> errors = projet.checkProjet();
+
+        //final Map<String, String> errors = new HashMap<>();
+
+        Logger.debug("AFTER check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
+
+        if (errors.isEmpty()) {
+            for (int i = 0; i < projet.listTaches.size(); i++) {
+                //Logger.debug(projet.listTaches.get(i).id + ", " + projet.listTaches.get(i).idTache + " -> " + projet.listTaches.get(i).niveau);
+
+                Tache tache = projet.listTaches.get(i);
+                Logger.debug(tache.id + ", " + tache.idTache + " -> " + tache.niveau + ", enfants: " + tache.enfants.size());
+
+                Logger.debug(" ================> "+projet.listTaches.stream().filter(tache1 -> tache1.id==21L).findFirst().get().enfants.size());
+
+                tache.save();
+                //List<Tache> enfants = tacheCourant.enfants;
+                //for (int j = 0; j < enfants.size(); j++) {
+                //    enfants.get(j).parent = projet.listTaches.get(i);
+                //    enfants.get(j).save();
+                //}
+                //projet.listTaches.get(i).save();
+                //dfsTache(projet.listTaches.get(i), projet.listTaches.get(i).parent);
+
+
+            }
+            // projet.save();
+
+            for (int i = 0; i < projet.listTaches.size(); i++) {
+                Tache tache = Tache.find.byId(projet.listTaches.get(i).id);
+                Logger.debug(tache.id + ", " + tache.idTache + " -> " + tache.niveau);
+            }
             return ok(jsonDraft.toString());
         } else {
-            return badRequest(Json.toJson(ImmutableMap.of("error", Messages.get("nonCoherentProject"))));
+            return badRequest(Json.toJson(ImmutableMap.of("errors", errors)));
         }
 
+    }
+
+    @Transactional
+    public static void dfsTache(Tache currentTache, Tache tacheParent) {
+
+        Logger.debug("======================================");
+        final List<Tache> childrenTaches = currentTache.enfants;
+
+        Logger.debug(currentTache.id + ", " + currentTache.idTache + " -> " + currentTache.niveau);
+        Logger.debug("Childrens: ");
+        childrenTaches.forEach(child -> {
+            child.parent = currentTache;
+            Logger.debug(child.id + ", idTache" + child.idTache);
+
+            //child.save();
+        });
+
+        currentTache.parent = tacheParent;
+        //currentTache.save();
+        Logger.debug("======================================");
+
+        for (int i = 0; i < childrenTaches.size(); i++) {
+            dfsTache(childrenTaches.get(i), currentTache);
+        }
     }
 
     @Transactional
@@ -215,8 +269,11 @@ public class ProjetController extends Controller {
         Integer index = 1;
         for (JsonNode tacheNode : tachesNodes) {
             dfsTraversalJsNode(null, tacheNode, index++, taches);
-            Logger.debug("Index: " + index.toString() + ", tacheId: " + tacheNode.get("id"));
+
+            //Logger.debug("Index: " + index.toString() + ", tacheId: " + tacheNode.get("id"));
         }
+
+        projet.listTaches = taches.values().stream().collect(Collectors.toList());
 
 
         return projet;
@@ -224,6 +281,7 @@ public class ProjetController extends Controller {
 
     @Transactional
     public static void dfsTraversalJsNode(JsonNode parentTacheNode, JsonNode currentTacheNode, Integer index, Map<Long, Tache> taches) {
+        Logger.debug(" dfsTraversalJsNode ==============================> "+taches.get(21L).enfants.size());
         final Tache parentTache = parentTacheNode != null ? taches.get(parentTacheNode.get("id").asLong()) : null;
         final Tache currentTache = taches.get(currentTacheNode.get("id").asLong());
 
@@ -235,15 +293,18 @@ public class ProjetController extends Controller {
             currentTache.idTache = index.toString();
         }
         // TODO Assign children to parent and parent to children
-        currentTache.enfants = childrenTaches;
+        //currentTache.enfants = childrenTaches;
         childrenTaches.forEach(child -> {
+            currentTache.enfants.add(child);
             child.parent = currentTache;
-            // child.save();
+            //child.save();
+            taches.put(child.id, child);
         });
 
         currentTache.parent = parentTache;
         currentTache.niveau = currentTacheNode.get("depth").asInt();
         //currentTache.save();
+        taches.put(currentTache.id, currentTache);
 
         List<JsonNode> childrens = elementsToStream(currentTacheNode.get("childrens").elements()).collect(Collectors.toList());
 
@@ -253,6 +314,8 @@ public class ProjetController extends Controller {
             Tache childrenTache = taches.get(children.get("id").asLong(0));
             childrenTache.idTache = currentTache.idTache + "." + (indexEnfant++);
             //childrenTache.update();
+            taches.put(childrenTache.id, childrenTache);
+
 
             dfsTraversalJsNode(currentTacheNode, children, index, taches);
         }
@@ -272,4 +335,7 @@ public class ProjetController extends Controller {
         return ok(afficheProjet.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte()));
     }
 
+    public Result infoProjet(Long idProjet) {
+        return ok(Json.toJson(Projet.find.byId(idProjet)));
+    }
 }

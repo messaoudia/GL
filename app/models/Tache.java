@@ -65,7 +65,7 @@ public class Tache extends EntiteSecurise {
     @OneToMany(mappedBy = "predecesseur")
     public List<Tache> successeurs;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public Tache parent;
 
     @OneToMany(mappedBy = "parent")

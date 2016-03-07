@@ -60,6 +60,7 @@ GET         /getTacheById                                   controllers.TacheCon
 POST        /creerSousTach                                  controllers.TacheController.creerSousTache(idTache: Long)
 POST        /creerTacheHaut                                 controllers.TacheController.creerTacheHaut(idTache: Long)
 POST        /creerTacheBas                                  controllers.TacheController.creerTacheBas(idTache: Long)
+GET         /supprimerTache                                 controllers.TacheController.supprimerTache(idTache: Long)
 
 POST        /modifierTache                                  controllers.DashboardController.modifierTache()
 POST        /ajouterProjet                                  controllers.ProjetController.creerProjet
@@ -132,3 +133,4 @@ GET         /messagesMap                                    controllers.Applicat
 POST        /checkMdpAdmin                                  controllers.AdminController.checkMdpAdmin(pswd : String)
 POST        /modifProjetSelect                              controllers.AdminController.modifierProjet(id :Long)
 POST        /redirectDashBoard                              controllers.AdminController.redirectDashboard()
+POST        /infoProjet                                     controllers.ProjetController.infoProjet(id : Long)
