@@ -2386,6 +2386,15 @@ var afficherModalTache = function (t) {
             }
 
             $('#interlocuteurs-consulter').html(list);
+            console.log("============> " + JSON.stringify(tache.interlocuteurs));
+
+            var mailToSTRING = "mailto:";
+            $.each(tache.interlocuteurs, function (index, value) {
+                mailToSTRING += (value.email + ";");
+            });
+            console.log(mailToSTRING);
+            //$("#interlocuteurs-consulter").html("<a href=\"" + mailToSTRING + "\"></a>");
+            $("#mail-to-interlocuteur").attr('href',mailToSTRING);
 
             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
@@ -3671,10 +3680,10 @@ var interval;
 function callAjaxNbNotificationsNonLues() {
     jsRoutes.controllers.NotificationController.nbNotificationsNonLues().ajax({
         success: function (data) {
-            if(parseInt(data)>0){
+            if (parseInt(data) > 0) {
                 $("#nbNotifNonLues-topbar").html(data);
                 $("#nbNotifNonLues-topbar").show();
-            }else {
+            } else {
                 $("#nbNotifNonLues-topbar").hide();
             }
 
