@@ -955,7 +955,7 @@ public class Tache extends EntiteSecurise {
             return true;
         if(tachePert.equals(currentTache))
             return false;
-        for(Tache successeur : currentTache.successeurs){
+        for(Tache successeur : currentTache.getSuccesseurs()){
             if(!checkPERTRecursifVersSuccesseurs(successeur, tachePert)){
                 return false;
             }
