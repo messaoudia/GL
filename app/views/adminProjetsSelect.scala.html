@@ -148,6 +148,7 @@
                                         <div class="row" id="date-header">
 
                                             <h3 class="header-text">
+                                            @if(projet.dateDebutTheorique != null) {
                                                 @Messages("theoreticalDate")
                                                 <table>
                                                     <tr>
@@ -164,8 +165,9 @@
                                                             <div class="date-projet-admin">@projet.formateDate(projet.dateFinTheorique)</div>
                                                         </td>
                                                     </tr>
-
                                                 </table>
+                                            }
+                                            @if(projet.dateDebutReel != null) {
                                                 @Messages("effectiveDates")
                                                 <table>
                                                     <tr>
@@ -185,6 +187,7 @@
                                                         </td>
                                                     </tr>
                                                 </table>
+                                            }
                                             </h3>
                                         </div>
                                         <div class="row" style="margin-top: 14px ;">
