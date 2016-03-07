@@ -1057,11 +1057,11 @@ public class Projet extends EntiteSecurise {
 
             if (tache.hasSuccesseur()) {
                 for (int i = 0; i < tache.successeurs.size(); i++) {
-                    if (!Tache.checkPERT(tache, tache.successeurs.get(i))) {
-                        errors.put("e3-" + i, "le sucesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.successeurs.get(i).nom);
-                    }
                     if (Utils.after(tache.dateFinTard, tache.successeurs.get(i).dateDebut)) {
-                        errors.put("e4-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.successeurs.get(i).nom);
+                        errors.put("e3-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.successeurs.get(i).nom);
+                    }
+                    if (!Tache.checkPERT(tache, tache.successeurs.get(i))) {
+                        errors.put("e4-" + i, "le sucesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.successeurs.get(i).nom);
                     }
                 }
             }
@@ -1118,5 +1118,6 @@ public class Projet extends EntiteSecurise {
         //responsableProjet.save();
 
     }
+
 
 }
