@@ -677,6 +677,10 @@ public class Projet extends EntiteSecurise {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
+        if (tache.getAvancementTache() > 0) {
+            throw new IllegalStateException("Suppression de la tache "+tache.nom+" impossible car elle est déja commencée.");
+        }
+
         listTaches.remove(tache);
 
         // Modifications au niveau des liaisons predecesseur/successeurs
