@@ -982,24 +982,8 @@
                                                 <!-- Modal-view modifier tache/sous-tache -->
                                             @popuptacheConsulterModifier()
                                             @popuptacheCreer()
-                                            <div class="modal fade" id="modal-confirmation-suppr-tache-projet" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog modal-sm">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header background_admin">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
-                                                                ×</span><span class="sr-only">Close</span></button>
-                                                            <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>@Messages("taskDeleteMessage") : (nom de la tâche) ?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
-                                                            <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @popuptacheSupprimer()
+
                                         </div>
                                     </div>
                                 </div>
