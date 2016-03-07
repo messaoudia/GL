@@ -2385,7 +2385,7 @@ var afficherModalTache = function (t) {
             //console.log(JSON.stringify(tache));
             $('#chargeInitialeTache').html(messages("initial") + ' : ' + tache.chargeInitiale + unite);
             $('#chargeRestanteTache').html(messages("remaining") + ' : ' + tache.chargeRestante + unite);
-            $('#chargeConsommeeTache').html(+essages("consumed") + ': ' + tache.chargeConsommee + unite);
+            $('#chargeConsommeeTache').html(messages("consumed") + ': ' + tache.chargeConsommee + unite);
             $('#formModifierChargeInitiale').attr("value", tache.chargeInitiale);
             $('#formModifierChargeInitiale').nextAll('span').html(unite);
             if (tache.disponible) {
@@ -2523,7 +2523,7 @@ var modifierTache = function (btn) {
 
                         tableContent += ('<p class="row-initiale">' + messages("initial") + ' : ' + tache.chargeInitiale);
                         if (tache.projet.hasUniteJour) {
-                            tableContent += (+essages("day-first-letter"));
+                            tableContent += (messages("day-first-letter"));
                         } else {
                             tableContent += (messages("week-first-letter"));
                         }
