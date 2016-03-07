@@ -184,26 +184,26 @@
                                 <div class="col-sm-6">@Messages("priority")
                                     <div id="projet-modifier-btn-@projet.id" class="btn-group" style="display: inline-block ;">
                                     @if(projet.priorite == 1) {
-                                        <button class="btn btn-active" type="button" value="1" >
+                                        <button id="first-@projet.id" class="btn btn-active" type="button" value="1" >
                                             1</button>
-                                        <button class="btn" value="2" type="button">
+                                        <button id="second-@projet.id" class="btn" value="2" type="button">
                                             2</button>
-                                        <button class="btn" type="button" value="3">
+                                        <button id="third-@projet.id" class="btn" type="button" value="3">
                                             3</button>
                                     } else {
                                         @if(projet.priorite == 2) {
-                                            <button class="btn" type="button" value="1" >
+                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
                                                 1</button>
-                                            <button class="btn btn-active" value="2" type="button">
+                                            <button id="second-@projet.id" class="btn btn-active" value="2" type="button">
                                                 2</button>
-                                            <button class="btn" type="button" value="3">
+                                            <button id="third-@projet.id" class="btn" type="button" value="3">
                                                 3</button>
                                         } else {
-                                            <button class="btn" type="button" value="1" >
+                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
                                                 1</button>
-                                            <button class="btn" value="2" type="button">
+                                            <button id="second-@projet.id" class="btn" value="2" type="button">
                                                 2</button>
-                                            <button class="btn btn-active" type="button" value="3">
+                                            <button id="third-@projet.id" class="btn btn-active" type="button" value="3">
                                                 3</button>
                                         }
                                     }
@@ -418,10 +418,10 @@
                                             <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell-slash-o"></i></a></div>
                                         }
                                         @if(tacheMere.getAvancementTache() == 0){
-                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@tacheMere.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                         }else{
-                                            <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                            <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
                                         }
                                     </div>
                                     <div class="row row-nestable dd-nodrag" style="text-align:center ;">
@@ -534,8 +534,12 @@
                                                     } else {
                                                         <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell-slash-o"></i></a></div>
                                                     }
-                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                    @if(sousTache1.getAvancementTache() == 0){
+                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache1.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
+                                                    }else{
+                                                        <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                    }
                                                 </div>
                                                 <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                     <div class="col-xs-4 normal">
@@ -648,8 +652,12 @@
                                                                 } else {
                                                                     <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                 }
-                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                @if(sousTache2.getAvancementTache() == 0){
+                                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache2.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
+                                                                }else{
+                                                                    <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                }
                                                             </div>
                                                             <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                 <div class="col-xs-4 normal">
@@ -762,8 +770,12 @@
                                                                             } else {
                                                                                 <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                             }
-                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                            @if(sousTache3.getAvancementTache() == 0){
+                                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache3.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
+                                                                            }else{
+                                                                                <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                            }
                                                                         </div>
                                                                         <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                             <div class="col-xs-4 normal">
@@ -1215,7 +1227,7 @@
 </div>
 
 <div class="modal fade" id="modal-draft-projet" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">
@@ -1226,9 +1238,9 @@
             </div>
             <div class="modal-body">
                 <p style="display:inline ;">@Messages("nonCoherentProject")</p>
-                <!--
-                <p id="recapitulative-des-erreurs-projet" style="display:inline ;"></p>
-                -->
+
+                <p id="recapitulative-des-erreurs-projet-draft" style="display:inline ;"></p>
+
             </div>
             <div class="modal-footer" style="text-align: center;">
                 <!--<button type="button" onclick="supprimerClient()" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>-->

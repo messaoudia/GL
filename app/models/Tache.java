@@ -64,7 +64,7 @@ public class Tache extends EntiteSecurise {
     @OneToMany(mappedBy = "predecesseur")
     public List<Tache> successeurs;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     public Tache parent;
 
     @OneToMany(mappedBy = "parent")
@@ -101,6 +101,7 @@ public class Tache extends EntiteSecurise {
         this.chargeConsommee = chargeConsommee;
         this.chargeRestante = chargeRestante;
         this.interlocuteurs = (interlocuteurs == null) ? new BeanList<>() : interlocuteurs;
+        this.idTache = "";
 
         if(predecesseur == null){
             this.disponible = true;
@@ -204,7 +205,8 @@ public class Tache extends EntiteSecurise {
         }
         try {
             Tache tache = (Tache) obj;
-            return (tache.id.equals(this.id) && tache.nom.equals(this.nom) &&
+            // TODO : voir pour l'id
+            boolean conditionEquals = tache.nom.equals(this.nom) &&
                     tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
                     tache.critique.equals(this.critique) &&
@@ -216,8 +218,9 @@ public class Tache extends EntiteSecurise {
                     //tache.dateFinTard.equals(this.dateFinTard) &&
                     Utils.equals(tache.dateFinTard, this.dateFinTard) &&
                     tache.chargeConsommee.equals(this.chargeConsommee) &&
-                    tache.chargeRestante.equals(this.chargeRestante));
-        } catch (ClassCastException e) {
+                    tache.chargeRestante.equals(this.chargeRestante);
+            return conditionEquals ;
+        } catch (Exception e) {
             return false;
         }
     }
@@ -344,7 +347,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Il y a deja cette tache enfant pour cette tache");
         }
         enfants.add(fille);
-        save();
+        //save();
     }
 
     /**
@@ -360,7 +363,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Ce parametre est le meme que le parent de cette tache");
         }
         this.parent = parent;
-        save();
+        //save();
     }
 
     /**
@@ -419,8 +422,8 @@ public class Tache extends EntiteSecurise {
         if(!predecesseur.successeurs.contains(this)){
             predecesseur.successeurs.add(this);
         }
-        predecesseur.save();
-        save();
+        //predecesseur.save();
+        //save();
     }
 
     /**
@@ -449,22 +452,23 @@ public class Tache extends EntiteSecurise {
         if (this.successeurs.contains(successeur)) {
             throw new IllegalStateException("Il y a deja ce successeur pour cette tache");
         }
+
         if(!checkPERT(this, successeur))
             throw new IllegalStateException("La tache " + nom + " a comme successeur (" + successeur.nom + ") " +
                     "une tâche présente dans sa hiérarchie directe.");
 
         successeur.associerPredecesseur(this);
         successeurs.add(successeur);
-        save();
+        //save();
     }
 
     public void supprimerSuccesseurs() throws IllegalStateException {
         for(Tache successeur : successeurs){
             successeur.predecesseur = null;
-            successeur.save();
+            //successeur.save();
         }
         successeurs.clear();
-        save();
+        //save();
     }
 
     public void associerInterlocuteur(Contact interlocuteur) throws IllegalStateException {
@@ -472,7 +476,7 @@ public class Tache extends EntiteSecurise {
             throw new IllegalStateException("Il y a deja cet interlocuteur pour cette tache");
         }
         interlocuteurs.add(interlocuteur);
-        update();
+        //update();
         /*interlocuteur.listTachesCorrespondant.add(this);
         interlocuteur.update();*/
     }
@@ -480,10 +484,10 @@ public class Tache extends EntiteSecurise {
     public void supprimerInterlocuteurs() throws IllegalStateException {
         for(Contact interlocuteur : interlocuteurs){
             interlocuteur.listTachesCorrespondant.remove(this);
-            interlocuteur.save();
+            //interlocuteur.save();
         }
         interlocuteurs.clear();
-        save();
+        //save();
     }
 
     /**
@@ -633,12 +637,185 @@ public class Tache extends EntiteSecurise {
 
     public long nbJourRestant() {
         Calendar cal = Calendar.getInstance();
-        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
+        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
         long diff = Utils.differenceNbJours(today.getTime(), dateFinTard);
         if(diff<0)
             diff=0;
         return diff;
     }
+
+
+    public boolean commenceNextWeek() {
+        Calendar cal = Calendar.getInstance();
+
+        int jourActuel =cal.get(Calendar.DAY_OF_MONTH);
+
+        int j =  cal.DAY_OF_MONTH ;
+      //  System.out.println(" cal.DAY_OF_MONTH -> jour = "+        Calendar.DATE +" , et la valeur par default de jeudi : "+ Calendar.THURSDAY);
+
+        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+        long diff = Utils.differenceNbJours(today.getTime(), dateDebut);
+        /*if(diff<0){
+            diff= diff*(-1);
+        }*/
+
+
+       // System.out.println("nous sommes le : "+today.getTime() +" date de début :"+ dateDebut +"l'écart de jours est de : "+diff);
+
+        if((diff>7) && (diff<13)){
+
+            switch(j){
+
+
+
+
+                case 2 :
+
+                    if(diff>13){
+                        System.out.println("lundi ");
+                        return false;
+                    }
+
+
+
+                    break;
+
+                case 3:
+                    if(diff>12){
+                        System.out.println("mardi ");
+                        return false;
+                    }
+
+
+                    break;
+                case 4:
+                    if(diff>11){
+                        System.out.println("mercredi ");
+                        return false;
+                    }
+
+
+                    break;
+                case 5:
+                    if(diff>10){
+                        System.out.println("jeudi ");
+                        return false;
+                    }
+
+                    break;
+                case 6:
+                    if(diff>9){
+                        System.out.println("vendredi ");
+                        return false;
+                    }
+
+                case 7:
+                    if(diff>8){
+                        System.out.println("samedi ");
+                        return false;
+                    }
+
+
+
+                    break;
+
+                case 8:
+                    if(diff>7){
+                        System.out.println("dimanche ");
+                        return false;
+                    }
+
+
+
+                    break;
+
+                default:
+                    System.out.println("le jour est erroné.");
+
+            }
+            return true;
+        }
+        else if(diff<=7){
+            switch(j){
+
+                case 2:
+
+                    if(diff<7){
+                        System.out.println("lundi ");
+                        return false;
+                    }
+
+
+
+                    break;
+                case 3:
+
+                    if(diff<6){
+                        System.out.println("mardi ");
+
+                        return false;
+                    }
+
+
+
+                    break;
+
+                case 4:
+                    if(diff<5){
+                        System.out.println("mercredi ");
+
+                        return false;
+                    }
+
+
+                    break;
+                case 5:
+                    if(diff<4){
+                        System.out.println("jeudi ");
+
+                        return false;
+                    }
+
+
+                    break;
+                case 6:
+                    if(diff<3){
+                        System.out.println("vendredi ");
+
+                        return false;
+                    }
+
+                    break;
+                case 7:
+                    if(diff<2){
+                        System.out.println("samedi ");
+
+                        return false;
+                    }
+
+                    break;
+                case 8:
+                    if(diff<1){
+                        System.out.println("dimanche ");
+
+                        return false;
+                    }
+
+                    break;
+
+
+            }
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+
+      }
+
+
 
     // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
@@ -709,6 +886,32 @@ public class Tache extends EntiteSecurise {
         return listResult;
     }
 
+
+
+    public String filtres(){
+        String result ="";
+        if(this.disponible==false){
+            result= result +" tache-indisponible ";
+        }
+        if(this.critique==true){
+            result = result+" tache-critique ";
+        }
+        if(this.estRetardee()==true){
+            result = result+" tache-retardee ";
+        }
+
+        if(this.nbJourRestant()<10){
+            result= result+" tache-terminee-dans-moins-10-j ";
+        }
+        if(this.commenceNextWeek()==true){
+            result = result + " tache-commence-semaine-prochaine ";
+        }
+
+        System.out.println("fonction : checkout "+result);
+        return result;
+    }
+
+
     @JsonSerialize
     public boolean hasResponsableActivateNotification(){
         return utilisateursNotifications.contains(responsableTache);
@@ -758,5 +961,31 @@ public class Tache extends EntiteSecurise {
             }
         }
         return true;
+    }
+
+    public void saveAllTask() {
+        save();
+        if(hasPredecesseur())
+            predecesseur.save();
+        if(hasSuccesseur()){
+            for(Tache successeur : successeurs){
+                successeur.save();
+            }
+        }
+        if(hasParent())
+            parent.save();
+
+        if(hasEnfant()) {
+            for (Tache enfant : enfants) {
+                enfant.save();
+            }
+        }
+        if(utilisateursNotifications != null){
+            for(Utilisateur user : utilisateursNotifications){
+                user.save();
+            }
+        }
+        save();
+        //responsableTache.save();
     }
 }

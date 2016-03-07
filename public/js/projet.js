@@ -65,6 +65,11 @@ $(document).ajaxComplete(function() {
         $(this).addClass('btn-active');
     });
 
+    $('#projet-modifierAdmin-btn .btn').click(function (e) {
+        e.preventDefault();
+        $('#projet-modifierAdmin-btn .btn').removeClass('btn-active');
+        $(this).addClass('btn-active');
+    });
 
 
 

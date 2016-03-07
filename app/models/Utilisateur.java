@@ -52,13 +52,13 @@ public class Utilisateur extends Personne {
     @ManyToMany
     @JoinTable(name = "tbl_follow_user",
             joinColumns = @JoinColumn(name = "utilisateursSuivis", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateursMeSuivant", referencedColumnName = "id")
+            inverseJoinColumns = @JoinColumn(name = "utilisateursMeSuivant", referencedColumnName = "id") /** TODO ENLEVER car utilisateursMeSuivant n'existe plus **/
     )
     public List<Utilisateur> utilisateursSuivis;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "utilisateursNotifications")
     @JsonIgnore
-    public List<Projet> projetsNotifications;
+    public List<Projet> projetsNotifications;   /** TODO ENLEVER **/
 
     public String langue;
 
@@ -94,11 +94,13 @@ public class Utilisateur extends Personne {
     private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, List<Tache> listTaches,
                        List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue,
                        boolean recevoirNotifPourMesActions, boolean recevoirNotifPourMesTachesPresqueFinies,
-                       boolean recevoirNotifPourMesTachesRetardees, String bloc_note) {
+                       boolean recevoirNotifPourMesTachesRetardees, String bloc_note, List<Notification> listNotifications) {
         super(nom, prenom, email, telephone, archive);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
         this.listTachesNotifications = (listTachesNotifications == null) ? new BeanList<>() : listTachesNotifications;
         this.utilisateursSuivis = (utilisateursSuivis == null) ? new BeanList<>() : utilisateursSuivis;
+        this.listNotifications = (listNotifications == null) ? new BeanList<>() : listNotifications;
+
         if (langue != LANGUE_FR && langue != LANGUE_EN) {
             System.err.println("La langue passée en paramètre est incorrecte : " + langue + ". Seuls les paramètres [" + LANGUE_FR + "] et [" + LANGUE_EN + "] sont acceptés. Langue choisie par défaut : [ " + LANGUE_FR + "]");
             this.langue = LANGUE_FR;
@@ -112,7 +114,7 @@ public class Utilisateur extends Personne {
     }
 
     private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive) {
-        this(nom, prenom, email, telephone, archive, null, null, null, LANGUE_FR, false, false, false, null);
+        this(nom, prenom, email, telephone, archive, null, null, null, LANGUE_FR, false, false, false, null, null);
     }
 
     public static Utilisateur create(String nom, String prenom, String email, String telephone, String password){
@@ -124,9 +126,11 @@ public class Utilisateur extends Personne {
     }
 
     public Utilisateur() {
+        /** TODO : peut etre enlever car c'est peut etre ça qui fait que on a pas les listTaches, et tout **/
         this.listTaches = new BeanList<>();
         this.listTachesNotifications = new BeanList<>();
         this.utilisateursSuivis = new BeanList<>();
+        this.listNotifications = new BeanList<>();
         this.langue = "FR";
     }
 
@@ -240,9 +244,10 @@ public class Utilisateur extends Personne {
     }
 
     public List<Tache> listTachesDansProjetNonResponsable(Projet projet) {
-        List<Tache> taches = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
+        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
+        List<Tache> taches = new ArrayList<>(tachesTmp);
         // Ajout des taches meres et filles
-        for (Tache tache : taches) {
+        for (Tache tache : tachesTmp) {
             ajoutDesTachesParents(taches, tache);
             ajoutDesTachesEnfants(taches, tache);
         }
@@ -498,8 +503,7 @@ public class Utilisateur extends Personne {
             password[pos] = getRandomChar(upperCaseLetters, lowerCaseLetters, numbers);
         }
 
-        return String.valueOf(password);
-
+        return(String.valueOf(password));
     }
 
     private static int getRandomInt(int deb, int fin) {

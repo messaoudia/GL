@@ -70,7 +70,7 @@
 
                     </div>
                     <div class="row">
-                        <div id="afficheListeProjet" style="position:fixed ; background-color:#1AB394 ; height: 25px ; width: 170px ; z-index:1999 ; text-align:center ; line-height: 25px ; margin-top: -1px ;">
+                        <div id="afficheListeProjet" class="cursor-pointer" style="position:fixed ; background-color:#1AB394 ; height: 25px ; width: 170px ; z-index:1999 ; text-align:center ; line-height: 25px ; margin-top: -1px ;">
                             <i id="icon-show-liste-projet" class="fa fa-outdent" style="color:#FFF ;"></i>
                         </div>
                         <div id="col-sidebar-liste-projet" class="col-md-2" style="padding: 0 ;">
@@ -133,24 +133,8 @@
                         @popuptacheConsulterModifier()
                         @popuptacheCreer()
                         <!-- Modal-view supprimer tache -->
-                    <div class="modal fade" id="modal-confirmation-suppr-tache-projet" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header background_admin">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
-                                        ×</span> <span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>@Messages("taskDeleteMessage") : (nom de la tâche) ?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
-                                    <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        @popuptacheSupprimer()
+
                         <!-- Modal créer client -->
                     <div class="modal fade" id="modal-add-client" role="dialog">
                         <div class="modal-dialog">
