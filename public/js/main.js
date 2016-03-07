@@ -181,6 +181,51 @@ var $tmpTrAdminClient;
 var clientRow;
 var $tmpTrAdminUser;
 
+
+function updateTaskNestableCheckbox(id)
+{
+    console.log("updateTaskNestableCheckbox");
+    var idCheckboxT = "#checkbox-taches-terminees"+id;
+    var classTacheT = ".tache-terminee";
+    var classTacheTI = ".tache-terminee-indisponible";
+    var idCheckboxI = "#checkbox-taches-indisponibles"+id;
+    var classTacheI = ".tache-indisponible";
+
+    if($(idCheckboxT).is(":checked") && $(idCheckboxI).is(":checked"))
+    {
+        console.log("les 2 sont coche");
+        $(classTacheTI).show();
+        $(classTacheT).show();
+        $(classTacheI).show();
+    }
+    else
+    {
+        $(classTacheTI).hide();
+        if ($(idCheckboxT).is(":checked")) {
+            $(classTacheT).show();
+            console.log("les termine sont affiche");
+        }
+        else {
+            console.log("les termine sont cache");
+
+            $(classTacheT).hide();
+        }
+
+
+        if ($(idCheckboxI).is(":checked")) {
+            console.log("les indispo sont affiche");
+
+            $(classTacheI).show();
+        }
+        else {
+            console.log("les indispo sont cache");
+
+            $(classTacheI).hide();
+        }
+    }
+
+}
+
 function updateSideBarClientArchive(checkbox) {
     if ($(checkbox).is(":checked")) {
         $(".projet-finished-sidebar").show();
@@ -2877,6 +2922,7 @@ var modifierProjetAdminSelect = function (div) {
 
 $(document).ready(function () {
 
+
     // Print the first selected project
     $('#' + $('.sidebar-projet.select').attr("name")).show();
 
@@ -3291,7 +3337,7 @@ $(document).ajaxComplete(function () {
         $(this).addClass("select");
         var newIdProjet = '#' + $(this).attr("name");
         $(newIdProjet).show();
-
+        updateTaskNestableCheckbox($('.sidebar-projet.select').attr("projet"));
     });
 
 
