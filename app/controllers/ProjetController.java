@@ -172,7 +172,7 @@ public class ProjetController extends Controller {
             p.save();
             if(modification) {
                 Utilisateur currentUser = Login.getUtilisateurConnecte();
-                currentUser.mapNotificationsGenerees.createNotificationModifierProjet(p);
+                currentUser.createNotificationModifierProjet(p);
                 currentUser.save();
             }
             return ok(Json.toJson(p));

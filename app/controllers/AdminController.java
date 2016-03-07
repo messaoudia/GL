@@ -1,6 +1,5 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Error;
 import play.Logger;
@@ -9,7 +8,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -193,10 +191,10 @@ public class AdminController extends Controller{
             p.save();
             Utilisateur currentUser = Login.getUtilisateurConnecte();
             if(modificationRespoProjet){
-                currentUser.mapNotificationsGenerees.createNotificationModifierResponsableProjet(p, ancienResponsable);
+                currentUser.createNotificationModifierResponsableProjet(p, ancienResponsable);
                 currentUser.save();
             } else if(modificationProjet) {
-                currentUser.mapNotificationsGenerees.createNotificationModifierProjet(p);
+                currentUser.createNotificationModifierProjet(p);
                 currentUser.save();
             }
             return ok(Json.toJson(p));

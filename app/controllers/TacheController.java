@@ -1,7 +1,6 @@
 package controllers;
 
 import models.*;
-import models.Exceptions.NotAvailableTask;
 import models.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
@@ -38,7 +37,7 @@ public class TacheController  extends Controller {
         try {
             projet.creerSousTache(newTache , mere);
             Utilisateur currentUser = Login.getUtilisateurConnecte();
-            currentUser.mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            currentUser.createNotificationCreerTache(newTache);
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
@@ -60,7 +59,7 @@ public class TacheController  extends Controller {
         try {
             projet.creerTacheAuDessus(newTache , tacheReference);
             Utilisateur currentUser = Login.getUtilisateurConnecte();
-            currentUser.mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            currentUser.createNotificationCreerTache(newTache);
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
@@ -80,7 +79,7 @@ public class TacheController  extends Controller {
         try {
             projet.creerTacheEnDessous(newTache , tacheReference);
             Utilisateur currentUser = Login.getUtilisateurConnecte();
-            currentUser.mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            currentUser.createNotificationCreerTache(newTache);
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");

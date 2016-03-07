@@ -859,6 +859,8 @@ public class Notification extends Model {
                                                String titleENManyChangements, HashMap<Utilisateur, Notification> mapNotifications) {
         String title = "";
         String message = "";
+        System.out.println("Pour l'utilisateur : " + utilisateur.prenom);
+        System.out.println("==> = " + utilisateur.langue);
         if (utilisateur.langue == Utilisateur.LANGUE_FR) {
             title = titleFR;
             message = messageFR;

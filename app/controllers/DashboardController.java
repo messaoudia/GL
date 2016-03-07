@@ -1,6 +1,5 @@
 package controllers;
 
-import com.avaje.ebean.annotation.Transactional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Contact;
@@ -189,16 +188,19 @@ public class DashboardController extends Controller{
             Logger.debug("SAVE OK");
 
             Utilisateur currentUser = Login.getUtilisateurConnecte();
+
+            System.out.println("DashboardController/modifierTache");
             if(modifierResponsableTache){
-                currentUser.mapNotificationsGenerees.createNotificationModifierResponsableTache(tache, ancienResponsable);
+                System.out.println("Je vais modifier respo tache");
+                currentUser.createNotificationModifierResponsableTache(tache, ancienResponsable);
                 currentUser.save();
             } else if(modifierTache){
-                currentUser.mapNotificationsGenerees.createNotificationModifierTache(tache);
-                currentUser.save();
-                System.out.println("apres save : test 1 = " + currentUser.mapNotificationsGenerees);
-                System.out.println("apres save : test 2 = " + Login.getUtilisateurConnecte().mapNotificationsGenerees);
+                currentUser.createNotificationModifierTache(tache);
+                //currentUser.save();
+                System.out.println("apres save : test 1 = " + currentUser.listNotificationsGroupees);
+                System.out.println("apres save : test 2 = " + Login.getUtilisateurConnecte().listNotificationsGroupees);
             } else if(modifierAvancement){
-                currentUser.mapNotificationsGenerees.createNotificationModifierAvancementTache(tache);
+                currentUser.createNotificationModifierAvancementTache(tache);
                 currentUser.save();
             }
             return ok();

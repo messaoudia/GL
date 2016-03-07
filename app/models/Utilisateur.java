@@ -3,6 +3,7 @@ package models;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import models.NotificationGroupee;
 import controllers.Global.StaticEntite;
 import models.Securite.Role;
 import models.Utils.Utils;
@@ -58,7 +59,10 @@ public class Utilisateur extends Personne {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "utilisateursNotifications")
     @JsonIgnore
-    public List<Projet> projetsNotifications;   /** TODO ENLEVER **/
+    public List<Projet> projetsNotifications;
+    /**
+     * TODO ENLEVER
+     **/
 
     public String langue;
 
@@ -68,10 +72,8 @@ public class Utilisateur extends Personne {
 
     public String bloc_note;
 
-    @ElementCollection
-    @MapKeyColumn(name="idObject")
-    @Column(name="mapTypeNotificationAndObject")
-    public MapNotificationsGroupees mapNotificationsGenerees = new MapNotificationsGroupees();
+    @OneToMany(mappedBy = "utilisateur")
+    public List<NotificationGroupee> listNotificationsGroupees = new BeanList<>();
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
 
@@ -97,9 +99,9 @@ public class Utilisateur extends Personne {
     //}
 
     private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive, List<Tache> listTaches,
-                       List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue,
-                       boolean recevoirNotifPourMesActions, boolean recevoirNotifPourMesTachesPresqueFinies,
-                       boolean recevoirNotifPourMesTachesRetardees, String bloc_note, List<Notification> listNotifications) {
+                        List<Tache> listTachesNotifications, List<Utilisateur> utilisateursSuivis, String langue,
+                        boolean recevoirNotifPourMesActions, boolean recevoirNotifPourMesTachesPresqueFinies,
+                        boolean recevoirNotifPourMesTachesRetardees, String bloc_note, List<Notification> listNotifications) {
         super(nom, prenom, email, telephone, archive);
         this.listTaches = (listTaches == null) ? new BeanList<>() : listTaches;
         this.listTachesNotifications = (listTachesNotifications == null) ? new BeanList<>() : listTachesNotifications;
@@ -116,13 +118,14 @@ public class Utilisateur extends Personne {
         this.recevoirNotifPourMesTachesPresqueFinies = recevoirNotifPourMesTachesPresqueFinies;
         this.recevoirNotifPourMesTachesRetardees = recevoirNotifPourMesTachesRetardees;
         this.bloc_note = (bloc_note == null) ? "" : bloc_note;
+        listNotificationsGroupees = new BeanList<>();
     }
 
     private Utilisateur(String nom, String prenom, String email, String telephone, boolean archive) {
         this(nom, prenom, email, telephone, archive, null, null, null, LANGUE_FR, false, false, false, null, null);
     }
 
-    public static Utilisateur create(String nom, String prenom, String email, String telephone, String password){
+    public static Utilisateur create(String nom, String prenom, String email, String telephone, String password) {
         Utilisateur user = new Utilisateur(nom, prenom, email, telephone, false);
         user.save();
         user.setPassword(password);
@@ -136,7 +139,8 @@ public class Utilisateur extends Personne {
         this.listTachesNotifications = new BeanList<>();
         this.utilisateursSuivis = new BeanList<>();
         this.listNotifications = new BeanList<>();
-        this.langue = "FR";
+        this.langue = LANGUE_FR;
+        listNotificationsGroupees = new BeanList<>();
     }
 
     public void setFirstName(String firstName) {
@@ -514,7 +518,7 @@ public class Utilisateur extends Personne {
             password[pos] = getRandomChar(upperCaseLetters, lowerCaseLetters, numbers);
         }
 
-        return(String.valueOf(password));
+        return (String.valueOf(password));
     }
 
     private static int getRandomInt(int deb, int fin) {
@@ -626,7 +630,7 @@ public class Utilisateur extends Personne {
 
     private int critere2(Tache t) {
         Calendar cal = Calendar.getInstance();
-        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DATE));
+        Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE));
         long nbJoursRestants = Utils.differenceNbJours(today.getTime(), t.dateFinTard);
 
         if (nbJoursRestants >= 51) {
@@ -859,11 +863,11 @@ public class Utilisateur extends Personne {
         }
     }
 
-    public List<Utilisateur> utilisateursPouvantEtreSuivis(){
+    public List<Utilisateur> utilisateursPouvantEtreSuivis() {
         List<Utilisateur> result = new ArrayList<>();
-        for(Projet projet : listProjetsResponsable()){
-            for(Tache tache : projet.listTaches()){
-                if(!result.contains(tache.responsableTache))
+        for (Projet projet : listProjetsResponsable()) {
+            for (Tache tache : projet.listTaches()) {
+                if (!result.contains(tache.responsableTache))
                     result.add(tache.responsableTache);
             }
         }
@@ -927,63 +931,176 @@ public class Utilisateur extends Personne {
     /**
      * Envoie les notifications
      */
-    public void sendNotifications(){
-        System.out.println("Utilisateur/sendNotifications : liste des notifs à envoyer");
-        for(Map.Entry<Long, HashMap<TypeNotification, Object>> entry : mapNotificationsGenerees.entrySet()){
-            System.out.println("-> " + entry.getKey());
+    public void sendNotifications() {
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+
+        System.out.println("Utilisateur/sendNotifications : liste des notifs à envoyer : " + listNotificationsGroupees);
+        if(listNotificationsGroupees.size() == 0){
+            System.out.println("Pas de notif !");
+        } else {
+            System.out.println(listNotificationsGroupees.size());
+            for(NotificationGroupee notif: listNotificationsGroupees){
+                System.out.println("notif : " + notif.idProjetOuTache);
+            }
         }
+
         System.out.println("Fin affichage");
         HashMap<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
         convertMapNotificationsGroupees();
         Notification.sendNotifications(mapNotifications);
-        this.mapNotificationsGenerees.clear();
+        this.listNotificationsGroupees.clear();
         this.save();
     }
 
-    private Map<Utilisateur, Notification> convertMapNotificationsGroupees(){
+    private Map<Utilisateur, Notification> convertMapNotificationsGroupees() {
         HashMap<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
 
         // On parcours la liste des taches/projets qui doivent engendrer une notification
-        for(Map.Entry<Long, HashMap<TypeNotification, Object>> entry : this.mapNotificationsGenerees.entrySet()){
-            Long id = entry.getKey();
-            for(Map.Entry<TypeNotification, Object> entry2 : entry.getValue().entrySet()){
-                TypeNotification typeNotification = entry2.getKey();
-                // Projet
-                if(TypeNotification.isProjet(typeNotification)){
-                    Projet projet = Projet.find.byId(id);
-                    if(typeNotification == TypeNotification.MODIFIER_PROJET){
-                        // Envoyer la notif aux responsable de projet si c'est pas lui et tous les collaborateurs
-                        // + eventuellement à l'utilisateur s'il a activé les notifications pour ses actions
-                        Notification.sendNotificationModifierProjet(projet, this, mapNotifications);
-                    }
-                    else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_PROJET){
-                        if(entry2.getValue() instanceof Utilisateur){
-                            Utilisateur ancienResponsableProjet = (Utilisateur) entry2.getValue();
-                            Notification.sendNotificationModifierResponsableProjet(projet, ancienResponsableProjet, this, mapNotifications);
-                        }
-                    }
+        for (NotificationGroupee notif : listNotificationsGroupees) {
+            Long id = notif.idProjetOuTache;
+            TypeNotification typeNotification = notif.typeNotification;
+            // Projet
+            if (TypeNotification.isProjet(typeNotification)) {
+                Projet projet = Projet.find.byId(id);
+                if (typeNotification == TypeNotification.MODIFIER_PROJET) {
+                    // Envoyer la notif aux responsable de projet si c'est pas lui et tous les collaborateurs
+                    // + eventuellement à l'utilisateur s'il a activé les notifications pour ses actions
+                    Notification.sendNotificationModifierProjet(projet, this, mapNotifications);
+                } else if (typeNotification == TypeNotification.MODIFIER_RESPONSABLE_PROJET) {
+                    Notification.sendNotificationModifierResponsableProjet(projet, notif.ancienRespo, this, mapNotifications);
+
                 }
-                // Tache
-                else if(TypeNotification.isTache(typeNotification)){
-                    Tache tache = Tache.find.byId(id);
-                    if(typeNotification == TypeNotification.CREER_TACHE){
-                        Notification.sendNotificationCreerTache(tache, this, mapNotifications);
-                    } else if(typeNotification == TypeNotification.MODIFIER_AVANCEMENT_TACHE){
-                        Notification.sendNotificationModifierAvancementTache(tache, this, mapNotifications);
-                    } else if(typeNotification == TypeNotification.MODIFIER_TACHE){
-                        Notification.sendNotificationModifierTache(tache, this, mapNotifications);
-                    } else if(typeNotification == TypeNotification.MODIFIER_RESPONSABLE_TACHE){
-                        if(entry2.getValue() instanceof Utilisateur){
-                            Utilisateur ancienResponsableTache = (Utilisateur) entry2.getValue();
-                            Notification.sendNotificationModifierResponsableTache(tache, ancienResponsableTache, this, mapNotifications);
-                        }
-                    } else if(typeNotification == TypeNotification.SUPPRIMER_TACHE){
-                        Notification.sendNotificationSupprimerTache(tache, this, mapNotifications);
-                    }
+            }
+            // Tache
+            else if (TypeNotification.isTache(typeNotification)) {
+                Tache tache = Tache.find.byId(id);
+                if (typeNotification == TypeNotification.CREER_TACHE) {
+                    Notification.sendNotificationCreerTache(tache, this, mapNotifications);
+                } else if (typeNotification == TypeNotification.MODIFIER_AVANCEMENT_TACHE) {
+                    Notification.sendNotificationModifierAvancementTache(tache, this, mapNotifications);
+                } else if (typeNotification == TypeNotification.MODIFIER_TACHE) {
+                    Notification.sendNotificationModifierTache(tache, this, mapNotifications);
+                } else if (typeNotification == TypeNotification.MODIFIER_RESPONSABLE_TACHE) {
+                    Notification.sendNotificationModifierResponsableTache(tache, notif.ancienRespo, this, mapNotifications);
+                } else if (typeNotification == TypeNotification.SUPPRIMER_TACHE) {
+                    Notification.sendNotificationSupprimerTache(tache, this, mapNotifications);
                 }
             }
         }
-
         return mapNotifications;
+    }
+
+    private boolean listNotificationsGenereesContainsKey(Long id) {
+        for (NotificationGroupee notif : listNotificationsGroupees) {
+            if (notif.idProjetOuTache == id)
+                return true;
+        }
+        return false;
+    }
+
+    private boolean listNotificationsGenereesContainsKeyAndValue(Long id, TypeNotification typeNotification) {
+        for (NotificationGroupee notif : listNotificationsGroupees) {
+            if (notif.idProjetOuTache == id && notif.typeNotification == typeNotification)
+                return true;
+        }
+        return false;
+    }
+
+    private void listNotificationsGenereesRemove(Long id) {
+        for (NotificationGroupee notif : listNotificationsGroupees) {
+            if (notif.idProjetOuTache == id) {
+                listNotificationsGroupees.remove(notif);
+                notif.delete();
+            }
+        }
+    }
+
+    public void createNotificationCreerTache(Tache tache) {
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+        NotificationGroupee notif = new NotificationGroupee(tache.id, TypeNotification.CREER_TACHE, this);
+        notif.save();
+        listNotificationsGroupees.add(notif);
+        save();
+
+    }
+
+    public void createNotificationModifierTache(Tache tache) {
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+        if (!listNotificationsGenereesContainsKey(tache.id)) {
+            NotificationGroupee notif = new NotificationGroupee(tache.id, TypeNotification.MODIFIER_TACHE, this);
+            notif.save();
+            listNotificationsGroupees.add(notif);
+            save();
+
+        } else if (listNotificationsGenereesContainsKeyAndValue(tache.id, TypeNotification.MODIFIER_AVANCEMENT_TACHE)) {
+            listNotificationsGenereesRemove(tache.id);
+            NotificationGroupee notif = new NotificationGroupee(tache.id, TypeNotification.MODIFIER_TACHE, this);
+            notif.save();
+            listNotificationsGroupees.add(notif);
+            save();
+        }
+    }
+
+    public void createNotificationModifierAvancementTache(Tache tache) {
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+        if (!listNotificationsGenereesContainsKey(tache.id)) {
+            NotificationGroupee notif = new NotificationGroupee(tache.id, TypeNotification.MODIFIER_AVANCEMENT_TACHE, this);
+            notif.save();
+            listNotificationsGroupees.add(notif);
+            save();
+        }
+    }
+
+    public void createNotificationModifierResponsableTache(Tache tache, Utilisateur ancienResponsable) {
+        System.out.println("Utilisateur/createNotifRespoTache : " + (ancienResponsable == null ? "null" : ancienResponsable.email));
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+        System.out.println("Je suis appelé pour la tache : " + tache.nom);
+        if (!listNotificationsGenereesContainsKey(tache.id) || !listNotificationsGenereesContainsKeyAndValue(tache.id, TypeNotification.CREER_TACHE)) {
+            NotificationGroupee notif = new NotificationGroupee(tache.id, TypeNotification.MODIFIER_RESPONSABLE_TACHE, ancienResponsable, this);
+            notif.save();
+            listNotificationsGroupees.add(notif);
+            save();
+            System.out.println("===========");
+            System.out.println("Notif = " + notif);
+            System.out.println("==> enregistré? = " + getListNotificationsGroupees());
+        }
+    }
+
+    public void createNotificationSupprimerTache(Tache tache) {
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+        if (listNotificationsGenereesContainsKey(tache.id) && listNotificationsGenereesContainsKeyAndValue(tache.id, TypeNotification.CREER_TACHE)) {
+            listNotificationsGenereesRemove(tache.id);
+            save();
+        } else {
+            NotificationGroupee notif = new NotificationGroupee(tache.id, TypeNotification.SUPPRIMER_TACHE, this);
+            notif.save();
+            listNotificationsGroupees.add(notif);
+            save();
+        }
+    }
+
+    public void createNotificationModifierProjet(Projet projet) {
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+        if (!listNotificationsGenereesContainsKey(projet.id)) {
+            NotificationGroupee notif = new NotificationGroupee(projet.id, TypeNotification.MODIFIER_PROJET, this);
+            notif.save();
+            listNotificationsGroupees.add(notif);
+            save();
+        }
+    }
+
+    public void createNotificationModifierResponsableProjet(Projet projet, Utilisateur ancienResponsable) {
+        this.listNotificationsGroupees = getListNotificationsGroupees();
+        if (listNotificationsGenereesContainsKey(projet.id))
+            listNotificationsGenereesRemove(projet.id);
+        NotificationGroupee notif = new NotificationGroupee(projet.id, TypeNotification.MODIFIER_RESPONSABLE_PROJET, ancienResponsable, this);
+        notif.save();
+        listNotificationsGroupees.add(notif);
+        save();
+    }
+
+    public List<NotificationGroupee> getListNotificationsGroupees(){
+        this.listNotificationsGroupees = NotificationGroupee.find.where().eq("utilisateur", this).findList();
+        return this.listNotificationsGroupees;
     }
 }
