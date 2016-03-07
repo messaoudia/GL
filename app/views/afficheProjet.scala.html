@@ -418,10 +418,10 @@
                                             <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell-slash-o"></i></a></div>
                                         }
                                         @if(tacheMere.getAvancementTache() == 0){
-                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@tacheMere.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                         }else{
-                                            <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                            <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
                                         }
                                     </div>
                                     <div class="row row-nestable dd-nodrag" style="text-align:center ;">
@@ -534,7 +534,7 @@
                                                     } else {
                                                         <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell-slash-o"></i></a></div>
                                                     }
-                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache1.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                                 </div>
                                                 <div class="row row-nestable dd-nodrag" style="text-align:center ;">
@@ -648,7 +648,7 @@
                                                                 } else {
                                                                     <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                 }
-                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache2.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                                             </div>
                                                             <div class="row row-nestable dd-nodrag" style="text-align:center ;">
@@ -762,7 +762,7 @@
                                                                             } else {
                                                                                 <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                             }
-                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache3.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
                                                                         </div>
                                                                         <div class="row row-nestable dd-nodrag" style="text-align:center ;">
