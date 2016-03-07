@@ -1550,7 +1550,7 @@ function projetArchives() {
 }
 
 $(document).on("click", "#exporter-client", function (event) {
-    window.open("@routes.ClientController.getClientsAsCSV");
+    window.open(window.location+"getClientsAsCSV");
 });
 
 
