@@ -179,13 +179,56 @@ public class ProjetController extends Controller {
 
         final Map<String, String> errors = projet.checkProjet();
         if (errors.isEmpty()) {
-            projet.listTaches.forEach(tache -> tache.save());
-            projet.save();
+            for (int i = 0; i < projet.listTaches.size(); i++) {
+                //Logger.debug(projet.listTaches.get(i).id + ", " + projet.listTaches.get(i).idTache + " -> " + projet.listTaches.get(i).niveau);
+
+                Tache tacheCourant = projet.listTaches.get(i);
+                tacheCourant.update();
+                //List<Tache> enfants = tacheCourant.enfants;
+                //for (int j = 0; j < enfants.size(); j++) {
+                //    enfants.get(j).parent = projet.listTaches.get(i);
+                //    enfants.get(j).save();
+                //}
+                //projet.listTaches.get(i).save();
+                //dfsTache(projet.listTaches.get(i), projet.listTaches.get(i).parent);
+
+
+            }
+            // projet.save();
+
+            for (int i = 0; i < projet.listTaches.size(); i++) {
+                Tache tache = Tache.find.byId(projet.listTaches.get(i).id);
+                Logger.debug(tache.id + ", " + tache.idTache + " -> " + tache.niveau);
+            }
             return ok(jsonDraft.toString());
         } else {
             return badRequest(Json.toJson(ImmutableMap.of("errors", errors)));
         }
 
+    }
+
+    @Transactional
+    public static void dfsTache(Tache currentTache, Tache tacheParent) {
+
+        Logger.debug("======================================");
+        final List<Tache> childrenTaches = currentTache.enfants;
+
+        Logger.debug(currentTache.id + ", " + currentTache.idTache + " -> " + currentTache.niveau);
+        Logger.debug("Childrens: ");
+        childrenTaches.forEach(child -> {
+            child.parent = currentTache;
+            Logger.debug(child.id + ", idTache" + child.idTache);
+
+            //child.save();
+        });
+
+        currentTache.parent = tacheParent;
+        //currentTache.save();
+        Logger.debug("======================================");
+
+        for (int i = 0; i < childrenTaches.size(); i++) {
+            dfsTache(childrenTaches.get(i), currentTache);
+        }
     }
 
     @Transactional
@@ -228,12 +271,14 @@ public class ProjetController extends Controller {
         currentTache.enfants = childrenTaches;
         childrenTaches.forEach(child -> {
             child.parent = currentTache;
-            // child.save();
+            //child.save();
+            taches.put(child.id,child);
         });
 
         currentTache.parent = parentTache;
         currentTache.niveau = currentTacheNode.get("depth").asInt();
         //currentTache.save();
+        taches.put(currentTache.id,currentTache);
 
         List<JsonNode> childrens = elementsToStream(currentTacheNode.get("childrens").elements()).collect(Collectors.toList());
 
@@ -243,6 +288,8 @@ public class ProjetController extends Controller {
             Tache childrenTache = taches.get(children.get("id").asLong(0));
             childrenTache.idTache = currentTache.idTache + "." + (indexEnfant++);
             //childrenTache.update();
+            taches.put(childrenTache.id,childrenTache);
+
 
             dfsTraversalJsNode(currentTacheNode, children, index, taches);
         }
