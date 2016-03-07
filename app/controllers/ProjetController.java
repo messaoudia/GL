@@ -177,12 +177,12 @@ public class ProjetController extends Controller {
 
 
         Projet projet = parseDraftToProject(jsonDraft);
-        Logger.debug("BEFORE check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
+        //Logger.debug("BEFORE check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
 
 
         final Map<String, String> errors = projet.checkProjet();
 
-        Logger.debug("AFTER check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
+        //Logger.debug("AFTER check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
 
         if (errors.isEmpty()) {
             for (int i = 0; i < projet.listTaches.size(); i++) {
@@ -191,7 +191,7 @@ public class ProjetController extends Controller {
                 Tache tache = projet.listTaches.get(i);
                 Logger.debug(tache.id + ", " + tache.idTache + " -> " + tache.niveau + ", enfants: " + tache.enfants.size());
 
-                Logger.debug(" ================> "+projet.listTaches.stream().filter(tache1 -> tache1.id==21L).findFirst().get().enfants.size());
+                //Logger.debug(" ================> "+projet.listTaches.stream().filter(tache1 -> tache1.id==21L).findFirst().get().enfants.size());
 
                 tache.save();
                 //List<Tache> enfants = tacheCourant.enfants;
@@ -270,7 +270,7 @@ public class ProjetController extends Controller {
 
     @Transactional
     public static void dfsTraversalJsNode(JsonNode parentTacheNode, JsonNode currentTacheNode, Integer index, Map<Long, Tache> taches) {
-        Logger.debug(" dfsTraversalJsNode ==============================> "+taches.get(21L).enfants.size());
+        //Logger.debug(" dfsTraversalJsNode ==============================> "+taches.get(21L).enfants.size());
         final Tache parentTache = parentTacheNode != null ? taches.get(parentTacheNode.get("id").asLong()) : null;
         final Tache currentTache = taches.get(currentTacheNode.get("id").asLong());
 
