@@ -2631,6 +2631,8 @@ var modifierTache = function (btn) {
         },
         error: function (errorMessage, codeErreur) {
             console.log(codeErreur + " " + errorMessage);
+            $('#errorModifierTache').show();
+
         }
     });
 }
@@ -3004,6 +3006,7 @@ $(document).ready(function () {
     $('#btn-modifierTache').click(function () {
         jQuery.fx.off = true;
         $('#div-consulterTache').hide();
+        $('#errorCreerTache').hide();
         $('#div-modifierTache').show();
         jQuery.fx.off = false;
 

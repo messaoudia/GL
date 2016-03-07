@@ -203,3 +203,4 @@ mdpIncorrecteError = Password is incorrect
 nonCoherentProject = Your project is not coherent anymore, please check your project before saving it.
 choosePredecessor = Choose predecessor
 errorCreationTache = Impossible task creation, please check the fields coherence.
+errorModificationTache = Impossible task modification, please check the fields coherence.
