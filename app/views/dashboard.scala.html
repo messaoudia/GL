@@ -161,7 +161,7 @@
                                                     <button type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         @Messages("filters") <span class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu">
+                                                    <ul id="dropdown-onglet-projet" class="dropdown-menu">
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
                                                                 <input id="checkbox-tdb-projets-bientot-finis" type="checkbox" onclick="filtreTDBproj();">
@@ -196,19 +196,8 @@
                                                 </thead>
                                                 <tbody>
                                                     @for(projet <- utilisateur.listProjetsResponsable()) {
-                                                        @if(projet.estRetarde()){
-                                                            <tr class="table-center projet-retarde">
-                                                        } else{
-                                                            @if(projet.estPresqueFini()){
-                                                                <tr class="table-center projet-presque-fini">
-                                                            } else{
-                                                                @if(projet.estTermine()){
-                                                                    <tr class="table-center projet-termine projet-finished">
-                                                                } else{
-                                                                    <tr class="table-center">
-                                                                }
-                                                            }
-                                                        }
+
+                                                        <tr class="table-center @projet.filtres()">
                                                             <td style="vertical-align:middle ;"> @projet.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.formateDate(projet.dateDebutReel)</td>
@@ -298,10 +287,10 @@
                                                 <!-- debut filtre -->
                                             <div class="col-sm-offset-4 col-sm-2">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <button id="" type="button" class="btn btn-default dropdown-toggle dropdown-filtre" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                         @Messages("filters") <span class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu">
+                                                    <ul id="dropdown-onglet-tache" class="dropdown-menu">
                                                         <li>
                                                             <div class="checkbox checkbox-success checkbox-dropdown">
                                                                 <input id="checkbox-tdb-taches-critiques" type="checkbox" onclick="projetTacheTDBTermine();">

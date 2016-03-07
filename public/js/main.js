@@ -533,6 +533,14 @@ $(document).on('click', '#interlocuteurs-modifierC', function (event) {
     event.stopPropagation();
 });
 
+$(document).on('click', '#dropdown-onglet-projet', function (event) {
+    event.stopPropagation();
+});
+
+$(document).on('click', '#dropdown-onglet-tache', function (event) {
+    event.stopPropagation();
+});
+
 $(document).on('click', '#dataTables-admin-user tr td:not(:last-child)', function () {
     var id = $(this).parent('tr').attr('value');
     userRow = $(this).parent('tr');
@@ -1393,7 +1401,7 @@ function projetTacheTDBTermine() {
         $(result).show();
     }
     else {
-        //$('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
     }
 
 
@@ -1408,15 +1416,13 @@ function filtreTDBproj() {
         $('.projet-finished').hide();
     }
 
-
+    var result = "";
     if ($('#checkbox-tdb-projets-retardes').is(":checked")) {
-        result += '.projets-retardes';
+        result += '.projet-retarde';
 
     }
-
-
     if ($('#checkbox-tdb-projets-bientot-finis').is(":checked")) {
-        result += '.projets-bientot-finis';
+        result += '.projet-presque-fini';
 
     }
 
@@ -1426,7 +1432,7 @@ function filtreTDBproj() {
         $(result).show();
     }
     else {
-        //$('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
     }
 
 
