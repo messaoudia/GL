@@ -204,3 +204,5 @@ mdpIncorrecteError = Mot de passe est incorrecte
 nonCoherentProject = Votre projet n'est plus cohérent, veuillez verifier la coherence de votre projet!
 errorCreationTache = Création de la tâche impossible, veuillez vérifier la cohérence des champs saisis.
 errorModificationTache = Modification de la tâche impossible, veuillez vérifier la cohérence des champs saisis.
+saisir2DateError = Veuillez renseigner deux dates ou rien
+projetExistError = Le projet existe déjà

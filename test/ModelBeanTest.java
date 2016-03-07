@@ -1,9 +1,17 @@
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import models.*;
 import models.Utils.Utils;
+import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import play.Logger;
+import play.test.FakeApplication;
+import play.test.Helpers;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -15,9 +23,37 @@ import static play.test.Helpers.running;
  */
 public class ModelBeanTest {
 
+    public static FakeApplication app;
+    public static String createDdl = "";
+    public static String dropDdl = "";
+
+    @BeforeClass
+    public static void startApp() throws IOException {
+        app = Helpers.fakeApplication(Helpers.inMemoryDatabase());
+        Helpers.start(app);
+
+        // Reading the evolution file
+        String evolutionContent = FileUtils.readFileToString(
+                app.getWrappedApplication().getFile("conf/evolutions/default/1.sql"));
+        String[] splittedEvolutionContent = evolutionContent.split("# --- !Ups");
+        String[] upsDowns = splittedEvolutionContent[1].split("# --- !Downs");
+        createDdl = upsDowns[0];
+        dropDdl = upsDowns[1];
+    }
+
+    @Before
+    public void beforeEachTest() {
+        Ebean.execute(Ebean.createCallableSql(dropDdl));
+        Ebean.execute(Ebean.createCallableSql(createDdl));
+    }
+
+    @AfterClass
+    public static void stopApp() {
+        Helpers.stop(app);
+    }
+
     @Test
     public void testPersistAdresse() {
-        running(fakeApplication(), ()-> {
             Adresse a1 = new Adresse("3 Street Cloude","645123","Cupertinoss","America");
             Logger.debug(a1.toString());
             a1.save();
@@ -26,12 +62,10 @@ public class ModelBeanTest {
             Adresse a2 = Adresse.find.byId(a1.id);
             assertEquals(a1,a2);
 
-        });
     }
 
     @Test
     public void testFindAdress() {
-        running(fakeApplication(), ()-> {
             Adresse a1 = new Adresse("3 Street Cloude","645123","Cupertinoss","America");
             Adresse a2 = new Adresse("9 rue nuage","123456","paris","France");
             a1.save();
@@ -54,13 +88,11 @@ public class ModelBeanTest {
             Adresse a10 = Adresse.find.where().eq("pays","France").findList().get(0);
             assertEquals(a1,a9);
             assertEquals(a2,a10);
-        });
     }
 
 
     @Test
     public void testPersistClient(){
-        running(fakeApplication(), ()-> {
             Adresse a1 = new Adresse("30 Street Cloudz","645019","Cupertinoooo","USAAA");
             a1.save();
             List<Contact> listContacts = new BeanList<>();
@@ -86,12 +118,10 @@ public class ModelBeanTest {
             Client cl2 = Client.find.byId(cl.id);
             Logger.debug(cl2.toString());
             assertEquals(cl,cl2);
-        });
     }
 
     @Test
     public void testPersistContact() {
-        running(fakeApplication(), ()-> {
             Client client = new Client();
             client.nom = "Apple";
             client.save();
@@ -111,12 +141,10 @@ public class ModelBeanTest {
             Contact c2 = Contact.find.byId(contact.id);
             Logger.debug(c2.toString());
             assertEquals(contact,c2);
-        });
     }
 
     @Test
     public void testFindContact() {
-        running(fakeApplication(), ()-> {
             Contact c1 = new Contact("Jobs","Steve","s.j@apple.com","0245651229");
             Contact c2 = new Contact("Ibra","Zlatan","z.i@zlatanino.com","0123456789");
             c1.save();
@@ -139,12 +167,10 @@ public class ModelBeanTest {
             Contact a10 = Contact.find.where().eq("telephone","0123456789").findList().get(0);
             assertEquals(c1,a9);
             assertEquals(c2,a10);
-        });
     }
 /*
     @Test
     public void testPersistNotification() {
-        running(fakeApplication(), ()-> {
             Notification n1 = new Notification();
             n1.title = "3 Street Cloud";
             n1.contentNotification = "64500";
@@ -159,12 +185,10 @@ public class ModelBeanTest {
             assertNotNull(n1.id);
             Notification n2 = Notification.find.byId(n1.id);
             assertEquals(n1,n2);
-        });
     }
 
     @Test
     public void testFindNotification() {
-        running(fakeApplication(), ()-> {
             Notification n1 = new Notification("title1","content1",Utils.getDateFrom(2016,10,10),true,false,new Utilisateur(), null, new Projet());
             Notification n2 = new Notification("title2","content2",Utils.getDateFrom(2016,10,12),false,true,new Utilisateur(), new Tache(), null);
             n1.save();
@@ -193,12 +217,10 @@ public class ModelBeanTest {
             Notification a14 = Notification.find.where().eq("archiver",true).findList().get(0);
             assertEquals(n1,a13);
             assertEquals(n2,a14);
-        });
     }
 */
     @Test
     public void testPersistProjet() {
-        running(fakeApplication(), ()-> {
             Client cl = new Client();
             cl.nom = "Apple";
             cl.save();
@@ -226,12 +248,10 @@ public class ModelBeanTest {
             Logger.debug(pr2.toString());
 
             assertEquals(projet,pr2);
-        });
     }
 
     @Test
     public void testPersistTask() {
-        running(fakeApplication(), ()-> {
             Projet pr = new Projet();
             pr.nom = "New project";
             Contact c1 = new Contact("Toto","Tata","toto.tata@tt.tt","0123456789");
@@ -277,13 +297,11 @@ public class ModelBeanTest {
             //Logger.debug(t2.interlocuteurs.toString());
             Logger.debug(t2.toString());
             assertEquals(tache,t2);
-        });
     }
 
 
     @Test
     public void testPersistUtilisateur() {
-        running(fakeApplication(), ()-> {
             Utilisateur u1 = new Utilisateur();
             u1.nom = "Jobss";
             u1.prenom = "Steeve";
@@ -299,44 +317,34 @@ public class ModelBeanTest {
             assertEquals(u1,u2);
             assertTrue(u2.checkPassword("azertY1"));
             assertFalse(u2.checkPassword("FALSE_PASSWORD"));
-        });
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testPasswordCourtException(){
-        running(fakeApplication(), ()-> {
             Utilisateur u1 = new Utilisateur();
             u1.setPassword("Azer1");
-        });
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testPasswordChiffreException(){
-        running(fakeApplication(), ()-> {
             Utilisateur u1 = new Utilisateur();
             u1.setPassword("Azertya");
-        });
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testPasswordMajException(){
-        running(fakeApplication(), ()-> {
             Utilisateur u1 = new Utilisateur();
             u1.setPassword("azerty1");
-        });
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testPasswordMinException(){
-        running(fakeApplication(), ()-> {
             Utilisateur u1 = new Utilisateur();
             u1.setPassword("AZERTY1");
-        });
     }
 
     @Test
     public void testFindUtilisateur() {
-        running(fakeApplication(), ()-> {
             Utilisateur u1 = Utilisateur.create("A","C","a.c@apple.com","1236549870","TOTO123a");
             Utilisateur u2 = Utilisateur.create("B","D","b.d@zlatanino.com","0147258369","TATA123a");
             u1.save();
@@ -361,6 +369,5 @@ public class ModelBeanTest {
             assertEquals(u2,a10);
             assertEquals(Utilisateur.find.where().eq("password","TOTO").findList().size(),0);
             assertEquals(Utilisateur.find.where().eq("password","TATA").findList().size(),0);
-        });
     }
 }

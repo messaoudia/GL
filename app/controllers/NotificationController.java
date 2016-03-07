@@ -67,7 +67,7 @@ public class NotificationController extends Controller {
     public Result sendNotifications() {
 
         Logger.debug("Envoie notification...");
-        Logger.debug("Utilisateur: "+Login.getUtilisateurConnecte());
+        Logger.debug("Utilisateur: " + Login.getUtilisateurConnecte());
 
         //Login.getUtilisateurConnecte().sendNotifications();
 
@@ -80,6 +80,10 @@ public class NotificationController extends Controller {
         //    return badRequest(Json.toJson(ImmutableMap.of("error", "body is null")));
         //}
         return ok();
+    }
+
+    public Result nbNotificationsNonLues() {
+        return ok(Login.getUtilisateurConnecte().nbNotificationsNonLues() + "");
     }
 
 }

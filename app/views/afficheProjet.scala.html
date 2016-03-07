@@ -64,6 +64,7 @@
             </div>
             <div class="row" id="date-header">
                 <h3 class="header-text">
+                @if(projet.dateDebutTheorique != null) {
                     @Messages("theoreticalDate")
                     <table>
                         <tr>
@@ -80,8 +81,9 @@
                                 <div class="date-projet">@projet.formateDate(projet.dateFinTheorique)</div>
                             </td>
                         </tr>
-
                     </table>
+                }
+                @if(projet.dateFinReelTot != null) {
                     @Messages("effectiveDates")
                     <table>
                         <tr>
@@ -101,6 +103,7 @@
                             </td>
                         </tr>
                     </table>
+                }
                 </h3>
             </div>
             <div class="row" style="margin-top: 14px ;">
@@ -161,13 +164,13 @@
                         </div>
                     </div>
 
-                    <div id="successModifierProjet" class="alert alert-success alert-dismissable" style="display: none ;">
+                    <div id="successModifierProjet-@projet.id" class="alert alert-success alert-dismissable" style="display: none ;">
                         <button class="close" type="button">×</button>
-                        <p id="successModifierProjetP"><p>
+                        <p id="successModifierProjetP-@projet.id"><p>
                     </div>
-                    <div id="errorModifierProjet" class="alert alert-danger alert-dismissable" style="display: none ;">
+                    <div id="errorModifierProjet-@projet.id" class="alert alert-danger alert-dismissable" style="display: none ;">
                         <button class="close" type="button">×</button>
-                        <p id="errorModifierProjetP"><p>
+                        <p id="errorModifierProjetP-@projet.id"><p>
                     </div>
 
                     <div class="row">
@@ -278,17 +281,17 @@
             }
         <div class="row row-options-admin-projet">
                 <div class="col-sm-3">
-                    <div class="checkbox checkbox-success checkbox-circle">
-                        <input id="checkbox-taches-terminees" type="checkbox">
-                        <label for="checkbox-taches-terminees">
+                    <div class="checkbox checkbox-success checkbox-circle" >
+                        <input id="checkbox-taches-terminees@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")' checked>
+                        <label for="checkbox-taches-terminees@projet.id">
                         @Messages("completedTasks")
                         </label>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="checkbox checkbox-success checkbox-circle">
-                        <input id="checkbox-taches-indisponibles" type="checkbox">
-                        <label for="checkbox-taches-indisponibles">
+                        <input id="checkbox-taches-indisponibles@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")' checked>
+                        <label for="checkbox-taches-indisponibles@projet.id">
                         @Messages("unavailableTasks")
                         </label>
                     </div>
@@ -328,7 +331,7 @@
                     <ol class="dd-list" id="table_taches_@projet.id">
                     @if(projet.responsableProjet.equals(utilisateur)) {
                         @for( tacheMere <- projet.listTachesAAfficher()) {
-                            <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
+                            <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
                                 <div class="dd-handle" style="padding:0px ;">
                                     <div class="row row-nestable" >
                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
@@ -336,6 +339,9 @@
                                             @tacheMere.idTache
                                             </div>
                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                            @if(tacheMere.critique){
+                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                            }
                                             @tacheMere.nom
                                             </div>
                                         </div>
@@ -444,7 +450,7 @@
                                 @if(tacheMere.hasEnfant()) {
                                     <ol class="dd-list">
                                     @for( sousTache1 <- tacheMere.enfants()) {
-                                        <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
+                                        <li class="dd-item dd-item-min-width @sousTache1.checkBox()" data-id="@sousTache1.id">
                                             <div class="dd-handle" style="padding:0px ;">
                                                 <div class="row row-nestable">
                                                     <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
@@ -452,6 +458,9 @@
                                                         @sousTache1.idTache
                                                         </div>
                                                         <div class="row row-nestable" style="padding-top: 10px ;">
+                                                        @if(sousTache1.critique){
+                                                            <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                        }
                                                         @sousTache1.nom
                                                         </div>
                                                     </div>
@@ -562,7 +571,7 @@
                                             @if(sousTache1.hasEnfant()) {
                                                 <ol class="dd-list">
                                                 @for( sousTache2 <- sousTache1.enfants()) {
-                                                    <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
+                                                    <li class="dd-item dd-item-min-width @sousTache2.checkBox()" data-id="@sousTache2.id">
                                                         <div class="dd-handle" style="padding:0px ;">
                                                             <div class="row row-nestable" >
                                                                 <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
@@ -570,6 +579,9 @@
                                                                     @sousTache2.idTache
                                                                     </div>
                                                                     <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                    @if(sousTache2.critique){
+                                                                        <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                    }
                                                                     @sousTache2.nom
                                                                     </div>
                                                                 </div>
@@ -679,7 +691,7 @@
                                                         @if(sousTache2.hasEnfant()) {
                                                             <ol class="dd-list">
                                                             @for( sousTache3 <- sousTache2.enfants()) {
-                                                                <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
+                                                                <li class="dd-item dd-item-min-width @sousTache3.checkBox()" data-id="@sousTache3.id">
                                                                     <div class="dd-handle" style="padding:0px ;">
                                                                         <div class="row row-nestable">
                                                                             <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
@@ -687,6 +699,9 @@
                                                                                 @sousTache3.idTache
                                                                                 </div>
                                                                                 <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                                @if(sousTache3.critique){
+                                                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                                }
                                                                                 @sousTache3.nom
                                                                                 </div>
                                                                             </div>
@@ -809,11 +824,11 @@
                                     </ol>
                                 }
                             </li>
-
+                            <script>updateTaskNestableCheckbox("@projet.id");</script>
                         }
                     } else {
                         @for( tacheMere <- utilisateur.listTachesDansProjetNonResponsableAAfficher(projet)) {
-                            <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
+                            <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
                                 <div class="dd-handle" style="padding:0px ;">
                                     <div class="row row-nestable">
                                         <div class="col-middle first-col-middle" style="">
@@ -821,6 +836,9 @@
                                             @tacheMere.idTache
                                             </div>
                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                            @if(tacheMere.critique){
+                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                            }
                                             @tacheMere.nom
                                             </div>
                                         </div>
@@ -908,7 +926,7 @@
                                     <ol class="dd-list">
                                     @for( sousTache1 <- tacheMere.enfants()) {
                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache1)) {
-                                            <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
+                                            <li class="dd-item dd-item-min-width @sousTache1.checkBox()" data-id="@sousTache1.id">
                                                 <div class="dd-handle" style="padding:0px ;">
                                                     <div class="row row-nestable">
                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
@@ -916,6 +934,9 @@
                                                             @sousTache1.idTache
                                                             </div>
                                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                                            @if(sousTache1.critique){
+                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                            }
                                                             @sousTache1.nom
                                                             </div>
                                                         </div>
@@ -1005,7 +1026,7 @@
                                                     <ol class="dd-list">
                                                     @for( sousTache2 <- sousTache1.enfants()) {
                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache2)) {
-                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
+                                                            <li class="dd-item dd-item-min-width @sousTache2.checkBox()" data-id="@sousTache2.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                     <div class="row row-nestable">
                                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
@@ -1013,6 +1034,9 @@
                                                                             @sousTache2.idTache
                                                                             </div>
                                                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                            @if(sousTache2.critique){
+                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                            }
                                                                             @sousTache2.nom
                                                                             </div>
                                                                         </div>
@@ -1101,7 +1125,7 @@
                                                                     <ol class="dd-list">
                                                                     @for( sousTache3 <- sousTache2.enfants()) {
                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache3)) {
-                                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache3.id" value="@sousTache2.id">
+                                                                            <li class="dd-item dd-item-min-width @sousTache3.checkBox()" data-id="@sousTache3.id" value="@sousTache2.id">
                                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                                     <div class="row row-nestable">
                                                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
@@ -1109,6 +1133,9 @@
                                                                                             @sousTache3.idTache
                                                                                             </div>
                                                                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                                            @if(sousTache3.critique){
+                                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                                            }
                                                                                             @sousTache3.nom
                                                                                             </div>
                                                                                         </div>
@@ -1212,11 +1239,12 @@
                                     </ol>
                                 }
                             </li>
-
+                            <script>updateTaskNestableCheckbox("@projet.id");</script>
                         }
                     }
 
                     </ol>
+
                 </div>
             </div>
         </div>

@@ -76,11 +76,11 @@ public class ClientController extends Controller {
     public Result creerClient()
     {
         JsonNode json = request().body().asJson();
-        String nomClient =  json.get("form").get("formCreerClientName").asText();
-        String adresseClient =  json.get("form").get("formCreerClientAdress").asText();
-        String codePostal =  json.get("form").get("formCreerClientZipCode").asText();
-        String ville =  json.get("form").get("formCreerClientCity").asText();
-        String pays =  json.get("form").get("formCreerClientCountry").asText();
+        String nomClient =  json.get("form").get("formCreerClientName").asText().trim();
+        String adresseClient =  json.get("form").get("formCreerClientAdress").asText().trim();
+        String codePostal =  json.get("form").get("formCreerClientZipCode").asText().trim();
+        String ville =  json.get("form").get("formCreerClientCity").asText().trim();
+        String pays =  json.get("form").get("formCreerClientCountry").asText().trim();
         int priorite = json.get("priorite").asInt();
         Error error = checkCreationClient(nomClient,adresseClient,codePostal,ville,pays);
 
@@ -88,8 +88,7 @@ public class ClientController extends Controller {
         List<Contact> listC = new BeanList<>();
         Client client = new Client(nomClient,priorite,false, adresse, listC, null);
 
-        List<Client> lClient = Client.getAll();
-        if(lClient.contains(client)){
+        if(!Client.find.where().eq("nom",nomClient).findList().isEmpty()){
             error.clientExiste = true;
         }
         if(error.hasErrorClient()) {
@@ -121,10 +120,10 @@ public class ClientController extends Controller {
         Map<String, String[]> map = request().body().asFormUrlEncoded();
 
         Error error = new Error();
-        String nom = map.get("formLastNameContactClient")[0];
-        String prenom = map.get("formFirstNameContactClient")[0];
-        String email =  map.get("formEmailContactClient")[0];
-        String tel =  map.get("formTelContactClient")[0];
+        String nom = map.get("formLastNameContactClient")[0].trim();
+        String prenom = map.get("formFirstNameContactClient")[0].trim();
+        String email =  map.get("formEmailContactClient")[0].trim();
+        String tel =  map.get("formTelContactClient")[0].trim();
 
         Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,30}$");
         Matcher nameMatch = nameRegex.matcher(nom);
@@ -213,14 +212,20 @@ public class ClientController extends Controller {
 
     public Result modifierClient(Long idClient){
         JsonNode json = request().body().asJson();
-        String nom = json.get("form").get("name").asText();
-        String adress = json.get("form").get("adress").asText();
-        String zip = json.get("form").get("zip").asText();
-        String ville = json.get("form").get("city").asText();
-        String pays = json.get("form").get("country").asText();
+        String nom = json.get("form").get("name").asText().trim();
+        String adress = json.get("form").get("adress").asText().trim();
+        String zip = json.get("form").get("zip").asText().trim();
+        String ville = json.get("form").get("city").asText().trim();
+        String pays = json.get("form").get("country").asText().trim();
         int priorite = json.get("priorite").asInt();
 
         Error error = checkCreationClient(nom,adress,zip,ville,pays);
+        Client client = Client.find.byId(idClient);
+        if(!client.nom.equals(nom)){
+            if(!Client.find.where().eq("nom",nom).findList().isEmpty()){
+                error.clientExiste = true;
+            }
+        }
         // Check si erreur ou pas au niveau du client
         //Client client = new Client(nomClient,priorite,false, adresse, listC, null);
 
@@ -233,10 +238,9 @@ public class ClientController extends Controller {
             return badRequest(Json.toJson(error));
         }else {
             Adresse adresse = new Adresse(adress,zip,ville,pays);
-            Client client = Client.find.byId(idClient);
+
             if(!client.adresseClient.equals(adresse)){
                 //adresse is not the same
-                System.out.println("PAS LE MÊME");
                 client.adresseClient.adresse = adress;
                 client.adresseClient.zipCode = zip;
                 client.adresseClient.pays = pays;
@@ -264,7 +268,7 @@ public class ClientController extends Controller {
                 c.save();
             }
 
-            // mis de clients en archiver si il y a
+            // mis de contact en archiver si il y a
             Iterator<JsonNode> archiverContact = json.get("contact").elements();
             while(archiverContact.hasNext()){
                 JsonNode contactArchiver = archiverContact.next();
@@ -278,16 +282,11 @@ public class ClientController extends Controller {
             Iterator<JsonNode> archiverProjet = json.get("projet").elements();
             while(archiverProjet.hasNext()){
                 JsonNode projetArchiver = archiverProjet.next();
-                System.out.println(projetArchiver.get("idProjet").asText());
                 Projet p = Projet.find.byId(projetArchiver.get("idProjet").asLong());
                 p.archive = true;
                 p.save();
-                System.out.println(p.nom + "     "+p.archive);
             }
             client.save();
-            for(Projet p : client.listeProjets){
-                System.out.println(p.archive);
-            }
             return ok(Json.toJson(client));
         }
 

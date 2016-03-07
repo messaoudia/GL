@@ -18,12 +18,13 @@ public class Error
     public boolean nomProjetVide, nomProjetTropLong;
     public boolean dateThDebutProjetVide,dateThFinProjetVide;
     public boolean dateFinAvantDebut;
-    public boolean parseError;
+    public boolean parseError,projetExist;
 
     public boolean nomVideContact, nomTropLongContact,nomIncorrectContact;
     public boolean prenomVideContact, prenomTropLongContact,prenomIncorrectContact;
     public boolean emailVideContact, emailIncorrecteContact, emailTropLongContact;
     public boolean telVideContact, telIncorrecteContact, telTropLongContact;
+    public boolean saisir2Date;
 
     public boolean mdpVide, mdpIncorrecte;
 
@@ -37,7 +38,7 @@ public class Error
     }
 
     public boolean hasErrorProjet(){
-        return nomProjetVide || dateThDebutProjetVide || dateThFinProjetVide || descriptionTropLong || dateFinAvantDebut || parseError || nomProjetTropLong;
+        return nomProjetVide || descriptionTropLong || dateFinAvantDebut || parseError || nomProjetTropLong || saisir2Date || projetExist;
     }
 
     public boolean hasErrorContact() {

@@ -13,7 +13,13 @@
             </li>
             <li id="notifTopBar" onclick="afficherNotifications()">
                 <a class="dropdown-toggle count-info pear-theme" data-toggle="dropdown" href="#" aria-expanded="true">
-                    <i class="fa fa-bell" style="color:white;"></i> <span id="nbNotifNonLues-topbar" class="label label-warning"> @Login.getUtilisateurConnecte().nbNotificationsNonLues()</span>
+                    <i class="fa fa-bell" style="color:white;"></i>
+                    @if(Login.getUtilisateurConnecte().nbNotificationsNonLues()>0){
+                    <span id="nbNotifNonLues-topbar" class="label label-warning"> @Login.getUtilisateurConnecte().nbNotificationsNonLues()</span>
+                    }else{
+                        <span id="nbNotifNonLues-topbar" class="label label-warning" style="display: none;"> @Login.getUtilisateurConnecte().nbNotificationsNonLues()</span>
+                    }
+
                 </a>
             </li>
 

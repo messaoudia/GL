@@ -135,3 +135,5 @@ POST        /checkMdpAdmin                                  controllers.AdminCon
 POST        /modifProjetSelect                              controllers.AdminController.modifierProjet(id :Long)
 POST        /redirectDashBoard                              controllers.AdminController.redirectDashboard()
 POST        /infoProjet                                     controllers.ProjetController.infoProjet(id : Long)
+
+GET         /nbNotificationsNonLues                         controllers.NotificationController.nbNotificationsNonLues

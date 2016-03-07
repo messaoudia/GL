@@ -844,6 +844,8 @@ public class Projet extends EntiteSecurise {
             }
         }
 
+        System.out.println("Tache critique la plus à droite : " + tacheAvecMoinsMarge);
+
         // On remonte jusqu'en haut du chemin + on met la valeur 'true' au champ 'critique' d'une tache
         calculeCheminCritiqueRecursive(tacheAvecMoinsMarge);
 
@@ -851,15 +853,17 @@ public class Projet extends EntiteSecurise {
 
     private void calculeCheminCritiqueRecursive(Tache t) {
         t.critique = true;
-        if (t.hasPredecesseur()) {
+        t.save();
+        if (t.hasPredecesseur())
             calculeCheminCritiqueRecursive(t.predecesseur);
-            if (t.parent != null)
-                calculeCheminCritiqueTacheMere(t.parent);
-        }
+
+        if (t.parent != null)
+            calculeCheminCritiqueTacheMere(t.parent);
     }
 
     private void calculeCheminCritiqueTacheMere(Tache t) {
         t.critique = true;
+        t.save();
         if (t.parent != null)
             calculeCheminCritiqueTacheMere(t.parent);
     }
@@ -1020,6 +1024,11 @@ public class Projet extends EntiteSecurise {
             }
         });
          */
+        try{
+            calculeCheminCritique();
+        } catch(Exception e){
+            System.err.println("Erreur pour calcul chemin critique : " + e.getMessage());
+        }
         return listTaches;
     }
 

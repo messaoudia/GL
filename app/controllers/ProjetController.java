@@ -40,9 +40,9 @@ public class ProjetController extends Controller {
 
     public Result creerProjet() {
         Map<String, String[]> map = request().body().asFormUrlEncoded();
-        System.out.println(map);
+        boolean dateHere = false;
         Error error = new Error();
-        String nom = map.get("nom")[0];
+        String nom = map.get("nom")[0].trim();
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
         } else if (nom.length() > 30) {
@@ -51,7 +51,7 @@ public class ProjetController extends Controller {
         Utilisateur responsableProjet = Utilisateur.find.byId(Long.valueOf(map.get("responsableProjet")[0]));
         Client client = Client.find.byId(Long.valueOf(map.get("client")[0]));
 
-        String description = map.get("description")[0];
+        String description = map.get("description")[0].trim();
 
         int priorite = Integer.parseInt(map.get("priorite")[0]);
         UniteProjetEnum unite;
@@ -61,45 +61,70 @@ public class ProjetController extends Controller {
             unite = UniteProjetEnum.SEMAINE;
         }
 
-        String dateDeb = map.get("dateDebutTheorique")[0];
-        String dateFin = map.get("dateFinTheorique")[0];
+        String dateDeb = map.get("dateDebutTheorique")[0].trim();
+        String dateFin = map.get("dateFinTheorique")[0].trim();
         //Date
-        if (dateDeb.isEmpty()) {
+        /*if (dateDeb.isEmpty()) {
             error.dateThDebutProjetVide = true;
         }
         if (dateFin.isEmpty()) {
             error.dateThFinProjetVide = true;
         }
-
+        */
         if (description.length() > 65536) {
             error.descriptionTropLong = true;
         }
 
+        if(dateDeb.isEmpty() && dateFin.isEmpty()) {
+            dateHere = false;
+        }else if(!dateDeb.isEmpty() && !dateFin.isEmpty()){
+            dateHere = true;
+        }else{
+            error.saisir2Date = true;
+        }
+        List<Projet> lP = Projet.find.all();
+        for(Projet p : lP){
+            if(p.nom.equals(nom)){
+                if(p.client.equals(client)){
+                    error.projetExist = true;
+                    break;
+                }
+            }
+        }
         if (error.hasErrorProjet()) {
             return badRequest(Json.toJson(error));
         } else {
             //TODO: check date en fonction de la langue && check si projet existe deja
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date dateDebutTheorique = null;
-            Date dateFinTheorique = null;
-            try {
-                dateDebutTheorique = formatter.parse(dateDeb);
-                dateFinTheorique = formatter.parse(dateFin);
-                //if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
-                if (Utils.after(dateFinTheorique, dateDebutTheorique) || Utils.equals(dateFinTheorique, dateDebutTheorique)) {
-                    Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
-                    p.save();
-                    client.listeProjets.add(p);
-                    client.save();
-                    return ok(Json.toJson(p));
-                } else {
-                    error.dateFinAvantDebut = true;
+            if(dateHere){
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date dateDebutTheorique = null;
+                Date dateFinTheorique = null;
+                try {
+                    dateDebutTheorique = formatter.parse(dateDeb);
+                    dateFinTheorique = formatter.parse(dateFin);
+                    //if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
+                    if (Utils.after(dateFinTheorique, dateDebutTheorique) || Utils.equals(dateFinTheorique, dateDebutTheorique)) {
+                        // verif if projet exist
+                        Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
+                        p.save();
+                        client.listeProjets.add(p);
+                        client.save();
+                        return ok(Json.toJson(p));
+                    } else {
+                        error.dateFinAvantDebut = true;
+                    }
+                } catch (ParseException e) {
+                    error.parseError = true;
                 }
-            } catch (ParseException e) {
-                error.parseError = true;
-
+                return badRequest(Json.toJson(error));
             }
-            return badRequest(Json.toJson(error));
+            else{
+                Projet p = new Projet(nom, description, responsableProjet, null, null, unite, client, priorite);
+                p.save();
+                client.listeProjets.add(p);
+                client.save();
+                return ok(Json.toJson(p));
+            }
         }
     }
 
@@ -135,17 +160,16 @@ public class ProjetController extends Controller {
         //check projet  -- nom + description
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         Error error = new Error();
-        String nom = map.get("projet")[0];
+        String nom = map.get("projet")[0].trim();
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
         } else if (nom.length() > 30) {
             error.nomProjetTropLong = true;
         }
-        String description = map.get("description")[0];
+        String description = map.get("description")[0].trim();
         if (description.length() > 65536) {
             error.descriptionTropLong = true;
         }
-        Logger.debug(p.responsableProjet.nom + p.responsableProjet.prenom);
         if (error.hasErrorProjet()) {
             return badRequest(Json.toJson(error));
         } else {
@@ -153,6 +177,15 @@ public class ProjetController extends Controller {
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
             if (!p.nom.equals(nom)) {
+
+                List<Projet> lP = p.client.listeProjets;
+                Logger.debug(p.client.listeProjets.toString());
+                for(Projet projet : lP){
+                    if(projet.nom.equals(nom)){
+                        error.projetExist = true;
+                        return badRequest(Json.toJson(error));
+                    }
+                }
                 p.nom = nom;
             }
             if (p.priorite != priorite) {
@@ -160,7 +193,6 @@ public class ProjetController extends Controller {
             }
             //description
             if (!p.description.equals(description)) {
-                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
                 p.description = description;
             }
             p.save();
@@ -177,14 +209,12 @@ public class ProjetController extends Controller {
 
 
         Projet projet = parseDraftToProject(jsonDraft);
-        Logger.debug("BEFORE check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
+        //Logger.debug("BEFORE check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
 
 
         final Map<String, String> errors = projet.checkProjet();
 
-        //final Map<String, String> errors = new HashMap<>();
-
-        Logger.debug("AFTER check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
+        //Logger.debug("AFTER check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
 
         if (errors.isEmpty()) {
             for (int i = 0; i < projet.listTaches.size(); i++) {
@@ -193,7 +223,7 @@ public class ProjetController extends Controller {
                 Tache tache = projet.listTaches.get(i);
                 Logger.debug(tache.id + ", " + tache.idTache + " -> " + tache.niveau + ", enfants: " + tache.enfants.size());
 
-                Logger.debug(" ================> "+projet.listTaches.stream().filter(tache1 -> tache1.id==21L).findFirst().get().enfants.size());
+                //Logger.debug(" ================> "+projet.listTaches.stream().filter(tache1 -> tache1.id==21L).findFirst().get().enfants.size());
 
                 tache.save();
                 //List<Tache> enfants = tacheCourant.enfants;
@@ -272,7 +302,7 @@ public class ProjetController extends Controller {
 
     @Transactional
     public static void dfsTraversalJsNode(JsonNode parentTacheNode, JsonNode currentTacheNode, Integer index, Map<Long, Tache> taches) {
-        Logger.debug(" dfsTraversalJsNode ==============================> "+taches.get(21L).enfants.size());
+        //Logger.debug(" dfsTraversalJsNode ==============================> "+taches.get(21L).enfants.size());
         final Tache parentTache = parentTacheNode != null ? taches.get(parentTacheNode.get("id").asLong()) : null;
         final Tache currentTache = taches.get(currentTacheNode.get("id").asLong());
 

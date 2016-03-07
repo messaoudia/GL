@@ -1,16 +1,16 @@
 package controllers.Global;
 
 import com.avaje.ebean.Ebean;
-import models.Client;
-import models.EntiteGenerique;
-import models.Projet;
+import models.*;
 import models.Securite.Autorisation;
 import models.Securite.Role;
-import models.Utilisateur;
+import models.Utils.Utils;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.Yaml;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,7 +49,7 @@ public class Global extends GlobalSettings {
             });
 
             Projet.find.all().stream().forEach(projet -> {
-                Logger.debug("Projet: "+projet.nom);
+                Logger.debug("Projet: " + projet.nom);
                 Logger.debug("Projet: charge Restante " + projet.chargeRestante);
                 Logger.debug("Projet: charge consomme " + projet.chargeConsommee);
                 Logger.debug("Projet: avancement " + projet.avancementGlobal);
@@ -77,6 +77,20 @@ public class Global extends GlobalSettings {
                     Logger.debug("EntiteGenerique:" + entiteGenerique.nom);
                 });
             }
+
+
+            // Importer les deux fichiers clients et contacts si la base de données est vide
+
+            if (Client.find.findRowCount() < 1 && Contact.find.findRowCount() < 1) {
+                final String clientsFilePath = play.Play.application().resource("clients.csv").getPath();
+                final String contactFilePath = play.Play.application().resource("contacts.csv").getPath();
+
+                if (Files.exists(Paths.get(clientsFilePath)) && Files.exists(Paths.get(contactFilePath))) {
+                    Utils.importAllClientsCSV(clientsFilePath, contactFilePath);
+                }
+            }
+
+
             /* display DB content */
             /*Logger.debug(String.valueOf(Adresse.find.all()));
             Logger.debug(String.valueOf(Contact.find.all()));
