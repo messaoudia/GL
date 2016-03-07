@@ -72,15 +72,15 @@
                                     <div class="row" style="margin-left: 0px ; margin-right: 0px ;">
                                         @if(index == 0) {
                                             @if(projet.estTermine()) {
-                                                <div name="projet-@projet.id" class="sidebar-projet select projet-finished-sidebar" style="background-color: #0d8ddb ;">
+                                                <div name="projet-@projet.id" projet="@projet.id" class="sidebar-projet select projet-finished-sidebar" style="background-color: #0d8ddb ; display: none; color:#FFF;">
                                                 } else {
-                                                <div name="projet-@projet.id" class="sidebar-projet select">
+                                                <div name="projet-@projet.id" projet="@projet.id" class="sidebar-projet select">
                                                 }
                                         } else {
                                             @if(projet.estTermine()) {
-                                                <div name="projet-@projet.id" class="sidebar-projet projet-finished-sidebar" style="background-color: #0d8ddb ;">
+                                                <div name="projet-@projet.id" projet="@projet.id" class="sidebar-projet projet-finished-sidebar" style="background-color: #0d8ddb ; display: none; color:#FFF;">
                                                 } else {
-                                                <div name="projet-@projet.id" class="sidebar-projet">
+                                                <div name="projet-@projet.id" projet="@projet.id" class="sidebar-projet">
                                                 }
                                         }
                                     <div class="content">

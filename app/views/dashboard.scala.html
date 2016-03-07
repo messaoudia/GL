@@ -197,7 +197,11 @@
                                                 <tbody>
                                                     @for(projet <- utilisateur.listProjetsResponsable()) {
 
-                                                        <tr class="table-center @projet.filtres()">
+                                                        @if(projet.estTermine()) {
+                                                            <tr class="table-center @projet.filtres()" style="display: none ;">
+                                                        } else {
+                                                            <tr class="table-center @projet.filtres()">
+                                                        }
                                                             <td style="vertical-align:middle ;"> @projet.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.formateDate(projet.dateDebutReel)</td>
@@ -352,7 +356,14 @@
                                                 </thead>
                                                 <tbody id="dataTables-tdb-tache-body">
                                                 @for( tache <- utilisateur.listTaches()) {
-                                                    <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center  @tache.filtres()" >
+
+                                                    @if(tache.projet.estTermine() || tache.estTerminee()) {
+                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center  @tache.filtres() @tache.checkBox()" style="display: none ;">
+                                                    } else {
+
+                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center  @tache.filtres() @tache.checkBox()" >
+                                                        }
+
                                                         <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">
                                                             <p class="tdb-id-tache">@tache.idTache</p>
                                                             <p class="tdb-nom-tache">@tache.nom</p>
@@ -434,7 +445,7 @@
                                                                         }
                                                                         </ul>
                                                                     </div>
-                                                                </div
+                                                                </div>
                                                             } else {
                                                                 <div class="row">@Messages("successors")
                                                                     : @Messages("none")</div>
@@ -450,6 +461,7 @@
                                                 }
                                                 </tbody>
                                             </table>
+
                                         </div>
                                     </div>
                                 </div>

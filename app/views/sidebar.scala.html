@@ -1,4 +1,4 @@
-@(menu:String)
+@(menu: String)
 
 <div class="ng-scope">
     <nav class="navbar-default navbar-static-side ng-scope" role="navigation">
@@ -7,7 +7,7 @@
                 <li id="nav-header" class="nav-header">
                     <div class="navbar-profile">
                         <span class="block m-t-xs" style="color:white ;"> <strong class="font-bold">
-                                  @Login.getUtilisateurConnecte.prenom @Login.getUtilisateurConnecte.nom</strong> </span>
+                            @Login.getUtilisateurConnecte.prenom @Login.getUtilisateurConnecte.nom</strong> </span>
                     </div>
                 </li>
                 @if(menu.equals("Dashboard")) {
@@ -70,59 +70,60 @@
                         @Messages("createCustomer")</span></a>
                     </li>
                 }
+                @if(Login.getUtilisateurConnecte.checkAdmin()) {
+                    @if(menu.equals("CreerUtilisateur")) {
+                        <li class="liclickable active sidebar-btn-green" data-infos="UtilisateurController.afficherCreerUtilisateur()">
+                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            @Messages("createUser")</span></a>
+                        </li>
+                    } else {
+                        <li class="liclickable sidebar-btn-green" data-infos="UtilisateurController.afficherCreerUtilisateur()">
+                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            @Messages("createUser")</span></a>
+                        </li>
+                    }
 
-                @if(menu.equals("CreerUtilisateur")) {
-                    <li class="liclickable active sidebar-btn-green" data-infos="UtilisateurController.afficherCreerUtilisateur()">
-                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                        @Messages("createUser")</span></a>
-                    </li>
-                } else {
-                    <li class="liclickable sidebar-btn-green" data-infos="UtilisateurController.afficherCreerUtilisateur()">
-                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                        @Messages("createUser")</span></a>
-                    </li>
-                }
-
-                <li style="pointer-events: none ; cursor: default ; background-color:#e74c3c ;">
-                    <a> <span class="nav-label" style="color:white ; padding-right:10px ; margin-left: 10px ;" >
+                    <li style="pointer-events: none ; cursor: default ; background-color:#e74c3c ;">
+                        <a> <span class="nav-label" style="color:white ; padding-right:10px ; margin-left: 10px ;" >
                         @Messages("administrator") </span><img src="img/MyIcons/png/locked59-white.png" alt="image" class="icone"></a>
-                </li>
-
-                @if(menu.equals("ProjetAdmin")) {
-                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()" data-toggle="modal" data-target="#modal-check-mdp">
-                        <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
-                        @Messages("projects") </span></a>
                     </li>
-                } else {
-                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()" data-toggle="modal" data-target="#modal-check-mdp">
-                        <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
-                        @Messages("projects") </span></a>
-                    </li>
-                }
-
-                @if(menu.equals("ClientAdmin")) {
-                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminClients()" data-toggle="modal" data-target="#modal-check-mdp">
-                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
-                        @Messages("clients") </span></a>
-                    </li>
-                } else {
-                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminClients()" data-toggle="modal" data-target="#modal-check-mdp">
-                        <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
-                        @Messages("clients") </span></a>
-                    </li>
-                }
 
 
-                @if(menu.equals("UtilisateurAdmin")) {
-                    <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()" data-toggle="modal" data-target="#modal-check-mdp">
-                        <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
-                        @Messages("user") </span></a>
-                    </li>
-                } else {
-                    <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()" data-toggle="modal" data-target="#modal-check-mdp">
-                        <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
-                        @Messages("user") </span></a>
-                    </li>
+                    @if(menu.equals("ProjetAdmin")) {
+                        <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()" data-toggle="modal" data-target="#modal-check-mdp">
+                            <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            @Messages("projects") </span></a>
+                        </li>
+                    } else {
+                        <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminProjets()" data-toggle="modal" data-target="#modal-check-mdp">
+                            <a ><img src="img/MyIcons/png/bars62.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            @Messages("projects") </span></a>
+                        </li>
+                    }
+
+                    @if(menu.equals("ClientAdmin")) {
+                        <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminClients()" data-toggle="modal" data-target="#modal-check-mdp">
+                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            @Messages("clients") </span></a>
+                        </li>
+                    } else {
+                        <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminClients()" data-toggle="modal" data-target="#modal-check-mdp">
+                            <a ><img src="img/MyIcons/png/team2.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            @Messages("clients") </span></a>
+                        </li>
+                    }
+
+                    @if(menu.equals("UtilisateurAdmin")) {
+                        <li class="liclickable active sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()" data-toggle="modal" data-target="#modal-check-mdp">
+                            <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            @Messages("user") </span></a>
+                        </li>
+                    } else {
+                        <li class="liclickable sidebar-btn-red" data-infos="AdminController.afficherAdminUtilisateur()" data-toggle="modal" data-target="#modal-check-mdp">
+                            <a ><img src="img/MyIcons/png/useravatar9.png" alt="image" class="icone" style="margin-left: 10px ;"> <span style="padding-left:7px ;" class="nav-label">
+                            @Messages("user") </span></a>
+                        </li>
+                    }
                 }
             </ul>
         </div>
@@ -134,10 +135,10 @@
                     <div class="modal-header background_admin">
                         <button id="modalClose" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
                             ×</span> <span class="sr-only">Close</span></button>
-                        <label style="color:white;" for="newPassword">@Messages("adminMdp")</label>
+                        <label style="color:white ;" for="newPassword">@Messages("adminMdp")</label>
                     </div>
                     <div class="modal-body">
-                        <div id="errorMdpAdmin" class="alert alert-danger alert-dismissable" style="display: none;">
+                        <div id="errorMdpAdmin" class="alert alert-danger alert-dismissable" style="display: none ;">
                             <button class="close" type="button">×</button>
                             <p id="errorMdpAdminP"><p>
                         </div>
