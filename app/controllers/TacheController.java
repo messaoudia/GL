@@ -167,6 +167,7 @@ public class TacheController  extends Controller {
         try {
             projet.supprimerTache(tacheASupprimer);
         } catch (Exception e) {
+            e.printStackTrace();
             return badRequest();
         }
         return ok();

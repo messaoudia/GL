@@ -797,6 +797,9 @@ public class Projet extends EntiteSecurise {
     }
 
     private void calculeCheminCritique() throws Exception{
+        if(listTaches.size() == 0){
+            return;
+        }
         // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
         List<Tache> listTachesFin = new ArrayList<Tache>();
         listTachesFin.add(listTaches.get(0));
