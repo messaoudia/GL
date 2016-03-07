@@ -182,8 +182,6 @@ public class ProjetController extends Controller {
 
         final Map<String, String> errors = projet.checkProjet();
 
-        //final Map<String, String> errors = new HashMap<>();
-
         Logger.debug("AFTER check Project ==============================> "+projet.listTaches.stream().filter(tache -> tache.id==21L).findFirst().get().enfants.size());
 
         if (errors.isEmpty()) {
