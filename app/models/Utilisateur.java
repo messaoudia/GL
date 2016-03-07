@@ -244,9 +244,10 @@ public class Utilisateur extends Personne {
     }
 
     public List<Tache> listTachesDansProjetNonResponsable(Projet projet) {
-        List<Tache> taches = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
+        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
+        List<Tache> taches = new ArrayList<>(tachesTmp);
         // Ajout des taches meres et filles
-        for (Tache tache : taches) {
+        for (Tache tache : tachesTmp) {
             ajoutDesTachesParents(taches, tache);
             ajoutDesTachesEnfants(taches, tache);
         }
