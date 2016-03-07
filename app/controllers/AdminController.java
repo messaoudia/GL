@@ -191,10 +191,13 @@ public class AdminController extends Controller{
                 p.client = client;
             }
             p.save();
+            Utilisateur currentUser = Login.getUtilisateurConnecte();
             if(modificationRespoProjet){
-                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierResponsableProjet(p, ancienResponsable);
+                currentUser.mapNotificationsGenerees.createNotificationModifierResponsableProjet(p, ancienResponsable);
+                currentUser.save();
             } else if(modificationProjet) {
-                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierProjet(p);
+                currentUser.mapNotificationsGenerees.createNotificationModifierProjet(p);
+                currentUser.save();
             }
             return ok(Json.toJson(p));
         }

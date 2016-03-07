@@ -68,6 +68,9 @@ public class Utilisateur extends Personne {
 
     public String bloc_note;
 
+    @ElementCollection
+    @MapKeyColumn(name="idObject")
+    @Column(name="mapTypeNotificationAndObject")
     public MapNotificationsGroupees mapNotificationsGenerees = new MapNotificationsGroupees();
 
     public static Finder<Long, Utilisateur> find = new Finder<>(Utilisateur.class);
@@ -925,6 +928,11 @@ public class Utilisateur extends Personne {
      * Envoie les notifications
      */
     public void sendNotifications(){
+        System.out.println("Utilisateur/sendNotifications : liste des notifs à envoyer");
+        for(Map.Entry<Long, HashMap<TypeNotification, Object>> entry : mapNotificationsGenerees.entrySet()){
+            System.out.println("-> " + entry.getKey());
+        }
+        System.out.println("Fin affichage");
         HashMap<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
         convertMapNotificationsGroupees();
         Notification.sendNotifications(mapNotifications);

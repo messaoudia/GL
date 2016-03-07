@@ -37,7 +37,9 @@ public class TacheController  extends Controller {
 
         try {
             projet.creerSousTache(newTache , mere);
-            Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            Utilisateur currentUser = Login.getUtilisateurConnecte();
+            currentUser.mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
@@ -57,7 +59,9 @@ public class TacheController  extends Controller {
 
         try {
             projet.creerTacheAuDessus(newTache , tacheReference);
-            Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            Utilisateur currentUser = Login.getUtilisateurConnecte();
+            currentUser.mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
@@ -75,7 +79,9 @@ public class TacheController  extends Controller {
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
         try {
             projet.creerTacheEnDessous(newTache , tacheReference);
-            Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            Utilisateur currentUser = Login.getUtilisateurConnecte();
+            currentUser.mapNotificationsGenerees.createNotificationCreerTache(newTache);
+            currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();

@@ -188,14 +188,19 @@ public class DashboardController extends Controller{
             Logger.debug(t.toString());
             Logger.debug("SAVE OK");
 
+            Utilisateur currentUser = Login.getUtilisateurConnecte();
             if(modifierResponsableTache){
-                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierResponsableTache(tache, ancienResponsable);
+                currentUser.mapNotificationsGenerees.createNotificationModifierResponsableTache(tache, ancienResponsable);
+                currentUser.save();
             } else if(modifierTache){
-                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierTache(tache);
+                currentUser.mapNotificationsGenerees.createNotificationModifierTache(tache);
+                currentUser.save();
+                System.out.println("apres save : test 1 = " + currentUser.mapNotificationsGenerees);
+                System.out.println("apres save : test 2 = " + Login.getUtilisateurConnecte().mapNotificationsGenerees);
             } else if(modifierAvancement){
-                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierAvancementTache(tache);
+                currentUser.mapNotificationsGenerees.createNotificationModifierAvancementTache(tache);
+                currentUser.save();
             }
-
             return ok();
         }catch(Exception e){
             e.printStackTrace();

@@ -93,7 +93,6 @@ public class ProjetController extends Controller {
                     p.save();
                     client.listeProjets.add(p);
                     client.save();
-                    // TODO A TESTER
                     Notification.sendNotificationCreerProjet(p, Login.getUtilisateurConnecte());
                     return ok(Json.toJson(p));
                 } else {
@@ -171,8 +170,11 @@ public class ProjetController extends Controller {
                 p.description = description;
             }
             p.save();
-            if(modification)
-                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierProjet(p);
+            if(modification) {
+                Utilisateur currentUser = Login.getUtilisateurConnecte();
+                currentUser.mapNotificationsGenerees.createNotificationModifierProjet(p);
+                currentUser.save();
+            }
             return ok(Json.toJson(p));
         }
     }
