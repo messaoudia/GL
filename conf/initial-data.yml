@@ -431,9 +431,9 @@ taches:
     description:        seconde réunion avec le client a propos du projet
     niveau:             0
     critique:           false
-    dateDebut:          2016-05-14
-    dateFinTot:         2016-05-14
-    dateFinTard:        2016-05-15
+    dateDebut:          2016-05-12
+    dateFinTot:         2016-05-12
+    dateFinTard:        2016-05-12
     chargeInitiale:     1
     chargeConsommee:    0
     chargeRestante:       1
@@ -529,9 +529,9 @@ taches:
     description:        Diagramme de classe v3
     niveau:             3
     critique:           false
-    dateDebut:          2016-05-24
-    dateFinTot:         2016-05-25
-    dateFinTard:        2016-05-26
+    dateDebut:          2016-05-23
+    dateFinTot:         2016-05-23
+    dateFinTard:        2016-05-23
     chargeInitiale:     2
     chargeConsommee:    0
     chargeRestante:       2

@@ -494,7 +494,12 @@
                                                                         } else {
                                                                             <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                         }
-                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                        @if(tacheMere.getAvancementTache() == 0){
+                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@tacheMere.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
+
+                                                                        }else{
+                                                                            <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                        }
                                                                     </div>
                                                                     <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                         <div class="col-xs-4 normal">
@@ -605,8 +610,12 @@
                                                                                     } else {
                                                                                         <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                                     }
-                                                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                    @if(sousTache1.getAvancementTache() == 0){
+                                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache1.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
+                                                                                    }else{
+                                                                                        <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                    }
                                                                                 </div>
                                                                                 <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                                     <div class="col-xs-4 normal">
@@ -719,8 +728,12 @@
                                                                                                 } else {
                                                                                                     <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                                                 }
-                                                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                                @if(sousTache2.getAvancementTache() == 0){
+                                                                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache2.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
+                                                                                                }else{
+                                                                                                    <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                                }
                                                                                             </div>
                                                                                             <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                                                 <div class="col-xs-4 normal">
@@ -833,8 +846,12 @@
                                                                                                             } else {
                                                                                                                 <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                                                             }
-                                                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                                            @if(sousTache3.getAvancementTache() == 0){
+                                                                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache3.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
+                                                                                                            }else{
+                                                                                                                <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                                            }
                                                                                                         </div>
                                                                                                         <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                                                             <div class="col-xs-4 normal">
@@ -982,24 +999,8 @@
                                                 <!-- Modal-view modifier tache/sous-tache -->
                                             @popuptacheConsulterModifier()
                                             @popuptacheCreer()
-                                            <div class="modal fade" id="modal-confirmation-suppr-tache-projet" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog modal-sm">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header background_admin">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
-                                                                ×</span><span class="sr-only">Close</span></button>
-                                                            <h4 class="modal-title text-white">@Messages("deleteConfirmation")</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>@Messages("taskDeleteMessage") : (nom de la tâche) ?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
-                                                            <button type="button" class="btn" data-dismiss="modal">@Messages("no")</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @popuptacheSupprimer()
+
                                         </div>
                                     </div>
                                 </div>

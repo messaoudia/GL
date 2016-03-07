@@ -805,6 +805,9 @@ public class Projet extends EntiteSecurise {
     }
 
     private void calculeCheminCritique() throws Exception {
+        if(listTaches.size() == 0){
+            return;
+        }
         // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
         List<Tache> listTachesFin = new ArrayList<Tache>();
         listTachesFin.add(listTaches.get(0));
@@ -1054,11 +1057,11 @@ public class Projet extends EntiteSecurise {
 
             if (tache.hasSuccesseur()) {
                 for (int i = 0; i < tache.successeurs.size(); i++) {
-                    if (!Tache.checkPERT(tache, tache.successeurs.get(i))) {
-                        errors.put("e3-" + i, "le sucesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.successeurs.get(i).nom);
-                    }
                     if (Utils.after(tache.dateFinTard, tache.successeurs.get(i).dateDebut)) {
-                        errors.put("e4-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.successeurs.get(i).nom);
+                        errors.put("e3-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.successeurs.get(i).nom);
+                    }
+                    if (!Tache.checkPERT(tache, tache.successeurs.get(i))) {
+                        errors.put("e4-" + i, "le sucesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.successeurs.get(i).nom);
                     }
                 }
             }
@@ -1115,5 +1118,24 @@ public class Projet extends EntiteSecurise {
         //responsableProjet.save();
 
     }
+
+
+    public String filtres(){
+        String result ="";
+        if(this.estTermine()){
+            result= result +" projet-finished ";
+        }
+        if(this.estPresqueFini()){
+            result= result +" projet-presque-fini ";
+        }
+        if(this.estRetarde()==true){
+            result = result+" projet-retarde ";
+        }
+
+        System.out.println("fonction : checkout projet "+result);
+        return result;
+    }
+
+
 
 }

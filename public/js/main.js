@@ -392,25 +392,28 @@ var refreshProjectTable = function(idTacheSelect){
     jsRoutes.controllers.TacheController.getTacheById(idTacheSelect).ajax({
         success : function(tache){
             var projetId = tache.projet.id;
-            // Refresh project view
-            jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
-                success: function(data){
-                    $('#projet-'+projetId).html(data);
-                    $('#client-projet-'+projetId).html(data);
-                    $('#projet-'+projetId).show();
-                    console.log("AfficheProjet OK : "+projetId);
-                },
-                error:function(errorMessage){
-                    console.log(errorMessage);
-                    console.log("AfficheProjet KO : "+projetId);
-                }
-            });
+            refreshProjectTableByIdProject(projetId);
         },
         error : function(errorMessage){
             console.log(errorMessage);
         }
     });
+}
 
+var refreshProjectTableByIdProject = function(projetId) {
+    // Refresh project view
+    jsRoutes.controllers.ProjetController.afficheProjet(projetId).ajax({
+        success: function(data){
+            $('#projet-'+projetId).html(data);
+            $('#client-projet-'+projetId).html(data);
+            $('#projet-'+projetId).show();
+            console.log("AfficheProjet OK : "+projetId);
+        },
+        error:function(errorMessage){
+            console.log(errorMessage);
+            console.log("AfficheProjet KO : "+projetId);
+        }
+    });
 }
 
 var remplirFormulaireCreationTache = function(btn){
@@ -527,6 +530,14 @@ $(document).on('click','#interlocuteurs-modifier', function(event){
 });
 
 $(document).on('click', '#interlocuteurs-modifierC', function (event) {
+    event.stopPropagation();
+});
+
+$(document).on('click', '#dropdown-onglet-projet', function (event) {
+    event.stopPropagation();
+});
+
+$(document).on('click', '#dropdown-onglet-tache', function (event) {
     event.stopPropagation();
 });
 
@@ -1390,7 +1401,7 @@ function projetTacheTDBTermine() {
         $(result).show();
     }
     else {
-        //$('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
     }
 
 
@@ -1405,15 +1416,13 @@ function filtreTDBproj() {
         $('.projet-finished').hide();
     }
 
-
+    var result = "";
     if ($('#checkbox-tdb-projets-retardes').is(":checked")) {
-        result += '.projets-retardes';
+        result += '.projet-retarde';
 
     }
-
-
     if ($('#checkbox-tdb-projets-bientot-finis').is(":checked")) {
-        result += '.projets-bientot-finis';
+        result += '.projet-presque-fini';
 
     }
 
@@ -1423,7 +1432,7 @@ function filtreTDBproj() {
         $(result).show();
     }
     else {
-        //$('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
     }
 
 
