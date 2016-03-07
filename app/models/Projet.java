@@ -850,7 +850,7 @@ public class Projet extends EntiteSecurise {
     private void calculeCheminCritiqueRecursive(Tache t) {
         t.critique = true;
         t.save();
-        if (t.hasPredecesseur()) 
+        if (t.hasPredecesseur())
             calculeCheminCritiqueRecursive(t.predecesseur);
 
         if (t.parent != null)
