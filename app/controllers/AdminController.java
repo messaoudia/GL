@@ -77,7 +77,6 @@ public class AdminController extends Controller{
 
     public Result supprimerProjet(Long idProjet){
         Projet archive = Projet.supprimerProjet(idProjet);
-        // TODO A TESTER
         Notification.sendNotificationSupprimerProjet(archive, Login.getUtilisateurConnecte());
         return ok(Json.toJson(archive));
     }

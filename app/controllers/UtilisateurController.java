@@ -275,6 +275,7 @@ public class UtilisateurController extends Controller {
             Projet projet = Projet.find.byId(Long.valueOf(entry.getKey()));
             Utilisateur utilisateur = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
             projet.modifierResponsable(utilisateur);
+            utilisateur.save();
             Notification.notificationSuppressionUtilisateurProjet(mapNotifications, utilisateur, projet);
         }
 
@@ -284,7 +285,13 @@ public class UtilisateurController extends Controller {
             Tache tache = Tache.find.byId(Long.valueOf(entry.getKey()));
             Utilisateur utilisateur = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
             utilisateur.affectTache(tache);
+            utilisateur.save();
             Notification.notificationSuppressionUtilisateurTache(mapNotifications, utilisateur, tache);
+        }
+
+        for(Map.Entry<Utilisateur, Notification> entry : mapNotifications.entrySet()){
+            System.out.println("Utilisateur : " + entry.getKey().prenom);
+            System.out.println("===> Notif = " + entry.getValue().contentNotification);
         }
 
         // Envoie des notifications

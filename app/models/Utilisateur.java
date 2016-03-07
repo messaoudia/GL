@@ -182,6 +182,7 @@ public class Utilisateur extends Personne {
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
+            System.out.println("obj == null !!");
             return false;
         }
         if (obj == this) {
@@ -189,10 +190,17 @@ public class Utilisateur extends Personne {
         }
         try {
             Utilisateur utilisateur = (Utilisateur) obj;
+            System.out.println("email de this = [" + this.email + "] et celui de user = [" + utilisateur.email + "]");
             return utilisateur.email.equals(this.email);
-        } catch (ClassCastException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.parseInt(id.toString());
     }
 
     @Override

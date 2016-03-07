@@ -206,7 +206,9 @@ public class Tache extends EntiteSecurise {
         }
         try {
             Tache tache = (Tache) obj;
-            // TODO : voir pour l'id
+            if(this.id != null && tache.id != null)
+                return this.id == tache.id;
+
             boolean conditionEquals = tache.nom.equals(this.nom) &&
                     tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&

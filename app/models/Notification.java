@@ -262,7 +262,7 @@ public class Notification extends Model {
             message = "\t - Vous êtes le nouveau responsable de la tâche : " + tache.nom + " du projet " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")<br>";
         }
         else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
-            objet = "New person(s) in charge";
+            objet = "New responsabilities";
             titleMessage = "Here are your new responsibilities : <br>";
             message = "\t - You are the new person in charge of the task : " + tache.nom + " of project " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")<br>";
         }
