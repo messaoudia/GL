@@ -2377,15 +2377,20 @@ var afficherModalTache = function (t) {
 
             var list = "";
             var listModifier = "";
-            if (tache.successeurs) {
+            if (tache.successeurs.length > 0) {
+                $('#titre-successeurs-consulter-tdb').show()
+                $('#table-successeursTache-consulter-tdb').show();
                 $(tache.successeurs).each(function (index, tache) {
                     list += '<tr>';
                     list += '<td class="id-task">' + tache.id + '</td>';
                     list += '<td class="name-task">' + tache.nom + '</td>';
                     list += '</tr>';
                 });
+                $('#table-successeursTache-consulter-tdb-body').html(list);
+            } else {
+                $('#titre-successeurs-consulter-tdb').hide()
+                $('#table-successeursTache-consulter-tdb').hide();
             }
-            $('#table-successeursTache-consulter-tdb-body').html(list);
 
             list = "";
             listModifier = "";
@@ -2455,7 +2460,7 @@ var afficherModalTache = function (t) {
             else {
                 $('#avancementTache').css("color", "#FFF");
             }
-            $('#nbJourRestant').html(messages("remainingTime") + tache.nbJourRestant + messages("day-first-letter"));
+            $('#nbJourRestant').html(messages("remainingTime") + " : " + tache.nbJourRestant + " " + messages("day-first-letter"));
             $('#dateDebutTache').html(tache.dateDebut);
             $('#dateFinTotTache').html(tache.dateFinTot);
             $('#dateFinTardTache').html(tache.dateFinTard);
