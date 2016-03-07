@@ -60,4 +60,13 @@ public class MapNotificationsGroupees extends HashMap<Long, HashMap<TypeNotifica
         put(projet.id, map);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

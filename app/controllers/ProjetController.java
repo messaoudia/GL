@@ -156,11 +156,14 @@ public class ProjetController extends Controller {
             //modification des info si besoin
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
+            boolean modification = false;
             if (!p.nom.equals(nom)) {
                 p.nom = nom;
+                modification = true;
             }
             if (p.priorite != priorite) {
                 p.priorite = priorite;
+                modification = true;
             }
             //description
             if (!p.description.equals(description)) {
@@ -168,6 +171,8 @@ public class ProjetController extends Controller {
                 p.description = description;
             }
             p.save();
+            if(modification)
+                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierProjet(p);
             return ok(Json.toJson(p));
         }
     }

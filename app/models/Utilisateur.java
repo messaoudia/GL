@@ -190,7 +190,6 @@ public class Utilisateur extends Personne {
         }
         try {
             Utilisateur utilisateur = (Utilisateur) obj;
-            System.out.println("email de this = [" + this.email + "] et celui de user = [" + utilisateur.email + "]");
             return utilisateur.email.equals(this.email);
         } catch (Exception e) {
             e.printStackTrace();

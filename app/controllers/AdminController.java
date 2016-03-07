@@ -148,6 +148,8 @@ public class AdminController extends Controller{
         if(error.hasErrorProjet()){
             return badRequest(Json.toJson(error));
         }else{
+            boolean modificationProjet = false;
+            boolean modificationRespoProjet = false;
             Long idUser = Long.parseLong(map.get("responsableProjet")[0]);
             Utilisateur user = Utilisateur.find.byId(idUser);
             Long idClient = Long.parseLong(map.get("client")[0]);
@@ -156,9 +158,11 @@ public class AdminController extends Controller{
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
             if(!p.nom.equals(nom)){
+                modificationProjet = true;
                 p.nom = nom;
             }
             if(p.priorite != priorite){
+                modificationProjet = true;
                 p.priorite = priorite;
             }
             //description
@@ -167,11 +171,14 @@ public class AdminController extends Controller{
                 p.description = description;
             }
 
+            Utilisateur ancienResponsable = p.responsableProjet;
             if(!p.responsableProjet.equals(user)){
+                modificationRespoProjet = true;
                 p.responsableProjet = user;
             }
 
             if(!p.client.equals(client)){
+                modificationProjet = true;
                 // on enleve le projet de l'ancien
                 Logger.debug("on est la");
                 Optional<Projet> projet = p.client.listeProjets.stream().filter(projetC -> projetC.id == p.id).findFirst();
@@ -184,6 +191,11 @@ public class AdminController extends Controller{
                 p.client = client;
             }
             p.save();
+            if(modificationRespoProjet){
+                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierResponsableProjet(p, ancienResponsable);
+            } else if(modificationProjet) {
+                Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationModifierProjet(p);
+            }
             return ok(Json.toJson(p));
         }
     }

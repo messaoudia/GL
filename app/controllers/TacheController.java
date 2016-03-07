@@ -1,10 +1,7 @@
 package controllers;
 
-import models.Contact;
+import models.*;
 import models.Exceptions.NotAvailableTask;
-import models.Projet;
-import models.Tache;
-import models.Utilisateur;
 import models.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
@@ -40,6 +37,7 @@ public class TacheController  extends Controller {
 
         try {
             projet.creerSousTache(newTache , mere);
+            Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationCreerTache(newTache);
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
@@ -59,6 +57,7 @@ public class TacheController  extends Controller {
 
         try {
             projet.creerTacheAuDessus(newTache , tacheReference);
+            Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationCreerTache(newTache);
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
@@ -76,6 +75,7 @@ public class TacheController  extends Controller {
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
         try {
             projet.creerTacheEnDessous(newTache , tacheReference);
+            Login.getUtilisateurConnecte().mapNotificationsGenerees.createNotificationCreerTache(newTache);
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
             e.printStackTrace();
