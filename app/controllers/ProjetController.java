@@ -40,7 +40,7 @@ public class ProjetController extends Controller {
 
     public Result creerProjet() {
         Map<String, String[]> map = request().body().asFormUrlEncoded();
-        System.out.println(map);
+        boolean dateHere = false;
         Error error = new Error();
         String nom = map.get("nom")[0];
         if (nom.isEmpty()) {
@@ -64,42 +64,58 @@ public class ProjetController extends Controller {
         String dateDeb = map.get("dateDebutTheorique")[0];
         String dateFin = map.get("dateFinTheorique")[0];
         //Date
-        if (dateDeb.isEmpty()) {
+        /*if (dateDeb.isEmpty()) {
             error.dateThDebutProjetVide = true;
         }
         if (dateFin.isEmpty()) {
             error.dateThFinProjetVide = true;
         }
-
+        */
         if (description.length() > 65536) {
             error.descriptionTropLong = true;
+        }
+
+        if(dateDeb.isEmpty() && dateDeb.isEmpty()) {
+            dateHere = false;
+        }else if(!dateDeb.isEmpty() && !dateDeb.isEmpty()){
+            dateHere = true;
+        }else{
+            error.saisir2Date = true;
         }
 
         if (error.hasErrorProjet()) {
             return badRequest(Json.toJson(error));
         } else {
             //TODO: check date en fonction de la langue && check si projet existe deja
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date dateDebutTheorique = null;
-            Date dateFinTheorique = null;
-            try {
-                dateDebutTheorique = formatter.parse(dateDeb);
-                dateFinTheorique = formatter.parse(dateFin);
-                //if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
-                if (Utils.after(dateFinTheorique, dateDebutTheorique) || Utils.equals(dateFinTheorique, dateDebutTheorique)) {
-                    Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
-                    p.save();
-                    client.listeProjets.add(p);
-                    client.save();
-                    return ok(Json.toJson(p));
-                } else {
-                    error.dateFinAvantDebut = true;
+            if(dateHere){
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                Date dateDebutTheorique = null;
+                Date dateFinTheorique = null;
+                try {
+                    dateDebutTheorique = formatter.parse(dateDeb);
+                    dateFinTheorique = formatter.parse(dateFin);
+                    //if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
+                    if (Utils.after(dateFinTheorique, dateDebutTheorique) || Utils.equals(dateFinTheorique, dateDebutTheorique)) {
+                        Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
+                        p.save();
+                        client.listeProjets.add(p);
+                        client.save();
+                        return ok(Json.toJson(p));
+                    } else {
+                        error.dateFinAvantDebut = true;
+                    }
+                } catch (ParseException e) {
+                    error.parseError = true;
                 }
-            } catch (ParseException e) {
-                error.parseError = true;
-
+                return badRequest(Json.toJson(error));
             }
-            return badRequest(Json.toJson(error));
+            else{
+                Projet p = new Projet(nom, description, responsableProjet, null, null, unite, client, priorite);
+                p.save();
+                client.listeProjets.add(p);
+                client.save();
+                return ok(Json.toJson(p));
+            }
         }
     }
 
