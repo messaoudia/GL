@@ -41,6 +41,11 @@ public class Global extends GlobalSettings {
             /* add elements to DB */
             all.forEach((key, value) -> Ebean.save(value));
 
+
+            Tache.find.all().stream().forEach(tache -> {
+                Logger.debug("Tache: id -> " + tache.id+", nom -> "+tache.nom);
+            });
+
             Client.find.all().stream().forEach(client -> {
                 Logger.debug("Client:" + client.nom);
                 client.listeContacts.forEach(contact -> {
