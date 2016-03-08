@@ -1050,10 +1050,12 @@ var clickNotificationsSupprimer = function (idUser) {
                 var listIdNotifSplit = listIdNotif.split(",");
                 for (var i = 0; i < listIdNotifSplit.length; i++) {
                     var idNotif = listIdNotifSplit[i];
+                    if ($('#notif-' + idNotif).next().is('tr.footable-row-detail')) {
+                        $('#notif-' + idNotif).next().remove();
+                    }
                     $('#notif-' + idNotif).remove();
                     $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
                     $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
-                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
                 }
             },
             error: function () {
