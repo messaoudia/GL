@@ -90,6 +90,12 @@ public class DashboardController extends Controller{
             Logger.debug("Key : " + entry.getKey() + " Value : " + entry.getValue()[0]);
         }
         try {
+            boolean modifierAvancement = false;
+            boolean modifierTache = false;
+            boolean modifierResponsableTache = false;
+
+            // TODO : récupérer le changement dispo/indispo et mettre modifierTache à true si c le cas
+
             Long idTache = Long.parseLong(map.get("id-tache")[0]);
             Tache tache = Tache.find.byId(idTache);
 
@@ -142,15 +148,21 @@ public class DashboardController extends Controller{
             tache.nom = newNomTache;
             tache.description = newDescTache;
             tache.update();
+
             if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
                 Logger.debug(tache.toString());
+                modifierAvancement = true;
                 tache.chargeInitiale = newChInitiale;
                 tache.modifierCharge(newChConso, newChRestante);
             }
+
             if (newPredecesseur != null && (tache.predecesseur == null || !tache.predecesseur.equals(newPredecesseur))) {
                 newPredecesseur.associerSuccesseur(tache);
             }
+
+            Utilisateur ancienResponsable = tache.responsableTache;
             if (newResponsable != null && !tache.responsableTache.equals(newResponsable)) {
+                modifierResponsableTache = true;
                 tache.modifierResponsable(newResponsable);
             }
 
@@ -165,6 +177,8 @@ public class DashboardController extends Controller{
                 tache.associerInterlocuteur(inter);
             }
 
+            if(!tache.dateDebut.equals(newDebut) || !tache.dateFinTot.equals(newFinTot) || !tache.dateFinTard.equals(newFinTard))
+                modifierTache = true;
             tache.dateDebut = newDebut;
             tache.dateFinTot = newFinTot;
             tache.dateFinTard = newFinTard;
@@ -173,8 +187,24 @@ public class DashboardController extends Controller{
             Tache t = Tache.find.byId(tache.id);
             Logger.debug(t.toString());
             Logger.debug("SAVE OK");
-
             tache.saveAllTask();
+
+            Utilisateur currentUser = Login.getUtilisateurConnecte();
+
+            System.out.println("DashboardController/modifierTache");
+            if(modifierResponsableTache){
+                System.out.println("Je vais modifier respo tache");
+                currentUser.createNotificationModifierResponsableTache(tache, ancienResponsable);
+                currentUser.save();
+            } else if(modifierTache){
+                currentUser.createNotificationModifierTache(tache);
+                //currentUser.save();
+                System.out.println("apres save : test 1 = " + currentUser.listNotificationsGroupees);
+                System.out.println("apres save : test 2 = " + Login.getUtilisateurConnecte().listNotificationsGroupees);
+            } else if(modifierAvancement){
+                currentUser.createNotificationModifierAvancementTache(tache);
+                currentUser.save();
+            }
             return ok();
         }catch(Exception e){
             e.printStackTrace();

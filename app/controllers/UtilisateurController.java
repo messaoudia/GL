@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import controllers.Global.StaticEntite;
-import jdk.nashorn.internal.ir.annotations.Immutable;
-import models.*;
 import models.Error;
+import models.*;
 import models.Securite.Autorisation;
 import models.Securite.Role;
 import play.Logger;
@@ -28,76 +27,55 @@ public class UtilisateurController extends Controller {
         return ok(creerUtilisateur.render("Créer Utilisateur"));
     }
 
-    public Error isFormulaireCorrect(Map<String, String[]> map,String preName)
-    {
+    public Error isFormulaireCorrect(Map<String, String[]> map, String preName) {
         Error error = new Error();
 
         Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");
-        Matcher nameMatch = nameRegex.matcher(map.get(preName+"-formLastName")[0].trim());
+        Matcher nameMatch = nameRegex.matcher(map.get(preName + "-formLastName")[0].trim());
 
         //TODO regex nom : que des lettres ' -
         // nom utilisateur [1,15] char
-        if(map.get(preName+"-formLastName")[0].trim().isEmpty())
-        {
+        if (map.get(preName + "-formLastName")[0].trim().isEmpty()) {
             error.nomVide = true;
             //return badRequest(Json.toJson(error));
-        }
-        else if(map.get(preName+"-formLastName")[0].trim().length()>15)
-        {
+        } else if (map.get(preName + "-formLastName")[0].trim().length() > 15) {
             error.nomTropLong = true;
-        }
-        else if(!nameMatch.matches())
-        {
+        } else if (!nameMatch.matches()) {
             error.nomIncorrect = true;
         }
-        nameMatch = nameRegex.matcher(map.get(preName+"-formFirstName")[0]);
+        nameMatch = nameRegex.matcher(map.get(preName + "-formFirstName")[0]);
         //TODO regex prenom : que des lettres ' -
         // prenom utilisateur [1,15] char
-        if(map.get(preName+"-formFirstName")[0].trim().isEmpty())
-        {
+        if (map.get(preName + "-formFirstName")[0].trim().isEmpty()) {
             error.prenomVide = true;
-        }
-        else if(map.get(preName+"-formFirstName")[0].trim().length()>15)
-        {
+        } else if (map.get(preName + "-formFirstName")[0].trim().length() > 15) {
             error.prenomTropLong = true;
-        }
-        else if(!nameMatch.matches())
-        {
+        } else if (!nameMatch.matches()) {
             error.prenomIncorrect = true;
         }
 
         //pattern java
         Pattern emailRegex = Pattern.compile("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$");
-        Matcher emailMatch = emailRegex.matcher(map.get(preName+"-formEmail")[0]);
+        Matcher emailMatch = emailRegex.matcher(map.get(preName + "-formEmail")[0]);
         // email
-        if(map.get(preName+"-formEmail")[0].trim().isEmpty())
-        {
+        if (map.get(preName + "-formEmail")[0].trim().isEmpty()) {
             error.emailVide = true;
-        }
-        else if(!emailMatch.matches())
-        {
+        } else if (!emailMatch.matches()) {
             error.emailIncorrecte = true;
-        }
-        else if(map.get(preName+"-formEmail")[0].trim().length()>50)
-        {
+        } else if (map.get(preName + "-formEmail")[0].trim().length() > 50) {
             error.emailTropLong = true;
         }
 
         String telRegexS = "^(([(]?(\\d{2,4})[)]?)|(\\d{2,4})|([+1-9]+\\d{1,2}))?[-\\s]?(\\d{2,3})?[-\\s]?((\\d{7,8})|(\\d{3,4}[-\\s]\\d{3,4}))$";
         Pattern telRegex = Pattern.compile(telRegexS);
-        Matcher telMatch = telRegex.matcher(map.get(preName+"-formTel")[0]);
-        boolean res = Pattern.matches(telRegexS, map.get(preName+"-formTel")[0]) ;
+        Matcher telMatch = telRegex.matcher(map.get(preName + "-formTel")[0]);
+        boolean res = Pattern.matches(telRegexS, map.get(preName + "-formTel")[0]);
         // tel
-        if(map.get(preName+"-formTel")[0].trim().isEmpty())
-        {
+        if (map.get(preName + "-formTel")[0].trim().isEmpty()) {
             error.telVide = true;
-        }
-        else if(!telMatch.matches())
-        {
+        } else if (!telMatch.matches()) {
             error.telIncorrecte = true;
-        }
-        else if(map.get(preName+"-formTel")[0].trim().length()>15)
-        {
+        } else if (map.get(preName + "-formTel")[0].trim().length() > 15) {
             //TODO je crois que cette condition ne sert a rien en fait car la regex du tel bloque a elle tt seul quand on depasse 15 char
             //TODO si condiition est supprime, la supprimer dans main.scala.html dans creerUtilisateur().ajax
             error.telTropLong = true;
@@ -105,27 +83,23 @@ public class UtilisateurController extends Controller {
         return error;
     }
 
-    public Result creerUtilisateur()
-    {
+    public Result creerUtilisateur() {
 
         Map<String, String[]> map = request().body().asFormUrlEncoded();
-        Error error = isFormulaireCorrect(map,"new");
-        List<Utilisateur> listUser = Utilisateur.find.where().eq("email",map.get("new-formEmail")[0].trim()).findList();
+        Error error = isFormulaireCorrect(map, "new");
+        List<Utilisateur> listUser = Utilisateur.find.where().eq("email", map.get("new-formEmail")[0].trim()).findList();
 
-        if(!listUser.isEmpty()) {
+        if (!listUser.isEmpty()) {
             error.userExist = true;
         }
 
-        if(error.hasErrorUtilisateur())
-        {
+        if (error.hasErrorUtilisateur()) {
             return badRequest(Json.toJson(error));
-        }
-        else{
+        } else {
             Utilisateur user = Utilisateur.create(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], Utilisateur.genererPassword());
             //creation user
             //TODO si admin = OUI, si admin = NON
-            if(map.get("admin")[0].equals("Oui"))
-            {
+            if (map.get("admin")[0].equals("Oui")) {
                 //TODO lui donner droit admin
                 System.out.println("Creation d'un admin ...");
                 donnerDroitAdmin(user);
@@ -160,31 +134,28 @@ public class UtilisateurController extends Controller {
         autorisationQuiVaEtreSupprime.update();
     }
 
-    public Result modifierUtilisateur(Long idUtilisateur)
-    {
+    public Result modifierUtilisateur(Long idUtilisateur) {
         Utilisateur utst = Utilisateur.find.byId(idUtilisateur);
-        System.out.println("Utilisateur utst "+utst);
+        System.out.println("Utilisateur utst " + utst);
 
         Map<String, String[]> map = request().body().asFormUrlEncoded();
 
-        Error error = isFormulaireCorrect(map,"modify");
+        Error error = isFormulaireCorrect(map, "modify");
 
-        if(error.hasErrorUtilisateur())
-        {
+        if (error.hasErrorUtilisateur()) {
             return badRequest(Json.toJson(error));
         }
 
-        if(utst==null)
-        {
+        if (utst == null) {
             error.userExist = false;
             return badRequest(Json.toJson(error));
         }
 
         String email = map.get("modify-formEmail")[0].trim();
         Logger.debug(email);
-        if(!utst.email.equals(email)){
-            List<Utilisateur> listUser = Utilisateur.find.where().eq("email",email).findList();
-            if(!listUser.isEmpty()) {
+        if (!utst.email.equals(email)) {
+            List<Utilisateur> listUser = Utilisateur.find.where().eq("email", email).findList();
+            if (!listUser.isEmpty()) {
 
                 error.userExist = true;
                 return badRequest(Json.toJson(error));
@@ -198,14 +169,12 @@ public class UtilisateurController extends Controller {
         utst.setTelephone(map.get("modify-formTel")[0].trim());
 
         //on donne les droit d'admin
-        if(map.get("admin")[0].equals("Oui") && !utst.checkAdmin())
-        {
+        if (map.get("admin")[0].equals("Oui") && !utst.checkAdmin()) {
             System.out.println("Ajout droit admin ...");
             donnerDroitAdmin(utst);
         }
         //
-        else if(map.get("admin")[0].equals("Non") && utst.checkAdmin())
-        {
+        else if (map.get("admin")[0].equals("Non") && utst.checkAdmin()) {
             System.out.println("Retirer droit admin");
             retirerDroitAdmin(utst);
         }
@@ -234,10 +203,10 @@ public class UtilisateurController extends Controller {
         //Logger.debug(t.toString());
         JsonNode nodeArray = Json.toJson(listTaches);
 
-        int i=0;
-        for (JsonNode element: nodeArray) {
+        int i = 0;
+        for (JsonNode element : nodeArray) {
             ObjectNode o = (ObjectNode) element;
-            if(listTaches.get(i).predecesseur != null) {
+            if (listTaches.get(i).predecesseur != null) {
                 o.put("predecesseurIdTache", listTaches.get(i).predecesseur.idTache);
             }
             i++;
@@ -250,22 +219,22 @@ public class UtilisateurController extends Controller {
         return listTachesUtilisateur(Login.getUtilisateurConnecte().id);
     }
 
-    public Result supprimerUtilisateur(Long idUtilisateur,String strProjet,String strTache){
+    public Result supprimerUtilisateur(Long idUtilisateur, String strProjet, String strTache) {
         String[] arrayProjets = strProjet.split(";");
         String[] arrayTaches = strTache.split(";");
 
-        HashMap<String,String> mapProjet = new HashMap<>();
-        HashMap<String,String> mapTache = new HashMap<>();
+        HashMap<String, String> mapProjet = new HashMap<>();
+        HashMap<String, String> mapTache = new HashMap<>();
 
-        for(String projetUser : arrayProjets){
-            if(!projetUser.equals("")){
-                mapProjet.put(projetUser.split(",")[0],projetUser.split(",")[1]);
+        for (String projetUser : arrayProjets) {
+            if (!projetUser.equals("")) {
+                mapProjet.put(projetUser.split(",")[0], projetUser.split(",")[1]);
             }
         }
 
-        for(String tacheUser : arrayTaches){
-            if(!tacheUser.equals("")){
-                mapTache.put(tacheUser.split(",")[0],tacheUser.split(",")[1]);
+        for (String tacheUser : arrayTaches) {
+            if (!tacheUser.equals("")) {
+                mapTache.put(tacheUser.split(",")[0], tacheUser.split(",")[1]);
             }
         }
 
@@ -276,20 +245,27 @@ public class UtilisateurController extends Controller {
 
         //Projets
         // <idProjet,idUtilisateur>
-        for (Map.Entry<String, String> entry : mapProjet.entrySet()){
+        for (Map.Entry<String, String> entry : mapProjet.entrySet()) {
             Projet projet = Projet.find.byId(Long.valueOf(entry.getKey()));
             Utilisateur utilisateur = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
             projet.modifierResponsable(utilisateur);
+            utilisateur.save();
             Notification.notificationSuppressionUtilisateurProjet(mapNotifications, utilisateur, projet);
         }
 
         //Taches
         //<idTache,idUtilisateur>
-        for (Map.Entry<String, String> entry : mapTache.entrySet()){
+        for (Map.Entry<String, String> entry : mapTache.entrySet()) {
             Tache tache = Tache.find.byId(Long.valueOf(entry.getKey()));
             Utilisateur utilisateur = Utilisateur.find.byId(Long.valueOf(entry.getValue()));
             utilisateur.affectTache(tache);
+            utilisateur.save();
             Notification.notificationSuppressionUtilisateurTache(mapNotifications, utilisateur, tache);
+        }
+
+        for (Map.Entry<Utilisateur, Notification> entry : mapNotifications.entrySet()) {
+            System.out.println("Utilisateur : " + entry.getKey().prenom);
+            System.out.println("===> Notif = " + entry.getValue().contentNotification);
         }
 
         // Envoie des notifications
@@ -302,23 +278,24 @@ public class UtilisateurController extends Controller {
         return ok();
     }
 
-    public Result allUsers(){
+    public Result allUsers() {
         return ok(Json.toJson(Utilisateur.find.all()));
     }
 
     /**
      * Modifie la liste des utilisateurs suivis de idUtilisateurConnecte
+     *
      * @param idUtilisateurConnecte
      * @param listUtilisateurs
      * @return
      */
-    public Result modifierUtilisateursASuivre(Long idUtilisateurConnecte, String listUtilisateurs){
+    public Result modifierUtilisateursASuivre(Long idUtilisateurConnecte, String listUtilisateurs) {
         Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
         utilisateur.utilisateursSuivis.clear();
         String[] listUtilisateursParse = listUtilisateurs.split(",");
-        for(String emailUtilisateur : listUtilisateursParse){
+        for (String emailUtilisateur : listUtilisateursParse) {
             Utilisateur utilisateurASuivre = Utilisateur.find.where().eq("email", emailUtilisateur.trim()).findUnique();
-            if(utilisateurASuivre != null){
+            if (utilisateurASuivre != null) {
                 utilisateur.suivreUnUtilisateur(utilisateurASuivre);
             }
         }
@@ -327,13 +304,14 @@ public class UtilisateurController extends Controller {
 
     /**
      * Active ou désactive le parametre 'Recevoir une notification si j'effectue une action'
+     *
      * @param idUtilisateurConnecte
      * @param checkbox
      * @return
      */
     public Result modifierNotificationMesActions(Long idUtilisateurConnecte, boolean checkbox) {
         Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
-        if (utilisateur != null){
+        if (utilisateur != null) {
             utilisateur.recevoirNotifPourMesActions = checkbox;
             utilisateur.update();
         }
@@ -342,13 +320,14 @@ public class UtilisateurController extends Controller {
 
     /**
      * Active ou désactive le parametre 'Recevoir une notification pour mes taches presque finies'
+     *
      * @param idUtilisateurConnecte
      * @param checkbox
      * @return
      */
-    public Result modifierNotificationTachesPresqueFinies(Long idUtilisateurConnecte, boolean checkbox){
+    public Result modifierNotificationTachesPresqueFinies(Long idUtilisateurConnecte, boolean checkbox) {
         Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
-        if(utilisateur != null) {
+        if (utilisateur != null) {
             utilisateur.recevoirNotifPourMesTachesPresqueFinies = checkbox;
             utilisateur.update();
         }
@@ -357,36 +336,37 @@ public class UtilisateurController extends Controller {
 
     /**
      * Active ou désactive le parametre 'Recevoir une notification pour mes taches retardees'
+     *
      * @param idUtilisateurConnecte
      * @param checkbox
      * @return
      */
-    public Result modifierNotificationTachesRetardees(Long idUtilisateurConnecte, boolean checkbox){
+    public Result modifierNotificationTachesRetardees(Long idUtilisateurConnecte, boolean checkbox) {
         Utilisateur utilisateur = Utilisateur.find.byId(idUtilisateurConnecte);
-        if(utilisateur != null) {
+        if (utilisateur != null) {
             utilisateur.recevoirNotifPourMesTachesRetardees = checkbox;
             utilisateur.update();
         }
         return ok();
     }
 
-    public Result changePassword(Long idUser, String previousPassword, String newPassword, String confirmNewPassword){
+    public Result changePassword(Long idUser, String previousPassword, String newPassword, String confirmNewPassword) {
         Utilisateur user = Utilisateur.find.byId(idUser);
         boolean previousPasswordCorrect = user.checkPassword(previousPassword);
         boolean newPasswordCorrect;
-        if(newPassword.length() < 6){
+        if (newPassword.length() < 6) {
             newPasswordCorrect = false;
         } else {
             boolean hasMajuscule = false;
             boolean hasMinuscule = false;
             boolean hasChiffre = false;
-            for(int i=0; i<newPassword.length(); i++){
+            for (int i = 0; i < newPassword.length(); i++) {
                 char caractere = newPassword.charAt(i);
-                if(caractere >= 'A' && caractere <= 'Z'){
+                if (caractere >= 'A' && caractere <= 'Z') {
                     hasMajuscule = true;
-                } else if(caractere >= 'a' && caractere <= 'z'){
+                } else if (caractere >= 'a' && caractere <= 'z') {
                     hasMinuscule = true;
-                } else if(caractere >= '0' && caractere <= '9'){
+                } else if (caractere >= '0' && caractere <= '9') {
                     hasChiffre = true;
                 }
             }
@@ -394,12 +374,16 @@ public class UtilisateurController extends Controller {
         }
 
         boolean confirmNewPasswordCorrect = newPassword.equals(confirmNewPassword);
-        if(previousPasswordCorrect && newPasswordCorrect && confirmNewPasswordCorrect){
+        if (previousPasswordCorrect && newPasswordCorrect && confirmNewPasswordCorrect) {
             user.setPassword(newPassword);
             user.save();
             return ok();
         }
         return badRequest(Json.toJson(ImmutableMap.of("previousPasswordCorrect", previousPasswordCorrect, "newPasswordCorrect", newPasswordCorrect,
-                "confirmNewPasswordCorrect",confirmNewPasswordCorrect)));
+                "confirmNewPasswordCorrect", confirmNewPasswordCorrect)));
+    }
+
+    public Result isAdmin() {
+        return ok(StaticEntite.getSystem().haveRole(Login.getUtilisateurConnecte(), Role.getRole("Administrateur")).toString());
     }
 }

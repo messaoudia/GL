@@ -1,6 +1,5 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Error;
 import play.Logger;
@@ -9,7 +8,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -77,7 +75,7 @@ public class AdminController extends Controller{
 
     public Result supprimerProjet(Long idProjet){
         Projet archive = Projet.supprimerProjet(idProjet);
-
+        Notification.sendNotificationSupprimerProjet(archive, Login.getUtilisateurConnecte());
         return ok(Json.toJson(archive));
     }
 
@@ -148,6 +146,8 @@ public class AdminController extends Controller{
         if(error.hasErrorProjet()){
             return badRequest(Json.toJson(error));
         }else{
+            boolean modificationProjet = false;
+            boolean modificationRespoProjet = false;
             Long idUser = Long.parseLong(map.get("responsableProjet")[0]);
             Utilisateur user = Utilisateur.find.byId(idUser);
             Long idClient = Long.parseLong(map.get("client")[0]);
@@ -156,6 +156,7 @@ public class AdminController extends Controller{
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
             if(!p.nom.equals(nom) || !p.client.equals(client)){
+                modificationProjet = true;
                 List<Projet> lP = client.listeProjets;
                 for(Projet projet :lP){
                     if(projet.nom.equals(nom)){
@@ -166,6 +167,7 @@ public class AdminController extends Controller{
                 p.nom = nom;
             }
             if(p.priorite != priorite){
+                modificationProjet = true;
                 p.priorite = priorite;
             }
             //description
@@ -173,11 +175,14 @@ public class AdminController extends Controller{
                 p.description = description;
             }
 
+            Utilisateur ancienResponsable = p.responsableProjet;
             if(!p.responsableProjet.equals(user)){
+                modificationRespoProjet = true;
                 p.responsableProjet = user;
             }
 
             if(!p.client.equals(client)){
+                modificationProjet = true;
                 // on enleve le projet de l'ancien
                 Optional<Projet> projet = p.client.listeProjets.stream().filter(projetC -> projetC.id == p.id).findFirst();
                 if (projet.isPresent()) {
@@ -191,6 +196,14 @@ public class AdminController extends Controller{
                 p.client.save();
             }
             p.save();
+            Utilisateur currentUser = Login.getUtilisateurConnecte();
+            if(modificationRespoProjet){
+                currentUser.createNotificationModifierResponsableProjet(p, ancienResponsable);
+                currentUser.save();
+            } else if(modificationProjet) {
+                currentUser.createNotificationModifierProjet(p);
+                currentUser.save();
+            }
             return ok(Json.toJson(p));
         }
     }

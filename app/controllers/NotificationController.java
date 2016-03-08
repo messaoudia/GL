@@ -69,7 +69,7 @@ public class NotificationController extends Controller {
         Logger.debug("Envoie notification...");
         Logger.debug("Utilisateur: " + Login.getUtilisateurConnecte());
 
-        //Login.getUtilisateurConnecte().sendNotifications();
+        Login.getUtilisateurConnecte().sendNotifications();
 
         //if (request().body() != null) {
         //    Logger.error("Doeing the notification parsing...");

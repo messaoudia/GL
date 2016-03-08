@@ -110,6 +110,8 @@ public class ProjetController extends Controller {
                         p.save();
                         client.listeProjets.add(p);
                         client.save();
+                        System.out.println("Coucou je suis dans ProjetController/creerProjet");
+                        Notification.sendNotificationCreerProjet(p, Login.getUtilisateurConnecte());
                         return ok(Json.toJson(p));
                     } else {
                         error.dateFinAvantDebut = true;
@@ -124,6 +126,8 @@ public class ProjetController extends Controller {
                 p.save();
                 client.listeProjets.add(p);
                 client.save();
+                System.out.println("Coucou je suis dans ProjetController/creerProjet");
+                Notification.sendNotificationCreerProjet(p, Login.getUtilisateurConnecte());
                 return ok(Json.toJson(p));
             }
         }
@@ -140,7 +144,7 @@ public class ProjetController extends Controller {
         t.save();
         System.out.println("t est sav => indispo " + t);
 
-        return ok();
+        return ok(Json.toJson(t));
     }
 
     public Result updateTacheToDisponible(Long idTache) {
@@ -153,7 +157,7 @@ public class ProjetController extends Controller {
         t.disponible = true;
         t.save();
         System.out.println("t est sav => dispo " + t);
-        return ok();
+        return ok(Json.toJson(t));
     }
 
     public Result modifierProjet(Long id) {
@@ -177,6 +181,7 @@ public class ProjetController extends Controller {
             //modification des info si besoin
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
+            boolean modification = false;
             if (!p.nom.equals(nom)) {
 
                 List<Projet> lP = p.client.listeProjets;
@@ -188,15 +193,22 @@ public class ProjetController extends Controller {
                     }
                 }
                 p.nom = nom;
+                modification = true;
             }
             if (p.priorite != priorite) {
                 p.priorite = priorite;
+                modification = true;
             }
             //description
             if (!p.description.equals(description)) {
                 p.description = description;
             }
             p.save();
+            if(modification) {
+                Utilisateur currentUser = Login.getUtilisateurConnecte();
+                currentUser.createNotificationModifierProjet(p);
+                currentUser.save();
+            }
             return ok(Json.toJson(p));
         }
     }

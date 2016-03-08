@@ -315,7 +315,7 @@
                     <div class="row row-options-admin-projet">
                         <div class="col-sm-3">
                             <div class="checkbox checkbox-success checkbox-circle">
-                                <input id="checkbox-taches-terminees@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                                <input id="checkbox-taches-terminees@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")' checked>
                                 <label for="checkbox-taches-terminees@projet.id">
                                 @Messages("completedTasks")
                                 </label>
@@ -323,7 +323,7 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="checkbox checkbox-success checkbox-circle">
-                                <input id="checkbox-taches-indisponibles@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                                <input id="checkbox-taches-indisponibles@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")' checked>
                                 <label for="checkbox-taches-indisponibles@projet.id">
                                 @Messages("unavailableTasks")
                                 </label>
@@ -332,7 +332,7 @@
                     </div>
                     <div id="mode-draft" class="table-responsive" style="">
                         <div class="dd" id="nestable-projet">
-                            <ol class="dd-list">
+                            <ol class="dd-list" id="table_taches_@projet.id">
                                     <!-- En-tete -->
                                 @if(projet.listTaches().size() == 0){
                                     <div class="ibox-footer text-center createTaskFirst" data-toggle="modal" data-target="#modal-tache-creer" value="@projet.id" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
@@ -822,7 +822,7 @@
                                 }
                                 }
                             </ol>
-                            <script>updateTaskNestableCheckbox();</script>
+                            <script>updateTaskNestableCheckbox("@projet.id");</script>
                         </div>
                     </div>
                     <div id="mode-non-draft" class="table-responsive" style="display:none ;">

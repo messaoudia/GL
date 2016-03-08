@@ -92,6 +92,28 @@ $(document).on('click', '#afficheRetour', function (event) {
 });
 
 
+var changeEtatNotifLu = function (idUser, idNotif) {
+    jsRoutes.controllers.NotificationController.clickNotificationsLues(idUser, idNotif).ajax({
+        success: function (nbNotifNonLues) {
+            $('#notif-' + idNotif).removeClass('non-lu');
+            $('#notif-' + idNotif).addClass('lu');
+            if ($('#notif-' + idNotif).next().is('tr.footable-row-detail')) {
+                //$('#notif-etatLecture-' + idNotif).html(messages("read"));
+                $('#notif-' + idNotif).next().children().first().children().first().children().first().children().eq(1).html(messages("read"));
+            }
+            else {
+                $('#notif-etatLecture-' + idNotif).html(messages("read"));
+            }
+            $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+            $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+        },
+        error: function (errorMsg) {
+
+        }
+    });
+
+}
+
 var changeModeDraftProjet = function (idProjet) {
     console.log("Je suis la");
     if ($('#checkbox-draft-projet-' + idProjet).is(':checked')) {
@@ -184,6 +206,9 @@ var $tmpTrAdminUser;
 
 function updateTaskNestableCheckbox(id) {
     console.log("updateTaskNestableCheckbox");
+
+    $("#table_taches_"+id+" li").show();
+
     var idCheckboxT = "#checkbox-taches-terminees" + id;
     var classTacheT = ".tache-terminee";
     var classTacheTI = ".tache-terminee-indisponible";
@@ -1028,10 +1053,12 @@ var clickNotificationsSupprimer = function (idUser) {
                 var listIdNotifSplit = listIdNotif.split(",");
                 for (var i = 0; i < listIdNotifSplit.length; i++) {
                     var idNotif = listIdNotifSplit[i];
+                    if ($('#notif-' + idNotif).next().is('tr.footable-row-detail')) {
+                        $('#notif-' + idNotif).next().remove();
+                    }
                     $('#notif-' + idNotif).remove();
                     $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
                     $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
-                    console.log("Nb de notifs non lues = " + nbNotifNonLues);
                 }
             },
             error: function () {
@@ -1285,8 +1312,9 @@ var updateIndisponibleTache = function () {
                 $('#formModifierChargeInitiale').removeAttr("disabled");
                 $('#formModifierChargeRestante').removeAttr("disabled");
                 $('#formModifierChargeConsommee').removeAttr("disabled");
+                $("li[data-id="+idTache+"]").removeClass("tache-indisponible");
 
-                console.log("la tache " + $('#btn-indisponibleTache').attr("data") + " devient disponible");
+                updateTaskNestableCheckbox(tache.projet.id);
 
             },
             error: function (errorMessage) {
@@ -1308,6 +1336,10 @@ var updateIndisponibleTache = function () {
                 $('#formModifierChargeInitiale').attr("disabled", "");
                 $('#formModifierChargeRestante').attr("disabled", "");
                 $('#formModifierChargeConsommee').attr("disabled", "");
+                $("li[data-id="+idTache+"]").addClass("tache-indisponible");
+
+                updateTaskNestableCheckbox(tache.projet.id);
+
             },
             error: function (errorMessage) {
                 alert(errorMessage);
@@ -1332,6 +1364,8 @@ var updateIndisponibleTacheModifier = function () {
                 $('#formModifierChargeInitiale').removeAttr("disabled");
                 $('#formModifierChargeRestante').removeAttr("disabled");
                 $('#formModifierChargeConsommee').removeAttr("disabled");
+                $("li[data-id="+idTache+"]").removeClass("tache-indisponible");
+                updateTaskNestableCheckbox(tache.projet.id);
             },
             error: function (errorMessage) {
                 alert(errorMessage);
@@ -1352,6 +1386,9 @@ var updateIndisponibleTacheModifier = function () {
                 $('#formModifierChargeInitiale').attr("disabled", "");
                 $('#formModifierChargeRestante').attr("disabled", "");
                 $('#formModifierChargeConsommee').attr("disabled", "");
+                $("li[data-id="+idTache+"]").addClass("tache-indisponible");
+
+                updateTaskNestableCheckbox(tache.projet.id);
             },
             error: function (errorMessage) {
                 alert(errorMessage);
@@ -2591,6 +2628,8 @@ var afficherModalTache = function (t) {
             //Activation/désactivation des inputs
             jsRoutes.controllers.Login.utilisateurConnecte().ajax({
                 success: function (utilisateur) {
+
+
                     if (utilisateur.id != tache.projet.responsableProjet.id) {
                         changeDisablePropretyFormulaireModifierTache(true);
 
@@ -2602,6 +2641,19 @@ var afficherModalTache = function (t) {
                         $('#btn-indisponibleTache').show();
                         $('#btn-indisponibleTache-modifier').show();
                     }
+
+                    jsRoutes.controllers.UtilisateurController.isAdmin().ajax({
+                        success: function (isAdmin) {
+                            if(isAdmin) {
+                                changeDisablePropretyFormulaireModifierTache(false);
+
+                                $('#btn-indisponibleTache').show();
+                                $('#btn-indisponibleTache-modifier').show();
+                            }
+                        },
+                        error: function (errorMessage) {
+                        }
+                    });
 
                     if (tache.disponible && !tache.hasEnfant) {
                         changeDisablePropertyChargesFormulaireTache(false);
@@ -3472,6 +3524,13 @@ $(document).ajaxComplete(function () {
     });
 
     $("#errorCreerProjet > button").click(function () {
+        $("#errorProjet").hide()
+    });
+
+    $("#errorModifierProjet > button").click(function () {
+        $("#errorProjet").hide()
+    });
+    $("#errorModifierClient > button").click(function () {
         $("#errorProjet").hide()
     });
 

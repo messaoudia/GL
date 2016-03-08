@@ -167,7 +167,7 @@ utilisateurs:
     telephone:    0561234529
     archive:      false
     password:     Azerty2
-    langue:       en
+    langue:       EN
 
 - &utilisateur3 !!models.Utilisateur
     id:           13
@@ -177,7 +177,7 @@ utilisateurs:
     telephone:    0566543219
     archive:      false
     password:     Azerty3
-    langue:       en
+    langue:       EN
 
 - &utilisateur4 !!models.Utilisateur
     id:           14
@@ -187,7 +187,7 @@ utilisateurs:
     telephone:    0123456789
     archive:      false
     password:     Psg75000
-    langue:       en
+    langue:       EN
 
 - &utilisateur5 !!models.Utilisateur
     id:           38
@@ -197,7 +197,7 @@ utilisateurs:
     telephone:    6549873210
     archive:      true
     password:     Edf1234
-    langue:       en
+    langue:       EN
 
 - &utilisateur6 !!models.Utilisateur
     id:           39
@@ -207,7 +207,7 @@ utilisateurs:
     telephone:    3216549871
     archive:      false
     password:     ZhangZheng1
-    langue:       en
+    langue:       EN
 
 - &utilisateur7 !!models.Utilisateur
     id:           40
@@ -217,7 +217,7 @@ utilisateurs:
     telephone:    0231456978
     archive:      false
     password:     Amax1234
-    langue:       en
+    langue:       EN
 
 - &utilisateur8 !!models.Utilisateur
     id:           41
@@ -227,7 +227,7 @@ utilisateurs:
     telephone:    0546791823
     archive:      false
     password:     FVPolytech01
-    langue:       en
+    langue:       EN
 
 - &utilisateur9 !!models.Utilisateur
     id:           42
@@ -237,7 +237,7 @@ utilisateurs:
     telephone:    0547896321
     archive:      true
     password:     polytecH123
-    langue:       en
+    langue:       EN
 
 - &utilisateur10 !!models.Utilisateur
     id:           43
@@ -247,7 +247,7 @@ utilisateurs:
     telephone:    0369784512
     archive:      true
     password:     Polytech321
-    langue:       fr
+    langue:       FR
 
 - &utilisateur11 !!models.Utilisateur
     id:           44
@@ -257,7 +257,7 @@ utilisateurs:
     telephone:    4567891230
     archive:      false
     password:     12Aplfrhu
-    langue:       fr
+    langue:       FR
 
 - &utilisateur12 !!models.Utilisateur
     id:           45
@@ -267,7 +267,7 @@ utilisateurs:
     telephone:    6549873210
     archive:      false
     password:     A56depkpj
-    langue:       fr
+    langue:       FR
 
 - &utilisateur13 !!models.Utilisateur
     id:           46
@@ -277,7 +277,7 @@ utilisateurs:
     telephone:    0564379812
     archive:      false
     password:     Pops12ea
-    langue:       fr
+    langue:       FR
 
 - &utilisateur14 !!models.Utilisateur
     id:           47
@@ -287,7 +287,7 @@ utilisateurs:
     telephone:    +336768798
     archive:      false
     password:     allezparisAM1
-    langue:       fr
+    langue:       FR
 
 projets:
 

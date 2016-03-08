@@ -27,6 +27,7 @@ public class Projet extends EntiteSecurise {
     private static int LIMITE_PROJET_PRESQUE_FINI = 80;
 
     public String nom;
+    @Column(length=65535)
     public String description;
 
     @ManyToOne

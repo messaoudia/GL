@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 /**
  * Created by zzcoolj on 16/2/24.
  */
+
 public class ModelManagerTest {
 
     public static FakeApplication app;

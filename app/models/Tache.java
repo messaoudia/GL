@@ -26,6 +26,7 @@ public class Tache extends EntiteSecurise {
     public String nom;
     @Constraints.Required
     @Constraints.MinLength(4)
+    @Column(length=65535)
     public String description;
     @Constraints.Min(0)
     @Constraints.Max(3)
@@ -203,7 +204,9 @@ public class Tache extends EntiteSecurise {
         }
         try {
             Tache tache = (Tache) obj;
-            // TODO : voir pour l'id
+            if(this.id != null && tache.id != null)
+                return this.id == tache.id;
+
             boolean conditionEquals = tache.nom.equals(this.nom) &&
                     tache.idTache.equals(this.idTache) && tache.description.equals(this.description) &&
                     tache.niveau.equals(this.niveau) &&
