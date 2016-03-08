@@ -1,0 +1,945 @@
+@(projet: Projet, utilisateur: Utilisateur, clients: List[Client], users: List[Utilisateur])
+
+<div id="col-consulterProjet" class="col-md-10">
+
+    <div id="div-consulterProjet-admin">
+        <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
+
+            <div class="col-sm-4">
+                <h3 class="header-text"><div id="nomProjet" style="display:inline-block;">@Messages("project")
+                    : @projet.nom</div> <div id="prioriteProjet" class="priorite">@projet.priorite</div></h3>
+                <h3  class="header-text"><div id="nomClient" style="display:inline-block;">@Messages("client")
+                    : @projet.client.nom</div> <div id="prioriteClient" class="priorite">@projet.client.priorite</div> <a><i class="fa fa-search" data-toggle="modal" data-target="#modal-consulterClient-projet"></i></a></h3>
+                <textarea id="descriptionProjet" readonly class="description" style="width: 100% ; height: 130px ;">@projet.description</textarea>
+            </div>
+
+            <div class="col-sm-3" id="">
+                <h3 id="responsableProjetName" class="header-text">@Messages("projectPersonResponsible")
+                    : @projet.responsableProjet.prenom @projet.responsableProjet.nom</h3>
+                <h3 class="header-text">@Messages("progress") : @projet.avancementGlobal%</h3>
+                @if(projet.hasUniteJour) {
+                    <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
+                        <!-- TODO : restante et consomme  -->
+                    <div class="row-restante">@Messages("remaining")
+                        : @projet.chargeRestante @Messages("day-first-letter")</div>
+                    <div class="progress progress-bar-default">
+                            <!-- si 0% : color:black; -->
+                        @if(projet.avancementGlobal == 0) {
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                0%
+                            </div>
+                        } else {
+                            <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                @projet.avancementGlobal%
+                            </div>
+                        }
+                    </div>
+                    <p class="row-consommee">@Messages("consumed")
+                        : @projet.chargeConsommee @Messages("day-first-letter")</p>
+                } else {
+                    <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
+                        <!-- TODO : restante et consomme  -->
+                    <div class="row-restante">@Messages("remaining")
+                        : @projet.chargeRestante @Messages("week-first-letter")</div>
+                    <div class="progress progress-bar-default">
+                            <!-- si 0% : color:black; -->
+                        @if(projet.avancementGlobal == 0) {
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                0%
+                            </div>
+                        } else {
+                            <div class="progress-bar" role="progressbar" aria-valuenow="@projet.avancementGlobal" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                @projet.avancementGlobal%
+                            </div>
+                        }
+                    </div>
+                    <p class="row-consommee">@Messages("consumed")
+                        : @projet.chargeConsommee @Messages("week-first-letter")</p>
+                }
+            </div>
+
+
+            <div class="col-sm-5">
+
+                <div class="row" style="padding-top: 10px ;">
+
+                    <div class="col-xs-9">
+
+                    </div>
+                    <div class="col-xs-3">
+                        <a tabindex="0" class="btn btn-success btn-circle popover-info" role="button" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-trigger="focus" data-content='<p><div class="cercle cercle-indisponible"></div> @Messages("unavailable")</p><p><div class="cercle cercle-termine"></div> @Messages("completed")</p><p><div class="cercle cercle-retard"></div> @Messages("delayed")</p>'>
+                            <i class="fa fa-info"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="row" id="date-header">
+
+                    <h3 class="header-text">
+                        @if(projet.dateDebutTheorique != null) {
+                            @Messages("theoreticalDate")
+                            <table>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Messages("fromDate") <div class="date-projet-admin">@projet.formateDate(projet.dateDebutTheorique)</div>
+                                    </td>
+                                    <td style="padding-left: 3px ; padding-right: 3px ;">@Messages("untilDate")</td>
+                                    <td>
+                                        <div class="date-projet-admin">@projet.formateDate(projet.dateFinTheorique)</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                        @if(projet.dateDebutReel != null) {
+                            @Messages("effectiveDates")
+                            <table>
+                                <tr>
+                                    <td>
+                                        @Messages("fromDate") <div class="date-projet-admin">@projet.formateDate(projet.dateDebutReel)</div>
+                                    </td>
+                                    <td style="padding-left: 3px ; padding-right: 3px ;">@Messages("untilDate")</td>
+                                    <td>
+                                        <div class="date-projet-admin">@projet.formateDate(projet.dateFinReelTot)</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <div class="date-projet-admin">@projet.formateDate(projet.dateFinReelTard)</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    </h3>
+                </div>
+                <div class="row" style="margin-top: 14px ;">
+                    <div style="margin-top:14px ;">
+
+                        <button id="btn-modifierProjet-admin" class="btn btn-info" type="button" style="padding: 3px 7px ; float: right ; border-radius: 0px 0 0 0 ; background-color: #e74c3c ; border-color: #e74c3c ;"><i class="fa fa-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="modal-consulterClient-projet" role="dialog">
+        <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">
+                        ×</span><span class="sr-only">Close</span></button>
+                    <div class="div-center">
+                        <h3>@projet.client.nom</h3>
+                        <h5>@projet.client.adresseClient</h5>
+                        @if(!projet.client.listContacts().isEmpty) {
+                            <div class="table-responsive table-responsive-client">
+                                <table class="datatable-consulterClient table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr class="table-center">
+                                            <th style="vertical-align:middle ;">@Messages("formLastName")</th>
+                                            <th style="vertical-align:middle ;">@Messages("formFirstName")</th>
+                                            <th style="vertical-align:middle ;">@Messages("formEmail")</th>
+                                            <th style="vertical-align:middle ;">@Messages("formTel")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    @for( contact <- projet.client.listContacts()) {
+                                        <tr class="table-center">
+                                            <td style="vertical-align:middle ;">@contact.nom</td>
+                                            <td style="vertical-align:middle ;">@contact.prenom</td>
+                                            <td style="vertical-align:middle ;">@contact.email</td>
+                                            <td style="vertical-align:middle ;">@contact.telephone</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        } else {
+                            <h5>@Messages("noContact")</h5>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="div-modifierProjet-admin" style="display: none ;">
+        <form id="addProjectForm" class="m-t" role="form" method="POST">
+
+            <div class="wrapper wrapper-content">
+                <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
+                    <div class="ibox-content" style="padding-top: 0 ; padding-right: 0 ;">
+
+                        <div class="row">
+                            <div class="col-md-offset-11 col-md-1" style="padding-right: 15px ; padding-left:0px ; text-align:center ;">
+                                <div onclick="cancelProjetAdmin(@projet.id);" id="btn-cancel-modifierProjet-admin" style="border:none ; background-color:#E74C3C ; color:#FFF ;">
+                                    @Messages("cancel") <i class="fa fa-times"></i></div>
+                            </div>
+                        </div>
+                        <div id="successModifierProjet" class="alert alert-success alert-dismissable" style="display: none ;">
+                            <button class="close" type="button">×</button>
+                            <p id="successModifierProjetP"><p>
+                        </div>
+                        <div id="errorModifierProjet" class="alert alert-danger alert-dismissable" style="display: none ;">
+                            <button class="close" type="button">×</button>
+                            <p id="errorModifierProjetP"><p>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <label class="label_form" for="projet">@Messages("project")</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-offset-2 col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input name="projet" value="@projet.nom" required="true" placeholder="" class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-6">@Messages("priority")
+                                        <div id="projet-modifierAdmin-btn" class="btn-group" style="display: inline-block ;">
+                                        @if(projet.priorite == 1) {
+                                            <button id="first-admin-projet" class="btn btn-active" type="button" value="1" >
+                                                1</button>
+                                            <button id="second-admin-projet" class="btn" value="2" type="button">
+                                                2</button>
+                                            <button id="third-admin-projet" class="btn" type="button" value="3">
+                                                3</button>
+                                        } else {
+                                            @if(projet.priorite == 2) {
+                                                <button id="first-admin-projet" class="btn" type="button" value="1" >
+                                                    1</button>
+                                                <button id="second-admin-projet" class="btn btn-active" value="2" type="button">
+                                                    2</button>
+                                                <button id="third-admin-projet" class="btn" type="button" value="3">
+                                                    3</button>
+                                            } else {
+                                                <button id="first-admin-projet" class="btn" type="button" value="1" >
+                                                    1</button>
+                                                <button id="second-admin-projet" class="btn" value="2" type="button">
+                                                    2</button>
+                                                <button id="third-admin-projet" class="btn btn-active" type="button" value="3">
+                                                    3</button>
+                                            }
+                                        }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
+                                            <div>
+                                                <select id="responsableProjet" name="responsableProjet" required="true" style="width:100% ;" class="form-control">
+                                                @for( user <- users) {
+                                                    @if(user.id == projet.responsableProjet.id){
+                                                        <option value="@user.id" selected>@user.prenom @user.nom </option>
+                                                    }else{
+                                                        <option value="@user.id">@user.prenom @user.nom </option>
+
+                                                    }
+                                                }
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class='form-group'>
+                                            <label class="label_form" for="client">@Messages("client")</label>
+                                            <div>
+                                                <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
+                                                @for( client <- clients) {
+                                                    @if(client.id == projet.client.id){
+                                                        <option selected value="@client.id">@client.nom</option>
+                                                    }else{
+                                                        <option value="@client.id">@client.nom</option>
+                                                    }
+                                                }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="description" class="label_form">@Messages("description")</label>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <textarea name="description" style="height: 150px ; width:100% ;">@projet.description</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="ibox-footer text-center" value="@projet.id" onclick="modifierProjetAdminSelect(this); return false;"form="addProjectForm" style="background-color: #27AE62 ; color:#FFF ; height: 40px ;">
+
+                        <h3>@Messages("saveProject")</h3>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    <div style="margin-top: 30px ;" class="row wrapper wrapper-content white-bg">
+        <div style="margin:auto ;">
+            <div class="tab-pane active">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="switch" style="display:inline-block ; float:right ;">
+                            <div class="onoffswitch">
+                                <input class="onoffswitch-checkbox" id="checkbox-draft-projet" type="checkbox">
+                                <label class="onoffswitch-label" for="checkbox-draft-projet" style="">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <p style="display:inline-block ; margin-left:5px ; vertical-align:middle ; font-weight: bold ; float: right ; padding-right: 5px ;"> @Messages("draftMode")</p>
+                    </div>
+                    <div class="row row-options-admin-projet">
+                        <div class="col-sm-3">
+                            <div class="checkbox checkbox-success checkbox-circle">
+                                <input id="checkbox-taches-terminees@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                                <label for="checkbox-taches-terminees@projet.id">
+                                @Messages("completedTasks")
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="checkbox checkbox-success checkbox-circle">
+                                <input id="checkbox-taches-indisponibles@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                                <label for="checkbox-taches-indisponibles@projet.id">
+                                @Messages("unavailableTasks")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="mode-draft" class="table-responsive" style="">
+                        <div class="dd" id="nestable-projet">
+                            <ol class="dd-list">
+                                    <!-- En-tete -->
+                                @if(projet.listTaches().size() == 0){
+                                    <div class="ibox-footer text-center createTaskFirst" data-toggle="modal" data-target="#modal-tache-creer" value="@projet.id" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
+                                        <h3 style="margin:0px;">@Messages("createTask")</h3>
+                                    </div>
+                                }else{
+                                @for( tacheMere <- projet.listTachesAAfficher()) {
+                                    <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
+                                        <div class="dd-handle" style="padding:0px ;">
+                                            <div class="row row-nestable" >
+                                                <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
+                                                    <div class="row row-nestable id-tache">
+                                                    @tacheMere.idTache
+                                                    </div>
+                                                    <div class="row row-nestable" style="padding-top: 10px ;">
+                                                    @tacheMere.nom
+                                                    </div>
+                                                </div>
+                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.responsableTache.prenom @tacheMere.responsableTache.nom </div>
+                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.projet.client.nom</div>
+                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">@tacheMere.formateDate(tacheMere.dateDebut)</div>
+                                                <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
+                                                    <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTot)</div>
+                                                    <div class="row row-nestable">@tacheMere.formateDate(tacheMere.dateFinTard)</div>
+                                                </div>
+                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
+                                                    <div class="row row-initiale row-nestable">@Messages("initial")
+                                                        : @tacheMere.chargeInitiale
+                                                        @if(projet.hasUniteJour()) {
+                                                            @Messages("day-first-letter")
+                                                        } else {
+                                                            @Messages("week-first-letter")
+                                                        }
+                                                    </div>
+                                                    <div class="row row-restante row-nestable">@Messages("remaining")
+                                                        : @tacheMere.chargeRestante
+                                                        @if(projet.hasUniteJour()) {
+                                                            @Messages("day-first-letter")
+                                                        } else {
+                                                            @Messages("week-first-letter")
+                                                        }
+                                                    </div>
+                                                    <div class="row progress progress-bar-default row-nestable">
+                                                    @if(tacheMere.getAvancementTache() == 0.0) {
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                                            0%
+                                                        </div>
+                                                    } else {
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@tacheMere.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                            @tacheMere.getAvancementTache()%
+                                                        </div>
+                                                    }
+                                                    </div>
+                                                    <div class="row row-consommee row-nestable">@Messages("consumed")
+                                                        : @tacheMere.chargeConsommee
+                                                        @if(projet.hasUniteJour()) {
+                                                            @Messages("day-first-letter")
+                                                        } else {
+                                                            @Messages("week-first-letter")
+                                                        }</div>
+                                                </div>
+
+                                                <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
+                                                    <div class="row row-nestable">@Messages("predecessor")
+                                                        :
+                                                        @if(tacheMere.hasPredecesseur()) {
+                                                            @tacheMere.predecesseur.idTache
+                                                        } else {
+                                                            @Messages("none")
+                                                        }
+                                                    </div>
+                                                    <div class="row row-nestable dd-nodrag">
+                                                        @Messages("successors") :
+                                                        @if(tacheMere.hasSuccesseur()) {
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                    @tacheMere.successeurs.size() @Messages("tasks") <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-pert">
+                                                                @for( successeur <- tacheMere.successeurs) {
+                                                                    <li>@successeur.idTache</li>
+                                                                }
+                                                                </ul>
+                                                            </div>
+                                                        } else {
+                                                            @Messages("none")
+                                                        }
+                                                    </div>
+                                                </div>
+                                                @if(utilisateur.hasActiverNotification(tacheMere)) {
+                                                    <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell"></i></a></div>
+
+                                                } else {
+                                                    <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                }
+                                                @if(tacheMere.getAvancementTache() == 0){
+                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@tacheMere.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
+
+                                                }else{
+                                                    <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                }
+                                            </div>
+                                            <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                                                <div class="col-xs-4 normal">
+                                                    <div class="normal boutonPlusCreerTache">
+                                                        <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                                                    </div>
+                                                    <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
+                                                        <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
+                                                    <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                </div>
+                                                <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@tacheMere.id" projet="@projet.nom" client="@projet.client.nom">
+                                                    <i class="fa fa-arrow-down"> @Messages("createTask")</i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if(tacheMere.hasEnfant()) {
+                                            <ol class="dd-list">
+                                            @for( sousTache1 <- tacheMere.enfants()) {
+                                                <li class="dd-item dd-item-min-width @sousTache1.checkBox()" data-id="@sousTache1.id">
+                                                    <div class="dd-handle" style="padding:0px ;">
+                                                        <div class="row row-nestable">
+                                                            <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
+                                                                <div class="row row-nestable id-tache">
+                                                                @sousTache1.idTache
+                                                                </div>
+                                                                <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                @sousTache1.nom
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.responsableTache.prenom @sousTache1.responsableTache.nom </div>
+                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.projet.client.nom</div>
+                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">@sousTache1.formateDate(sousTache1.dateDebut)</div>
+                                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
+                                                                <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTot)</div>
+                                                                <div class="row row-nestable">@sousTache1.formateDate(sousTache1.dateFinTard)</div>
+                                                            </div>
+                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
+                                                                <div class="row row-initiale row-nestable">@Messages("initial")
+                                                                    : @sousTache1.chargeInitiale
+                                                                    @if(projet.hasUniteJour()) {
+                                                                        @Messages("day-first-letter")
+                                                                    } else {
+                                                                        @Messages("week-first-letter")
+                                                                    }
+                                                                </div>
+                                                                <div class="row row-restante row-nestable">@Messages("remaining")
+                                                                    : @tacheMere.chargeRestante
+                                                                    @if(projet.hasUniteJour()) {
+                                                                        @Messages("day-first-letter")
+                                                                    } else {
+                                                                        @Messages("week-first-letter")
+                                                                    }
+                                                                </div>
+                                                                <div class="row progress progress-bar-default row-nestable">
+                                                                @if(sousTache1.getAvancementTache() == 0.0) {
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                                                        0%
+                                                                    </div>
+                                                                } else {
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache1.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                        @sousTache1.getAvancementTache()
+                                                                        %
+                                                                    </div>
+                                                                }
+                                                                </div>
+                                                                <div class="row row-consommee row-nestable">@Messages("consumed")
+                                                                    : @sousTache1.chargeConsommee
+                                                                    @if(projet.hasUniteJour()) {
+                                                                        @Messages("day-first-letter")
+                                                                    } else {
+                                                                        @Messages("week-first-letter")
+                                                                    }</div>
+                                                            </div>
+
+                                                            <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
+                                                                <div class="row row-nestable">@Messages("predecessor")
+                                                                    :
+                                                                    @if(sousTache1.hasPredecesseur()) {
+                                                                        @sousTache1.predecesseur.idTache
+                                                                    } else {
+                                                                        @Messages("none")
+                                                                    }
+                                                                </div>
+                                                                <div class="row row-nestable dd-nodrag">
+                                                                    @Messages("successors") :
+                                                                    @if(sousTache1.hasSuccesseur()) {
+                                                                        <div class="btn-group">
+                                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                @sousTache1.successeurs.size() @Messages("tasks") <span class="caret"></span>
+                                                                            </button>
+                                                                            <ul class="dropdown-menu dropdown-menu-pert">
+                                                                            @for( successeur <- sousTache1.successeurs) {
+                                                                                <li>@successeur.idTache</li>
+                                                                            }
+                                                                            </ul>
+                                                                        </div>
+                                                                    } else {
+                                                                        @Messages("none")
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                            @if(utilisateur.hasActiverNotification(sousTache1)) {
+                                                                <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell"></i></a></div>
+
+                                                            } else {
+                                                                <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                            }
+                                                            @if(sousTache1.getAvancementTache() == 0){
+                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache1.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
+
+                                                            }else{
+                                                                <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                            }
+                                                        </div>
+                                                        <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                                                            <div class="col-xs-4 normal">
+                                                                <div class="normal boutonPlusCreerTache">
+                                                                    <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                                                                </div>
+                                                                <div class="createSubTask" data-target="#modal-tache-creer" data="@sousTache1.id">
+                                                                    <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-4 normal createTaskHaut" data-target="#modal-tache-creer" data="@sousTache1.id">
+                                                                <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                            </div>
+                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-target="#modal-tache-creer" data="@sousTache1.id">
+                                                                <i class="fa fa-arrow-down"> @Messages("createTask")</i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    @if(sousTache1.hasEnfant()) {
+                                                        <ol class="dd-list">
+                                                        @for( sousTache2 <- sousTache1.enfants()) {
+                                                            <li class="dd-item dd-item-min-width @sousTache2.checkBox()" data-id="@sousTache2.id">
+                                                                <div class="dd-handle" style="padding:0px ;">
+                                                                    <div class="row row-nestable" >
+                                                                        <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
+                                                                            <div class="row row-nestable id-tache">
+                                                                            @sousTache2.idTache
+                                                                            </div>
+                                                                            <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                            @sousTache2.nom
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.responsableTache.prenom @sousTache2.responsableTache.nom </div>
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.projet.client.nom</div>
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">@sousTache2.formateDate(sousTache2.dateDebut)</div>
+                                                                        <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
+                                                                            <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTot)</div>
+                                                                            <div class="row row-nestable">@sousTache2.formateDate(sousTache2.dateFinTard)</div>
+                                                                        </div>
+                                                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
+                                                                            <div class="row row-initiale row-nestable">@Messages("initial")
+                                                                                : @sousTache2.chargeInitiale
+                                                                                @if(projet.hasUniteJour()) {
+                                                                                    @Messages("day-first-letter")
+                                                                                } else {
+                                                                                    @Messages("week-first-letter")
+                                                                                }
+                                                                            </div>
+                                                                            <div class="row row-restante row-nestable">@Messages("remaining")
+                                                                                : @tacheMere.chargeRestante
+                                                                                @if(projet.hasUniteJour()) {
+                                                                                    @Messages("day-first-letter")
+                                                                                } else {
+                                                                                    @Messages("week-first-letter")
+                                                                                }
+                                                                            </div>
+                                                                            <div class="row progress progress-bar-default row-nestable">
+                                                                            @if(sousTache2.getAvancementTache() == 0.0) {
+                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                                                                    0%
+                                                                                </div>
+                                                                            } else {
+                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache2.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                                    @sousTache2.getAvancementTache()
+                                                                                    %
+                                                                                </div>
+                                                                            }
+                                                                            </div>
+                                                                            <div class="row row-consommee row-nestable">@Messages("consumed")
+                                                                                : @sousTache2.chargeConsommee
+                                                                                @if(projet.hasUniteJour()) {
+                                                                                    @Messages("day-first-letter")
+                                                                                } else {
+                                                                                    @Messages("week-first-letter")
+                                                                                }</div>
+                                                                        </div>
+
+                                                                        <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
+                                                                            <div class="row row-nestable">@Messages("predecessor")
+                                                                                :
+                                                                                @if(sousTache2.hasPredecesseur()) {
+                                                                                    @sousTache2.predecesseur.idTache
+                                                                                } else {
+                                                                                    @Messages("none")
+                                                                                }
+                                                                            </div>
+                                                                            <div class="row row-nestable dd-nodrag">
+                                                                                @Messages("successors")
+                                                                                :
+                                                                                @if(sousTache2.hasSuccesseur()) {
+                                                                                    <div class="btn-group">
+                                                                                        <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                            @sousTache2.successeurs.size() @Messages("tasks") <span class="caret"></span>
+                                                                                        </button>
+                                                                                        <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                        @for( successeur <- sousTache2.successeurs) {
+                                                                                            <li>@successeur.idTache</li>
+                                                                                        }
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                } else {
+                                                                                    @Messages("none")
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                        @if(utilisateur.hasActiverNotification(sousTache2)) {
+                                                                            <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell"></i></a></div>
+
+                                                                        } else {
+                                                                            <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                        }
+                                                                        @if(sousTache2.getAvancementTache() == 0){
+                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache2.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
+
+                                                                        }else{
+                                                                            <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                        }
+                                                                    </div>
+                                                                    <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                                                                        <div class="col-xs-4 normal">
+                                                                            <div class="normal boutonPlusCreerTache">
+                                                                                <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                                                                            </div>
+                                                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
+                                                                                <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
+                                                                            <i class="fa fa-arrow-up "> @Messages("createTask")</i>
+                                                                        </div>
+                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
+                                                                            <i class="fa fa-arrow-down"> @Messages("createTask")</i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @if(sousTache2.hasEnfant()) {
+                                                                    <ol class="dd-list">
+                                                                    @for( sousTache3 <- sousTache2.enfants()) {
+                                                                        <li class="dd-item dd-item-min-width @sousTache3.checkBox()" data-id="@sousTache3.id">
+                                                                            <div class="dd-handle" style="padding:0px ;">
+                                                                                <div class="row row-nestable">
+                                                                                    <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
+                                                                                        <div class="row row-nestable id-tache">
+                                                                                        @sousTache3.idTache
+                                                                                        </div>
+                                                                                        <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                                        @sousTache3.nom
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.responsableTache.prenom @sousTache3.responsableTache.nom </div>
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.projet.client.nom</div>
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">@sousTache3.formateDate(sousTache3.dateDebut)</div>
+                                                                                    <div class="col-middle" style="border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
+                                                                                        <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTot)</div>
+                                                                                        <div class="row row-nestable">@sousTache3.formateDate(sousTache3.dateFinTard)</div>
+                                                                                    </div>
+                                                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
+                                                                                        <div class="row row-initiale row-nestable">@Messages("initial")
+                                                                                            : @sousTache3.chargeInitiale
+                                                                                            @if(projet.hasUniteJour()) {
+                                                                                                @Messages("day-first-letter")
+                                                                                            } else {
+                                                                                                @Messages("week-first-letter")
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div class="row row-restante row-nestable">@Messages("remaining")
+                                                                                            : @tacheMere.chargeRestante
+                                                                                            @if(projet.hasUniteJour()) {
+                                                                                                @Messages("day-first-letter")
+                                                                                            } else {
+                                                                                                @Messages("week-first-letter")
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div class="row progress progress-bar-default row-nestable">
+                                                                                        @if(sousTache3.getAvancementTache() == 0.0) {
+                                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
+                                                                                                0%
+                                                                                            </div>
+                                                                                        } else {
+                                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache3.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
+                                                                                                @sousTache3.getAvancementTache()
+                                                                                                %
+                                                                                            </div>
+                                                                                        }
+                                                                                        </div>
+                                                                                        <div class="row row-consommee row-nestable">@Messages("consumed")
+                                                                                            : @sousTache3.chargeConsommee
+                                                                                            @if(projet.hasUniteJour()) {
+                                                                                                @Messages("day-first-letter")
+                                                                                            } else {
+                                                                                                @Messages("week-first-letter")
+                                                                                            }</div>
+                                                                                    </div>
+
+                                                                                    <div class="col-middle" style="width:15.75% ; border-right: 1px solid #EBEBEB ;" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
+                                                                                        <div class="row row-nestable">@Messages("predecessor")
+                                                                                            :
+                                                                                            @if(sousTache3.hasPredecesseur()) {
+                                                                                                @sousTache3.predecesseur.idTache
+                                                                                            } else {
+                                                                                                @Messages("none")
+                                                                                            }
+                                                                                        </div>
+                                                                                        <div class="row row-nestable dd-nodrag">
+                                                                                            @Messages("successors")
+                                                                                            :
+                                                                                            @if(sousTache3.hasSuccesseur()) {
+                                                                                                <div class="btn-group">
+                                                                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                                                                        @sousTache3.successeurs.size() @Messages("tasks") <span class="caret"></span>
+                                                                                                    </button>
+                                                                                                    <ul class="dropdown-menu dropdown-menu-pert">
+                                                                                                    @for( successeur <- sousTache3.successeurs) {
+                                                                                                        <li>@successeur.idTache</li>
+                                                                                                    }
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            } else {
+                                                                                                @Messages("none")
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    @if(utilisateur.hasActiverNotification(sousTache3)) {
+                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell"></i></a></div>
+
+                                                                                    } else {
+                                                                                        <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell-slash-o"></i></a></div>
+                                                                                    }
+                                                                                    @if(sousTache3.getAvancementTache() == 0){
+                                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache3.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
+
+                                                                                    }else{
+                                                                                        <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                    }
+                                                                                </div>
+                                                                                <div class="row row-nestable dd-nodrag" style="text-align:center ;">
+                                                                                    <div class="col-xs-4 normal">
+                                                                                        <div class="normal boutonPlusCreerTache">
+                                                                                            <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                                                                                        </div>
+                                                                                        <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
+                                                                                            <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
+                                                                                        <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                                                    </div>
+                                                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
+                                                                                        <i class="fa fa-arrow-down"> @Messages("createTask")</i>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </li>
+                                                                    }
+                                                                    </ol>
+                                                                }
+
+                                                            </li>
+                                                        }
+                                                        </ol>
+                                                    }
+                                                </li>
+                                            }
+                                            </ol>
+                                        }
+                                    </li>
+                                }
+                                }
+                            </ol>
+                            <script>updateTaskNestableCheckbox();</script>
+                        </div>
+                    </div>
+                    <div id="mode-non-draft" class="table-responsive" style="display:none ;">
+                        <div class="table-responsive table-responsive-tdb">
+                            <table id="projet_Projet" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr class="table-center">
+                                        <th style="vertical-align:middle ;">@Messages("task")</th>
+                                        <th style="vertical-align:middle ;">@Messages("responsible")</th>
+                                        <th style="vertical-align:middle ;">@Messages("client")</th>
+                                        <th style="vertical-align:middle ;">@Messages("startDate")</th>
+                                        <th style="vertical-align:middle ;">@Messages("endDate")</th>
+                                        <th style="vertical-align:middle ;">@Messages("workload")</th>
+                                        <th style="vertical-align:middle ;">@Messages("pert")</th>
+                                        <th style="vertical-align:middle ; height:10px ;"><i class="fa fa-bell bell"></i></th>
+                                        <th style="vertical-align:middle ; height:10px ;"><i class="fa fa-trash trash"></i></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-center">
+                                        <td style="padding:0px ;" data-toggle="modal" data-target="#modal-tachet">
+                                            <div>
+                                                <div class="idTache">4.1</div>
+                                                <div>
+                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                    <div class="idNom" style="display: inline-block">
+                                                        Toto</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
+                                            Daro Heng</td>
+                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
+                                            Thalès</td>
+                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
+                                            30/10/2015</td>
+                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
+                                            <p>29/12/2015</p>
+                                            <p>4/01/2016</p>
+                                        </td>
+                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
+                                            <div class="row-initiale">Initiale : 30J</div>
+                                            <div class="row-restante">Totale : 18J</div>
+                                            <div class="progress progress-bar-default">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
+                                                    60%
+                                                </div>
+                                            </div>
+                                            <p class="row-consommee">Consommée : 30J</p>
+                                        </td>
+
+                                        <td style="vertical-align:middle ;">
+                                            <div class="row">Précédente : 4.1</div>
+                                            <div class="row">
+                                                Suivantes :
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
+                                                        8 tâches <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-pert">
+                                                        <li>5.1</li>
+                                                        <li>5.1</li>
+                                                        <li>5.1</li>
+                                                        <li>5.1</li>
+                                                        <li>5.1</li>
+                                                        <li>5.1</li>
+                                                        <li>5.2</li>
+                                                        <li>5.3</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
+                                        <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="9" style="padding:0px ;">
+                                            <div class="row" style="margin-right: 0px ; margin-left: 0px ; text-align: center ; background-color: #e74c3c ;">
+                                                <div class="col-xs-4 normal">
+                                                    <div class="normal boutonPlusCreerTache" >
+                                                        <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
+                                                    </div>
+                                                    <div class="cursor-pointer" data-toggle="modal" data-target="#modal-creer-tache">
+                                                        <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 normal cursor-pointer" data-toggle="modal" data-target="#modal-creer-tache">
+                                                    <i class="fa fa-arrow-up"> @Messages("createTask")</i>
+                                                </div>
+                                                <div class="col-xs-4 normal cursor-pointer" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
+                                                    <i class="fa fa-arrow-down"> @Messages("createTask")</i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="display: none ;"></td>
+                                        <td style="display: none ;"></td>
+                                        <td style="display: none ;"></td>
+                                        <td style="display: none ;"></td>
+                                        <td style="display: none ;"></td>
+                                        <td style="display: none ;"></td>
+                                        <td style="display: none ;"></td>
+                                        <td style="display: none ;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                        <!-- Modal-view Creer tache/sous-tache -->
+
+                        <!-- Modal-view modifier tache/sous-tache -->
+                    @popuptacheConsulterModifier()
+                    @popuptacheCreer()
+                    @popuptacheSupprimer()
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

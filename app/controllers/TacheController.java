@@ -67,6 +67,19 @@ public class TacheController  extends Controller {
         return ok();
     }
 
+    public Result creerTache(Long idProjet){
+        Projet projet = Projet.find.byId(idProjet);
+        Map<String, String[]> form = request().body().asFormUrlEncoded();
+        Tache newTache = creeTacheExtractDonneesFormulaire(form);
+        try {
+            projet.creerTacheInitialisationProjet(newTache);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return badRequest();
+        }
+        return ok();
+    }
+
     public Result creerTacheBas(Long idTacheSelect){
         Map<String, String[]> form = request().body().asFormUrlEncoded();
 

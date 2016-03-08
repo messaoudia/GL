@@ -1,5 +1,7 @@
 @(projet: Projet, utilisateur: Utilisateur)
 
+
+
 <div id="div-consulterProjet-@projet.id">
     <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
 
@@ -329,6 +331,11 @@
                         </li>
                     </ol>
                     <ol class="dd-list" id="table_taches_@projet.id">
+                    @if(projet.listTaches().size() == 0 && projet.responsableProjet.equals(utilisateur)){
+                        <div class="ibox-footer text-center createTaskFirst" value="@projet.id" data-toggle="modal" data-target="#modal-tache-creer" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
+                            <h3 style="margin:0px;">@Messages("createTask")</h3>
+                        </div>
+                    }else{
                     @if(projet.responsableProjet.equals(utilisateur)) {
                         @for( tacheMere <- projet.listTachesAAfficher()) {
                             <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
@@ -1218,7 +1225,7 @@
                             <script>updateTaskNestableCheckbox("@projet.id");</script>
                         }
                     }
-
+                    }
                     </ol>
 
                 </div>
