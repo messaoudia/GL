@@ -140,3 +140,4 @@ GET         /nbNotificationsNonLues                         controllers.Notifica
 POST        /createtache                                    controllers.TacheController.creerTache(value : Long)
 POST        /refreshAdminProjet                             controllers.ProjetController.afficheProjetAdmin(id : Long)
 GET         /hasActiverNotification                         controllers.NotificationController.hasActiverNotification(idTache : Long)
+GET         /isAdmin                                        controllers.UtilisateurController.isAdmin
