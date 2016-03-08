@@ -332,7 +332,7 @@
                     </div>
                     <div id="mode-draft" class="table-responsive" style="">
                         <div class="dd" id="nestable-projet">
-                            <ol class="dd-list">
+                            <ol class="dd-list" id="table_taches_@projet.id">
                                     <!-- En-tete -->
                                 @if(projet.listTaches().size() == 0){
                                     <div class="ibox-footer text-center createTaskFirst" data-toggle="modal" data-target="#modal-tache-creer" value="@projet.id" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
@@ -822,7 +822,7 @@
                                 }
                                 }
                             </ol>
-                            <script>updateTaskNestableCheckbox(projet.id);</script>
+                            <script>updateTaskNestableCheckbox("@projet.id");</script>
                         </div>
                     </div>
                     <div id="mode-non-draft" class="table-responsive" style="display:none ;">

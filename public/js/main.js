@@ -2628,6 +2628,8 @@ var afficherModalTache = function (t) {
             //Activation/désactivation des inputs
             jsRoutes.controllers.Login.utilisateurConnecte().ajax({
                 success: function (utilisateur) {
+
+
                     if (utilisateur.id != tache.projet.responsableProjet.id) {
                         changeDisablePropretyFormulaireModifierTache(true);
 
@@ -2639,6 +2641,19 @@ var afficherModalTache = function (t) {
                         $('#btn-indisponibleTache').show();
                         $('#btn-indisponibleTache-modifier').show();
                     }
+
+                    jsRoutes.controllers.UtilisateurController.isAdmin().ajax({
+                        success: function (isAdmin) {
+                            if(isAdmin) {
+                                changeDisablePropretyFormulaireModifierTache(false);
+
+                                $('#btn-indisponibleTache').show();
+                                $('#btn-indisponibleTache-modifier').show();
+                            }
+                        },
+                        error: function (errorMessage) {
+                        }
+                    });
 
                     if (tache.disponible && !tache.hasEnfant) {
                         changeDisablePropertyChargesFormulaireTache(false);
