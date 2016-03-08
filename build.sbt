@@ -20,8 +20,9 @@ libraryDependencies ++= Seq(
 
   // play mailer
   "com.typesafe.play" %% "play-mailer" % "3.0.1",
-  "mysql" % "mysql-connector-java" % "5.1.18"
-
+  "mysql" % "mysql-connector-java" % "5.1.18",
+  "org.mockito" % "mockito-all" % "1.10.19",
+  "org.powermock" % "powermock-api-mockito" % "1.6.4"
 )
 
 // Play provides two styles of routers, one expects its actions to be injected, the

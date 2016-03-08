@@ -1,6 +1,7 @@
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import controllers.DashboardController;
+import controllers.Login;
 import models.*;
 import models.Utils.Utils;
 import org.apache.commons.io.FileUtils;
@@ -8,6 +9,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import play.Logger;
 import play.libs.Yaml;
 import play.test.FakeApplication;
@@ -21,6 +25,7 @@ import static org.junit.Assert.*;
 /**
  * Created by zzcoolj on 16/2/24.
  */
+
 public class ModelManagerTest {
 
     public static FakeApplication app;
@@ -1332,6 +1337,7 @@ public class ModelManagerTest {
 
     @Test
     public void testModifierTache() {
+        
         Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("initial-data.yml");
         all.forEach((key, value) -> Ebean.save(value));
 

@@ -187,6 +187,7 @@ public class DashboardController extends Controller{
             Tache t = Tache.find.byId(tache.id);
             Logger.debug(t.toString());
             Logger.debug("SAVE OK");
+            tache.saveAllTask();
 
             Utilisateur currentUser = Login.getUtilisateurConnecte();
 
@@ -204,7 +205,6 @@ public class DashboardController extends Controller{
                 currentUser.createNotificationModifierAvancementTache(tache);
                 currentUser.save();
             }
-            tache.saveAllTask();
             return ok();
         }catch(Exception e){
             e.printStackTrace();
