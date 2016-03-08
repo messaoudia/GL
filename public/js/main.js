@@ -3434,6 +3434,13 @@ $(document).ajaxComplete(function () {
         $("#errorProjet").hide()
     });
 
+    $("#errorModifierProjet > button").click(function () {
+        $("#errorProjet").hide()
+    });
+    $("#errorModifierClient > button").click(function () {
+        $("#errorProjet").hide()
+    });
+
 
     $("#btn-modifierProjet-admin").click(function () {
         //$("#div-consulterProjet").css("display","none");
