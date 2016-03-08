@@ -2628,6 +2628,8 @@ var afficherModalTache = function (t) {
                 }
             });
 
+            $('#modalModifierSupprimerTache').attr("onclick","afficherModalSupprimerTache("+idTache+")");
+            $('#modalConsulterSupprimerTache').attr("onclick","afficherModalSupprimerTache("+idTache+")");
 
         },
         //Case we have a problem

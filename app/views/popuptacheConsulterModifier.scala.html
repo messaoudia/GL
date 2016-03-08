@@ -19,7 +19,7 @@
                                 <img id="imgCritique-consulterTache-tdb" src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                 @Messages("task") <p id="idTache-consulter-tdb" style="display:inline-block;"></p>
                                 <a><i id="notifTache" class="fa fa-bell"></i></a> <!-- TODO NOTIFICATION TACHE -->
-                                <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-projet"><i class="fa fa-trash"></i></a>
+                                <a data-toggle="modal" id="modalConsulterSupprimerTache"><i class="fa fa-trash"></i></a>
                                 <a id="btn-modifierTache"><i class="fa fa-pencil"></i></a>
                                 <a id="btn-indisponibleTache" onclick="updateIndisponibleTache()"><i class="fa fa-lock"></i></a>
 
@@ -152,7 +152,7 @@
                                 <div class="id-tache-modal">
                                     <img id="imgCritique-modifierTache-tdb" src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                     @Messages("task") <p id="idTache-modifier-tdb" style="display:inline-block;"></p>
-                                    <a data-toggle="modal" data-target="#modal-confirmation-suppr-tache-tdb"><i class="fa fa-trash"></i></a>
+                                    <a data-toggle="modal" id="modalModifierSupprimerTache"><i class="fa fa-trash"></i></a>
                                     <a id="btn-indisponibleTache-modifier" onclick="updateIndisponibleTacheModifier()"><i class="fa fa-lock"></i></a>
                                     <a id="btn-modifierTache-active"><i class="fa fa-reply"></i></a>
                                 </div>
