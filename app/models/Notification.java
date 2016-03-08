@@ -282,6 +282,8 @@ public class Notification extends Model {
     }
 
     public static void sendNotificationCreerProjet(Projet projet, Utilisateur utilisateur) {
+        System.out.println("Coucou je suis dans Notification/creerProjet");
+
         Map<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
 
         String titleFR = "Création du projet " + projet.nom;
@@ -339,6 +341,7 @@ public class Notification extends Model {
             notification.save();
             mapNotifications.put(projet.responsableProjet, notification);
         }
+        System.out.println("MapNotif = " + mapNotifications);
         sendNotifications(mapNotifications);
     }
 

@@ -66,9 +66,9 @@
                                                 <tbody>
                                                 @for( notification <- utilisateur.listNotifications()) {
                                                     @if(notification.etatLecture) {
-                                                        <tr id="notif-@notification.id" class="lu">
+                                                        <tr id="notif-@notification.id" class="lu" onclick="changeEtatNotifLu('@Login.getUtilisateurConnecte.id','@notification.id')">
                                                     } else {
-                                                        <tr id="notif-@notification.id" class="non-lu">
+                                                        <tr id="notif-@notification.id" class="non-lu" onclick="changeEtatNotifLu('@Login.getUtilisateurConnecte.id', '@notification.id')">
                                                         }
 
                                                     <td>
@@ -86,7 +86,7 @@
                                                         <td id="notif-etatLecture-@notification.id">@Messages("unread")</td>
                                                     }
                                                     <td>
-                                                        <p>@notification.contentNotification</p>
+                                                        @Html(notification.contentNotification)
                                                     </td>
 
                                                 </tr>

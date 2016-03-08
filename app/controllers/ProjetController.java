@@ -110,6 +110,7 @@ public class ProjetController extends Controller {
                         p.save();
                         client.listeProjets.add(p);
                         client.save();
+                        System.out.println("Coucou je suis dans ProjetController/creerProjet");
                         Notification.sendNotificationCreerProjet(p, Login.getUtilisateurConnecte());
                         return ok(Json.toJson(p));
                     } else {
@@ -125,6 +126,8 @@ public class ProjetController extends Controller {
                 p.save();
                 client.listeProjets.add(p);
                 client.save();
+                System.out.println("Coucou je suis dans ProjetController/creerProjet");
+                Notification.sendNotificationCreerProjet(p, Login.getUtilisateurConnecte());
                 return ok(Json.toJson(p));
             }
         }

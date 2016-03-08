@@ -92,6 +92,28 @@ $(document).on('click', '#afficheRetour', function (event) {
 });
 
 
+var changeEtatNotifLu = function (idUser, idNotif) {
+    jsRoutes.controllers.NotificationController.clickNotificationsLues(idUser, idNotif).ajax({
+        success: function (nbNotifNonLues) {
+            $('#notif-' + idNotif).removeClass('non-lu');
+            $('#notif-' + idNotif).addClass('lu');
+            if ($('#notif-' + idNotif).next().is('tr.footable-row-detail')) {
+                //$('#notif-etatLecture-' + idNotif).html(messages("read"));
+                $('#notif-' + idNotif).next().children().first().children().first().children().first().children().eq(1).html(messages("read"));
+            }
+            else {
+                $('#notif-etatLecture-' + idNotif).html(messages("read"));
+            }
+            $('#nbNotifNonLues-pageNotif').html(nbNotifNonLues);
+            $('#nbNotifNonLues-topbar').html(nbNotifNonLues);
+        },
+        error: function (errorMsg) {
+
+        }
+    });
+
+}
+
 var changeModeDraftProjet = function (idProjet) {
     console.log("Je suis la");
     if ($('#checkbox-draft-projet-' + idProjet).is(':checked')) {
