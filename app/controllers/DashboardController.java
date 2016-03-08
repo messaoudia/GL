@@ -1,6 +1,5 @@
 package controllers;
 
-import com.avaje.ebean.annotation.Transactional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Contact;
@@ -144,6 +143,7 @@ public class DashboardController extends Controller{
             tache.description = newDescTache;
             tache.update();
             if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
+                Logger.debug(tache.toString());
                 tache.chargeInitiale = newChInitiale;
                 tache.modifierCharge(newChConso, newChRestante);
             }
@@ -174,6 +174,7 @@ public class DashboardController extends Controller{
             Logger.debug(t.toString());
             Logger.debug("SAVE OK");
 
+            tache.saveAllTask();
             return ok();
         }catch(Exception e){
             e.printStackTrace();
