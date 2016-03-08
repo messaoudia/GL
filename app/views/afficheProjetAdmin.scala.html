@@ -1,6 +1,5 @@
 @(projet: Projet, utilisateur: Utilisateur, clients: List[Client], users: List[Utilisateur])
 
-<div id="col-consulterProjet" class="col-md-10">
 
     <div id="div-consulterProjet-admin">
         <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
@@ -337,7 +336,7 @@
                                     <!-- En-tete -->
                                 @if(projet.listTaches().size() == 0){
                                     <div class="ibox-footer text-center createTaskFirst" data-toggle="modal" data-target="#modal-tache-creer" value="@projet.id" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
-                                        <h3 style="margin:0px;">@Messages("createTask")</h3>
+                                        <h3 style="margin:0px;"><i class="fa fa-plus-circle" style="margin-right:7px;"></i>@Messages("createTask")</h3>
                                     </div>
                                 }else{
                                 @for( tacheMere <- projet.listTachesAAfficher()) {
@@ -939,7 +938,6 @@
                     @popuptacheSupprimer()
 
                 </div>
-            </div>
         </div>
     </div>
 </div>

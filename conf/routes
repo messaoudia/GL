@@ -138,3 +138,4 @@ POST        /infoProjet                                     controllers.ProjetCo
 
 GET         /nbNotificationsNonLues                         controllers.NotificationController.nbNotificationsNonLues
 POST        /createtache                                    controllers.TacheController.creerTache(value : Long)
+POST        /refreshAdminProjet                             controllers.ProjetController.afficheProjetAdmin(id : Long)

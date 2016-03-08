@@ -309,28 +309,26 @@ $(document).on('click', '.createTaskFirst', function (event) {
     remplirFormulaireCreationTacheFirst(btn);
     $('#errorCreerTache').hide();
     //$('#btn-valider-modifierTacheC').attr("data", btn.attr("data"));
-    $('#btn-valider-modifierTacheC').attr("value", btn.attr("value"));
+    var val = btn.attr("value");
+    $('#btn-valider-modifierTacheC').attr("value", val);
     $('#btn-valider-modifierTacheC').attr("onclick", "creerTache(this); return false;");
 });
 
 
 var creerTache = function (btn) {
     var dataToSend = creerDataFormulaireCreationTache(btn);
-    var value = btn.attr("value");
+    var value = $(btn).attr("value");
     if (dataToSend == -1) {
-
     } else {
-        console.log("main.scala : appel du controlleur creerSousTache");
         jsRoutes.controllers.TacheController.creerTache(value).ajax({
             data: dataToSend,
             success: function (data) {
                 console.log("main.scala : success");
-
                 $('#errorCreerTache').hide();
                 $('#modal-tache-creer').modal('toggle');
 
                 //Refresh project table
-                //refreshProjectTable();
+                refreshProjectTable(data.id);
             },
             error: function (errorMessage) {
                 console.log("main.scala > creerSousTache => error");
@@ -508,7 +506,6 @@ var creerDataFormulaireCreationTache = function (btn) {
             dataToSend += tabInterlocuteurs[i] + ",";
         }
 
-        console.log("Data SEND : " + dataToSend);
 
         return dataToSend;
     } else {
@@ -536,6 +533,17 @@ var refreshProjectTableByIdProject = function (projetId) {
             $('#projet-' + projetId).html(data);
             $('#client-projet-' + projetId).html(data);
             $('#projet-' + projetId).show();
+            console.log("AfficheProjet OK : " + projetId);
+        },
+        error: function (errorMessage) {
+            console.log(errorMessage);
+            console.log("AfficheProjet KO : " + projetId);
+        }
+    });
+    jsRoutes.controllers.ProjetController.afficheProjetAdmin(projetId).ajax({
+        success: function (data) {
+            $('#col-consulterProjet').html(data);
+            $('#col-consulterProjet').show();
             console.log("AfficheProjet OK : " + projetId);
         },
         error: function (errorMessage) {

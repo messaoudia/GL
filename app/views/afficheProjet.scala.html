@@ -155,113 +155,6 @@
     </div>
 </div>
 
-<div id="div-modifierProjet-@projet.id" style="display: none ;">
-    <form id="addProjectForm-projet-@projet.id" class="m-t" role="form" method="POST">
-        <div class="wrapper wrapper-content">
-            <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
-                <div class="ibox-content" style="padding-top: 0 ; padding-right: 0 ;">
-                    <div class="row">
-                        <div class="col-md-offset-11 col-md-1" style="padding-right: 15px ; padding-left:0px ; text-align:center ;">
-                            <div onclick="desactiveModificationProjetDansProjet('@projet.id')" name="@projet.id" class="cursor-pointer" style="border:none ; background-color:#E74C3C ; color:#FFF ;">@Messages("cancel") <i class="fa fa-times"></i></div>
-                        </div>
-                    </div>
-
-                    <div id="successModifierProjet-@projet.id" class="alert alert-success alert-dismissable" style="display: none ;">
-                        <button class="close" type="button">×</button>
-                        <p id="successModifierProjetP-@projet.id"><p>
-                    </div>
-                    <div id="errorModifierProjet-@projet.id" class="alert alert-danger alert-dismissable" style="display: none ;">
-                        <button class="close" type="button">×</button>
-                        <p id="errorModifierProjetP-@projet.id"><p>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <label class="label_form" for="projet">@Messages("project")</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input name="projet" value="@projet.nom" required="true" placeholder="" class="form-control"/>
-                                </div>
-                                <div class="col-sm-6">@Messages("priority")
-                                    <div id="projet-modifier-btn-@projet.id" class="btn-group" style="display: inline-block ;">
-                                    @if(projet.priorite == 1) {
-                                        <button id="first-@projet.id" class="btn btn-active" type="button" value="1" >
-                                            1</button>
-                                        <button id="second-@projet.id" class="btn" value="2" type="button">
-                                            2</button>
-                                        <button id="third-@projet.id" class="btn" type="button" value="3">
-                                            3</button>
-                                    } else {
-                                        @if(projet.priorite == 2) {
-                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
-                                                1</button>
-                                            <button id="second-@projet.id" class="btn btn-active" value="2" type="button">
-                                                2</button>
-                                            <button id="third-@projet.id" class="btn" type="button" value="3">
-                                                3</button>
-                                        } else {
-                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
-                                                1</button>
-                                            <button id="second-@projet.id" class="btn" value="2" type="button">
-                                                2</button>
-                                            <button id="third-@projet.id" class="btn btn-active" type="button" value="3">
-                                                3</button>
-                                        }
-                                    }
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
-                                        <div> @projet.responsableProjet.prenom @projet.responsableProjet.nom
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class='form-group'>
-                                        <label class="label_form" for="client">@Messages("client")</label>
-                                        <div> @projet.client.nom
-                                                <!--
-                                                                    <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
-                                                                        <option value="1">Option 1</option>
-                                                                        <option value="2">Option 2</option>
-                                                                        <option value="3">Option 3</option>
-                                                                        <option value="4">Option 4</option>
-                                                                        <option value="5">Option 5</option>
-                                                                    </select>
-                                                                    -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label for="description" class="label_form">@Messages("description")</label>
-                                </div>
-
-                                <div class="col-sm-12">
-                                    <textarea name="description" style="height: 150px ; width:100% ;">@projet.description</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div onclick="modifierProjet(this); return false;" class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; text-align:center ;" form="addProjectForm-projet-@projet.id" value="@projet.id">
-                    <h3>@Messages("saveProject")</h3>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
 
 <div style="margin-top: 30px ; padding-top:0px ;" class="row wrapper wrapper-content white-bg">
     <div style="margin:auto ;">
@@ -333,7 +226,7 @@
                     <ol class="dd-list" id="table_taches_@projet.id">
                     @if(projet.listTaches().size() == 0 && projet.responsableProjet.equals(utilisateur)){
                         <div class="ibox-footer text-center createTaskFirst" value="@projet.id" data-toggle="modal" data-target="#modal-tache-creer" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
-                            <h3 style="margin:0px;">@Messages("createTask")</h3>
+                            <h3 style="margin:0px;"><i class="fa fa-plus-circle" style="margin-right:7px;"></i>@Messages("createTask")</h3>
                         </div>
                     }else{
                     @if(projet.responsableProjet.equals(utilisateur)) {
@@ -1256,9 +1149,6 @@
             </div>
         </div>
     </div>
-</div>
-<div class="ibox-footer text-center cursor-pointer" style="background-color: #27AE62 ; color:#FFF ; height: 40px ;" data-toggle="modal" data-target="#modal-add-projet">
-    <h3 style="margin:0px ;"><i class="fa fa-plus-circle" style="margin-right:7px ;"></i> @Messages("addProject")</h3>
 </div>
 
 <div class="modal fade" id="modal-draft-projet" tabindex="-1" role="dialog" aria-hidden="true">

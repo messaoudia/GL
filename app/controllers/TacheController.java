@@ -56,7 +56,7 @@ public class TacheController  extends Controller {
         Projet projet = tacheReference.projet;
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
-
+        Logger.debug(newTache.toString());
         try {
             projet.creerTacheAuDessus(newTache , tacheReference);
         } catch (Exception e) {
@@ -73,11 +73,12 @@ public class TacheController  extends Controller {
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
         try {
             projet.creerTacheInitialisationProjet(newTache);
+
         } catch (Exception e) {
             e.printStackTrace();
             return badRequest();
         }
-        return ok();
+        return ok(Json.toJson(newTache));
     }
 
     public Result creerTacheBas(Long idTacheSelect){

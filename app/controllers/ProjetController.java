@@ -11,6 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.afficheProjet;
+import views.html.afficheProjetAdmin;
 import views.html.creerProjet;
 import views.html.projet;
 
@@ -354,6 +355,10 @@ public class ProjetController extends Controller {
     public Result afficheProjet(Long idProjet) {
         Logger.debug(Login.getUtilisateurConnecte().toString());
         return ok(afficheProjet.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte()));
+    }
+
+    public Result afficheProjetAdmin(Long idProjet) {
+        return ok(afficheProjetAdmin.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte(), Client.getAllNonArchives(), Utilisateur.getAllNonArchives()));
     }
 
     public Result infoProjet(Long idProjet) {
