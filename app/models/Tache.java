@@ -256,7 +256,12 @@ public class Tache extends EntiteSecurise {
         for (Contact c : interlocuteurs) {
             sb.append("\n\t").append(c);
         }
-        sb.append("\nprojet : ").append(projet.nom);
+        sb.append("\nprojet : ");
+        if(projet == null){
+            sb.append("null");
+        } else {
+            sb.append(projet.nom);
+        }
         sb.append("\nresponsableTache : ").append(responsableTache.nom).append("\n");
         return sb.toString();
     }
