@@ -144,7 +144,7 @@ public class ProjetController extends Controller {
         t.save();
         System.out.println("t est sav => indispo " + t);
 
-        return ok();
+        return ok(Json.toJson(t));
     }
 
     public Result updateTacheToDisponible(Long idTache) {
@@ -157,7 +157,7 @@ public class ProjetController extends Controller {
         t.disponible = true;
         t.save();
         System.out.println("t est sav => dispo " + t);
-        return ok();
+        return ok(Json.toJson(t));
     }
 
     public Result modifierProjet(Long id) {

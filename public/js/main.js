@@ -206,6 +206,9 @@ var $tmpTrAdminUser;
 
 function updateTaskNestableCheckbox(id) {
     console.log("updateTaskNestableCheckbox");
+
+    $("#table_taches_"+id+" li").show();
+
     var idCheckboxT = "#checkbox-taches-terminees" + id;
     var classTacheT = ".tache-terminee";
     var classTacheTI = ".tache-terminee-indisponible";
@@ -1309,8 +1312,9 @@ var updateIndisponibleTache = function () {
                 $('#formModifierChargeInitiale').removeAttr("disabled");
                 $('#formModifierChargeRestante').removeAttr("disabled");
                 $('#formModifierChargeConsommee').removeAttr("disabled");
+                $("li[data-id="+idTache+"]").removeClass("tache-indisponible");
 
-                console.log("la tache " + $('#btn-indisponibleTache').attr("data") + " devient disponible");
+                updateTaskNestableCheckbox(tache.projet.id);
 
             },
             error: function (errorMessage) {
@@ -1332,6 +1336,10 @@ var updateIndisponibleTache = function () {
                 $('#formModifierChargeInitiale').attr("disabled", "");
                 $('#formModifierChargeRestante').attr("disabled", "");
                 $('#formModifierChargeConsommee').attr("disabled", "");
+                $("li[data-id="+idTache+"]").addClass("tache-indisponible");
+
+                updateTaskNestableCheckbox(tache.projet.id);
+
             },
             error: function (errorMessage) {
                 alert(errorMessage);
@@ -1356,6 +1364,8 @@ var updateIndisponibleTacheModifier = function () {
                 $('#formModifierChargeInitiale').removeAttr("disabled");
                 $('#formModifierChargeRestante').removeAttr("disabled");
                 $('#formModifierChargeConsommee').removeAttr("disabled");
+                $("li[data-id="+idTache+"]").removeClass("tache-indisponible");
+                updateTaskNestableCheckbox(tache.projet.id);
             },
             error: function (errorMessage) {
                 alert(errorMessage);
@@ -1376,6 +1386,9 @@ var updateIndisponibleTacheModifier = function () {
                 $('#formModifierChargeInitiale').attr("disabled", "");
                 $('#formModifierChargeRestante').attr("disabled", "");
                 $('#formModifierChargeConsommee').attr("disabled", "");
+                $("li[data-id="+idTache+"]").addClass("tache-indisponible");
+
+                updateTaskNestableCheckbox(tache.projet.id);
             },
             error: function (errorMessage) {
                 alert(errorMessage);
