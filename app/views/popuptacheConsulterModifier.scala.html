@@ -10,6 +10,11 @@
                     <div class="row">
                             <!-- 1ere colonne -->
                         <div class="col-sm-6">
+                            <div id="errorModifierTache" class="alert alert-danger alert-dismissable" style="display: none;">
+                                <button class="close" type="button">×</button>
+                                <p id="errorModifierTacheP">@Messages("errorModificationTache")<p>
+                            </div>
+
                             <div class="id-tache-modal">
                                 <img id="imgCritique-consulterTache-tdb" src="img/MyIcons/png/Criticite.png" alt="image" class="icone" />
                                 @Messages("task") <p id="idTache-consulter-tdb" style="display:inline-block;"></p>

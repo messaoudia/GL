@@ -13,6 +13,7 @@ GET         /                                               controllers.Dashboar
 # Login page
 GET         /login                                          controllers.Login.index()
 POST        /login                                          controllers.Login.authenticate()
+GET         /getUtilisateur                                 controllers.Login.utilisateurConnecte()
 GET         /logout                                         controllers.Application.logout()
 
 # Tests pages

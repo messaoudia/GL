@@ -366,7 +366,12 @@
 
                                                         <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">
                                                             <p class="tdb-id-tache">@tache.idTache</p>
-                                                            <p class="tdb-nom-tache">@tache.nom</p>
+                                                            <p class="tdb-nom-tache">
+                                                                @if(tache.critique){
+                                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                }
+                                                                @tache.nom
+                                                            </p>
                                                         </td>
                                                         <td class="td-modal" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tache">
                                                         @tache.projet.nom</td>

@@ -671,13 +671,17 @@ public class Projet extends EntiteSecurise {
      * @param tache
      * @throws Exception
      */
-    @Transient
     public void supprimerTache(Tache tache) throws Exception {
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
+        if (tache.getAvancementTache() > 0) {
+            throw new IllegalStateException("Suppression de la tache "+tache.nom+" impossible car elle est déja commencée.");
+        }
+
         listTaches.remove(tache);
+        tache.projet = null;
 
         // Modifications au niveau des liaisons predecesseur/successeurs
         if (tache.hasPredecesseur() && tache.hasSuccesseur()) {
@@ -840,6 +844,8 @@ public class Projet extends EntiteSecurise {
             }
         }
 
+        System.out.println("Tache critique la plus à droite : " + tacheAvecMoinsMarge);
+
         // On remonte jusqu'en haut du chemin + on met la valeur 'true' au champ 'critique' d'une tache
         calculeCheminCritiqueRecursive(tacheAvecMoinsMarge);
 
@@ -847,15 +853,17 @@ public class Projet extends EntiteSecurise {
 
     private void calculeCheminCritiqueRecursive(Tache t) {
         t.critique = true;
-        if (t.hasPredecesseur()) {
+        t.save();
+        if (t.hasPredecesseur())
             calculeCheminCritiqueRecursive(t.predecesseur);
-            if (t.parent != null)
-                calculeCheminCritiqueTacheMere(t.parent);
-        }
+
+        if (t.parent != null)
+            calculeCheminCritiqueTacheMere(t.parent);
     }
 
     private void calculeCheminCritiqueTacheMere(Tache t) {
         t.critique = true;
+        t.save();
         if (t.parent != null)
             calculeCheminCritiqueTacheMere(t.parent);
     }
@@ -1016,6 +1024,11 @@ public class Projet extends EntiteSecurise {
             }
         });
          */
+        try{
+            calculeCheminCritique();
+        } catch(Exception e){
+            System.err.println("Erreur pour calcul chemin critique : " + e.getMessage());
+        }
         return listTaches;
     }
 

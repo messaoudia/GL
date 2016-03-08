@@ -2461,15 +2461,20 @@ var afficherModalTache = function (t) {
 
             var list = "";
             var listModifier = "";
-            if (tache.successeurs) {
+            if (tache.successeurs.length > 0) {
+                $('#titre-successeurs-consulter-tdb').show()
+                $('#table-successeursTache-consulter-tdb').show();
                 $(tache.successeurs).each(function (index, tache) {
                     list += '<tr>';
                     list += '<td class="id-task">' + tache.id + '</td>';
                     list += '<td class="name-task">' + tache.nom + '</td>';
                     list += '</tr>';
                 });
+                $('#table-successeursTache-consulter-tdb-body').html(list);
+            } else {
+                $('#titre-successeurs-consulter-tdb').hide()
+                $('#table-successeursTache-consulter-tdb').hide();
             }
-            $('#table-successeursTache-consulter-tdb-body').html(list);
 
             list = "";
             listModifier = "";
@@ -2539,7 +2544,7 @@ var afficherModalTache = function (t) {
             else {
                 $('#avancementTache').css("color", "#FFF");
             }
-            $('#nbJourRestant').html(messages("remainingTime") + tache.nbJourRestant + messages("day-first-letter"));
+            $('#nbJourRestant').html(messages("remainingTime") + " : " + tache.nbJourRestant + " " + messages("day-first-letter"));
             $('#dateDebutTache').html(tache.dateDebut);
             $('#dateFinTotTache').html(tache.dateFinTot);
             $('#dateFinTardTache').html(tache.dateFinTard);
@@ -2571,22 +2576,55 @@ var afficherModalTache = function (t) {
             $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
             $('#formModifierChargeConsommee span').nextAll('span').html(unite);
 
-            if (!tache.disponible) {
-                $('#formModifierChargeInitiale').attr("disabled", "");
-                $('#formModifierChargeRestante').attr("disabled", "");
-                $('#formModifierChargeConsommee').attr("disabled", "");
-            }
-            else {
-                $('#formModifierChargeInitiale').removeAttr("disabled");
-                $('#formModifierChargeRestante').removeAttr("disabled");
-                $('#formModifierChargeConsommee').removeAttr("disabled");
-            }
+            //Activation/désactivation des inputs
+            jsRoutes.controllers.Login.utilisateurConnecte().ajax({
+                success: function (utilisateur) {
+                    if(utilisateur.id != tache.projet.responsableProjet.id){
+                        changeDisablePropretyFormulaireModifierTache(true);
+
+                        $('#btn-indisponibleTache').hide();
+                        $('#btn-indisponibleTache-modifier').hide();
+                    }else{
+                        changeDisablePropretyFormulaireModifierTache(false);
+
+                        $('#btn-indisponibleTache').show();
+                        $('#btn-indisponibleTache-modifier').show();
+                    }
+
+                    if (tache.disponible && !tache.hasEnfant) {
+                        changeDisablePropertyChargesFormulaireTache(false);
+                    }else{
+                        changeDisablePropertyChargesFormulaireTache(true);
+                    }
+                }
+            });
 
         },
         //Case we have a problem
         error: function (errorMessage) {
             alert(errorMessage);
         }
+    });
+
+}
+
+var changeDisablePropertyChargesFormulaireTache = function(boolean){
+    $('#formModifierChargeInitiale').prop('disabled', boolean);
+    $('#formModifierChargeRestante').prop('disabled', boolean);
+    $('#formModifierChargeConsommee').prop('disabled', boolean);
+}
+
+var changeDisablePropretyFormulaireModifierTache = function(boolean){
+    $("#formModifierNomTache-tdb").prop('disabled', boolean);
+    $("#formModifierDescriptionTache-tdb").prop('disabled', boolean);
+    $("#form-tache-predecesseur").prop('disabled', boolean);
+    $("#form-tache-successeur").prop('disabled', boolean);
+    $("#responsableTacheModifier").prop('disabled', boolean);
+    $("#DD-modifier").prop('disabled', boolean);
+    $("#DFTO-modifier").prop('disabled', boolean);
+    $("#DFTA-modifier").prop('disabled', boolean);
+    $('#interlocuteurs-modifier input').each(function(){
+        $(this).prop('disabled', boolean);
     });
 }
 
@@ -2775,6 +2813,8 @@ var modifierTache = function (btn) {
         },
         error: function (errorMessage, codeErreur) {
             console.log(codeErreur + " " + errorMessage);
+            $('#errorModifierTache').show();
+
         }
     });
 }
@@ -3162,6 +3202,7 @@ $(document).ready(function () {
     $('#btn-modifierTache').click(function () {
         jQuery.fx.off = true;
         $('#div-consulterTache').hide();
+        $('#errorCreerTache').hide();
         $('#div-modifierTache').show();
         jQuery.fx.off = false;
 

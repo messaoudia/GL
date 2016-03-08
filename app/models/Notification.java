@@ -480,6 +480,7 @@ public class Notification extends Model {
         String messageAutreUserFR = utilisateur.prenom + " " + utilisateur.nom + " a créé le projet \""
                 + projet.nom + "\" avec les caractéristiques suivantes :\n";
 
+        //"<p>    - Nom : " + projet.nom + "</p>"
         String messageFR = "\t - Nom : " + projet.nom + "\n";
         messageFR += "\t - Client : " + projet.client.nom + "\n";
         messageFR += "\t - Responsable : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom +
