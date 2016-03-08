@@ -1,5 +1,7 @@
 @(projet: Projet, utilisateur: Utilisateur)
 
+
+
 <div id="div-consulterProjet-@projet.id">
     <div class="row wrapper border-bottom white-bg page-heading" style="padding-bottom: 0px ; padding-right: 0px ;">
 
@@ -64,6 +66,7 @@
             </div>
             <div class="row" id="date-header">
                 <h3 class="header-text">
+                @if(projet.dateDebutTheorique != null) {
                     @Messages("theoreticalDate")
                     <table>
                         <tr>
@@ -80,8 +83,9 @@
                                 <div class="date-projet">@projet.formateDate(projet.dateFinTheorique)</div>
                             </td>
                         </tr>
-
                     </table>
+                }
+                @if(projet.dateFinReelTot != null) {
                     @Messages("effectiveDates")
                     <table>
                         <tr>
@@ -101,6 +105,7 @@
                             </td>
                         </tr>
                     </table>
+                }
                 </h3>
             </div>
             <div class="row" style="margin-top: 14px ;">
@@ -150,113 +155,6 @@
     </div>
 </div>
 
-<div id="div-modifierProjet-@projet.id" style="display: none ;">
-    <form id="addProjectForm-projet-@projet.id" class="m-t" role="form" method="POST">
-        <div class="wrapper wrapper-content">
-            <div class="ibox fadeInRightBig" style="background-color: #FFF ; max-width: 100% ;">
-                <div class="ibox-content" style="padding-top: 0 ; padding-right: 0 ;">
-                    <div class="row">
-                        <div class="col-md-offset-11 col-md-1" style="padding-right: 15px ; padding-left:0px ; text-align:center ;">
-                            <div onclick="desactiveModificationProjetDansProjet('@projet.id')" name="@projet.id" class="cursor-pointer" style="border:none ; background-color:#E74C3C ; color:#FFF ;">@Messages("cancel") <i class="fa fa-times"></i></div>
-                        </div>
-                    </div>
-
-                    <div id="successModifierProjet" class="alert alert-success alert-dismissable" style="display: none ;">
-                        <button class="close" type="button">×</button>
-                        <p id="successModifierProjetP"><p>
-                    </div>
-                    <div id="errorModifierProjet" class="alert alert-danger alert-dismissable" style="display: none ;">
-                        <button class="close" type="button">×</button>
-                        <p id="errorModifierProjetP"><p>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <label class="label_form" for="projet">@Messages("project")</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-offset-2 col-sm-8">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <input name="projet" value="@projet.nom" required="true" placeholder="" class="form-control"/>
-                                </div>
-                                <div class="col-sm-6">@Messages("priority")
-                                    <div id="projet-modifier-btn-@projet.id" class="btn-group" style="display: inline-block ;">
-                                    @if(projet.priorite == 1) {
-                                        <button id="first-@projet.id" class="btn btn-active" type="button" value="1" >
-                                            1</button>
-                                        <button id="second-@projet.id" class="btn" value="2" type="button">
-                                            2</button>
-                                        <button id="third-@projet.id" class="btn" type="button" value="3">
-                                            3</button>
-                                    } else {
-                                        @if(projet.priorite == 2) {
-                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
-                                                1</button>
-                                            <button id="second-@projet.id" class="btn btn-active" value="2" type="button">
-                                                2</button>
-                                            <button id="third-@projet.id" class="btn" type="button" value="3">
-                                                3</button>
-                                        } else {
-                                            <button id="first-@projet.id" class="btn" type="button" value="1" >
-                                                1</button>
-                                            <button id="second-@projet.id" class="btn" value="2" type="button">
-                                                2</button>
-                                            <button id="third-@projet.id" class="btn btn-active" type="button" value="3">
-                                                3</button>
-                                        }
-                                    }
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="label_form" for="responsableProjet">@Messages("projectPersonResponsible")</label>
-                                        <div> @projet.responsableProjet.prenom @projet.responsableProjet.nom
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class='form-group'>
-                                        <label class="label_form" for="client">@Messages("client")</label>
-                                        <div> @projet.client.nom
-                                                <!--
-                                                                    <select id="client" name="client" required="true" style="width:100% ;" class="form-control">
-                                                                        <option value="1">Option 1</option>
-                                                                        <option value="2">Option 2</option>
-                                                                        <option value="3">Option 3</option>
-                                                                        <option value="4">Option 4</option>
-                                                                        <option value="5">Option 5</option>
-                                                                    </select>
-                                                                    -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <label for="description" class="label_form">@Messages("description")</label>
-                                </div>
-
-                                <div class="col-sm-12">
-                                    <textarea name="description" style="height: 150px ; width:100% ;">@projet.description</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div onclick="modifierProjet(this); return false;" class="ibox-footer text-center" style="background-color: #27AE62 ; color:#FFF ; height: 40px ; text-align:center ;" form="addProjectForm-projet-@projet.id" value="@projet.id">
-                    <h3>@Messages("saveProject")</h3>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
 
 <div style="margin-top: 30px ; padding-top:0px ;" class="row wrapper wrapper-content white-bg">
     <div style="margin:auto ;">
@@ -279,7 +177,7 @@
         <div class="row row-options-admin-projet">
                 <div class="col-sm-3">
                     <div class="checkbox checkbox-success checkbox-circle" >
-                        <input id="checkbox-taches-terminees@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                        <input id="checkbox-taches-terminees@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")' checked>
                         <label for="checkbox-taches-terminees@projet.id">
                         @Messages("completedTasks")
                         </label>
@@ -287,7 +185,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="checkbox checkbox-success checkbox-circle">
-                        <input id="checkbox-taches-indisponibles@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                        <input id="checkbox-taches-indisponibles@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")' checked>
                         <label for="checkbox-taches-indisponibles@projet.id">
                         @Messages("unavailableTasks")
                         </label>
@@ -326,6 +224,11 @@
                         </li>
                     </ol>
                     <ol class="dd-list" id="table_taches_@projet.id">
+                    @if(projet.listTaches().size() == 0 && projet.responsableProjet.equals(utilisateur)){
+                        <div class="ibox-footer text-center createTaskFirst" value="@projet.id" data-toggle="modal" data-target="#modal-tache-creer" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
+                            <h3 style="margin:0px;"><i class="fa fa-plus-circle" style="margin-right:7px;"></i>@Messages("createTask")</h3>
+                        </div>
+                    }else{
                     @if(projet.responsableProjet.equals(utilisateur)) {
                         @for( tacheMere <- projet.listTachesAAfficher()) {
                             <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
@@ -336,6 +239,9 @@
                                             @tacheMere.idTache
                                             </div>
                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                            @if(tacheMere.critique){
+                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                            }
                                             @tacheMere.nom
                                             </div>
                                         </div>
@@ -452,6 +358,9 @@
                                                         @sousTache1.idTache
                                                         </div>
                                                         <div class="row row-nestable" style="padding-top: 10px ;">
+                                                        @if(sousTache1.critique){
+                                                            <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                        }
                                                         @sousTache1.nom
                                                         </div>
                                                     </div>
@@ -570,6 +479,9 @@
                                                                     @sousTache2.idTache
                                                                     </div>
                                                                     <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                    @if(sousTache2.critique){
+                                                                        <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                    }
                                                                     @sousTache2.nom
                                                                     </div>
                                                                 </div>
@@ -687,6 +599,9 @@
                                                                                 @sousTache3.idTache
                                                                                 </div>
                                                                                 <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                                @if(sousTache3.critique){
+                                                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                                }
                                                                                 @sousTache3.nom
                                                                                 </div>
                                                                             </div>
@@ -809,11 +724,11 @@
                                     </ol>
                                 }
                             </li>
-
+                            <script>updateTaskNestableCheckbox("@projet.id");</script>
                         }
                     } else {
                         @for( tacheMere <- utilisateur.listTachesDansProjetNonResponsableAAfficher(projet)) {
-                            <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
+                            <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
                                 <div class="dd-handle" style="padding:0px ;">
                                     <div class="row row-nestable">
                                         <div class="col-middle first-col-middle" style="">
@@ -821,6 +736,9 @@
                                             @tacheMere.idTache
                                             </div>
                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                            @if(tacheMere.critique){
+                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                            }
                                             @tacheMere.nom
                                             </div>
                                         </div>
@@ -908,7 +826,7 @@
                                     <ol class="dd-list">
                                     @for( sousTache1 <- tacheMere.enfants()) {
                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache1)) {
-                                            <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
+                                            <li class="dd-item dd-item-min-width @sousTache1.checkBox()" data-id="@sousTache1.id">
                                                 <div class="dd-handle" style="padding:0px ;">
                                                     <div class="row row-nestable">
                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
@@ -916,6 +834,9 @@
                                                             @sousTache1.idTache
                                                             </div>
                                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                                            @if(sousTache1.critique){
+                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                            }
                                                             @sousTache1.nom
                                                             </div>
                                                         </div>
@@ -1005,7 +926,7 @@
                                                     <ol class="dd-list">
                                                     @for( sousTache2 <- sousTache1.enfants()) {
                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache2)) {
-                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
+                                                            <li class="dd-item dd-item-min-width @sousTache2.checkBox()" data-id="@sousTache2.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                     <div class="row row-nestable">
                                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
@@ -1013,6 +934,9 @@
                                                                             @sousTache2.idTache
                                                                             </div>
                                                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                            @if(sousTache2.critique){
+                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                            }
                                                                             @sousTache2.nom
                                                                             </div>
                                                                         </div>
@@ -1101,7 +1025,7 @@
                                                                     <ol class="dd-list">
                                                                     @for( sousTache3 <- sousTache2.enfants()) {
                                                                         @if(utilisateur.listTachesDansProjetNonResponsable(projet).contains(sousTache3)) {
-                                                                            <li class="dd-item dd-item-min-width" data-id="@sousTache3.id" value="@sousTache2.id">
+                                                                            <li class="dd-item dd-item-min-width @sousTache3.checkBox()" data-id="@sousTache3.id" value="@sousTache2.id">
                                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                                     <div class="row row-nestable">
                                                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
@@ -1109,6 +1033,9 @@
                                                                                             @sousTache3.idTache
                                                                                             </div>
                                                                                             <div class="row row-nestable" style="padding-top: 10px ;">
+                                                                                            @if(sousTache3.critique){
+                                                                                                <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
+                                                                                            }
                                                                                             @sousTache3.nom
                                                                                             </div>
                                                                                         </div>
@@ -1212,19 +1139,16 @@
                                     </ol>
                                 }
                             </li>
-
+                            <script>updateTaskNestableCheckbox("@projet.id");</script>
                         }
                     }
-
+                    }
                     </ol>
-                    <script>updateTaskNestableCheckbox();</script>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="ibox-footer text-center cursor-pointer" style="background-color: #27AE62 ; color:#FFF ; height: 40px ;" data-toggle="modal" data-target="#modal-add-projet">
-    <h3 style="margin:0px ;"><i class="fa fa-plus-circle" style="margin-right:7px ;"></i> @Messages("addProject")</h3>
 </div>
 
 <div class="modal fade" id="modal-draft-projet" tabindex="-1" role="dialog" aria-hidden="true">

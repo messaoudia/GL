@@ -1,11 +1,9 @@
 package models;
 
-import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.util.ContainerBuilder;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
@@ -261,7 +259,12 @@ public class Tache extends EntiteSecurise {
         for (Contact c : interlocuteurs) {
             sb.append("\n\t").append(c);
         }
-        sb.append("\nprojet : ").append(projet.nom);
+        sb.append("\nprojet : ");
+        if(projet == null){
+            sb.append("null");
+        } else {
+            sb.append(projet.nom);
+        }
         sb.append("\nresponsableTache : ").append(responsableTache.nom).append("\n");
         return sb.toString();
     }
@@ -576,6 +579,8 @@ public class Tache extends EntiteSecurise {
     public boolean hasParent() {
         return parent != null;
     }
+
+    @JsonSerialize
     public boolean hasEnfant() {
         return enfants != null && !enfants.isEmpty();
     }
@@ -949,46 +954,46 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * Vérifie que pour le tachePERT de la tache n'est pas membre de sa famille directe
      * (taches meres directs et tous ses enfants)
      * @param tache
-     * @param predecesseur
+     * @param tachePert
      * @return
      */
     public static boolean checkPERT(Tache tache, Tache tachePert){
-        return checkPERTRecursifVersPredecesseur(tache, tachePert) && checkPERTRecursifVersSuccesseurs(tache, tachePert);
+        return checkPERTRecursifParent(tache, tachePert) && checkPERTRecursifEnfant(tache, tachePert);
     }
 
     /**
-     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
+     * Vérifie que pour le tachePert de la tache n'est pas membre de sa famille directe
      * (taches meres directs et tous ses enfants) : Vérifie vers le haut de la hiérarchie
      * @param currentTache
      * @param tachePert
      * @return
      */
-    private static boolean checkPERTRecursifVersPredecesseur(Tache currentTache, Tache tachePert){
+    private static boolean checkPERTRecursifParent(Tache currentTache, Tache tachePert){
         if(currentTache == null)
             return true;
-        if(tachePert.equals(currentTache))
+        if(tachePert.equals(currentTache)) {
             return false;
-        return checkPERTRecursifVersPredecesseur(currentTache.parent, tachePert);
+        }
+        if(!checkPERTRecursifParent(currentTache.parent, tachePert)){
+            return false;
+        }
+        return true;
     }
 
-    /**
-     * Vérifie que pour le predecesseur de la tache n'est pas membre de sa famille directe
-     * (taches meres directs et tous ses enfants) : Vérifie vers le bas de la hiérarchie
-     * @param currentTache
-     * @param tachePert
-     * @return
-     */
-    private static boolean checkPERTRecursifVersSuccesseurs(Tache currentTache, Tache tachePert){
+    private static boolean checkPERTRecursifEnfant(Tache currentTache, Tache tachePert){
         if(currentTache == null)
             return true;
-        if(tachePert.equals(currentTache))
+        if(tachePert.equals(currentTache)) {
             return false;
-        for(Tache successeur : currentTache.getSuccesseurs()){
-            if(!checkPERTRecursifVersSuccesseurs(successeur, tachePert)){
-                return false;
+        }
+        if(currentTache.hasEnfant()) {
+            for(Tache enfant: currentTache.enfants){
+                if(!checkPERTRecursifEnfant(enfant, tachePert)){
+                    return false;
+                }
             }
         }
         return true;

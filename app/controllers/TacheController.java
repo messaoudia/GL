@@ -55,7 +55,7 @@ public class TacheController  extends Controller {
         Projet projet = tacheReference.projet;
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
-
+        Logger.debug(newTache.toString());
         try {
             projet.creerTacheAuDessus(newTache , tacheReference);
             Utilisateur currentUser = Login.getUtilisateurConnecte();
@@ -67,6 +67,20 @@ public class TacheController  extends Controller {
             return badRequest();
         }
         return ok();
+    }
+
+    public Result creerTache(Long idProjet){
+        Projet projet = Projet.find.byId(idProjet);
+        Map<String, String[]> form = request().body().asFormUrlEncoded();
+        Tache newTache = creeTacheExtractDonneesFormulaire(form);
+        try {
+            projet.creerTacheInitialisationProjet(newTache);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return badRequest();
+        }
+        return ok(Json.toJson(newTache));
     }
 
     public Result creerTacheBas(Long idTacheSelect){

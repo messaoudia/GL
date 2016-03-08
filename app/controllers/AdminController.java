@@ -133,13 +133,13 @@ public class AdminController extends Controller{
         Projet p = Projet.find.byId(id);
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         Error error = new Error();
-        String nom = map.get("projet")[0];
+        String nom = map.get("projet")[0].trim();
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
         } else if (nom.length() > 30) {
             error.nomProjetTropLong= true;
         }
-        String description = map.get("description")[0];
+        String description = map.get("description")[0].trim();
         if(description.length() > 65536) {
             error.descriptionTropLong = true;
         }
@@ -155,8 +155,15 @@ public class AdminController extends Controller{
             //modification des info si besoin
             int priorite = Integer.parseInt(map.get("priorite")[0]);
             //check priorite
-            if(!p.nom.equals(nom)){
+            if(!p.nom.equals(nom) || !p.client.equals(client)){
                 modificationProjet = true;
+                List<Projet> lP = client.listeProjets;
+                for(Projet projet :lP){
+                    if(projet.nom.equals(nom)){
+                        error.projetExist = true;
+                        return badRequest(Json.toJson(error));
+                    }
+                }
                 p.nom = nom;
             }
             if(p.priorite != priorite){
@@ -165,7 +172,6 @@ public class AdminController extends Controller{
             }
             //description
             if(!p.description.equals(description)){
-                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
                 p.description = description;
             }
 
@@ -178,7 +184,6 @@ public class AdminController extends Controller{
             if(!p.client.equals(client)){
                 modificationProjet = true;
                 // on enleve le projet de l'ancien
-                Logger.debug("on est la");
                 Optional<Projet> projet = p.client.listeProjets.stream().filter(projetC -> projetC.id == p.id).findFirst();
                 if (projet.isPresent()) {
                    p.client.listeProjets.remove(projet);
@@ -186,7 +191,9 @@ public class AdminController extends Controller{
                     System.out.println("T'es dans la merde");
                 }
                 p.client.save();
+                client.listeProjets.add(p);
                 p.client = client;
+                p.client.save();
             }
             p.save();
             Utilisateur currentUser = Login.getUtilisateurConnecte();

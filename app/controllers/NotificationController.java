@@ -86,4 +86,8 @@ public class NotificationController extends Controller {
         return ok(Login.getUtilisateurConnecte().nbNotificationsNonLues() + "");
     }
 
+    public Result hasActiverNotification(Long idTache) {
+        return ok(Boolean.valueOf(Login.getUtilisateurConnecte().hasActiverNotification(Tache.find.byId(idTache))).toString());
+    }
+
 }

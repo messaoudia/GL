@@ -13,6 +13,7 @@ GET         /                                               controllers.Dashboar
 # Login page
 GET         /login                                          controllers.Login.index()
 POST        /login                                          controllers.Login.authenticate()
+GET         /getUtilisateur                                 controllers.Login.utilisateurConnecte()
 GET         /logout                                         controllers.Application.logout()
 
 # Tests pages
@@ -136,3 +137,6 @@ POST        /redirectDashBoard                              controllers.AdminCon
 POST        /infoProjet                                     controllers.ProjetController.infoProjet(id : Long)
 
 GET         /nbNotificationsNonLues                         controllers.NotificationController.nbNotificationsNonLues
+POST        /createtache                                    controllers.TacheController.creerTache(value : Long)
+POST        /refreshAdminProjet                             controllers.ProjetController.afficheProjetAdmin(id : Long)
+GET         /hasActiverNotification                         controllers.NotificationController.hasActiverNotification(idTache : Long)

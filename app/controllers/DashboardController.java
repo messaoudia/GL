@@ -150,6 +150,7 @@ public class DashboardController extends Controller{
             tache.update();
 
             if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
+                Logger.debug(tache.toString());
                 modifierAvancement = true;
                 tache.chargeInitiale = newChInitiale;
                 tache.modifierCharge(newChConso, newChRestante);
@@ -203,6 +204,7 @@ public class DashboardController extends Controller{
                 currentUser.createNotificationModifierAvancementTache(tache);
                 currentUser.save();
             }
+            tache.saveAllTask();
             return ok();
         }catch(Exception e){
             e.printStackTrace();

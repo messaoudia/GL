@@ -632,9 +632,9 @@ taches:
     description:        Diagramme d’Objet
     niveau:             0
     critique:           false
-    dateDebut:          2016-01-22
-    dateFinTot:         2016-01-23
-    dateFinTard:        2016-01-24
+    dateDebut:          2016-01-21
+    dateFinTot:         2016-01-22
+    dateFinTard:        2016-01-22
     chargeInitiale:     2
     chargeConsommee:    0
     chargeRestante:       2
@@ -650,12 +650,13 @@ taches:
     description:        Diagramme d’Objet 2
     niveau:             0
     critique:           false
-    dateDebut:          2016-01-22
+    dateDebut:          2016-01-23
     dateFinTot:         2016-01-23
     dateFinTard:        2016-01-24
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeRestante:       1
+    chargeRestante:     1
+    disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :            5

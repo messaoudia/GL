@@ -5,11 +5,13 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.ImmutableMap;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -376,6 +378,40 @@ public class Projet extends EntiteSecurise {
         }
     }
 
+    // TODO TEST ME
+    private void updateDatesProjet2(){
+        if(listTaches.isEmpty())
+            return;
+        int i=0;
+        while(i < listTaches.size()){
+            if(!listTaches.get(i).archive)
+                break;
+            i++;
+        }
+        if(i == listTaches.size())
+            return;
+
+        Date dateDebut = listTaches.get(i).dateDebut;
+        Date dateFinTot = listTaches.get(i).dateFinTot;
+        Date dateFinTard = listTaches.get(i).dateFinTard;
+        for(int j = i; j<listTaches.size(); j++){
+            Tache tache = listTaches.get(i);
+            if(!tache.archive){
+                if(Utils.before(tache.dateDebut, dateDebut))
+                    dateDebut = tache.dateDebut;
+
+                if(Utils.after(tache.dateFinTot, dateFinTot))
+                    dateFinTot = tache.dateFinTot;
+
+                if(Utils.after(tache.dateFinTard, dateFinTard))
+                    dateFinTard = tache.dateFinTard;
+            }
+        }
+        this.dateDebutReel = dateDebut;
+        this.dateFinReelTot = dateFinTot;
+        this.dateFinReelTard = dateFinTard;
+    }
+
     /**
      * Méthode uniquement appelée lorsque le projet n'a aucune tâche
      *
@@ -678,7 +714,9 @@ public class Projet extends EntiteSecurise {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
-        listTaches.remove(tache);
+        if (tache.getAvancementTache() > 0) {
+            throw new IllegalStateException("Suppression de la tache "+tache.nom+" impossible car elle est déja commencée.");
+        }
 
         // Modifications au niveau des liaisons predecesseur/successeurs
         if (tache.hasPredecesseur() && tache.hasSuccesseur()) {
@@ -700,7 +738,6 @@ public class Projet extends EntiteSecurise {
             tache.getSuccesseurs().forEach(t -> t.predecesseur = null);
         }
 
-        /** TODO A VERIFIER **/
         if (tache.hasEnfant()) {
             for (Tache enfant : tache.enfants) {
                 supprimerTache(enfant);
@@ -728,17 +765,13 @@ public class Projet extends EntiteSecurise {
         // Notifications
         removeUtilisateurNotification(tache.responsableTache);
 
-        /** TODO : est-ce qu'on supprime la tache de la liste des notifs pour l'user et inversement?
-         tache.removeUtilisateurNotification(tache.responsableTache);
-         tache.removeUtilisateurNotificationEnfants();
-         tache.removeUtilisateurNotificationParents();
-         */
+        Tache tacheMere = tache.parent;
+        listTaches.remove(tache);
+        tache.projet = null;
 
-        // TODO Mettre a jour les charges des taches filles -> a checker
-        tache.updateChargesTachesMeresEtProjet();
-        updateDatesProjet(tache);
+        updateChargesTachesMeresEtProjet2(tacheMere);
+        updateDatesProjet2();
 
-        // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
         updateAvancementGlobal();
         calculeCheminCritique();
 
@@ -753,6 +786,33 @@ public class Projet extends EntiteSecurise {
             tache.save();
         }
         save();
+    }
+
+    public void updateChargesTachesMeresEtProjet2(Tache mere) throws Exception{
+
+        if(mere == null){
+            updateAvancementGlobal();
+            save();
+            return;
+        }
+
+        if(mere.hasEnfant()){
+
+            Double chargeConsommee = 0D;
+            Double chargeRestante = 0D;
+
+            for(int i=0 ; i< mere.enfants.size(); i++){
+                chargeConsommee += mere.enfants.get(i).chargeConsommee;
+                chargeRestante += mere.enfants.get(i).chargeRestante;
+            }
+
+            mere.setChargeConsommee(chargeConsommee);
+            mere.setChargeRestante(chargeRestante);
+        }
+
+        mere.save();
+        mere.updateChargesTachesMeresEtProjet();
+        
     }
 
     /**
@@ -841,6 +901,8 @@ public class Projet extends EntiteSecurise {
             }
         }
 
+        System.out.println("Tache critique la plus à droite : " + tacheAvecMoinsMarge);
+
         // On remonte jusqu'en haut du chemin + on met la valeur 'true' au champ 'critique' d'une tache
         calculeCheminCritiqueRecursive(tacheAvecMoinsMarge);
 
@@ -848,30 +910,21 @@ public class Projet extends EntiteSecurise {
 
     private void calculeCheminCritiqueRecursive(Tache t) {
         t.critique = true;
-        if (t.hasPredecesseur()) {
+        t.save();
+        if (t.hasPredecesseur())
             calculeCheminCritiqueRecursive(t.predecesseur);
-            if (t.parent != null)
-                calculeCheminCritiqueTacheMere(t.parent);
-        }
-    }
 
-    private void calculeCheminCritiqueTacheMere(Tache t) {
-        t.critique = true;
         if (t.parent != null)
             calculeCheminCritiqueTacheMere(t.parent);
     }
 
-    /**
-     * TODO testme : A CHANGER CAR AJOUT DE DEUX DATES
-     * Vérifier la cohérence des 4 dates (dateDebutTheorique <= dateDebutReel <= dateFinReel <= dateFinTheorique)
-     */
-    /*public boolean verifierCoherenceDesDates() {
-        if ((this.dateDebutTheorique.compareTo(this.dateDebutReel) < 1)
-                && (this.dateDebutReel.compareTo(this.dateFinReel) < 1)
-                && (this.dateFinReel.compareTo(this.dateFinTheorique) < 1))
-            return true;
-        else return false;
-    }*/
+    private void calculeCheminCritiqueTacheMere(Tache t) {
+        t.critique = true;
+        t.save();
+        if (t.parent != null)
+            calculeCheminCritiqueTacheMere(t.parent);
+    }
+
     public void updateAvancementGlobal() {
         Double chargeConsommeeGlobal = 0.0;
         Double chargeRestanteGlobal = 0.0;
@@ -946,11 +999,18 @@ public class Projet extends EntiteSecurise {
         Projet p = find.byId(idProjet);
         p.archive = true;
         p.save();
+        for(Tache tache : p.listTaches()){
+            tache.archive = true;
+            tache.save();
+        }
+
+        /*
         System.out.println("P" + p.nom);
         for (int i = 0; i < p.client.listeProjets.size(); i++) {
             System.out.println(p.client.listeProjets.get(i).nom);
             System.out.println(p.client.listeProjets.get(i).archive);
         }
+        */
         return p;
     }
 
@@ -987,36 +1047,12 @@ public class Projet extends EntiteSecurise {
     }
 
     public List<Tache> listTaches() {
-        listTaches = Tache.find.where().eq("projet", this).findList();
-        /*
-        // Trier en fonction de idTache
-        Collections.sort(listTaches, new Comparator<Tache>(){
-            @Override
-            public int compare(Tache t1, Tache t2) {
-                String[] idT1Parse = t1.idTache.split("\\.");
-                String[] idT2Parse = t2.idTache.split("\\.");
-                Integer[] idT1Integer = new Integer[idT1Parse.length];
-                Integer[] idT2Integer = new Integer[idT2Parse.length];
-                for(int i=0; i<idT1Parse.length; i++){
-                    idT1Integer[i] = Integer.parseInt(idT1Parse[i]);
-                }
-                for(int i=0; i<idT2Parse.length; i++){
-                    idT2Integer[i] = Integer.parseInt(idT2Parse[i]);
-                }
-                for(int i=0; i<idT1Integer.length || i<idT2Integer.length; i++){
-                    if(i >= idT1Integer.length)
-                        return -1;
-                    if(i >= idT2Integer.length)
-                        return 1;
-                    if(idT1Integer[i] < idT2Integer[i])
-                        return -1;
-                    if(idT1Integer[i] > idT2Integer[i])
-                        return 1;
-                }
-                return 0;
-            }
-        });
-         */
+        listTaches = Tache.find.where().eq("projet", this).eq("archive", false).findList();
+        try{
+            calculeCheminCritique();
+        } catch(Exception e){
+            System.err.println("Erreur pour calcul chemin critique : " + e.getMessage());
+        }
         return listTaches;
     }
 

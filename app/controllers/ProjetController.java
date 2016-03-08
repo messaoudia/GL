@@ -11,6 +11,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.afficheProjet;
+import views.html.afficheProjetAdmin;
 import views.html.creerProjet;
 import views.html.projet;
 
@@ -42,7 +43,7 @@ public class ProjetController extends Controller {
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         boolean dateHere = false;
         Error error = new Error();
-        String nom = map.get("nom")[0];
+        String nom = map.get("nom")[0].trim();
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
         } else if (nom.length() > 30) {
@@ -51,7 +52,7 @@ public class ProjetController extends Controller {
         Utilisateur responsableProjet = Utilisateur.find.byId(Long.valueOf(map.get("responsableProjet")[0]));
         Client client = Client.find.byId(Long.valueOf(map.get("client")[0]));
 
-        String description = map.get("description")[0];
+        String description = map.get("description")[0].trim();
 
         int priorite = Integer.parseInt(map.get("priorite")[0]);
         UniteProjetEnum unite;
@@ -61,8 +62,8 @@ public class ProjetController extends Controller {
             unite = UniteProjetEnum.SEMAINE;
         }
 
-        String dateDeb = map.get("dateDebutTheorique")[0];
-        String dateFin = map.get("dateFinTheorique")[0];
+        String dateDeb = map.get("dateDebutTheorique")[0].trim();
+        String dateFin = map.get("dateFinTheorique")[0].trim();
         //Date
         /*if (dateDeb.isEmpty()) {
             error.dateThDebutProjetVide = true;
@@ -75,14 +76,22 @@ public class ProjetController extends Controller {
             error.descriptionTropLong = true;
         }
 
-        if(dateDeb.isEmpty() && dateDeb.isEmpty()) {
+        if(dateDeb.isEmpty() && dateFin.isEmpty()) {
             dateHere = false;
-        }else if(!dateDeb.isEmpty() && !dateDeb.isEmpty()){
+        }else if(!dateDeb.isEmpty() && !dateFin.isEmpty()){
             dateHere = true;
         }else{
             error.saisir2Date = true;
         }
-
+        List<Projet> lP = Projet.find.all();
+        for(Projet p : lP){
+            if(p.nom.equals(nom)){
+                if(p.client.equals(client)){
+                    error.projetExist = true;
+                    break;
+                }
+            }
+        }
         if (error.hasErrorProjet()) {
             return badRequest(Json.toJson(error));
         } else {
@@ -96,6 +105,7 @@ public class ProjetController extends Controller {
                     dateFinTheorique = formatter.parse(dateFin);
                     //if (dateFinTheorique.after(dateDebutTheorique) || dateFinTheorique.equals(dateDebutTheorique)) {
                     if (Utils.after(dateFinTheorique, dateDebutTheorique) || Utils.equals(dateFinTheorique, dateDebutTheorique)) {
+                        // verif if projet exist
                         Projet p = new Projet(nom, description, responsableProjet, dateDebutTheorique, dateFinTheorique, unite, client, priorite);
                         p.save();
                         client.listeProjets.add(p);
@@ -152,17 +162,16 @@ public class ProjetController extends Controller {
         //check projet  -- nom + description
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         Error error = new Error();
-        String nom = map.get("projet")[0];
+        String nom = map.get("projet")[0].trim();
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
         } else if (nom.length() > 30) {
             error.nomProjetTropLong = true;
         }
-        String description = map.get("description")[0];
+        String description = map.get("description")[0].trim();
         if (description.length() > 65536) {
             error.descriptionTropLong = true;
         }
-        Logger.debug(p.responsableProjet.nom + p.responsableProjet.prenom);
         if (error.hasErrorProjet()) {
             return badRequest(Json.toJson(error));
         } else {
@@ -171,6 +180,15 @@ public class ProjetController extends Controller {
             //check priorite
             boolean modification = false;
             if (!p.nom.equals(nom)) {
+
+                List<Projet> lP = p.client.listeProjets;
+                Logger.debug(p.client.listeProjets.toString());
+                for(Projet projet : lP){
+                    if(projet.nom.equals(nom)){
+                        error.projetExist = true;
+                        return badRequest(Json.toJson(error));
+                    }
+                }
                 p.nom = nom;
                 modification = true;
             }
@@ -180,7 +198,6 @@ public class ProjetController extends Controller {
             }
             //description
             if (!p.description.equals(description)) {
-                //TODO : ajouter nouveau droit au respo projet + enlever droit à l'ancien
                 p.description = description;
             }
             p.save();
@@ -347,6 +364,10 @@ public class ProjetController extends Controller {
     public Result afficheProjet(Long idProjet) {
         Logger.debug(Login.getUtilisateurConnecte().toString());
         return ok(afficheProjet.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte()));
+    }
+
+    public Result afficheProjetAdmin(Long idProjet) {
+        return ok(afficheProjetAdmin.render(Projet.find.byId(idProjet), Login.getUtilisateurConnecte(), Client.getAllNonArchives(), Utilisateur.getAllNonArchives()));
     }
 
     public Result infoProjet(Long idProjet) {
