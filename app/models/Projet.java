@@ -720,21 +720,26 @@ public class Projet extends EntiteSecurise {
         // Modifications au niveau des liaisons predecesseur/successeurs
         if (tache.hasPredecesseur() && tache.hasSuccesseur()) {
             Tache tAvant = tache.predecesseur;
-            tAvant.successeurs.remove(tache);
 
             List<Tache> taches = tache.getSuccesseurs();
-            taches.forEach(t -> {
-                t.predecesseur = null;
-                tAvant.associerSuccesseur(t);
-                t.save();
-            });
-            tAvant.save();
+            for (int i = 0; i <taches.size() ; i++) {
+                tAvant.successeurs.remove(tache);
+                taches.get(i).predecesseur = null;
+                tAvant.associerSuccesseur(taches.get(i));
+                taches.get(i).predecesseur.update();
+                taches.get(i).update();
+            }
+
+            //tAvant.save();
         } else if (tache.hasPredecesseur()) {
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
             tAvant.save();
         } else if (tache.hasSuccesseur()) {
-            tache.getSuccesseurs().forEach(t -> t.predecesseur = null);
+            List<Tache> successeurs = tache.getSuccesseurs();
+            for (int i = 0; i < successeurs.size() ; i++) {
+                successeurs.get(i).predecesseur = null;
+            }
         }
 
         if (tache.hasEnfant()) {
@@ -775,11 +780,21 @@ public class Projet extends EntiteSecurise {
         calculeCheminCritique();
 
         // Suppression ou archivage
-        if (tache.chargeConsommee == 0.0) {
+        if (tache.getAvancementTache() == 0.0) {
             tache.removeUtilisateurNotification(tache.responsableTache);
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
-            Tache.find.deleteById(tache.id);
+
+            Tache tAvant = tache.predecesseur;
+            tAvant.successeurs.remove(tache);
+
+            //FIX BUG PK VIOLATION, DO NOT TOUCH
+            tache.projet=null;
+            Utilisateur u = tache.responsableTache;
+            u.enleverResponsabiliteTache(tache);
+            tache.predecesseur = null;
+            tache.successeurs.clear();
+            tache.delete();
         } else {
             tache.archive = true;
             tache.save();

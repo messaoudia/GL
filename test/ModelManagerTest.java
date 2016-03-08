@@ -1079,7 +1079,9 @@ public class ModelManagerTest {
         assertEquals(Projet.find.byId(projet.id).listTaches().size(), 2);
         assertTrue(!Projet.find.byId(projet.id).listTaches().contains(Tache.find.byId(tacheB.id)));
         assertEquals(Tache.find.byId(tacheC.id).predecesseur, Tache.find.byId(tacheA.id));
-        assertEquals(Tache.find.byId(tacheA.id).getSuccesseurs().get(0), Tache.find.byId(tacheC.id));
+        Tache a = Tache.find.byId(tacheA.id);
+        Tache c = Tache.find.byId(tacheC.id);
+        assertEquals(a.getSuccesseurs().get(0), c);
     }
 
     @Test

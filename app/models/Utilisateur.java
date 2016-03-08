@@ -900,6 +900,16 @@ public class Utilisateur extends Personne {
         u.save();
     }
 
+
+    public void enleverResponsabiliteTache(Tache t){
+        if(!listTaches().contains(t)){
+            throw new IllegalArgumentException("L'utilisateur "+nom+" n'est pas responsable de la tache "+t.nom);
+        }
+        listTaches.remove(t);
+        t.responsableTache = null;
+        t.update();
+    }
+
     public List<Utilisateur> utilisateursMeSuivant() {
         return Utilisateur.find
                 .all()

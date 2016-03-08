@@ -262,7 +262,12 @@ public class Tache extends EntiteSecurise {
         } else {
             sb.append(projet.nom);
         }
-        sb.append("\nresponsableTache : ").append(responsableTache.nom).append("\n");
+        sb.append("\nresponsableTache : ");
+        if(responsableTache == null){
+            sb.append(" AUCUN ");
+        }else{
+            sb.append(responsableTache.nom).append("\n");
+        }
         return sb.toString();
     }
 
@@ -461,7 +466,7 @@ public class Tache extends EntiteSecurise {
                     "une tâche présente dans sa hiérarchie directe.");
 
         successeur.associerPredecesseur(this);
-        successeurs.add(successeur);
+        //successeurs.add(successeur);
         //save();
     }
 
