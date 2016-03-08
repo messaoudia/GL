@@ -360,43 +360,40 @@ var creerTache = function (btn) {
 
 var remplirFormulaireCreationTacheFirst = function (btn) {
     //FIXME Dates limites
-            var value = btn.attr("value");
-            jsRoutes.controllers.DashboardController.getAllInterlocuteur(value).ajax({
-                success: function (interlocuteursClient) {
-                    var listCreer = "";
-                    $(interlocuteursClient).each(function (i, interlocuteur) {
-                        listCreer += '<li><div class="checkbox checkbox-success checkbox-dropdown">';
-                        listCreer += '<input id="checkbox-interlocuteurC-' + i + '" type="checkbox" value="' + interlocuteur.id + '">';
-                        listCreer += '<label for="checkbox-interlocuteurC-' + i + '">';
-                        listCreer += interlocuteur.nom + ' ' + interlocuteur.prenom + '</label></div></li>';
-                    });
-
-                    $('#interlocuteurs-modifierC').html(listCreer);
-
-                },
-                error: function (errorMessage) {
-                    alert(errorMessage);
-                }
+    var value = btn.attr("value");
+    jsRoutes.controllers.DashboardController.getAllInterlocuteur(value).ajax({
+        success: function (interlocuteursClient) {
+            var listCreer = "";
+            $(interlocuteursClient).each(function (i, interlocuteur) {
+                listCreer += '<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                listCreer += '<input id="checkbox-interlocuteurC-' + i + '" type="checkbox" value="' + interlocuteur.id + '">';
+                listCreer += '<label for="checkbox-interlocuteurC-' + i + '">';
+                listCreer += interlocuteur.nom + ' ' + interlocuteur.prenom + '</label></div></li>';
             });
 
-            //Responsable de tache
-            jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
-                success: function (utilisateurs) {
-                    var list = "";
-                    $(utilisateurs).each(function (index, u) {
-                        list += '<option value="' + u.id + '">' + u.nom + ' ' + u.prenom + '</option>';
-                    });
+            $('#interlocuteurs-modifierC').html(listCreer);
 
-                    $('#responsableTacheModifierC').html(list);
-                },
-                error: function (errorMessage) {
-                    alert(errorMessage);
-                }
+        },
+        error: function (errorMessage) {
+            alert(errorMessage);
+        }
+    });
+
+    //Responsable de tache
+    jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
+        success: function (utilisateurs) {
+            var list = "";
+            $(utilisateurs).each(function (index, u) {
+                list += '<option value="' + u.id + '">' + u.nom + ' ' + u.prenom + '</option>';
             });
+
+            $('#responsableTacheModifierC').html(list);
+        },
+        error: function (errorMessage) {
+            alert(errorMessage);
+        }
+    });
 }
-
-
-
 
 
 var creerTacheHaut = function (btn) {
@@ -1263,7 +1260,7 @@ function notifPopupTache(fa, idTache) {
                 $(fa).removeClass('fa-bell');
             }
 
-            if (booleanString == 'true') {
+            if (booleanString == 'false') {
                 $(fa).addClass('fa-bell');
             }
             else {
@@ -2645,11 +2642,33 @@ var afficherModalTache = function (t) {
                     // onclick=""
                     //$("#notifTache").attr("onclick")
 
+                    jsRoutes.controllers.NotificationController.hasActiverNotification(idTache).ajax({
+                        success: function (booleanString) {
+                            if ($("#notifTache").hasClass('fa-bell-slash')) {
+                                $("#notifTache").removeClass('fa-bell-slash');
+                            } else {
+                                $("#notifTache").removeClass('fa-bell');
+                            }
+
+                            if (booleanString == 'true') {
+                                $("#notifTache").addClass('fa-bell');
+                            }
+                            else {
+                                $("#notifTache").addClass('fa-bell-slash');
+                            }
+                        },
+                        error: function (errorMessage) {
+                            alert(errorMessage);
+                        }
+                    });
+
                     $("#notifTache").attr("onclick", "notifPopupTache(this" + "," + idTache + ")" + ";activerOuDesactiverNotification(" + idTache + "," + utilisateur.id + ")");
                     //activerOuDesactiverNotification(idTache,utilisateur.id);
                 }
             });
 
+            $('#modalModifierSupprimerTache').attr("onclick","afficherModalSupprimerTache("+idTache+")");
+            $('#modalConsulterSupprimerTache').attr("onclick","afficherModalSupprimerTache("+idTache+")");
 
         },
         //Case we have a problem
@@ -3475,6 +3494,13 @@ $(document).ajaxComplete(function () {
     });
 
     $("#errorCreerProjet > button").click(function () {
+        $("#errorProjet").hide()
+    });
+
+    $("#errorModifierProjet > button").click(function () {
+        $("#errorProjet").hide()
+    });
+    $("#errorModifierClient > button").click(function () {
         $("#errorProjet").hide()
     });
 
