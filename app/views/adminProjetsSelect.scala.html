@@ -386,16 +386,16 @@
                                             <div class="row row-options-admin-projet">
                                                 <div class="col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-taches-terminees" type="checkbox">
-                                                        <label for="checkbox-taches-terminees">
+                                                        <input id="checkbox-taches-terminees@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                                                        <label for="checkbox-taches-terminees@projet.id">
                                                         @Messages("completedTasks")
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-taches-indisponibles" type="checkbox">
-                                                        <label for="checkbox-taches-indisponibles">
+                                                        <input id="checkbox-taches-indisponibles@projet.id" type="checkbox" onclick='updateTaskNestableCheckbox("@projet.id")'>
+                                                        <label for="checkbox-taches-indisponibles@projet.id">
                                                         @Messages("unavailableTasks")
                                                         </label>
                                                     </div>
@@ -406,7 +406,7 @@
                                                     <ol class="dd-list">
                                                             <!-- En-tete -->
                                                         @for( tacheMere <- projet.listTachesAAfficher()) {
-                                                            <li class="dd-item dd-item-min-width" data-id="@tacheMere.id">
+                                                            <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                     <div class="row row-nestable" >
                                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
@@ -521,7 +521,7 @@
                                                                 @if(tacheMere.hasEnfant()) {
                                                                     <ol class="dd-list">
                                                                     @for( sousTache1 <- tacheMere.enfants()) {
-                                                                        <li class="dd-item dd-item-min-width" data-id="@sousTache1.id">
+                                                                        <li class="dd-item dd-item-min-width @sousTache1.checkBox()" data-id="@sousTache1.id">
                                                                             <div class="dd-handle" style="padding:0px ;">
                                                                                 <div class="row row-nestable">
                                                                                     <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
@@ -638,7 +638,7 @@
                                                                             @if(sousTache1.hasEnfant()) {
                                                                                 <ol class="dd-list">
                                                                                 @for( sousTache2 <- sousTache1.enfants()) {
-                                                                                    <li class="dd-item dd-item-min-width" data-id="@sousTache2.id">
+                                                                                    <li class="dd-item dd-item-min-width @sousTache2.checkBox()" data-id="@sousTache2.id">
                                                                                         <div class="dd-handle" style="padding:0px ;">
                                                                                             <div class="row row-nestable" >
                                                                                                 <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
@@ -755,7 +755,7 @@
                                                                                         @if(sousTache2.hasEnfant()) {
                                                                                             <ol class="dd-list">
                                                                                             @for( sousTache3 <- sousTache2.enfants()) {
-                                                                                                <li class="dd-item dd-item-min-width" data-id="@sousTache3.id">
+                                                                                                <li class="dd-item dd-item-min-width @sousTache3.checkBox()" data-id="@sousTache3.id">
                                                                                                     <div class="dd-handle" style="padding:0px ;">
                                                                                                         <div class="row row-nestable">
                                                                                                             <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">
@@ -887,6 +887,7 @@
                                                             </li>
                                                         }
                                                     </ol>
+                                                    <script>updateTaskNestableCheckbox();</script>
                                                 </div>
                                             </div>
                                             <div id="mode-non-draft" class="table-responsive" style="display:none ;">

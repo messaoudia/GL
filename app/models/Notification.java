@@ -89,11 +89,10 @@ public class Notification extends Model {
         for (Map.Entry<Utilisateur, Notification> entry : mapNotifications.entrySet()) {
             Utilisateur user = entry.getKey();
             Notification notification = entry.getValue();
-            System.out.println("{" + notification.contentNotification + "}");
             notification.save();
             user.addNotification(notification);
             user.update();
-            //sendEmail(user, notification);
+            // TODO sendEmail(user, notification);
         }
     }
 
@@ -238,9 +237,12 @@ public class Notification extends Model {
         if (mapNotifications.containsKey(utilisateur)) {
             Notification notification = mapNotifications.get(utilisateur);
             notification.contentNotification += message;
+            notification.save();
             mapNotifications.put(utilisateur, notification);
         } else {
-            mapNotifications.put(utilisateur, new Notification(objet, titleMessage + message, Calendar.getInstance().getTime(), false, false, utilisateur));
+            Notification notification = new Notification(objet, titleMessage + message, Calendar.getInstance().getTime(), false, false, utilisateur);
+            notification.save();
+            mapNotifications.put(utilisateur, notification);
         }
     }
 
@@ -270,9 +272,12 @@ public class Notification extends Model {
         if (mapNotifications.containsKey(utilisateur)) {
             Notification notification = mapNotifications.get(utilisateur);
             notification.contentNotification += message;
+            notification.save();
             mapNotifications.put(utilisateur, notification);
         } else {
-            mapNotifications.put(utilisateur, new Notification(objet, titleMessage + message, Calendar.getInstance().getTime(), false, false, utilisateur));
+            Notification notification =  new Notification(objet, titleMessage + message, Calendar.getInstance().getTime(), false, false, utilisateur);
+            notification.save();
+            mapNotifications.put(utilisateur,notification);
         }
     }
 
@@ -309,17 +314,16 @@ public class Notification extends Model {
         String message = "";
         // Envoie notification a l'utilisateur
         if (utilisateur.equals(projet.responsableProjet) || utilisateur.recevoirNotifPourMesActions) {
-            System.out.println("Je suis dans le 1er if : langue = " + utilisateur.langue);
             if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-                System.out.println("Je suis FR");
                 title = titleFR;
                 message = messageMemeUserFR + messageFR;
             } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
-                System.out.println("Je suis EN");
                 title = titleEN;
                 message = messageMemeUserEN + messageEN;
             }
-            mapNotifications.put(utilisateur, new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+            Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
+            notification.save();
+            mapNotifications.put(utilisateur, notification);
         }
         // Envoie notification au responsable de projet si ce n'est pas l'auteur de la création
         if (!utilisateur.equals(projet.responsableProjet)) {
@@ -331,7 +335,9 @@ public class Notification extends Model {
                 message = messageAutreUserEN + messageEN;
             }
 
-            mapNotifications.put(projet.responsableProjet, new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet));
+            Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet);
+            notification.save();
+            mapNotifications.put(projet.responsableProjet, notification);
         }
         sendNotifications(mapNotifications);
     }
@@ -364,7 +370,9 @@ public class Notification extends Model {
                 title = titleEN;
                 message = messageMemeUserEN;
             }
-            mapNotifications.put(utilisateur, new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+            Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
+            notification.save();
+            mapNotifications.put(utilisateur, notification);
         }
         // Envoie notification au responsable de projet si ce n'est pas l'auteur de la création
         if (!utilisateur.equals(projet.responsableProjet)) {
@@ -376,7 +384,9 @@ public class Notification extends Model {
                 message = messageAutreUserEN;
             }
 
-            mapNotifications.put(projet.responsableProjet, new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet));
+            Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet);
+            notification.save();
+            mapNotifications.put(projet.responsableProjet, notification);
         }
         sendNotifications(mapNotifications);
     }
@@ -859,27 +869,32 @@ public class Notification extends Model {
                                                String titleENManyChangements, HashMap<Utilisateur, Notification> mapNotifications) {
         String title = "";
         String message = "";
-        System.out.println("Pour l'utilisateur : " + utilisateur.prenom);
-        System.out.println("==> = " + utilisateur.langue);
-        if (utilisateur.langue == Utilisateur.LANGUE_FR) {
+        if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
             title = titleFR;
             message = messageFR;
-        } else if (utilisateur.langue == Utilisateur.LANGUE_EN) {
+        } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+            System.out.println("Je suis dans LANGUE_EN: " + titleEN + " - " + messageEN);
             title = titleEN;
             message = messageEN;
         }
+        System.out.println("Langue user = " + utilisateur.langue);
+        System.out.println("Dans updateNotification : title = [" + title + "] et message = [" + message + "]");
         if (mapNotifications.containsKey(utilisateur)) {
             Notification notification = mapNotifications.get(utilisateur);
-            if (utilisateur.langue == Utilisateur.LANGUE_FR) {
+            if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
                 title = titleFRManyChangements;
-            } else if (utilisateur.langue == Utilisateur.LANGUE_EN) {
+            } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
                 title = titleENManyChangements;
             }
             notification.title = title;
             notification.contentNotification += "<p></p>" + message;
+            notification.save();
             mapNotifications.put(utilisateur, notification);
         } else {
-            mapNotifications.put(utilisateur, new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur));
+            Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
+            notification.save();
+            mapNotifications.put(utilisateur, notification);
+
         }
     }
 }

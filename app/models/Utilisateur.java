@@ -189,7 +189,6 @@ public class Utilisateur extends Personne {
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
-            System.out.println("obj == null !!");
             return false;
         }
         if (obj == this) {
@@ -936,18 +935,9 @@ public class Utilisateur extends Personne {
         this.listNotificationsGroupees = getListNotificationsGroupees();
 
         System.out.println("Utilisateur/sendNotifications : liste des notifs à envoyer : " + listNotificationsGroupees);
-        if(listNotificationsGroupees.size() == 0){
-            System.out.println("Pas de notif !");
-        } else {
-            System.out.println(listNotificationsGroupees.size());
-            for(NotificationGroupee notif: listNotificationsGroupees){
-                System.out.println("notif : " + notif.idProjetOuTache);
-            }
-        }
 
-        System.out.println("Fin affichage");
-        HashMap<Utilisateur, Notification> mapNotifications = new HashMap<Utilisateur, Notification>();
-        convertMapNotificationsGroupees();
+        Map<Utilisateur, Notification> mapNotifications = convertMapNotificationsGroupees();
+        System.out.println("Apres convertMapNotif = " + mapNotifications);
         Notification.sendNotifications(mapNotifications);
         this.listNotificationsGroupees.clear();
         this.save();
@@ -958,6 +948,7 @@ public class Utilisateur extends Personne {
 
         // On parcours la liste des taches/projets qui doivent engendrer une notification
         for (NotificationGroupee notif : listNotificationsGroupees) {
+            System.out.println("Notif n°" + notif.idProjetOuTache);
             Long id = notif.idProjetOuTache;
             TypeNotification typeNotification = notif.typeNotification;
             // Projet
@@ -988,6 +979,7 @@ public class Utilisateur extends Personne {
                 }
             }
         }
+        System.out.println("Avant de retourner mapNotif = " + mapNotifications);
         return mapNotifications;
     }
 
@@ -1061,9 +1053,6 @@ public class Utilisateur extends Personne {
             notif.save();
             listNotificationsGroupees.add(notif);
             save();
-            System.out.println("===========");
-            System.out.println("Notif = " + notif);
-            System.out.println("==> enregistré? = " + getListNotificationsGroupees());
         }
     }
 
