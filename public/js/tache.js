@@ -28,6 +28,4 @@ var supprimerTache = function(){
             });
         }
     });
-
-
 }

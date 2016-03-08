@@ -182,24 +182,21 @@ var clientRow;
 var $tmpTrAdminUser;
 
 
-function updateTaskNestableCheckbox(id)
-{
+function updateTaskNestableCheckbox(id) {
     console.log("updateTaskNestableCheckbox");
-    var idCheckboxT = "#checkbox-taches-terminees"+id;
+    var idCheckboxT = "#checkbox-taches-terminees" + id;
     var classTacheT = ".tache-terminee";
     var classTacheTI = ".tache-terminee-indisponible";
-    var idCheckboxI = "#checkbox-taches-indisponibles"+id;
+    var idCheckboxI = "#checkbox-taches-indisponibles" + id;
     var classTacheI = ".tache-indisponible";
 
-    if($(idCheckboxT).is(":checked") && $(idCheckboxI).is(":checked"))
-    {
+    if ($(idCheckboxT).is(":checked") && $(idCheckboxI).is(":checked")) {
         console.log("les 2 sont coche");
         $(classTacheTI).show();
         $(classTacheT).show();
         $(classTacheI).show();
     }
-    else
-    {
+    else {
         $(classTacheTI).hide();
         if ($(idCheckboxT).is(":checked")) {
             $(classTacheT).show();
@@ -341,43 +338,40 @@ var creerTache = function (btn) {
 
 var remplirFormulaireCreationTacheFirst = function (btn) {
     //FIXME Dates limites
-            var value = btn.attr("value");
-            jsRoutes.controllers.DashboardController.getAllInterlocuteur(value).ajax({
-                success: function (interlocuteursClient) {
-                    var listCreer = "";
-                    $(interlocuteursClient).each(function (i, interlocuteur) {
-                        listCreer += '<li><div class="checkbox checkbox-success checkbox-dropdown">';
-                        listCreer += '<input id="checkbox-interlocuteurC-' + i + '" type="checkbox" value="' + interlocuteur.id + '">';
-                        listCreer += '<label for="checkbox-interlocuteurC-' + i + '">';
-                        listCreer += interlocuteur.nom + ' ' + interlocuteur.prenom + '</label></div></li>';
-                    });
-
-                    $('#interlocuteurs-modifierC').html(listCreer);
-
-                },
-                error: function (errorMessage) {
-                    alert(errorMessage);
-                }
+    var value = btn.attr("value");
+    jsRoutes.controllers.DashboardController.getAllInterlocuteur(value).ajax({
+        success: function (interlocuteursClient) {
+            var listCreer = "";
+            $(interlocuteursClient).each(function (i, interlocuteur) {
+                listCreer += '<li><div class="checkbox checkbox-success checkbox-dropdown">';
+                listCreer += '<input id="checkbox-interlocuteurC-' + i + '" type="checkbox" value="' + interlocuteur.id + '">';
+                listCreer += '<label for="checkbox-interlocuteurC-' + i + '">';
+                listCreer += interlocuteur.nom + ' ' + interlocuteur.prenom + '</label></div></li>';
             });
 
-            //Responsable de tache
-            jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
-                success: function (utilisateurs) {
-                    var list = "";
-                    $(utilisateurs).each(function (index, u) {
-                        list += '<option value="' + u.id + '">' + u.nom + ' ' + u.prenom + '</option>';
-                    });
+            $('#interlocuteurs-modifierC').html(listCreer);
 
-                    $('#responsableTacheModifierC').html(list);
-                },
-                error: function (errorMessage) {
-                    alert(errorMessage);
-                }
+        },
+        error: function (errorMessage) {
+            alert(errorMessage);
+        }
+    });
+
+    //Responsable de tache
+    jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
+        success: function (utilisateurs) {
+            var list = "";
+            $(utilisateurs).each(function (index, u) {
+                list += '<option value="' + u.id + '">' + u.nom + ' ' + u.prenom + '</option>';
             });
+
+            $('#responsableTacheModifierC').html(list);
+        },
+        error: function (errorMessage) {
+            alert(errorMessage);
+        }
+    });
 }
-
-
-
 
 
 var creerTacheHaut = function (btn) {
@@ -1234,17 +1228,27 @@ var afficherAdminProjets = function () {
     });
 }
 
-function notifPopupTache(fa) {
+function notifPopupTache(fa, idTache) {
     //TODO traitement des notifs
-    if ($(fa).hasClass('fa-bell-slash')) {
-        $(fa).removeClass('fa-bell-slash');
-        $(fa).addClass('fa-bell');
-    }
-    else {
-        $(fa).addClass('fa-bell-slash');
-        $(fa).removeClass('fa-bell');
-    }
+    jsRoutes.controllers.NotificationController.hasActiverNotification(idTache).ajax({
+        success: function (booleanString) {
+            if ($(fa).hasClass('fa-bell-slash')) {
+                $(fa).removeClass('fa-bell-slash');
+            } else {
+                $(fa).removeClass('fa-bell');
+            }
 
+            if (booleanString == 'false') {
+                $(fa).addClass('fa-bell');
+            }
+            else {
+                $(fa).addClass('fa-bell-slash');
+            }
+        },
+        error: function (errorMessage) {
+            alert(errorMessage);
+        }
+    });
 }
 
 function listContains(list, obj) {
@@ -1371,7 +1375,7 @@ $(document).on("shown.bs.modal", "#modal-add-projet-admin", function () {
             var responsablelist = $('#responsableProjet');
             $(listResponsable).each(function (index, user) {
                 var list = "";
-                list += ('<option value=' + user.id + '>' + user.prenom + ' ' + user.nom +' ('+user.email+') </option>');
+                list += ('<option value=' + user.id + '>' + user.prenom + ' ' + user.nom + ' (' + user.email + ') </option>');
                 responsablelist.append(list);
             });
         }
@@ -1642,7 +1646,7 @@ function projetArchives() {
 }
 
 $(document).on("click", "#exporter-client", function (event) {
-    window.open(window.location+"getClientsAsCSV");
+    window.open(window.location + "getClientsAsCSV");
 });
 
 
@@ -2047,7 +2051,7 @@ var modifierClient = function (btn) {
             $("#errorModifierClientP").empty();
             $("#errorModifierClient").hide();
 
-            $("#successModifierClientP").html(messages("client") +' '+ data.nom +' '+ messages("modified"));
+            $("#successModifierClientP").html(messages("client") + ' ' + data.nom + ' ' + messages("modified"));
             $("#successModifierClient").show();
             setTimeout(function () {
                 $("#successModifierClient").hide();
@@ -2128,7 +2132,7 @@ var creerClient = function (btn) {
             $("#errorCreerClientP").empty();
             $("#errorCreerClient").hide();
 
-            $("#successCreerClientP").html(messages("client") +' '+ data.nom +' '+ messages("created"));
+            $("#successCreerClientP").html(messages("client") + ' ' + data.nom + ' ' + messages("created"));
             $("#successCreerClient").show();
             setTimeout(function () {
                 $("#successCreerClient").hide();
@@ -2536,7 +2540,7 @@ var afficherModalTache = function (t) {
             });
             console.log(mailToSTRING);
             //$("#interlocuteurs-consulter").html("<a href=\"" + mailToSTRING + "\"></a>");
-            $("#mail-to-interlocuteur").attr('href',mailToSTRING);
+            $("#mail-to-interlocuteur").attr('href', mailToSTRING);
 
             $('#nomProjet-consulter-tdb').html(tache.projet.nom);
             $('#nomClient-consulter-tdb').html(tache.projet.client.nom);
@@ -2587,12 +2591,12 @@ var afficherModalTache = function (t) {
             //Activation/désactivation des inputs
             jsRoutes.controllers.Login.utilisateurConnecte().ajax({
                 success: function (utilisateur) {
-                    if(utilisateur.id != tache.projet.responsableProjet.id){
+                    if (utilisateur.id != tache.projet.responsableProjet.id) {
                         changeDisablePropretyFormulaireModifierTache(true);
 
                         $('#btn-indisponibleTache').hide();
                         $('#btn-indisponibleTache-modifier').hide();
-                    }else{
+                    } else {
                         changeDisablePropretyFormulaireModifierTache(false);
 
                         $('#btn-indisponibleTache').show();
@@ -2601,11 +2605,48 @@ var afficherModalTache = function (t) {
 
                     if (tache.disponible && !tache.hasEnfant) {
                         changeDisablePropertyChargesFormulaireTache(false);
-                    }else{
+                    } else {
                         changeDisablePropertyChargesFormulaireTache(true);
                     }
                 }
             });
+
+            //Activation / desactivation de notification pour la tache courante dans la modal view
+            jsRoutes.controllers.Login.utilisateurConnecte().ajax({
+                success: function (utilisateur) {
+                    //console.log($("#notifTache").attr("onclick"));
+                    //console.log($("#notifTache").attr("onclick"));
+
+                    // onclick=""
+                    //$("#notifTache").attr("onclick")
+
+                    jsRoutes.controllers.NotificationController.hasActiverNotification(idTache).ajax({
+                        success: function (booleanString) {
+                            if ($("#notifTache").hasClass('fa-bell-slash')) {
+                                $("#notifTache").removeClass('fa-bell-slash');
+                            } else {
+                                $("#notifTache").removeClass('fa-bell');
+                            }
+
+                            if (booleanString == 'true') {
+                                $("#notifTache").addClass('fa-bell');
+                            }
+                            else {
+                                $("#notifTache").addClass('fa-bell-slash');
+                            }
+                        },
+                        error: function (errorMessage) {
+                            alert(errorMessage);
+                        }
+                    });
+
+                    $("#notifTache").attr("onclick", "notifPopupTache(this" + "," + idTache + ")" + ";activerOuDesactiverNotification(" + idTache + "," + utilisateur.id + ")");
+                    //activerOuDesactiverNotification(idTache,utilisateur.id);
+                }
+            });
+
+            $('#modalModifierSupprimerTache').attr("onclick","afficherModalSupprimerTache("+idTache+")");
+            $('#modalConsulterSupprimerTache').attr("onclick","afficherModalSupprimerTache("+idTache+")");
 
         },
         //Case we have a problem
@@ -2616,13 +2657,13 @@ var afficherModalTache = function (t) {
 
 }
 
-var changeDisablePropertyChargesFormulaireTache = function(boolean){
+var changeDisablePropertyChargesFormulaireTache = function (boolean) {
     $('#formModifierChargeInitiale').prop('disabled', boolean);
     $('#formModifierChargeRestante').prop('disabled', boolean);
     $('#formModifierChargeConsommee').prop('disabled', boolean);
 }
 
-var changeDisablePropretyFormulaireModifierTache = function(boolean){
+var changeDisablePropretyFormulaireModifierTache = function (boolean) {
     $("#formModifierNomTache-tdb").prop('disabled', boolean);
     $("#formModifierDescriptionTache-tdb").prop('disabled', boolean);
     $("#form-tache-predecesseur").prop('disabled', boolean);
@@ -2631,7 +2672,7 @@ var changeDisablePropretyFormulaireModifierTache = function(boolean){
     $("#DD-modifier").prop('disabled', boolean);
     $("#DFTO-modifier").prop('disabled', boolean);
     $("#DFTA-modifier").prop('disabled', boolean);
-    $('#interlocuteurs-modifier input').each(function(){
+    $('#interlocuteurs-modifier input').each(function () {
         $(this).prop('disabled', boolean);
     });
 }
@@ -2920,13 +2961,13 @@ var modifierProjet = function (div) {
     jsRoutes.controllers.ProjetController.modifierProjet(id).ajax({
         data: serialize + '&priorite=' + priorite,
         success: function (data) {
-            $("#errorModifierProjetP-"+id).empty();
-            $("#errorModifierProjet-"+id).hide();
+            $("#errorModifierProjetP-" + id).empty();
+            $("#errorModifierProjet-" + id).hide();
 
-            $("#successModifierProjetP-"+id).html(messages("project") + ' ' + data.nom + ' ' + messages("modified"));
-            $("#successModifierProjet-"+id).show();
+            $("#successModifierProjetP-" + id).html(messages("project") + ' ' + data.nom + ' ' + messages("modified"));
+            $("#successModifierProjet-" + id).show();
             setTimeout(function () {
-                $("#successModifierProjet-"+id).hide();
+                $("#successModifierProjet-" + id).hide();
             }, 4000);
             var div = "#div-consulterProjet-" + data.id;
             $(div).find('div[id=projetName]').html(messages("project") + ': ' + data.nom);
@@ -2942,13 +2983,13 @@ var modifierProjet = function (div) {
             $('.liste-projet-client').find('div[name=' + nom + ']').find('div[class=sidebar-projet-priorite]').find('div[class=valeur]').html(data.priorite);
         },
         error: function (error) {
-            $("#successModifierProjet-"+id).hide();
-            $("#successModifierProjetP-"+id).empty();
+            $("#successModifierProjet-" + id).hide();
+            $("#successModifierProjetP-" + id).empty();
 
             var messageDiv = generateErrorModifierProjet(error);
-            $("#errorModifierProjetP-"+id).html(messageDiv);
-            console.log($("#errorModifierProjetP-"+id).html());
-            $("#errorModifierProjet-"+id).show();
+            $("#errorModifierProjetP-" + id).html(messageDiv);
+            console.log($("#errorModifierProjetP-" + id).html());
+            $("#errorModifierProjet-" + id).show();
         }
     });
 }
