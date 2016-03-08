@@ -671,7 +671,6 @@ public class Projet extends EntiteSecurise {
      * @param tache
      * @throws Exception
      */
-    @Transient
     public void supprimerTache(Tache tache) throws Exception {
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
@@ -682,6 +681,7 @@ public class Projet extends EntiteSecurise {
         }
 
         listTaches.remove(tache);
+        tache.projet = null;
 
         // Modifications au niveau des liaisons predecesseur/successeurs
         if (tache.hasPredecesseur() && tache.hasSuccesseur()) {
