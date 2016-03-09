@@ -2634,10 +2634,14 @@ var afficherModalTache = function (t) {
                             if(isAdmin == "false") {
                                 if (utilisateur.id != tache.projet.responsableProjet.id) {
                                     changeDisablePropretyFormulaireModifierTache(true);
+                                    $('#modalConsulterSupprimerTache').hide();
+                                    $('#modalModifierSupprimerTache').hide();
                                     $('#btn-indisponibleTache').hide();
                                     $('#btn-indisponibleTache-modifier').hide();
                                 } else {
                                     changeDisablePropretyFormulaireModifierTache(false);
+                                    $('#modalConsulterSupprimerTache').show();
+                                    $('#modalModifierSupprimerTache').show();
                                     $('#btn-indisponibleTache').show();
                                     $('#btn-indisponibleTache-modifier').show();
                                 }
@@ -2647,10 +2651,14 @@ var afficherModalTache = function (t) {
                                         changeDisablePropretyFormulaireModifierTache(true);
                                         $('#btn-indisponibleTache').hide();
                                         $('#btn-indisponibleTache-modifier').hide();
+                                        $('#modalConsulterSupprimerTache').hide();
+                                        $('#modalModifierSupprimerTache').hide();
                                     } else {
                                         changeDisablePropretyFormulaireModifierTache(false);
                                         $('#btn-indisponibleTache').show();
                                         $('#btn-indisponibleTache-modifier').show();
+                                        $('#modalConsulterSupprimerTache').show();
+                                        $('#modalModifierSupprimerTache').show();
                                     }
                                 }
                                 else {
@@ -2737,20 +2745,7 @@ var changeDisablePropretyFormulaireModifierTache = function (boolean) {
         $(this).prop('disabled', boolean);
     });
 }
-var changeDisablePropretyFormulaireModifierTacheAdmin = function (boolean) {
-    $("#formModifierNomTache-tdb").prop('disabled', boolean);
-    $("#formModifierDescriptionTache-tdb").prop('disabled', boolean);
-    $("#form-tache-predecesseur").prop('disabled', boolean);
-    $("#form-tache-successeur").prop('disabled', boolean);
-    $("#responsableTacheModifier").prop('disabled', boolean);
-    $("#DD-modifier").prop('disabled', boolean);
-    $("#DFTO-modifier").prop('disabled', boolean);
-    $("#DFTA-modifier").prop('disabled', boolean);
-    $("#formModifierDescriptionTache-tdb").prop('disabled', boolean);
-    $('#interlocuteurs-modifier input').each(function () {
-        $(this).prop('disabled', boolean);
-    });
-}
+
 var modifierTache = function (btn) {
     var form = $(btn).attr("form");
     form = "#" + form;

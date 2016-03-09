@@ -569,7 +569,8 @@ public class Projet extends EntiteSecurise {
         tache.enfants = new BeanList<>();
 
         // Si le parent a l'id 'A.B.C', alors tache a l'id 'A.B.C.1'
-        tache.idTache = parent.idTache + ".1";
+        int nbEnfants = parent.enfants.size() + 1;
+        tache.idTache = parent.idTache + "." + nbEnfants;
         ajouterTache(tache);
         save();
     }
