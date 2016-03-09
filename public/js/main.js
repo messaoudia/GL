@@ -2634,18 +2634,21 @@ var afficherModalTache = function (t) {
                             if(isAdmin == "false") {
                                 if (utilisateur.id != tache.projet.responsableProjet.id) {
                                     changeDisablePropretyFormulaireModifierTache(true);
-
+                                    $('#modalConsulterSupprimerTache').hide();
+                                    $('#modalModifierSupprimerTache').hide();
                                     $('#btn-indisponibleTache').hide();
                                     $('#btn-indisponibleTache-modifier').hide();
                                 } else {
                                     changeDisablePropretyFormulaireModifierTache(false);
-
+                                    $('#modalConsulterSupprimerTache').show();
+                                    $('#modalModifierSupprimerTache').show();
                                     $('#btn-indisponibleTache').show();
                                     $('#btn-indisponibleTache-modifier').show();
                                 }
                             } else {
                                 changeDisablePropretyFormulaireModifierTache(false);
-
+                                $('#modalConsulterSupprimerTache').show();
+                                $('#modalModifierSupprimerTache').show();
                                 $('#btn-indisponibleTache').show();
                                 $('#btn-indisponibleTache-modifier').show();
                             }
