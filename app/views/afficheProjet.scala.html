@@ -109,10 +109,13 @@
                 </h3>
             </div>
             <div class="row" style="margin-top: 14px ;">
-                <div style="margin-top:14px ;">
-                    <button onclick="activeModificationProjetDansProjet('@projet.id')" name="@projet.id" class="btn btn-info" type="button" style="padding: 3px 7px ; float: right ; border-radius: 0px 0 0 0 ; background-color: #1AB394"><i class="fa fa-pencil"></i>
-                    </button>
-                </div>
+                @if(projet.responsableProjet.equals(utilisateur)) {
+                    <div style="margin-top:14px ;">
+                        <button onclick="activeModificationProjetDansProjet('@projet.id')" name="@projet.id" class="btn btn-info" type="button" style="padding: 3px 7px ; float: right ; border-radius: 0px 0 0 0 ; background-color: #1AB394"><i class="fa fa-pencil"></i>
+                        </button>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
