@@ -712,11 +712,6 @@ public class Projet extends EntiteSecurise {
      */
     @Transient
     public void supprimerTache(Tache tache) throws Exception {
-        if(tache.projet != null) {
-            System.out.println("COCOCOCOCOCO :" + tache.projet.nom);
-        }else{
-            System.out.println("CACACACACACA :"+ tache.projet.nom);
-        }
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
@@ -793,9 +788,10 @@ public class Projet extends EntiteSecurise {
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
             Logger.debug(tache.toString());
-            Tache tAvant = tache.predecesseur;
-            tAvant.successeurs.remove(tache);
-
+            if(tache.hasPredecesseur()) {
+                Tache tAvant = tache.predecesseur;
+                tAvant.successeurs.remove(tache);
+            }
             //FIX BUG PK VIOLATION, DO NOT TOUCH
             tache.projet=null;
             Utilisateur u = tache.responsableTache;
