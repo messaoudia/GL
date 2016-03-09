@@ -581,10 +581,11 @@ var remplirFormulaireCreationTache = function (btn) {
             jsonTache = tache;
             var dateDebut = tache.dateDebut;
             var dateFinTard = tache.dateFinTard;
+            /*
             $('#datepicker_date_debutC .input-group.date').datepicker('option', {
                 minDate: new Date(dateDebut.split("/")[2], dateDebut.split("/")[1], dateDebut.split("/")[0]),
                 maxDate: new Date(dateFinTard.split("/")[2], dateFinTard.split("/")[1], dateFinTard.split("/")[0]),
-            });
+            });*/
             /*$('#datepicker_date_fin_totC .input-group.date').datepicker('option', {
              minDate: new Date(dateDebut.split("/")[2],dateDebut.split("/")[1],dateDebut.split("/")[0]),
              maxDate: new Date(dateFinTard.split("/")[2],dateFinTard.split("/")[1],dateFinTard.split("/")[0]),
@@ -3383,6 +3384,7 @@ $(document).ready(function () {
     });
 
     $('#datepicker_date_debut .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3392,6 +3394,7 @@ $(document).ready(function () {
 
     });
     $('#datepicker_date_fin_tot .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3400,6 +3403,7 @@ $(document).ready(function () {
         language: "fr-FR"
     });
     $('#datepicker_date_fin_tard .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3409,6 +3413,7 @@ $(document).ready(function () {
     });
 
     $('#datepicker_date_debutC .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3418,6 +3423,7 @@ $(document).ready(function () {
 
     });
     $('#datepicker_date_fin_totC .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3426,6 +3432,7 @@ $(document).ready(function () {
         language: "fr-FR"
     });
     $('#datepicker_date_fin_tardC .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3819,7 +3826,7 @@ $(document).ajaxComplete(function () {
     });
 
     $('#datepicker_date_debut .input-group.date').datepicker({
-        format: 'dd/mm/yy',
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3831,7 +3838,7 @@ $(document).ajaxComplete(function () {
     });
 
     $('#datepicker_date_fin_tot .input-group.date').datepicker({
-        format: 'dd/mm/yy',
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3842,7 +3849,7 @@ $(document).ajaxComplete(function () {
     });
 
     $('#datepicker_date_fin_tard .input-group.date').datepicker({
-        format: 'dd/mm/yy',
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3852,6 +3859,7 @@ $(document).ajaxComplete(function () {
 
     });
     $('#datepicker_date_debutC .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3861,6 +3869,7 @@ $(document).ajaxComplete(function () {
 
     });
     $('#datepicker_date_fin_totC .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3869,6 +3878,7 @@ $(document).ajaxComplete(function () {
         language: "fr-FR"
     });
     $('#datepicker_date_fin_tardC .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3879,7 +3889,7 @@ $(document).ajaxComplete(function () {
 
 
     $('#datepicker_projet_th_debut-projet .input-group.date').datepicker({
-        format: 'dd/mm/yy',
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3890,7 +3900,7 @@ $(document).ajaxComplete(function () {
     });
 
     $('#datepicker_projet_th_fin-projet .input-group.date').datepicker({
-        format: 'dd/mm/yy',
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
@@ -3901,18 +3911,17 @@ $(document).ajaxComplete(function () {
     });
 
     $('#datepicker_projet_th_debut .input-group.date').datepicker({
-        //format: 'dd/mm/yyyy',
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
         calendarWeeks: true,
         autoclose: true,
         language: "fr"
-
     });
 
     $('#datepicker_projet_th_fin .input-group.date').datepicker({
-        //format: 'dd/mm/yyyy',
+        format: 'dd/mm/yyyy',
         todayBtn: "linked",
         keyboardNavigation: false,
         forceParse: false,
