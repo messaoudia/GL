@@ -19,6 +19,8 @@ import java.util.zip.ZipOutputStream;
  */
 public class Utils {
 
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
     /**
      * Teste si les deux listes passées en parametre sont égales
      *
@@ -302,6 +304,10 @@ public class Utils {
         Mail.sendEmail(email);
 
         return ("ok mail envoyé.");
+    }
+
+    public static String formateDate(Date date){
+        return sdf.format(date);
     }
 
 }

@@ -947,8 +947,11 @@ public class Utilisateur extends Personne {
         System.out.println("Utilisateur/sendNotifications : liste des notifs à envoyer : " + listNotificationsGroupees);
 
         Map<Utilisateur, Notification> mapNotifications = convertMapNotificationsGroupees();
-        System.out.println("Apres convertMapNotif = " + mapNotifications);
         Notification.sendNotifications(mapNotifications);
+        mapNotifications.clear();
+        for(int i=listNotificationsGroupees.size()-1; i>=0; i--){
+            listNotificationsGroupees.get(i).delete();
+        }
         this.listNotificationsGroupees.clear();
         this.save();
     }
@@ -1066,6 +1069,7 @@ public class Utilisateur extends Personne {
         }
     }
 
+    // TODO METTRE EN PLACE
     public void createNotificationSupprimerTache(Tache tache) {
         this.listNotificationsGroupees = getListNotificationsGroupees();
         if (listNotificationsGenereesContainsKey(tache.id) && listNotificationsGenereesContainsKeyAndValue(tache.id, TypeNotification.CREER_TACHE)) {

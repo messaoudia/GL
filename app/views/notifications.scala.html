@@ -56,7 +56,6 @@
                                                                 <label for="checkbox-notif-all-selected"></label>
                                                             </div>
                                                         </th>
-                                                        <th>@Messages("from")</th>
                                                         <th>@Messages("object")</th>
                                                         <th>@Messages("date")</th>
                                                         <th data-hide="all">@Messages("state")</th>
@@ -77,7 +76,6 @@
                                                             <label for="checkbox-notif-@notification.id"></label>
                                                         </div>
                                                     </td>
-                                                    <td>@notification.utilisateur.nom @notification.utilisateur.prenom</td>
                                                     <td>@notification.title</td>
                                                     <td>@notification.dateEnvoi</td>
                                                     @if(notification.etatLecture == true) {

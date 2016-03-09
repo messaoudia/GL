@@ -3,14 +3,15 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 @Entity
 @Table
 @DiscriminatorValue("NOTIFICATIONGROUPEE")
 public class NotificationGroupee extends Model {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
     public Long idProjetOuTache;
     public TypeNotification typeNotification;
 
