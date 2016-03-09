@@ -182,7 +182,6 @@ public class TacheController  extends Controller {
     public Result supprimerTache(Long idTache){
         Tache tacheASupprimer = Tache.find.byId(idTache);
         Projet projet = tacheASupprimer.projet;
-
         try {
             projet.supprimerTache(tacheASupprimer);
         } catch (Exception e) {

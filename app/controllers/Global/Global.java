@@ -61,6 +61,12 @@ public class Global extends GlobalSettings {
 
             });
 
+            Tache.find.all().stream().forEach(tache -> {
+                Logger.debug("Tache: " + tache.nom);
+                Logger.debug("projet " + tache.projet.nom);
+
+            });
+
             Role.find.all().stream().forEach(role -> {
                 Logger.debug("Role:" + role.nomDuRole);
                 role.permissions.forEach(permission -> {

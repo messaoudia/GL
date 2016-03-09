@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.ImmutableMap;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
+import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -710,6 +711,11 @@ public class Projet extends EntiteSecurise {
      */
     @Transient
     public void supprimerTache(Tache tache) throws Exception {
+        if(tache.projet != null) {
+            System.out.println("COCOCOCOCOCO :" + tache.projet.nom);
+        }else{
+            System.out.println("CACACACACACA :"+ tache.projet.nom);
+        }
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
@@ -785,7 +791,7 @@ public class Projet extends EntiteSecurise {
             tache.removeUtilisateurNotification(tache.responsableTache);
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
-
+            Logger.debug(tache.toString());
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
 

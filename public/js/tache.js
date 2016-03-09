@@ -17,13 +17,15 @@ var afficherModalSupprimerTache = function(idTache){
 
 var supprimerTache = function(){
     var idTache = $('#modal-confirmation-suppr-tache-projet').attr('data-id');
-
     jsRoutes.controllers.TacheController.getTacheById(idTache).ajax({
         success : function(tache){
             jsRoutes.controllers.TacheController.supprimerTache(tache.id).ajax({
                 success : function(){
                     //refresh all
                     refreshProjectTableByIdProject(tache.projet.id);
+                },
+                error : function(error, code){
+
                 }
             });
         }
