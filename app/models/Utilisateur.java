@@ -3,7 +3,6 @@ package models;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import models.NotificationGroupee;
 import controllers.Global.StaticEntite;
 import models.Securite.Role;
 import models.Utils.Utils;
@@ -46,7 +45,7 @@ public class Utilisateur extends Personne {
     @JoinTable(name = "Tache")
     private List<Tache> listTaches;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     List<Tache> listTachesNotifications;
     // liste des utilisateurs où je souhaite recevoir une notification
 
@@ -921,6 +920,7 @@ public class Utilisateur extends Personne {
             throw new IllegalArgumentException("L'utilisateur "+nom+" n'est pas responsable de la tache "+t.nom);
         }
         listTaches.remove(t);
+        this.save();
         t.responsableTache = null;
         t.update();
     }

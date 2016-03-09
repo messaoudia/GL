@@ -81,7 +81,7 @@ public class Tache extends EntiteSecurise {
     public boolean disponible;
 
     // TODO @qqch?
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     public List<Utilisateur> utilisateursNotifications;
 
     public Tache(String nom, String description, Utilisateur responsableTache, Integer niveau, Boolean critique, Date dateDebut,
