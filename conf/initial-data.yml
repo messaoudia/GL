@@ -517,11 +517,11 @@ taches:
     dateFinTard:        2016-05-24
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeRestante:       2
+    chargeRestante:     2
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache8
-    idTache :             5.2
+    idTache :           5.1.1
 
 - &tache18 !!models.Tache
     id:                 28
@@ -534,11 +534,11 @@ taches:
     dateFinTard:        2016-05-23
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeRestante:       2
+    chargeRestante:     2
     projet:             *projet2
     responsableTache:   *utilisateur3
     parent :            *tache17
-    idTache :            5.3
+    idTache :           5.1.1.1
 
 - &tache9 !!models.Tache
     id:                 29
@@ -551,7 +551,7 @@ taches:
     dateFinTard:        2016-05-13
     chargeInitiale:     1
     chargeConsommee:    0
-    chargeRestante:       1
+    chargeRestante:     1
     projet:             *projet3
     responsableTache:   *utilisateur3
     idTache :           1
@@ -584,10 +584,10 @@ taches:
     dateFinTard:        2016-01-16
     chargeInitiale:     4
     chargeConsommee:    0
-    chargeRestante:       4
+    chargeRestante:     4
     projet:             *projet4
     responsableTache:   *utilisateur1
-    idTache :            1
+    idTache :           1
     disponible:         true
     interlocuteurs:
              - *contact2
@@ -603,10 +603,10 @@ taches:
     dateFinTard:        2016-01-18
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeRestante:       2
+    chargeRestante:     2
     projet:             *projet4
     responsableTache:   *utilisateur1
-    idTache :            2
+    idTache :           2
     predecesseur:       *tache11
 
 - &tache13 !!models.Tache
@@ -620,10 +620,10 @@ taches:
     dateFinTard:        2016-01-21
     chargeInitiale:     3
     chargeConsommee:    0
-    chargeRestante:       3
+    chargeRestante:     3
     projet:             *projet4
     responsableTache:   *utilisateur1
-    idTache :            3
+    idTache :           3
     predecesseur:       *tache12
 
 - &tache14 !!models.Tache
@@ -637,10 +637,10 @@ taches:
     dateFinTard:        2016-01-22
     chargeInitiale:     2
     chargeConsommee:    0
-    chargeRestante:       2
+    chargeRestante:     2
     projet:             *projet4
     responsableTache:   *utilisateur1
-    idTache :            4
+    idTache :           4
     predecesseur:       *tache12
 
 
@@ -659,7 +659,7 @@ taches:
     disponible:         true
     projet:             *projet4
     responsableTache:   *utilisateur1
-    idTache :            5
+    idTache :           5
 
 - &tache16 !!models.Tache
     id:                 36
@@ -672,10 +672,10 @@ taches:
     dateFinTard:        2016-01-26
     chargeInitiale:     4
     chargeConsommee:    0
-    chargeRestante:       4
+    chargeRestante:     4
     projet:             *projet4
     responsableTache:   *utilisateur1
-    idTache :            6
+    idTache :           6
 
 egeneriques:
 
