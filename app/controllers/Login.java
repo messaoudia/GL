@@ -12,6 +12,7 @@ import play.libs.Crypto;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.defaultpages.badRequest_Scope0;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -111,7 +112,7 @@ public class Login extends Controller {
 
         if(user==null){
             System.out.println("Cet adresse mail n'existe pas.");
-            return ok();
+            return badRequest("Cet adresse mail n'existe pas.");
 
         }
         else {

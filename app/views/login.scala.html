@@ -27,7 +27,7 @@
                 <p>@Messages("messageWelcomeDescription")</p>
                 <form class="m-t" role="form" method="POST" action="@routes.Login.authenticate()">
 
-                    <p style="color:#0d1dff ;">
+                    <p style="color:#ff140a ;">
                     @error
                     </p>
 
@@ -62,14 +62,23 @@
                         <h4 class="modal-title">@Messages("forgottenPassword")</h4>
                     </div>
 
-                    <div class="modal-body">
-                        <p>@Messages("getEmail")</p>
+                    <div class="modal-body" >
+
+                        <p >@Messages("getEmail")</p>
+
+                            <p class="error" id="errorMdp" style="color:#ff140a ;">
+
+                    <p class="success" id="sucessMdp" style="color:#48ff6b ;">
+
+                    </p>
+
+
                         <input id="email-mdp-oublie" name="email" type="email" class="form-control" placeholder="Email" required="true" value="@form("email").value">
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-admin" data-dismiss="modal">@Messages("cancel")</button>
-                        <a type="button" class="btn btn-primary" data-dismiss="modal" onclick="mdpOublie()">@Messages("submit")</a>
+                        <a type="button" class="btn btn-primary"  onclick="mdpOublie()">@Messages("submit")</a>
                     </div>
                 </div>
             </div>
@@ -82,9 +91,12 @@
         <!-- Mainly scripts -->
         <script src="js/jquery-2.1.1.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
             <!-- Exposing play framework routes -->
         <script type="text/javascript" src="@routes.Application.javascriptRoutes()"></script>
         <script type="application/javascript">
+
+
                 function mdpOublie(){
 
 
@@ -92,16 +104,26 @@
                      jsRoutes.controllers.Login.clickMotDePasseOublie(email).ajax({
                         success: function(data) {
                         console.log(data);
-                            alert("Le mail contenant votre nouveau mot de passe a été envoyé à votre adressse mail.")
-                            alert(data)
+                            //alert("Le mail contenant votre nouveau mot de passe a été envoyé à votre adressse mail.")
+                            //alert(data)
+                            $('#errorMdp').hide();
 
+                            $('#sucessMdp').show();
 
-
+                            $('#sucessMdp').html("An email have send to you.");
 
 
                         },
                         //Case we have a problem
-                        error: function(errorMessage){
+                        error: function(errorMessage, errorCode){
+                            console.log(errorMessage.responseText);
+                            console.log(errorCode);
+                            //alert(errorMessage);
+                            $('#sucessMdp').hide();
+                            $('#errorMdp').show();
+
+                            $('#errorMdp').html("This email doesn't exist.");
+
                         }
                     });
                 }

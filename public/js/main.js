@@ -2200,7 +2200,7 @@ var creerClient = function (btn) {
 
         },
         error: function (errorMessage) {
-            alert("ERROR ");
+         //   alert("ERROR ");
             $("#successCreerClient").hide();
             $("#successCreerClientP").empty();
             console.log(JSON.stringify(errorMessage));
@@ -4068,3 +4068,5 @@ function callAjaxNbNotificationsNonLues() {
     });
 }
 callAjaxNbNotificationsNonLues();
+
+
