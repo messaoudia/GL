@@ -517,7 +517,6 @@ var creerDataFormulaireCreationTache = function (btn) {
                 tabInterlocuteurs.push($("#checkbox-interlocuteurC-" + i).attr('value'));
             }
         }
-        alert(idPredecesseur);
         var dataToSend = serialize + "&predecesseurC=" + idPredecesseur;
         dataToSend += "&successeursC=";
 

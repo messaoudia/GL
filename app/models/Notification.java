@@ -600,7 +600,7 @@ public class Notification extends Model {
 
         String titleFRManyChangements = "Des changements ont eu lieu dans vos tâches/projets";
 
-        String messageFR = "<p>Le nouvel avancement de la tâche est de : " + tache.getAvancementTache() + "%</p>";
+        String messageFR = "<p>Le nouvel avancement de la tâche est de : " + tache.getAvancementTache()*100 + "%</p>";
         messageFR += "<p>   - Charge initiale : " + tache.chargeInitiale + " " + uniteFR + "</p>";
         messageFR += "<p>   - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "</p>";
         messageFR += "<p>   - Charge restante : " + tache.chargeRestante + " " + uniteFR + "</p>";
@@ -614,7 +614,7 @@ public class Notification extends Model {
 
         String titleENManyChangements = "The changes have taken place in your tasks/projects";
 
-        String messageEN = "<p>The new task progress is : " + tache.getAvancementTache() + "%</p>";
+        String messageEN = "<p>The new task progress is : " + tache.getAvancementTache()*100 + "%</p>";
         messageEN += "<p>   - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "</p>";
         messageEN += "<p>   - Completed workload : " + tache.chargeConsommee + " " + uniteEN + "</p>";
         messageEN += "<p>   - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "</p>";
@@ -670,7 +670,7 @@ public class Notification extends Model {
         messageFR += "<p>   - Date de début : " + tache.formateDate(tache.dateDebut) + "</p>";
         messageFR += "<p>   - Date d'échéance au plus tôt : " + tache.formateDate(tache.dateFinTot) + "</p>";
         messageFR += "<p>   - Date d'échéance au plus tard : " + tache.formateDate(tache.dateFinTard) + "</p>";
-        messageFR += "<p>Avancement de la tâche est de : " + tache.getAvancementTache() + "%</p>";
+        messageFR += "<p>Avancement de la tâche est de : " + tache.getAvancementTache()*100 + "%</p>";
         messageFR += "<p>   - Charge initiale : " + tache.chargeInitiale + " " + uniteFR + "</p>";
         messageFR += "<p>   - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "</p>";
         messageFR += "<p>   - Charge restante : " + tache.chargeRestante + " " + uniteFR + "</p>";
@@ -690,7 +690,7 @@ public class Notification extends Model {
         messageEN += "<p>   - Start date : " + tache.formateDate(tache.dateDebut) + "</p>";
         messageEN += "<p>   - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "</p>";
         messageEN += "<p>   - Latest due date : " + tache.formateDate(tache.dateFinTard) + "</p>";
-        messageEN += "<p>The task progress is : " + tache.getAvancementTache() + "%</p>";
+        messageEN += "<p>The task progress is : " + tache.getAvancementTache()*100 + "%</p>";
         messageEN += "<p>   - Initial workload : " + tache.chargeInitiale + " " + uniteFR + "</p>";
         messageEN += "<p>   - Completed workload : " + tache.chargeConsommee + " " + uniteFR + "</p>";
         messageEN += "<p>   - Remaining workload : " + tache.chargeRestante + " " + uniteFR + "</p>";
@@ -752,7 +752,7 @@ public class Notification extends Model {
         messageFR += "<p>   - Date de début : " + tache.formateDate(tache.dateDebut) + "</p>";
         messageFR += "<p>   - Date d'échéance au plus tôt : " + tache.formateDate(tache.dateFinTot) + "</p>";
         messageFR += "<p>   - Date d'échéance au plus tard : " + tache.formateDate(tache.dateFinTard) + "</p>";
-        messageFR += "<p>Avancement de la tâche est de : " + tache.getAvancementTache() + "%</p>";
+        messageFR += "<p>Avancement de la tâche est de : " + tache.getAvancementTache()*100 + "%</p>";
         messageFR += "<p>   - Charge initiale : " + tache.chargeInitiale + " " + uniteFR + "</p>";
         messageFR += "<p>   - Charge consommée : " + tache.chargeConsommee + " " + uniteFR + "</p>";
         messageFR += "<p>   - Charge restante : " + tache.chargeRestante + " " + uniteFR + "</p>";
@@ -774,7 +774,7 @@ public class Notification extends Model {
         messageEN += "<p>   - Start date : " + tache.formateDate(tache.dateDebut) + "</p>";
         messageEN += "<p>   - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "</p>";
         messageEN += "<p>   - Latest due date : " + tache.formateDate(tache.dateFinTard) + "</p>";
-        messageEN += "<p>The task progress is : " + tache.getAvancementTache() + "%</p>";
+        messageEN += "<p>The task progress is : " + tache.getAvancementTache()*100 + "%</p>";
         messageEN += "<p>   - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "</p>";
         messageEN += "<p>   - Completed workload : " + tache.chargeConsommee + " " + uniteEN + "</p>";
         messageEN += "<p>   - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "</p>";

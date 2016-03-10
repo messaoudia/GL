@@ -745,7 +745,7 @@ public class Utilisateur extends Personne {
     public int nbTachesActuelles() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() < 100.0) cpt++;
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache()*100 < 100.0) cpt++;
         }
         return cpt;
     }
@@ -758,7 +758,7 @@ public class Utilisateur extends Personne {
     public int nbTachesNonCommencees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() == 0.0) cpt++;
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache()*100 == 0.0) cpt++;
         }
         return cpt;
     }
@@ -771,7 +771,7 @@ public class Utilisateur extends Personne {
     public int nbTachesCommencees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() > 0.0 && tache.getAvancementTache() < 100.0)
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache()*100 > 0.0 && tache.getAvancementTache()*100 < 100.0)
                 cpt++;
         }
         return cpt;
@@ -785,7 +785,7 @@ public class Utilisateur extends Personne {
     public int nbTachesPresquesFinies() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0)
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache()*100 >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache()*100 < 100.0)
                 cpt++;
         }
         return cpt;
@@ -821,7 +821,7 @@ public class Utilisateur extends Personne {
     public List<Tache> tachesPresquesFinies() {
         List<Tache> res = new ArrayList<>();
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0)
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache()*100 >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache()*100 < 100.0)
                 res.add(tache);
         }
         return res;
