@@ -35,15 +35,15 @@ public class ClientController extends Controller {
     }
 
     public Error checkCreationClient(String nomClient,String adresseClient, String codePostal, String ville, String pays){
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,30}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-]{1,30}$");
         Matcher nameMatch = nameRegex.matcher(nomClient);
         Error error = new Error();
         if(nomClient.isEmpty()){
             error.nomClientVide = true;
-        }else if(nomClient.length()>30){
-            error.nomClientTropLong = true;
         }else if(!nameMatch.matches()) {
             error.nomIncorrect = true;
+        }else if(nomClient.length()>30){
+            error.nomClientTropLong = true;
         }
 
         if(adresseClient.isEmpty()){
@@ -77,6 +77,7 @@ public class ClientController extends Controller {
     {
         JsonNode json = request().body().asJson();
         String nomClient =  json.get("form").get("formCreerClientName").asText().trim();
+        System.out.println("NOM DU CLIENT EST : "+nomClient);
         String adresseClient =  json.get("form").get("formCreerClientAdress").asText().trim();
         String codePostal =  json.get("form").get("formCreerClientZipCode").asText().trim();
         String ville =  json.get("form").get("formCreerClientCity").asText().trim();
@@ -125,24 +126,25 @@ public class ClientController extends Controller {
         String email =  map.get("formEmailContactClient")[0].trim();
         String tel =  map.get("formTelContactClient")[0].trim();
 
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,30}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");
         Matcher nameMatch = nameRegex.matcher(nom);
         Matcher prenomMatch = nameRegex.matcher(prenom);
 
         if(nom.isEmpty()){
             error.nomVideContact = true;
+        }
+        else if(!nameMatch.matches()) {
+            error.nomIncorrectContact = true;
         }else if(nom.length()>15){
             error.nomTropLongContact = true;
-        }else if(!nameMatch.matches()) {
-            error.nomIncorrectContact = true;
-        }
 
-        if(prenom.isEmpty()){
+        if(prenom.isEmpty()) {
             error.prenomVideContact = true;
-        }else if(prenom.length()>15){
-            error.prenomTropLongContact = true;
+        }
         }else if(!prenomMatch.matches()) {
             error.prenomIncorrectContact = true;
+        }else if(prenom.length()>15) {
+            error.prenomTropLongContact = true;
         }
         //pattern java
         Pattern emailRegex = Pattern.compile("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$");

@@ -38,7 +38,7 @@ public class Error
     }
 
     public boolean hasErrorProjet(){
-        return nomProjetVide || descriptionTropLong || dateFinAvantDebut || parseError || nomProjetTropLong || saisir2Date || projetExist;
+        return nomProjetVide || descriptionTropLong || dateFinAvantDebut || parseError || nomProjetTropLong || saisir2Date || projetExist || nomIncorrect;
     }
 
     public boolean hasErrorContact() {
@@ -49,7 +49,7 @@ public class Error
 
     public boolean hasErrorClient(){
         return nomClientVide || nomClientTropLong || adresseVide || adresseTropLong || codePostalVide || codePostalTropLong
-                || villeVide || villeTropLong || paysVide || paysTropLong || clientExiste;
+                || villeVide || villeTropLong || paysVide || paysTropLong || clientExiste || nomIncorrect;
     }
 
     public boolean hasErrorMdp(){

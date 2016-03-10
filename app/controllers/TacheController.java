@@ -26,10 +26,8 @@ public class TacheController  extends Controller {
 
         Tache mere = Tache.find.byId(idTacheMere);
         Projet projet = mere.projet;
-
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
-
-        //newTache.niveau = mere.niveau+1;
+        //new  Tache.niveau = mere.niveau+1;
         //newTache.critique = false;
         //newTache.projet = mere.projet;
         //newTache.update();
@@ -55,7 +53,6 @@ public class TacheController  extends Controller {
         Projet projet = tacheReference.projet;
 
         Tache newTache = creeTacheExtractDonneesFormulaire(form);
-        Logger.debug(newTache.toString());
         try {
             projet.creerTacheAuDessus(newTache , tacheReference);
             Utilisateur currentUser = Login.getUtilisateurConnecte();

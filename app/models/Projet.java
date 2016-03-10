@@ -1,18 +1,17 @@
 package models;
 
+import com.avaje.ebean.Ebean;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.collect.ImmutableMap;
 import models.Securite.EntiteSecurise;
 import models.Utils.Utils;
 import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
-import javax.annotation.concurrent.Immutable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -28,7 +27,7 @@ public class Projet extends EntiteSecurise {
     private static int LIMITE_PROJET_PRESQUE_FINI = 80;
 
     public String nom;
-    @Column(length=65535)
+    @Column(length = 65535)
     public String description;
 
     @ManyToOne
@@ -380,31 +379,31 @@ public class Projet extends EntiteSecurise {
     }
 
     // TODO TEST ME
-    private void updateDatesProjet2(){
-        if(listTaches.isEmpty())
+    private void updateDatesProjet2() {
+        if (listTaches.isEmpty())
             return;
-        int i=0;
-        while(i < listTaches.size()){
-            if(!listTaches.get(i).archive)
+        int i = 0;
+        while (i < listTaches.size()) {
+            if (!listTaches.get(i).archive)
                 break;
             i++;
         }
-        if(i == listTaches.size())
+        if (i == listTaches.size())
             return;
 
         Date dateDebut = listTaches.get(i).dateDebut;
         Date dateFinTot = listTaches.get(i).dateFinTot;
         Date dateFinTard = listTaches.get(i).dateFinTard;
-        for(int j = i; j<listTaches.size(); j++){
+        for (int j = i; j < listTaches.size(); j++) {
             Tache tache = listTaches.get(i);
-            if(!tache.archive){
-                if(Utils.before(tache.dateDebut, dateDebut))
+            if (!tache.archive) {
+                if (Utils.before(tache.dateDebut, dateDebut))
                     dateDebut = tache.dateDebut;
 
-                if(Utils.after(tache.dateFinTot, dateFinTot))
+                if (Utils.after(tache.dateFinTot, dateFinTot))
                     dateFinTot = tache.dateFinTot;
 
-                if(Utils.after(tache.dateFinTard, dateFinTard))
+                if (Utils.after(tache.dateFinTard, dateFinTard))
                     dateFinTard = tache.dateFinTard;
             }
         }
@@ -710,14 +709,14 @@ public class Projet extends EntiteSecurise {
      * @param tache
      * @throws Exception
      */
-    @Transient
+    // @Transient
     public void supprimerTache(Tache tache) throws Exception {
         if (!listTaches.contains(tache)) {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
         if (tache.getAvancementTache() > 0) {
-            throw new IllegalStateException("Suppression de la tache "+tache.nom+" impossible car elle est déja commencée.");
+            throw new IllegalStateException("Suppression de la tache " + tache.nom + " impossible car elle est déja commencée.");
         }
 
         // Modifications au niveau des liaisons predecesseur/successeurs
@@ -725,7 +724,7 @@ public class Projet extends EntiteSecurise {
             Tache tAvant = tache.predecesseur;
 
             List<Tache> taches = tache.getSuccesseurs();
-            for (int i = 0; i <taches.size() ; i++) {
+            for (int i = 0; i < taches.size(); i++) {
                 tAvant.successeurs.remove(tache);
                 taches.get(i).predecesseur = null;
                 tAvant.associerSuccesseur(taches.get(i));
@@ -740,7 +739,7 @@ public class Projet extends EntiteSecurise {
             tAvant.save();
         } else if (tache.hasSuccesseur()) {
             List<Tache> successeurs = tache.getSuccesseurs();
-            for (int i = 0; i < successeurs.size() ; i++) {
+            for (int i = 0; i < successeurs.size(); i++) {
                 successeurs.get(i).predecesseur = null;
             }
         }
@@ -753,7 +752,7 @@ public class Projet extends EntiteSecurise {
 
         // Modification des idTache
         String[] idTacheParse = tache.idTache.split("\\.");
-        int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
+        int idTacheInteger = Integer.parseInt(idTacheParse[idTacheParse.length-1]);
 
         for (Tache tacheDuProjet : listTaches) {
             if (!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau) {
@@ -775,6 +774,12 @@ public class Projet extends EntiteSecurise {
         Tache tacheMere = tache.parent;
         listTaches.remove(tache);
         tache.projet = null;
+        tache.predecesseur = null;
+        for (int i = 0; i < tache.interlocuteurs.size(); i++) {
+            tache.interlocuteurs.get(i).listTachesCorrespondant.remove(this);
+            tache.interlocuteurs.get(i).update();
+        }
+        tache.interlocuteurs.clear();
 
         updateChargesTachesMeresEtProjet2(tacheMere);
         updateDatesProjet2();
@@ -788,17 +793,35 @@ public class Projet extends EntiteSecurise {
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
             Logger.debug(tache.toString());
-            if(tache.hasPredecesseur()) {
+            if (tache.hasPredecesseur()) {
                 Tache tAvant = tache.predecesseur;
                 tAvant.successeurs.remove(tache);
             }
             //FIX BUG PK VIOLATION, DO NOT TOUCH
-            tache.projet=null;
-            Utilisateur u = tache.responsableTache;
-            u.enleverResponsabiliteTache(tache);
+            tache.projet = null;
             tache.predecesseur = null;
-            tache.successeurs.clear();
-            tache.delete();
+            tache.successeurs = null;
+            tache.parent = null;
+            tache.enfants = null;
+            Logger.debug("====================== DELETE ====================================");
+            Ebean.deleteManyToManyAssociations(tache, "utilisateursNotifications");
+            Logger.debug("===================================================================");
+
+            tache.responsableTache.enleverResponsabiliteTache(tache);
+            Tache tacheDB = Tache.find.byId(tache.id);
+
+            Logger.debug(tacheDB.toString());
+
+            //tache.utilisateursNotifications=null;
+            //tache.update();
+            //tache.delete();
+            tache.archive=true;
+            tache.update();
+
+            //Utilisateur u = tache.responsableTache;
+            //u.enleverResponsabiliteTache(tache);
+            //Ebean.delete(tache);
+            //tache.delete();
         } else {
             tache.archive = true;
             tache.save();
@@ -806,20 +829,20 @@ public class Projet extends EntiteSecurise {
         save();
     }
 
-    public void updateChargesTachesMeresEtProjet2(Tache mere) throws Exception{
+    public void updateChargesTachesMeresEtProjet2(Tache mere) throws Exception {
 
-        if(mere == null){
+        if (mere == null) {
             updateAvancementGlobal();
             save();
             return;
         }
 
-        if(mere.hasEnfant()){
+        if (mere.hasEnfant()) {
 
             Double chargeConsommee = 0D;
             Double chargeRestante = 0D;
 
-            for(int i=0 ; i< mere.enfants.size(); i++){
+            for (int i = 0; i < mere.enfants.size(); i++) {
                 chargeConsommee += mere.enfants.get(i).chargeConsommee;
                 chargeRestante += mere.enfants.get(i).chargeRestante;
             }
@@ -830,7 +853,7 @@ public class Projet extends EntiteSecurise {
 
         mere.save();
         mere.updateChargesTachesMeresEtProjet();
-        
+
     }
 
     /**
@@ -884,7 +907,7 @@ public class Projet extends EntiteSecurise {
     }
 
     private void calculeCheminCritique() throws Exception {
-        if(listTaches.size() == 0){
+        if (listTaches.size() == 0) {
             return;
         }
         // Récupération des tâches qui sont à la toute fin et qui ont pour dates fin plus tard la date fin plus tard du projet
@@ -1017,7 +1040,7 @@ public class Projet extends EntiteSecurise {
         Projet p = find.byId(idProjet);
         p.archive = true;
         p.save();
-        for(Tache tache : p.listTaches()){
+        for (Tache tache : p.listTaches()) {
             tache.archive = true;
             tache.save();
         }
@@ -1066,9 +1089,9 @@ public class Projet extends EntiteSecurise {
 
     public List<Tache> listTaches() {
         listTaches = Tache.find.where().eq("projet", this).eq("archive", false).findList();
-        try{
+        try {
             calculeCheminCritique();
-        } catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Erreur pour calcul chemin critique : " + e.getMessage());
         }
         return listTaches;
@@ -1175,22 +1198,21 @@ public class Projet extends EntiteSecurise {
     }
 
 
-    public String filtres(){
-        String result ="";
-        if(this.estTermine()){
-            result= result +" projet-finished ";
+    public String filtres() {
+        String result = "";
+        if (this.estTermine()) {
+            result = result + " projet-finished ";
         }
-        if(this.estPresqueFini()){
-            result= result +" projet-presque-fini ";
+        if (this.estPresqueFini()) {
+            result = result + " projet-presque-fini ";
         }
-        if(this.estRetarde()==true){
-            result = result+" projet-retarde ";
+        if (this.estRetarde() == true) {
+            result = result + " projet-retarde ";
         }
 
-        System.out.println("fonction : checkout projet "+result);
+        System.out.println("fonction : checkout projet " + result);
         return result;
     }
-
 
 
 }

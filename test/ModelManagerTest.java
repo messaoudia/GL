@@ -1082,7 +1082,15 @@ public class ModelManagerTest {
         assertEquals(Tache.find.byId(tacheC.id).predecesseur, Tache.find.byId(tacheA.id));
         Tache a = Tache.find.byId(tacheA.id);
         Tache c = Tache.find.byId(tacheC.id);
+        final List<Tache> successeursA = Tache.find.where().eq("predecesseur", a).findList();
+
+        Logger.debug("==================================================================");
+        successeursA.stream().map(tache -> tache.toString()).forEach(Logger::debug);
+        Logger.debug("==================================================================");
+        a.getSuccesseurs().stream().map(tache -> tache.toString()).forEach(Logger::debug);
+        Logger.debug("==================================================================");
         assertEquals(a.getSuccesseurs().get(0), c);
+        assertEquals(null,Tache.find.byId(tacheB.id));
     }
 
     @Test
@@ -1415,4 +1423,5 @@ public class ModelManagerTest {
         assertEquals(tache.responsableTache, Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0])));
 
     }
+
 }

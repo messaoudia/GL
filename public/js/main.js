@@ -151,6 +151,18 @@ var changeModeDraftProjet = function (idProjet) {
                         console.error(errorMessage);
                     }
                 });
+                jsRoutes.controllers.ProjetController.afficheProjetAdmin(idProjet).ajax({
+                    //dataType: "json",
+                    //contentType: "application/json",
+                    success: function (data) {
+                        $('#col-consulterProjet').html(data);
+                        $('#col-consulterProjet').show();
+
+                    },
+                    error: function (errorMessage) {
+                        console.error(errorMessage);
+                    }
+                });
 
             },
             error: function (errorMessage) {
@@ -263,11 +275,12 @@ function updateSideBarClientArchive(checkbox) {
 $(document).on('click', '.createSubTask', function (event) {
     var btn = $(this);
     console.log("creer sous tache de " + btn.attr("data"));
-
     $('#formModifierTacheC').validate().resetForm();
     $('#formModifierTacheC').trigger("reset");
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+    console.log($('#nomProjet-modifier-tdbC'));
+    console.log($('#nomClient-modifier-tdbC'));
 
     remplirFormulaireCreationTache(btn);
     $('#errorCreerTache').hide();
@@ -277,18 +290,15 @@ $(document).on('click', '.createSubTask', function (event) {
 });
 
 var creerSousTache = function (btn) {
-    console.log("main.scala : creerSousTache appelé");
     var idTacheSelect = $(btn).attr("data");
     var dataToSend = creerDataFormulaireCreationTache(btn);
 
     if (dataToSend == -1) {
 
     } else {
-        console.log("main.scala : appel du controlleur creerSousTache");
         jsRoutes.controllers.TacheController.creerSousTache(idTacheSelect).ajax({
             data: dataToSend,
             success: function (data) {
-                console.log("main.scala : success");
 
                 $('#errorCreerTache').hide();
                 $('#modal-tache-creer').modal('toggle');
@@ -574,11 +584,11 @@ var refreshProjectTableByIdProject = function (projetId) {
 
 var remplirFormulaireCreationTache = function (btn) {
     var jsonTache = "";
-
     //FIXME Dates limites
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
         success: function (tache) {
             jsonTache = tache;
+            //alert(tache);
             var dateDebut = tache.dateDebut;
             var dateFinTard = tache.dateFinTard;
             /*
@@ -610,6 +620,7 @@ var remplirFormulaireCreationTache = function (btn) {
 
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });
@@ -622,16 +633,17 @@ var remplirFormulaireCreationTache = function (btn) {
 
                     $(taches).each(function (index, t) {
                         if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                         else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
                     $('#form-tache-predecesseurC').html(list);
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });
@@ -651,15 +663,16 @@ var remplirFormulaireCreationTache = function (btn) {
                             }
                         });
                         if (isSuccesseur) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         } else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
                     $('#form-tache-successeurC').html(list);
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });
@@ -674,6 +687,7 @@ var remplirFormulaireCreationTache = function (btn) {
                     $('#responsableTacheModifierC').html(list);
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });
@@ -2167,6 +2181,7 @@ var creerClient = function (btn) {
         contentType: "application/json",
 
         success: function (data) {
+
             $("#errorCreerClientP").empty();
             $("#errorCreerClient").hide();
 
@@ -2189,9 +2204,10 @@ var creerClient = function (btn) {
 
         },
         error: function (errorMessage) {
+            alert("ERROR ");
             $("#successCreerClient").hide();
             $("#successCreerClientP").empty();
-
+            console.log(JSON.stringify(errorMessage));
             var messageDiv = generateErrorCreerClient(errorMessage);
 
             $("#errorCreerClientP").html(messageDiv);
@@ -2227,8 +2243,8 @@ function generateErrorCreerClient(errorMessage) {
     else if (errorMessage.responseJSON.nomClientTropLong == true) {
         messageDiv += '<br> - ' + messages("nameClientTooLongError");
     }
-    else if (errorMessage.responseJSON.nomClientIncorrecte == true) {
-        messageDiv += '<br> - ' + messages("nameClientIncorrectError");
+    else if (errorMessage.responseJSON.nomIncorrect == true) {
+        messageDiv += '<br> - ' + messages("nameIncorrectError");
     }
 
     if (errorMessage.responseJSON.adresseVide == true) {
@@ -2323,22 +2339,22 @@ function generateErrorCreerClientContact(errorMessage) {
     if (errorMessage.responseJSON.nomVideContact == true) {
         messageDiv += '<br> - ' + messages("lastnameEmptyError");
     }
-    else if (errorMessage.responseJSON.nomTropLongContact == true) {
-        messageDiv += '<br> - ' + messages("lastnameTooLongError");
-    }
     else if (errorMessage.responseJSON.nomIncorrectContact == true) {
         messageDiv += '<br> - ' + messages("lastnameIncorrectError");
+    }else if (errorMessage.responseJSON.nomTropLongContact == true) {
+        messageDiv += '<br> - ' + messages("lastnameTooLongError");
     }
 
     if (errorMessage.responseJSON.prenomVideContact == true) {
         messageDiv += '<br> - ' + messages("firstnameEmptyError");
     }
-    else if (errorMessage.responseJSON.prenomTropLongContact == true) {
-        messageDiv += '<br> - ' + messages("firstnameTooLongError");
-    }
     else if (errorMessage.responseJSON.prenomIncorrectContact == true) {
         messageDiv += '<br> - ' + messages("firstnameIncorrectError");
     }
+    else if (errorMessage.responseJSON.prenomTropLongContact == true) {
+        messageDiv += '<br> - ' + messages("firstnameTooLongError");
+    }
+
 
 
     if (errorMessage.responseJSON.emailVideContact == true) {
@@ -2450,10 +2466,10 @@ var afficherModalTache = function (t) {
 
                     $(taches).each(function (index, t) {
                         if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                         else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
@@ -2478,9 +2494,9 @@ var afficherModalTache = function (t) {
                             }
                         });
                         if (isSuccesseur) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         } else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
@@ -2516,7 +2532,7 @@ var afficherModalTache = function (t) {
                 $('#table-successeursTache-consulter-tdb').show();
                 $(tache.successeurs).each(function (index, tache) {
                     list += '<tr>';
-                    list += '<td class="id-task">' + tache.id + '</td>';
+                    list += '<td class="id-task">' + tache.idTache + '</td>';
                     list += '<td class="name-task">' + tache.nom + '</td>';
                     list += '</tr>';
                 });
@@ -2987,11 +3003,12 @@ function generateErrorCreerProjet(errorMessage) {
     if (errorMessage.responseJSON.nomProjetVide == true) {
         messageDiv += '<br> - ' + messages("nameProjetEmptyError");
     }
+    else if (errorMessage.responseJSON.nomIncorrect == true) {
+        messageDiv += '<br> - ' + messages("nameIncorrectError");
+    }
     else if (errorMessage.responseJSON.nomProjetTropLong == true) {
         messageDiv += '<br> - ' + messages("nameProjetTooLongError");
     }
-
-
     if (errorMessage.responseJSON.dateThDebutProjetVide == true) {
         messageDiv += '<br> - ' + messages("startDateEmptyError");
     }
@@ -3070,6 +3087,9 @@ function generateErrorModifierProjet(errorMessage) {
 
     if (errorMessage.responseJSON.nomProjetVide == true) {
         messageDiv += '<br> - ' + messages("nameProjetEmptyError");
+    }
+    else if (errorMessage.responseJSON.nomIncorrect == true) {
+        messageDiv += '<br> - ' + messages("nameIncorrectError");
     }
     else if (errorMessage.responseJSON.nomProjetTropLong == true) {
         messageDiv += '<br> - ' + messages("nameProjetTooLongError");
@@ -3209,6 +3229,7 @@ $(document).ready(function () {
     });
 
     $('#dataTables-admin-user').DataTable({
+        info:false,
         destroy: true,
         "columnDefs": [{
             "searchable": false,
@@ -3219,6 +3240,7 @@ $(document).ready(function () {
 
 
     $('#dataTables-admin-client').DataTable({
+        info:false,
         destroy: true,
         "columnDefs": [{
             "searchable": false,
@@ -3283,20 +3305,27 @@ $(document).ready(function () {
     $("#searchContact-select2").select2();
 
 
-    $('.datatable-consulterClient').DataTable();
+    $('.datatable-consulterClient').DataTable({
+        info : false
+    });
     $('.dataTables-example').DataTable();
 
     $('#projet_Tache').dataTable({
+        info : false,
         "ordering": false
     });
 
     $('#projet_Projet').dataTable({
+        info : false,
         "ordering": false
     });
 
-    $('#dataTables-tdb-projet').DataTable();
+    $('#dataTables-tdb-projet').DataTable({
+        info:false
+    });
 
     $('#dataTables-tdb-tache').DataTable({
+        info : false,
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
@@ -3305,6 +3334,7 @@ $(document).ready(function () {
     });
 
     $('#dataTables-admin-projet').DataTable({
+        info : false,
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
@@ -3483,6 +3513,22 @@ $(document).ready(function () {
     });
 });
 
+$(document).on('click', '#errorCreerUser > button', function () {
+    $("#errorCreerUser").hide()
+});
+$(document).on('click', '#errorCreerClient > button', function () {
+    $("#errorCreerClient").hide()
+});
+$(document).on('click', '#errorCreerProjet > button', function () {
+    $("#errorCreerProjet").hide()
+});
+$(document).on('click', '#errorModifierProjet > button', function () {
+    $("#errorModifierProjet").hide()
+});
+$(document).on('click', '#errorModifierClient > button', function () {
+    $("#errorModifierClient").hide()
+});
+
 $(document).on('click', '#submitButton', function () {
     var $form = $('#addProjectForm');
     var $serialize = $form.serialize();
@@ -3538,26 +3584,6 @@ $(document).ajaxComplete(function () {
             });
         }
     });
-
-    $("#errorCreerUser > button").click(function () {
-        $("#errorCreerUser").hide()
-    });
-
-    $("#errorCreerClient > button").click(function () {
-        $("#errorCreerClient").hide()
-    });
-
-    $("#errorCreerProjet > button").click(function () {
-        $("#errorProjet").hide()
-    });
-
-    $("#errorModifierProjet > button").click(function () {
-        $("#errorProjet").hide()
-    });
-    $("#errorModifierClient > button").click(function () {
-        $("#errorProjet").hide()
-    });
-
 
     $("#btn-modifierProjet-admin").click(function () {
         //$("#div-consulterProjet").css("display","none");
@@ -3700,27 +3726,43 @@ $(document).ajaxComplete(function () {
         maxDepth: 4
     }).on('change');
 
-    $('.datatable-consulterClient').DataTable();
-    $('#dataTables-tdb-projet').DataTable();
+    if (!($.fn.dataTable.isDataTable('.datatable-consulterClient'))) {
+        $('.datatable-consulterClient').DataTable({
+            info : false
+        });
+    }
+
+    if (!($.fn.dataTable.isDataTable('#dataTables-tdb-projet'))) {
+        $('#dataTables-tdb-projet').DataTable({
+            info : false
+        });
+    }
+
+    if (!($.fn.dataTable.isDataTable('#dataTables-tdb-tache'))) {
+        $('#dataTables-tdb-tache').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": [6, 7]
+            }]
+        });
+    }
+
+    if (!($.fn.dataTable.isDataTable('#dataTables-admin-user'))) {
+        $('#dataTables-admin-user').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 7,
+            }]
+        });
+    }
 
 
-    $('#dataTables-tdb-tache').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": [6, 7]
-        }]
-    });
-
-    $('#dataTables-admin-user').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": 7,
-        }]
-    });
 
     $('#responsableProjet').select2();
 
@@ -3730,36 +3772,47 @@ $(document).ajaxComplete(function () {
 
     $('#client-projet').select2();
 
-    $('.dataTables-example').DataTable();
-
-    $('#projet_Projet').dataTable({
-        destroy: true,
-        "ordering": false
+    $('.dataTables-example').DataTable({
     });
 
-    $('#dataTables-admin-projet').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": 6
-        }]
-    });
+    if (!($.fn.dataTable.isDataTable('#projet_Projet'))) {
+        $('#projet_Projet').DataTable({
+            info : false,
+            destroy: true,
+            "ordering": false
+        });
+    }
 
-    $('#projet_Tache').dataTable({
-        "ordering": false
-    });
+    if (!($.fn.dataTable.isDataTable('#dataTables-admin-projet'))) {
+        $('#dataTables-admin-projet').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 6
+            }]
+        });
+    }
 
+    if (!($.fn.dataTable.isDataTable('#projet_Tache'))) {
+        $('#projet_Tache').DataTable({
+            info : false,
+            "ordering": false
+        });
+    }
 
-    $('#dataTables-admin-client').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": 6
-        }]
-    });
-
+    if (!($.fn.dataTable.isDataTable('#dataTables-admin-client'))) {
+        $('#dataTables-admin-client').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 6
+            }]
+        });
+    }
 
     $('#btn-modifierTache').click(function () {
         jQuery.fx.off = true;

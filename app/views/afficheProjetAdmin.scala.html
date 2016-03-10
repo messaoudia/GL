@@ -303,8 +303,8 @@
                     <div class="row">
                         <div class="switch" style="display:inline-block ; float:right ;">
                             <div class="onoffswitch">
-                                <input class="onoffswitch-checkbox" id="checkbox-draft-projet" type="checkbox">
-                                <label class="onoffswitch-label" for="checkbox-draft-projet" style="">
+                                <input class="onoffswitch-checkbox" id="checkbox-draft-projet-@projet.id" type="checkbox" onclick="changeModeDraftProjet(@projet.id)">
+                                <label class="onoffswitch-label" for="checkbox-draft-projet-@projet.id" style="">
                                     <span class="onoffswitch-inner"></span>
                                     <span class="onoffswitch-switch"></span>
                                 </label>
@@ -331,9 +331,26 @@
                         </div>
                     </div>
                     <div id="mode-draft" class="table-responsive" style="">
-                        <div class="dd" id="nestable-projet">
-                            <ol class="dd-list" id="table_taches_@projet.id">
+                        <div class="nestable dd dd-nodrag" id="nestable-projet-@projet.id">
+                            <ol class="dd-list">
+                                <li class="dd-item dd-item-min-width">
+                                    <div style="padding:0px ; background-color:#f5f5f5 ; border:1px solid #EBEBEB ; font-weight:bold ;">
+                                        <div class="row row-nestable dd-nodrag">
                                     <!-- En-tete -->
+                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@Messages("task")</div>
+                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@Messages("responsible")</div>
+                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@Messages("client")</div>
+                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@Messages("startDate")</div>
+                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ;">@Messages("endDate")</div>
+                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ; width:15.75% ;">@Messages("workload")</div>
+                                            <div class="col-middle" style="border-right: 1px solid #EBEBEB ; width:15.75% ;">@Messages("pert")</div>
+                                            <div class="col-middle" style="width:2% ; border-right: 1px solid #EBEBEB ;"><i class="fa fa-bell"></i></div>
+                                            <div class="col-middle" style="width:3% ;"><i class="fa fa-trash"></i></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+                            <ol class="dd-list" id="table_taches_@projet.id">
                                 @if(projet.listTaches().size() == 0){
                                     <div class="ibox-footer text-center createTaskFirst" data-toggle="modal" data-target="#modal-tache-creer" value="@projet.id" projet="@projet.nom" client="@projet.client.nom" style="background-color: #27AE62;color:#FFF;height: 40px;cursor: pointer;" >
                                         <h3 style="margin:0px;"><i class="fa fa-plus-circle" style="margin-right:7px;"></i>@Messages("createTask")</h3>
@@ -822,122 +839,41 @@
                                 }
                                 }
                             </ol>
-                            <script>updateTaskNestableCheckbox("@projet.id");</script>
                         </div>
                     </div>
-                    <div id="mode-non-draft" class="table-responsive" style="display:none ;">
-                        <div class="table-responsive table-responsive-tdb">
-                            <table id="projet_Projet" class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr class="table-center">
-                                        <th style="vertical-align:middle ;">@Messages("task")</th>
-                                        <th style="vertical-align:middle ;">@Messages("responsible")</th>
-                                        <th style="vertical-align:middle ;">@Messages("client")</th>
-                                        <th style="vertical-align:middle ;">@Messages("startDate")</th>
-                                        <th style="vertical-align:middle ;">@Messages("endDate")</th>
-                                        <th style="vertical-align:middle ;">@Messages("workload")</th>
-                                        <th style="vertical-align:middle ;">@Messages("pert")</th>
-                                        <th style="vertical-align:middle ; height:10px ;"><i class="fa fa-bell bell"></i></th>
-                                        <th style="vertical-align:middle ; height:10px ;"><i class="fa fa-trash trash"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="table-center">
-                                        <td style="padding:0px ;" data-toggle="modal" data-target="#modal-tachet">
-                                            <div>
-                                                <div class="idTache">4.1</div>
-                                                <div>
-                                                    <img src="img/MyIcons/png/Criticite.png" alt="image" class="icone"/>
-                                                    <div class="idNom" style="display: inline-block">
-                                                        Toto</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
-                                            Daro Heng</td>
-                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
-                                            Thalès</td>
-                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
-                                            30/10/2015</td>
-                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
-                                            <p>29/12/2015</p>
-                                            <p>4/01/2016</p>
-                                        </td>
-                                        <td class="cursor-pointer" style="vertical-align:middle ;" data-toggle="modal" data-target="#modal-tachet">
-                                            <div class="row-initiale">Initiale : 30J</div>
-                                            <div class="row-restante">Totale : 18J</div>
-                                            <div class="progress progress-bar-default">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60% ;">
-                                                    60%
-                                                </div>
-                                            </div>
-                                            <p class="row-consommee">Consommée : 30J</p>
-                                        </td>
 
-                                        <td style="vertical-align:middle ;">
-                                            <div class="row">Précédente : 4.1</div>
-                                            <div class="row">
-                                                Suivantes :
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-default dropdown-toggle dropdown-pert" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:white ; color:#676A6C ;">
-                                                        8 tâches <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-pert">
-                                                        <li>5.1</li>
-                                                        <li>5.1</li>
-                                                        <li>5.1</li>
-                                                        <li>5.1</li>
-                                                        <li>5.1</li>
-                                                        <li>5.1</li>
-                                                        <li>5.2</li>
-                                                        <li>5.3</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="vertical-align:middle ;"><i class="fa fa-bell-slash-o"></i></td>
-                                        <td class="td-btn-suppr" style="vertical-align:middle ;"><i class="fa fa-times"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="9" style="padding:0px ;">
-                                            <div class="row" style="margin-right: 0px ; margin-left: 0px ; text-align: center ; background-color: #e74c3c ;">
-                                                <div class="col-xs-4 normal">
-                                                    <div class="normal boutonPlusCreerTache" >
-                                                        <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
-                                                    </div>
-                                                    <div class="cursor-pointer" data-toggle="modal" data-target="#modal-creer-tache">
-                                                        <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-4 normal cursor-pointer" data-toggle="modal" data-target="#modal-creer-tache">
-                                                    <i class="fa fa-arrow-up"> @Messages("createTask")</i>
-                                                </div>
-                                                <div class="col-xs-4 normal cursor-pointer" style="border:none ;" data-toggle="modal" data-target="#modal-creer-tache">
-                                                    <i class="fa fa-arrow-down"> @Messages("createTask")</i>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td style="display: none ;"></td>
-                                        <td style="display: none ;"></td>
-                                        <td style="display: none ;"></td>
-                                        <td style="display: none ;"></td>
-                                        <td style="display: none ;"></td>
-                                        <td style="display: none ;"></td>
-                                        <td style="display: none ;"></td>
-                                        <td style="display: none ;"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                         <!-- Modal-view Creer tache/sous-tache -->
 
                         <!-- Modal-view modifier tache/sous-tache -->
-                    @popuptacheConsulterModifier()
-                    @popuptacheCreer()
-                    @popuptacheSupprimer()
+
 
                 </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-draft-projet" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">@Messages("errorCoherence")</h4>
+            </div>
+            <div class="modal-body">
+                <p style="display:inline ;">@Messages("nonCoherentProject")</p>
+
+                <p id="recapitulative-des-erreurs-projet-draft" style="display:inline ;"></p>
+
+            </div>
+            <div class="modal-footer" style="text-align: center ;">
+                    <!--<button type="button" onclick="supprimerClient()" class="btn btn-admin" data-dismiss="modal">@Messages("yes")</button>
+                -->
+                <button type="button" onclick="$('#modal-draft-projet').modal('hide')" class="btn" data-dismiss="modal">
+                    ok</button>
+            </div>
         </div>
     </div>
 </div>

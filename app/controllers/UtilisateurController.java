@@ -43,7 +43,7 @@ public class UtilisateurController extends Controller {
         } else if (!nameMatch.matches()) {
             error.nomIncorrect = true;
         }
-        nameMatch = nameRegex.matcher(map.get(preName + "-formFirstName")[0]);
+        nameMatch = nameRegex.matcher(map.get(preName + "-formFirstName")[0].trim());
         //TODO regex prenom : que des lettres ' -
         // prenom utilisateur [1,15] char
         if (map.get(preName + "-formFirstName")[0].trim().isEmpty()) {
