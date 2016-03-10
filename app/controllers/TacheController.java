@@ -1,7 +1,7 @@
 package controllers;
 
 import models.*;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;

@@ -6,7 +6,7 @@ import models.Securite.Permission;
 import models.Securite.Role;
 import models.UniteProjetEnum;
 import models.Utilisateur;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import org.apache.commons.io.FileUtils;
 import org.junit.*;
 import play.test.FakeApplication;

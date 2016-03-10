@@ -1,8 +1,7 @@
 import com.avaje.ebean.Ebean;
-import models.Adresse;
 import models.Client;
 import models.Contact;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import org.apache.commons.io.FileUtils;
 import org.junit.*;
 import play.Logger;
@@ -10,7 +9,6 @@ import play.test.FakeApplication;
 import play.test.Helpers;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by yachironi on 02/03/16.

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import models.*;
 import models.Error;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import play.Logger;
 import play.db.ebean.Transactional;
 import play.libs.Json;
