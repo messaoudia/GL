@@ -142,19 +142,7 @@ public class Notification extends Model {
         String title = "";
         String message = "";
 
-        if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-            title = "Tâche(s) devant être terminée(s) dans moins de " + LIMIT_DATE_ECHEANCE + " jours";
-            for (Tache tache : utilisateur.listTaches()) {
-                long nbDeJoursRestants = Utils.differenceNbJours(today.getTime(), tache.dateFinTard);
-                if (nbDeJoursRestants <= LIMIT_DATE_ECHEANCE) {
-                    message += "<p>La tâche " + tache.nom + " du projet " + tache.projet.nom
-                            + "(client : " + tache.projet.client.nom + ") doit être terminé dans "
-                            + nbDeJoursRestants + " jour(s) (Date d'échéance au plus tard : "
-                            + tache.formateDate(tache.dateFinTard) + ")</p>";
-                }
-            }
-        }
-        else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+        if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
             title = "Task(s) to be completed within " + LIMIT_DATE_ECHEANCE + " days";
             for (Tache tache : utilisateur.listTaches()) {
                 long nbDeJoursRestants = Utils.differenceNbJours(today.getTime(), tache.dateFinTard);
@@ -162,6 +150,18 @@ public class Notification extends Model {
                     message += "<p>The task " + tache.nom + " of project " + tache.projet.nom
                             + "(client : " + tache.projet.client.nom + ") should be completed within "
                             + nbDeJoursRestants + " day(s) (Latest due date : "
+                            + tache.formateDate(tache.dateFinTard) + ")</p>";
+                }
+            }
+        }
+        else {
+            title = "Tâche(s) devant être terminée(s) dans moins de " + LIMIT_DATE_ECHEANCE + " jours";
+            for (Tache tache : utilisateur.listTaches()) {
+                long nbDeJoursRestants = Utils.differenceNbJours(today.getTime(), tache.dateFinTard);
+                if (nbDeJoursRestants <= LIMIT_DATE_ECHEANCE) {
+                    message += "<p>La tâche " + tache.nom + " du projet " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") doit être terminé dans "
+                            + nbDeJoursRestants + " jour(s) (Date d'échéance au plus tard : "
                             + tache.formateDate(tache.dateFinTard) + ")</p>";
                 }
             }
@@ -192,22 +192,22 @@ public class Notification extends Model {
         String title = "";
         String message = "";
 
-        if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-            title = "Tâche(s) retardée(s)";
-            for (Tache tache : utilisateur.listTaches()) {
-                if (tache.estRetardee()) {
-                    message += "<p>La tâche " + tache.nom + " du projet " + tache.projet.nom
-                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
-                            + tache.dateFinTard + "</p>";
-                }
-            }
-        }
-        else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+        if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
             title = "Delayed task(s)";
             for (Tache tache : utilisateur.listTaches()) {
                 if (tache.estRetardee()) {
                     message += "<p>The task " + tache.nom + " of project " + tache.projet.nom
                             + "(client : " + tache.projet.client.nom + ") is delayed. The latest due date is : "
+                            + tache.dateFinTard + "</p>";
+                }
+            }
+        }
+        else{
+            title = "Tâche(s) retardée(s)";
+            for (Tache tache : utilisateur.listTaches()) {
+                if (tache.estRetardee()) {
+                    message += "<p>La tâche " + tache.nom + " du projet " + tache.projet.nom
+                            + "(client : " + tache.projet.client.nom + ") est retardée. La date d'échéance au plus tard était le : "
                             + tache.dateFinTard + "</p>";
                 }
             }
@@ -241,15 +241,15 @@ public class Notification extends Model {
         String message = "";
         String titleMessage = "";
 
-        if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-            objet = "Nouvelle(s) responsabilité(s)";
-            titleMessage = "<p>Voici vos nouvelles responsabilités : </p>";
-            message = "<p>   - Vous êtes le nouveau responsable du projet : " + projet.nom + " (client : " + projet.client.nom + ")</p>";
-        }
-        else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+        if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
             objet = "New person(s) in charge";
             titleMessage = "<p>Here are your new responsibilities : </p>";
             message = "<p>   - You are the new person in charge of project : " + projet.nom + " (client : " + projet.client.nom + ")</p>";
+        }
+        else{
+            objet = "Nouvelle(s) responsabilité(s)";
+            titleMessage = "<p>Voici vos nouvelles responsabilités : </p>";
+            message = "<p>   - Vous êtes le nouveau responsable du projet : " + projet.nom + " (client : " + projet.client.nom + ")</p>";
         }
 
         if (mapNotifications.containsKey(utilisateur)) {
@@ -276,15 +276,16 @@ public class Notification extends Model {
         String message = "";
         String titleMessage = "";
 
-        if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-            objet = "Nouvelle(s) responsabilité(s)";
-            titleMessage = "<p>Voici vos nouvelles responsabilités : </p>";
-            message = "<p>   - Vous êtes le nouveau responsable de la tâche : " + tache.nom + " du projet " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")</p>";
-        }
-        else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+        if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
             objet = "New responsabilities";
             titleMessage = "<p>Here are your new responsibilities : </p>";
             message = "<p>   - You are the new person in charge of the task : " + tache.nom + " of project " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")</p>";
+
+        }
+        else {
+            objet = "Nouvelle(s) responsabilité(s)";
+            titleMessage = "<p>Voici vos nouvelles responsabilités : </p>";
+            message = "<p>   - Vous êtes le nouveau responsable de la tâche : " + tache.nom + " du projet " + tache.projet.nom + " (client : " + tache.projet.client.nom + ")</p>";
         }
 
         if (mapNotifications.containsKey(utilisateur)) {
@@ -334,12 +335,12 @@ public class Notification extends Model {
         String message = "";
         // Envoie notification a l'utilisateur
         if (utilisateur.equals(projet.responsableProjet) || utilisateur.recevoirNotifPourMesActions) {
-            if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-                title = titleFR;
-                message = messageMemeUserFR + messageFR;
-            } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+            if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
                 title = titleEN;
                 message = messageMemeUserEN + messageEN;
+            } else  {
+                title = titleFR;
+                message = messageMemeUserFR + messageFR;
             }
             Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
             notification.save();
@@ -347,12 +348,12 @@ public class Notification extends Model {
         }
         // Envoie notification au responsable de projet si ce n'est pas l'auteur de la création
         if (!utilisateur.equals(projet.responsableProjet)) {
-            if (projet.responsableProjet.langue.equals(Utilisateur.LANGUE_FR)) {
-                title = titleFR;
-                message = messageAutreUserFR + messageFR;
-            } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+            if (projet.responsableProjet.langue.equals(Utilisateur.LANGUE_EN)) {
                 title = titleEN;
                 message = messageAutreUserEN + messageEN;
+            } else {
+                title = titleFR;
+                message = messageAutreUserFR + messageFR;
             }
 
             Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet);
@@ -384,12 +385,12 @@ public class Notification extends Model {
         String message = "";
         // Envoie notification a l'utilisateur
         if (utilisateur.equals(projet.responsableProjet) || utilisateur.recevoirNotifPourMesActions) {
-            if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-                title = titleFR;
-                message = messageMemeUserFR;
-            } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+            if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
                 title = titleEN;
                 message = messageMemeUserEN;
+            } else {
+                title = titleFR;
+                message = messageMemeUserFR;
             }
             Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
             notification.save();
@@ -397,12 +398,12 @@ public class Notification extends Model {
         }
         // Envoie notification au responsable de projet si ce n'est pas l'auteur de la création
         if (!utilisateur.equals(projet.responsableProjet)) {
-            if (projet.responsableProjet.langue.equals(Utilisateur.LANGUE_FR)) {
-                title = titleFR;
-                message = messageAutreUserFR;
-            } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+            if (projet.responsableProjet.langue.equals(Utilisateur.LANGUE_EN)) {
                 title = titleEN;
                 message = messageAutreUserEN;
+            } else {
+                title = titleFR;
+                message = messageAutreUserFR;
             }
 
             Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, projet.responsableProjet);
@@ -462,6 +463,7 @@ public class Notification extends Model {
     }
 
     public static void sendNotificationModifierResponsableProjet(Projet projet, Utilisateur ancienResponsableProjet, Utilisateur utilisateur, HashMap<Utilisateur, Notification> mapNotifications) {
+        System.out.println("Je suis dans modifierResponsable Projet");
         String titleNouveauRespoFR = "Nouvelle affectation d'un projet";
         String messageNouveauRespoFR = "<p>Vous êtes le nouveau responsable du projet " + projet.nom + " (client : " + projet.client.nom + ")</p>";
 
@@ -490,7 +492,7 @@ public class Notification extends Model {
 
         String messageProjetEN = "<p>   - Name : " + projet.nom + "</p>";
         messageProjetEN += "<p>   - Client : " + projet.client.nom + "</p>";
-        messageProjetFR += "<p>   - New person in charge of project : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "</p>";
+        messageProjetEN += "<p>   - New person in charge of project : " + projet.responsableProjet.prenom + " " + projet.responsableProjet.nom + "</p>";
 
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
 
@@ -888,21 +890,23 @@ public class Notification extends Model {
     private static void updateMapNotifications(Utilisateur utilisateur, String titleFR, String messageFR,
                                                String titleFRManyChangements, String titleEN, String messageEN,
                                                String titleENManyChangements, HashMap<Utilisateur, Notification> mapNotifications) {
+        System.out.println("updateMapNotif : " + utilisateur.prenom);
         String title = "";
         String message = "";
-        if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-            title = titleFR;
-            message = messageFR;
-        } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+        if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
             title = titleEN;
             message = messageEN;
+        } else  {
+            title = titleFR;
+            message = messageFR;
         }
         if (mapNotifications.containsKey(utilisateur)) {
             Notification notification = mapNotifications.get(utilisateur);
-            if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {
-                title = titleFRManyChangements;
-            } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
+            if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
                 title = titleENManyChangements;
+
+            } else {
+                title = titleFRManyChangements;
             }
             notification.title = title;
             notification.contentNotification += "<p></p>" + message;
