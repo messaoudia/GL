@@ -118,10 +118,10 @@ public class Notification extends Model {
         List<Utilisateur> listUtilisateurs = Utilisateur.find.where().eq("archive", false).findList();
         HashMap<Utilisateur, Notification>  mapNotifications = new HashMap<>();
         for(Utilisateur utilisateur : listUtilisateurs){
-            if(!utilisateur.recevoirNotifPourMesTachesPresqueFinies)
+            if(utilisateur.recevoirNotifPourMesTachesPresqueFinies)
                 sendNotificationTacheBientotProche(mapNotifications, utilisateur);
 
-            if(!utilisateur.recevoirNotifPourMesTachesRetardees)
+            if(utilisateur.recevoirNotifPourMesTachesRetardees)
                 sendNotificationTacheRetardee(mapNotifications, utilisateur);
         }
         sendNotifications(mapNotifications);
