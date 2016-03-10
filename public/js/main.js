@@ -2450,10 +2450,10 @@ var afficherModalTache = function (t) {
 
                     $(taches).each(function (index, t) {
                         if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                         else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
@@ -2478,9 +2478,9 @@ var afficherModalTache = function (t) {
                             }
                         });
                         if (isSuccesseur) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         } else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
@@ -2516,7 +2516,7 @@ var afficherModalTache = function (t) {
                 $('#table-successeursTache-consulter-tdb').show();
                 $(tache.successeurs).each(function (index, tache) {
                     list += '<tr>';
-                    list += '<td class="id-task">' + tache.id + '</td>';
+                    list += '<td class="id-task">' + tache.idTache + '</td>';
                     list += '<td class="name-task">' + tache.nom + '</td>';
                     list += '</tr>';
                 });
