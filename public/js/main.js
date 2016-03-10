@@ -279,8 +279,6 @@ $(document).on('click', '.createSubTask', function (event) {
     $('#formModifierTacheC').trigger("reset");
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
-    alert($('#nomProjet-modifier-tdbC').html());
-    alert($('#nomClient-modifier-tdbC').html());
 
     remplirFormulaireCreationTache(btn);
     $('#errorCreerTache').hide();
@@ -588,7 +586,6 @@ var remplirFormulaireCreationTache = function (btn) {
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
         success: function (tache) {
             jsonTache = tache;
-            alert(tache);
             var dateDebut = tache.dateDebut;
             var dateFinTard = tache.dateFinTard;
             /*
