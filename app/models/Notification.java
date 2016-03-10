@@ -4,13 +4,12 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import controllers.Global.Mail;
-import models.Utils.Utils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import controllers.Utils.Utils;
+import play.Logger;
 import play.data.format.Formats;
 import play.libs.mailer.Email;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -91,7 +90,7 @@ public class Notification extends Model {
             Notification notification = entry.getValue();
             notification.save();
             user.addNotification(notification);
-            user.update();
+            user.save();
             sendEmail(user, notification);
         }
     }
@@ -115,16 +114,18 @@ public class Notification extends Model {
      * Envoie tache retardee et tache bientot fini
      */
     public static void sendNotificationInThread(){
+        Logger.debug("DEBUT - Envoie de notification....");
         List<Utilisateur> listUtilisateurs = Utilisateur.find.where().eq("archive", false).findList();
         HashMap<Utilisateur, Notification>  mapNotifications = new HashMap<>();
         for(Utilisateur utilisateur : listUtilisateurs){
-            if(!utilisateur.recevoirNotifPourMesTachesPresqueFinies)
+            if(utilisateur.recevoirNotifPourMesTachesPresqueFinies)
                 sendNotificationTacheBientotProche(mapNotifications, utilisateur);
 
-            if(!utilisateur.recevoirNotifPourMesTachesRetardees)
+            if(utilisateur.recevoirNotifPourMesTachesRetardees)
                 sendNotificationTacheRetardee(mapNotifications, utilisateur);
         }
         sendNotifications(mapNotifications);
+        Logger.debug("FIN - Envoie de notification....");
     }
 
     /**

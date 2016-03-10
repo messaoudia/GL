@@ -4,7 +4,7 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Error;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;

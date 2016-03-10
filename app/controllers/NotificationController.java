@@ -90,4 +90,11 @@ public class NotificationController extends Controller {
         return ok(Boolean.valueOf(Login.getUtilisateurConnecte().hasActiverNotification(Tache.find.byId(idTache))).toString());
     }
 
+
+    public static void secheduledSending() {
+
+        Logger.debug("System.currentTimeMillis = "+System.currentTimeMillis());
+
+    }
+
 }

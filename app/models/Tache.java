@@ -858,40 +858,71 @@ public class Tache extends EntiteSecurise {
     }
 
     public List<Tache> getAllTacheNonParentsDirects(List<Tache> listTache){
+        boolean direct = false;
         List<Tache> listResult = new ArrayList<>();
         for(Tache t : listTache){
             switch (t.niveau){
                 case 0 :
-                    if(t.successeurs != null && !t.successeurs.contains(this)){
-                        for (Tache tSucc : t.successeurs) {
-                            if (tSucc.successeurs != null && !tSucc.successeurs.contains(this)) {
-                                break;
-                            }
-                        }
-                    }
-                    listResult.add(t);
-                    break;
                 case 1 :
-                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.successeurs != null && !t.successeurs.contains(this)){
-                        if(t.successeurs != null) {
+                    direct = false;
+
+                    if(t.successeurs != null) {
+                        if (t.successeurs.contains(this)) {
+                            direct = true;
+                        } else {
                             for (Tache tSucc : t.successeurs) {
                                 if (tSucc.successeurs != null && tSucc.successeurs.contains(this)) {
-                                    break;
+                                    direct = true;
                                 }
                             }
                         }
+                    }
+                    if(!direct) {
                         listResult.add(t);
                     }
                     break;
                 case 2 :
-                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.predecesseur.predecesseur != null && !t.predecesseur.predecesseur.equals(this) &&
-                            t.successeurs != null && !t.successeurs.contains(this)){
+                    direct = false;
+
+                    if(t.predecesseur != null) {
+                        if(t.predecesseur.equals(this)){
+                            direct = true;
+                        }else{
+                            if(t.predecesseur.predecesseur != null && t.predecesseur.predecesseur.equals(this)){
+                                direct = true;
+                            }
+                        }
+                    }
+                    if(t.successeurs!=null){
+                        if (t.successeurs.contains(this)) {
+                            direct = true;
+                        }
+                    }
+                    if(!direct) {
                         listResult.add(t);
                     }
                     break;
                 case 3 :
-                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.predecesseur.predecesseur != null&& !t.predecesseur.predecesseur.equals(this) &&
-                            !t.predecesseur.predecesseur.predecesseur.equals(this)){
+                    direct = false;
+
+                    if(t.predecesseur != null) {
+                        if(t.predecesseur.equals(this)){
+                            direct = true;
+                        }else{
+                            if(t.predecesseur.predecesseur != null){
+                                if(t.predecesseur.predecesseur.equals(this)){
+                                    direct = true;
+                                }
+                                if(t.predecesseur.predecesseur.predecesseur != null){
+                                    if(t.predecesseur.predecesseur.predecesseur.equals(this)){
+                                        direct = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if(!direct) {
                         listResult.add(t);
                     }
                     break;
