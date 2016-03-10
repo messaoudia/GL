@@ -335,16 +335,12 @@ public class Projet extends EntiteSecurise {
         tache.responsableTache.update();
         tache.projet = this;
         tache.save();
+        System.out.println("Dans ajouterTache : tache = " + tache + " - disponible = " + tache.disponible);
         listTaches.add(tache);
 
         saveAllProject();
-
-        // TODO : faire tous les save
-
         updateDatesProjet(tache);
-        // TODO : mettre a jour les charges des taches meres -> a checker
         tache.initCharge(0.0, tache.chargeInitiale);
-        // TODO : mettre a jour les charges du projet + avancement + chemin critique -> a checker
 
         // Initialisation des personnes a notifié par défaut à la création de la tache
         tache.addUtilisateurNotification(tache.responsableTache);

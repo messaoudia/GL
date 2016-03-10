@@ -207,3 +207,4 @@ errorModificationTache = Modification de la tâche impossible, veuillez vérifie
 saisir2DateError = Veuillez renseigner deux dates ou rien
 projetExistError = Le projet existe déjà
 errorCoherence = Erreur de cohrence du projet!
+notFoundEmail = Cet adresse mail n'existe pas

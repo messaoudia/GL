@@ -2222,6 +2222,7 @@ var creerClient = function (btn) {
 
         },
         error: function (errorMessage) {
+         //   alert("ERROR ");
             $("#successCreerClient").hide();
             $("#successCreerClientP").empty();
             console.log(JSON.stringify(errorMessage));
