@@ -2,7 +2,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import controllers.DashboardController;
 import models.*;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -1090,7 +1090,6 @@ public class ModelManagerTest {
         a.getSuccesseurs().stream().map(tache -> tache.toString()).forEach(Logger::debug);
         Logger.debug("==================================================================");
         assertEquals(a.getSuccesseurs().get(0), c);
-        assertEquals(null,Tache.find.byId(tacheB.id));
     }
 
     @Test

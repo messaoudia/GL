@@ -1,7 +1,7 @@
 package controllers;
 
 import models.*;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -39,9 +39,8 @@ public class TacheController  extends Controller {
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
-            e.printStackTrace();
-            //System.out.println("--> " + e.getMessage());
-            return badRequest(/*e.getMessage()*/);
+            Logger.error("Tache incoherente",e);
+            return badRequest();
         }
         return ok();
     }
@@ -60,7 +59,7 @@ public class TacheController  extends Controller {
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
-            e.printStackTrace();
+            Logger.error("Tache incoherente",e);
             return badRequest();
         }
         return ok();
@@ -94,8 +93,9 @@ public class TacheController  extends Controller {
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
-            e.printStackTrace();
-            return badRequest();        }
+            Logger.error("Tache incoherente",e);
+            return badRequest();
+        }
         return ok();
     }
 
@@ -112,9 +112,6 @@ public class TacheController  extends Controller {
         Double newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-restC")[0]);
 
         String idPredecesseur = map.get("predecesseurC")[0];
-
-        Logger.debug("TOTOTOTOTOTOTOTTOTOTOTT    ======> " +map.get("predecesseurC").length);
-        Logger.debug("TOTOTOTOTOTOTOTTOTOTOTT    ======> " +map.get("predecesseurC")[0]);
 
 
         Tache newPredecesseur = null;
@@ -135,11 +132,14 @@ public class TacheController  extends Controller {
         //Successeurs
         List<Tache> successeurs = new ArrayList<>();
         String[] tabSucc = map.get("successeursC")[0].split(",");
+
         for(String idSucc : tabSucc){
             if(!idSucc.equals("")){
                 successeurs.add(Tache.find.byId(Long.parseLong(idSucc)));
             }
         }
+
+
         //interlocuteurs
         List<Contact> interlocuteurs = new ArrayList<>();
         String[] tabInterlocuteurs = map.get("interlocuteursC")[0].split(",");
@@ -155,9 +155,15 @@ public class TacheController  extends Controller {
         newTache.chargeInitiale = newChInitiale;
         newTache.chargeConsommee = newChConso;
         newTache.chargeRestante = newChRestante;
-
         if(!idPredecesseur.equals("") && newPredecesseur != null) {
-            newPredecesseur.associerSuccesseur(newTache);
+            if(newPredecesseur.getAvancementTache() == 1.0){
+                newTache.disponible = true;
+            }else{
+                newTache.disponible = false;
+            }
+        newPredecesseur.associerSuccesseur(newTache);
+        }else{
+            newTache.disponible = true;
         }
 
         if (newResponsable != null) {

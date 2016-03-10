@@ -1,4 +1,4 @@
-package models.Utils;
+package controllers.Utils;
 
 import controllers.Global.Mail;
 import models.Adresse;

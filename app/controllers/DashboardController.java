@@ -6,7 +6,7 @@ import models.Contact;
 import models.Projet;
 import models.Tache;
 import models.Utilisateur;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -53,6 +53,13 @@ public class DashboardController extends Controller{
         System.out.println("DashboardController.getAllInterlocuteur");
         List<Contact> lC = p.client.listContacts();
         return ok(Json.toJson(lC));
+    }
+
+    public Result getAllTaskPossibleExceptParentsDirects(Long idTache){
+        Tache tache = Tache.find.byId(idTache);
+        List<Tache> listTachesPossible = Tache.find.where().eq("projet",tache.projet).findList();
+
+        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listTachesPossible)));
     }
 
     public Result getAllPredecesseursPossible(Long idTache)
@@ -158,6 +165,11 @@ public class DashboardController extends Controller{
 
             if (newPredecesseur != null && (tache.predecesseur == null || !tache.predecesseur.equals(newPredecesseur))) {
                 newPredecesseur.associerSuccesseur(tache);
+                if(newPredecesseur.getAvancementTache() == 1.0){
+                    tache.disponible = true;
+                }else{
+                    tache.disponible = false;
+                }
             }
 
             Utilisateur ancienResponsable = tache.responsableTache;

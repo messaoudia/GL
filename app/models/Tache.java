@@ -4,9 +4,9 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import controllers.Utils.Utils;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
-import models.Utils.Utils;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -106,7 +106,7 @@ public class Tache extends EntiteSecurise {
             this.disponible = true;
         }else {
             this.predecesseur = predecesseur;
-            if(predecesseur.getAvancementTache() == 100){
+            if(predecesseur.getAvancementTache() == 1.0){
                 disponible = true;
             }else{
                 disponible = false;
@@ -332,7 +332,7 @@ public class Tache extends EntiteSecurise {
         this.chargeRestante = chargeRestante;
         updateEtatDisponibleSuccesseurs();
         updateChargesTachesMeresEtProjet();
-        if(getAvancementTache() == 100){
+        if(getAvancementTache() == 1.0){
             for(Tache succ : successeurs){
                 succ.disponible = true;
             }
@@ -650,7 +650,7 @@ public class Tache extends EntiteSecurise {
         return enfants;
     }
 
-    public boolean estTerminee(){ return getAvancementTache() == 100.0; }
+    public boolean estTerminee(){ return getAvancementTache() == 1.0; }
 
     public long nbJourRestant() {
         Calendar cal = Calendar.getInstance();
@@ -857,40 +857,71 @@ public class Tache extends EntiteSecurise {
     }
 
     public List<Tache> getAllTacheNonParentsDirects(List<Tache> listTache){
+        boolean direct = false;
         List<Tache> listResult = new ArrayList<>();
         for(Tache t : listTache){
             switch (t.niveau){
                 case 0 :
-                    if(t.successeurs != null && !t.successeurs.contains(this)){
-                        for (Tache tSucc : t.successeurs) {
-                            if (tSucc.successeurs != null && !tSucc.successeurs.contains(this)) {
-                                break;
-                            }
-                        }
-                    }
-                    listResult.add(t);
-                    break;
                 case 1 :
-                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.successeurs != null && !t.successeurs.contains(this)){
-                        if(t.successeurs != null) {
+                    direct = false;
+
+                    if(t.successeurs != null) {
+                        if (t.successeurs.contains(this)) {
+                            direct = true;
+                        } else {
                             for (Tache tSucc : t.successeurs) {
                                 if (tSucc.successeurs != null && tSucc.successeurs.contains(this)) {
-                                    break;
+                                    direct = true;
                                 }
                             }
                         }
+                    }
+                    if(!direct) {
                         listResult.add(t);
                     }
                     break;
                 case 2 :
-                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.predecesseur.predecesseur != null && !t.predecesseur.predecesseur.equals(this) &&
-                            t.successeurs != null && !t.successeurs.contains(this)){
+                    direct = false;
+
+                    if(t.predecesseur != null) {
+                        if(t.predecesseur.equals(this)){
+                            direct = true;
+                        }else{
+                            if(t.predecesseur.predecesseur != null && t.predecesseur.predecesseur.equals(this)){
+                                direct = true;
+                            }
+                        }
+                    }
+                    if(t.successeurs!=null){
+                        if (t.successeurs.contains(this)) {
+                            direct = true;
+                        }
+                    }
+                    if(!direct) {
                         listResult.add(t);
                     }
                     break;
                 case 3 :
-                    if(t.predecesseur != null && !t.predecesseur.equals(this) && t.predecesseur.predecesseur != null&& !t.predecesseur.predecesseur.equals(this) &&
-                            !t.predecesseur.predecesseur.predecesseur.equals(this)){
+                    direct = false;
+
+                    if(t.predecesseur != null) {
+                        if(t.predecesseur.equals(this)){
+                            direct = true;
+                        }else{
+                            if(t.predecesseur.predecesseur != null){
+                                if(t.predecesseur.predecesseur.equals(this)){
+                                    direct = true;
+                                }
+                                if(t.predecesseur.predecesseur.predecesseur != null){
+                                    if(t.predecesseur.predecesseur.predecesseur.equals(this)){
+                                        direct = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if(!direct) {
                         listResult.add(t);
                     }
                     break;

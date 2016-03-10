@@ -280,7 +280,7 @@ $(document).on('click', '.createSubTask', function (event) {
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
-    remplirFormulaireCreationTache(btn);
+    remplirFormulaireCreationTache(btn,true);
     $('#errorCreerTache').hide();
 
     $('#btn-valider-modifierTacheC').attr("data", btn.attr("data"));
@@ -322,7 +322,7 @@ $(document).on('click', '.createTaskHaut', function (event) {
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
-    remplirFormulaireCreationTache(btn);
+    remplirFormulaireCreationTache(btn,false);
     $('#errorCreerTache').hide();
     $('#btn-valider-modifierTacheC').attr("data", btn.attr("data"));
     $('#btn-valider-modifierTacheC').attr("onclick", "creerTacheHaut(this); return false;");
@@ -414,7 +414,7 @@ var creerTacheHaut = function (btn) {
     if (dataToSend == -1) {
 
     } else {
-        console.log("main.scala : appel du controlleur creerSousTache");
+        console.log("main.scala : appel du controlleur creerTacheHaut");
         jsRoutes.controllers.TacheController.creerTacheHaut(idTacheSelect).ajax({
             data: dataToSend,
             success: function (data) {
@@ -427,7 +427,7 @@ var creerTacheHaut = function (btn) {
                 refreshProjectTable(idTacheSelect);
             },
             error: function (errorMessage) {
-                console.log("main.scala > creerSousTache => error");
+                console.log("main.scala > creerTacheHaut => error");
                 console.log("-----------> " + errorMessage)
                 $('#errorCreerTache').show();
             }
@@ -444,7 +444,7 @@ $(document).on('click', '.createTaskBas', function (event) {
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
-    remplirFormulaireCreationTache(btn);
+    remplirFormulaireCreationTache(btn,false);
     $('#errorCreerTache').hide();
     $('#btn-valider-modifierTacheC').attr("data", btn.attr("data"));
     $('#btn-valider-modifierTacheC').attr("onclick", "creerTacheBas(this); return false;");
@@ -457,7 +457,7 @@ var creerTacheBas = function (btn) {
     if (dataToSend == -1) {
 
     } else {
-        console.log("main.scala : appel du controlleur creerSousTache");
+        console.log("main.scala : appel du controlleur creerTacheBas");
         jsRoutes.controllers.TacheController.creerTacheBas(idTacheSelect).ajax({
             data: dataToSend,
             success: function (data) {
@@ -470,7 +470,7 @@ var creerTacheBas = function (btn) {
                 refreshProjectTable(idTacheSelect);
             },
             error: function (errorMessage) {
-                console.log("main.scala > creerSousTache => error");
+                console.log("main.scala > creerTacheBas => error");
                 console.log("-----------> " + errorMessage)
                 $('#errorCreerTache').show();
 
@@ -489,7 +489,7 @@ var creerDataFormulaireCreationTache = function (btn) {
 
         //PREDECESSEUR
         var idPredecesseur = "";
-        if ($('#form-tache-predecesseuCr').select2().val() != null) {
+        if ($('#form-tache-predecesseurC').select2().val() != null) {
             idPredecesseur = $('#form-tache-predecesseurC').select2().val()[0];
             console.log("idPredecesseur" + idPredecesseur);
         }
@@ -517,7 +517,7 @@ var creerDataFormulaireCreationTache = function (btn) {
                 tabInterlocuteurs.push($("#checkbox-interlocuteurC-" + i).attr('value'));
             }
         }
-        alert(idPredecesseur);
+        //alert(idPredecesseur);
         var dataToSend = serialize + "&predecesseurC=" + idPredecesseur;
         dataToSend += "&successeursC=";
 
@@ -580,7 +580,7 @@ var refreshProjectTableByIdProject = function (projetId) {
     });
 }
 
-var remplirFormulaireCreationTache = function (btn) {
+var remplirFormulaireCreationTache = function (btn,isSubTask) {
     var jsonTache = "";
     //FIXME Dates limites
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
@@ -623,57 +623,79 @@ var remplirFormulaireCreationTache = function (btn) {
                 }
             });
 
-            //Predecesseurs possible
-            jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
-                success: function (taches) {
-                    //console.log(taches);
-                    var list = "";
+            if(isSubTask == true) {
+                //Predecesseurs possible
+                jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
+                    success: function (taches) {
+                        //console.log(taches);
+                        var list = "";
 
-                    $(taches).each(function (index, t) {
-                        if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
-                        }
-                        else {
-                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
-                        }
-                    });
-
-                    $('#form-tache-predecesseurC').html(list);
-                },
-                error: function (errorMessage) {
-                    console.log(errorMessage);
-                    alert(errorMessage);
-                }
-            });
-
-            //Successeurs possible
-            jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
-                success: function (taches) {
-                    //console.log(taches);
-                    var list = "";
-
-                    $(taches).each(function (index, t) {
-                        var isSuccesseur = false;
-                        $(tache.successeurs).each(function (index, s) {
-                            if (t.id == s.id) {
-                                isSuccesseur = true;
-                                return;
+                        $(taches).each(function (index, t) {
+                            if (t.id == tache.predecesseurId) {
+                                list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            }
+                            else {
+                                list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
                             }
                         });
-                        if (isSuccesseur) {
-                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
-                        } else {
-                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
-                        }
-                    });
 
-                    $('#form-tache-successeurC').html(list);
-                },
-                error: function (errorMessage) {
-                    console.log(errorMessage);
-                    alert(errorMessage);
-                }
-            });
+                        $('#form-tache-predecesseurC').html(list);
+                    },
+                    error: function (errorMessage) {
+                        console.log(errorMessage);
+                        alert(errorMessage);
+                    }
+                });
+
+                //Successeurs possible
+                jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
+                    success: function (taches) {
+                        //console.log(taches);
+                        var list = "";
+
+                        $(taches).each(function (index, t) {
+                            var isSuccesseur = false;
+                            $(tache.successeurs).each(function (index, s) {
+                                if (t.id == s.id) {
+                                    isSuccesseur = true;
+                                    return;
+                                }
+                            });
+                            if (isSuccesseur) {
+                                list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            } else {
+                                list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                            }
+                        });
+
+                        $('#form-tache-successeurC').html(list);
+                    },
+                    error: function (errorMessage) {
+                        console.log(errorMessage);
+                        alert(errorMessage);
+                    }
+                });
+
+            }else{
+                //Predecesseurs et Successeurs possible
+                jsRoutes.controllers.DashboardController.getAllTaskPossibleExceptParentsDirects(tache.id).ajax({
+                    success: function (taches) {
+                        //console.log(taches);
+                        var list = "";
+
+                        $(taches).each(function (index, t) {
+                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                        });
+
+                        $('#form-tache-predecesseurC').html(list);
+                        $('#form-tache-successeurC').html(list);
+                    },
+                    error: function (errorMessage) {
+                        console.log(errorMessage);
+                        alert(errorMessage);
+                    }
+                });
+            }
             //Responsable de tache
             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                 success: function (utilisateurs) {
@@ -2200,7 +2222,6 @@ var creerClient = function (btn) {
 
         },
         error: function (errorMessage) {
-            alert("ERROR ");
             $("#successCreerClient").hide();
             $("#successCreerClientP").empty();
             console.log(JSON.stringify(errorMessage));
