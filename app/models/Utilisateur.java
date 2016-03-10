@@ -1111,4 +1111,9 @@ public class Utilisateur extends Personne {
         this.listNotificationsGroupees = NotificationGroupee.find.where().eq("utilisateur", this).findList();
         return this.listNotificationsGroupees;
     }
+
+    public boolean isResponsableProjet(){
+        List<Projet> listProjet = listProjetsResponsable();
+        return listProjet != null && !listProjet.isEmpty();
+    }
 }
