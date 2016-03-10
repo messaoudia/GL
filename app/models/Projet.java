@@ -752,7 +752,7 @@ public class Projet extends EntiteSecurise {
 
         // Modification des idTache
         String[] idTacheParse = tache.idTache.split("\\.");
-        int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
+        int idTacheInteger = Integer.parseInt(idTacheParse[idTacheParse.length-1]);
 
         for (Tache tacheDuProjet : listTaches) {
             if (!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau) {
@@ -775,6 +775,11 @@ public class Projet extends EntiteSecurise {
         listTaches.remove(tache);
         tache.projet = null;
         tache.predecesseur = null;
+        for (int i = 0; i < tache.interlocuteurs.size(); i++) {
+            tache.interlocuteurs.get(i).listTachesCorrespondant.remove(this);
+            tache.interlocuteurs.get(i).update();
+        }
+        tache.interlocuteurs.clear();
 
         updateChargesTachesMeresEtProjet2(tacheMere);
         updateDatesProjet2();
