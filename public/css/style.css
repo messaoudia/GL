@@ -10,13 +10,25 @@
 .tache-indisponible > .dd-handle > .row{
     background-color: #dcdcdc;
 }
-.tache-retardee > .dd-handle > .row{
-    background-color: #e86f62;
-}
 
+
+.tache-retardee > .dd-handle > .row,
 .tache-terminee > .dd-handle > .row{
     background-color: #64afe1;
+    color:#FFF;
 }
+
+.tache-terminee > .dd-handle > .row > .col-middle > .row-initiale,
+.tache-terminee > .dd-handle > .row > .col-middle > .row-restante,
+.tache-terminee > .dd-handle > .row > .col-middle > .row-consommee
+{ color:#FFF;  }
+
+
+.tache-terminee > .dd-handle > .row > .col-middle > a > i
+{
+    color:#FFF;
+}
+
 
 .navbar-profile{
     height: 60px;
