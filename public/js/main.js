@@ -517,7 +517,7 @@ var creerDataFormulaireCreationTache = function (btn) {
                 tabInterlocuteurs.push($("#checkbox-interlocuteurC-" + i).attr('value'));
             }
         }
-
+        alert(idPredecesseur);
         var dataToSend = serialize + "&predecesseurC=" + idPredecesseur;
         dataToSend += "&successeursC=";
 
@@ -631,10 +631,10 @@ var remplirFormulaireCreationTache = function (btn) {
 
                     $(taches).each(function (index, t) {
                         if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                         else {
-                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
@@ -661,9 +661,9 @@ var remplirFormulaireCreationTache = function (btn) {
                             }
                         });
                         if (isSuccesseur) {
-                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         } else {
-                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
@@ -1916,8 +1916,6 @@ var supprimerUtilisateur = function () {
                     userTableBody.append(userContent);
                 }
             });
-
-
         },
         //Case we have a problem
         error: function (errorMessage) {
@@ -2225,7 +2223,7 @@ function generateRowClient(client) {
     list += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">' + client.listProjetsSize + '</td>');
     list += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">' + client.listTachesSize + '</td>');
     list += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">' + client.priorite + '</td>');
-    list += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">messages("no")</td>');
+    list += ('<td class="td-modal" data-toggle="modal" data-target="#modal-modif-client">'+messages("no")+'</td>');
     list += ('<td class="td-btn-suppr" style="vertical-align:middle;" data-toggle="modal"><i class="fa fa-times"></i></td>');
     list += ('</tr>');
 
@@ -2464,10 +2462,10 @@ var afficherModalTache = function (t) {
 
                     $(taches).each(function (index, t) {
                         if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                         else {
-                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
@@ -2492,9 +2490,9 @@ var afficherModalTache = function (t) {
                             }
                         });
                         if (isSuccesseur) {
-                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         } else {
-                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 

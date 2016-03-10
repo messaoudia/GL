@@ -113,6 +113,10 @@ public class TacheController  extends Controller {
 
         String idPredecesseur = map.get("predecesseurC")[0];
 
+        Logger.debug("TOTOTOTOTOTOTOTTOTOTOTT    ======> " +map.get("predecesseurC").length);
+        Logger.debug("TOTOTOTOTOTOTOTTOTOTOTT    ======> " +map.get("predecesseurC")[0]);
+
+
         Tache newPredecesseur = null;
         if(!idPredecesseur.equals("")) {
             newPredecesseur = Tache.find.byId(Long.parseLong(idPredecesseur));
