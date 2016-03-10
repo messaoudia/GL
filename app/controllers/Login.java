@@ -88,6 +88,7 @@ public class Login extends Controller {
         return Utilisateur.authenticate(jsonSessionCredential.get("email").asText(), jsonSessionCredential.get("password").asText());
     }
 
+
     public Result utilisateurConnecte(){
         return ok(Json.toJson(getUtilisateurConnecte()));
     }
