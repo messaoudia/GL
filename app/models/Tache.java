@@ -4,10 +4,9 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import controllers.Utils.Utils;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
-import models.Utils.Utils;
-import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
