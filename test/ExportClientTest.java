@@ -2,7 +2,7 @@ import com.avaje.ebean.Ebean;
 import models.Adresse;
 import models.Client;
 import models.Contact;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import org.apache.commons.io.FileUtils;
 import org.junit.*;
 import play.Logger;

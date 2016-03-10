@@ -4,7 +4,7 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import controllers.Global.Mail;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import play.Logger;
 import play.data.format.Formats;
 import play.libs.mailer.Email;

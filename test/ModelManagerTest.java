@@ -2,7 +2,7 @@ import com.avaje.ebean.Ebean;
 import com.avaje.ebean.common.BeanList;
 import controllers.DashboardController;
 import models.*;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.Before;

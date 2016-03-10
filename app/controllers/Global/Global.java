@@ -5,7 +5,7 @@ import com.avaje.ebean.Ebean;
 import models.*;
 import models.Securite.Autorisation;
 import models.Securite.Role;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import org.joda.time.DateTime;
 import org.joda.time.Seconds;
 import play.GlobalSettings;

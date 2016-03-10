@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import controllers.Global.StaticEntite;
 import models.Securite.Role;
-import models.Utils.Utils;
+import controllers.Utils.Utils;
 import play.Logger;
 import play.data.validation.Constraints;
 
