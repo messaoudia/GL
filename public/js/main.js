@@ -586,6 +586,7 @@ var remplirFormulaireCreationTache = function (btn) {
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
         success: function (tache) {
             jsonTache = tache;
+            //alert(tache);
             var dateDebut = tache.dateDebut;
             var dateFinTard = tache.dateFinTard;
             /*
@@ -617,6 +618,7 @@ var remplirFormulaireCreationTache = function (btn) {
 
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });
@@ -629,16 +631,17 @@ var remplirFormulaireCreationTache = function (btn) {
 
                     $(taches).each(function (index, t) {
                         if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                         else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
                     $('#form-tache-predecesseurC').html(list);
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });
@@ -658,15 +661,16 @@ var remplirFormulaireCreationTache = function (btn) {
                             }
                         });
                         if (isSuccesseur) {
-                            list += '<option value="' + t.id + '" selected>' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
                         } else {
-                            list += '<option value="' + t.id + '">' + t.id + ' - ' + t.nom + '</option>';
+                            list += '<option value="' + t.idTache + '">' + t.idTache + ' - ' + t.nom + '</option>';
                         }
                     });
 
                     $('#form-tache-successeurC').html(list);
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });
@@ -681,6 +685,7 @@ var remplirFormulaireCreationTache = function (btn) {
                     $('#responsableTacheModifierC').html(list);
                 },
                 error: function (errorMessage) {
+                    console.log(errorMessage);
                     alert(errorMessage);
                 }
             });

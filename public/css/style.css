@@ -7,6 +7,16 @@
  *
 */
 
+.tache-indisponible > .dd-handle > .row{
+    background-color: #dcdcdc;
+}
+.tache-retardee > .dd-handle > .row{
+    background-color: #e86f62;
+}
+
+.tache-terminee > .dd-handle > .row{
+    background-color: #64afe1;
+}
 
 .navbar-profile{
     height: 60px;
@@ -31,6 +41,7 @@
 
 .projet-finished {
     display: none;
+    background-color: #64afe1;
 }
 
 .projet-archived-finished
