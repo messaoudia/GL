@@ -206,3 +206,4 @@ errorCreationTache = Impossible task creation, please check the fields coherence
 errorModificationTache = Impossible task modification, please check the fields coherence.
 saisir2DateError = Please select two dates or nothing
 projetExistError = Project already exists
+errorCoherence = Coherence project error !

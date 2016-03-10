@@ -126,24 +126,25 @@ public class ClientController extends Controller {
         String email =  map.get("formEmailContactClient")[0].trim();
         String tel =  map.get("formTelContactClient")[0].trim();
 
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,30}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");
         Matcher nameMatch = nameRegex.matcher(nom);
         Matcher prenomMatch = nameRegex.matcher(prenom);
 
         if(nom.isEmpty()){
             error.nomVideContact = true;
+        }
+        else if(!nameMatch.matches()) {
+            error.nomIncorrectContact = true;
         }else if(nom.length()>15){
             error.nomTropLongContact = true;
-        }else if(!nameMatch.matches()) {
-            error.nomIncorrectContact = true;
-        }
 
-        if(prenom.isEmpty()){
+        if(prenom.isEmpty()) {
             error.prenomVideContact = true;
-        }else if(prenom.length()>15){
-            error.prenomTropLongContact = true;
+        }
         }else if(!prenomMatch.matches()) {
             error.prenomIncorrectContact = true;
+        }else if(prenom.length()>15) {
+            error.prenomTropLongContact = true;
         }
         //pattern java
         Pattern emailRegex = Pattern.compile("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$");

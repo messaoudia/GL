@@ -151,6 +151,18 @@ var changeModeDraftProjet = function (idProjet) {
                         console.error(errorMessage);
                     }
                 });
+                jsRoutes.controllers.ProjetController.afficheProjetAdmin(idProjet).ajax({
+                    //dataType: "json",
+                    //contentType: "application/json",
+                    success: function (data) {
+                        $('#col-consulterProjet').html(data);
+                        $('#col-consulterProjet').show();
+
+                    },
+                    error: function (errorMessage) {
+                        console.error(errorMessage);
+                    }
+                });
 
             },
             error: function (errorMessage) {
@@ -2323,22 +2335,22 @@ function generateErrorCreerClientContact(errorMessage) {
     if (errorMessage.responseJSON.nomVideContact == true) {
         messageDiv += '<br> - ' + messages("lastnameEmptyError");
     }
-    else if (errorMessage.responseJSON.nomTropLongContact == true) {
-        messageDiv += '<br> - ' + messages("lastnameTooLongError");
-    }
     else if (errorMessage.responseJSON.nomIncorrectContact == true) {
         messageDiv += '<br> - ' + messages("lastnameIncorrectError");
+    }else if (errorMessage.responseJSON.nomTropLongContact == true) {
+        messageDiv += '<br> - ' + messages("lastnameTooLongError");
     }
 
     if (errorMessage.responseJSON.prenomVideContact == true) {
         messageDiv += '<br> - ' + messages("firstnameEmptyError");
     }
-    else if (errorMessage.responseJSON.prenomTropLongContact == true) {
-        messageDiv += '<br> - ' + messages("firstnameTooLongError");
-    }
     else if (errorMessage.responseJSON.prenomIncorrectContact == true) {
         messageDiv += '<br> - ' + messages("firstnameIncorrectError");
     }
+    else if (errorMessage.responseJSON.prenomTropLongContact == true) {
+        messageDiv += '<br> - ' + messages("firstnameTooLongError");
+    }
+
 
 
     if (errorMessage.responseJSON.emailVideContact == true) {
@@ -2993,9 +3005,6 @@ function generateErrorCreerProjet(errorMessage) {
     else if (errorMessage.responseJSON.nomProjetTropLong == true) {
         messageDiv += '<br> - ' + messages("nameProjetTooLongError");
     }
-
-
-
     if (errorMessage.responseJSON.dateThDebutProjetVide == true) {
         messageDiv += '<br> - ' + messages("startDateEmptyError");
     }
@@ -3216,6 +3225,7 @@ $(document).ready(function () {
     });
 
     $('#dataTables-admin-user').DataTable({
+        info:false,
         destroy: true,
         "columnDefs": [{
             "searchable": false,
@@ -3226,6 +3236,7 @@ $(document).ready(function () {
 
 
     $('#dataTables-admin-client').DataTable({
+        info:false,
         destroy: true,
         "columnDefs": [{
             "searchable": false,
@@ -3290,20 +3301,27 @@ $(document).ready(function () {
     $("#searchContact-select2").select2();
 
 
-    $('.datatable-consulterClient').DataTable();
+    $('.datatable-consulterClient').DataTable({
+        info : false
+    });
     $('.dataTables-example').DataTable();
 
     $('#projet_Tache').dataTable({
+        info : false,
         "ordering": false
     });
 
     $('#projet_Projet').dataTable({
+        info : false,
         "ordering": false
     });
 
-    $('#dataTables-tdb-projet').DataTable();
+    $('#dataTables-tdb-projet').DataTable({
+        info:false
+    });
 
     $('#dataTables-tdb-tache').DataTable({
+        info : false,
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
@@ -3312,6 +3330,7 @@ $(document).ready(function () {
     });
 
     $('#dataTables-admin-projet').DataTable({
+        info : false,
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
@@ -3703,27 +3722,43 @@ $(document).ajaxComplete(function () {
         maxDepth: 4
     }).on('change');
 
-    $('.datatable-consulterClient').DataTable();
-    $('#dataTables-tdb-projet').DataTable();
+    if (!($.fn.dataTable.isDataTable('.datatable-consulterClient'))) {
+        $('.datatable-consulterClient').DataTable({
+            info : false
+        });
+    }
+
+    if (!($.fn.dataTable.isDataTable('#dataTables-tdb-projet'))) {
+        $('#dataTables-tdb-projet').DataTable({
+            info : false
+        });
+    }
+
+    if (!($.fn.dataTable.isDataTable('#dataTables-tdb-tache'))) {
+        $('#dataTables-tdb-tache').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": [6, 7]
+            }]
+        });
+    }
+
+    if (!($.fn.dataTable.isDataTable('#dataTables-admin-user'))) {
+        $('#dataTables-admin-user').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 7,
+            }]
+        });
+    }
 
 
-    $('#dataTables-tdb-tache').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": [6, 7]
-        }]
-    });
-
-    $('#dataTables-admin-user').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": 7,
-        }]
-    });
 
     $('#responsableProjet').select2();
 
@@ -3733,36 +3768,47 @@ $(document).ajaxComplete(function () {
 
     $('#client-projet').select2();
 
-    $('.dataTables-example').DataTable();
-
-    $('#projet_Projet').dataTable({
-        destroy: true,
-        "ordering": false
+    $('.dataTables-example').DataTable({
     });
 
-    $('#dataTables-admin-projet').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": 6
-        }]
-    });
+    if (!($.fn.dataTable.isDataTable('#projet_Projet'))) {
+        $('#projet_Projet').DataTable({
+            info : false,
+            destroy: true,
+            "ordering": false
+        });
+    }
 
-    $('#projet_Tache').dataTable({
-        "ordering": false
-    });
+    if (!($.fn.dataTable.isDataTable('#dataTables-admin-projet'))) {
+        $('#dataTables-admin-projet').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 6
+            }]
+        });
+    }
 
+    if (!($.fn.dataTable.isDataTable('#projet_Tache'))) {
+        $('#projet_Tache').DataTable({
+            info : false,
+            "ordering": false
+        });
+    }
 
-    $('#dataTables-admin-client').DataTable({
-        destroy: true,
-        "columnDefs": [{
-            "searchable": false,
-            "orderable": false,
-            "targets": 6
-        }]
-    });
-
+    if (!($.fn.dataTable.isDataTable('#dataTables-admin-client'))) {
+        $('#dataTables-admin-client').DataTable({
+            info : false,
+            destroy: true,
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 6
+            }]
+        });
+    }
 
     $('#btn-modifierTache').click(function () {
         jQuery.fx.off = true;

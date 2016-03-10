@@ -814,7 +814,9 @@ public class Projet extends EntiteSecurise {
 
             //tache.utilisateursNotifications=null;
             //tache.update();
-            tache.delete();
+            //tache.delete();
+            tache.archive=true;
+            tache.update();
 
             //Utilisateur u = tache.responsableTache;
             //u.enleverResponsabiliteTache(tache);
