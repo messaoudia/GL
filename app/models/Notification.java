@@ -92,7 +92,7 @@ public class Notification extends Model {
             notification.save();
             user.addNotification(notification);
             user.update();
-            // TODO sendEmail(user, notification);
+            sendEmail(user, notification);
         }
     }
 
@@ -112,12 +112,28 @@ public class Notification extends Model {
     }
 
     /**
+     * Envoie tache retardee et tache bientot fini
+     */
+    public static void sendNotificationInThread(){
+        List<Utilisateur> listUtilisateurs = Utilisateur.find.where().eq("archive", false).findList();
+        HashMap<Utilisateur, Notification>  mapNotifications = new HashMap<>();
+        for(Utilisateur utilisateur : listUtilisateurs){
+            if(!utilisateur.recevoirNotifPourMesTachesPresqueFinies)
+                sendNotificationTacheBientotProche(mapNotifications, utilisateur);
+
+            if(!utilisateur.recevoirNotifPourMesTachesRetardees)
+                sendNotificationTacheRetardee(mapNotifications, utilisateur);
+        }
+        sendNotifications(mapNotifications);
+    }
+
+    /**
      * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
      * qui se terminent dans moins de 5 jours
-     *
+     * @param mapNotifications
      * @param utilisateur
      */
-    public static void sendNotificationTacheBientotProche(Utilisateur utilisateur, Notification notification) {
+    private static void sendNotificationTacheBientotProche(HashMap<Utilisateur, Notification> mapNotifications, Utilisateur utilisateur) {
         Calendar cal = Calendar.getInstance();
         Calendar today = new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DATE));
         int LIMIT_DATE_ECHEANCE = 5;
@@ -149,29 +165,29 @@ public class Notification extends Model {
                 }
             }
         }
-
         if (!message.isEmpty()) {
-            if (notification.title != null && !notification.title.isEmpty()) {
+            if(mapNotifications.containsKey(utilisateur)){
+                Notification notification = mapNotifications.get(utilisateur);
                 notification.title += " - " + title;
-            } else {
-                notification.title = title;
-            }
-            if (notification.contentNotification != null && !notification.contentNotification.isEmpty()) {
                 notification.contentNotification += "<p></p>" + message;
-            } else {
-                notification.contentNotification = message;
+                notification.update();
+                mapNotifications.put(utilisateur, notification);
             }
-            notification.save();
+            else{
+                Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
+                notification.save();
+                mapNotifications.put(utilisateur, notification);
+            }
         }
     }
 
     /**
      * Envoie une notification groupée à l'utilisateur en paramètre => lui indique quelles sont les taches
      * qui sont retardées
-     *
+     * @param mapNotifications
      * @param utilisateur
      */
-    public static void sendNotificationTacheRetardee(Utilisateur utilisateur, Notification notification) {
+    private static void sendNotificationTacheRetardee(HashMap<Utilisateur, Notification> mapNotifications, Utilisateur utilisateur) {
         String title = "";
         String message = "";
 
@@ -197,17 +213,18 @@ public class Notification extends Model {
         }
 
         if (!message.isEmpty()) {
-            if (notification.title != null && !notification.title.isEmpty()) {
+            if(mapNotifications.containsKey(utilisateur)){
+                Notification notification = mapNotifications.get(utilisateur);
                 notification.title += " - " + title;
-            } else {
-                notification.title = title;
-            }
-            if (notification.contentNotification != null && !notification.contentNotification.isEmpty()) {
                 notification.contentNotification += "<p></p>" + message;
-            } else {
-                notification.contentNotification = message;
+                notification.update();
+                mapNotifications.put(utilisateur, notification);
             }
-            notification.save();
+            else{
+                Notification notification = new Notification(title, message, Calendar.getInstance().getTime(), false, false, utilisateur);
+                notification.save();
+                mapNotifications.put(utilisateur, notification);
+            }
         }
     }
 
