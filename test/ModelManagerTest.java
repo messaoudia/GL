@@ -1090,7 +1090,6 @@ public class ModelManagerTest {
         a.getSuccesseurs().stream().map(tache -> tache.toString()).forEach(Logger::debug);
         Logger.debug("==================================================================");
         assertEquals(a.getSuccesseurs().get(0), c);
-        assertEquals(null,Tache.find.byId(tacheB.id));
     }
 
     @Test
