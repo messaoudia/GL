@@ -218,7 +218,7 @@ public class Utilisateur extends Personne {
      * @return list des projets du responsable
      */
     public List<Projet> listProjetsResponsable() {
-        List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).findList();
+        List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).eq("archive", false).findList();
         /** TODO : obliger de faire ça car pas présent en BDD **/
         for (Projet projet : listProjet) {
             projet.updateAvancementGlobal();
@@ -253,12 +253,12 @@ public class Utilisateur extends Personne {
      * @return list des taches du responsable
      */
     public List<Tache> listTaches() {
-        listTaches = Tache.find.where().eq("responsableTache", this).findList();
+        listTaches = Tache.find.where().eq("responsableTache", this).eq("archive", false).findList();
         return listTaches;
     }
 
     public List<Tache> listTachesDansProjetNonResponsable(Projet projet) {
-        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
+        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("archive", false).eq("projet", projet).findList();
         List<Tache> taches = new ArrayList<>(tachesTmp);
         // Ajout des taches meres et filles
         for (Tache tache : tachesTmp) {
