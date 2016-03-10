@@ -158,6 +158,11 @@ public class DashboardController extends Controller{
 
             if (newPredecesseur != null && (tache.predecesseur == null || !tache.predecesseur.equals(newPredecesseur))) {
                 newPredecesseur.associerSuccesseur(tache);
+                if(newPredecesseur.getAvancementTache() == 1.0){
+                    tache.disponible = true;
+                }else{
+                    tache.disponible = false;
+                }
             }
 
             Utilisateur ancienResponsable = tache.responsableTache;

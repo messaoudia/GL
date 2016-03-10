@@ -806,7 +806,7 @@ public class Projet extends EntiteSecurise {
         calculeCheminCritique();
 
         // Suppression ou archivage
-        if (tache.getAvancementTache()*100 == 0.0) {
+        if (tache.getAvancementTache() == 0.0) {
             tache.removeUtilisateurNotification(tache.responsableTache);
             tache.removeUtilisateurNotificationEnfants();
             tache.removeUtilisateurNotificationParents();
