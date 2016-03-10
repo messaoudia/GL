@@ -280,7 +280,7 @@ $(document).on('click', '.createSubTask', function (event) {
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
-    remplirFormulaireCreationTache(btn);
+    remplirFormulaireCreationTache(btn,true);
     $('#errorCreerTache').hide();
 
     $('#btn-valider-modifierTacheC').attr("data", btn.attr("data"));
@@ -322,7 +322,7 @@ $(document).on('click', '.createTaskHaut', function (event) {
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
-    remplirFormulaireCreationTache(btn);
+    remplirFormulaireCreationTache(btn,false);
     $('#errorCreerTache').hide();
     $('#btn-valider-modifierTacheC').attr("data", btn.attr("data"));
     $('#btn-valider-modifierTacheC').attr("onclick", "creerTacheHaut(this); return false;");
@@ -444,7 +444,7 @@ $(document).on('click', '.createTaskBas', function (event) {
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
 
-    remplirFormulaireCreationTache(btn);
+    remplirFormulaireCreationTache(btn,false);
     $('#errorCreerTache').hide();
     $('#btn-valider-modifierTacheC').attr("data", btn.attr("data"));
     $('#btn-valider-modifierTacheC').attr("onclick", "creerTacheBas(this); return false;");
@@ -580,7 +580,7 @@ var refreshProjectTableByIdProject = function (projetId) {
     });
 }
 
-var remplirFormulaireCreationTache = function (btn) {
+var remplirFormulaireCreationTache = function (btn,isSubTask) {
     var jsonTache = "";
     //FIXME Dates limites
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
@@ -623,57 +623,79 @@ var remplirFormulaireCreationTache = function (btn) {
                 }
             });
 
-            //Predecesseurs possible
-            jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
-                success: function (taches) {
-                    //console.log(taches);
-                    var list = "";
+            if(isSubTask == true) {
+                //Predecesseurs possible
+                jsRoutes.controllers.DashboardController.getAllPredecesseursPossible(tache.id).ajax({
+                    success: function (taches) {
+                        //console.log(taches);
+                        var list = "";
 
-                    $(taches).each(function (index, t) {
-                        if (t.id == tache.predecesseurId) {
-                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
-                        }
-                        else {
-                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
-                        }
-                    });
-
-                    $('#form-tache-predecesseurC').html(list);
-                },
-                error: function (errorMessage) {
-                    console.log(errorMessage);
-                    alert(errorMessage);
-                }
-            });
-
-            //Successeurs possible
-            jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
-                success: function (taches) {
-                    //console.log(taches);
-                    var list = "";
-
-                    $(taches).each(function (index, t) {
-                        var isSuccesseur = false;
-                        $(tache.successeurs).each(function (index, s) {
-                            if (t.id == s.id) {
-                                isSuccesseur = true;
-                                return;
+                        $(taches).each(function (index, t) {
+                            if (t.id == tache.predecesseurId) {
+                                list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            }
+                            else {
+                                list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
                             }
                         });
-                        if (isSuccesseur) {
-                            list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
-                        } else {
-                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
-                        }
-                    });
 
-                    $('#form-tache-successeurC').html(list);
-                },
-                error: function (errorMessage) {
-                    console.log(errorMessage);
-                    alert(errorMessage);
-                }
-            });
+                        $('#form-tache-predecesseurC').html(list);
+                    },
+                    error: function (errorMessage) {
+                        console.log(errorMessage);
+                        alert(errorMessage);
+                    }
+                });
+
+                //Successeurs possible
+                jsRoutes.controllers.DashboardController.getAllSucesseursPossible(tache.id).ajax({
+                    success: function (taches) {
+                        //console.log(taches);
+                        var list = "";
+
+                        $(taches).each(function (index, t) {
+                            var isSuccesseur = false;
+                            $(tache.successeurs).each(function (index, s) {
+                                if (t.id == s.id) {
+                                    isSuccesseur = true;
+                                    return;
+                                }
+                            });
+                            if (isSuccesseur) {
+                                list += '<option value="' + t.id + '" selected>' + t.idTache + ' - ' + t.nom + '</option>';
+                            } else {
+                                list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                            }
+                        });
+
+                        $('#form-tache-successeurC').html(list);
+                    },
+                    error: function (errorMessage) {
+                        console.log(errorMessage);
+                        alert(errorMessage);
+                    }
+                });
+
+            }else{
+                //Predecesseurs et Successeurs possible
+                jsRoutes.controllers.DashboardController.getAllTaskPossibleExceptParentsDirects(tache.id).ajax({
+                    success: function (taches) {
+                        //console.log(taches);
+                        var list = "";
+
+                        $(taches).each(function (index, t) {
+                            list += '<option value="' + t.id + '">' + t.idTache + ' - ' + t.nom + '</option>';
+                        });
+
+                        $('#form-tache-predecesseurC').html(list);
+                        $('#form-tache-successeurC').html(list);
+                    },
+                    error: function (errorMessage) {
+                        console.log(errorMessage);
+                        alert(errorMessage);
+                    }
+                });
+            }
             //Responsable de tache
             jsRoutes.controllers.UtilisateurController.afficherUtilisateursNonArchives().ajax({
                 success: function (utilisateurs) {

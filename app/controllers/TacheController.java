@@ -39,9 +39,8 @@ public class TacheController  extends Controller {
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
-            e.printStackTrace();
-            //System.out.println("--> " + e.getMessage());
-            return badRequest(/*e.getMessage()*/);
+            Logger.error("Tache incoherente",e);
+            return badRequest();
         }
         return ok();
     }
@@ -60,7 +59,7 @@ public class TacheController  extends Controller {
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
-            e.printStackTrace();
+            Logger.error("Tache incoherente",e);
             return badRequest();
         }
         return ok();
@@ -94,8 +93,9 @@ public class TacheController  extends Controller {
             currentUser.save();
         } catch (Exception e) {
             Logger.debug("Affichage de l'exception : ");
-            e.printStackTrace();
-            return badRequest();        }
+            Logger.error("Tache incoherente",e);
+            return badRequest();
+        }
         return ok();
     }
 

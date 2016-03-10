@@ -55,6 +55,13 @@ public class DashboardController extends Controller{
         return ok(Json.toJson(lC));
     }
 
+    public Result getAllTaskPossibleExceptParentsDirects(Long idTache){
+        Tache tache = Tache.find.byId(idTache);
+        List<Tache> listTachesPossible = Tache.find.where().eq("projet",tache.projet).findList();
+
+        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listTachesPossible)));
+    }
+
     public Result getAllPredecesseursPossible(Long idTache)
     {
         Tache tache = Tache.find.byId(idTache);
