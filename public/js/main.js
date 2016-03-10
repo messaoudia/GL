@@ -263,11 +263,12 @@ function updateSideBarClientArchive(checkbox) {
 $(document).on('click', '.createSubTask', function (event) {
     var btn = $(this);
     console.log("creer sous tache de " + btn.attr("data"));
-
     $('#formModifierTacheC').validate().resetForm();
     $('#formModifierTacheC').trigger("reset");
     $('#nomProjet-modifier-tdbC').html(btn.attr("projet"));
     $('#nomClient-modifier-tdbC').html(btn.attr("client"));
+    alert($('#nomProjet-modifier-tdbC').html());
+    alert($('#nomClient-modifier-tdbC').html());
 
     remplirFormulaireCreationTache(btn);
     $('#errorCreerTache').hide();
@@ -277,18 +278,15 @@ $(document).on('click', '.createSubTask', function (event) {
 });
 
 var creerSousTache = function (btn) {
-    console.log("main.scala : creerSousTache appelé");
     var idTacheSelect = $(btn).attr("data");
     var dataToSend = creerDataFormulaireCreationTache(btn);
 
     if (dataToSend == -1) {
 
     } else {
-        console.log("main.scala : appel du controlleur creerSousTache");
         jsRoutes.controllers.TacheController.creerSousTache(idTacheSelect).ajax({
             data: dataToSend,
             success: function (data) {
-                console.log("main.scala : success");
 
                 $('#errorCreerTache').hide();
                 $('#modal-tache-creer').modal('toggle');
@@ -574,11 +572,11 @@ var refreshProjectTableByIdProject = function (projetId) {
 
 var remplirFormulaireCreationTache = function (btn) {
     var jsonTache = "";
-
     //FIXME Dates limites
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
         success: function (tache) {
             jsonTache = tache;
+            alert(tache);
             var dateDebut = tache.dateDebut;
             var dateFinTard = tache.dateFinTard;
             /*
@@ -2167,6 +2165,7 @@ var creerClient = function (btn) {
         contentType: "application/json",
 
         success: function (data) {
+
             $("#errorCreerClientP").empty();
             $("#errorCreerClient").hide();
 
@@ -2189,9 +2188,10 @@ var creerClient = function (btn) {
 
         },
         error: function (errorMessage) {
+            alert("ERROR ");
             $("#successCreerClient").hide();
             $("#successCreerClientP").empty();
-
+            console.log(JSON.stringify(errorMessage));
             var messageDiv = generateErrorCreerClient(errorMessage);
 
             $("#errorCreerClientP").html(messageDiv);
@@ -2227,8 +2227,8 @@ function generateErrorCreerClient(errorMessage) {
     else if (errorMessage.responseJSON.nomClientTropLong == true) {
         messageDiv += '<br> - ' + messages("nameClientTooLongError");
     }
-    else if (errorMessage.responseJSON.nomClientIncorrecte == true) {
-        messageDiv += '<br> - ' + messages("nameClientIncorrectError");
+    else if (errorMessage.responseJSON.nomIncorrect == true) {
+        messageDiv += '<br> - ' + messages("nameIncorrectError");
     }
 
     if (errorMessage.responseJSON.adresseVide == true) {
@@ -2987,9 +2987,13 @@ function generateErrorCreerProjet(errorMessage) {
     if (errorMessage.responseJSON.nomProjetVide == true) {
         messageDiv += '<br> - ' + messages("nameProjetEmptyError");
     }
+    else if (errorMessage.responseJSON.nomIncorrect == true) {
+        messageDiv += '<br> - ' + messages("nameIncorrectError");
+    }
     else if (errorMessage.responseJSON.nomProjetTropLong == true) {
         messageDiv += '<br> - ' + messages("nameProjetTooLongError");
     }
+
 
 
     if (errorMessage.responseJSON.dateThDebutProjetVide == true) {
@@ -3070,6 +3074,9 @@ function generateErrorModifierProjet(errorMessage) {
 
     if (errorMessage.responseJSON.nomProjetVide == true) {
         messageDiv += '<br> - ' + messages("nameProjetEmptyError");
+    }
+    else if (errorMessage.responseJSON.nomIncorrect == true) {
+        messageDiv += '<br> - ' + messages("nameIncorrectError");
     }
     else if (errorMessage.responseJSON.nomProjetTropLong == true) {
         messageDiv += '<br> - ' + messages("nameProjetTooLongError");
@@ -3483,6 +3490,22 @@ $(document).ready(function () {
     });
 });
 
+$(document).on('click', '#errorCreerUser > button', function () {
+    $("#errorCreerUser").hide()
+});
+$(document).on('click', '#errorCreerClient > button', function () {
+    $("#errorCreerClient").hide()
+});
+$(document).on('click', '#errorCreerProjet > button', function () {
+    $("#errorCreerProjet").hide()
+});
+$(document).on('click', '#errorModifierProjet > button', function () {
+    $("#errorModifierProjet").hide()
+});
+$(document).on('click', '#errorModifierClient > button', function () {
+    $("#errorModifierClient").hide()
+});
+
 $(document).on('click', '#submitButton', function () {
     var $form = $('#addProjectForm');
     var $serialize = $form.serialize();
@@ -3538,26 +3561,6 @@ $(document).ajaxComplete(function () {
             });
         }
     });
-
-    $("#errorCreerUser > button").click(function () {
-        $("#errorCreerUser").hide()
-    });
-
-    $("#errorCreerClient > button").click(function () {
-        $("#errorCreerClient").hide()
-    });
-
-    $("#errorCreerProjet > button").click(function () {
-        $("#errorProjet").hide()
-    });
-
-    $("#errorModifierProjet > button").click(function () {
-        $("#errorProjet").hide()
-    });
-    $("#errorModifierClient > button").click(function () {
-        $("#errorProjet").hide()
-    });
-
 
     $("#btn-modifierProjet-admin").click(function () {
         //$("#div-consulterProjet").css("display","none");

@@ -1415,4 +1415,5 @@ public class ModelManagerTest {
         assertEquals(tache.responsableTache, Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0])));
 
     }
+
 }

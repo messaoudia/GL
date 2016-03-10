@@ -11,6 +11,8 @@ import views.html.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -47,8 +49,6 @@ public class AdminController extends Controller{
 
     public Result afficherModalUtilisateur(long idUtilisateur){
         Utilisateur t = Utilisateur.find.byId(idUtilisateur);
-        System.out.println("LAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(t.checkAdmin());
         return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur)));
     }
 
@@ -134,10 +134,14 @@ public class AdminController extends Controller{
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         Error error = new Error();
         String nom = map.get("projet")[0].trim();
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-]{1,30}$");
+        Matcher nameMatch = nameRegex.matcher(nom);
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
+        }else if(!nameMatch.matches()) {
+            error.nomIncorrect = true;
         } else if (nom.length() > 30) {
-            error.nomProjetTropLong= true;
+            error.nomProjetTropLong = true;
         }
         String description = map.get("description")[0].trim();
         if(description.length() > 65536) {
