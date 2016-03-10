@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
-import controllers.Utils.Utils;
+import models.Utils.Utils;
+import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -106,7 +107,7 @@ public class Tache extends EntiteSecurise {
             this.disponible = true;
         }else {
             this.predecesseur = predecesseur;
-            if(predecesseur.getAvancementTache() == 100){
+            if(predecesseur.getAvancementTache() == 1.0){
                 disponible = true;
             }else{
                 disponible = false;
@@ -332,7 +333,7 @@ public class Tache extends EntiteSecurise {
         this.chargeRestante = chargeRestante;
         updateEtatDisponibleSuccesseurs();
         updateChargesTachesMeresEtProjet();
-        if(getAvancementTache() == 100){
+        if(getAvancementTache() == 1.0){
             for(Tache succ : successeurs){
                 succ.disponible = true;
             }
@@ -650,7 +651,7 @@ public class Tache extends EntiteSecurise {
         return enfants;
     }
 
-    public boolean estTerminee(){ return getAvancementTache() == 100.0; }
+    public boolean estTerminee(){ return getAvancementTache() == 1.0; }
 
     public long nbJourRestant() {
         Calendar cal = Calendar.getInstance();

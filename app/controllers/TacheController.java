@@ -113,9 +113,6 @@ public class TacheController  extends Controller {
 
         String idPredecesseur = map.get("predecesseurC")[0];
 
-        Logger.debug("TOTOTOTOTOTOTOTTOTOTOTT    ======> " +map.get("predecesseurC").length);
-        Logger.debug("TOTOTOTOTOTOTOTTOTOTOTT    ======> " +map.get("predecesseurC")[0]);
-
 
         Tache newPredecesseur = null;
         if(!idPredecesseur.equals("")) {
@@ -135,11 +132,14 @@ public class TacheController  extends Controller {
         //Successeurs
         List<Tache> successeurs = new ArrayList<>();
         String[] tabSucc = map.get("successeursC")[0].split(",");
+
         for(String idSucc : tabSucc){
             if(!idSucc.equals("")){
                 successeurs.add(Tache.find.byId(Long.parseLong(idSucc)));
             }
         }
+
+
         //interlocuteurs
         List<Contact> interlocuteurs = new ArrayList<>();
         String[] tabInterlocuteurs = map.get("interlocuteursC")[0].split(",");
@@ -155,9 +155,15 @@ public class TacheController  extends Controller {
         newTache.chargeInitiale = newChInitiale;
         newTache.chargeConsommee = newChConso;
         newTache.chargeRestante = newChRestante;
-
         if(!idPredecesseur.equals("") && newPredecesseur != null) {
-            newPredecesseur.associerSuccesseur(newTache);
+            if(newPredecesseur.getAvancementTache() == 1.0){
+                newTache.disponible = true;
+            }else{
+                newTache.disponible = false;
+            }
+        newPredecesseur.associerSuccesseur(newTache);
+        }else{
+            newTache.disponible = true;
         }
 
         if (newResponsable != null) {
