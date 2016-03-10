@@ -122,37 +122,17 @@ public class Global extends GlobalSettings {
             Tache t = Utilisateur.find.byId(12L).listTachesResponsable().get(0);*/
 
             Akka.system().scheduler().schedule(
-                    Duration.create(20, TimeUnit.SECONDS),
-                    Duration.create(5, TimeUnit.SECONDS),
-                    new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //TODO ADD DELETE THIS IF NOT NEDDED
-
-                            Logger.info("---------------------------------------    ");
-                            Logger.info("After 10 sec and after EVERY 5 sec  ---    ");
-                            controllers.NotificationController.secheduledSending();
-                            Logger.info("---------------------------------------    ");
-
-                        }
-                    },
-                    Akka.system().dispatcher()
-            );
-
-            Akka.system().scheduler().schedule(
                     Duration.create(nextExecutionInSeconds(3, 0), TimeUnit.SECONDS),
                     Duration.create(24, TimeUnit.HOURS),
                     new Runnable() {
                         @Override
                         public void run() {
 
-                            //TODO ADD all task to be done at  3 AM
+                            //All task to be done at  3 AM
 
-
-                            // TODO add NOTIFICATION HERE
-
-                            Logger.info("EVERY DAY AT 3:00 ---    " + System.currentTimeMillis());
+                            Logger.info("---------------------------------------");
+                            Notification.sendNotificationInThread();
+                            Logger.info("---------------------------------------");
                         }
                     },
                     Akka.system().dispatcher()
