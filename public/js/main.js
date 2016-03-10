@@ -3225,8 +3225,8 @@ $(document).ready(function () {
     });
 
     $('#dataTables-admin-user').DataTable({
-        info:false,
         destroy: true,
+        info:false,
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
@@ -3236,8 +3236,8 @@ $(document).ready(function () {
 
 
     $('#dataTables-admin-client').DataTable({
-        info:false,
         destroy: true,
+        info:false,
         "columnDefs": [{
             "searchable": false,
             "orderable": false,
@@ -3302,25 +3302,30 @@ $(document).ready(function () {
 
 
     $('.datatable-consulterClient').DataTable({
+        destroy : true,
         info : false
     });
     $('.dataTables-example').DataTable();
 
     $('#projet_Tache').dataTable({
+        destroy : true,
         info : false,
         "ordering": false
     });
 
     $('#projet_Projet').dataTable({
+        destroy : true,
         info : false,
         "ordering": false
     });
 
     $('#dataTables-tdb-projet').DataTable({
+        destroy : true,
         info:false
     });
 
     $('#dataTables-tdb-tache').DataTable({
+        destroy : true,
         info : false,
         "columnDefs": [{
             "searchable": false,
@@ -3330,6 +3335,7 @@ $(document).ready(function () {
     });
 
     $('#dataTables-admin-projet').DataTable({
+        destroy : true,
         info : false,
         "columnDefs": [{
             "searchable": false,
@@ -3724,20 +3730,22 @@ $(document).ajaxComplete(function () {
 
     if (!($.fn.dataTable.isDataTable('.datatable-consulterClient'))) {
         $('.datatable-consulterClient').DataTable({
+            destroy : true,
             info : false
         });
     }
 
     if (!($.fn.dataTable.isDataTable('#dataTables-tdb-projet'))) {
         $('#dataTables-tdb-projet').DataTable({
+            destroy : true,
             info : false
         });
     }
 
     if (!($.fn.dataTable.isDataTable('#dataTables-tdb-tache'))) {
         $('#dataTables-tdb-tache').DataTable({
+            destroy : true,
             info : false,
-            destroy: true,
             "columnDefs": [{
                 "searchable": false,
                 "orderable": false,
@@ -3748,8 +3756,8 @@ $(document).ajaxComplete(function () {
 
     if (!($.fn.dataTable.isDataTable('#dataTables-admin-user'))) {
         $('#dataTables-admin-user').DataTable({
+            destroy : true,
             info : false,
-            destroy: true,
             "columnDefs": [{
                 "searchable": false,
                 "orderable": false,
@@ -3773,16 +3781,16 @@ $(document).ajaxComplete(function () {
 
     if (!($.fn.dataTable.isDataTable('#projet_Projet'))) {
         $('#projet_Projet').DataTable({
-            info : false,
             destroy: true,
+            info : false,
             "ordering": false
         });
     }
 
     if (!($.fn.dataTable.isDataTable('#dataTables-admin-projet'))) {
         $('#dataTables-admin-projet').DataTable({
-            info : false,
             destroy: true,
+            info : false,
             "columnDefs": [{
                 "searchable": false,
                 "orderable": false,
@@ -3793,6 +3801,7 @@ $(document).ajaxComplete(function () {
 
     if (!($.fn.dataTable.isDataTable('#projet_Tache'))) {
         $('#projet_Tache').DataTable({
+            destroy : true,
             info : false,
             "ordering": false
         });
@@ -3800,8 +3809,8 @@ $(document).ajaxComplete(function () {
 
     if (!($.fn.dataTable.isDataTable('#dataTables-admin-client'))) {
         $('#dataTables-admin-client').DataTable({
-            info : false,
             destroy: true,
+            info : false,
             "columnDefs": [{
                 "searchable": false,
                 "orderable": false,

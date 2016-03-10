@@ -243,9 +243,11 @@ public class Tache extends EntiteSecurise {
         return result;
     }
 
+    /*
     public List<Tache> getEnfants() {
         return find.where().eq("parent", this).findList();
     }
+    */
 
     @Override
     public String toString() {
@@ -593,7 +595,7 @@ public class Tache extends EntiteSecurise {
     /**
      * Mets a jour la charge consommee de la tâche éventuellement composée de sous-tâches
      */
-    private void updateChargeConsommeeTacheRecursive(Tache tache) {
+    public void updateChargeConsommeeTacheRecursive(Tache tache) {
         if(tache.hasParent()) {
             Double chargeConsommeeNouvel = 0.0;
             for(Tache tacheMemeNiveau : tache.parent.enfants){
@@ -608,7 +610,7 @@ public class Tache extends EntiteSecurise {
     /**
      * Mets a jour la charge totale de la tâche éventuellement composée de sous-tâches
      */
-    private void updateChargeRestanteTacheRecursive(Tache tache) {
+    public void updateChargeRestanteTacheRecursive(Tache tache) {
         if(tache.hasParent()) {
             Double chargeRestanteNouvel = 0.0;
             for(Tache tacheMemeNiveau : tache.parent.enfants){

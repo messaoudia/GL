@@ -379,7 +379,7 @@ public class Projet extends EntiteSecurise {
     }
 
     // TODO TEST ME
-    private void updateDatesProjet2() {
+    private void updateDatesProjet() {
         if (listTaches.isEmpty())
             return;
         int i = 0;
@@ -715,9 +715,17 @@ public class Projet extends EntiteSecurise {
             throw new IllegalArgumentException("Le projet " + this.nom + ", ne contient pas la tache " + tache.nom +
                     ", suppression impossible");
         }
+
+        if (tache.hasEnfant()) {
+            for (int i=tache.enfants.size()-1; i>=0; i--) {
+                supprimerTache(tache.enfants.get(i));
+            }
+        }
+        /*
         if (tache.getAvancementTache() > 0) {
             throw new IllegalStateException("Suppression de la tache " + tache.nom + " impossible car elle est déja commencée.");
         }
+        */
 
         // Modifications au niveau des liaisons predecesseur/successeurs
         if (tache.hasPredecesseur() && tache.hasSuccesseur()) {
@@ -736,17 +744,11 @@ public class Projet extends EntiteSecurise {
         } else if (tache.hasPredecesseur()) {
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
-            tAvant.save();
+            tAvant.save();  // TODO ENLEVER?
         } else if (tache.hasSuccesseur()) {
             List<Tache> successeurs = tache.getSuccesseurs();
             for (int i = 0; i < successeurs.size(); i++) {
                 successeurs.get(i).predecesseur = null;
-            }
-        }
-
-        if (tache.hasEnfant()) {
-            for (Tache enfant : tache.enfants) {
-                supprimerTache(enfant);
             }
         }
 
@@ -771,8 +773,24 @@ public class Projet extends EntiteSecurise {
         // Notifications
         removeUtilisateurNotification(tache.responsableTache);
 
-        Tache tacheMere = tache.parent;
         listTaches.remove(tache);
+        if(tache.hasParent()){
+            Tache mere = tache.parent;
+            mere.enfants.remove(tache);
+            mere.update();
+            if(!mere.enfants.isEmpty()){
+                mere.enfants.get(0).updateChargesTachesMeresEtProjet();
+            }
+            else {
+                mere.setChargeConsommee(0D);
+                mere.setChargeRestante(mere.chargeInitiale);
+            }
+            tache.parent = null;
+            tache.update();
+        } else {
+            updateAvancementGlobal();
+            updateDatesProjet();
+        }
         tache.projet = null;
         tache.predecesseur = null;
         for (int i = 0; i < tache.interlocuteurs.size(); i++) {
@@ -781,8 +799,8 @@ public class Projet extends EntiteSecurise {
         }
         tache.interlocuteurs.clear();
 
-        updateChargesTachesMeresEtProjet2(tacheMere);
-        updateDatesProjet2();
+
+        updateDatesProjet();
 
         updateAvancementGlobal();
         calculeCheminCritique();
@@ -829,7 +847,7 @@ public class Projet extends EntiteSecurise {
         save();
     }
 
-    public void updateChargesTachesMeresEtProjet2(Tache mere) throws Exception {
+    public void updateChargesTachesMeresEtProjet(Tache mere) throws Exception {
 
         if (mere == null) {
             updateAvancementGlobal();
@@ -847,8 +865,10 @@ public class Projet extends EntiteSecurise {
                 chargeRestante += mere.enfants.get(i).chargeRestante;
             }
 
-            mere.setChargeConsommee(chargeConsommee);
-            mere.setChargeRestante(chargeRestante);
+            //mere.chargeConsommee = chargeConsommee;
+            //mere.chargeRestante = chargeRestante;
+            mere.updateChargeConsommeeTacheRecursive(mere);
+            mere.updateChargeRestanteTacheRecursive(mere);
         }
 
         mere.save();

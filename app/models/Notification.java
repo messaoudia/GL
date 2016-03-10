@@ -880,8 +880,6 @@ public class Notification extends Model {
             title = titleEN;
             message = messageEN;
         }
-        System.out.println("Langue user = " + utilisateur.langue);
-        System.out.println("Dans updateNotification : title = [" + title + "] et message = [" + message + "]");
         if (mapNotifications.containsKey(utilisateur)) {
             Notification notification = mapNotifications.get(utilisateur);
             if (utilisateur.langue.equals(Utilisateur.LANGUE_FR)) {

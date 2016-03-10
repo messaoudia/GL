@@ -393,13 +393,20 @@
                                                         }
                                                     </div>
                                                     <div class="row progress progress-bar-default row-nestable">
-                                                    @if(tacheMere.getAvancementTache() == 0.0) {
+                                                    @if((math rint tacheMere.getAvancementTache() * 100) == 0.0) {
                                                         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                             0%
                                                         </div>
                                                     } else {
-                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@tacheMere.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                            @tacheMere.getAvancementTache()%
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="@{
+                                                            (math rint tacheMere.getAvancementTache() * 100)
+                                                        }" aria-valuemin="0" aria-valuemax="100" style="width: @{
+                                                            (math rint tacheMere.getAvancementTache() * 100)
+                                                        }% ;">
+                                                            @{
+                                                                (math rint tacheMere.getAvancementTache() * 100)
+                                                            }
+                                                            %
                                                         </div>
                                                     }
                                                     </div>
@@ -445,12 +452,8 @@
                                                 } else {
                                                     <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@tacheMere.id', '@utilisateur.id')"><i id="notif-icon-tache-@tacheMere.id" class="fa fa-bell-slash-o"></i></a></div>
                                                 }
-                                                @if(tacheMere.getAvancementTache() == 0){
-                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@tacheMere.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@tacheMere.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
-                                                }else{
-                                                    <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
-                                                }
                                             </div>
                                             <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                 <div class="col-xs-4 normal">
@@ -508,13 +511,19 @@
                                                                     }
                                                                 </div>
                                                                 <div class="row progress progress-bar-default row-nestable">
-                                                                @if(sousTache1.getAvancementTache() == 0.0) {
+                                                                @if((math rint sousTache1.getAvancementTache() * 100) == 0.0) {
                                                                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                         0%
                                                                     </div>
                                                                 } else {
-                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache1.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                        @sousTache1.getAvancementTache()
+                                                                    <div class="progress-bar" role="progressbar" aria-valuenow="@{
+                                                                        (math rint sousTache1.getAvancementTache() * 100)
+                                                                    }" aria-valuemin="0" aria-valuemax="100" style="width: @{
+                                                                        (math rint sousTache1.getAvancementTache() * 100)
+                                                                    }% ;">
+                                                                        @{
+                                                                            (math rint sousTache1.getAvancementTache() * 100)
+                                                                        }
                                                                         %
                                                                     </div>
                                                                 }
@@ -561,26 +570,21 @@
                                                             } else {
                                                                 <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache1.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache1.id" class="fa fa-bell-slash-o"></i></a></div>
                                                             }
-                                                            @if(sousTache1.getAvancementTache() == 0){
-                                                                <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache1.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
-
-                                                            }else{
-                                                                <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
-                                                            }
+                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache1.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
                                                         </div>
                                                         <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                             <div class="col-xs-4 normal">
                                                                 <div class="normal boutonPlusCreerTache">
                                                                     <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                 </div>
-                                                                <div class="createSubTask" data-target="#modal-tache-creer" data="@sousTache1.id">
+                                                                <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache1.id" projet="@projet.nom" client="@projet.client.nom">
                                                                     <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-xs-4 normal createTaskHaut" data-target="#modal-tache-creer" data="@sousTache1.id">
+                                                            <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache1.id" projet="@projet.nom" client="@projet.client.nom">
                                                                 <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                             </div>
-                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-target="#modal-tache-creer" data="@sousTache1.id">
+                                                            <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache1.id" projet="@projet.nom" client="@projet.client.nom">
                                                                 <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                             </div>
                                                         </div>
@@ -625,13 +629,19 @@
                                                                                 }
                                                                             </div>
                                                                             <div class="row progress progress-bar-default row-nestable">
-                                                                            @if(sousTache2.getAvancementTache() == 0.0) {
+                                                                            @if((math rint sousTache2.getAvancementTache() * 100) == 0.0) {
                                                                                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                                     0%
                                                                                 </div>
                                                                             } else {
-                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache2.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                                    @sousTache2.getAvancementTache()
+                                                                                <div class="progress-bar" role="progressbar" aria-valuenow="@{
+                                                                                    (math rint sousTache2.getAvancementTache() * 100)
+                                                                                }" aria-valuemin="0" aria-valuemax="100" style="width: @{
+                                                                                    (math rint sousTache2.getAvancementTache() * 100)
+                                                                                }% ;">
+                                                                                    @{
+                                                                                        (math rint sousTache2.getAvancementTache() * 100)
+                                                                                    }
                                                                                     %
                                                                                 </div>
                                                                             }
@@ -679,26 +689,21 @@
                                                                         } else {
                                                                             <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache2.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache2.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                         }
-                                                                        @if(sousTache2.getAvancementTache() == 0){
-                                                                            <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache2.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
-
-                                                                        }else{
-                                                                            <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
-                                                                        }
+                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache2.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
                                                                     </div>
                                                                     <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                         <div class="col-xs-4 normal">
                                                                             <div class="normal boutonPlusCreerTache">
                                                                                 <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                             </div>
-                                                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
+                                                                            <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id" projet="@projet.nom" client="@projet.client.nom">
                                                                                 <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
+                                                                        <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id" projet="@projet.nom" client="@projet.client.nom">
                                                                             <i class="fa fa-arrow-up "> @Messages("createTask")</i>
                                                                         </div>
-                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id">
+                                                                        <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache2.id" projet="@projet.nom" client="@projet.client.nom">
                                                                             <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                         </div>
                                                                     </div>
@@ -742,13 +747,19 @@
                                                                                             }
                                                                                         </div>
                                                                                         <div class="row progress progress-bar-default row-nestable">
-                                                                                        @if(sousTache3.getAvancementTache() == 0.0) {
+                                                                                        @if((math rint sousTache3.getAvancementTache() * 100) == 0.0) {
                                                                                             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0% ; color:black ;">
                                                                                                 0%
                                                                                             </div>
                                                                                         } else {
-                                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@sousTache3.getAvancementTache()" aria-valuemin="0" aria-valuemax="100" style="width: @projet.avancementGlobal% ;">
-                                                                                                @sousTache3.getAvancementTache()
+                                                                                            <div class="progress-bar" role="progressbar" aria-valuenow="@{
+                                                                                                (math rint sousTache3.getAvancementTache() * 100)
+                                                                                            }" aria-valuemin="0" aria-valuemax="100" style="width: @{
+                                                                                                (math rint sousTache3.getAvancementTache() * 100)
+                                                                                            }% ;">
+                                                                                                @{
+                                                                                                    (math rint sousTache3.getAvancementTache() * 100)
+                                                                                                }
                                                                                                 %
                                                                                             </div>
                                                                                         }
@@ -797,26 +808,22 @@
                                                                                     } else {
                                                                                         <div class="col-middle dd-nodrag" style="width:2% ; border-right: 1px solid #EBEBEB ;"><a onclick="activerOuDesactiverNotification('@sousTache3.id', '@utilisateur.id')"><i id="notif-icon-tache-@sousTache3.id" class="fa fa-bell-slash-o"></i></a></div>
                                                                                     }
-                                                                                    @if(sousTache3.getAvancementTache() == 0){
-                                                                                        <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache3.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
+                                                                                    <div class="col-middle dd-nodrag td-btn-suppr" data-toggle="modal" onclick="afficherModalSupprimerTache(@sousTache3.id)" style="width:3% ;"><i class="fa fa-times"></i></div>
 
-                                                                                    }else{
-                                                                                        <div class="col-middle dd-nodrag td-btn-suppr-disable" data-toggle="modal" style="width:3% ;"><i class="fa fa-times"></i></div>
-                                                                                    }
                                                                                 </div>
                                                                                 <div class="row row-nestable dd-nodrag" style="text-align:center ;">
                                                                                     <div class="col-xs-4 normal">
                                                                                         <div class="normal boutonPlusCreerTache">
                                                                                             <i class="fa fa-plus-circle" style="font-size:14px ;"></i>
                                                                                         </div>
-                                                                                        <div class="createSubTask" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
+                                                                                        <div class="createSubTask" style="cursor: not-allowed;">
                                                                                             <i class="fa fa-arrow-right"> @Messages("createSubTask")</i>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
+                                                                                    <div class="col-xs-4 normal createTaskHaut" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id" projet="@projet.nom" client="@projet.client.nom">
                                                                                         <i class="fa fa-arrow-up"> @Messages("createTask")</i>
                                                                                     </div>
-                                                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id">
+                                                                                    <div class="col-xs-4 normal createTaskBas" style="border:none ;" data-toggle="modal" data-target="#modal-tache-creer" data="@sousTache3.id" projet="@projet.nom" client="@projet.client.nom">
                                                                                         <i class="fa fa-arrow-down"> @Messages("createTask")</i>
                                                                                     </div>
                                                                                 </div>
