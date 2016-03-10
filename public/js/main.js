@@ -3306,25 +3306,30 @@ $(document).ready(function () {
 
 
     $('.datatable-consulterClient').DataTable({
+        destroy : true,
         info : false
     });
     $('.dataTables-example').DataTable();
 
     $('#projet_Tache').dataTable({
+        destroy : true,
         info : false,
         "ordering": false
     });
 
     $('#projet_Projet').dataTable({
+        destroy : true,
         info : false,
         "ordering": false
     });
 
     $('#dataTables-tdb-projet').DataTable({
+        destroy : true,
         info:false
     });
 
     $('#dataTables-tdb-tache').DataTable({
+        destroy : true,
         info : false,
         "columnDefs": [{
             "searchable": false,
@@ -3334,6 +3339,7 @@ $(document).ready(function () {
     });
 
     $('#dataTables-admin-projet').DataTable({
+        destroy : true,
         info : false,
         "columnDefs": [{
             "searchable": false,

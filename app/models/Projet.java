@@ -744,7 +744,7 @@ public class Projet extends EntiteSecurise {
         } else if (tache.hasPredecesseur()) {
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
-            tAvant.save();
+            tAvant.save();  // TODO ENLEVER?
         } else if (tache.hasSuccesseur()) {
             List<Tache> successeurs = tache.getSuccesseurs();
             for (int i = 0; i < successeurs.size(); i++) {
@@ -783,8 +783,10 @@ public class Projet extends EntiteSecurise {
             }
             else {
                 mere.setChargeConsommee(0D);
-                mere.setChargeRestante(0D);
+                mere.setChargeRestante(mere.chargeInitiale);
             }
+            tache.parent = null;
+            tache.update();
         } else {
             updateAvancementGlobal();
             updateDatesProjet();
