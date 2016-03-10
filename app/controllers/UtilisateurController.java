@@ -14,6 +14,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.creerUtilisateur;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -195,19 +196,36 @@ public class UtilisateurController extends Controller {
     }
 
     public Result listProjetsUtilisateur(Long idUtilisateur) {
-        return ok(Json.toJson(Utilisateur.find.byId(idUtilisateur).listProjetsResponsable()));
+        List<Projet> listProjetsUtilisateur = Utilisateur.find.byId(idUtilisateur).listProjetsResponsable();
+        List<Projet> result = new ArrayList<>();
+
+        for(Projet p : listProjetsUtilisateur){
+            if(!p.archive && !p.estTermine()){
+                result.add(p);
+            }
+        }
+        return ok(Json.toJson(result));
     }
 
     public Result listTachesUtilisateur(Long idUtilisateur) {
         List<Tache> listTaches = Utilisateur.find.byId(idUtilisateur).listTaches();
-        //Logger.debug(t.toString());
-        JsonNode nodeArray = Json.toJson(listTaches);
+        List<Tache> result = new ArrayList<>();
+
+        for(Tache t : listTaches){
+            Logger.debug("Tache archive : "+t.archive);
+            Logger.debug("Tache terminee : "+t.estTerminee());
+            if(!t.archive && !t.estTerminee()){
+                result.add(t);
+            }
+        }
+
+        JsonNode nodeArray = Json.toJson(result);
 
         int i = 0;
         for (JsonNode element : nodeArray) {
             ObjectNode o = (ObjectNode) element;
-            if (listTaches.get(i).predecesseur != null) {
-                o.put("predecesseurIdTache", listTaches.get(i).predecesseur.idTache);
+            if (result.get(i).predecesseur != null) {
+                o.put("predecesseurIdTache", result.get(i).predecesseur.idTache);
             }
             i++;
         }

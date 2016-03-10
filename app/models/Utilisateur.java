@@ -28,8 +28,8 @@ public class Utilisateur extends Personne {
     private static int COEFFICIENT_CRITERE_3 = 2;
     private static int COEFFICIENT_CRITERE_4 = 1;
 
-    private static int LIMITE_PROJET_PRESQUE_FINI = 80;
-    private static int LIMITE_TACHE_PRESQUE_FINI = 80;
+    private static double LIMITE_PROJET_PRESQUE_FINI = 0.8;
+    private static double LIMITE_TACHE_PRESQUE_FINI = 0.8;
 
     public static String LANGUE_FR = "FR";
     public static String LANGUE_EN = "EN";
@@ -218,7 +218,7 @@ public class Utilisateur extends Personne {
      * @return list des projets du responsable
      */
     public List<Projet> listProjetsResponsable() {
-        List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).findList();
+        List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).eq("archive", false).findList();
         /** TODO : obliger de faire ça car pas présent en BDD **/
         for (Projet projet : listProjet) {
             projet.updateAvancementGlobal();
@@ -253,12 +253,12 @@ public class Utilisateur extends Personne {
      * @return list des taches du responsable
      */
     public List<Tache> listTaches() {
-        listTaches = Tache.find.where().eq("responsableTache", this).findList();
+        listTaches = Tache.find.where().eq("responsableTache", this).eq("archive", false).findList();
         return listTaches;
     }
 
     public List<Tache> listTachesDansProjetNonResponsable(Projet projet) {
-        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
+        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("archive", false).eq("projet", projet).findList();
         List<Tache> taches = new ArrayList<>(tachesTmp);
         // Ajout des taches meres et filles
         for (Tache tache : tachesTmp) {
@@ -745,7 +745,11 @@ public class Utilisateur extends Personne {
     public int nbTachesActuelles() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() < 100.0) cpt++;
+            Logger.debug("AVANCEMENT ===> "+tache.getAvancementTache());
+            Logger.debug("AVANCEMENT ===> "+tache.archive);
+            Logger.debug("AVANCEMENT ===> "+tache.estDisponible());
+
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() < 1.0) cpt++;
         }
         return cpt;
     }
@@ -771,7 +775,7 @@ public class Utilisateur extends Personne {
     public int nbTachesCommencees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() > 0.0 && tache.getAvancementTache() < 100.0)
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() > 0.0 && tache.getAvancementTache() < 1.0)
                 cpt++;
         }
         return cpt;
@@ -785,7 +789,7 @@ public class Utilisateur extends Personne {
     public int nbTachesPresquesFinies() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0)
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 1.0)
                 cpt++;
         }
         return cpt;
@@ -821,7 +825,7 @@ public class Utilisateur extends Personne {
     public List<Tache> tachesPresquesFinies() {
         List<Tache> res = new ArrayList<>();
         for (Tache tache : listTaches()) {
-            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 100.0)
+            if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() >= LIMITE_TACHE_PRESQUE_FINI && tache.getAvancementTache() < 1.0)
                 res.add(tache);
         }
         return res;
