@@ -414,7 +414,7 @@ var creerTacheHaut = function (btn) {
     if (dataToSend == -1) {
 
     } else {
-        console.log("main.scala : appel du controlleur creerSousTache");
+        console.log("main.scala : appel du controlleur creerTacheHaut");
         jsRoutes.controllers.TacheController.creerTacheHaut(idTacheSelect).ajax({
             data: dataToSend,
             success: function (data) {
@@ -427,7 +427,7 @@ var creerTacheHaut = function (btn) {
                 refreshProjectTable(idTacheSelect);
             },
             error: function (errorMessage) {
-                console.log("main.scala > creerSousTache => error");
+                console.log("main.scala > creerTacheHaut => error");
                 console.log("-----------> " + errorMessage)
                 $('#errorCreerTache').show();
             }
@@ -457,7 +457,7 @@ var creerTacheBas = function (btn) {
     if (dataToSend == -1) {
 
     } else {
-        console.log("main.scala : appel du controlleur creerSousTache");
+        console.log("main.scala : appel du controlleur creerTacheBas");
         jsRoutes.controllers.TacheController.creerTacheBas(idTacheSelect).ajax({
             data: dataToSend,
             success: function (data) {
@@ -470,7 +470,7 @@ var creerTacheBas = function (btn) {
                 refreshProjectTable(idTacheSelect);
             },
             error: function (errorMessage) {
-                console.log("main.scala > creerSousTache => error");
+                console.log("main.scala > creerTacheBas => error");
                 console.log("-----------> " + errorMessage)
                 $('#errorCreerTache').show();
 
@@ -489,7 +489,7 @@ var creerDataFormulaireCreationTache = function (btn) {
 
         //PREDECESSEUR
         var idPredecesseur = "";
-        if ($('#form-tache-predecesseuCr').select2().val() != null) {
+        if ($('#form-tache-predecesseurC').select2().val() != null) {
             idPredecesseur = $('#form-tache-predecesseurC').select2().val()[0];
             console.log("idPredecesseur" + idPredecesseur);
         }
@@ -517,7 +517,7 @@ var creerDataFormulaireCreationTache = function (btn) {
                 tabInterlocuteurs.push($("#checkbox-interlocuteurC-" + i).attr('value'));
             }
         }
-        alert(idPredecesseur);
+        //alert(idPredecesseur);
         var dataToSend = serialize + "&predecesseurC=" + idPredecesseur;
         dataToSend += "&successeursC=";
 
