@@ -524,7 +524,7 @@ public class Tache extends EntiteSecurise {
 
     public boolean estRetardee() {
         //return dateFinTard.before(Calendar.getInstance().getTime());
-        return Utils.before(dateFinTard, Calendar.getInstance().getTime());
+        return getAvancementTache() < 1D && Utils.before(dateFinTard, Calendar.getInstance().getTime());
     }
 
     @JsonSerialize
