@@ -126,7 +126,7 @@ public class EntiteSecuriseTest {
 
         System.out.println("ENTITE ==============+>" + projet1DB);
         System.out.println("USER =============+>" + utilisateur1DB);
-
+        
         Role role1DB = Role.find.where().eq("nomDuRole", "administrateur").findList().get(0);
         Role role2DB = Role.find.where().eq("nomDuRole", "collaborateur").findList().get(0);
 

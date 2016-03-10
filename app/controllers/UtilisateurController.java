@@ -112,16 +112,7 @@ public class UtilisateurController extends Controller {
     }
 
     public void donnerDroitAdmin(Utilisateur utilisateur) {
-
-
-        // Octroyé le droit admin
-        Role adminRole = Role.getRole("Administrateur");
-        Autorisation autorisationAdminstration = new Autorisation();
-        autorisationAdminstration.utilisateur = utilisateur;
-        autorisationAdminstration.entiteSecurise = StaticEntite.getSystem();
-
-        // Sauvgarder l'autorisation
-        autorisationAdminstration.save();
+        Autorisation.donnerLeRole(utilisateur,StaticEntite.getSystem(),Role.getRole("Administrateur"));
     }
 
     public void retirerDroitAdmin(Utilisateur utilisateur) {
