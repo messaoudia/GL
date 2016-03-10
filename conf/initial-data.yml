@@ -157,7 +157,7 @@ utilisateurs:
     telephone:    0564781529
     archive:      false
     password:     Azerty1
-    langue:       en
+    langue:       EN
 
 - &utilisateur2 !!models.Utilisateur
     id:           12

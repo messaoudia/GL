@@ -691,9 +691,9 @@ public class Notification extends Model {
         messageEN += "<p>   - Earliest due date : " + tache.formateDate(tache.dateFinTot) + "</p>";
         messageEN += "<p>   - Latest due date : " + tache.formateDate(tache.dateFinTard) + "</p>";
         messageEN += "<p>The task progress is : " + tache.getAvancementTache() + "%</p>";
-        messageEN += "<p>   - Initial workload : " + tache.chargeInitiale + " " + uniteFR + "</p>";
-        messageEN += "<p>   - Completed workload : " + tache.chargeConsommee + " " + uniteFR + "</p>";
-        messageEN += "<p>   - Remaining workload : " + tache.chargeRestante + " " + uniteFR + "</p>";
+        messageEN += "<p>   - Initial workload : " + tache.chargeInitiale + " " + uniteEN + "</p>";
+        messageEN += "<p>   - Completed workload : " + tache.chargeConsommee + " " + uniteEN + "</p>";
+        messageEN += "<p>   - Remaining workload : " + tache.chargeRestante + " " + uniteEN + "</p>";
 
         String titleENManyChangements = "The changes have taken place in your tasks/projects";
 
@@ -701,13 +701,13 @@ public class Notification extends Model {
         List<Utilisateur> listUserTemporaire = new ArrayList<Utilisateur>();
 
         // Notif pour l'utilisateur qui a fait l'action
-        if (utilisateur.recevoirNotifPourMesActions || utilisateur.equals(tache.projet.responsableProjet)) {
+        if (utilisateur.recevoirNotifPourMesActions) {
             updateMapNotifications(utilisateur, titleFR, messageMemeUserFR + messageFR, titleFRManyChangements,
                     titleEN, messageMemeUserEN + messageEN, titleENManyChangements, mapNotifications);
             listUserTemporaire.add(utilisateur);
         }
 
-        // Notif pour le respo projet
+        // Notif pour le respo projet si l'user est != de lui
         if (!utilisateur.equals(tache.projet.responsableProjet)) {
             updateMapNotifications(tache.projet.responsableProjet, titleFR, messageAutreUserFR + messageFR, titleFRManyChangements,
                     titleEN, messageAutreUserEN + messageEN, titleENManyChangements, mapNotifications);
@@ -876,7 +876,6 @@ public class Notification extends Model {
             title = titleFR;
             message = messageFR;
         } else if (utilisateur.langue.equals(Utilisateur.LANGUE_EN)) {
-            System.out.println("Je suis dans LANGUE_EN: " + titleEN + " - " + messageEN);
             title = titleEN;
             message = messageEN;
         }
