@@ -2087,7 +2087,7 @@ var modifierUtilisateur = function (btn) {
 
             utilisateurList.append(list);
 
-            $("#successModifierUserP").html(messages("user") + ' ' + utilisateur.nom + ' ' + utilisateur.prenom + ' ' + messages("created"));
+            $("#successModifierUserP").html(messages("user") + ' ' + utilisateur.nom + ' ' + utilisateur.prenom + ' ' + messages("modified"));
             $("#successModifierUser").show();
             setTimeout(function () {
                 $("#successModifierUser").hide();
@@ -2413,7 +2413,7 @@ var afficherModalTache = function (t) {
         success: function (tache) {
             //console.log(JSON.stringify(tache));
             $("#dataTables-tdb-tache").dataTable().fnDestroy();
-
+            $("#errorModifierTache").hide();
             // div-consulter-tache
             if (tache.critique) {
                 $('#imgCritique-consulterTache-tdb').show();
@@ -2846,7 +2846,7 @@ var modifierTache = function (btn) {
                     console.log("SUCCESS");
                     console.log("ListTaches a afficher : ");
                     console.log(taches);
-
+                    $('#errorModifierTache').hide();
                     $('#dataTables-tdb-tache').dataTable().fnDestroy();
 
                     var tableDashboardBody = $('#dataTables-tdb-tache-body');

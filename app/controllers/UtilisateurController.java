@@ -30,7 +30,7 @@ public class UtilisateurController extends Controller {
     public Error isFormulaireCorrect(Map<String, String[]> map, String preName) {
         Error error = new Error();
 
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-éèàêîï]{1,15}$");
         Matcher nameMatch = nameRegex.matcher(map.get(preName + "-formLastName")[0].trim());
 
         //TODO regex nom : que des lettres ' -
