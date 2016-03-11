@@ -2665,11 +2665,11 @@ var afficherModalTache = function (t) {
             $('#chargeInitialeTache').html(messages("initial") + ' : ' + tache.chargeInitiale + unite);
             $('#chargeRestanteTache').html(messages("remaining") + ' : ' + tache.chargeRestante + unite);
             $('#chargeConsommeeTache').html(messages("consumed") + ': ' + tache.chargeConsommee + unite);
-            $('#formModifierChargeInitiale').attr("value", tache.chargeInitiale);
+            $('#formModifierChargeInitiale').val(tache.chargeInitiale);
             $('#formModifierChargeInitiale').nextAll('span').html(unite);
-            $('#formModifierChargeRestante').attr("value", tache.chargeRestante);
+            $('#formModifierChargeRestante').val(tache.chargeRestante);
             $('#formModifierChargeRestante').nextAll('span').html(unite);
-            $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
+            $('#formModifierChargeConsommee').val(tache.chargeConsommee);
             $('#formModifierChargeConsommee').nextAll('span').html(unite);
 
             if (tache.disponible) {
