@@ -11,6 +11,7 @@ import controllers.Utils.Utils;
 import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
+import play.i18n.Messages;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -1138,24 +1139,26 @@ public class Projet extends EntiteSecurise {
      */
     public Map<String, String> checkProjet() {
         final Map<String, String> errors = new HashMap<>();
+
         for (Tache tache : listTaches) {
             // Verification des predecesseur et successeurs
             if (tache.hasPredecesseur()) {
                 if (Utils.before(tache.dateDebut, tache.predecesseur.dateFinTard)) {
-                    errors.put("e1", "incoherence au niveau des dates debut entre tache:" + tache.nom + " et tache: " + tache.predecesseur.nom);
+                    errors.put("e1", Messages.get("dateDebutIncoherence") +" "+ tache.nom + Messages.get("andTache") +" "+ tache.predecesseur.nom);
                 }
                 if (!Tache.checkPERT(tache, tache.predecesseur)) {
-                    errors.put("e2", "le predecesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.predecesseur.nom);
+                    errors.put("e2",  Messages.get("predecTache") +" "+tache.nom+ Messages.get("parentorchild") + tache.predecesseur.nom);
                 }
             }
 
             if (tache.hasSuccesseur()) {
                 for (int i = 0; i < tache.successeurs.size(); i++) {
                     if (Utils.after(tache.dateFinTard, tache.successeurs.get(i).dateDebut)) {
-                        errors.put("e3-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.successeurs.get(i).nom);
+                        errors.put("e3-" + i,  Messages.get("dateFinIncoherence")+ " " + tache.nom +  Messages.get("andTache")+" "+ tache.successeurs.get(i).nom);
                     }
+
                     if (!Tache.checkPERT(tache, tache.successeurs.get(i))) {
-                        errors.put("e4-" + i, "le sucesseur de la tache:" + tache.nom + " est un parent ou un enfant de la tache: " + tache.successeurs.get(i).nom);
+                        errors.put("e4-" + i, Messages.get("successorTask")+ " " + tache.nom + Messages.get("parentorchild")+ " " + tache.successeurs.get(i).nom);
                     }
                 }
             }
@@ -1163,15 +1166,16 @@ public class Projet extends EntiteSecurise {
             // Vérification des dates des parents
             if (tache.hasParent()) {
                 if (Utils.after(tache.parent.dateDebut, tache.dateDebut)) {
-                    errors.put("e5", "incoherence au niveau des dates debut entre tache:" + tache.parent.nom + " et tache: " + tache.nom);
+                    errors.put("e5", Messages.get("dateDebutIncoherence")+ " " + tache.parent.nom + Messages.get("andTache")+" "+ tache.nom);
 
                 }
+
                 if (Utils.before(tache.parent.dateFinTot, tache.dateFinTot)) {
-                    errors.put("e6", "incoherence au niveau des dates fin tot entre tache:" + tache.parent.nom + " et tache: " + tache.nom);
+                    errors.put("e6", Messages.get("dateFinTotIncoherence")+ " " + tache.parent.nom + Messages.get("andTache")+" "+ tache.nom);
 
                 }
                 if (Utils.before(tache.parent.dateFinTard, tache.dateFinTard)) {
-                    errors.put("e7", "incoherence au niveau des dates fin tard entre tache:" + tache.parent.nom + " et tache: " + tache.nom);
+                    errors.put("e7", Messages.get("dateFinIncoherence")+ " " + tache.parent.nom + Messages.get("andTache")+" "+ tache.nom);
                 }
             }
 
@@ -1181,15 +1185,15 @@ public class Projet extends EntiteSecurise {
                 for (int i = 0; i < tache.enfants.size(); i++) {
 
                     if (Utils.after(tache.dateDebut, tache.enfants.get(i).dateDebut)) {
-                        errors.put("e8-" + i, "incoherence au niveau des dates debut entre tache:" + tache.nom + " et tache: " + tache.enfants.get(i).nom);
+                        errors.put("e8-" + i, Messages.get("dateDebutIncoherence")+ " " + tache.nom + Messages.get("andTache")+" "+ tache.enfants.get(i).nom);
                     }
                     if (Utils.before(tache.dateFinTot, tache.enfants.get(i).dateFinTot)) {
-                        errors.put("e9-" + i, "incoherence au niveau des dates fin tot entre tache:" + tache.nom + " et tache: " + tache.enfants.get(i).nom);
+                        errors.put("e9-" + i, Messages.get("dateFinTotIncoherence")+ " " + tache.nom + Messages.get("andTache")+" "+ tache.enfants.get(i).nom);
 
                     }
 
                     if (Utils.before(tache.dateFinTard, tache.enfants.get(i).dateFinTard)) {
-                        errors.put("e10-" + i, "incoherence au niveau des dates fin tard entre tache:" + tache.nom + " et tache: " + tache.enfants.get(i).nom);
+                        errors.put("e10-" + i, Messages.get("dateFinIncoherence")+ " " + tache.nom + Messages.get("andTache")+" "+ tache.enfants.get(i).nom);
                     }
                 }
             }
