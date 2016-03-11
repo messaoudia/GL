@@ -524,7 +524,10 @@ public class Tache extends EntiteSecurise {
 
     public boolean estRetardee() {
         //return dateFinTard.before(Calendar.getInstance().getTime());
-        return getAvancementTache() < 1D && Utils.before(dateFinTard, Calendar.getInstance().getTime());
+        if(nom.equals("Retard"))
+            System.out.println("estRetardee = " + Utils.after(Calendar.getInstance().getTime(),dateFinTard) + " - De " + dateFinTard + " avec " + Calendar.getInstance().getTime());
+
+        return getAvancementTache() < 1D && Utils.after(Calendar.getInstance().getTime(),dateFinTard);
     }
 
     @JsonSerialize
@@ -945,6 +948,8 @@ public class Tache extends EntiteSecurise {
         if(this.critique==true){
             result = result+" tache-critique ";
         }
+        if(this.nom.equals("Retard"))
+            System.out.println("Retard GL = "+ this.estRetardee());
         if(this.estRetardee()==true){
             result = result+" tache-retardee ";
         }
@@ -959,10 +964,6 @@ public class Tache extends EntiteSecurise {
         if(this.estTerminee()){
             result = result + " tache-terminee ";
         }
-
-
-
-        System.out.println("fonction : checkout "+result);
         return result;
     }
 

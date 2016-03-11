@@ -275,7 +275,10 @@ public class Utils {
     public static boolean after(Date date1, Date date2) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         int date1Int = Integer.parseInt(fmt.format(date1).toString());
+        System.out.println("Date 1 : " + date1Int);
         int date2Int = Integer.parseInt(fmt.format(date2).toString());
+        System.out.println("Date 2 : " + date2Int);
+
         return date1Int > date2Int;
     }
 

@@ -359,7 +359,7 @@
                                     </div>
                                 }else{
                                 @for( tacheMere <- projet.listTachesAAfficher()) {
-                                    <li class="dd-item dd-item-min-width @tacheMere.checkBox()" data-id="@tacheMere.id">
+                                    <li class="dd-item dd-item-min-width @tacheMere.checkBox() @tacheMere.filtres()" data-id="@tacheMere.id">
                                         <div class="dd-handle" style="padding:0px ;">
                                             <div class="row row-nestable" >
                                                 <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@tacheMere.id" onclick="afficherModalTache(this)">
@@ -477,7 +477,7 @@
                                         @if(tacheMere.hasEnfant()) {
                                             <ol class="dd-list">
                                             @for( sousTache1 <- tacheMere.enfants()) {
-                                                <li class="dd-item dd-item-min-width @sousTache1.checkBox()" data-id="@sousTache1.id">
+                                                <li class="dd-item dd-item-min-width @sousTache1.checkBox() @sousTache1.filtres()" data-id="@sousTache1.id">
                                                     <div class="dd-handle" style="padding:0px ;">
                                                         <div class="row row-nestable">
                                                             <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache1.id" onclick="afficherModalTache(this)">
@@ -595,7 +595,7 @@
                                                     @if(sousTache1.hasEnfant()) {
                                                         <ol class="dd-list">
                                                         @for( sousTache2 <- sousTache1.enfants()) {
-                                                            <li class="dd-item dd-item-min-width @sousTache2.checkBox()" data-id="@sousTache2.id">
+                                                            <li class="dd-item dd-item-min-width @sousTache2.checkBox() @sousTache2.filtres()" data-id="@sousTache2.id">
                                                                 <div class="dd-handle" style="padding:0px ;">
                                                                     <div class="row row-nestable" >
                                                                         <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache2.id" onclick="afficherModalTache(this)">
@@ -713,7 +713,7 @@
                                                                 @if(sousTache2.hasEnfant()) {
                                                                     <ol class="dd-list">
                                                                     @for( sousTache3 <- sousTache2.enfants()) {
-                                                                        <li class="dd-item dd-item-min-width @sousTache3.checkBox()" data-id="@sousTache3.id">
+                                                                        <li class="dd-item dd-item-min-width @sousTache3.checkBox() @sousTache3.filtres()" data-id="@sousTache3.id">
                                                                             <div class="dd-handle" style="padding:0px ;">
                                                                                 <div class="row row-nestable">
                                                                                     <div class="col-middle first-col-middle" style="" data-toggle="modal" data-target="#modal-tache" value="@sousTache3.id" onclick="afficherModalTache(this)">

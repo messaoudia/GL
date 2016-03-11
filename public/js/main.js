@@ -987,7 +987,7 @@ var supprimerProjet = function () {
     console.log($value);
     jsRoutes.controllers.AdminController.supprimerProjet($value).ajax({
         success: function (projetArchive) {
-            console.log("Archie JSON : " + JSON.stringify(projetArchive));
+            //console.log("Archie JSON : " + JSON.stringify(projetArchive));
             if (projetArchive.avancementGlobal == 100) {
                 $tmpTr.removeClass("projet-finished");
                 $tmpTr.addClass("projet-archived-finished");
@@ -1551,20 +1551,7 @@ function projetTDBTermine() {
 function projetTacheTDBTermine() {
 
 
-    if ($('#checkbox-tdb-collab-projets-termines').is(":checked")) {
-        $('.projet-finished').show();
-    }
-    else {
-        $('.projet-finished').hide();
-    }
 
-
-    if ($('#checkbox-tdb-collab-taches-termines').is(":checked")) {
-        $('.tache-finished').show();
-    }
-    else {
-        $('.tache-finished').hide();
-    }
 
     // transforme en et
     var result = "";
@@ -1615,21 +1602,40 @@ function projetTacheTDBTermine() {
     }
     else {
         $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+
     }
-
-
-}
-
-
-function filtreTDBproj() {
-    if ($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
+    if ($('#checkbox-tdb-collab-projets-termines').is(":checked")) {
         $('.projet-finished').show();
     }
     else {
         $('.projet-finished').hide();
     }
 
+
+    if ($('#checkbox-tdb-collab-taches-termines').is(":checked")) {
+        console.log("termine --- ")
+        $('.tache-terminee').show();
+    }
+    else {
+        console.log("hide termine --- ")
+
+        $('.tache-terminee').hide();
+    }
+
+}
+
+
+function filtreTDBproj() {
     var result = "";
+    if ($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
+        //$('.projet-finished').show();
+        result += '.projet-finished';
+    }
+    else {
+       // $('.projet-finished').hide();
+    }
+
+
     if ($('#checkbox-tdb-projets-retardes').is(":checked")) {
         result += '.projet-retarde';
 
@@ -1946,6 +1952,19 @@ var supprimerUtilisateur = function () {
     });
 
 }
+
+
+$(document).on('click','#btnAdminOuiCreer', function() {
+    $(this).addClass("btn-active");
+    $('#btnAdminNonCreer').removeClass("btn-active");
+
+});
+
+$(document).on('click','#btnAdminNonCreer', function() {
+    $(this).addClass("btn-active");
+    $('#btnAdminOuiCreer').removeClass("btn-active");
+});
+
 
 var creerUtilisateur = function (btn) {
     var form = $(btn).attr("form");
@@ -2648,6 +2667,11 @@ var afficherModalTache = function (t) {
             $('#chargeConsommeeTache').html(messages("consumed") + ': ' + tache.chargeConsommee + unite);
             $('#formModifierChargeInitiale').attr("value", tache.chargeInitiale);
             $('#formModifierChargeInitiale').nextAll('span').html(unite);
+            $('#formModifierChargeRestante').attr("value", tache.chargeRestante);
+            $('#formModifierChargeRestante').nextAll('span').html(unite);
+            $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
+            $('#formModifierChargeConsommee').nextAll('span').html(unite);
+
             if (tache.disponible) {
                 $('.formModifierChargeRestante').attr("disabled", false);
                 $('.formModifierChargeConsommee').attr("disabled", false);
@@ -2655,10 +2679,6 @@ var afficherModalTache = function (t) {
                 $('.formModifierChargeRestante').attr("disabled", true);
                 $('.formModifierChargeConsommee').attr("disabled", true);
             }
-            $('#formModifierChargeRestante').attr("value", tache.chargeRestante);
-            $('#formModifierChargeRestante span').nextAll('span').html(unite);
-            $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
-            $('#formModifierChargeConsommee span').nextAll('span').html(unite);
 
             //Activation/désactivation des inputs
             jsRoutes.controllers.Login.utilisateurConnecte().ajax({
@@ -2849,12 +2869,19 @@ var modifierTache = function (btn) {
                     console.log(taches);
                     $('#errorModifierTache').hide();
                     $('#dataTables-tdb-tache').dataTable().fnDestroy();
-
                     var tableDashboardBody = $('#dataTables-tdb-tache-body');
                     tableDashboardBody.empty();
 
                     var tableContent = "";
                     $.each(taches, function (i, tache) {
+                        console.log('ta iiiiiii  '+ tache.projet.id + "  " + tache.projet.avancementGlobal);
+                        if(tache.projet.avancementGlobal==1)
+                        {
+                            $('.sidebar-projet[projet=' + tache.projet.id + ']').addClass("projet-finished");
+                        }
+                        else {
+                            $('.sidebar-projet[projet=' + tache.projet.id + ']').removeClass("projet-finished");
+                        }
                         tableContent += ('<tr value="' + tache.id + '" onclick="afficherModalTache(this)" class="table-center">');
                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
                         tableContent += ('<p class="tdb-id-tache">' + tache.idTache + '</p>');
@@ -2957,13 +2984,11 @@ var modifierTache = function (btn) {
                     console.log(tableContent);
                     tableDashboardBody.append(tableContent);
 
-                    //$('#modal-tache').modal('toggle');
-                    jQuery.fx.off = true;
-                    $('#div-consulterTache').show();
-                    $('#div-modifierTache').hide();
-                    jQuery.fx.off = false;
+                    $('#modal-tache').modal('toggle');
+
 
                     //TODO refresh all
+
 
                 }
             });

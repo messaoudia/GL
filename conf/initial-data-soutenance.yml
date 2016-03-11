@@ -246,8 +246,8 @@ projets:
 
 - &projet1 !!models.Projet
     id:                 29
-    nom:                MyProject
-    description:        Le projet MyProject est un site internet qui a pour but de faire de la gestion de projet. En effet, il centralise toutes les informations relatives a la gestion du projet (Taches, dates, Utilisateurs, etc...)
+    nom:                MyProjects
+    description:        Le projet MyProjects est un site internet qui a pour but de faire de la gestion de projet. En effet, il centralise toutes les informations relatives a la gestion du projet (Taches, dates, Utilisateurs, etc...)
     responsableProjet:  *utilisateur1
     dateDebutTheorique: 2015-10-01
     dateFinTheorique:   2016-03-15
@@ -309,7 +309,7 @@ taches:
 - &tache1 !!models.Tache
     id:                 32
     nom:                Redaction du Cahier des charges
-    description:        Rédaction du cahier des charges du projet MyProject, ce document spécifie tous les aspects de structure du projet, c'est le référentiel du projet, sur lequel tous les développements doivent se baser.
+    description:        Rédaction du cahier des charges du projet MyProjects, ce document spécifie tous les aspects de structure du projet, c'est le référentiel du projet, sur lequel tous les développements doivent se baser.
     niveau:             0
     critique:           true
     dateDebut:          2015-10-02

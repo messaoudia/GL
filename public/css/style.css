@@ -10,13 +10,55 @@
 .tache-indisponible > .dd-handle > .row{
     background-color: #dcdcdc;
 }
-.tache-retardee > .dd-handle > .row{
-    background-color: #e86f62;
-}
 
+
+.tache-retardee > .dd-handle > .row {
+    background-color: #e86f62;
+    color:#FFF;
+}
 .tache-terminee > .dd-handle > .row{
     background-color: #64afe1;
+    color:#FFF;
 }
+
+.tache-terminee > .dd-handle > .row > .col-middle > .row-initiale,
+.tache-terminee > .dd-handle > .row > .col-middle > .row-restante,
+.tache-terminee > .dd-handle > .row > .col-middle > .row-consommee,
+.tache-terminee > .dd-handle > .row > .col-middle > a > i,
+.tache-retardee > .dd-handle > .row > .col-middle > .row-initiale,
+.tache-retardee > .dd-handle > .row > .col-middle > .row-restante,
+.tache-retardee > .dd-handle > .row > .col-middle > .row-consommee,
+.tache-retardee > .dd-handle > .row > .col-middle > a > i
+{ color:#FFF;  }
+
+
+.tache-indisponible > td{
+    background-color: #dcdcdc;
+}
+
+
+.tache-retardee > td {
+    background-color: #e86f62;
+    color:#FFF;
+}
+.tache-terminee > td {
+    background-color: #64afe1;
+    color:#FFF;
+}
+
+.tache-terminee > td > .row-initiale,
+.tache-terminee > td > .row-restante,
+.tache-terminee > .row-consommee,
+.tache-terminee > .icon-notif-tdb,
+.tache-retardee > td > .row-initiale,
+.tache-retardee > td > .row-restante,
+.tache-retardee > .row-consommee,
+.tache-retardee > .icon-notif-tdb
+{ color:#FFF;  }
+
+
+
+
 
 .navbar-profile{
     height: 60px;
