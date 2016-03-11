@@ -43,6 +43,13 @@ adresses:
     ville:       Orsay
     pays:        FRANCE
 
+- &adresse7 !!models.Adresse
+    id:          357951
+    adresse:     35 Rue le la fac
+    zipCode:     91400
+    ville:       Orsay
+    pays:        FRANCE
+
 clients:
 
 - &client1 !!models.Client
@@ -79,6 +86,14 @@ clients:
     priorite:      2
     archiver:      false
     adresseClient: *adresse4
+
+- &client8 !!models.Client
+    id:            147258369
+    nom:           Université paris sud
+    priorite:      1
+    archiver:      true
+    adresseClient: *adresse7
+
 
 contacts:
 

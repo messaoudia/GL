@@ -42,6 +42,7 @@ public class DashboardController extends Controller{
             //Logger.debug("Predecesseur : "+t.predecesseur);
             o.put("predecesseurNom",t.predecesseur.nom);
             o.put("predecesseurId",t.predecesseur.id);
+            o.put("predecesseurIdTache",t.predecesseur.idTache);
         }
         o.put("nbJourRestant",t.nbJourRestant());
         return ok(o);
