@@ -987,7 +987,7 @@ var supprimerProjet = function () {
     console.log($value);
     jsRoutes.controllers.AdminController.supprimerProjet($value).ajax({
         success: function (projetArchive) {
-            console.log("Archie JSON : " + JSON.stringify(projetArchive));
+            //console.log("Archie JSON : " + JSON.stringify(projetArchive));
             if (projetArchive.avancementGlobal == 100) {
                 $tmpTr.removeClass("projet-finished");
                 $tmpTr.addClass("projet-archived-finished");
@@ -2869,12 +2869,19 @@ var modifierTache = function (btn) {
                     console.log(taches);
                     $('#errorModifierTache').hide();
                     $('#dataTables-tdb-tache').dataTable().fnDestroy();
-
                     var tableDashboardBody = $('#dataTables-tdb-tache-body');
                     tableDashboardBody.empty();
 
                     var tableContent = "";
                     $.each(taches, function (i, tache) {
+                        console.log('ta iiiiiii  '+ tache.projet.id + "  " + tache.projet.avancementGlobal);
+                        if(tache.projet.avancementGlobal==1)
+                        {
+                            $('.sidebar-projet[projet=' + tache.projet.id + ']').addClass("projet-finished");
+                        }
+                        else {
+                            $('.sidebar-projet[projet=' + tache.projet.id + ']').removeClass("projet-finished");
+                        }
                         tableContent += ('<tr value="' + tache.id + '" onclick="afficherModalTache(this)" class="table-center">');
                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
                         tableContent += ('<p class="tdb-id-tache">' + tache.idTache + '</p>');
@@ -2977,13 +2984,11 @@ var modifierTache = function (btn) {
                     console.log(tableContent);
                     tableDashboardBody.append(tableContent);
 
-                    //$('#modal-tache').modal('toggle');
-                    jQuery.fx.off = true;
-                    $('#div-consulterTache').show();
-                    $('#div-modifierTache').hide();
-                    jQuery.fx.off = false;
+                    $('#modal-tache').modal('toggle');
+
 
                     //TODO refresh all
+
 
                 }
             });
