@@ -35,7 +35,7 @@ public class Global extends GlobalSettings {
         if (Utilisateur.find.findRowCount() == 0) {
             //Ebean.save((List) Yaml.load("initial-data.yml"));
 
-            Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("initial-data-soutenance.yml");
+            Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("initial-data.yml");
 
             /* display file content */
             /*Logger.debug(all.get("adresses").toString());
