@@ -475,16 +475,18 @@ public class Projet extends EntiteSecurise {
 
         // Pas d'enfant
         tache.enfants = new BeanList<>();
-        ajouterTache(tache);
 
 
         // Id de la tache est l'id de la tache qui va etre en dessous. Modification des id des autres taches ci-dessous
         tache.idTache = tacheDejaInseree.idTache;
+        ajouterTache(tache);
 
         // Modification de l'id des autres taches
 
         String[] idTacheParse = tache.idTache.split("\\.");
         int idTacheInteger = Integer.parseInt(idTacheParse[tache.niveau]);
+
+
 
         for (Tache tacheDuProjet : listTaches) {
             if (!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau) {
@@ -540,6 +542,8 @@ public class Projet extends EntiteSecurise {
         // Reconstitution de idTache - TODO A VERIFIER !
         tache.idTache = reconstituerIdTache(idTacheParse, idTacheInteger, tache.niveau);
 
+        ajouterTache(tache);
+
         // Modification de l'id des autres taches
         for (Tache tacheDuProjet : listTaches) {
             if (!tacheDuProjet.equals(tache) && tacheDuProjet.niveau >= tache.niveau) {
@@ -555,7 +559,6 @@ public class Projet extends EntiteSecurise {
                 }
             }
         }
-        ajouterTache(tache);
         tache.save();
         save();
     }
@@ -593,7 +596,7 @@ public class Projet extends EntiteSecurise {
         ajouterTache(tache);
 
         // Si le parent a l'id 'A.B.C', alors tache a l'id 'A.B.C.1'
-        int nbEnfants = parent.enfants.size() + 1;
+        int nbEnfants = parent.enfants.size();
         tache.idTache = parent.idTache + "." + nbEnfants;
         save();
     }
