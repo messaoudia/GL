@@ -2667,6 +2667,11 @@ var afficherModalTache = function (t) {
             $('#chargeConsommeeTache').html(messages("consumed") + ': ' + tache.chargeConsommee + unite);
             $('#formModifierChargeInitiale').attr("value", tache.chargeInitiale);
             $('#formModifierChargeInitiale').nextAll('span').html(unite);
+            $('#formModifierChargeRestante').attr("value", tache.chargeRestante);
+            $('#formModifierChargeRestante').nextAll('span').html(unite);
+            $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
+            $('#formModifierChargeConsommee').nextAll('span').html(unite);
+
             if (tache.disponible) {
                 $('.formModifierChargeRestante').attr("disabled", false);
                 $('.formModifierChargeConsommee').attr("disabled", false);
@@ -2674,10 +2679,6 @@ var afficherModalTache = function (t) {
                 $('.formModifierChargeRestante').attr("disabled", true);
                 $('.formModifierChargeConsommee').attr("disabled", true);
             }
-            $('#formModifierChargeRestante').attr("value", tache.chargeRestante);
-            $('#formModifierChargeRestante span').nextAll('span').html(unite);
-            $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
-            $('#formModifierChargeConsommee span').nextAll('span').html(unite);
 
             //Activation/désactivation des inputs
             jsRoutes.controllers.Login.utilisateurConnecte().ajax({
