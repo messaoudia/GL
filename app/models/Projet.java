@@ -336,8 +336,32 @@ public class Projet extends EntiteSecurise {
         tache.responsableTache.update();
         tache.projet = this;
         tache.save();
-        System.out.println("Dans ajouterTache : tache = " + tache + " - disponible = " + tache.disponible);
         listTaches.add(tache);
+
+        if(tache.predecesseur == null){
+            tache.disponible = true;
+        }else {
+            if(tache.predecesseur.getAvancementTache() == 1.0){
+                tache.disponible = true;
+            }else{
+                tache.disponible = false;
+            }
+        }
+        tache.update();
+        if(tache.hasSuccesseur()){
+            if(tache.getAvancementTache() < 1.0){
+                for(int i=0; i<tache.successeurs.size(); i++){
+                    tache.successeurs.get(i).disponible = false;
+                    tache.update();
+                }
+            }
+            else {
+                for(int i=0; i<tache.successeurs.size(); i++){
+                    tache.successeurs.get(i).disponible = true;
+                    tache.update();
+                }
+            }
+        }
 
         saveAllProject();
         updateDatesProjet(tache);
@@ -375,7 +399,6 @@ public class Projet extends EntiteSecurise {
         }
     }
 
-    // TODO TEST ME
     private void updateDatesProjet() {
         if (listTaches.isEmpty())
             return;
@@ -420,11 +443,13 @@ public class Projet extends EntiteSecurise {
             throw new IllegalArgumentException("Le projet " + this.nom + ", contient deja la tache " + tache.nom +
                     ", creation impossible");
         }
-        tache.idTache = "1";
         tache.niveau = 0;
         tache.parent = null;
         tache.enfants = new BeanList<>();
         ajouterTache(tache);
+        tache.idTache = "1";
+        tache.save();
+        save();
     }
 
     /**
@@ -450,6 +475,8 @@ public class Projet extends EntiteSecurise {
 
         // Pas d'enfant
         tache.enfants = new BeanList<>();
+        ajouterTache(tache);
+
 
         // Id de la tache est l'id de la tache qui va etre en dessous. Modification des id des autres taches ci-dessous
         tache.idTache = tacheDejaInseree.idTache;
@@ -473,8 +500,7 @@ public class Projet extends EntiteSecurise {
                 }
             }
         }
-
-        ajouterTache(tache);
+        tache.save();
         save();
     }
 
@@ -530,6 +556,7 @@ public class Projet extends EntiteSecurise {
             }
         }
         ajouterTache(tache);
+        tache.save();
         save();
     }
 
@@ -563,11 +590,11 @@ public class Projet extends EntiteSecurise {
 
         // Pas d'enfant
         tache.enfants = new BeanList<>();
+        ajouterTache(tache);
 
         // Si le parent a l'id 'A.B.C', alors tache a l'id 'A.B.C.1'
         int nbEnfants = parent.enfants.size() + 1;
         tache.idTache = parent.idTache + "." + nbEnfants;
-        ajouterTache(tache);
         save();
     }
 
@@ -746,6 +773,7 @@ public class Projet extends EntiteSecurise {
             List<Tache> successeurs = tache.getSuccesseurs();
             for (int i = 0; i < successeurs.size(); i++) {
                 successeurs.get(i).predecesseur = null;
+                successeurs.get(i).disponible = true;
             }
         }
 

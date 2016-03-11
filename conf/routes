@@ -57,7 +57,7 @@ GET         /adminContactsClient                            controllers.ContactC
 GET         /allUsers                                       controllers.UtilisateurController.allUsers()
 GET         /allSucesseursPossible                          controllers.DashboardController.getAllSucesseursPossible(idTache: Long)
 GET         /AllPredecesseursPossible                       controllers.DashboardController.getAllPredecesseursPossible(idTache: Long)
-GET         /AllTaskPossible                                controllers.DashboardController.getAllTaskPossibleExceptParentsDirects(idTache: Long)
+GET         /AllTaskPossible                                controllers.DashboardController.getAllTasks(idTache: Long)
 GET         /getTacheById                                   controllers.TacheController.getTacheById(idTache: Long)
 POST        /creerSousTach                                  controllers.TacheController.creerSousTache(idTache: Long)
 POST        /creerTacheHaut                                 controllers.TacheController.creerTacheHaut(idTache: Long)

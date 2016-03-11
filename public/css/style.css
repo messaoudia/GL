@@ -711,6 +711,7 @@ a > .fa-bell-slash-o:hover {
 
 .dropdown-menu-pert > li{
     padding:5px 15px 5px 15px;
+    color:black;
 }
 
 
@@ -719,6 +720,13 @@ a > .fa-bell-slash-o:hover {
     vertical-align:middle;
     text-align : center;
 }
+.table-center2 > th,
+.table-center2 > td {
+    vertical-align:middle;
+    text-align : center;
+}
+
+
 .td-avancement > p {
     margin-bottom:0px;
 }

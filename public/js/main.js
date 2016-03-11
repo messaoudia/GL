@@ -678,7 +678,7 @@ var remplirFormulaireCreationTache = function (btn,isSubTask) {
 
             }else{
                 //Predecesseurs et Successeurs possible
-                jsRoutes.controllers.DashboardController.getAllTaskPossibleExceptParentsDirects(tache.id).ajax({
+                jsRoutes.controllers.DashboardController.getAllTasks(tache.id).ajax({
                     success: function (taches) {
                         //console.log(taches);
                         var list = "";
@@ -1549,7 +1549,7 @@ function projetTDBTermine() {
 
 /* Afficher les projets et taches terminés dans l'onglet tache  */
 function projetTacheTDBTermine() {
-
+    console.log("JE SUIS APPELLE");
 
 
 
@@ -1611,7 +1611,7 @@ function projetTacheTDBTermine() {
         $('.projet-finished').hide();
     }
 
-
+    console.log("Je suis la?");
     if ($('#checkbox-tdb-collab-taches-termines').is(":checked")) {
         console.log("termine --- ")
         $('.tache-terminee').show();

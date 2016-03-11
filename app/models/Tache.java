@@ -479,6 +479,7 @@ public class Tache extends EntiteSecurise {
     public void supprimerSuccesseurs() throws IllegalStateException {
         for(Tache successeur : successeurs){
             successeur.predecesseur = null;
+            successeur.disponible = true;
             //successeur.save();
         }
         successeurs.clear();
@@ -861,6 +862,7 @@ public class Tache extends EntiteSecurise {
     }
 
     public List<Tache> getAllTacheNonParentsDirects(List<Tache> listTache){
+        System.out.println("ListTache = " + listTache);
         boolean direct = false;
         List<Tache> listResult = new ArrayList<>();
         for(Tache t : listTache){

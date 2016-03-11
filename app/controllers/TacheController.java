@@ -197,15 +197,17 @@ public class TacheController  extends Controller {
         newTache.chargeConsommee = newChConso;
         newTache.chargeRestante = newChRestante;
         if(!idPredecesseur.equals("") && newPredecesseur != null) {
+            /*
             if(newPredecesseur.getAvancementTache() == 1.0){
                 newTache.disponible = true;
             }else{
                 newTache.disponible = false;
             }
+            */
         newPredecesseur.associerSuccesseur(newTache);
-        }else{
+        }/*else{
             newTache.disponible = true;
-        }
+        }*/
 
         if (newResponsable != null) {
             newTache.associerResponsable(newResponsable);
@@ -232,6 +234,7 @@ public class TacheController  extends Controller {
         Projet projet = tacheASupprimer.projet;
         try {
             projet.supprimerTache(tacheASupprimer);
+            projet.saveAllProject();
         } catch (Exception e) {
             e.printStackTrace();
             return badRequest();
