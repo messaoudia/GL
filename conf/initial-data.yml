@@ -390,6 +390,7 @@ taches:
     projet:             *projet1
     responsableTache:   *utilisateur2
     idTache :            1
+    disponible:          true
 
 - &tache2 !!models.Tache
     id:                 20
@@ -408,6 +409,7 @@ taches:
     projet:             *projet1
     responsableTache:   *utilisateur2
     idTache :            2
+    disponible:          true
 
 - &tache3 !!models.Tache
     id:                 21
@@ -424,6 +426,7 @@ taches:
     projet:             *projet2
     responsableTache:   *utilisateur3
     idTache :            1
+    disponible:          true
 
 - &tache4 !!models.Tache
     id:                 22
@@ -440,6 +443,7 @@ taches:
     projet:             *projet2
     responsableTache:   *utilisateur3
     idTache :            2
+    disponible:          true
 
 - &tache5 !!models.Tache
     id:                 23
@@ -456,6 +460,7 @@ taches:
     projet:             *projet2
     responsableTache:   *utilisateur3
     idTache :            3
+    disponible:          true
 
 - &tache6 !!models.Tache
     id:                 24
@@ -472,6 +477,7 @@ taches:
     projet:             *projet2
     responsableTache:   *utilisateur4
     idTache :             4
+    disponible:          true
 
 - &tache7 !!models.Tache
     id:                 25
@@ -488,6 +494,7 @@ taches:
     projet:             *projet2
     responsableTache:   *utilisateur3
     idTache :            5
+    disponible:          true
 
 - &tache8 !!models.Tache
     id:                 26
@@ -505,6 +512,7 @@ taches:
     responsableTache:   *utilisateur3
     parent :            *tache7
     idTache :             5.1
+    disponible:          true
 
 - &tache17 !!models.Tache
     id:                 27
@@ -522,6 +530,7 @@ taches:
     responsableTache:   *utilisateur3
     parent :            *tache8
     idTache :           5.1.1
+    disponible:          true
 
 - &tache18 !!models.Tache
     id:                 28
@@ -539,6 +548,7 @@ taches:
     responsableTache:   *utilisateur3
     parent :            *tache17
     idTache :           5.1.1.1
+    disponible:          true
 
 - &tache9 !!models.Tache
     id:                 29
@@ -555,6 +565,7 @@ taches:
     projet:             *projet3
     responsableTache:   *utilisateur3
     idTache :           1
+    disponible:          true
 
 
 - &tache10 !!models.Tache
@@ -572,6 +583,7 @@ taches:
     projet:             *projet3
     responsableTache:   *utilisateur2
     idTache :           2
+    disponible:          true
 
 - &tache11 !!models.Tache
     id:                 31
@@ -591,6 +603,7 @@ taches:
     disponible:         true
     interlocuteurs:
              - *contact2
+    disponible:          true
 
 - &tache12 !!models.Tache
     id:                 32
@@ -608,6 +621,7 @@ taches:
     responsableTache:   *utilisateur1
     idTache :           2
     predecesseur:       *tache11
+    disponible:          false
 
 - &tache13 !!models.Tache
     id:                 33
@@ -625,6 +639,7 @@ taches:
     responsableTache:   *utilisateur1
     idTache :           3
     predecesseur:       *tache12
+    disponible:          false
 
 - &tache14 !!models.Tache
     id:                 34
@@ -642,6 +657,7 @@ taches:
     responsableTache:   *utilisateur1
     idTache :           4
     predecesseur:       *tache12
+    disponible:          false
 
 
 - &tache15 !!models.Tache
@@ -676,6 +692,7 @@ taches:
     projet:             *projet4
     responsableTache:   *utilisateur1
     idTache :           6
+    disponible:          true
 
 egeneriques:
 
