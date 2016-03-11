@@ -35,7 +35,7 @@ public class ClientController extends Controller {
     }
 
     public Error checkCreationClient(String nomClient,String adresseClient, String codePostal, String ville, String pays){
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-]{1,30}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-éèàêîï]{1,30}$");
         Matcher nameMatch = nameRegex.matcher(nomClient);
         Error error = new Error();
         if(nomClient.isEmpty()){
@@ -126,7 +126,7 @@ public class ClientController extends Controller {
         String email =  map.get("formEmailContactClient")[0].trim();
         String tel =  map.get("formTelContactClient")[0].trim();
 
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-éèàêîï]{1,15}$");
         Matcher nameMatch = nameRegex.matcher(nom);
         Matcher prenomMatch = nameRegex.matcher(prenom);
 

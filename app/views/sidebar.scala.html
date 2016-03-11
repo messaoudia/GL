@@ -58,17 +58,18 @@
 
                     </li>
                 }
-
-                @if(menu.equals("CreerClient")) {
-                    <li class="liclickable active sidebar-btn-green" data-infos="ClientController.afficherCreerClient()">
-                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                        @Messages("createCustomer")</span></a>
-                    </li>
-                } else {
-                    <li class="liclickable sidebar-btn-green" data-infos="ClientController.afficherCreerClient()">
-                        <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
-                        @Messages("createCustomer")</span></a>
-                    </li>
+                @if(Login.getUtilisateurConnecte.isResponsableProjet()){
+                    @if(menu.equals("CreerClient")) {
+                        <li class="liclickable active sidebar-btn-green" data-infos="ClientController.afficherCreerClient()">
+                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            @Messages("createCustomer")</span></a>
+                        </li>
+                    } else {
+                        <li class="liclickable sidebar-btn-green" data-infos="ClientController.afficherCreerClient()">
+                            <a ><img src="img/MyIcons/png/add182.png" alt="image" class="icone"> <span class="nav-label" style="padding-left:7px ;">
+                            @Messages("createCustomer")</span></a>
+                        </li>
+                    }
                 }
                 @if(Login.getUtilisateurConnecte.checkAdmin()) {
                     @if(menu.equals("CreerUtilisateur")) {

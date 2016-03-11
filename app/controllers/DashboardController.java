@@ -103,28 +103,32 @@ public class DashboardController extends Controller{
 
             // TODO : récupérer le changement dispo/indispo et mettre modifierTache à true si c le cas
 
-            Long idTache = Long.parseLong(map.get("id-tache")[0]);
+            Long idTache = Long.parseLong(map.get("id-tache")[0].trim());
             Tache tache = Tache.find.byId(idTache);
 
-            String newNomTache = map.get("form-modif-tache-nom")[0];
-            String newDescTache = map.get("form-modif-tache-desc")[0];
+            String newNomTache = map.get("form-modif-tache-nom")[0].trim();
+            if(newNomTache.isEmpty()){
+                return badRequest();
+            }
+
+            String newDescTache = map.get("form-modif-tache-desc")[0].trim();
 
             Double newChInitiale = null;
             Double newChConso = null;
             Double newChRestante = null;
 
             if(tache.disponible) {
-                newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0]);
-                newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0]);
-                newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0]);
+                newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0].trim());
+                newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0].trim());
+                newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0].trim());
             }
-            String idPredecesseur = map.get("predecesseur")[0];
+            String idPredecesseur = map.get("predecesseur")[0].trim();
 
             Tache newPredecesseur = null;
             if(!idPredecesseur.equals("")) {
                 newPredecesseur = Tache.find.byId(Long.parseLong(idPredecesseur));
             }
-            Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0]));
+            Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0].trim()));
 
             String[] dateDebut = map.get("DD-modifier")[0].split("/");
             Date newDebut = Utils.getDateFrom(Integer.parseInt(dateDebut[2]), Integer.parseInt(dateDebut[1]), Integer.parseInt(dateDebut[0]));

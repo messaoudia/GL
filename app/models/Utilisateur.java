@@ -1,11 +1,12 @@
 package models;
 
+import com.avaje.ebean.annotation.Transactional;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import controllers.Global.StaticEntite;
-import models.Securite.Role;
 import controllers.Utils.Utils;
+import models.Securite.Role;
 import play.Logger;
 import play.data.validation.Constraints;
 
@@ -45,7 +46,7 @@ public class Utilisateur extends Personne {
     @JoinTable(name = "Tache")
     private List<Tache> listTaches;
 
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<Tache> listTachesNotifications;
     // liste des utilisateurs où je souhaite recevoir une notification
 
@@ -124,12 +125,13 @@ public class Utilisateur extends Personne {
         this(nom, prenom, email, telephone, archive, null, null, null, LANGUE_FR, false, false, false, null, null);
     }
 
+    @Transactional
     public static Utilisateur create(String nom, String prenom, String email, String telephone, String password) {
         Utilisateur user = new Utilisateur(nom, prenom, email, telephone, false);
         user.save();
         user.setPassword(password);
         user.update();
-        return user;
+        return Utilisateur.find.byId(user.id);
     }
 
     public Utilisateur() {
@@ -218,7 +220,7 @@ public class Utilisateur extends Personne {
      * @return list des projets du responsable
      */
     public List<Projet> listProjetsResponsable() {
-        List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).findList();
+        List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).eq("archive", false).findList();
         /** TODO : obliger de faire ça car pas présent en BDD **/
         for (Projet projet : listProjet) {
             projet.updateAvancementGlobal();
@@ -253,12 +255,12 @@ public class Utilisateur extends Personne {
      * @return list des taches du responsable
      */
     public List<Tache> listTaches() {
-        listTaches = Tache.find.where().eq("responsableTache", this).findList();
+        listTaches = Tache.find.where().eq("responsableTache", this).eq("archive", false).findList();
         return listTaches;
     }
 
     public List<Tache> listTachesDansProjetNonResponsable(Projet projet) {
-        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("projet", projet).findList();
+        List<Tache> tachesTmp = Tache.find.where().eq("responsableTache", this).eq("archive", false).eq("projet", projet).findList();
         List<Tache> taches = new ArrayList<>(tachesTmp);
         // Ajout des taches meres et filles
         for (Tache tache : tachesTmp) {
@@ -745,9 +747,9 @@ public class Utilisateur extends Personne {
     public int nbTachesActuelles() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
-            Logger.debug("AVANCEMENT ===> "+tache.getAvancementTache());
-            Logger.debug("AVANCEMENT ===> "+tache.archive);
-            Logger.debug("AVANCEMENT ===> "+tache.estDisponible());
+            Logger.debug("AVANCEMENT ===> " + tache.getAvancementTache());
+            Logger.debug("AVANCEMENT ===> " + tache.archive);
+            Logger.debug("AVANCEMENT ===> " + tache.estDisponible());
 
             if (!tache.archive && tache.estDisponible() && tache.getAvancementTache() < 1.0) cpt++;
         }
@@ -919,9 +921,9 @@ public class Utilisateur extends Personne {
     }
 
 
-    public void enleverResponsabiliteTache(Tache t){
-        if(!listTaches().contains(t)){
-            throw new IllegalArgumentException("L'utilisateur "+nom+" n'est pas responsable de la tache "+t.nom);
+    public void enleverResponsabiliteTache(Tache t) {
+        if (!listTaches().contains(t)) {
+            throw new IllegalArgumentException("L'utilisateur " + nom + " n'est pas responsable de la tache " + t.nom);
         }
         listTaches.remove(t);
         this.save();
@@ -953,7 +955,7 @@ public class Utilisateur extends Personne {
         Map<Utilisateur, Notification> mapNotifications = convertMapNotificationsGroupees();
         Notification.sendNotifications(mapNotifications);
         mapNotifications.clear();
-        for(int i=listNotificationsGroupees.size()-1; i>=0; i--){
+        for (int i = listNotificationsGroupees.size() - 1; i >= 0; i--) {
             listNotificationsGroupees.get(i).delete();
         }
         this.listNotificationsGroupees.clear();
@@ -1107,8 +1109,13 @@ public class Utilisateur extends Personne {
         save();
     }
 
-    public List<NotificationGroupee> getListNotificationsGroupees(){
+    public List<NotificationGroupee> getListNotificationsGroupees() {
         this.listNotificationsGroupees = NotificationGroupee.find.where().eq("utilisateur", this).findList();
         return this.listNotificationsGroupees;
+    }
+
+    public boolean isResponsableProjet() {
+        List<Projet> listProjet = listProjetsResponsable();
+        return listProjet != null && !listProjet.isEmpty();
     }
 }

@@ -207,3 +207,4 @@ errorModificationTache = Impossible task modification, please check the fields c
 saisir2DateError = Please select two dates or nothing
 projetExistError = Project already exists
 errorCoherence = Coherence project error !
+notFoundEmail = This email doesn't exist

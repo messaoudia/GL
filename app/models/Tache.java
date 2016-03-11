@@ -4,9 +4,10 @@ import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import controllers.Utils.Utils;
 import models.Exceptions.NotAvailableTask;
 import models.Securite.EntiteSecurise;
+import controllers.Utils.Utils;
+import play.Logger;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -523,7 +524,7 @@ public class Tache extends EntiteSecurise {
 
     public boolean estRetardee() {
         //return dateFinTard.before(Calendar.getInstance().getTime());
-        return Utils.before(dateFinTard, Calendar.getInstance().getTime());
+        return getAvancementTache() < 1D && Utils.before(dateFinTard, Calendar.getInstance().getTime());
     }
 
     @JsonSerialize
