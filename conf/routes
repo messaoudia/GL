@@ -63,7 +63,7 @@ POST        /creerSousTach                                  controllers.TacheCon
 POST        /creerTacheHaut                                 controllers.TacheController.creerTacheHaut(idTache: Long)
 POST        /creerTacheBas                                  controllers.TacheController.creerTacheBas(idTache: Long)
 GET         /supprimerTache                                 controllers.TacheController.supprimerTache(idTache: Long)
-
+GET         /listProjetsUtilisateurConnecteResponsableTache controllers.ProjetController.listProjetsUtilisateurConnecteResponsableTache()
 POST        /modifierTache                                  controllers.DashboardController.modifierTache()
 POST        /ajouterProjet                                  controllers.ProjetController.creerProjet
 GET         /listProjetsUtilisateur                         controllers.UtilisateurController.listProjetsUtilisateur(id: Long)
