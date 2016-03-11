@@ -186,7 +186,9 @@ public class DashboardController extends Controller{
                     return badRequest();
                 }
             }
-
+            newDebut.setHours(12);
+            newFinTot.setHours(12);
+            newFinTard.setHours(12);
             //Successeurs
             List<Tache> successeurs = new ArrayList<>();
             if(map.containsKey("successeurs")) {

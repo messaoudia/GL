@@ -2993,7 +2993,8 @@ var modifierTache = function (btn) {
 
                     console.log(tableContent);
                     tableDashboardBody.append(tableContent);
-
+                    $('#div-modifierTache').hide();
+                    $('#div-consulterTache').show();
                     $('#modal-tache').modal('toggle');
 
 
