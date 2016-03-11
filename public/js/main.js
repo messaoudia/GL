@@ -2956,7 +2956,12 @@ var modifierTache = function (btn) {
 
                     console.log(tableContent);
                     tableDashboardBody.append(tableContent);
-                    $('#modal-tache').modal('toggle');
+
+                    //$('#modal-tache').modal('toggle');
+                    jQuery.fx.off = true;
+                    $('#div-consulterTache').show();
+                    $('#div-modifierTache').hide();
+                    jQuery.fx.off = false;
 
                     //TODO refresh all
 
@@ -3389,13 +3394,13 @@ $(document).ready(function () {
 
     });
 
-    $('#btn-valider-modifierTache').click(function () {
+    /*$('#btn-valider-modifierTache').click(function () {
         jQuery.fx.off = true;
         $('#div-consulterTache').show();
         $('#div-modifierTache').hide();
         jQuery.fx.off = false;
 
-    });
+    });*/
 
     $('#btn-modifierTache-active').click(function () {
         jQuery.fx.off = true;
@@ -3857,13 +3862,12 @@ $(document).ajaxComplete(function () {
 
     });
 
-    $('#btn-valider-modifierTache').click(function () {
+    /*$('#btn-valider-modifierTache').click(function () {
         jQuery.fx.off = true;
         $('#div-consulterTache').show();
         $('#div-modifierTache').hide();
         jQuery.fx.off = false;
-
-    });
+    });*/
 
     $('#btn-modifierTache-active').click(function () {
         jQuery.fx.off = true;

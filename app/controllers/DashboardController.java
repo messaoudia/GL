@@ -13,6 +13,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.dashboard;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -121,7 +123,11 @@ public class DashboardController extends Controller{
                 newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0].trim());
                 newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0].trim());
                 newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0].trim());
+                if(newChInitiale == 0){
+                    return badRequest();
+                }
             }
+
             String idPredecesseur = map.get("predecesseur")[0].trim();
 
             Tache newPredecesseur = null;
@@ -130,14 +136,38 @@ public class DashboardController extends Controller{
             }
             Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0].trim()));
 
-            String[] dateDebut = map.get("DD-modifier")[0].split("/");
-            Date newDebut = Utils.getDateFrom(Integer.parseInt(dateDebut[2]), Integer.parseInt(dateDebut[1]), Integer.parseInt(dateDebut[0]));
+            String dateDebut = map.get("DD-modifier")[0].trim();
+            String dateFinProche = map.get("DFTO-modifier")[0].trim();
+            String dateFinTard = map.get("DFTA-modifier")[0].trim();
+            if(dateDebut.isEmpty() || dateFinProche.isEmpty() || dateFinTard.isEmpty()){
+                return null;
+            }
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date newDebut = null;
+            Date newFinTot = null;
+            Date newFinTard = null;
+            try {
+                newDebut = formatter.parse(dateDebut);
+                newFinTot = formatter.parse(dateFinProche);
+                newFinTard = formatter.parse(dateFinTard);
+                boolean correct = false;
+                if(Utils.after(newFinTot, newDebut) ||  Utils.equals(newFinTot,newDebut)){
+                    if(Utils.after(newFinTard, newFinTot) ||  Utils.equals(newFinTard, newFinTot)){
+                        correct = true;
+                    }else{
+                        return badRequest();
+                    }
+                }else{
+                    return badRequest();
+                }
+            } catch(ParseException e) {
+                return badRequest();
+            }
 
-            String[] dateFinProche = map.get("DFTO-modifier")[0].split("/");
-            Date newFinTot = Utils.getDateFrom(Integer.parseInt(dateFinProche[2]), Integer.parseInt(dateFinProche[1]), Integer.parseInt(dateFinProche[0]));
 
-            String[] dateFinTard = map.get("DFTA-modifier")[0].split("/");
-            Date newFinTard = Utils.getDateFrom(Integer.parseInt(dateFinTard[2]), Integer.parseInt(dateFinTard[1]), Integer.parseInt(dateFinTard[0]));
+
+
+
 
             //Successeurs
             List<Tache> successeurs = new ArrayList<>();
