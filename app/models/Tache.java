@@ -81,7 +81,7 @@ public class Tache extends EntiteSecurise {
 
     public boolean disponible;
 
-    // TODO @qqch?
+    // @qqch?
     @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     public List<Utilisateur> utilisateursNotifications;
 
@@ -394,7 +394,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
+     * testme
      * Modifie le responsableProjet de tache par l'utilisateur en parametre
      *
      * @param responsable
@@ -441,7 +441,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
+     * testme
      * Modifie le predecesseur de la tache par la tache en parametre
      *
      * @param predecesseur
@@ -506,7 +506,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
+     * testme
      *
      * @return la charge totale pour ce projet (en l'unité définie pour le projet)
      */
@@ -515,7 +515,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
+     * testme
      *
      * @return true si la tache précédente est finie a 100% ou si pas de tache, false sinon
      */
@@ -556,7 +556,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
+     * testme
      */
     @JsonSerialize
     public Double getAvancementTache() {
@@ -566,7 +566,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
+     * testme
      * Vérification de l'ordre des sous-taches (enfants)
      * Parcourir la liste d'enfants, pour chaque sous-tache,
      * on verifie que dateFinTard de predecesseur <= dateDebut de sous-tache
@@ -839,10 +839,9 @@ public class Tache extends EntiteSecurise {
 
 
 
-    // TODO ajouter l'exception(chargeConsomee>chargeRestante) dans la fonction modifierCharge + test exception
 
     /**
-     * TODO enlever les parents directs
+     * enlever les parents directs
      * @return
      */
     @JsonIgnore
@@ -852,7 +851,7 @@ public class Tache extends EntiteSecurise {
     }
 
     /**
-     * TODO enlever les parents directs
+     * enlever les parents directs
      * @return
      */
     @JsonIgnore

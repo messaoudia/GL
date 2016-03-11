@@ -370,7 +370,6 @@ var creerTache = function (btn) {
 }
 
 var remplirFormulaireCreationTacheFirst = function (btn) {
-    //FIXME Dates limites
     var value = btn.attr("value");
     jsRoutes.controllers.DashboardController.getAllInterlocuteur(value).ajax({
         success: function (interlocuteursClient) {
@@ -582,7 +581,6 @@ var refreshProjectTableByIdProject = function (projetId) {
 
 var remplirFormulaireCreationTache = function (btn,isSubTask) {
     var jsonTache = "";
-    //FIXME Dates limites
     jsRoutes.controllers.TacheController.getTacheById(btn.attr("data")).ajax({
         success: function (tache) {
             jsonTache = tache;
@@ -754,7 +752,7 @@ $(document).on('click', '#dataTables-admin-user tr td:not(:last-child)', functio
             }
 
 
-            //TODO mettre la condition si !admin sinon
+            //mettre la condition si !admin sinon
             if (true) {
                 // si le bouton a deja la classe ca sert a rien de changer
                 if (!$("#btnAdminNonModifier").hasClass("btn-active")) {
@@ -1291,7 +1289,6 @@ var afficherAdminProjets = function () {
 }
 
 function notifPopupTache(fa, idTache) {
-    //TODO traitement des notifs
     jsRoutes.controllers.NotificationController.hasActiverNotification(idTache).ajax({
         success: function (booleanString) {
             if ($(fa).hasClass('fa-bell-slash')) {
@@ -1491,7 +1488,6 @@ var listeNewContact = [];
 $(document).on("hidden.bs.modal", "#modal-modif-client", function () {
     var tmpRowModalClientProjet = [];
     var tmpRowModalClientContact = [];
-    /*TODO : mettre les formulaire a 0 */
 });
 
 $(document).on('click', '#table-modal-client-projets-body tr td:last-child', function () {
@@ -1601,7 +1597,7 @@ function projetTacheTDBTermine() {
         $(result).show();
     }
     else {
-        $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        $('.table-center').show();
 
         if ($('#checkbox-tdb-collab-projets-termines').is(":checked")) {
             $('.projet-finished').show();
@@ -1649,7 +1645,7 @@ function filtreTDBproj() {
         $(result).show();
     }
     else {
-        $('.table-center3').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        $('.table-center3').show();
         if ($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
 
             $('.projet-finished').show();
@@ -1691,7 +1687,6 @@ function verif(string) {
 }
 
 
-//TODO : changer pour la partie consommee
 var checkBoxProjetTermine = '#checkbox-projet-admin-projets-termines';
 var checkBoxProjetArchive = '#checkbox-projet-admin-projets-archives';
 function projetTermines() {
@@ -3002,7 +2997,6 @@ var modifierTache = function (btn) {
                     $('#modal-tache').modal('toggle');
 
 
-                    //TODO refresh all
 
 
                 }

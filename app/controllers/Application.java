@@ -35,7 +35,6 @@ public class Application extends Controller {
      * @return A rendered HTML view
      */
     public Result index() {
-        /* TODO mettre utilisateur connecté" */
         // return ok(dashboard.render("Dashboard", Utilisateur.getAllNonArchives().get(0)));
         //  String user = session("connected");
         if (Login.isUtilisateurConnecte()) {

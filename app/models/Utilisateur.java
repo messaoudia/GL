@@ -55,16 +55,13 @@ public class Utilisateur extends Personne {
     @ManyToMany
     @JoinTable(name = "tbl_follow_user",
             joinColumns = @JoinColumn(name = "utilisateursSuivis", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateursMeSuivant", referencedColumnName = "id") /** TODO ENLEVER car utilisateursMeSuivant n'existe plus **/
+            inverseJoinColumns = @JoinColumn(name = "utilisateursMeSuivant", referencedColumnName = "id")
     )
     public List<Utilisateur> utilisateursSuivis;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "utilisateursNotifications")
     @JsonIgnore
     public List<Projet> projetsNotifications;
-    /**
-     * TODO ENLEVER
-     **/
 
     public String langue;
 
@@ -88,7 +85,7 @@ public class Utilisateur extends Personne {
         }
     }
 
-    ////TODO Make connection to the database to check the authentication
+    //// Make connection to the database to check the authentication
     //public String validate() {
     //    //if (!email.equals("yasser.rabi@gmail.com") || !password.equals("123456")) {
     //    //    return "Invalid email or password";
@@ -143,7 +140,6 @@ public class Utilisateur extends Personne {
     }
 
     public Utilisateur() {
-        /** TODO : peut etre enlever car c'est peut etre ça qui fait que on a pas les listTaches, et tout **/
         this.listTaches = new BeanList<>();
         this.listTachesNotifications = new BeanList<>();
         this.utilisateursSuivis = new BeanList<>();
@@ -223,13 +219,11 @@ public class Utilisateur extends Personne {
     }
 
     /**
-     * FIXME rustine car le champ ne contient pas la liste des projets
      *
      * @return list des projets du responsable
      */
     public List<Projet> listProjetsResponsable() {
         List<Projet> listProjet = Projet.find.where().eq("responsableProjet", this).eq("archive", false).findList();
-        /** TODO : obliger de faire ça car pas présent en BDD **/
         for (Projet projet : listProjet) {
             projet.updateAvancementGlobal();
         }
@@ -258,7 +252,6 @@ public class Utilisateur extends Personne {
     }
 
     /**
-     * FIXME rustine car le champ ne contient pas la liste des taches
      *
      * @return list des taches du responsable
      */
@@ -306,9 +299,6 @@ public class Utilisateur extends Personne {
         return taches;
     }
 
-    /**
-     * TODO A TESTER
-     **/
     public List<Tache> listTachesDansProjetNonResponsableAAfficher(Projet projet) {
         List<Tache> taches = listTachesDansProjetNonResponsable(projet);
         for (int i = 0; i < taches.size(); i++) {
@@ -405,8 +395,6 @@ public class Utilisateur extends Personne {
     }
 
     /**
-     * TODO : peut etre faire une requete uniquement
-     *
      * @return
      */
     public List<Client> listClients() {
@@ -421,8 +409,6 @@ public class Utilisateur extends Personne {
     }
 
     /**
-     * TODO : peut etre faire une requete uniquement
-     *
      * @param client
      * @return
      */
@@ -704,9 +690,6 @@ public class Utilisateur extends Personne {
         return 7 - (t.projet.priorite + t.projet.client.priorite);
     }
 
-    /**
-     * TODO TESTME
-     **/
     public int nbDeProjetsResponsableActuel() {
         int cpt = 0;
         for (Projet projet : listProjetsResponsable()) {
@@ -715,12 +698,6 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TESTME
-     * TODO voir byte vs double
-     *
-     * @return
-     */
     public int nbDeProjetsResponsablePresqueFinis() {
         int cpt = 0;
         for (Projet projet : listProjetsResponsable()) {
@@ -730,12 +707,6 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TESTME
-     * TODO : Remplacer dateFinReel par dateFinReelTard
-     *
-     * @return
-     */
     public int nbDeProjetsResponsableRetardes() {
         int cpt = 0;
         for (Projet projet : listProjetsResponsable()) {
@@ -747,11 +718,6 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TEST ME
-     *
-     * @return
-     */
     public int nbTachesActuelles() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
@@ -764,11 +730,6 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TEST ME
-     *
-     * @return
-     */
     public int nbTachesNonCommencees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
@@ -777,11 +738,6 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TEST ME
-     *
-     * @return
-     */
     public int nbTachesCommencees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
@@ -791,11 +747,6 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TEST ME
-     *
-     * @return
-     */
     public int nbTachesPresquesFinies() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
@@ -805,11 +756,6 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TEST ME
-     *
-     * @return
-     */
     public int nbTachesRetardees() {
         int cpt = 0;
         for (Tache tache : listTaches()) {
@@ -820,18 +766,10 @@ public class Utilisateur extends Personne {
         return cpt;
     }
 
-    /**
-     * TODO TEST ME
-     **/
     public boolean hasProjetsResponsable() {
         return !listProjetsResponsable().isEmpty();
     }
 
-    /**
-     * TODO TEST ME
-     *
-     * @return
-     */
     public List<Tache> tachesPresquesFinies() {
         List<Tache> res = new ArrayList<>();
         for (Tache tache : listTaches()) {
@@ -841,11 +779,6 @@ public class Utilisateur extends Personne {
         return res;
     }
 
-    /**
-     * TODO TEST ME
-     *
-     * @return
-     */
     public List<Tache> tachesRetardees() {
         List<Tache> res = new ArrayList<>();
         for (Tache tache : listTaches()) {
@@ -892,7 +825,6 @@ public class Utilisateur extends Personne {
     }
 
     public void activerNotification(Tache tache) {
-        // TODO : Rajouter un test de permission?
         if (!listTachesNotifications.contains(tache)) {
             listTachesNotifications.add(tache);
             save();
@@ -904,7 +836,6 @@ public class Utilisateur extends Personne {
     }
 
     public void desactiverNotification(Tache tache) {
-        // TODO : Rajouter un test de permission?
         if (listTachesNotifications.contains(tache)) {
             listTachesNotifications.remove(tache);
             save();
@@ -1083,7 +1014,6 @@ public class Utilisateur extends Personne {
         }
     }
 
-    // TODO METTRE EN PLACE
     public void createNotificationSupprimerTache(Tache tache) {
         this.listNotificationsGroupees = getListNotificationsGroupees();
         if (listNotificationsGenereesContainsKey(tache.id) && listNotificationsGenereesContainsKeyAndValue(tache.id, TypeNotification.CREER_TACHE)) {

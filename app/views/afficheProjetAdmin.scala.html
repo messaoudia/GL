@@ -18,7 +18,7 @@
                 <h3 class="header-text">@Messages("progress") : @projet.avancementGlobal%</h3>
                 @if(projet.hasUniteJour) {
                     <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
-                        <!-- TODO : restante et consomme  -->
+                        <!-- restante et consomme  -->
                     <div class="row-restante">@Messages("remaining")
                         : @projet.chargeRestante @Messages("day-first-letter")</div>
                     <div class="progress progress-bar-default">
@@ -37,7 +37,7 @@
                         : @projet.chargeConsommee @Messages("day-first-letter")</p>
                 } else {
                     <div class="row-initiale">@Messages("initial") : @projet.chargeInitiale</div>
-                        <!-- TODO : restante et consomme  -->
+                        <!-- restante et consomme  -->
                     <div class="row-restante">@Messages("remaining")
                         : @projet.chargeRestante @Messages("week-first-letter")</div>
                     <div class="progress progress-bar-default">

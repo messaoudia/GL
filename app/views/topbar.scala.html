@@ -67,7 +67,6 @@
         <div class="notificationFrom">
             <p>@Messages("titleNotificationFrom")</p>
             <div>
-                    <!--TODO : voir si utilisateursSuivis ou utilisateursSuivis() -->
                 <select id="searchContact-select2" class="form-control" style="width:100%;" placeholder="" multiple onChange="selectUtilisateursASuivre(@Login.getUtilisateurConnecte().id)">
                     @for(user <- Login.getUtilisateurConnecte().utilisateursPouvantEtreSuivis()){
                         @if(Login.getUtilisateurConnecte().utilisateursSuivis.contains(user)){

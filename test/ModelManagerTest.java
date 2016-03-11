@@ -123,7 +123,6 @@ public class ModelManagerTest {
             assertEquals(tache1Selected.idTache, "2");
             assertEquals(tache2Selected.idTache, "1");
 
-            //TODO test the case where project has sous taches.
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -163,7 +162,6 @@ public class ModelManagerTest {
             assertEquals(tache1Selected.idTache, "1");
             assertEquals(tache2Selected.idTache, "2");
 
-            //TODO test the case where project has sous taches.
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1068,7 +1066,6 @@ public class ModelManagerTest {
         tacheC.save();
 
         try {
-            // TODO: Il y a exception "Le projet [Site Apple] n'a pas de chemin critique car aucune tache ne termine à la date de fin au plus tard du projet (28/02/2016)"
             projet.creerTacheInitialisationProjet(tacheA);
             projet.creerTacheEnDessous(tacheB, tacheA);
             projet.creerTacheEnDessous(tacheC, tacheB);
@@ -1336,7 +1333,6 @@ public class ModelManagerTest {
         assertTrue(!Tache.find.byId(tache2.id).hasPredecesseur());
 
         // Tache1: 1; Tache2: 1.1; Tache3: 1.2; Tache4: 1.2.1
-        // TODO
         tache4.associerSuccesseur(tache1);
     }
 

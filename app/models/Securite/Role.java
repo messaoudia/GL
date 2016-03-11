@@ -25,7 +25,7 @@ public class Role extends Model {
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     public List<Permission> permissions;
 
-    //TODO Rendre la relation ManyToMany est plus logique
+    //Rendre la relation ManyToMany est plus logique
     @ManyToMany(mappedBy = "roles")
     public List<Autorisation> autorisations = new ArrayList<>();
 

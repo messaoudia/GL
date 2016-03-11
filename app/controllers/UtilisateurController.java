@@ -36,7 +36,7 @@ public class UtilisateurController extends Controller {
         Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-éèàêîï]{1,15}$");
         Matcher nameMatch = nameRegex.matcher(map.get(preName + "-formLastName")[0].trim());
 
-        //TODO regex nom : que des lettres ' -
+        //regex nom : que des lettres ' -
         // nom utilisateur [1,15] char
         if (map.get(preName + "-formLastName")[0].trim().isEmpty()) {
             error.nomVide = true;
@@ -47,7 +47,7 @@ public class UtilisateurController extends Controller {
             error.nomIncorrect = true;
         }
         nameMatch = nameRegex.matcher(map.get(preName + "-formFirstName")[0].trim());
-        //TODO regex prenom : que des lettres ' -
+        //regex prenom : que des lettres ' -
         // prenom utilisateur [1,15] char
         if (map.get(preName + "-formFirstName")[0].trim().isEmpty()) {
             error.prenomVide = true;
@@ -79,8 +79,7 @@ public class UtilisateurController extends Controller {
         } else if (!telMatch.matches()) {
             error.telIncorrecte = true;
         } else if (map.get(preName + "-formTel")[0].trim().length() > 15) {
-            //TODO je crois que cette condition ne sert a rien en fait car la regex du tel bloque a elle tt seul quand on depasse 15 char
-            //TODO si condiition est supprime, la supprimer dans main.scala.html dans creerUtilisateur().ajax
+
             error.telTropLong = true;
         }
         return error;
@@ -101,15 +100,15 @@ public class UtilisateurController extends Controller {
         } else {
             Utilisateur user = Utilisateur.create(map.get("new-formLastName")[0], map.get("new-formFirstName")[0], map.get("new-formEmail")[0], map.get("new-formTel")[0], Utilisateur.genererPassword());
             //creation user
-            //TODO si admin = OUI, si admin = NON
+            //si admin = OUI, si admin = NON
             if (map.get("admin")[0].equals("Oui")) {
-                //TODO lui donner droit admin
+                //lui donner droit admin
                 System.out.println("Creation d'un admin ...");
                 donnerDroitAdmin(user);
             }
 
             //user.save();
-            //TODO : send email to user
+            //: send email to user
             return ok(Json.toJson(user));
         }
     }
@@ -157,7 +156,7 @@ public class UtilisateurController extends Controller {
             }
         }
 
-        //TODO modifier l'utilisateur
+        //modifier l'utilisateur
         utst.setFirstName(map.get("modify-formFirstName")[0].trim());
         utst.setLastName(map.get("modify-formLastName")[0].trim());
         utst.setEmail(map.get("modify-formEmail")[0].trim());

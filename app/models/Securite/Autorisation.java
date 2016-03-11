@@ -27,12 +27,12 @@ public class Autorisation extends Model {
         this.entiteSecurise = entiteSecurise;
     }
 
-    // TODO Delete once all tests are done
+    // Delete once all tests are done
     @ManyToOne
     @JoinColumn(name = "utilisateur_id", insertable = false, updatable = false)
     public Utilisateur utilisateur;
 
-    // TODO Delete once all tests are done
+    // Delete once all tests are done
     @ManyToOne
     @JoinColumn(name = "entite_securise_id", insertable = false, updatable = false)
     public EntiteSecurise entiteSecurise;

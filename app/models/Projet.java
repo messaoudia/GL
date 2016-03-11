@@ -228,7 +228,7 @@ public class Projet extends EntiteSecurise {
         return sb.toString();
     }
 
-    /** TODO : getUtilisateursNotifications **/
+    /** getUtilisateursNotifications **/
 
     /**
      * !!! A NE JAMAIS APPELER DANS LES PAGES HTML !!!
@@ -539,7 +539,7 @@ public class Projet extends EntiteSecurise {
         idTacheInteger++;
         // Mise a jour de idTacheParse
         idTacheParse[tache.niveau] = "" + idTacheInteger;
-        // Reconstitution de idTache - TODO A VERIFIER !
+        // Reconstitution de idTache - A VERIFIER !
         tache.idTache = reconstituerIdTache(idTacheParse, idTacheInteger, tache.niveau);
 
         ajouterTache(tache);
@@ -644,7 +644,7 @@ public class Projet extends EntiteSecurise {
 
 
     /**
-     * TODO testme
+     * testme
      * Modifie la tache en parametre
      *
      * @param tache
@@ -723,7 +723,7 @@ public class Projet extends EntiteSecurise {
         }
 
 
-        //TODO modifier tâche
+        //modifier tâche
         tache.update();
         updateDatesProjet(tache);
         updateAvancementGlobal();
@@ -771,7 +771,7 @@ public class Projet extends EntiteSecurise {
         } else if (tache.hasPredecesseur()) {
             Tache tAvant = tache.predecesseur;
             tAvant.successeurs.remove(tache);
-            tAvant.save();  // TODO ENLEVER?
+            tAvant.save();  // ENLEVER?
         } else if (tache.hasSuccesseur()) {
             List<Tache> successeurs = tache.getSuccesseurs();
             for (int i = 0; i < successeurs.size(); i++) {
@@ -940,7 +940,7 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * TODO testme
+     * testme
      * Associe le projet courant au client passé en parametre
      *
      * @param client
@@ -1175,7 +1175,7 @@ public class Projet extends EntiteSecurise {
     }
 
     /**
-     * TODO : a utiliser dans draftProjet
+     * a utiliser dans draftProjet
      *
      * @return
      */

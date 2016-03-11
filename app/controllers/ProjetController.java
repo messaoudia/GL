@@ -306,7 +306,7 @@ public class ProjetController extends Controller {
 
         draft.get("taches").findValuesAsText("id").forEach(Logger::debug);
 
-        projet.listTaches = taches.values().parallelStream().collect(Collectors.toList()); //TODO Bring all tache with inscestor
+        projet.listTaches = taches.values().parallelStream().collect(Collectors.toList());
 
         final List<JsonNode> tachesNodes = elementsToStream(draft.get("taches").elements()).collect(Collectors.toList());
 
@@ -336,7 +336,6 @@ public class ProjetController extends Controller {
         if (parentTache == null) {
             currentTache.idTache = index.toString();
         }
-        // TODO Assign children to parent and parent to children
         //currentTache.enfants = childrenTaches;
         childrenTaches.forEach(child -> {
             currentTache.enfants.add(child);

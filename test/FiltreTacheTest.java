@@ -50,7 +50,6 @@ public class FiltreTacheTest {
        // List<Contact> contactList = new BeanList<>();
        // Utilisateur u1 = new Utilisateur("Blanchard","Guillaume","g.b@abc.fr","0123456789",false,"azertY1");
        //
-       // //TODO // FIXME: 07/03/16
        // Tache t  = new Tache(
        //         "Test filtre",
        //         "Cette tâche pour tester les fct du filtre ",u1,

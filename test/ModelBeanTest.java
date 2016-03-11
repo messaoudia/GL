@@ -259,7 +259,6 @@ public class ModelBeanTest {
             contactList.add(c1);
             Utilisateur u1 = Utilisateur.create("Blanchard","Guillaume","g.b@abc.fr","0123456789","azertY1");
             u1.save();
-            //TODO Tester utilisateursNotifications avec des vrai valeurs
             List<Utilisateur> utilisateursNotifications = null;
             Tache tache = new Tache(
                     "Etude 1",
