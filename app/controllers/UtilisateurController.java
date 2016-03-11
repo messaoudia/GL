@@ -31,7 +31,7 @@ public class UtilisateurController extends Controller {
     public Error isFormulaireCorrect(Map<String, String[]> map, String preName) {
         Error error = new Error();
 
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-]{1,15}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'-éèàêîï]{1,15}$");
         Matcher nameMatch = nameRegex.matcher(map.get(preName + "-formLastName")[0].trim());
 
         //TODO regex nom : que des lettres ' -
@@ -112,16 +112,7 @@ public class UtilisateurController extends Controller {
     }
 
     public void donnerDroitAdmin(Utilisateur utilisateur) {
-
-
-        // Octroyé le droit admin
-        Role adminRole = Role.getRole("Administrateur");
-        Autorisation autorisationAdminstration = new Autorisation();
-        autorisationAdminstration.utilisateur = utilisateur;
-        autorisationAdminstration.entiteSecurise = StaticEntite.getSystem();
-
-        // Sauvgarder l'autorisation
-        autorisationAdminstration.save();
+        Autorisation.donnerLeRole(utilisateur,StaticEntite.getSystem(),Role.getRole("Administrateur"));
     }
 
     public void retirerDroitAdmin(Utilisateur utilisateur) {

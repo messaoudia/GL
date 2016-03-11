@@ -46,7 +46,7 @@ public class ProjetController extends Controller {
         boolean dateHere = false;
         Error error = new Error();
         String nom = map.get("nom")[0].trim();
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-]{1,30}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-éèàêîï]{1,30}$");
         Matcher nameMatch = nameRegex.matcher(nom);
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
@@ -171,7 +171,7 @@ public class ProjetController extends Controller {
         Map<String, String[]> map = request().body().asFormUrlEncoded();
         Error error = new Error();
         String nom = map.get("projet")[0].trim();
-        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-]{1,30}$");
+        Pattern nameRegex = Pattern.compile("^[A-Za-z ,.'0-9-éèàêîï]{1,30}$");
         Matcher nameMatch = nameRegex.matcher(nom);
         if (nom.isEmpty()) {
             error.nomProjetVide = true;
