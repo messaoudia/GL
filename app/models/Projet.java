@@ -227,6 +227,8 @@ public class Projet extends EntiteSecurise {
         return sb.toString();
     }
 
+    /** TODO : getUtilisateursNotifications **/
+
     /**
      * !!! A NE JAMAIS APPELER DANS LES PAGES HTML !!!
      * Ajouter la tache en parametre a la liste des taches du projet
@@ -534,7 +536,7 @@ public class Projet extends EntiteSecurise {
         idTacheInteger++;
         // Mise a jour de idTacheParse
         idTacheParse[tache.niveau] = "" + idTacheInteger;
-        // Reconstitution de idTache
+        // Reconstitution de idTache - TODO A VERIFIER !
         tache.idTache = reconstituerIdTache(idTacheParse, idTacheInteger, tache.niveau);
 
         // Modification de l'id des autres taches
@@ -592,7 +594,6 @@ public class Projet extends EntiteSecurise {
         // Si le parent a l'id 'A.B.C', alors tache a l'id 'A.B.C.1'
         int nbEnfants = parent.enfants.size() + 1;
         tache.idTache = parent.idTache + "." + nbEnfants;
-        tache.save();
         save();
     }
 

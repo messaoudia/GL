@@ -136,7 +136,7 @@
                             <ul class="nav nav-tabs">
                             @if(utilisateur.hasProjetsResponsable()){
                                 <li class="active" onclick="filtreTDBproj()"><a data-toggle="tab" href="#tab-projets">@Messages("myProjects")</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
+                                <li class="" onclick="projetTDBTermine()"><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
                             } else {
                                 <li class="active" onclick="projetTDBTermine()"><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
                             }
@@ -198,9 +198,9 @@
                                                     @for(projet <- utilisateur.listProjetsResponsable()) {
 
                                                         @if(projet.estTermine()) {
-                                                            <tr class="table-center2 @projet.filtres()" style="display: none ;">
+                                                            <tr class="table-center @projet.filtres()" style="display: none ;">
                                                         } else {
-                                                            <tr class="table-center2 @projet.filtres()">
+                                                            <tr class="table-center @projet.filtres()">
                                                         }
                                                             <td style="vertical-align:middle ;"> @projet.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
@@ -358,10 +358,10 @@
                                                 @for( tache <- utilisateur.listTaches()) {
 
                                                     @if(tache.projet.estTermine() || tache.estTerminee()) {
-                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center2  @tache.filtres() @tache.checkBox()" style="display: none ;">
+                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center  @tache.filtres() @tache.checkBox()" style="display: none ;">
                                                     } else {
 
-                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center2  @tache.filtres() @tache.checkBox()" >
+                                                        <tr value="@tache.id" onclick="afficherModalTache(this)" class="table-center  @tache.filtres() @tache.checkBox()" >
                                                         }
 
                                                         <td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">
