@@ -108,127 +108,154 @@ public class DashboardController extends Controller{
             Long idTache = Long.parseLong(map.get("id-tache")[0].trim());
             Tache tache = Tache.find.byId(idTache);
 
-            String newNomTache = map.get("form-modif-tache-nom")[0].trim();
-            if(newNomTache.isEmpty()){
-                return badRequest();
+            String newNomTache = "";
+            if(map.containsKey("form-modif-tache-nom")) {
+                newNomTache = map.get("form-modif-tache-nom")[0].trim();
+                if (newNomTache.isEmpty()) {
+                    return badRequest();
+                }
+                tache.nom = newNomTache;
             }
 
-            String newDescTache = map.get("form-modif-tache-desc")[0].trim();
+            String newDescTache = "";
+            if(map.containsKey("form-modif-tache-desc")) {
+                newDescTache = map.get("form-modif-tache-desc")[0].trim();
+                tache.description = newDescTache;
+            }
 
             Double newChInitiale = null;
             Double newChConso = null;
             Double newChRestante = null;
 
             if(tache.disponible) {
-                newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0].trim());
-                newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0].trim());
-                newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0].trim());
-                if(newChInitiale == 0){
-                    return badRequest();
+                if(map.containsKey("form-modif-tache-ch-init")) {
+                    newChInitiale = Double.parseDouble(map.get("form-modif-tache-ch-init")[0].trim());
+                    newChConso = Double.parseDouble(map.get("form-modif-tache-ch-cons")[0].trim());
+                    newChRestante = Double.parseDouble(map.get("form-modif-tache-ch-rest")[0].trim());
+                    if (newChInitiale == 0) {
+                        return badRequest();
+                    }
                 }
             }
 
-            String idPredecesseur = map.get("predecesseur")[0].trim();
-
             Tache newPredecesseur = null;
-            if(!idPredecesseur.equals("")) {
-                newPredecesseur = Tache.find.byId(Long.parseLong(idPredecesseur));
-            }
-            Utilisateur newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0].trim()));
+            if(map.containsKey("predecesseur")) {
+                String idPredecesseur = map.get("predecesseur")[0].trim();
 
-            String dateDebut = map.get("DD-modifier")[0].trim();
-            String dateFinProche = map.get("DFTO-modifier")[0].trim();
-            String dateFinTard = map.get("DFTA-modifier")[0].trim();
-            if(dateDebut.isEmpty() || dateFinProche.isEmpty() || dateFinTard.isEmpty()){
-                return null;
+                if (!idPredecesseur.equals("")) {
+                    newPredecesseur = Tache.find.byId(Long.parseLong(idPredecesseur));
+                }
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+            Utilisateur newResponsable = null;
+            if(map.containsKey("responsable")) {
+                newResponsable = Utilisateur.find.byId(Long.parseLong(map.get("responsable")[0].trim()));
+            }
+
             Date newDebut = null;
             Date newFinTot = null;
             Date newFinTard = null;
-            try {
-                newDebut = formatter.parse(dateDebut);
-                newFinTot = formatter.parse(dateFinProche);
-                newFinTard = formatter.parse(dateFinTard);
-                boolean correct = false;
-                if(Utils.after(newFinTot, newDebut) ||  Utils.equals(newFinTot,newDebut)){
-                    if(Utils.after(newFinTard, newFinTot) ||  Utils.equals(newFinTard, newFinTot)){
-                        correct = true;
-                    }else{
+            if(map.containsKey("DD-modifier")) {
+                String dateDebut = map.get("DD-modifier")[0].trim();
+                String dateFinProche = map.get("DFTO-modifier")[0].trim();
+                String dateFinTard = map.get("DFTA-modifier")[0].trim();
+                if (dateDebut.isEmpty() || dateFinProche.isEmpty() || dateFinTard.isEmpty()) {
+                    return null;
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+                try {
+                    newDebut = formatter.parse(dateDebut);
+                    newFinTot = formatter.parse(dateFinProche);
+                    newFinTard = formatter.parse(dateFinTard);
+                    boolean correct = false;
+                    if (Utils.after(newFinTot, newDebut) || Utils.equals(newFinTot, newDebut)) {
+                        if (Utils.after(newFinTard, newFinTot) || Utils.equals(newFinTard, newFinTot)) {
+                            correct = true;
+                        } else {
+                            return badRequest();
+                        }
+                    } else {
                         return badRequest();
                     }
-                }else{
+                } catch (ParseException e) {
                     return badRequest();
                 }
-            } catch(ParseException e) {
-                return badRequest();
             }
-
-
-
-
-
 
             //Successeurs
             List<Tache> successeurs = new ArrayList<>();
-            String[] tabSucc = map.get("successeurs")[0].split(",");
-            for(String idSucc : tabSucc){
-                if(!idSucc.equals("")){
-                    successeurs.add(Tache.find.byId(Long.parseLong(idSucc)));
+            if(map.containsKey("successeurs")) {
+                String[] tabSucc = map.get("successeurs")[0].split(",");
+                for (String idSucc : tabSucc) {
+                    if (!idSucc.equals("")) {
+                        successeurs.add(Tache.find.byId(Long.parseLong(idSucc)));
+                    }
                 }
             }
             //interlocuteurs
             List<Contact> interlocuteurs = new ArrayList<>();
-            String[] tabInterlocuteurs = map.get("interlocuteurs")[0].split(",");
-            for(String idContact : tabInterlocuteurs){
-                if(!idContact.equals("undefined") && !idContact.equals("")){
-                    interlocuteurs.add(Contact.find.byId(Long.parseLong(idContact)));
+            if(map.containsKey("interlocuteurs")) {
+                String[] tabInterlocuteurs = map.get("interlocuteurs")[0].split(",");
+                for (String idContact : tabInterlocuteurs) {
+                    if (!idContact.equals("undefined") && !idContact.equals("")) {
+                        interlocuteurs.add(Contact.find.byId(Long.parseLong(idContact)));
+                    }
                 }
             }
 
-            tache.nom = newNomTache;
-            tache.description = newDescTache;
             tache.update();
 
-            if(tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
-                Logger.debug(tache.toString());
-                modifierAvancement = true;
-                tache.chargeInitiale = newChInitiale;
-                tache.modifierCharge(newChConso, newChRestante);
+            if(map.containsKey("form-modif-tache-ch-init")) {
+                if (tache.disponible && (tache.chargeConsommee != newChConso || tache.chargeRestante != newChRestante)) {
+                    Logger.debug(tache.toString());
+                    modifierAvancement = true;
+                    tache.chargeInitiale = newChInitiale;
+                    tache.modifierCharge(newChConso, newChRestante);
+                }
             }
 
-            if (newPredecesseur != null && (tache.predecesseur == null || !tache.predecesseur.equals(newPredecesseur))) {
-                newPredecesseur.associerSuccesseur(tache);
-                if(newPredecesseur.getAvancementTache() == 1.0){
-                    tache.disponible = true;
-                }else{
-                    tache.disponible = false;
+            if(map.containsKey("predecesseur")) {
+                if (newPredecesseur != null && (tache.predecesseur == null || !tache.predecesseur.equals(newPredecesseur))) {
+                    newPredecesseur.associerSuccesseur(tache);
+                    if (newPredecesseur.getAvancementTache() == 1.0) {
+                        tache.disponible = true;
+                    } else {
+                        tache.disponible = false;
+                    }
                 }
             }
 
             Utilisateur ancienResponsable = tache.responsableTache;
-            if (newResponsable != null && !tache.responsableTache.equals(newResponsable)) {
-                modifierResponsableTache = true;
-                tache.modifierResponsable(newResponsable);
+            if(map.containsKey("responsable")) {
+                if (newResponsable != null && !tache.responsableTache.equals(newResponsable)) {
+                    modifierResponsableTache = true;
+                    tache.modifierResponsable(newResponsable);
+                }
             }
 
-            tache.supprimerSuccesseurs();
-            for(Tache succ : successeurs){
-                tache.associerSuccesseur(succ);
+            if(map.containsKey("successeurs")) {
+                tache.supprimerSuccesseurs();
+                for (Tache succ : successeurs) {
+                    tache.associerSuccesseur(succ);
+                }
             }
 
-            tache.supprimerInterlocuteurs();
-
-            for(Contact inter : interlocuteurs){
-                tache.associerInterlocuteur(inter);
+            if(map.containsKey("interlocuteurs")) {
+                tache.supprimerInterlocuteurs();
+                for (Contact inter : interlocuteurs) {
+                    tache.associerInterlocuteur(inter);
+                }
             }
 
-            if(!tache.dateDebut.equals(newDebut) || !tache.dateFinTot.equals(newFinTot) || !tache.dateFinTard.equals(newFinTard))
-                modifierTache = true;
-            tache.dateDebut = newDebut;
-            tache.dateFinTot = newFinTot;
-            tache.dateFinTard = newFinTard;
-            tache.update();
+            if(map.containsKey("DD-modifier")) {
+                if (!tache.dateDebut.equals(newDebut) || !tache.dateFinTot.equals(newFinTot) || !tache.dateFinTard.equals(newFinTard))
+                    modifierTache = true;
+                tache.dateDebut = newDebut;
+                tache.dateFinTot = newFinTot;
+                tache.dateFinTard = newFinTard;
+                tache.update();
+            }
 
             Tache t = Tache.find.byId(tache.id);
             Logger.debug(t.toString());
