@@ -6,6 +6,9 @@
  *   version 2.3
  *
 */
+.dropdown-menu{
+    color : #000;
+}
 
 .tache-indisponible > .dd-handle > .row{
     background-color: #dcdcdc;

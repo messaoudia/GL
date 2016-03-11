@@ -135,6 +135,9 @@ public class DashboardController extends Controller{
                     if (newChInitiale == 0) {
                         return badRequest();
                     }
+                    if(newChInitiale<0.0 || newChConso<0.0 || newChRestante <0.0){
+                        return null;
+                    }
                 }
             }
 
