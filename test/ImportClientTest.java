@@ -1,10 +1,9 @@
 import com.avaje.ebean.Ebean;
-import models.Client;
-import models.Contact;
-import controllers.Utils.Utils;
 import org.apache.commons.io.FileUtils;
-import org.junit.*;
-import play.Logger;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import play.test.FakeApplication;
 import play.test.Helpers;
 
@@ -46,25 +45,25 @@ public class ImportClientTest {
     @Test
     public void importTest() {
 
-        String fileNameClient = "/Users/zzcoolj/Downloads/clients/clientsExported-PearCorporation.csv";
-        String fileNameContact = "/Users/zzcoolj/Downloads/clients/contactsExported-PearCorporation.csv";
-        Utils.importAllClientsCSV(fileNameClient, fileNameContact);
-        for(Client c: Client.find.all()) {
-            //Adresse a = Adresse.find.byId(c.adresseClient.id);
-            Logger.debug("**************************************");
-            Logger.debug("Nom: " + c.nom);
-            Logger.debug("Adresse: " + c.adresseClient);
-            Logger.debug("**************************************" + "\n");
-        }
-
-        for(Contact c: Contact.find.all()) {
-            Logger.debug("--------------------------------------");
-            Logger.debug("Nom: " + c.nom);
-            Logger.debug("Prenom: " + c.prenom);
-            Logger.debug("Email: " + c.email);
-            Logger.debug("Telephone: " + c.telephone);
-            Logger.debug("Client: " + c.client);
-            Logger.debug("--------------------------------------" + "\n");
-        }
+        //String fileNameClient = "/Users/zzcoolj/Downloads/clients/clientsExported-PearCorporation.csv";
+        //String fileNameContact = "/Users/zzcoolj/Downloads/clients/contactsExported-PearCorporation.csv";
+        //Utils.importAllClientsCSV(fileNameClient, fileNameContact);
+        //for(Client c: Client.find.all()) {
+        //    //Adresse a = Adresse.find.byId(c.adresseClient.id);
+        //    Logger.debug("**************************************");
+        //    Logger.debug("Nom: " + c.nom);
+        //    Logger.debug("Adresse: " + c.adresseClient);
+        //    Logger.debug("**************************************" + "\n");
+        //}
+        //
+        //for(Contact c: Contact.find.all()) {
+        //    Logger.debug("--------------------------------------");
+        //    Logger.debug("Nom: " + c.nom);
+        //    Logger.debug("Prenom: " + c.prenom);
+        //    Logger.debug("Email: " + c.email);
+        //    Logger.debug("Telephone: " + c.telephone);
+        //    Logger.debug("Client: " + c.client);
+        //    Logger.debug("--------------------------------------" + "\n");
+        //}
     }
 }
