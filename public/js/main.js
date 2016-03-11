@@ -1632,13 +1632,6 @@ function projetTacheTDBTermine() {
 
 function filtreTDBproj() {
     var result = "";
-    if ($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
-        //$('.projet-finished').show();
-        result += '.projet-finished';
-    }
-    else {
-       // $('.projet-finished').hide();
-    }
 
 
     if ($('#checkbox-tdb-projets-retardes').is(":checked")) {
@@ -1657,6 +1650,12 @@ function filtreTDBproj() {
     }
     else {
         $('.table-center3').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        if ($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
+
+            $('.projet-finished').show();
+        } else {
+            $('.projet-finished').hide();
+        }
     }
 
 
