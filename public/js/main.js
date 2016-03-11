@@ -2320,7 +2320,6 @@ function generateErrorCreerClient(errorMessage) {
 }
 
 var creerContact = function (btn) {
-    console.log("ICI");
     var form = $(btn).attr("form");
     form = "#" + form;
     var serialize = $(form).serialize();
@@ -2340,7 +2339,7 @@ var creerContact = function (btn) {
                 $("#errorCreerClientP").empty();
                 $("#errorCreerClient").hide();
 
-                $("#successCreerClientP").html(messages("contact") + data.nom + ' ' + data.prenom + messages("created"));
+                $("#successCreerClientP").html(messages("contact")+' ' + data.nom + ' ' + data.prenom+ ' '+ messages("created"));
                 $("#successCreerClient").show();
 
                 if ($('#listContactAjout').not(':visible')) {
@@ -2998,7 +2997,8 @@ var modifierTache = function (btn) {
 
                     console.log(tableContent);
                     tableDashboardBody.append(tableContent);
-
+                    $('#div-modifierTache').hide();
+                    $('#div-consulterTache').show();
                     $('#modal-tache').modal('toggle');
 
 
@@ -3188,7 +3188,7 @@ var checkContactModal = function (btn) {
                 $("#errorModifierClientP").empty();
                 $("#errorModifierClient").hide();
 
-                $("#successModifierClientP").html(messages("contact") + data.nom + ' ' + data.prenom + ' ' + messages("created"));
+                $("#successModifierClientP").html(messages("contact") +' '+ data.nom + ' ' + data.prenom + ' ' + messages("created"));
                 $("#successModifierClient").show();
 
 

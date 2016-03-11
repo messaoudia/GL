@@ -134,6 +134,9 @@ public class DashboardController extends Controller{
                     if (newChInitiale == 0) {
                         return badRequest();
                     }
+                    if(newChInitiale<0.0 || newChConso<0.0 || newChRestante <0.0){
+                        return null;
+                    }
                 }
             }
 
@@ -181,7 +184,9 @@ public class DashboardController extends Controller{
                     return badRequest();
                 }
             }
-
+            newDebut.setHours(12);
+            newFinTot.setHours(12);
+            newFinTard.setHours(12);
             //Successeurs
             List<Tache> successeurs = new ArrayList<>();
             if(map.containsKey("successeurs")) {

@@ -560,6 +560,8 @@ public class Tache extends EntiteSecurise {
      */
     @JsonSerialize
     public Double getAvancementTache() {
+        //System.out.println("charge consomme = "+chargeConsommee + " chargeRestante = "+chargeRestante);
+        //System.out.println("Resultat de la tache "+this.nom+" = "+(chargeConsommee / (chargeConsommee + chargeRestante)));
         return (chargeConsommee / (chargeConsommee + chargeRestante));
     }
 
