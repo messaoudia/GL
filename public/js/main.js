@@ -678,7 +678,7 @@ var remplirFormulaireCreationTache = function (btn,isSubTask) {
 
             }else{
                 //Predecesseurs et Successeurs possible
-                jsRoutes.controllers.DashboardController.getAllTaskPossibleExceptParentsDirects(tache.id).ajax({
+                jsRoutes.controllers.DashboardController.getAllTasks(tache.id).ajax({
                     success: function (taches) {
                         //console.log(taches);
                         var list = "";

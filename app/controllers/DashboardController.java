@@ -57,17 +57,17 @@ public class DashboardController extends Controller{
         return ok(Json.toJson(lC));
     }
 
-    public Result getAllTaskPossibleExceptParentsDirects(Long idTache){
+    public Result getAllTasks(Long idTache){
         Tache tache = Tache.find.byId(idTache);
-        List<Tache> listTachesPossible = Tache.find.where().eq("projet",tache.projet).findList();
+        List<Tache> listTachesPossible = Tache.find.where().eq("projet",tache.projet).eq("archive", false).findList();
 
-        return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listTachesPossible)));
+        return ok(Json.toJson(listTachesPossible));
     }
 
     public Result getAllPredecesseursPossible(Long idTache)
     {
         Tache tache = Tache.find.byId(idTache);
-        List<Tache> listPredecesseurs = Tache.find.where().eq("projet",tache.projet).le("dateFinTard",tache.dateDebut).findList();
+        List<Tache> listPredecesseurs = Tache.find.where().eq("projet",tache.projet).eq("archive", false).le("dateFinTard",tache.dateDebut).findList();
 
         return ok(Json.toJson(tache.getAllTacheNonParentsDirects(listPredecesseurs)));
     }
@@ -102,8 +102,6 @@ public class DashboardController extends Controller{
             boolean modifierAvancement = false;
             boolean modifierTache = false;
             boolean modifierResponsableTache = false;
-
-            // TODO : récupérer le changement dispo/indispo et mettre modifierTache à true si c le cas
 
             Long idTache = Long.parseLong(map.get("id-tache")[0].trim());
             Tache tache = Tache.find.byId(idTache);
@@ -248,6 +246,25 @@ public class DashboardController extends Controller{
                 }
             }
 
+            if(tache.predecesseur == null){
+                tache.disponible = true;
+                tache.update();
+            }
+            if(tache.hasSuccesseur()){
+                if(tache.getAvancementTache() == 1.0) {
+                    for (int i = 0; i < tache.successeurs.size(); i++) {
+                        tache.successeurs.get(i).disponible = true;
+                        tache.update();
+                    }
+                }
+                else{
+                    for (int i = 0; i < tache.successeurs.size(); i++) {
+                        tache.successeurs.get(i).disponible = false;
+                        tache.update();
+                    }
+                }
+            }
+
             if(map.containsKey("DD-modifier")) {
                 if (!tache.dateDebut.equals(newDebut) || !tache.dateFinTot.equals(newFinTot) || !tache.dateFinTard.equals(newFinTard))
                     modifierTache = true;
@@ -263,17 +280,12 @@ public class DashboardController extends Controller{
             tache.saveAllTask();
 
             Utilisateur currentUser = Login.getUtilisateurConnecte();
-
-            System.out.println("DashboardController/modifierTache");
             if(modifierResponsableTache){
-                System.out.println("Je vais modifier respo tache");
                 currentUser.createNotificationModifierResponsableTache(tache, ancienResponsable);
                 currentUser.save();
             } else if(modifierTache){
                 currentUser.createNotificationModifierTache(tache);
-                //currentUser.save();
-                System.out.println("apres save : test 1 = " + currentUser.listNotificationsGroupees);
-                System.out.println("apres save : test 2 = " + Login.getUtilisateurConnecte().listNotificationsGroupees);
+                currentUser.save();
             } else if(modifierAvancement){
                 currentUser.createNotificationModifierAvancementTache(tache);
                 currentUser.save();
