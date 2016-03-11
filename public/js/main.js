@@ -2550,7 +2550,7 @@ var afficherModalTache = function (t) {
             else {
                 $('#titre-predecesseur-consulter-tdb').show()
                 $('#table-predecesseurTache-consulter-tdb').show();
-                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurId);
+                $('#table-predecesseurTache-consulter-tdb table tbody tr .id-task').html(tache.predecesseurIdTache);
                 $('#table-predecesseurTache-consulter-tdb table tbody tr .name-task').html(tache.predecesseurNom);
 
                 console.log('#predecesseurTache-' + tache.predecesseurId);

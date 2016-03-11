@@ -134,6 +134,7 @@ public class TacheController  extends Controller {
         if(dateDebut.isEmpty() || dateFinProche.isEmpty() || dateFinTard.isEmpty()){
             return null;
         }
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date newDebut = null;
         Date newFinTot = null;
@@ -155,6 +156,9 @@ public class TacheController  extends Controller {
         } catch(ParseException e) {
             return null;
         }
+        newDebut.setHours(12);
+        newFinTot.setHours(12);
+        newFinTard.setHours(12);
 
         /*String[] dateDebut = map.get("DD-modifierC")[0].split("/");
         Date newDebut = Utils.getDateFrom(Integer.parseInt(dateDebut[2]), Integer.parseInt(dateDebut[1]), Integer.parseInt(dateDebut[0]));
