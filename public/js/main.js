@@ -1551,20 +1551,7 @@ function projetTDBTermine() {
 function projetTacheTDBTermine() {
 
 
-    if ($('#checkbox-tdb-collab-projets-termines').is(":checked")) {
-        $('.projet-finished').show();
-    }
-    else {
-        $('.projet-finished').hide();
-    }
 
-
-    if ($('#checkbox-tdb-collab-taches-termines').is(":checked")) {
-        $('.tache-finished').show();
-    }
-    else {
-        $('.tache-finished').hide();
-    }
 
     // transforme en et
     var result = "";
@@ -1615,21 +1602,40 @@ function projetTacheTDBTermine() {
     }
     else {
         $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+
     }
-
-
-}
-
-
-function filtreTDBproj() {
-    if ($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
+    if ($('#checkbox-tdb-collab-projets-termines').is(":checked")) {
         $('.projet-finished').show();
     }
     else {
         $('.projet-finished').hide();
     }
 
+
+    if ($('#checkbox-tdb-collab-taches-termines').is(":checked")) {
+        console.log("termine --- ")
+        $('.tache-terminee').show();
+    }
+    else {
+        console.log("hide termine --- ")
+
+        $('.tache-terminee').hide();
+    }
+
+}
+
+
+function filtreTDBproj() {
     var result = "";
+    if ($('#checkbox-tdb-rp-projets-termines').is(":checked")) {
+        //$('.projet-finished').show();
+        result += '.projet-finished';
+    }
+    else {
+       // $('.projet-finished').hide();
+    }
+
+
     if ($('#checkbox-tdb-projets-retardes').is(":checked")) {
         result += '.projet-retarde';
 
@@ -1946,6 +1952,19 @@ var supprimerUtilisateur = function () {
     });
 
 }
+
+
+$(document).on('click','#btnAdminOuiCreer', function() {
+    $(this).addClass("btn-active");
+    $('#btnAdminNonCreer').removeClass("btn-active");
+
+});
+
+$(document).on('click','#btnAdminNonCreer', function() {
+    $(this).addClass("btn-active");
+    $('#btnAdminOuiCreer').removeClass("btn-active");
+});
+
 
 var creerUtilisateur = function (btn) {
     var form = $(btn).attr("form");

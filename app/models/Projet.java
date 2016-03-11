@@ -998,12 +998,23 @@ public class Projet extends EntiteSecurise {
             BigDecimal bd = new BigDecimal(avancementDouble);
             BigDecimal bd2 = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
             String result = bd2.toString();
-            if (result.length() == 3) {
+            if (result.equals("1.00")) {
+                // Par example: "1"
+                this.avancementGlobal = new Byte("100");
+
+
+            }
+            else if (result.length() == 3) {
                 // Par example: "0.1"
                 this.avancementGlobal = new Byte(result.substring(2, 3) + "0");
+                if(nom.equals("AZERT"))
+                    System.out.println("Byte if = " + avancementGlobal + " - bd = " + bd + " bd2 = " + bd2 + " result " + result );
+
             } else {
                 // Par example: "0.15"
                 this.avancementGlobal = new Byte(result.substring(2, 4));
+                if(nom.equals("AZERT"))
+                    System.out.println("Byte else = " + avancementGlobal + " - bd = " + bd + " bd2 = " + bd2 +  " result " + result);
             }
         }
         save();
