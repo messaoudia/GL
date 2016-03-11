@@ -2875,13 +2875,24 @@ var modifierTache = function (btn) {
                     var tableContent = "";
                     $.each(taches, function (i, tache) {
                         console.log('ta iiiiiii  '+ tache.projet.id + "  " + tache.projet.avancementGlobal);
-                        if(tache.projet.avancementGlobal==1)
-                        {
-                            $('.sidebar-projet[projet=' + tache.projet.id + ']').addClass("projet-finished");
-                        }
-                        else {
-                            $('.sidebar-projet[projet=' + tache.projet.id + ']').removeClass("projet-finished");
-                        }
+                        jsRoutes.controllers.ProjetController.listProjetsUtilisateurConnecteResponsableTache().ajax({
+                            success: function (projects) {
+                                $.each(projects, function (i, projet) {
+                                    console.log("LOG DEBUG");
+                                    console.log($('.liste-projet').find('div[name="projet-' + projet.id + '"]').html());
+                                    console.log("Avancement : "+projet.avancementGlobal);
+
+                                    if (projet.avancementGlobal == 100) {
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').addClass("projet-finished-sidebar");
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').css("background-color","#0d8ddb").css("display","none").css("color","#FFF");
+                                    }
+                                    else {
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').removeClass("projet-finished-sidebar");
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').removeAttr('style');
+                                    }
+                                });
+                            }
+                        });
                         tableContent += ('<tr value="' + tache.id + '" onclick="afficherModalTache(this)" class="table-center">');
                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
                         tableContent += ('<p class="tdb-id-tache">' + tache.idTache + '</p>');

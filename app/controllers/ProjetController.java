@@ -386,4 +386,25 @@ public class ProjetController extends Controller {
     public Result infoProjet(Long idProjet) {
         return ok(Json.toJson(Projet.find.byId(idProjet)));
     }
+
+    public Result listProjetsUtilisateurConnecteResponsableTache(){
+        Utilisateur u = Login.getUtilisateurConnecte();
+        List<Tache> listTache = Tache.find.where().eq("responsableTache",u).findList();
+        List<Projet> listProjet = Projet.find.where().eq("responsableProjet",u).findList();
+        List<Projet> result = new ArrayList<>();
+
+        for(Tache t : listTache){
+            if(!result.contains(t.projet)){
+                result.add(t.projet);
+            }
+        }
+
+        for(Projet p : listProjet){
+            if(!result.contains(p)){
+                result.add(p);
+            }
+        }
+
+        return ok(Json.toJson(result));
+    }
 }
