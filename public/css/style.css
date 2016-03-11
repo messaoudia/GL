@@ -16,6 +16,13 @@
     background-color: #e86f62;
     color:#FFF;
 }
+
+
+
+.dropdown-menu   {
+    color:#000;
+}
+
 .tache-terminee > .dd-handle > .row{
     background-color: #64afe1;
     color:#FFF;
@@ -716,6 +723,21 @@ a > .fa-bell-slash-o:hover {
     vertical-align:middle;
     text-align : center;
 }
+
+.table-center3 > th,
+.table-center3 > td {
+    vertical-align:middle;
+    text-align : center;
+}
+
+
+
+.table-center2 > th,
+.table-center2 > td {
+    vertical-align:middle;
+    text-align : center;
+}
+
 .td-avancement > p {
     margin-bottom:0px;
 }

@@ -1603,24 +1603,29 @@ function projetTacheTDBTermine() {
     else {
         $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
 
-    }
-    if ($('#checkbox-tdb-collab-projets-termines').is(":checked")) {
-        $('.projet-finished').show();
-    }
-    else {
-        $('.projet-finished').hide();
-    }
+        if ($('#checkbox-tdb-collab-projets-termines').is(":checked")) {
+            $('.projet-finished').show();
+        }
+        else {
+            $('.projet-finished').hide();
+        }
 
 
-    if ($('#checkbox-tdb-collab-taches-termines').is(":checked")) {
-        console.log("termine --- ")
-        $('.tache-terminee').show();
-    }
-    else {
-        console.log("hide termine --- ")
+        if ($('#checkbox-tdb-collab-taches-termines').is(":checked")) {
+            console.log("termine --- ")
+            $('.tache-terminee').show();
+        }
+        else {
+            console.log("hide termine --- ")
 
-        $('.tache-terminee').hide();
+            $('.tache-terminee').hide();
+        }
+
+
+
+
     }
+
 
 }
 
@@ -1646,12 +1651,12 @@ function filtreTDBproj() {
     }
 
     if (result.length > 0) {
-        $('.table-center').hide();
+        $('.table-center3').hide();
         console.log("result = " + result);
         $(result).show();
     }
     else {
-        $('.table-center').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
+        $('.table-center3').show();  // TODO MODIFIER EN FONCTION DES CHECKBOX
     }
 
 

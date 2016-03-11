@@ -136,9 +136,9 @@
                             <ul class="nav nav-tabs">
                             @if(utilisateur.hasProjetsResponsable()){
                                 <li class="active" onclick="filtreTDBproj()"><a data-toggle="tab" href="#tab-projets">@Messages("myProjects")</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
+                                <li class="" ><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
                             } else {
-                                <li class="active" onclick="projetTDBTermine()"><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
+                                <li class="active" ><a data-toggle="tab" href="#tab-taches">@Messages("myTasks")</a></li>
                             }
                             </ul>
                             <div class="tab-content">
@@ -186,7 +186,7 @@
                                         <div class="table-responsive table-responsive-tdb">
                                             <table id="dataTables-tdb-projet" class="table table-striped table-bordered table-hover">
                                                 <thead>
-                                                    <tr class="table-center">
+                                                    <tr class="table-center2">
                                                         <th style="vertical-align:middle ;">@Messages("project")</th>
                                                         <th style="vertical-align:middle ;">@Messages("client")</th>
                                                         <th style="vertical-align:middle ;">@Messages("startDate")</th>
@@ -198,9 +198,9 @@
                                                     @for(projet <- utilisateur.listProjetsResponsable()) {
 
                                                         @if(projet.estTermine()) {
-                                                            <tr class="table-center @projet.filtres()" style="display: none ;">
+                                                            <tr class="table-center3 @projet.filtres()" style="display: none ;">
                                                         } else {
-                                                            <tr class="table-center @projet.filtres()">
+                                                            <tr class="table-center3 @projet.filtres()">
                                                         }
                                                             <td style="vertical-align:middle ;"> @projet.nom</td>
                                                             <td style="vertical-align:middle ;">@projet.client.nom</td>
@@ -343,7 +343,7 @@
                                         <div class="table-responsive table-responsive-tdb">
                                             <table id="dataTables-tdb-tache" class="table table-striped table-bordered table-hover">
                                                 <thead>
-                                                    <tr class="table-center">
+                                                    <tr class="table-center2">
                                                         <th style="vertical-align:middle ;">@Messages("task")</th>
                                                         <th style="vertical-align:middle ;">@Messages("project")</th>
                                                         <th style="vertical-align:middle ;">@Messages("client")</th>
