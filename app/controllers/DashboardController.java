@@ -296,6 +296,8 @@ public class DashboardController extends Controller{
                 currentUser.createNotificationModifierAvancementTache(tache);
                 currentUser.save();
             }
+            Projet p = t.projet;
+            p.modifierTache(t);
             return ok();
         }catch(Exception e){
             e.printStackTrace();
