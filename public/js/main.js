@@ -987,7 +987,7 @@ var supprimerProjet = function () {
     console.log($value);
     jsRoutes.controllers.AdminController.supprimerProjet($value).ajax({
         success: function (projetArchive) {
-            console.log("Archie JSON : " + JSON.stringify(projetArchive));
+            //console.log("Archie JSON : " + JSON.stringify(projetArchive));
             if (projetArchive.avancementGlobal == 100) {
                 $tmpTr.removeClass("projet-finished");
                 $tmpTr.addClass("projet-archived-finished");
@@ -2665,8 +2665,13 @@ var afficherModalTache = function (t) {
             $('#chargeInitialeTache').html(messages("initial") + ' : ' + tache.chargeInitiale + unite);
             $('#chargeRestanteTache').html(messages("remaining") + ' : ' + tache.chargeRestante + unite);
             $('#chargeConsommeeTache').html(messages("consumed") + ': ' + tache.chargeConsommee + unite);
-            $('#formModifierChargeInitiale').attr("value", tache.chargeInitiale);
+            $('#formModifierChargeInitiale').val(tache.chargeInitiale);
             $('#formModifierChargeInitiale').nextAll('span').html(unite);
+            $('#formModifierChargeRestante').val(tache.chargeRestante);
+            $('#formModifierChargeRestante').nextAll('span').html(unite);
+            $('#formModifierChargeConsommee').val(tache.chargeConsommee);
+            $('#formModifierChargeConsommee').nextAll('span').html(unite);
+
             if (tache.disponible) {
                 $('.formModifierChargeRestante').attr("disabled", false);
                 $('.formModifierChargeConsommee').attr("disabled", false);
@@ -2674,10 +2679,6 @@ var afficherModalTache = function (t) {
                 $('.formModifierChargeRestante').attr("disabled", true);
                 $('.formModifierChargeConsommee').attr("disabled", true);
             }
-            $('#formModifierChargeRestante').attr("value", tache.chargeRestante);
-            $('#formModifierChargeRestante span').nextAll('span').html(unite);
-            $('#formModifierChargeConsommee').attr("value", tache.chargeConsommee);
-            $('#formModifierChargeConsommee span').nextAll('span').html(unite);
 
             //Activation/désactivation des inputs
             jsRoutes.controllers.Login.utilisateurConnecte().ajax({
@@ -2868,12 +2869,30 @@ var modifierTache = function (btn) {
                     console.log(taches);
                     $('#errorModifierTache').hide();
                     $('#dataTables-tdb-tache').dataTable().fnDestroy();
-
                     var tableDashboardBody = $('#dataTables-tdb-tache-body');
                     tableDashboardBody.empty();
 
                     var tableContent = "";
                     $.each(taches, function (i, tache) {
+                        console.log('ta iiiiiii  '+ tache.projet.id + "  " + tache.projet.avancementGlobal);
+                        jsRoutes.controllers.ProjetController.listProjetsUtilisateurConnecteResponsableTache().ajax({
+                            success: function (projects) {
+                                $.each(projects, function (i, projet) {
+                                    console.log("LOG DEBUG");
+                                    console.log($('.liste-projet').find('div[name="projet-' + projet.id + '"]').html());
+                                    console.log("Avancement : "+projet.avancementGlobal);
+
+                                    if (projet.avancementGlobal == 100) {
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').addClass("projet-finished-sidebar");
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').css("background-color","#0d8ddb").css("display","none").css("color","#FFF");
+                                    }
+                                    else {
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').removeClass("projet-finished-sidebar");
+                                        $('.liste-projet').find('div[name="projet-' + projet.id + '"]').removeAttr('style');
+                                    }
+                                });
+                            }
+                        });
                         tableContent += ('<tr value="' + tache.id + '" onclick="afficherModalTache(this)" class="table-center">');
                         tableContent += ('<td class="tdb-td-tache td-modal" style="padding:0px ;" data-toggle="modal" data-target="#modal-tache">');
                         tableContent += ('<p class="tdb-id-tache">' + tache.idTache + '</p>');
@@ -2976,13 +2995,11 @@ var modifierTache = function (btn) {
                     console.log(tableContent);
                     tableDashboardBody.append(tableContent);
 
-                    //$('#modal-tache').modal('toggle');
-                    jQuery.fx.off = true;
-                    $('#div-consulterTache').show();
-                    $('#div-modifierTache').hide();
-                    jQuery.fx.off = false;
+                    $('#modal-tache').modal('toggle');
+
 
                     //TODO refresh all
+
 
                 }
             });

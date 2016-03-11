@@ -4,11 +4,13 @@ import com.avaje.ebean.annotation.Transactional;
 import com.avaje.ebean.common.BeanList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import controllers.Global.Mail;
 import controllers.Global.StaticEntite;
 import controllers.Utils.Utils;
 import models.Securite.Role;
 import play.Logger;
 import play.data.validation.Constraints;
+import play.libs.mailer.Email;
 
 import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
@@ -131,6 +133,12 @@ public class Utilisateur extends Personne {
         user.save();
         user.setPassword(password);
         user.update();
+        final Email mail = new Email();
+        mail.setSubject("Bienvenue sur la solution myProjects !");
+        mail.setFrom("NE-PAS-REPONDRE <myproject.polytechparissud@gmail.com>");
+        mail.addTo(email);
+        mail.setBodyHtml("Voici votre mot de passe : " + password);
+        Mail.sendEmail(mail);
         return Utilisateur.find.byId(user.id);
     }
 

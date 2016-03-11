@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
+import controllers.Global.Mail;
 import controllers.Global.StaticEntite;
 import models.Error;
 import models.*;
@@ -10,6 +11,7 @@ import models.Securite.Autorisation;
 import models.Securite.Role;
 import play.Logger;
 import play.libs.Json;
+import play.libs.mailer.Email;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.creerUtilisateur;
@@ -105,6 +107,7 @@ public class UtilisateurController extends Controller {
                 System.out.println("Creation d'un admin ...");
                 donnerDroitAdmin(user);
             }
+
             //user.save();
             //TODO : send email to user
             return ok(Json.toJson(user));
